@@ -1,0 +1,88 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <Target Name="RemoveSupportDirectories" BeforeTargets="Clean">
+    <RemoveDir Directories="$(OutputPath)lib" />
+    <RemoveDir Directories="$(OutputPath)shaders" />
+  </Target>
+  
+  <!-- Eto projects aren't necessarily built on the platform they'll eventually
+  run on, so a set of booleans ensures the right files get copied. -->
+  <PropertyGroup>
+    <IsWindowsProject>false</IsWindowsProject>
+    <IsWindowsProject Condition="$(MSBuildProjectName) == 'Eto.Veldrid.WinForms'">true</IsWindowsProject>
+    <IsWindowsProject Condition="$(MSBuildProjectName) == 'Eto.Veldrid.Wpf'">true</IsWindowsProject>
+
+    <IsLinuxProject>false</IsLinuxProject>
+    <IsLinuxProject Condition="$(MSBuildProjectName) == 'Eto.Veldrid.Gtk'">true</IsLinuxProject>
+
+    <IsMacProject>false</IsMacProject>
+    <IsMacProject Condition="$(MSBuildProjectName) == 'Eto.Veldrid.Mac'">true</IsMacProject>
+    <IsMacProject Condition="$(MSBuildProjectName) == 'Eto.Veldrid.XamMac'">true</IsMacProject>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$(IsWindowsProject)">
+    <RuntimeID>win-x64</RuntimeID>
+    <VeldridSpirvNativeName>libveldrid-spirv.dll</VeldridSpirvNativeName>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$(IsLinuxProject)">
+    <RuntimeID>linux-x64</RuntimeID>
+    <VeldridSpirvNativeName>libveldrid-spirv.so</VeldridSpirvNativeName>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$(IsMacProject)">
+    <RuntimeID>osx-x64</RuntimeID>
+    <VeldridSpirvNativeName>libveldrid-spirv.dylib</VeldridSpirvNativeName>
+  </PropertyGroup>
+
+  <Target Name="SetPaths" AfterTargets="Build" BeforeTargets="CopyVeldridSpirvNative">
+    <PropertyGroup>
+      <UsingMacAppBundle>false</UsingMacAppBundle>
+      <UsingMacAppBundle Condition="$(IsMacProject) AND $(OutputAppPath) != ''">true</UsingMacAppBundle>
+
+      <VeldridSpirvNativePath>$(OutputPath)</VeldridSpirvNativePath>
+      <VeldridSpirvNativePath Condition="$(UsingMacAppBundle)">$(OutputAppPath)\Contents\Libraries</VeldridSpirvNativePath>
+
+      <NeatenizePath>$(OutputPath)</NeatenizePath>
+      <NeatenizePath Condition="$(UsingMacAppBundle) AND !$(MacBundleMono)">$(OutputAppPath)\Contents\MonoBundle\</NeatenizePath>
+    </PropertyGroup>
+  </Target>
+
+  <PropertyGroup>
+    <NoCopyVeldridSpirvNative>Eto.VeldridSurface</NoCopyVeldridSpirvNative>
+  </PropertyGroup>
+
+  <Target Name="CopyVeldridSpirvNative" AfterTargets="SetPaths" BeforeTargets="NeatenizeLibraries" Condition="!$(NoCopyVeldridSpirvNative.Contains($(MSBuildProjectName)))">
+    <Copy
+      SourceFiles="$([MSBuild]::EnsureTrailingSlash('$(NuGetPackageRoot)'))veldrid.spirv\$(VeldridSpirvVersion)\runtimes\$(RuntimeID)\native\$(VeldridSpirvNativeName)"
+      DestinationFolder="$(VeldridSpirvNativePath)" />
+  </Target>
+
+  <PropertyGroup>
+    <NoNeatenize>Eto.VeldridSurface</NoNeatenize>
+  </PropertyGroup>
+
+  <Target Name="NeatenizeLibraries" AfterTargets="CopyVeldridSpirvNative" Condition="!$(NoNeatenize.Contains($(MSBuildProjectName)))">
+    <ItemGroup>
+      <Uglies Include="$(NeatenizePath)*" />
+      <Uglies Remove="$(NeatenizePath)$(AssemblyName).exe" />
+      <Uglies Remove="$(NeatenizePath)$(AssemblyName).exe.config" />
+      <Uglies Remove="$(NeatenizePath)$(AssemblyName).pdb" />
+      <Uglies Remove="$(NeatenizePath)shaders" />
+    </ItemGroup>
+    <Move SourceFiles="@(Uglies)" DestinationFolder="$(NeatenizePath)lib" />
+  </Target>
+
+  <PropertyGroup>
+    <NoCopyShaders>Eto.VeldridSurface</NoCopyShaders>
+  </PropertyGroup>
+
+  <Target Name="CopyShaders" AfterTargets="NeatenizeLibraries" Condition="!$(NoCopyShaders.Contains($(MSBuildProjectName)))">
+    <ItemGroup>
+      <Shaders Include="$(TopLevelDirectory)Eto\shaders\**\*" />
+    </ItemGroup>
+    <Copy Condition="$(OutputAppPath) != ''" SourceFiles="@(Shaders)" DestinationFolder="$(OutputAppPath)\Contents\Resources\shaders\%(Shaders.RecursiveDir)" />
+    <Copy Condition="$(OutputAppPath) == ''" SourceFiles="@(Shaders)" DestinationFolder="$(OutputPath)\shaders\%(Shaders.RecursiveDir)" />
+  </Target>
+
+</Project>

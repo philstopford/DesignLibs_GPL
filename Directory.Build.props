@@ -1,0 +1,22 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <VeldridSpirvVersion>1.0.12</VeldridSpirvVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$(BuildOS) == 'Windows'">
+    <RuntimeID>win-x64</RuntimeID>
+    <VeldridSpirvNativeName>libveldrid-spirv.dll</VeldridSpirvNativeName>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$(BuildOS) == 'Linux'">
+    <RuntimeID>linux-x64</RuntimeID>
+    <VeldridSpirvNativeName>libveldrid-spirv.so</VeldridSpirvNativeName>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$(BuildOS) == 'macOS'">
+    <RuntimeID>osx-x64</RuntimeID>
+    <VeldridSpirvNativeName>libveldrid-spirv.dylib</VeldridSpirvNativeName>
+  </PropertyGroup>
+  
+</Project>

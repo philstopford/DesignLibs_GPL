@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <DefineConstants>GTK3</DefineConstants>
+    <Configurations>Debug;Release;Release_obf</Configurations>
+    <ReleaseVersion>0.24</ReleaseVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
+    <StartAction>Project</StartAction>
+    <ExternalConsole>false</ExternalConsole>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_obf|AnyCPU' ">
+    <IntermediateOutputPath>obj\Release\netcoreapp3.1</IntermediateOutputPath>
+    <DebugType>portable</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release_obf\netcoreapp3.1</OutputPath>
+    <DefineConstants>GTK3;RELEASE;NETCOREAPP;NETCOREAPP3_1</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile></DocumentationFile>
+    <NoWarn>1701;1702</NoWarn>
+    <NoStdLib>true</NoStdLib>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Eto.Platform.Gtk" Version="2.5.0-rc.6" />
+    <PackageReference Include="OpenTK" Version="3.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Eto.VeldridSurface\Eto.VeldridSurface.csproj" />
+  </ItemGroup>
+  
+</Project>

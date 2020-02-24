@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Configurations>Debug;Release;Release_obf</Configurations>
+    <ReleaseVersion>0.24</ReleaseVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_obf|AnyCPU' ">
+    <IntermediateOutputPath>obj\Release\netcoreapp3.1</IntermediateOutputPath>
+    <DebugType>portable</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release_obf\netcoreapp3.1</OutputPath>
+    <DefineConstants>TRACE;RELEASE;NETCOREAPP;NETCOREAPP3_1</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile></DocumentationFile>
+    <NoWarn>1701;1702</NoWarn>
+    <NoStdLib>true</NoStdLib>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Eto.Forms" Version="2.5.0-rc.6" />
+  </ItemGroup>
+
+</Project>

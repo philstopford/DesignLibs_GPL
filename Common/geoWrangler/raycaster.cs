@@ -1,0 +1,416 @@
+﻿using ClipperLib;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using utility;
+
+namespace geoWrangler
+{
+    using Path = List<IntPoint>;
+    using Paths = List<List<IntPoint>>;
+
+    public class RayCast
+    {
+        Paths clippedLines;
+        Paths castLines;
+
+        // Corner projection is default and takes an orthogonal ray out from the corner. Setting to false causes an averaged normal to be generated.
+
+        public RayCast(Path emissionPath, Paths collisionPaths, Int64 max, bool projectCorners = true, bool invert = false, int multisampleRayCount = 0, bool runOuterLoopThreaded = false, bool runInnerLoopThreaded = false, IntPoint startOffset = new IntPoint(), IntPoint endOffset = new IntPoint())
+        {
+            rayCast(emissionPath, collisionPaths, max, projectCorners, invert, multisampleRayCount, runOuterLoopThreaded, runInnerLoopThreaded, startOffset, endOffset);
+        }
+
+        public RayCast(Path emissionPath, Path collisionPath, Int64 max, bool projectCorners = true, bool invert = false, int multisampleRayCount = 0, bool runOuterLoopThreaded = false, bool runInnerLoopThreaded = false, IntPoint startOffset = new IntPoint(), IntPoint endOffset = new IntPoint())
+        {
+            rayCast(emissionPath, new Paths() { collisionPath }, max, projectCorners, invert, multisampleRayCount, runOuterLoopThreaded, runInnerLoopThreaded, startOffset, endOffset);
+        }
+
+        public Paths getRays()
+        {
+            return pGetRays();
+        }
+
+        Paths pGetRays()
+        {
+            return castLines;
+        }
+
+        public Paths getClippedRays()
+        {
+            return pGetClippedRays();
+        }
+
+        Paths pGetClippedRays()
+        {
+            return clippedLines;
+        }
+
+        public double getRayLength(int ray)
+        {
+            if ((ray < 0) || (ray > clippedLines.Count))
+            {
+                return -1.0f;
+            }
+            return pGetRayLength(ray);
+        }
+
+        double pGetRayLength(int ray)
+        {
+            return GeoWrangler.distanceBetweenPoints(clippedLines[ray][0], clippedLines[ray][clippedLines[ray].Count - 1]);
+        }
+
+        void rayCast(Path emissionPath, Paths collisionPaths, Int64 maxRayLength, bool projectCorners, bool invert, int multisampleRayCount, bool runOuterLoopThreaded, bool runInnerLoopThreaded, IntPoint startOffset, IntPoint endOffset)
+        {
+            if (startOffset == null)
+            {
+                startOffset = new IntPoint(0, 0);
+            }
+
+            if (endOffset == null)
+            {
+                endOffset = new IntPoint(0, 0);
+            }
+
+            int ptCount = emissionPath.Count;
+
+            // Due to threading and need to tie to polygon point order, we have to use these local storage options and will do the conversion at the end.
+            object castLinesLock = new object();
+            Paths[] castLines_ = new Paths[ptCount];
+            object clippedLinesLock = new object();
+            Path[] clippedLines_ = new Path[ptCount];
+
+            // We need to think about the end point case.
+            bool closedPathEmitter = false;
+            if ((ptCount > 3) && ((emissionPath[0].X == emissionPath[ptCount - 1].X) && (emissionPath[0].Y == emissionPath[ptCount - 1].Y)))
+            {
+                closedPathEmitter = true;
+            }
+
+            Int64 dx = 0;
+            Int64 dy = 0;
+
+            // Get average angle for this vertex based on angles from line segments.
+            // http://stackoverflow.com/questions/1243614/how-do-i-calculate-the-normal-vector-of-a-line-segment
+
+            // Pre-calculate these for the threading to be an option.
+            // This is a serial evaluation as we need both the previous and the current normal for each point.
+            IntPoint[] normals = new IntPoint[ptCount];
+            IntPoint[] previousNormals = new IntPoint[ptCount];
+            for (Int32 pt = 0; pt < ptCount; pt++)
+            {
+                // Start point
+                IntPoint startPoint = new IntPoint(emissionPath[pt]);
+                if (pt == emissionPath.Count - 1)
+                {
+                    // Last matches the first. Since we flip the dx and dy tone later, we need to compensate here.
+                    if (closedPathEmitter)
+                    {
+                        dx = -normals[0].X;
+                        dy = -normals[0].Y;
+                    }
+                    else
+                    {
+                        dx = emissionPath[ptCount - 1].X - endOffset.X;
+                        dy = emissionPath[ptCount - 1].Y - endOffset.Y;
+                    }
+                }
+                else if ((!closedPathEmitter) && (pt == 0))
+                {
+                    dx = emissionPath[0].X - startOffset.X;
+                    dy = emissionPath[0].Y - startOffset.Y;
+                }
+                else
+                {
+                    dx = emissionPath[pt + 1].X - emissionPath[pt].X;
+                    dy = emissionPath[pt + 1].Y - emissionPath[pt].Y;
+                }
+                normals[pt] = new IntPoint(-dx, -dy);
+
+                // Previous normal
+                if (pt == 0)
+                {
+                    if (closedPathEmitter)
+                    {
+                        // n-1 identical to the 0-th point, so we need to dig a little deeper.
+                        dx = emissionPath[0].X - emissionPath[ptCount - 2].X;
+                        dy = emissionPath[0].Y - emissionPath[ptCount - 2].Y;
+                    }
+                    else
+                    {
+                        dx = emissionPath[0].X - startOffset.X;
+                        dy = emissionPath[0].Y - startOffset.Y;
+                    }
+
+                    previousNormals[pt] = new IntPoint(-dx, -dy);
+                }
+                else
+                {
+                    previousNormals[pt] = (normals[pt - 1]);
+                }
+            }
+
+            ParallelOptions po_outer = new ParallelOptions();
+            if (!runOuterLoopThreaded)
+            {
+                po_outer.MaxDegreeOfParallelism = 1;
+            }
+
+            ParallelOptions po_inner = new ParallelOptions();
+            if (!runInnerLoopThreaded)
+            {
+                po_inner.MaxDegreeOfParallelism = 1;
+            }
+
+            Parallel.For(0, ptCount, po_outer, pt =>
+            {
+                IntPoint currentEdgeNormal = normals[pt];
+                IntPoint previousEdgeNormal = previousNormals[pt];
+
+                if (invert)
+                {
+                    currentEdgeNormal = new IntPoint(currentEdgeNormal.X, -currentEdgeNormal.Y);
+                    previousEdgeNormal = new IntPoint(previousEdgeNormal.X, -previousEdgeNormal.Y);
+                }
+
+                IntPoint averagedEdgeNormal = new IntPoint(0, 0);
+
+                IntPoint startPoint = new IntPoint(emissionPath[pt]);
+
+                // Get average angle for this vertex based on angles from line segments.
+                // http://stackoverflow.com/questions/1243614/how-do-i-calculate-the-normal-vector-of-a-line-segment
+
+                if (projectCorners && (((currentEdgeNormal.X == 0) && (previousEdgeNormal.Y == 0)) ||
+                    ((currentEdgeNormal.Y == 0) && (previousEdgeNormal.X == 0))))
+                {
+                    // If we're traversing a 90 degree corner, let's not project a diagonal, but fix on our current edge normal.
+                    averagedEdgeNormal = new IntPoint(currentEdgeNormal.X, currentEdgeNormal.Y);
+                }
+                else
+                {
+                    // Average out our normals
+                    averagedEdgeNormal = new IntPoint((previousEdgeNormal.X + currentEdgeNormal.X) / 2, (previousEdgeNormal.Y + currentEdgeNormal.Y) / 2);
+                }
+
+                // Normalization. We don't change the original vectors to avoid having to normalize everywhere.
+                double length = Math.Sqrt(Utils.myPow(averagedEdgeNormal.X, 2) + Utils.myPow(averagedEdgeNormal.Y, 2));
+
+                double endPointDeltaX = 0;
+                double endPointDeltaY = 0;
+
+                // Avoid div-by-zero; 0-length is unimportant. Note that setting this cut-off too high produces artifacts.
+                if (length > 0.0001)
+                {
+                    endPointDeltaX = Convert.ToDouble(averagedEdgeNormal.X) / length;
+                    endPointDeltaY = Convert.ToDouble(averagedEdgeNormal.Y) / length;
+                }
+
+                // Set to max ray length from callsite.
+                endPointDeltaX *= maxRayLength;
+                endPointDeltaY *= maxRayLength;
+
+                if (invert)
+                {
+                    endPointDeltaY *= -1;
+                }
+                endPointDeltaX *= -1;
+
+                IntPoint endPoint = new IntPoint(endPointDeltaY + startPoint.X, endPointDeltaX + startPoint.Y);
+
+                Paths rays = new Paths();
+                Path line = new Path();
+                line.Add(new IntPoint(startPoint));
+                line.Add(new IntPoint(endPoint));
+                rays.Add(line/*.ToList()*/);
+
+                double angleStep = 90.0f / (1 + multisampleRayCount);
+
+                for (int sample = 0; sample < multisampleRayCount; sample++)
+                {
+                    // Add more samples, each n-degrees rotated from the nominal ray
+                    double rayAngle = (sample + 1) * angleStep;
+                    IntPoint endPoint1 = GeoWrangler.Rotate(startPoint, endPoint, rayAngle);
+                    IntPoint endPoint2 = GeoWrangler.Rotate(startPoint, endPoint, -rayAngle);
+
+                    // The order of line1 below is important, but I'm not yet sure why. If you change it, the expansion becomes assymetrical on a square (lower section gets squashed).
+                    Path line1 = new Path();
+                    line1.Add(new IntPoint(endPoint1));
+                    line1.Add(new IntPoint(startPoint));
+                    rays.Add(line1);
+                    Path line2 = new Path();
+                    line2.Add(new IntPoint(startPoint));
+                    line2.Add(new IntPoint(endPoint2));
+                    rays.Add(line2);
+                }
+
+                Monitor.Enter(castLinesLock);
+                try
+                {
+                    castLines_[pt] = new Paths();
+                    castLines_[pt].AddRange(rays);
+                }
+                finally
+                {
+                    Monitor.Exit(castLinesLock);
+                }
+
+                Int64[] resultX = new Int64[rays.Count];
+                Int64[] resultY = new Int64[rays.Count];
+
+                previousEdgeNormal = new IntPoint(currentEdgeNormal.X, currentEdgeNormal.Y);
+
+                object resultLock = new object();
+                Parallel.For(0, rays.Count, po_inner, ray =>
+                {
+                    Clipper d = new Clipper();
+                    d.AddPath(rays[ray], PolyType.ptSubject, false);
+                    d.AddPaths(collisionPaths, PolyType.ptClip, true);
+                    PolyTree polyTree = new PolyTree();
+                    if (invert)
+                    {
+                        d.Execute(ClipType.ctIntersection, polyTree);
+                    }
+                    else
+                    {
+                        d.Execute(ClipType.ctDifference, polyTree);
+                    }
+
+                    // There is no matching order in the return output here, so we have to take this odd approach.
+                    Paths tmpLine = Clipper.OpenPathsFromPolyTree(polyTree);
+
+                    // If we got no result, let's get that sorted out. End and start points are the same.
+                    if (tmpLine.Count == 0)
+                    {
+                        Monitor.Enter(resultLock);
+                        try
+                        {
+                            resultX[ray] = startPoint.X;
+                            resultY[ray] = startPoint.Y;
+                        }
+                        finally
+                        {
+                            Monitor.Exit(resultLock);
+                        }
+                    }
+
+                    if (tmpLine.Count > 1)
+                    {
+                        // We got two lines back. Need to check this carefully.
+                        // We need to find the line that has a start/end point matched to our origin point for the ray.
+                        int index = -1;
+                        for (int tL = 0; tL < tmpLine.Count; tL++)
+                        {
+                            Int64 tL0X = tmpLine[tL][0].X;
+                            Int64 tL0Y = tmpLine[tL][0].Y;
+                            Int64 tL1X = tmpLine[tL][1].X;
+                            Int64 tL1Y = tmpLine[tL][1].Y;
+                            if (((tL0X == startPoint.X) && (tL0Y == startPoint.Y)) || ((tL1X == startPoint.X) && (tL1Y == startPoint.Y)))
+                            {
+                                index = tL;
+                                break;
+                            }
+                        }
+                        Path tPath = new Path();
+                        if (index >= 0)
+                        {
+                            tPath = tmpLine[index];
+                        }
+                        else
+                        {
+                            tPath.Add(startPoint);
+                            tPath.Add(startPoint);
+                        }
+                        tmpLine.Clear();
+                        tmpLine.Add(tPath);
+                    }
+
+                    for (int tL = 0; tL < tmpLine.Count; tL++)
+                    {
+                        // Figure out which end of the result line matches our origin point.
+                        if ((tmpLine[tL][0].X == startPoint.X) && (tmpLine[tL][0].Y == startPoint.Y))
+                        {
+                            Monitor.Enter(resultLock);
+                            try
+                            {
+                                resultX[ray] = tmpLine[tL][1].X;
+                                resultY[ray] = tmpLine[tL][1].Y;
+                            }
+                            finally
+                            {
+                                Monitor.Exit(resultLock);
+                            }
+                        }
+                        else if ((tmpLine[tL][1].X == startPoint.X) && (tmpLine[tL][1].Y == startPoint.Y))
+                        {
+                            Monitor.Enter(resultLock);
+                            try
+                            {
+                                // Clipper reversed the line direction, so we need to deal with this.
+                                resultX[ray] = tmpLine[tL][0].X;
+                                resultY[ray] = tmpLine[tL][0].Y;
+                            }
+                            finally
+                            {
+                                Monitor.Exit(resultLock);
+                            }
+                        }
+                    }
+                }
+                );
+
+                Path resultPath = new Path();
+                resultPath.Add(startPoint);
+
+                int xCount = 0;
+                Int64 xAv = 0;
+                int yCount = 0;
+                Int64 yAv = 0;
+
+                // Average the result to give a weighted spacing across the rays.
+                for (int result = 0; result < resultX.Length; result++)
+                {
+                    if (Math.Abs(resultX[result]) > 1000)
+                    {
+                        xCount++;
+                        xAv += resultX[result];
+                    }
+                    if (Math.Abs(resultY[result]) > 1000)
+                    {
+                        yCount++;
+                        yAv += resultY[result];
+                    }
+                }
+
+                if (xCount != 0)
+                {
+                    xAv /= xCount;
+                }
+                if (yCount != 0)
+                {
+                    yAv /= yCount;
+                }
+
+                resultPath.Add(new IntPoint(xAv, yAv));
+                Monitor.Enter(clippedLinesLock);
+                try
+                {
+                    clippedLines_[pt] = resultPath;
+                }
+                finally
+                {
+                    Monitor.Exit(clippedLinesLock);
+                }
+            });
+
+            // Convert the array back to a list.
+            clippedLines = clippedLines_.ToList();
+            castLines = new Paths();
+            for (int i = 0; i < castLines_.Length; i++)
+            {
+                castLines.AddRange(castLines_[i]);
+            }
+        }
+    }
+}

@@ -1,0 +1,7 @@
+OasisTest :
+
+This is a sandbox for trying to get a viable Oasis reader for the MC codebase.
+
+The code is based on ancient layouteditor code (when it was GPL)
+
+The code doesn't support compressed Oasis files at this time and is only compile-tested.

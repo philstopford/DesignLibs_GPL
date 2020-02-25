@@ -6,7 +6,7 @@
     <MacBuildBundle>false</MacBuildBundle>
     <Configurations>Debug;Release;Release_obf</Configurations>
     <ReleaseVersion>0.24</ReleaseVersion>
-    <RuntimeIdentifiers>osx.10.10-x64</RuntimeIdentifiers>
+    <OutputPath Condition="$(MacIsBuildingBundle) == 'True'"></OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' " />

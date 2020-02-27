@@ -65,10 +65,17 @@ namespace geoWrangler
                     // Review orientation. Fix if needed.
                     if (Clipper.Orientation(cR[0]) != origOrient)
                     {
-                        Parallel.For(0, crCount, (j) => //for (int j = 0; j < cR.Count; j++)
+#if GWTHREADED
+                        Parallel.For(0, crCount, (j) =>
+#else
+                        for (int j = 0; j < cR.Count; j++)
+#endif
                         {
                             cR[j].Reverse();
-                        });
+                        }
+#if GWTHREADED
+                        );
+#endif
                     }
 
                     ret.AddRange(cR);
@@ -83,10 +90,17 @@ namespace geoWrangler
                 if (reverse)
                 {
                     int rCount = ret.Count;
-                    Parallel.For(0, rCount, (i) => // for (int i = 0; i < ret.Count; i++)
+#if GWTHREADED
+                    Parallel.For(0, rCount, (i) =>
+#else
+                    for (int i = 0; i < ret.Count; i++)
+#endif
                     {
                         ret[i].Reverse();
-                    });
+                    }
+#if GWTHREADED
+                    );
+#endif
                 }
 
                 Paths[] decomp = pGetDecomposed(ret);

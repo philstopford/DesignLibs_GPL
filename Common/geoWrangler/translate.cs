@@ -37,11 +37,17 @@ namespace geoWrangler
         {
             int sLength = source.Length;
             GeoLibPointF[] ret = new GeoLibPointF[sLength];
-            Parallel.For(0, sLength, (i) => // for (int i = 0; i < source.Length; i++)
+#if GWTHREADED
+            Parallel.For(0, sLength, (i) =>
+#else
+            for (int i = 0; i < source.Length; i++)
+#endif
             {
                 ret[i] = new GeoLibPointF(source[i].X + x, source[i].Y + y);
-            });
-
+            }
+#if GWTHREADED
+            );
+#endif
             return ret;
         }
     }

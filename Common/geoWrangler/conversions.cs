@@ -95,11 +95,17 @@ namespace geoWrangler
                 length++; // close the geometry
             }
             GeoLibPoint[] returnPoint = new GeoLibPoint[length];
-            Parallel.For(0, sCount, (pt) => // (int pt = 0; pt < source.Count; pt++)
+#if GWTHREADED
+            Parallel.For(0, sCount, (pt) =>
+#else
+            for (int pt = 0; pt < source.Count; pt++)
+#endif
             {
                 returnPoint[pt] = new GeoLibPoint(source[pt].X, source[pt].Y);
-            });
-
+            }
+#if GWTHREADED
+            );
+#endif
             // Close the shape.
             if (length != sCount)
             {
@@ -192,12 +198,18 @@ namespace geoWrangler
                 length++; // close the geometry
             }
             GeoLibPointF[] returnPointF = new GeoLibPointF[length];
-            Parallel.For(0, sourceCount, (pt) => // for (int pt = 0; pt < source.Count(); pt++)
+#if GWTHREADED
+            Parallel.For(0, sourceCount, (pt) =>
+#else
+            for (int pt = 0; pt < source.Count(); pt++)
+#endif
             {
                 returnPointF[pt] = new GeoLibPointF((double)(source[pt].X) / scaling,
                                                     (double)(source[pt].Y) / scaling);
-            });
-
+            }
+#if GWTHREADED
+            );
+#endif
             // Close the shape.
             if (length != sourceCount)
             {

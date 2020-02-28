@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using geoLib;
+using System.Linq;
 
 namespace geoWrangler
 {
@@ -49,6 +50,11 @@ namespace geoWrangler
             );
 #endif
             return ret;
+        }
+
+        public static List<GeoLibPointF> move(List<GeoLibPointF> source, double x, double y)
+        {
+            return pMove(source.ToArray(), x, y).ToList();
         }
     }
 }

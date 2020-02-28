@@ -2,6 +2,7 @@
 using geoLib;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace geoWrangler
 {
@@ -80,6 +81,73 @@ namespace geoWrangler
                 ret = new GeoLibPoint[1] { new GeoLibPoint(0, 0) };
             }
 
+            return ret;
+        }
+
+        public static GeoLibPointF[] resize(GeoLibPointF[] source, double factor)
+        {
+            return pResize(source, factor);
+        }
+        static GeoLibPointF[] pResize(GeoLibPointF[] source, double factor)
+        {
+            int sLength = source.Length;
+            GeoLibPointF[] ret = new GeoLibPointF[sLength];
+#if GWTHREADED
+            Parallel.For(0, sLength, (pt) =>
+#else
+            for (int pt = 0; pt < sLength; pt++)
+#endif
+            {
+                ret[pt] = new GeoLibPointF(source[pt].X * factor, source[pt].Y * factor);
+            }
+#if GWTHREADED
+            );
+#endif
+            return ret;
+        }
+
+        public static GeoLibPoint[] resize_to_int(GeoLibPointF[] source, double factor)
+        {
+            return pResize_to_int(source, factor);
+        }
+        static GeoLibPoint[] pResize_to_int(GeoLibPointF[] source, double factor)
+        {
+            int sLength = source.Length;
+            GeoLibPoint[] ret = new GeoLibPoint[sLength];
+
+#if GWTHREADED
+            Parallel.For(0, sLength, (pt) =>
+#else
+            for (int pt = 0; pt < sLength; pt++)
+#endif
+            {
+                ret[pt] = new GeoLibPoint((int)(source[pt].X * factor), (int)(source[pt].Y * factor));
+            }
+#if GWTHREADED
+            );
+#endif
+            return ret;
+        }
+
+        public static GeoLibPoint[] resize(GeoLibPoint[] source, double factor)
+        {
+            return pResize(source, factor);
+        }
+        static GeoLibPoint[] pResize(GeoLibPoint[] source, double factor)
+        {
+            int sLength = source.Length;
+            GeoLibPoint[] ret = new GeoLibPoint[sLength];
+#if GWTHREADED
+            Parallel.For(0, sLength, (pt) =>
+#else
+            for (int pt = 0; pt < sLength; pt++)
+#endif
+            {
+                ret[pt] = new GeoLibPoint(source[pt].X * factor, source[pt].Y * factor);
+            }
+#if GWTHREADED
+            );
+#endif
             return ret;
         }
     }

@@ -139,12 +139,19 @@ namespace geoLib
             var dy = m[5];
 
             int sLength = source.Length;
-            Parallel.For(0, sLength, (pt) => // (int pt = 0; pt < source.Length; pt++)
+#if GEOLIBTHREADED
+            Parallel.For(0, sLength, (pt) =>
+#else
+            for (int pt = 0; pt < source.Length; pt++)
+#endif
             {
                 double x1 = m11 * source[pt].X + m21 * source[pt].Y + dx;
                 double y1 = m12 * source[pt].X + m22 * source[pt].Y + dy;
                 source[pt] = new GeoLibPoint(x1, y1);
-            });
+            }
+#if GEOLIBTHREADED
+            );
+#endif
         }
 
         public void TransformPoints(GeoLibPointF[] source)
@@ -162,12 +169,19 @@ namespace geoLib
             var dy = m[5];
 
             int sLength = source.Length;
-            Parallel.For(0, sLength, (pt) => // (int pt = 0; pt < source.Length; pt++)
+#if GEOLIBTHREADED
+            Parallel.For(0, sLength, (pt) => 
+#else
+            for (int pt = 0; pt < source.Length; pt++)
+#endif
             {
                 double x1 = m11 * source[pt].X + m21 * source[pt].Y + dx;
                 double y1 = m12 * source[pt].X + m22 * source[pt].Y + dy;
                 source[pt] = new GeoLibPointF(x1, y1);
-            });
+            }
+#if GEOLIBTHREADED
+            );
+#endif
         }
     }
 }

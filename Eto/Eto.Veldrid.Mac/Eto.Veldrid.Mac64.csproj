@@ -4,20 +4,19 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <DefineConstants>MONOMAC</DefineConstants>
     <MacBuildBundle>false</MacBuildBundle>
-    <Configurations>Debug;Release;Release_obf</Configurations>
+    <Configurations>Debug;Release</Configurations>
     <ReleaseVersion>0.24</ReleaseVersion>
     <OutputPath Condition="$(MacIsBuildingBundle) == 'True'"></OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' " />
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' " />
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_obf|AnyCPU' ">
     <IntermediateOutputPath>obj\Release\netcoreapp3.1</IntermediateOutputPath>
     <Optimize>true</Optimize>
     <DefineConstants>MONOMAC;RELEASE;NETCOREAPP;NETCOREAPP3_1</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Eto.Platform.Mac64" Version="2.5.0-rc.6" />
+    <PackageReference Include="Eto.Platform.Mac64" Version="2.5.0" />
   </ItemGroup>
 
   <ItemGroup>

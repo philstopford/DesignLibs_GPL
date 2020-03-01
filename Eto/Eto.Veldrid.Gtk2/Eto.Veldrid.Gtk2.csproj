@@ -6,7 +6,7 @@
     <!-- By design, the newer SDK-style projects don't search the GAC, and it's
     necessary to explicitly demand that to find the Gtk# assemblies. -->
     <AssemblySearchPaths>$(AssemblySearchPaths);{GAC}</AssemblySearchPaths>
-    <Configurations>Debug;Release;Release_obf</Configurations>
+    <Configurations>Debug;Release</Configurations>
     <ReleaseVersion>0.24</ReleaseVersion>
   </PropertyGroup>
 
@@ -15,19 +15,8 @@
     <ExternalConsole>false</ExternalConsole>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_obf|AnyCPU' ">
-    <IntermediateOutputPath>obj\Release\netcoreapp3.1</IntermediateOutputPath>
-    <DebugType>portable</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release_obf\netcoreapp3.1</OutputPath>
-    <DefineConstants>GTK2;RELEASE;NETCOREAPP;NETCOREAPP3_1</DefineConstants>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile></DocumentationFile>
-    <NoWarn>1701;1702</NoWarn>
-    <NoStdLib>true</NoStdLib>
-  </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Eto.Platform.Gtk2" Version="2.5.0-rc.6" />
+    <PackageReference Include="Eto.Platform.Gtk2" Version="2.5.0" />
     <PackageReference Include="OpenTK" Version="3.1.0" />
   </ItemGroup>
 

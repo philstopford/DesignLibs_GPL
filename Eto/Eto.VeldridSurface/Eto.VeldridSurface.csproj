@@ -5,13 +5,12 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <RootNamespace>Eto.Veldrid</RootNamespace>
     <Title>Eto.Veldrid</Title>
-    <Configurations>Debug;Release;Release_obf</Configurations>
+    <Configurations>Debug;Release</Configurations>
     <ReleaseVersion>0.24</ReleaseVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' " />
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' " />
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release_obf|AnyCPU' ">
     <IntermediateOutputPath>obj\Release\netcoreapp3.1</IntermediateOutputPath>
     <Optimize>true</Optimize>
     <DefineConstants>TRACE;RELEASE;NETCOREAPP;NETCOREAPP3_1</DefineConstants>
@@ -22,7 +21,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="Eto.Forms" Version="2.5.0-rc.6" />
+    <PackageReference Include="Eto.Forms" Version="2.5.0" />
     <PackageReference Include="OpenTK" Version="3.1.0" />
     <PackageReference Include="Unofficial.LibTessDotNet" Version="2.0.2" />
     <PackageReference Include="Veldrid" Version="4.7.0" />

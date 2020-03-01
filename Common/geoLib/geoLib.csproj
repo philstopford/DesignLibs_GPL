@@ -6,4 +6,8 @@
     <ReleaseVersion>0.24</ReleaseVersion>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>TRACE;GEOLIBTHREADED</DefineConstants>
+  </PropertyGroup>
+
 </Project>

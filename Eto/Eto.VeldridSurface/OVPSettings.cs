@@ -41,6 +41,11 @@ namespace VeldridEto
         public List<int> bgPolyListPtCount { get; set; }
         public List<int> bgPolySourceIndex { get; set; } // will eventually track source of polygon, allowing for layer generating, etc. in output.
         public List<ovp_Poly> lineList { get; set; } // purely for lines.
+
+        public List<float> lineZBiasList { get; set; }
+        public List<float> polyZBiasList { get; set; }
+        public List<float> tessPolyZBiasList { get; set; }
+
         public List<int> lineListPtCount { get; set; }
         public List<int> lineSourceIndex { get; set; } // will eventually track source of polygon, allowing for layer generating, etc. in output.
         public List<ovp_Poly> tessPolyList { get; set; } // triangles, but also need to track color. This is decoupled to allow boundary extraction without triangles getting in the way.
@@ -333,6 +338,7 @@ namespace VeldridEto
 		void pClear(bool clearBG)
 		{
 			polyList.Clear();
+            polyZBiasList.Clear();
 			polySourceIndex.Clear();
 			polyListPtCount.Clear();
 			if (clearBG)
@@ -342,45 +348,47 @@ namespace VeldridEto
 				bgPolyListPtCount.Clear();
 			}
 			lineList.Clear();
+            lineZBiasList.Clear();
 			lineSourceIndex.Clear();
 			lineListPtCount.Clear();
 			tessPolyList.Clear();
             changed = true;
         }
 
-        public void addLine(PointF[] line, Color lineColor, float alpha, int layerIndex)
+        public void addLine(PointF[] line, Color lineColor, float alpha, int layerIndex, float zBias = 0.0f)
 		{
-			pAddLine(line, lineColor, alpha, layerIndex);
+			pAddLine(line, lineColor, alpha, layerIndex, zBias);
 		}
 
-		void pAddLine(PointF[] line, Color lineColor, float alpha, int layerIndex)
+		void pAddLine(PointF[] line, Color lineColor, float alpha, int layerIndex, float zBias)
 		{
 			lineList.Add(new ovp_Poly(line, lineColor, alpha));
+            lineZBiasList.Add(zBias);
 			lineSourceIndex.Add(layerIndex);
 			lineListPtCount.Add((line.Length - 1) * 2);
             changed = true;
         }
 
-        public void addPolygon(PointF[] poly, Color polyColor, float alpha, bool drawn, int layerIndex)
+        public void addPolygon(PointF[] poly, Color polyColor, float alpha, bool drawn, int layerIndex, float zBias = 0.0f)
 		{
 			if (drawn)
 			{
 				// Drawn polygons are to be treated as lines : they don't get filled.
-				addLine(poly, polyColor, alpha, layerIndex);
+				addLine(poly, polyColor, alpha, layerIndex, zBias);
 			}
 			else
 			{
-				pAddPolygon(poly, polyColor, alpha, drawn, layerIndex);
+				pAddPolygon(poly, polyColor, alpha, drawn, layerIndex, zBias);
 			}
 		}
 
-		void pAddPolygon(PointF[] poly, Color polyColor, float alpha, bool drawn, int layerIndex)
+		void pAddPolygon(PointF[] poly, Color polyColor, float alpha, bool drawn, int layerIndex, float zBias)
 		{
 			if (!drawn && enableFilledPolys) // avoid tessellation unless really necessary.
 			{
 				try
 				{
-					tessPoly(poly, polyColor, alpha);
+					tessPoly(poly, polyColor, alpha, zBias);
 				}
 				catch (Exception)
 				{
@@ -392,6 +400,7 @@ namespace VeldridEto
 
 			polyList.Add(new ovp_Poly(poly, polyColor, alpha));
 			polySourceIndex.Add(layerIndex);
+            polyZBiasList.Add(zBias);
 			polyListPtCount.Add(poly.Length);
 			drawnPoly.Add(drawn);
             changed = true;
@@ -459,6 +468,8 @@ namespace VeldridEto
 			lineSourceIndex = new List<int>();
 			lineListPtCount = new List<int>();
 			tessPolyList = new List<ovp_Poly>();
+            lineZBiasList = new List<float>();
+            polyZBiasList = new List<float>();
 			drawnPoly = new List<bool>();
 			zoomFactor = 1.0f;
 			cameraPosition = new PointF(default_cameraPosition.X, default_cameraPosition.Y);
@@ -521,7 +532,7 @@ namespace VeldridEto
 			return source;
 		}
 
-		void tessPoly(PointF[] source, Color polyColor, float alpha)
+		void tessPoly(PointF[] source, Color polyColor, float alpha, float zBias)
 		{
 			// Now we need to check for polyfill, and triangulate the polygon if needed.
 			//if (enableFilledPolys)
@@ -546,6 +557,7 @@ namespace VeldridEto
 					tempPoly[1] = new PointF((float)tess.Vertices[tess.Elements[(i * 3) + 1]].Position.X, (float)tess.Vertices[tess.Elements[(i * 3) + 1]].Position.Y);
 					tempPoly[2] = new PointF((float)tess.Vertices[tess.Elements[(i * 3) + 2]].Position.X, (float)tess.Vertices[tess.Elements[(i * 3) + 2]].Position.Y);
 
+                    tessPolyZBiasList.Add(zBias);
 					tessPolyList.Add(new ovp_Poly(clockwiseOrder(tempPoly).ToArray(), polyColor, alpha));
 				}
 			}

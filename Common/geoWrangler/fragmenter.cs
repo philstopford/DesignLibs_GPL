@@ -27,6 +27,27 @@ namespace geoWrangler
             scaleFactor = scaling;
         }
 
+        public List<GeoLibPointF[]> fragmentPaths(List<GeoLibPointF[]> source)
+        {
+            return pFragmentPaths(source);
+        }
+
+        List<GeoLibPointF[]> pFragmentPaths(List<GeoLibPointF[]> source)
+        {
+            if (source.Count == 0)
+            {
+                return source.ToList();
+            }
+
+            List<GeoLibPointF[]> ret = new List<GeoLibPointF[]>();
+            for (int i = 0; i < source.Count; i++)
+            {
+                ret.Add(pFragmentPath(source[i].ToArray()));
+            }
+
+            return ret.ToList();
+        }
+
         public GeoLibPointF[] fragmentPath(GeoLibPointF[] pointList)
         {
             return pFragmentPath(pointList);

@@ -59,13 +59,25 @@ namespace VeldridEto
 		uint[] polyFirst;
 		uint[] polyVertexCount;
 
+		VertexPositionColor[] unblendedPolyArray;
+		uint[] unblendedPolyFirst;
+		uint[] unblendedPolyVertexCount;
+
 		VertexPositionColor[] tessArray;
 		uint[] tessFirst;
 		uint[] tessVertexCount;
 
+		VertexPositionColor[] unblendedTessArray;
+		uint[] unblendedTessFirst;
+		uint[] unblendedTessVertexCount;
+
 		VertexPositionColor[] lineArray;
 		uint[] lineFirst;
 		uint[] lineVertexCount;
+
+		VertexPositionColor[] unblendedLineArray;
+		uint[] unblendedLineFirst;
+		uint[] unblendedLineVertexCount;
 
 		VertexPositionColor[] pointsArray;
 		uint[] pointsFirst;
@@ -84,15 +96,19 @@ namespace VeldridEto
 		DeviceBuffer AxesVertexBuffer;
 		DeviceBuffer AxesIndexBuffer;
 
+		DeviceBuffer UnblendedLinesVertexBuffer;
 		DeviceBuffer LinesVertexBuffer;
 		DeviceBuffer PointsVertexBuffer;
 		DeviceBuffer PolysVertexBuffer;
 		DeviceBuffer TessVertexBuffer;
+		DeviceBuffer UnblendedPolysVertexBuffer;
+		DeviceBuffer UnblendedTessVertexBuffer;
 
-		Pipeline PointsPipeline;
+		Pipeline UnblendedLinesPipeline;
 		Pipeline LinePipeline;
 		Pipeline LinesPipeline;
 		Pipeline FilledPipeline;
+		Pipeline UnblendedFilledPipeline;
 
 		Matrix4x4 ModelMatrix = Matrix4x4.Identity;
 		DeviceBuffer ModelBuffer;
@@ -521,13 +537,19 @@ namespace VeldridEto
 			{
 				List<VertexPositionColor> polyList = new List<VertexPositionColor>();
 
+				List<VertexPositionColor> unblendedPolyList = new List<VertexPositionColor>();
+
 				List<VertexPositionColor> pointsList = new List<VertexPositionColor>();
 
 				List<VertexPositionColor> tessPolyList = new List<VertexPositionColor>();
 
+				List<VertexPositionColor> unblendedTessPolyList = new List<VertexPositionColor>();
+
 				int polyListCount = ovpSettings.polyList.Count();
+				int unblendedPolyListCount = ovpSettings.unblendedPolyList.Count();
 				int bgPolyListCount = ovpSettings.bgPolyList.Count();
 				int tessPolyListCount = ovpSettings.tessPolyList.Count();
+				int unblendedTessPolyListCount = ovpSettings.unblendedTessPolyList.Count();
 
 				// Carve our Z-space up to stack polygons
 				int numPolys = 1;
@@ -537,8 +559,14 @@ namespace VeldridEto
 				polyFirst = new uint[numPolys];
 				polyVertexCount = new uint[numPolys];
 
+				unblendedPolyFirst = new uint[unblendedPolyListCount];
+				unblendedPolyVertexCount = new uint[unblendedPolyListCount];
+
 				tessFirst = new uint[tessPolyListCount];
 				tessVertexCount = new uint[tessPolyListCount];
+
+				unblendedTessFirst = new uint[unblendedTessPolyListCount];
+				unblendedTessVertexCount = new uint[unblendedTessPolyListCount];
 
 				List<uint> tFirst = new List<uint>();
 
@@ -565,10 +593,23 @@ namespace VeldridEto
 						polyZ += polyZStep;
 						for (int pt = 0; pt < 3; pt++)
 						{
-							tessPolyList.Add(new VertexPositionColor(new Vector3(ovpSettings.tessPolyList[poly].poly[pt].X, ovpSettings.tessPolyList[poly].poly[pt].Y, polyZ + ovpSettings.tessPolyZBiasList[poly]),
+							tessPolyList.Add(new VertexPositionColor(new Vector3(ovpSettings.tessPolyList[poly].poly[pt].X, ovpSettings.tessPolyList[poly].poly[pt].Y, polyZ),
 												new RgbaFloat(ovpSettings.tessPolyList[poly].color.R, ovpSettings.tessPolyList[poly].color.G, ovpSettings.tessPolyList[poly].color.B, alpha)));
 						}
 						tessVertexCount[poly] = 3;
+					}
+
+					for (int poly = 0; poly < unblendedTessPolyListCount; poly++)
+					{
+						unblendedTessFirst[poly] = (uint)(poly * 3);
+						float alpha = 1.0f;
+						polyZ += polyZStep;
+						for (int pt = 0; pt < 3; pt++)
+						{
+							unblendedTessPolyList.Add(new VertexPositionColor(new Vector3(ovpSettings.unblendedTessPolyList[poly].poly[pt].X, ovpSettings.unblendedTessPolyList[poly].poly[pt].Y, polyZ),
+												new RgbaFloat(ovpSettings.unblendedTessPolyList[poly].color.R, ovpSettings.unblendedTessPolyList[poly].color.G, ovpSettings.unblendedTessPolyList[poly].color.B, alpha)));
+						}
+						unblendedTessVertexCount[poly] = 3;
 					}
 				}
 
@@ -586,10 +627,10 @@ namespace VeldridEto
 					int polyLength = ovpSettings.polyList[poly].poly.Length - 1;
 					for (int pt = 0; pt < polyLength; pt++)
 					{
-						polyList.Add(new VertexPositionColor(new Vector3(ovpSettings.polyList[poly].poly[pt].X, ovpSettings.polyList[poly].poly[pt].Y, polyZ + ovpSettings.polyZBiasList[poly]),
+						polyList.Add(new VertexPositionColor(new Vector3(ovpSettings.polyList[poly].poly[pt].X, ovpSettings.polyList[poly].poly[pt].Y, polyZ),
 										new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G, ovpSettings.polyList[poly].color.B, alpha)));
 						counter++;
-						polyList.Add(new VertexPositionColor(new Vector3(ovpSettings.polyList[poly].poly[pt + 1].X, ovpSettings.polyList[poly].poly[pt + 1].Y, polyZ + ovpSettings.polyZBiasList[poly]),
+						polyList.Add(new VertexPositionColor(new Vector3(ovpSettings.polyList[poly].poly[pt + 1].X, ovpSettings.polyList[poly].poly[pt + 1].Y, polyZ),
 										new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G, ovpSettings.polyList[poly].color.B, alpha)));
 						counter++;
 
@@ -613,6 +654,48 @@ namespace VeldridEto
 						}
 					}
 					polyVertexCount[poly] = (uint)(counter - previouscounter); // set our vertex count for the polygon.
+				}
+
+				int tcounter = 0;
+				int previoustcounter = 0;
+				for (int poly = 0; poly < unblendedPolyListCount; poly++)
+				{
+					float alpha = 1.0f;
+
+					unblendedPolyFirst[poly] = (uint)tcounter;
+					previoustcounter = tcounter;
+					int polyLength = ovpSettings.unblendedPolyList[poly].poly.Length - 1;
+					for (int pt = 0; pt < polyLength; pt++)
+					{
+						unblendedPolyList.Add(new VertexPositionColor(new Vector3(ovpSettings.unblendedPolyList[poly].poly[pt].X, ovpSettings.unblendedPolyList[poly].poly[pt].Y, polyZ),
+										new RgbaFloat(ovpSettings.unblendedPolyList[poly].color.R, ovpSettings.unblendedPolyList[poly].color.G, ovpSettings.unblendedPolyList[poly].color.B, alpha)));
+						counter++;
+						unblendedPolyList.Add(new VertexPositionColor(new Vector3(ovpSettings.unblendedPolyList[poly].poly[pt + 1].X, ovpSettings.unblendedPolyList[poly].poly[pt + 1].Y, polyZ),
+										new RgbaFloat(ovpSettings.unblendedPolyList[poly].color.R, ovpSettings.unblendedPolyList[poly].color.G, ovpSettings.unblendedPolyList[poly].color.B, alpha)));
+						counter++;
+
+						/*
+						if (ovpSettings.drawPoints())
+						{
+							tFirst.Add(tCounter);
+							pointsList.Add(new VertexPositionColor(new Vector3(ovpSettings.polyList[poly].poly[pt].X - (pointWidth / 2.0f), ovpSettings.polyList[poly].poly[pt].Y - (pointWidth / 2.0f), 1.0f), new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G, ovpSettings.polyList[poly].color.B, alpha)));
+							tCounter++;
+							pointsList.Add(new VertexPositionColor(new Vector3(ovpSettings.polyList[poly].poly[pt].X - (pointWidth / 2.0f), ovpSettings.polyList[poly].poly[pt].Y + (pointWidth / 2.0f), 1.0f), new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G, ovpSettings.polyList[poly].color.B, alpha)));
+							tCounter++;
+							pointsList.Add(new VertexPositionColor(new Vector3(ovpSettings.polyList[poly].poly[pt].X + (pointWidth / 2.0f), ovpSettings.polyList[poly].poly[pt].Y - (pointWidth / 2.0f), 1.0f), new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G, ovpSettings.polyList[poly].color.B, alpha)));
+							tCounter++;
+
+							tFirst.Add(tCounter);
+							pointsList.Add(new VertexPositionColor(new Vector3(ovpSettings.polyList[poly].poly[pt].X + (pointWidth / 2.0f), ovpSettings.polyList[poly].poly[pt].Y - (pointWidth / 2.0f), 1.0f), new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G, ovpSettings.polyList[poly].color.B, alpha)));
+							tCounter++;
+							pointsList.Add(new VertexPositionColor(new Vector3(ovpSettings.polyList[poly].poly[pt].X - (pointWidth / 2.0f), ovpSettings.polyList[poly].poly[pt].Y + (pointWidth / 2.0f), 1.0f), new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G, ovpSettings.polyList[poly].color.B, alpha)));
+							tCounter++;
+							pointsList.Add(new VertexPositionColor(new Vector3(ovpSettings.polyList[poly].poly[pt].X + (pointWidth / 2.0f), ovpSettings.polyList[poly].poly[pt].Y + (pointWidth / 2.0f), 1.0f), new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G, ovpSettings.polyList[poly].color.B, alpha)));
+							tCounter++;
+						}
+						*/
+					}
+					unblendedPolyVertexCount[poly] = (uint)(tcounter - previoustcounter); // set our vertex count for the polygon.
 				}
 
 				polyZ = 0;
@@ -669,7 +752,7 @@ namespace VeldridEto
 				List<VertexPositionColor> lineList = new List<VertexPositionColor>();
 
 				// Carve our Z-space up to stack polygons
-				float polyZStep = 1.0f / ovpSettings.lineList.Count();
+				float polyZStep = 10.0f / ovpSettings.lineList.Count();
 
 				// Create our first and count arrays for the vertex indices, to enable polygon separation when rendering.
 				int tmp = ovpSettings.lineList.Count();
@@ -683,7 +766,7 @@ namespace VeldridEto
 					lineFirst[poly] = (uint)lineList.Count;
 					for (int pt = 0; pt < ovpSettings.lineList[poly].poly.Length; pt++)
 					{
-						lineList.Add(new VertexPositionColor(new Vector3(ovpSettings.lineList[poly].poly[pt].X, ovpSettings.lineList[poly].poly[pt].Y, polyZ + ovpSettings.lineZBiasList[poly]), new RgbaFloat(ovpSettings.lineList[poly].color.R, ovpSettings.lineList[poly].color.G, ovpSettings.lineList[poly].color.B, alpha)));
+						lineList.Add(new VertexPositionColor(new Vector3(ovpSettings.lineList[poly].poly[pt].X, ovpSettings.lineList[poly].poly[pt].Y, polyZ), new RgbaFloat(ovpSettings.lineList[poly].color.R, ovpSettings.lineList[poly].color.G, ovpSettings.lineList[poly].color.B, alpha)));
 					}
 					lineVertexCount[poly] = (uint)ovpSettings.lineList[poly].poly.Length; // set our vertex count for the polygon.
 				}
@@ -691,6 +774,42 @@ namespace VeldridEto
 				lineArray = lineList.ToArray();
 
 				updateBuffer(ref LinesVertexBuffer, lineArray, VertexPositionColor.SizeInBytes, BufferUsage.VertexBuffer);
+			}
+			catch (Exception)
+			{
+				// Can ignore - not critical.
+			}
+		}
+
+		void drawUnblendedLines()
+		{
+			try
+			{
+				List<VertexPositionColor> unblendedLineList = new List<VertexPositionColor>();
+
+				// Carve our Z-space up to stack polygons
+				float polyZStep = 10.0f / ovpSettings.unblendedLineList.Count();
+
+				// Create our first and count arrays for the vertex indices, to enable polygon separation when rendering.
+				int tmp = ovpSettings.unblendedLineList.Count();
+				unblendedLineFirst = new uint[tmp];
+				unblendedLineVertexCount = new uint[tmp];
+
+				for (int poly = 0; poly < tmp; poly++)
+				{
+					float alpha = ovpSettings.unblendedLineList[poly].alpha;
+					float polyZ = poly * polyZStep;
+					unblendedLineFirst[poly] = (uint)unblendedLineList.Count;
+					for (int pt = 0; pt < ovpSettings.unblendedLineList[poly].poly.Length; pt++)
+					{
+						unblendedLineList.Add(new VertexPositionColor(new Vector3(ovpSettings.unblendedLineList[poly].poly[pt].X, ovpSettings.unblendedLineList[poly].poly[pt].Y, polyZ), new RgbaFloat(ovpSettings.unblendedLineList[poly].color.R, ovpSettings.unblendedLineList[poly].color.G, ovpSettings.unblendedLineList[poly].color.B, alpha)));
+					}
+					unblendedLineVertexCount[poly] = (uint)ovpSettings.unblendedLineList[poly].poly.Length; // set our vertex count for the polygon.
+				}
+
+				unblendedLineArray = unblendedLineList.ToArray();
+
+				updateBuffer(ref UnblendedLinesVertexBuffer, unblendedLineArray, VertexPositionColor.SizeInBytes, BufferUsage.VertexBuffer);
 			}
 			catch (Exception)
 			{
@@ -885,6 +1004,7 @@ namespace VeldridEto
 			drawGrid();
 			drawLines();
 			drawPolygons();
+			drawUnblendedLines();
 			updateHostFunc?.Invoke();
 			Draw();
 		}
@@ -999,6 +1119,29 @@ namespace VeldridEto
 				}
 			}
 
+			if ((UnblendedLinesVertexBuffer != null) && (ovpSettings.drawDrawn()))
+			{
+				lock (UnblendedLinesVertexBuffer)
+				{
+					try
+					{
+						CommandList.SetVertexBuffer(0, UnblendedLinesVertexBuffer);
+						CommandList.SetPipeline(UnblendedLinesPipeline);
+						CommandList.SetGraphicsResourceSet(0, ViewMatrixSet);
+						CommandList.SetGraphicsResourceSet(1, ModelMatrixSet);
+
+						for (int l = 0; l < unblendedLineVertexCount.Length; l++)
+						{
+							CommandList.Draw(unblendedLineVertexCount[l], 1, unblendedLineFirst[l], 0);
+						}
+					}
+					catch (Exception)
+					{
+
+					}
+				}
+			}
+
 			if (ovpSettings.drawFilled())
 			{
 				if (TessVertexBuffer != null)
@@ -1015,6 +1158,29 @@ namespace VeldridEto
 							for (int l = 0; l < tessVertexCount.Length; l++)
 							{
 								CommandList.Draw(tessVertexCount[l], 1, tessFirst[l], 0);
+							}
+						}
+						catch (Exception)
+						{
+
+						}
+					}
+				}
+
+				if (UnblendedTessVertexBuffer != null)
+				{
+					lock (UnblendedTessVertexBuffer)
+					{
+						try
+						{
+							CommandList.SetVertexBuffer(0, UnblendedTessVertexBuffer);
+							CommandList.SetPipeline(UnblendedFilledPipeline);
+							CommandList.SetGraphicsResourceSet(0, ViewMatrixSet);
+							CommandList.SetGraphicsResourceSet(1, ModelMatrixSet);
+
+							for (int l = 0; l < unblendedTessVertexCount.Length; l++)
+							{
+								CommandList.Draw(unblendedTessVertexCount[l], 1, unblendedTessFirst[l], 0);
 							}
 						}
 						catch (Exception)
@@ -1184,26 +1350,6 @@ namespace VeldridEto
 			var fragment = new ShaderDescription(ShaderStages.Fragment, fragmentShaderSpirvBytes, "main", true);
 			Shader[] shaders = factory.CreateFromSpirv(vertex, fragment, options);
 
-			PointsPipeline = factory.CreateGraphicsPipeline(new GraphicsPipelineDescription
-			{
-				BlendState = BlendStateDescription.SingleOverrideBlend,
-				DepthStencilState = new DepthStencilStateDescription(
-					depthTestEnabled: false,
-					depthWriteEnabled: false,
-					comparisonKind: ComparisonKind.LessEqual),
-				RasterizerState = new RasterizerStateDescription(
-					cullMode: FaceCullMode.None,
-					fillMode: PolygonFillMode.Solid,
-					frontFace: FrontFace.Clockwise,
-					depthClipEnabled: false,
-					scissorTestEnabled: false),
-				PrimitiveTopology = PrimitiveTopology.LineStrip,
-				ResourceLayouts = new[] { viewMatrixLayout, modelMatrixLayout },
-				ShaderSet = new ShaderSetDescription(
-					vertexLayouts: new VertexLayoutDescription[] { vertexLayout },
-					shaders: shaders),
-				Outputs = Surface.Swapchain.Framebuffer.OutputDescription
-			});
 
 			LinePipeline = factory.CreateGraphicsPipeline(new GraphicsPipelineDescription
 			{
@@ -1247,9 +1393,51 @@ namespace VeldridEto
 				Outputs = Surface.Swapchain.Framebuffer.OutputDescription
 			});
 
+			UnblendedLinesPipeline = factory.CreateGraphicsPipeline(new GraphicsPipelineDescription
+			{
+				BlendState = BlendStateDescription.SingleOverrideBlend,
+				DepthStencilState = new DepthStencilStateDescription(
+					depthTestEnabled: false,
+					depthWriteEnabled: false,
+					comparisonKind: ComparisonKind.LessEqual),
+				RasterizerState = new RasterizerStateDescription(
+					cullMode: FaceCullMode.Back,
+					fillMode: PolygonFillMode.Solid,
+					frontFace: FrontFace.Clockwise,
+					depthClipEnabled: false,
+					scissorTestEnabled: false),
+				PrimitiveTopology = PrimitiveTopology.LineStrip,
+				ResourceLayouts = new[] { viewMatrixLayout, modelMatrixLayout },
+				ShaderSet = new ShaderSetDescription(
+					vertexLayouts: new VertexLayoutDescription[] { vertexLayout },
+					shaders: shaders),
+				Outputs = Surface.Swapchain.Framebuffer.OutputDescription
+			});
+
 			FilledPipeline = factory.CreateGraphicsPipeline(new GraphicsPipelineDescription
 			{
 				BlendState = BlendStateDescription.SingleAlphaBlend,
+				DepthStencilState = new DepthStencilStateDescription(
+					depthTestEnabled: false,
+					depthWriteEnabled: false,
+					comparisonKind: ComparisonKind.LessEqual),
+				RasterizerState = new RasterizerStateDescription(
+					cullMode: FaceCullMode.None,
+					fillMode: PolygonFillMode.Solid,
+					frontFace: FrontFace.CounterClockwise,
+					depthClipEnabled: false,
+					scissorTestEnabled: false),
+				PrimitiveTopology = PrimitiveTopology.TriangleStrip,
+				ResourceLayouts = new[] { viewMatrixLayout, modelMatrixLayout },
+				ShaderSet = new ShaderSetDescription(
+					vertexLayouts: new VertexLayoutDescription[] { vertexLayout },
+					shaders: shaders),
+				Outputs = Surface.Swapchain.Framebuffer.OutputDescription
+			});
+
+			UnblendedFilledPipeline = factory.CreateGraphicsPipeline(new GraphicsPipelineDescription
+			{
+				BlendState = BlendStateDescription.SingleOverrideBlend,
 				DepthStencilState = new DepthStencilStateDescription(
 					depthTestEnabled: false,
 					depthWriteEnabled: false,

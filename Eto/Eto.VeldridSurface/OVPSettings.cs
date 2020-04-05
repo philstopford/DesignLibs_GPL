@@ -37,18 +37,21 @@ namespace VeldridEto
         public List<ovp_Poly> polyList { get; set; }
         public List<int> polyListPtCount { get; set; }
         public List<int> polySourceIndex { get; set; } // will eventually track source of polygon, allowing for layer generating, etc. in output.
+        public List<ovp_Poly> unblendedPolyList { get; set; }
+        public List<int> unblendedPolyListPtCount { get; set; }
+        public List<int> unblendedPolySourceIndex { get; set; } // will eventually track source of polygon, allowing for layer generating, etc. in output.
         public List<ovp_Poly> bgPolyList { get; set; }
         public List<int> bgPolyListPtCount { get; set; }
         public List<int> bgPolySourceIndex { get; set; } // will eventually track source of polygon, allowing for layer generating, etc. in output.
         public List<ovp_Poly> lineList { get; set; } // purely for lines.
-
-        public List<float> lineZBiasList { get; set; }
-        public List<float> polyZBiasList { get; set; }
-        public List<float> tessPolyZBiasList { get; set; }
+        public List<ovp_Poly> unblendedLineList { get; set; } // purely for lines.
 
         public List<int> lineListPtCount { get; set; }
         public List<int> lineSourceIndex { get; set; } // will eventually track source of polygon, allowing for layer generating, etc. in output.
+        public List<int> unblendedLineListPtCount { get; set; }
+        public List<int> unblendedLineSourceIndex { get; set; } // will eventually track source of polygon, allowing for layer generating, etc. in output.
         public List<ovp_Poly> tessPolyList { get; set; } // triangles, but also need to track color. This is decoupled to allow boundary extraction without triangles getting in the way.
+        public List<ovp_Poly> unblendedTessPolyList { get; set; } // triangles, but also need to track color. This is decoupled to allow boundary extraction without triangles getting in the way.
         public List<bool> drawnPoly { get; set; } // tracks whether the polygon corresponds to an enabled configuration or not.
 
         bool enableFilledPolys;
@@ -338,57 +341,70 @@ namespace VeldridEto
 		void pClear(bool clearBG)
 		{
 			polyList.Clear();
-            polyZBiasList.Clear();
 			polySourceIndex.Clear();
 			polyListPtCount.Clear();
-			if (clearBG)
+            unblendedPolyList.Clear();
+            unblendedPolySourceIndex.Clear();
+            unblendedPolyListPtCount.Clear();
+            if (clearBG)
 			{
 				bgPolyList.Clear();
 				bgPolySourceIndex.Clear();
 				bgPolyListPtCount.Clear();
 			}
 			lineList.Clear();
-            lineZBiasList.Clear();
 			lineSourceIndex.Clear();
 			lineListPtCount.Clear();
-			tessPolyList.Clear();
+            unblendedLineList.Clear();
+            unblendedLineSourceIndex.Clear();
+            unblendedLineListPtCount.Clear();
+            tessPolyList.Clear();
+            unblendedTessPolyList.Clear();
             changed = true;
         }
 
-        public void addLine(PointF[] line, Color lineColor, float alpha, int layerIndex, float zBias = 0.0f)
+        public void addLine(PointF[] line, Color lineColor, float alpha, int layerIndex, bool unblended = false)
 		{
-			pAddLine(line, lineColor, alpha, layerIndex, zBias);
+			pAddLine(line, lineColor, alpha, layerIndex, unblended);
 		}
 
-		void pAddLine(PointF[] line, Color lineColor, float alpha, int layerIndex, float zBias)
+		void pAddLine(PointF[] line, Color lineColor, float alpha, int layerIndex, bool unblended)
 		{
-			lineList.Add(new ovp_Poly(line, lineColor, alpha));
-            lineZBiasList.Add(zBias);
-			lineSourceIndex.Add(layerIndex);
-			lineListPtCount.Add((line.Length - 1) * 2);
+            if (!unblended)
+            {
+                lineList.Add(new ovp_Poly(line, lineColor, alpha));
+                lineSourceIndex.Add(layerIndex);
+                lineListPtCount.Add((line.Length - 1) * 2);
+            }
+            else
+            {
+                unblendedLineList.Add(new ovp_Poly(line, lineColor, alpha)); // alpha will be ignored for unblended lines, but keeping things neat.
+                unblendedLineSourceIndex.Add(layerIndex);
+                unblendedLineListPtCount.Add((line.Length - 1) * 2);
+            }
             changed = true;
         }
 
-        public void addPolygon(PointF[] poly, Color polyColor, float alpha, bool drawn, int layerIndex, float zBias = 0.0f)
+        public void addPolygon(PointF[] poly, Color polyColor, float alpha, bool drawn, int layerIndex, bool unblended = false)
 		{
 			if (drawn)
 			{
 				// Drawn polygons are to be treated as lines : they don't get filled.
-				addLine(poly, polyColor, alpha, layerIndex, zBias);
+				addLine(poly, polyColor, alpha, layerIndex, unblended);
 			}
 			else
 			{
-				pAddPolygon(poly, polyColor, alpha, drawn, layerIndex, zBias);
+				pAddPolygon(poly, polyColor, alpha, drawn, layerIndex, unblended);
 			}
 		}
 
-		void pAddPolygon(PointF[] poly, Color polyColor, float alpha, bool drawn, int layerIndex, float zBias)
+		void pAddPolygon(PointF[] poly, Color polyColor, float alpha, bool drawn, int layerIndex, bool unblended)
 		{
 			if (!drawn && enableFilledPolys) // avoid tessellation unless really necessary.
 			{
 				try
 				{
-					tessPoly(poly, polyColor, alpha, zBias);
+					tessPoly(poly, polyColor, alpha, unblended);
 				}
 				catch (Exception)
 				{
@@ -398,11 +414,19 @@ namespace VeldridEto
 
 			PointF[] polys = checkPoly(poly);
 
-			polyList.Add(new ovp_Poly(poly, polyColor, alpha));
-			polySourceIndex.Add(layerIndex);
-            polyZBiasList.Add(zBias);
-			polyListPtCount.Add(poly.Length);
-			drawnPoly.Add(drawn);
+            if (!unblended)
+            {
+                polyList.Add(new ovp_Poly(poly, polyColor, alpha));
+                polySourceIndex.Add(layerIndex);
+                polyListPtCount.Add(poly.Length);
+            }
+            else
+            {
+                unblendedPolyList.Add(new ovp_Poly(poly, polyColor, alpha));
+                unblendedPolySourceIndex.Add(layerIndex);
+                unblendedPolyListPtCount.Add(poly.Length);
+            }
+            drawnPoly.Add(drawn);
             changed = true;
         }
 
@@ -464,12 +488,17 @@ namespace VeldridEto
 			polyList = new List<ovp_Poly>();
 			polySourceIndex = new List<int>();
 			polyListPtCount = new List<int>();
-			lineList = new List<ovp_Poly>();
+            unblendedPolyList = new List<ovp_Poly>();
+            unblendedPolySourceIndex = new List<int>();
+            unblendedPolyListPtCount = new List<int>();
+            lineList = new List<ovp_Poly>();
 			lineSourceIndex = new List<int>();
 			lineListPtCount = new List<int>();
-			tessPolyList = new List<ovp_Poly>();
-            lineZBiasList = new List<float>();
-            polyZBiasList = new List<float>();
+            unblendedLineList = new List<ovp_Poly>();
+            unblendedLineSourceIndex = new List<int>();
+            unblendedLineListPtCount = new List<int>();
+            tessPolyList = new List<ovp_Poly>();
+            unblendedTessPolyList = new List<ovp_Poly>();
 			drawnPoly = new List<bool>();
 			zoomFactor = 1.0f;
 			cameraPosition = new PointF(default_cameraPosition.X, default_cameraPosition.Y);
@@ -532,7 +561,7 @@ namespace VeldridEto
 			return source;
 		}
 
-		void tessPoly(PointF[] source, Color polyColor, float alpha, float zBias)
+		void tessPoly(PointF[] source, Color polyColor, float alpha, bool unblended)
 		{
 			// Now we need to check for polyfill, and triangulate the polygon if needed.
 			//if (enableFilledPolys)
@@ -557,9 +586,15 @@ namespace VeldridEto
 					tempPoly[1] = new PointF((float)tess.Vertices[tess.Elements[(i * 3) + 1]].Position.X, (float)tess.Vertices[tess.Elements[(i * 3) + 1]].Position.Y);
 					tempPoly[2] = new PointF((float)tess.Vertices[tess.Elements[(i * 3) + 2]].Position.X, (float)tess.Vertices[tess.Elements[(i * 3) + 2]].Position.Y);
 
-                    tessPolyZBiasList.Add(zBias);
-					tessPolyList.Add(new ovp_Poly(clockwiseOrder(tempPoly).ToArray(), polyColor, alpha));
-				}
+                    if (!unblended)
+                    {
+                        tessPolyList.Add(new ovp_Poly(clockwiseOrder(tempPoly).ToArray(), polyColor, alpha));
+                    }
+                    else
+                    {
+                        unblendedTessPolyList.Add(new ovp_Poly(clockwiseOrder(tempPoly).ToArray(), polyColor, alpha));
+                    }
+                }
 			}
 		}
 	}

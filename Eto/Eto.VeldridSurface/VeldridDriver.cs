@@ -554,7 +554,7 @@ namespace VeldridEto
 				int counter = 0; // vertex count that will be used to define 'first' index for each polygon.
 				int previouscounter = 0; // will be used to derive the number of vertices in each polygon.
 
-				float polyZ = 0.0f;
+				float polyZ = 0;
 
 				if (ovpSettings.drawFilled())
 				{
@@ -565,7 +565,7 @@ namespace VeldridEto
 						polyZ += polyZStep;
 						for (int pt = 0; pt < 3; pt++)
 						{
-							tessPolyList.Add(new VertexPositionColor(new Vector3(ovpSettings.tessPolyList[poly].poly[pt].X, ovpSettings.tessPolyList[poly].poly[pt].Y, polyZ + ovpSettings.tessPolyZBiasList[poly]),
+							tessPolyList.Add(new VertexPositionColor(new Vector3(ovpSettings.tessPolyList[poly].poly[pt].X, ovpSettings.tessPolyList[poly].poly[pt].Y, polyZ),
 												new RgbaFloat(ovpSettings.tessPolyList[poly].color.R, ovpSettings.tessPolyList[poly].color.G, ovpSettings.tessPolyList[poly].color.B, alpha)));
 						}
 						tessVertexCount[poly] = 3;
@@ -586,10 +586,10 @@ namespace VeldridEto
 					int polyLength = ovpSettings.polyList[poly].poly.Length - 1;
 					for (int pt = 0; pt < polyLength; pt++)
 					{
-						polyList.Add(new VertexPositionColor(new Vector3(ovpSettings.polyList[poly].poly[pt].X, ovpSettings.polyList[poly].poly[pt].Y, polyZ + ovpSettings.polyZBiasList[poly]),
+						polyList.Add(new VertexPositionColor(new Vector3(ovpSettings.polyList[poly].poly[pt].X, ovpSettings.polyList[poly].poly[pt].Y, polyZ),
 										new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G, ovpSettings.polyList[poly].color.B, alpha)));
 						counter++;
-						polyList.Add(new VertexPositionColor(new Vector3(ovpSettings.polyList[poly].poly[pt + 1].X, ovpSettings.polyList[poly].poly[pt + 1].Y, polyZ + ovpSettings.polyZBiasList[poly]),
+						polyList.Add(new VertexPositionColor(new Vector3(ovpSettings.polyList[poly].poly[pt + 1].X, ovpSettings.polyList[poly].poly[pt + 1].Y, polyZ),
 										new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G, ovpSettings.polyList[poly].color.B, alpha)));
 						counter++;
 
@@ -683,7 +683,7 @@ namespace VeldridEto
 					lineFirst[poly] = (uint)lineList.Count;
 					for (int pt = 0; pt < ovpSettings.lineList[poly].poly.Length; pt++)
 					{
-						lineList.Add(new VertexPositionColor(new Vector3(ovpSettings.lineList[poly].poly[pt].X, ovpSettings.lineList[poly].poly[pt].Y, polyZ + ovpSettings.lineZBiasList[poly]), new RgbaFloat(ovpSettings.lineList[poly].color.R, ovpSettings.lineList[poly].color.G, ovpSettings.lineList[poly].color.B, alpha)));
+						lineList.Add(new VertexPositionColor(new Vector3(ovpSettings.lineList[poly].poly[pt].X, ovpSettings.lineList[poly].poly[pt].Y, polyZ), new RgbaFloat(ovpSettings.lineList[poly].color.R, ovpSettings.lineList[poly].color.G, ovpSettings.lineList[poly].color.B, alpha)));
 					}
 					lineVertexCount[poly] = (uint)ovpSettings.lineList[poly].poly.Length; // set our vertex count for the polygon.
 				}

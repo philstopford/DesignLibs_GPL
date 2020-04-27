@@ -141,6 +141,8 @@ namespace VeldridEto
 			ovpSettings.changed = false;
 
 			Draw();
+
+			Surface.Invalidate();
 		}
 
 		private DateTime CurrentTime;

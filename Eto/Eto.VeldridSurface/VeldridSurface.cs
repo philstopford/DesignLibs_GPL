@@ -117,6 +117,10 @@ namespace Eto.Veldrid
 			{
 				backend = GraphicsBackend.Metal;
 			}
+			else if (GraphicsDevice.IsBackendSupported(GraphicsBackend.Vulkan))
+			{
+				backend = GraphicsBackend.Vulkan;
+			}
 			else if (GraphicsDevice.IsBackendSupported(GraphicsBackend.Direct3D11))
 			{
 				backend = GraphicsBackend.Direct3D11;
@@ -148,18 +152,21 @@ namespace Eto.Veldrid
 					GraphicsDevice = GraphicsDevice.CreateD3D11(GraphicsDeviceOptions);
 					break;
 				case GraphicsBackend.OpenGL:
-					GraphicsDevice = GraphicsDevice.CreateOpenGL(GraphicsDeviceOptions,
-						new OpenGLPlatformInfo(
-							OpenGL.OpenGLContextHandle,
-							OpenGL.GetProcAddress,
-							OpenGL.MakeCurrent,
-							OpenGL.GetCurrentContext,
-							OpenGL.ClearCurrentContext,
-							OpenGL.DeleteContext,
-							OpenGL.SwapBuffers,
-							OpenGL.SetSyncToVerticalBlank,
-							OpenGL.SetSwapchainFramebuffer,
-							OpenGL.ResizeSwapchain),
+					var glInfo = new OpenGLPlatformInfo(
+						OpenGL.OpenGLContextHandle,
+						OpenGL.GetProcAddress,
+						OpenGL.MakeCurrent,
+						OpenGL.GetCurrentContext,
+						OpenGL.ClearCurrentContext,
+						OpenGL.DeleteContext,
+						OpenGL.SwapBuffers,
+						OpenGL.SetSyncToVerticalBlank,
+						OpenGL.SetSwapchainFramebuffer,
+						OpenGL.ResizeSwapchain);
+
+					GraphicsDevice = GraphicsDevice.CreateOpenGL(
+						GraphicsDeviceOptions,
+						glInfo,
 						(uint)RenderWidth,
 						(uint)RenderHeight);
 
@@ -219,7 +226,7 @@ namespace Eto.Veldrid
 				return;
 			}
 
-			_resizeEvent = new ResizeEventArgs(RenderWidth, RenderHeight);
+			OnResize(new ResizeEventArgs(RenderWidth, RenderHeight));
 		}
 	}
 }

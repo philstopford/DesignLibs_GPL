@@ -3,8 +3,8 @@ using Eto.Veldrid;
 using Eto.Veldrid.Mac;
 using System;
 using Veldrid;
-using OpenTK.Graphics;
-using OpenTK.Platform;
+using MonoMac.CoreVideo;
+using Eto.Drawing;
 
 #if MONOMAC
 using MonoMac.AppKit;
@@ -18,27 +18,22 @@ namespace Eto.Veldrid.Mac
 {
 	public class MacVeldridSurfaceHandler : MacView<MacVeldridView, VeldridSurface, VeldridSurface.ICallback>, VeldridSurface.IHandler
 	{
+		CVDisplayLink displayLink;
+
 		// TODO: Set up some way to test HiDPI in macOS and figure out how to
 		// get the right values here.
 		public int RenderWidth => Widget.Width;
 		public int RenderHeight => Widget.Height;
 
-		public IWindowInfo WindowInfo => Control.WindowInfo;
-
 		public override NSView ContainerControl => Control;
 
 		public override bool Enabled { get; set; }
-
-		public Action<uint, uint> ResizeSwapchain { get; protected set; }
 
 		public MacVeldridSurfaceHandler()
 		{
 			Control = new MacVeldridView();
 
 			Control.Draw += Control_Draw;
-			Control.WindowInfoUpdated += (sender, e) => Callback.OnWindowInfoUpdated(Widget, EventArgs.Empty);
-
-			ResizeSwapchain = (w, h) => Control.UpdateWindowInfo();
 		}
 
 		public Swapchain CreateSwapchain()
@@ -71,13 +66,24 @@ namespace Eto.Veldrid.Mac
 			return swapchain;
 		}
 
-		public IWindowInfo UpdateWindowInfo(GraphicsMode mode) => Control.UpdateWindowInfo(mode);
-
 		private void Control_Draw(object sender, EventArgs e)
 		{
 			Callback.InitializeGraphicsBackend(Widget);
 
+			if (Widget.Backend == GraphicsBackend.Metal)
+			{
+				displayLink = new CVDisplayLink();
+				displayLink.SetOutputCallback(HandleDisplayLinkOutputCallback);
+				displayLink.Start();
+			}
+
 			Control.Draw -= Control_Draw;
+		}
+
+		private CVReturn HandleDisplayLinkOutputCallback(CVDisplayLink displayLink, ref CVTimeStamp inNow, ref CVTimeStamp inOutputTime, CVOptionFlags flagsIn, ref CVOptionFlags flagsOut)
+		{
+			Callback.OnDraw(Widget, EventArgs.Empty);
+			return CVReturn.Success;
 		}
 
 		public override void AttachEvent(string id)
@@ -85,7 +91,10 @@ namespace Eto.Veldrid.Mac
 			switch (id)
 			{
 				case VeldridSurface.DrawEvent:
-					Control.Draw += (sender, e) => Callback.OnDraw(Widget, e);
+					if (Widget.Backend == GraphicsBackend.OpenGL)
+					{
+						Control.Draw += (sender, e) => Callback.OnDraw(Widget, e);
+					}
 					break;
 				default:
 					base.AttachEvent(id);

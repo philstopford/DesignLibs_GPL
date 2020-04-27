@@ -1,7 +1,4 @@
 ﻿using Eto.Forms;
-using OpenTK;
-using OpenTK.Graphics;
-using OpenTK.Platform;
 using System;
 using Veldrid;
 using Veldrid.OpenGL;
@@ -20,12 +17,7 @@ namespace Eto.Veldrid
 			int RenderWidth { get; }
 			int RenderHeight { get; }
 
-			IWindowInfo WindowInfo { get; }
-
-			Action<uint, uint> ResizeSwapchain { get; }
-
 			Swapchain CreateSwapchain();
-			IWindowInfo UpdateWindowInfo(GraphicsMode mode);
 		}
 
 		public new IHandler Handler => (IHandler)base.Handler;
@@ -36,7 +28,6 @@ namespace Eto.Veldrid
 			void OnDraw(VeldridSurface s, EventArgs e);
 			void OnResize(VeldridSurface s, ResizeEventArgs e);
 			void OnVeldridInitialized(VeldridSurface s, EventArgs e);
-			void OnWindowInfoUpdated(VeldridSurface s, EventArgs e);
 		}
 
 		protected new class Callback : Control.Callback, ICallback
@@ -45,11 +36,25 @@ namespace Eto.Veldrid
 			public void OnDraw(VeldridSurface s, EventArgs e) => s?.OnDraw(e);
 			public void OnResize(VeldridSurface s, ResizeEventArgs e) => s?.OnResize(e);
 			public void OnVeldridInitialized(VeldridSurface s, EventArgs e) => s?.OnVeldridInitialized(e);
-			public void OnWindowInfoUpdated(VeldridSurface s, EventArgs e) => s?.OnWindowInfoUpdated(e);
 		}
 
 		protected override object GetCallback() => new Callback();
 
+		public interface IOpenGL
+		{
+			IntPtr OpenGLContextHandle { get; }
+			IntPtr GetProcAddress(string name);
+			void MakeCurrent(IntPtr context);
+			IntPtr GetCurrentContext();
+			void ClearCurrentContext();
+			void DeleteContext(IntPtr context);
+			void SwapBuffers();
+			void SetSyncToVerticalBlank(bool enable);
+			void SetSwapchainFramebuffer();
+			void ResizeSwapchain(uint width, uint height);
+		}
+
+		public IOpenGL OpenGL => (IOpenGL)Handler;
 		public static GraphicsBackend PreferredBackend { get; } = GetPreferredBackend();
 
 		/// <summary>
@@ -62,13 +67,6 @@ namespace Eto.Veldrid
 		/// (e.g. with high DPI displays).
 		/// </summary>
 		public int RenderHeight => Handler.RenderHeight;
-
-		public GraphicsContext OpenTKGraphicsContext { get; protected set; }
-		public OpenTKOptions OpenTKOptions { get; } = new OpenTKOptions(
-			new GraphicsMode(new ColorFormat(32)),
-			3,
-			3,
-			GraphicsContextFlags.ForwardCompatible);
 
 		public GraphicsBackend Backend { get; set; } = PreferredBackend;
 		public GraphicsDevice GraphicsDevice { get; set; }
@@ -110,68 +108,22 @@ namespace Eto.Veldrid
 			Backend = backend;
 			GraphicsDeviceOptions = gdOptions;
 		}
-		public VeldridSurface(GraphicsBackend backend, GraphicsDeviceOptions gdOptions, OpenTKOptions tKOptions)
-		{
-			Backend = backend;
-			GraphicsDeviceOptions = gdOptions;
-			OpenTKOptions = tKOptions;
-		}
-
-		/// <summary>
-		/// Initializes OpenTK; if your program will make use of Veldrid's
-		/// OpenGL backend, this method must be called before creating your
-		/// Eto.Forms.Application.
-		/// </summary>
-		public static void InitializeOpenTK()
-		{
-			// Ensure that OpenTK ignores SDL2 if it's installed.
-			var options = new ToolkitOptions { Backend = PlatformBackend.PreferNative };
-			//
-			// This is technically only important for OpenGL, as it's the only
-			// Veldrid backend that uses OpenTK, but since Veldrid also allows
-			// live switching of backends, it's worth doing regardless of which
-			// one users start out with. Anyone who plans to completely avoid
-			// OpenGL is free to simply not call InitializeOpenTK at all.
-			Toolkit.Init(options);
-		}
 
 		private static GraphicsBackend GetPreferredBackend()
 		{
 			GraphicsBackend? backend = null;
 
-			// It'd be less ugly to just loop through the GraphicsBackend
-			// enum, but the backends aren't arranged in an ideal order,
-			// either ascending or descending. The below progression is only
-			// a judgment call, and could easily get rearranged if need be.
-			foreach (GraphicsBackend b in new[] {
-				GraphicsBackend.Metal,
-				GraphicsBackend.Vulkan,
-				GraphicsBackend.Direct3D11,
-				GraphicsBackend.OpenGL,
-				GraphicsBackend.OpenGLES })
+			if (GraphicsDevice.IsBackendSupported(GraphicsBackend.Metal))
 			{
-				bool supported = false;
-
-				try
-				{
-					supported = GraphicsDevice.IsBackendSupported(b);
-				}
-				catch (InvalidOperationException)
-				{
-					// Veldrid, as of 4.7.0, throws this exception when
-					// trying to test for Vulkan in macOS if it's not
-					// available on the system.
-				}
-
-				if (supported)
-				{
-					backend = b;
-
-					// With backends being checked from most to least
-					// desirable, it's important to break as soon as a
-					// suitable backend is detected.
-					break;
-				}
+				backend = GraphicsBackend.Metal;
+			}
+			else if (GraphicsDevice.IsBackendSupported(GraphicsBackend.Direct3D11))
+			{
+				backend = GraphicsBackend.Direct3D11;
+			}
+			else if (EtoEnvironment.Platform.IsLinux && GraphicsDevice.IsBackendSupported(GraphicsBackend.OpenGL))
+			{
+				backend = GraphicsBackend.OpenGL;
 			}
 
 			if (backend == null)
@@ -196,23 +148,18 @@ namespace Eto.Veldrid
 					GraphicsDevice = GraphicsDevice.CreateD3D11(GraphicsDeviceOptions);
 					break;
 				case GraphicsBackend.OpenGL:
-					Handler.UpdateWindowInfo(OpenTKOptions.Mode);
-
-					var glInfo = new OpenGLPlatformInfo(
-						VeldridGL.GetGLContextHandle(),
-						VeldridGL.GetProcAddress,
-						(c) => OpenTKGraphicsContext.MakeCurrent(Handler.WindowInfo),
-						VeldridGL.GetCurrentContext,
-						VeldridGL.ClearCurrentContext,
-						VeldridGL.DeleteContext,
-						VeldridGL.SwapBuffers,
-						VeldridGL.SetVSync,
-						VeldridGL.SetSwapchainFramebuffer,
-						Handler.ResizeSwapchain);
-
-					GraphicsDevice = GraphicsDevice.CreateOpenGL(
-						GraphicsDeviceOptions,
-						glInfo,
+					GraphicsDevice = GraphicsDevice.CreateOpenGL(GraphicsDeviceOptions,
+						new OpenGLPlatformInfo(
+							OpenGL.OpenGLContextHandle,
+							OpenGL.GetProcAddress,
+							OpenGL.MakeCurrent,
+							OpenGL.GetCurrentContext,
+							OpenGL.ClearCurrentContext,
+							OpenGL.DeleteContext,
+							OpenGL.SwapBuffers,
+							OpenGL.SetSyncToVerticalBlank,
+							OpenGL.SetSwapchainFramebuffer,
+							OpenGL.ResizeSwapchain),
 						(uint)RenderWidth,
 						(uint)RenderHeight);
 
@@ -236,7 +183,18 @@ namespace Eto.Veldrid
 			OnVeldridInitialized(EventArgs.Empty);
 		}
 
-		protected virtual void OnDraw(EventArgs e) => Properties.TriggerEvent(DrawEvent, this, e);
+		protected virtual void OnDraw(EventArgs e)
+		{
+			if (_resizeEvent != null)
+			{
+				OnResize(_resizeEvent);
+				_resizeEvent = null;
+			}
+
+			Properties.TriggerEvent(DrawEvent, this, e);
+		}
+
+		ResizeEventArgs _resizeEvent;
 
 		protected virtual void OnResize(ResizeEventArgs e)
 		{
@@ -252,30 +210,6 @@ namespace Eto.Veldrid
 
 		protected virtual void OnVeldridInitialized(EventArgs e) => Properties.TriggerEvent(VeldridInitializedEvent, this, e);
 
-		protected virtual void OnWindowInfoUpdated(EventArgs e)
-		{
-			if (Backend != GraphicsBackend.OpenGL)
-			{
-				return;
-			}
-
-			if (OpenTKGraphicsContext == null)
-			{
-				OpenTKGraphicsContext = new GraphicsContext(
-					OpenTKOptions.Mode,
-					Handler.WindowInfo,
-					OpenTKOptions.MajorVersion,
-					OpenTKOptions.MinorVersion,
-					OpenTKOptions.Flags);
-			}
-			else
-			{
-				OpenTKGraphicsContext.Update(Handler.WindowInfo);
-			}
-
-			OpenTKGraphicsContext.MakeCurrent(Handler.WindowInfo);
-		}
-
 		protected override void OnSizeChanged(EventArgs e)
 		{
 			base.OnSizeChanged(e);
@@ -285,7 +219,7 @@ namespace Eto.Veldrid
 				return;
 			}
 
-			OnResize(new ResizeEventArgs(RenderWidth, RenderHeight));
+			_resizeEvent = new ResizeEventArgs(RenderWidth, RenderHeight);
 		}
 	}
 }

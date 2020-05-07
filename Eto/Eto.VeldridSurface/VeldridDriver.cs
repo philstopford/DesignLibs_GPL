@@ -978,29 +978,6 @@ namespace VeldridEto
 				}
 			}
 
-			if ((LinesVertexBuffer != null) && (ovpSettings.drawDrawn()))
-			{
-				lock (LinesVertexBuffer)
-				{
-					try
-					{
-						CommandList.SetVertexBuffer(0, LinesVertexBuffer);
-						CommandList.SetPipeline(LinesPipeline);
-						CommandList.SetGraphicsResourceSet(0, ViewMatrixSet);
-						CommandList.SetGraphicsResourceSet(1, ModelMatrixSet);
-
-						for (int l = 0; l < lineVertexCount.Length; l++)
-						{
-							CommandList.Draw(lineVertexCount[l], 1, lineFirst[l], 0);
-						}
-					}
-					catch (Exception)
-					{
-
-					}
-				}
-			}
-
 			if (ovpSettings.drawFilled())
 			{
 				if (TessVertexBuffer != null)
@@ -1041,6 +1018,29 @@ namespace VeldridEto
 						for (int l = 0; l < polyVertexCount.Length; l++)
 						{
 							CommandList.Draw(polyVertexCount[l], 1, polyFirst[l], 0);
+						}
+					}
+					catch (Exception)
+					{
+
+					}
+				}
+			}
+
+			if ((LinesVertexBuffer != null) && (ovpSettings.drawDrawn()))
+			{
+				lock (LinesVertexBuffer)
+				{
+					try
+					{
+						CommandList.SetVertexBuffer(0, LinesVertexBuffer);
+						CommandList.SetPipeline(LinesPipeline);
+						CommandList.SetGraphicsResourceSet(0, ViewMatrixSet);
+						CommandList.SetGraphicsResourceSet(1, ModelMatrixSet);
+
+						for (int l = 0; l < lineVertexCount.Length; l++)
+						{
+							CommandList.Draw(lineVertexCount[l], 1, lineFirst[l], 0);
 						}
 					}
 					catch (Exception)

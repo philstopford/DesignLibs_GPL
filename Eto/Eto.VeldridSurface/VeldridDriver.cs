@@ -696,7 +696,7 @@ namespace VeldridEto
 			}
 			catch (Exception)
 			{
-				// Can ignore - not critical.
+				LinesVertexBuffer = null;
 			}
 		}
 

@@ -55,25 +55,19 @@ namespace VeldridEto
 		public bool savedLocation_valid { get; set; }
 		PointF savedLocation;
 
-		VertexPositionColor[] polyArray;
 		uint[] polyFirst;
 		uint[] polyVertexCount;
 
-		VertexPositionColor[] tessArray;
 		uint[] tessFirst;
 		uint[] tessVertexCount;
 
-		VertexPositionColor[] lineArray;
 		uint[] lineFirst;
 		uint[] lineVertexCount;
 
-		VertexPositionColor[] pointsArray;
 		uint[] pointsFirst;
 
-		VertexPositionColor[] gridArray;
 		uint[] gridIndices;
 
-		VertexPositionColor[] axesArray;
 		uint[] axesIndices;
 
 		public OVPSettings ovpSettings;
@@ -519,17 +513,18 @@ namespace VeldridEto
 
 		void drawPolygons()
 		{
+			int polyListCount = ovpSettings.polyList.Count();
+			int bgPolyListCount = ovpSettings.bgPolyList.Count();
+			int tessPolyListCount = ovpSettings.tessPolyList.Count();
+
+			List<VertexPositionColor> polyList = new List<VertexPositionColor>();
+
+			List<VertexPositionColor> pointsList = new List<VertexPositionColor>();
+
+			List<VertexPositionColor> tessPolyList = new List<VertexPositionColor>();
+
 			try
 			{
-				List<VertexPositionColor> polyList = new List<VertexPositionColor>();
-
-				List<VertexPositionColor> pointsList = new List<VertexPositionColor>();
-
-				List<VertexPositionColor> tessPolyList = new List<VertexPositionColor>();
-
-				int polyListCount = ovpSettings.polyList.Count();
-				int bgPolyListCount = ovpSettings.bgPolyList.Count();
-				int tessPolyListCount = ovpSettings.tessPolyList.Count();
 
 				// Carve our Z-space up to stack polygons
 				int numPolys = 1;
@@ -638,43 +633,43 @@ namespace VeldridEto
 					polyVertexCount[poly + polyListCount] = (uint)(counter - previouscounter); // set our vertex count for the polygon.
 				}
 
-				polyArray = polyList.ToArray();
-
-				pointsArray = pointsList.ToArray();
 				pointsFirst = tFirst.ToArray();
-
-				tessArray = tessPolyList.ToArray();
 			}
 			catch (Exception)
 			{
 				// Can ignore - not critical.
 			}
 
-			if (polyArray.Length > 0)
+			PolysVertexBuffer = null;
+			PointsVertexBuffer = null;
+			TessVertexBuffer = null;
+
+			if (polyList.Count > 0)
 			{
-				updateBuffer(ref PolysVertexBuffer, polyArray, VertexPositionColor.SizeInBytes, BufferUsage.VertexBuffer);
+				updateBuffer(ref PolysVertexBuffer, polyList.ToArray(), VertexPositionColor.SizeInBytes, BufferUsage.VertexBuffer);
 			}
-			if (pointsArray.Length > 0)
+			if (pointsList.Count > 0)
 			{
-				updateBuffer(ref PointsVertexBuffer, pointsArray, VertexPositionColor.SizeInBytes, BufferUsage.VertexBuffer);
+				updateBuffer(ref PointsVertexBuffer, pointsList.ToArray(), VertexPositionColor.SizeInBytes, BufferUsage.VertexBuffer);
 			}
-			if (tessArray.Length > 0)
+			if (tessPolyListCount > 0)
 			{
-				updateBuffer(ref TessVertexBuffer, tessArray, VertexPositionColor.SizeInBytes, BufferUsage.VertexBuffer);
+				updateBuffer(ref TessVertexBuffer, tessPolyList.ToArray(), VertexPositionColor.SizeInBytes, BufferUsage.VertexBuffer);
 			}
 		}
 
 		void drawLines()
 		{
-			try
-			{
+			int tmp = ovpSettings.lineList.Count();
+
+			// Create our first and count arrays for the vertex indices, to enable polygon separation when rendering.
+			if (tmp > 0)
+            {
 				List<VertexPositionColor> lineList = new List<VertexPositionColor>();
 
 				// Carve our Z-space up to stack polygons
 				float polyZStep = 1.0f / ovpSettings.lineList.Count();
 
-				// Create our first and count arrays for the vertex indices, to enable polygon separation when rendering.
-				int tmp = ovpSettings.lineList.Count();
 				lineFirst = new uint[tmp];
 				lineVertexCount = new uint[tmp];
 
@@ -690,11 +685,9 @@ namespace VeldridEto
 					lineVertexCount[poly] = (uint)ovpSettings.lineList[poly].poly.Length; // set our vertex count for the polygon.
 				}
 
-				lineArray = lineList.ToArray();
-
-				updateBuffer(ref LinesVertexBuffer, lineArray, VertexPositionColor.SizeInBytes, BufferUsage.VertexBuffer);
+				updateBuffer(ref LinesVertexBuffer, lineList.ToArray(), VertexPositionColor.SizeInBytes, BufferUsage.VertexBuffer);
 			}
-			catch (Exception)
+			else
 			{
 				LinesVertexBuffer = null;
 			}
@@ -814,16 +807,26 @@ namespace VeldridEto
 						grid.Add(new VertexPositionColor(new Vector3(x + zoom * Surface.RenderWidth, i, gridZ), new RgbaFloat(r, g, b, 1.0f)));
 						grid.Add(new VertexPositionColor(new Vector3(x + zoom * -Surface.RenderWidth, i, gridZ), new RgbaFloat(r, g, b, 1.0f)));
 					}
-					gridArray = grid.ToArray();
-					gridIndices = new uint[gridArray.Length];
+				}
+
+				uint gridCount = (uint)grid.Count;
+
+				if (gridCount > 0)
+				{
+					gridIndices = new uint[gridCount];
 					for (uint i = 0; i < gridIndices.Length; i++)
 					{
 						gridIndices[i] = i;
 					}
-				}
 
-				updateBuffer(ref GridVertexBuffer, gridArray, VertexPositionColor.SizeInBytes, BufferUsage.VertexBuffer);
-				updateBuffer(ref GridIndexBuffer, gridIndices, sizeof(uint), BufferUsage.IndexBuffer);
+					updateBuffer(ref GridVertexBuffer, grid.ToArray(), VertexPositionColor.SizeInBytes, BufferUsage.VertexBuffer);
+					updateBuffer(ref GridIndexBuffer, gridIndices, sizeof(uint), BufferUsage.IndexBuffer);
+				}
+				else
+                {
+					GridVertexBuffer = null;
+					GridIndexBuffer = null;
+                }
 			}
 		}
 
@@ -832,7 +835,7 @@ namespace VeldridEto
 			if (ovpSettings.drawAxes())
 			{
                 float zoom = ovpSettings.getBaseZoom() * ovpSettings.getZoomFactor();
-				axesArray = new VertexPositionColor[4];
+				VertexPositionColor[] axesArray = new VertexPositionColor[4];
 				axesArray[0] = new VertexPositionColor(new Vector3(0.0f, ovpSettings.getCameraY() + Surface.RenderHeight * zoom, axisZ), new RgbaFloat(ovpSettings.axisColor.R, ovpSettings.axisColor.G, ovpSettings.axisColor.B, 1.0f));
 				axesArray[1] = new VertexPositionColor(new Vector3(0.0f, ovpSettings.getCameraY() - Surface.RenderHeight * zoom, axisZ), new RgbaFloat(ovpSettings.axisColor.R, ovpSettings.axisColor.G, ovpSettings.axisColor.B, 1.0f));
 				axesArray[2] = new VertexPositionColor(new Vector3(ovpSettings.getCameraX() + Surface.RenderWidth * zoom, 0.0f, axisZ), new RgbaFloat(ovpSettings.axisColor.R, ovpSettings.axisColor.G, ovpSettings.axisColor.B, 1.0f));
@@ -843,7 +846,6 @@ namespace VeldridEto
 				updateBuffer(ref AxesVertexBuffer, axesArray, VertexPositionColor.SizeInBytes, BufferUsage.VertexBuffer);
 				updateBuffer(ref AxesIndexBuffer, axesIndices, sizeof(uint), BufferUsage.IndexBuffer);
 			}
-
 		}
 
 		/// <summary>

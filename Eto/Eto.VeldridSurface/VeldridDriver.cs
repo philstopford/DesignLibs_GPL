@@ -517,7 +517,7 @@ namespace VeldridEto
 			int bgPolyListCount = ovpSettings.bgPolyList.Count();
 			int tessPolyListCount = ovpSettings.tessPolyList.Count();
 
-			List<VertexPositionColor> polyList = new List<VertexPositionColor>();
+			VertexPositionColor[] polyList = new VertexPositionColor[(polyListCount + bgPolyListCount) * 2];
 
 			List<VertexPositionColor> pointsList = new List<VertexPositionColor>();
 
@@ -583,10 +583,10 @@ namespace VeldridEto
 					int polyLength = ovpSettings.polyList[poly].poly.Length - 1;
 					for (int pt = 0; pt < polyLength; pt++)
 					{
-						polyList.Add(new VertexPositionColor(new Vector3(ovpSettings.polyList[poly].poly[pt].X, ovpSettings.polyList[poly].poly[pt].Y, polyZ),
+						polyList[pt * 2] = (new VertexPositionColor(new Vector3(ovpSettings.polyList[poly].poly[pt].X, ovpSettings.polyList[poly].poly[pt].Y, polyZ),
 										new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G, ovpSettings.polyList[poly].color.B, alpha)));
 						counter++;
-						polyList.Add(new VertexPositionColor(new Vector3(ovpSettings.polyList[poly].poly[pt + 1].X, ovpSettings.polyList[poly].poly[pt + 1].Y, polyZ),
+						polyList[(pt * 2) + 1] = (new VertexPositionColor(new Vector3(ovpSettings.polyList[poly].poly[pt + 1].X, ovpSettings.polyList[poly].poly[pt + 1].Y, polyZ),
 										new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G, ovpSettings.polyList[poly].color.B, alpha)));
 						counter++;
 
@@ -623,10 +623,10 @@ namespace VeldridEto
 					int bgPolyLength = ovpSettings.bgPolyList[poly].poly.Length - 1;
 					for (int pt = 0; pt < bgPolyLength; pt++)
 					{
-						polyList.Add(new VertexPositionColor(new Vector3(ovpSettings.bgPolyList[poly].poly[pt].X, ovpSettings.bgPolyList[poly].poly[pt].Y, polyZ),
+						polyList[(pt + polyListCount) * 2] = (new VertexPositionColor(new Vector3(ovpSettings.bgPolyList[poly].poly[pt].X, ovpSettings.bgPolyList[poly].poly[pt].Y, polyZ),
 										new RgbaFloat(ovpSettings.bgPolyList[poly].color.R, ovpSettings.bgPolyList[poly].color.G, ovpSettings.bgPolyList[poly].color.B, alpha)));
 						counter++;
-						polyList.Add(new VertexPositionColor(new Vector3(ovpSettings.bgPolyList[poly].poly[pt + 1].X, ovpSettings.bgPolyList[poly].poly[pt + 1].Y, polyZ),
+						polyList[((pt + polyListCount) * 2) + 1] = (new VertexPositionColor(new Vector3(ovpSettings.bgPolyList[poly].poly[pt + 1].X, ovpSettings.bgPolyList[poly].poly[pt + 1].Y, polyZ),
 										new RgbaFloat(ovpSettings.bgPolyList[poly].color.R, ovpSettings.bgPolyList[poly].color.G, ovpSettings.bgPolyList[poly].color.B, alpha)));
 						counter++;
 					}
@@ -640,9 +640,9 @@ namespace VeldridEto
 				// Can ignore - not critical.
 			}
 
-			if (polyList.Count > 0)
+			if ((polyListCount > 0) || (bgPolyListCount > 0))
 			{
-				updateBuffer(ref PolysVertexBuffer, polyList.ToArray(), VertexPositionColor.SizeInBytes, BufferUsage.VertexBuffer);
+				updateBuffer(ref PolysVertexBuffer, polyList, VertexPositionColor.SizeInBytes, BufferUsage.VertexBuffer);
 			}
 			if (pointsList.Count > 0)
 			{

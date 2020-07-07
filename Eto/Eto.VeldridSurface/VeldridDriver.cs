@@ -881,41 +881,6 @@ namespace VeldridEto
 				return;
 			}
 
-			if (GridVertexBuffer != null)
-			{
-				GridVertexBuffer.Dispose();
-			}
-			if (GridIndexBuffer != null)
-			{
-				GridIndexBuffer.Dispose();
-			}
-
-			if (AxesVertexBuffer != null)
-			{
-				AxesVertexBuffer.Dispose();
-			}
-			if (AxesIndexBuffer != null)
-			{
-				AxesIndexBuffer.Dispose();
-			}
-
-			if (LinesVertexBuffer != null)
-			{
-				LinesVertexBuffer.Dispose();
-			}
-			if (PointsVertexBuffer != null)
-			{
-				PointsVertexBuffer.Dispose();
-			}
-			if (PolysVertexBuffer != null)
-			{
-				PolysVertexBuffer.Dispose();
-			}
-			if (TessVertexBuffer != null)
-			{
-				TessVertexBuffer.Dispose();
-			}
-
 			drawAxes();
 			drawGrid();
 			drawLines();
@@ -1162,7 +1127,7 @@ namespace VeldridEto
 			ModelMatrixSet = factory.CreateResourceSet(new ResourceSetDescription(
 				modelMatrixLayout, ModelBuffer));
 
-			drawGrid();
+			// drawGrid();
 
 			// Veldrid.SPIRV, when cross-compiling to HLSL, will always produce
 			// TEXCOORD semantics; VertexElementSemantic.TextureCoordinate thus

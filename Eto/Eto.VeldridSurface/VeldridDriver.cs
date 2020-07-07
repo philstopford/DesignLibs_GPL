@@ -640,10 +640,6 @@ namespace VeldridEto
 				// Can ignore - not critical.
 			}
 
-			PolysVertexBuffer = null;
-			PointsVertexBuffer = null;
-			TessVertexBuffer = null;
-
 			if (polyList.Count > 0)
 			{
 				updateBuffer(ref PolysVertexBuffer, polyList.ToArray(), VertexPositionColor.SizeInBytes, BufferUsage.VertexBuffer);
@@ -885,12 +881,48 @@ namespace VeldridEto
 				return;
 			}
 
+			if (GridVertexBuffer != null)
+			{
+				GridVertexBuffer.Dispose();
+			}
+			if (GridIndexBuffer != null)
+			{
+				GridIndexBuffer.Dispose();
+			}
+
+			if (AxesVertexBuffer != null)
+			{
+				AxesVertexBuffer.Dispose();
+			}
+			if (AxesIndexBuffer != null)
+			{
+				AxesIndexBuffer.Dispose();
+			}
+
+			if (LinesVertexBuffer != null)
+			{
+				LinesVertexBuffer.Dispose();
+			}
+			if (PointsVertexBuffer != null)
+			{
+				PointsVertexBuffer.Dispose();
+			}
+			if (PolysVertexBuffer != null)
+			{
+				PolysVertexBuffer.Dispose();
+			}
+			if (TessVertexBuffer != null)
+			{
+				TessVertexBuffer.Dispose();
+			}
+
 			drawAxes();
 			drawGrid();
 			drawLines();
 			drawPolygons();
 			updateHostFunc?.Invoke();
 			Draw();
+
 		}
 
 		public void Draw()

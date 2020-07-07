@@ -640,11 +640,11 @@ namespace VeldridEto
 				// Can ignore - not critical.
 			}
 
-			if (polyList.Count > 0)
+			if ((polyListCount > 0) || (bgPolyListCount > 0))
 			{
 				updateBuffer(ref PolysVertexBuffer, polyList.ToArray(), VertexPositionColor.SizeInBytes, BufferUsage.VertexBuffer);
 			}
-			if (pointsList.Count > 0)
+			if (ovpSettings.drawPoints() && (polyListCount > 0))
 			{
 				updateBuffer(ref PointsVertexBuffer, pointsList.ToArray(), VertexPositionColor.SizeInBytes, BufferUsage.VertexBuffer);
 			}

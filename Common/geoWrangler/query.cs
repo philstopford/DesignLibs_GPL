@@ -58,7 +58,20 @@ namespace geoWrangler
             return new GeoLibPointF(avX, avY);
         }
 
-        static GeoLibPointF[] getBounds(GeoLibPointF[] source)
+        public static GeoLibPointF getExtents(GeoLibPointF[] source)
+        {
+            GeoLibPointF[] bounds = pGetBounds(source);
+            GeoLibPointF extents = pDistanceBetweenPoints_point(source[0], source[2]);
+
+            return extents;
+        }
+
+        public static GeoLibPointF[] getBounds(GeoLibPointF[] source)
+        {
+            return pGetBounds(source);
+        }
+
+        static GeoLibPointF[] pGetBounds(GeoLibPointF[] source)
         {
             double minX = 0;
             double minY = 0;

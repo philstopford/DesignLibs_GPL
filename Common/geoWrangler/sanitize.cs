@@ -703,5 +703,22 @@ namespace geoWrangler
                 return source;
             }
         }
+
+        public static List<GeoLibPointF[]> clean_and_flatten(List<GeoLibPointF[]> source, long scaling)
+        {
+            return pClean_and_flatten(source, scaling);
+        }
+        static List<GeoLibPointF[]> pClean_and_flatten(List<GeoLibPointF[]> source, long scaling)
+        {
+            Paths sourcePaths = pPathsFromPointFs(source, scaling);
+            Clipper c = new Clipper();
+            c.AddPaths(sourcePaths, PolyType.ptSubject, true);
+            Paths solution = new Paths();
+            c.Execute(ClipType.ctUnion, solution);
+
+            Paths keyHoled = pMakeKeyHole(solution);
+
+            return pPointFsFromPaths(pClockwiseAndReorder(keyHoled), scaling);
+        }
     }
 }

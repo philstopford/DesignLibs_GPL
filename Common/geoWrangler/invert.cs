@@ -1,4 +1,5 @@
 ﻿using ClipperLib;
+using geoLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,23 @@ namespace geoWrangler
 
     public static partial class GeoWrangler
     {
+        public static List<GeoLibPointF[]> invertTone(GeoLibPointF[] source, long scaleFactor, bool useTriangulation = false)
+        {
+            return pPointFsFromPaths(pInvertTone(pPathsFromPointFs(new List<GeoLibPointF[]> { source }, scaleFactor), useTriangulation), scaleFactor);
+        }
+
+        public static List<GeoLibPointF[]> invertTone(List<GeoLibPointF[]> source, long scaleFactor, bool useTriangulation = false)
+        {
+            return pPointFsFromPaths(pInvertTone(pPathsFromPointFs(source, scaleFactor), useTriangulation), scaleFactor);
+        }
+
+        public static Paths invertTone(Path sourcePath, bool useTriangulation = false)
+        {
+            Paths t = new Paths();
+            t.Add(sourcePath);
+            return invertTone(t, useTriangulation);
+        }
+
         public static Paths invertTone(Paths sourcePaths, bool useTriangulation = false)
         {
             return pInvertTone(sourcePaths, useTriangulation);

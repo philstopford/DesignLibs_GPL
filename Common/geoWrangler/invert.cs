@@ -11,31 +11,32 @@ namespace geoWrangler
 
     public static partial class GeoWrangler
     {
-        public static List<GeoLibPointF[]> invertTone(GeoLibPointF[] source, long scaleFactor, bool useTriangulation = false)
+        // Bounds will force the negation to only work against the extents of the shape. Useful for capturing islands in negative tone.
+        public static List<GeoLibPointF[]> invertTone(GeoLibPointF[] source, long scaleFactor, bool useTriangulation = false, bool useBounds = false)
         {
-            return pPointFsFromPaths(pInvertTone(pPathsFromPointFs(new List<GeoLibPointF[]> { source }, scaleFactor), useTriangulation), scaleFactor);
+            return pPointFsFromPaths(pInvertTone(pPathsFromPointFs(new List<GeoLibPointF[]> { source }, scaleFactor), useTriangulation, useBounds), scaleFactor);
         }
 
-        public static List<GeoLibPointF[]> invertTone(List<GeoLibPointF[]> source, long scaleFactor, bool useTriangulation = false)
+        public static List<GeoLibPointF[]> invertTone(List<GeoLibPointF[]> source, long scaleFactor, bool useTriangulation = false, bool useBounds = false)
         {
-            return pPointFsFromPaths(pInvertTone(pPathsFromPointFs(source, scaleFactor), useTriangulation), scaleFactor);
+            return pPointFsFromPaths(pInvertTone(pPathsFromPointFs(source, scaleFactor), useTriangulation, useBounds), scaleFactor);
         }
 
-        public static Paths invertTone(Path sourcePath, bool useTriangulation = false)
+        public static Paths invertTone(Path sourcePath, bool useTriangulation = false, bool useBounds = false)
         {
             Paths t = new Paths();
             t.Add(sourcePath);
-            return invertTone(t, useTriangulation);
+            return invertTone(t, useTriangulation, useBounds);
         }
 
-        public static Paths invertTone(Paths sourcePaths, bool useTriangulation = false)
+        public static Paths invertTone(Paths sourcePaths, bool useTriangulation = false, bool useBounds = false)
         {
-            return pInvertTone(sourcePaths, useTriangulation);
+            return pInvertTone(sourcePaths, useTriangulation, useBounds);
         }
 
-        static Paths pInvertTone(Paths sourcePaths, bool useTriangulation)
+        static Paths pInvertTone(Paths sourcePaths, bool useTriangulation, bool useBounds)
         {
-            if (sourcePaths.Count() == 1)
+            if ((sourcePaths.Count() == 1) && !useBounds)
             {
                 sourcePaths[0].Add(new IntPoint(-Int32.MaxValue, -Int32.MaxValue));
                 sourcePaths[0].Add(new IntPoint(-Int32.MaxValue, Int32.MaxValue));
@@ -50,11 +51,23 @@ namespace geoWrangler
                 IntRect firstLayerBounds = Clipper.GetBounds(sourcePaths);
                 IntPoint delta_to_midPoint = new IntPoint(((firstLayerBounds.right - firstLayerBounds.left) / 2), (firstLayerBounds.top - firstLayerBounds.bottom) / 2);
                 Path firstLayerBP = new Path();
-                firstLayerBP.Add(new IntPoint(-Int32.MaxValue, -Int32.MaxValue));
-                firstLayerBP.Add(new IntPoint(-Int32.MaxValue, Int32.MaxValue));
-                firstLayerBP.Add(new IntPoint(Int32.MaxValue, Int32.MaxValue));
-                firstLayerBP.Add(new IntPoint(Int32.MaxValue, -Int32.MaxValue));
-                firstLayerBP.Add(new IntPoint(-Int32.MaxValue, -Int32.MaxValue));
+                if (!useBounds)
+                {
+                    firstLayerBP.Add(new IntPoint(-Int32.MaxValue, -Int32.MaxValue));
+                    firstLayerBP.Add(new IntPoint(-Int32.MaxValue, Int32.MaxValue));
+                    firstLayerBP.Add(new IntPoint(Int32.MaxValue, Int32.MaxValue));
+                    firstLayerBP.Add(new IntPoint(Int32.MaxValue, -Int32.MaxValue));
+                    firstLayerBP.Add(new IntPoint(-Int32.MaxValue, -Int32.MaxValue));
+                }
+                else
+                {
+                    IntRect bounds = Clipper.GetBounds(sourcePaths);
+                    firstLayerBP.Add(new IntPoint(bounds.left, bounds.bottom));
+                    firstLayerBP.Add(new IntPoint(bounds.left, bounds.top));
+                    firstLayerBP.Add(new IntPoint(bounds.right, bounds.top));
+                    firstLayerBP.Add(new IntPoint(bounds.right, bounds.bottom));
+                    firstLayerBP.Add(new IntPoint(bounds.left, bounds.bottom));
+                }
 
                 Clipper c = new Clipper();
                 c.PreserveCollinear = false;

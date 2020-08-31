@@ -310,6 +310,8 @@ namespace geoCoreLib
             structures.Add(new Structure());
             structures[0].addElement();
             structures[0].elements[0].addPoly(new List<GeoLibPointF>() { new GeoLibPointF(0, 0) });
+
+            pUpdateCollections();
         }
 
         void genLDList()

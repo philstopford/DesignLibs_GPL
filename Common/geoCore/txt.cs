@@ -303,5 +303,21 @@ namespace geoCoreLib
                 //o->error->addItem("Rotated text can not be saved in OASIS files.", 4);
             }
         }
+
+        public override GCPolygon convertToPolygon()
+        {
+            return pConvertToPolygon();
+        }
+
+        GCPolygon pConvertToPolygon()
+        {
+            GeoLibPoint[] points = new GeoLibPoint[5];
+            points[0] = new GeoLibPoint(point.X - 1, point.Y - 1);
+            points[1] = new GeoLibPoint(point.X - 1, point.Y + 1);
+            points[2] = new GeoLibPoint(point.X + 1, point.Y + 1);
+            points[3] = new GeoLibPoint(point.X + 1, point.Y - 1);
+            points[4] = new GeoLibPoint(points[0]);
+            return new GCPolygon(points, layer_nr, datatype_nr);
+        }
     }
 }

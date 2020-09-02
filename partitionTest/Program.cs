@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Security;
 using ClipperLib;
 using geoLib;
@@ -16,33 +17,18 @@ namespace partitionTest
             pt.Z = -1; // Tag our intersection points.
         }
 
-        static int scaling = 10000;
-
-        static void Main(string[] args)
+        static List<GeoLibPoint[]> processGeometry(GeoLibPoint[] _poly)
         {
-            // L
-            GeoLibPoint[] init = new GeoLibPoint[] {
-
-            new GeoLibPoint( 0, 0),
-            new GeoLibPoint( 0, 50),
-            new GeoLibPoint( 10, 50),
-            new GeoLibPoint( 10, 20),
-            new GeoLibPoint( 60, 20),
-            new GeoLibPoint( 60, 0),
-            new GeoLibPoint( 0, 0)
-
-            };
-
-            Path lPoly = GeoWrangler.pathFromPoint(init, scaling);
+            Path lPoly = GeoWrangler.pathFromPoint(_poly, scaling);
 
             RayCast rc = new RayCast(lPoly, lPoly, 1000 * scaling, projectCorners: true, invert: true);
 
             Paths rays = rc.getRays();
 
+            Paths newEdges = new Paths();
+
             Clipper c = new Clipper();
             c.ZFillFunction = ZFillCallback;
-
-            Paths newEdges = new Paths();
 
             for (int r = 0; r < rays.Count; r++)
             {
@@ -87,6 +73,7 @@ namespace partitionTest
                     if (edgeIsNew)
                     {
                         newEdges.Add(new Path(p[0]));
+                        break;
                     }
                     else
                     {
@@ -94,27 +81,86 @@ namespace partitionTest
                 }
             }
 
-            // Turn the new edges into cutters and slice. Not terribly elegant and we're relying on rounding to squash notches later.
-            ClipperOffset co = new ClipperOffset();
-            co.AddPaths(newEdges, JoinType.jtMiter, EndType.etOpenSquare);
-            PolyTree tp = new PolyTree();
-            co.Execute(ref tp, 1000.0);
+            List<GeoLibPoint[]> final = new List<GeoLibPoint[]>();
+            if (newEdges.Count > 0)
+            {
+                // Turn the new edges into cutters and slice. Not terribly elegant and we're relying on rounding to squash notches later.
+                ClipperOffset co = new ClipperOffset();
+                co.AddPaths(newEdges, JoinType.jtMiter, EndType.etOpenSquare);
+                PolyTree tp = new PolyTree();
+                co.Execute(ref tp, 1.0);
 
-            Paths cutters = Clipper.ClosedPathsFromPolyTree(tp);
+                Paths cutters = Clipper.ClosedPathsFromPolyTree(tp);
 
-            /*
-            c.Clear();
-            c.AddPaths(cutters, PolyType.ptSubject, true);
-            c.Execute(ClipType.ctUnion, cutters);
-            */
-            c.Clear();
+                /*
+                c.Clear();
+                c.AddPaths(cutters, PolyType.ptSubject, true);
+                c.Execute(ClipType.ctUnion, cutters);
+                */
+                c.Clear();
 
-            c.AddPath(lPoly, PolyType.ptSubject, true);
-            c.AddPath(cutters[0], PolyType.ptClip, true);
-            Paths f = new Paths();
-            c.Execute(ClipType.ctDifference, f, PolyFillType.pftEvenOdd, PolyFillType.pftEvenOdd);
+                c.AddPath(lPoly, PolyType.ptSubject, true);
+                c.AddPath(cutters[0], PolyType.ptClip, true);
+                Paths f = new Paths();
+                c.Execute(ClipType.ctDifference, f, PolyFillType.pftEvenOdd, PolyFillType.pftEvenOdd);
 
-            List<GeoLibPoint[]> final = GeoWrangler.pointsFromPaths(f, scaling);
+                final = GeoWrangler.pointsFromPaths(f, scaling);
+
+                final = GeoWrangler.simplify(final);
+
+                final = GeoWrangler.clockwiseAndReorder(final);
+            }
+
+            return final;
+        }
+
+        static int scaling = 10000;
+
+        static void Main(string[] args)
+        {
+            // L
+            GeoLibPoint[] L = new GeoLibPoint[] {
+
+            new GeoLibPoint( 0, 0),
+            new GeoLibPoint( 0, 50),
+            new GeoLibPoint( 10, 50),
+            new GeoLibPoint( 10, 20),
+            new GeoLibPoint( 60, 20),
+            new GeoLibPoint( 60, 0),
+            new GeoLibPoint( 0, 0)
+
+            };
+
+            GeoLibPoint[] rL = new GeoLibPoint[] {
+
+            new GeoLibPoint( 0, 0),
+            new GeoLibPoint( 0, 20),
+            new GeoLibPoint( 10, 20),
+            new GeoLibPoint( 10, 50),
+            new GeoLibPoint( 60, 50),
+            new GeoLibPoint( 60, 0),
+            new GeoLibPoint( 0, 0)
+
+            };
+
+
+
+            // U
+            GeoLibPoint[] U = new GeoLibPoint[] {
+
+            new GeoLibPoint( 0, 0),
+            new GeoLibPoint( 0, 50),
+            new GeoLibPoint( 10, 50),
+            new GeoLibPoint( 10, 20),
+            new GeoLibPoint( 60, 20),
+            new GeoLibPoint( 60, 80),
+            new GeoLibPoint( 120, 80),
+            new GeoLibPoint( 120, 0),
+            new GeoLibPoint( 0, 0)
+
+            };
+
+            List<GeoLibPoint[]> o = processGeometry(rL);
 
             Console.WriteLine("Hello World!");
         }

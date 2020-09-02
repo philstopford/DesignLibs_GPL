@@ -14,6 +14,21 @@ namespace geoWrangler
     {
         public enum outerCutterIndex { outer, cutter }
 
+        public static List<GeoLibPoint[]> clockwiseAndReorder(List<GeoLibPoint[]> iPoints)
+        {
+            return pClockwiseAndReorder(iPoints);
+        }
+
+        static List<GeoLibPoint[]> pClockwiseAndReorder(List<GeoLibPoint[]> iPoints)
+        {
+            List<GeoLibPoint[]> ret = new List<GeoLibPoint[]>();
+            for (int i = 0; i < iPoints.Count; i++)
+            {
+                ret.Add(pClockwiseAndReorder(iPoints[i]));
+            }
+            return ret;
+        }
+
         public static GeoLibPoint[] clockwiseAndReorder(GeoLibPoint[] iPoints)
         {
             return pClockwiseAndReorder(iPoints);
@@ -242,6 +257,21 @@ namespace geoWrangler
             return iPoints;
         }
 
+        public static List<GeoLibPoint[]> simplify(List<GeoLibPoint[]> source)
+        {
+            return pSimplify(source);
+        }
+
+        static List<GeoLibPoint[]> pSimplify(List<GeoLibPoint[]> source)
+        {
+            List<GeoLibPoint[]> ret = new List<GeoLibPoint[]>();
+            for (int i = 0; i < source.Count; i++)
+            {
+                ret.Add(pSimplify(source[i]));
+            }
+
+            return ret;
+        }
         public static GeoLibPoint[] simplify(GeoLibPoint[] iPoints)
         {
             return pSimplify(iPoints);
@@ -338,6 +368,190 @@ namespace geoWrangler
                     ret.Add(new IntPoint(source[pt]));
                 }
             }
+            return ret;
+        }
+
+        public static List<GeoLibPoint[]> stripColinear(List<GeoLibPoint[]> source)
+        {
+            return pStripColinear(source);
+        }
+
+        static List<GeoLibPoint[]> pStripColinear(List<GeoLibPoint[]> source)
+        {
+            List<GeoLibPoint[]> ret = new List<GeoLibPoint[]>();
+            for (int i = 0; i < source.Count; i++)
+            {
+                ret.Add(pStripColinear(source[i]));
+            }
+
+            return ret;
+        }
+
+        public static GeoLibPoint[] stripColinear(GeoLibPoint[] source)
+        {
+            return pStripColinear(source);
+        }
+
+        static GeoLibPoint[] pStripColinear(GeoLibPoint[] source)
+        {
+            if (source.Length < 3)
+            {
+                return source;
+            }
+
+            List<GeoLibPoint> ret = new List<GeoLibPoint>();
+
+            for (int pt = 0; pt < source.Length; pt++)
+            {
+                GeoLibPoint interSection_A, interSection_B, interSection_C;
+                // Assess angle.
+                if (pt == 0)
+                {
+                    interSection_B = source[source.Length - 1]; // map to last point
+                    interSection_C = source[pt];
+                    interSection_A = source[pt + 1];
+                }
+                else if (pt == source.Length - 1) // last point in the list
+                {
+                    interSection_B = source[pt - 1];
+                    interSection_C = source[pt];
+                    interSection_A = source[0]; // map to the first point
+                }
+                else
+                {
+                    interSection_B = source[pt - 1];
+                    interSection_C = source[pt];
+                    interSection_A = source[pt + 1];
+                }
+
+                double theta = pAngleBetweenPoints(interSection_A, interSection_B, interSection_C, false);
+
+                bool addPoint = true;
+                if ((pt != 0) && (pt != source.Length - 1))
+                {
+                    if (theta == 180)
+                    {
+                        addPoint = false;
+                    }
+                }
+
+                if (addPoint)
+                {
+                    ret.Add(new GeoLibPoint(source[pt]));
+                }
+            }
+            return ret.ToArray();
+        }
+
+        public static List<GeoLibPoint> stripColinear(List<GeoLibPoint> source)
+        {
+            return pStripColinear(source);
+        }
+
+        static List<GeoLibPoint> pStripColinear(List<GeoLibPoint> source)
+        {
+            if (source.Count < 3)
+            {
+                return source;
+            }
+
+            List<GeoLibPoint> ret = new List<GeoLibPoint>();
+
+            for (int pt = 0; pt < source.Count; pt++)
+            {
+                GeoLibPoint interSection_A, interSection_B, interSection_C;
+                // Assess angle.
+                if (pt == 0)
+                {
+                    interSection_B = source[source.Count - 1]; // map to last point
+                    interSection_C = source[pt];
+                    interSection_A = source[pt + 1];
+                }
+                else if (pt == source.Count - 1) // last point in the list
+                {
+                    interSection_B = source[pt - 1];
+                    interSection_C = source[pt];
+                    interSection_A = source[0]; // map to the first point
+                }
+                else
+                {
+                    interSection_B = source[pt - 1];
+                    interSection_C = source[pt];
+                    interSection_A = source[pt + 1];
+                }
+
+                double theta = pAngleBetweenPoints(interSection_A, interSection_B, interSection_C, false);
+
+                bool addPoint = true;
+                if ((pt != 0) && (pt != source.Count - 1))
+                {
+                    if (theta == 180)
+                    {
+                        addPoint = false;
+                    }
+                }
+
+                if (addPoint)
+                {
+                    ret.Add(new GeoLibPoint(source[pt]));
+                }
+            }
+            return ret;
+        }
+
+        public static List<GeoLibPoint> stripTerminators(List<GeoLibPoint> source, bool keepLast)
+        {
+            return pStripTerminators(source, keepLast);
+        }
+
+        public static GeoLibPoint[] stripTerminators(GeoLibPoint[] source, bool keepLast)
+        {
+            return pStripTerminators(source, keepLast);
+        }
+
+        static GeoLibPoint[] pStripTerminators(GeoLibPoint[] source, bool keepLast)
+        {
+            return pStripTerminators(source.ToList(), keepLast).ToArray();
+        }
+        static List<GeoLibPoint> pStripTerminators(List<GeoLibPoint> source, bool keepLast)
+        {
+            bool firstLast_same = false;
+            int pt_Check = source.Count - 1;
+            if (GeoWrangler.distanceBetweenPoints(source[pt_Check], source[0]) < 0.01)
+            {
+                firstLast_same = true; // remove duplicated points. The shape will be closed later.
+            }
+            while (firstLast_same)
+            {
+                source.RemoveAt(pt_Check); // remove duplicated points. The shape will be closed later
+                pt_Check--;
+                if (GeoWrangler.distanceBetweenPoints(source[pt_Check], source[0]) > 0.01)
+                {
+                    firstLast_same = false; // stop at the first unmatched point.
+                }
+            }
+
+            if (keepLast)
+            {
+                source = pClose(source);
+            }
+
+            return source;
+        }
+
+        public static List<GeoLibPointF[]> stripColinear(List<GeoLibPointF[]> source)
+        {
+            return pStripColinear(source);
+        }
+
+        static List<GeoLibPointF[]> pStripColinear(List<GeoLibPointF[]> source)
+        {
+            List<GeoLibPointF[]> ret = new List<GeoLibPointF[]>();
+            for (int i = 0; i < source.Count; i++)
+            {
+                ret.Add(pStripColinear(source[i]));
+            }
+
             return ret;
         }
 
@@ -554,6 +768,40 @@ namespace geoWrangler
                 source.Add(new IntPoint(source[0]));
             }
             return source;
+        }
+
+        public static List<GeoLibPoint> close(List<GeoLibPoint> source)
+        {
+            return pClose(source);
+        }
+
+        static List<GeoLibPoint> pClose(List<GeoLibPoint> source)
+        {
+            if (source.Count < 1)
+            {
+                return source;
+            }
+            if ((source[0].X != source[source.Count - 1].X) || (source[0].Y != source[source.Count - 1].Y))
+            {
+                source.Add(new GeoLibPoint(source[0]));
+            }
+            return source;
+        }
+
+        public static GeoLibPoint[] close(GeoLibPoint[] source)
+        {
+            return pClose(source);
+        }
+
+        static GeoLibPoint[] pClose(GeoLibPoint[] source)
+        {
+            if (source.Length < 1)
+            {
+                return source;
+            }
+            List<GeoLibPoint> n = source.ToList();
+            n = close(n);
+            return n.ToArray();
         }
 
         public static List<GeoLibPointF> close(List<GeoLibPointF> source)

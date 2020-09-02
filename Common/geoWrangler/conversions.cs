@@ -102,7 +102,7 @@ namespace geoWrangler
 #endif
             {
                 
-                returnPoint[pt] = new GeoLibPoint((Int64)Math.Round(Convert.ToDecimal(source[pt].X / scaling)), (Int64)Math.Round(Convert.ToDecimal(source[pt].Y / scaling)));
+                returnPoint[pt] = new GeoLibPoint((Int64)Math.Round(Convert.ToDecimal(source[pt].X) / scaling), (Int64)Math.Round(Convert.ToDecimal(source[pt].Y) / scaling));
             }
 #if GWTHREADED
             );

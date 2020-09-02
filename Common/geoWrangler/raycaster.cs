@@ -335,6 +335,8 @@ namespace geoWrangler
                         tmpLine.Add(tPath);
                     }
 
+                    tmpLineCount = tmpLine.Count;
+
                     for (int tL = 0; tL < tmpLineCount; tL++)
                     {
                         // Figure out which end of the result line matches our origin point.

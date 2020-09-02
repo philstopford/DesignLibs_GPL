@@ -186,7 +186,14 @@ namespace geoWrangler
                     ((currentEdgeNormal.Y == 0) && (previousEdgeNormal.X == 0))))
                 {
                     // If we're traversing a 90 degree corner, let's not project a diagonal, but fix on our current edge normal.
-                    averagedEdgeNormal = new IntPoint(currentEdgeNormal.X, currentEdgeNormal.Y);
+                    if (invert)
+                    {
+                        averagedEdgeNormal = new IntPoint(-currentEdgeNormal.X, -currentEdgeNormal.Y);
+                    }
+                    else
+                    {
+                        averagedEdgeNormal = new IntPoint(currentEdgeNormal.X, currentEdgeNormal.Y);
+                    }
                 }
                 else
                 {
@@ -280,8 +287,10 @@ namespace geoWrangler
                     // There is no matching order in the return output here, so we have to take this odd approach.
                     Paths tmpLine = Clipper.OpenPathsFromPolyTree(polyTree);
 
+                    int tmpLineCount = tmpLine.Count;
+
                     // If we got no result, let's get that sorted out. End and start points are the same.
-                    if (tmpLine.Count == 0)
+                    if (tmpLineCount == 0)
                     {
                         Monitor.Enter(resultLock);
                         try
@@ -295,7 +304,7 @@ namespace geoWrangler
                         }
                     }
 
-                    if (tmpLine.Count > 1)
+                    if (tmpLineCount > 1)
                     {
                         // We got two lines back. Need to check this carefully.
                         // We need to find the line that has a start/end point matched to our origin point for the ray.
@@ -326,7 +335,7 @@ namespace geoWrangler
                         tmpLine.Add(tPath);
                     }
 
-                    for (int tL = 0; tL < tmpLine.Count; tL++)
+                    for (int tL = 0; tL < tmpLineCount; tL++)
                     {
                         // Figure out which end of the result line matches our origin point.
                         if ((tmpLine[tL][0].X == startPoint.X) && (tmpLine[tL][0].Y == startPoint.Y))

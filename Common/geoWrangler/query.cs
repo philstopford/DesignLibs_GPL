@@ -232,9 +232,33 @@ namespace geoWrangler
         static bool pOrthogonal(GeoLibPointF[] sourcePoly)
         {
             bool isOrthogonal = true;
+
+            double[] _angles = angles(sourcePoly, allowNegative: false);
+
+            for (int i = 0; i < _angles.Length; i++)
+            {
+                if (_angles[i] != 90.0)
+                {
+                    isOrthogonal = false;
+                    break;
+                }
+            }
+
+            return isOrthogonal;
+        }
+
+        public static double[] angles(GeoLibPointF[] sourcePoly, bool allowNegative)
+        {
+            return pAngles(sourcePoly, allowNegative);
+        }
+
+        static double[] pAngles(GeoLibPointF[] sourcePoly, bool allowNegative)
+        {
             GeoLibPointF interSection_A, interSection_B, interSection_C;
             GeoLibPointF[] stripped = pStripTerminators(sourcePoly, true);
             int finalIndex = stripped.Length - 2;
+
+            double[] angles = new double[stripped.Length];
 
             for (int pt = 0; pt <= finalIndex; pt++)
             {
@@ -258,16 +282,12 @@ namespace geoWrangler
                     interSection_A = stripped[pt + 1];
                 }
 
-                double theta = pAngleBetweenPoints(interSection_A, interSection_B, interSection_C);
+                double theta = pAngleBetweenPoints(interSection_A, interSection_B, interSection_C, allowNegative);
 
-                if (theta != 90.0)
-                {
-                    isOrthogonal = false;
-                    break;
-                }
+                angles[pt] = theta;
             }
 
-            return isOrthogonal;
+            return angles;
         }
 
         public static bool orthogonal(Path sourcePoly)
@@ -278,10 +298,34 @@ namespace geoWrangler
         static bool pOrthogonal(Path sourcePoly)
         {
             bool isOrthogonal = true;
+
+            double[] _angles = angles(sourcePoly, allowNegative: false);
+
+            for (int i = 0; i < _angles.Length; i++)
+            {
+                if (_angles[i] != 90.0)
+                {
+                    isOrthogonal = false;
+                    break;
+                }
+            }
+
+            return isOrthogonal;
+        }
+
+        public static double[] angles(Path sourcePoly, bool allowNegative)
+        {
+            return pAngles(sourcePoly, allowNegative);
+        }
+
+        static double[] pAngles(Path sourcePoly, bool allowNegative)
+        {
             IntPoint interSection_A, interSection_B, interSection_C;
 
             Path stripped = pStripTerminators(sourcePoly, false);
             int finalIndex = stripped.Count - 1;
+
+            double[] angles = new double[stripped.Count];
 
             for (int pt = 0; pt <= finalIndex; pt++)
             {
@@ -305,16 +349,12 @@ namespace geoWrangler
                     interSection_A = stripped[pt + 1];
                 }
 
-                double theta = pAngleBetweenPoints(interSection_A, interSection_B, interSection_C);
+                double theta = pAngleBetweenPoints(interSection_A, interSection_B, interSection_C, allowNegative);
 
-                if (theta != 90.0)
-                {
-                    isOrthogonal = false;
-                    break;
-                }
+                angles[pt] = theta;
             }
 
-            return isOrthogonal;
+            return angles;
         }
 
         public static bool isClockwise(GeoLibPoint[] points)

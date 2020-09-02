@@ -331,7 +331,7 @@ namespace geoWrangler
                     interSection_A = source[pt + 1];
                 }
 
-                double theta = pAngleBetweenPoints(interSection_A, interSection_B, interSection_C);
+                double theta = pAngleBetweenPoints(interSection_A, interSection_B, interSection_C, false);
 
                 if ((pt == 0) || (theta != 180))
                 {
@@ -378,7 +378,7 @@ namespace geoWrangler
                     interSection_A = source[pt + 1];
                 }
 
-                double theta = pAngleBetweenPoints(interSection_A, interSection_B, interSection_C);
+                double theta = pAngleBetweenPoints(interSection_A, interSection_B, interSection_C, false);
 
                 bool addPoint = true;
                 if ((pt != 0) && (pt != source.Length - 1))
@@ -434,7 +434,7 @@ namespace geoWrangler
                     interSection_A = source[pt + 1];
                 }
 
-                double theta = pAngleBetweenPoints(interSection_A, interSection_B, interSection_C);
+                double theta = pAngleBetweenPoints(interSection_A, interSection_B, interSection_C, false);
 
                 bool addPoint = true;
                 if ((pt != 0) && (pt != source.Count - 1))

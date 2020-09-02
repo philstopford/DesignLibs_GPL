@@ -16,22 +16,26 @@ namespace partitionTest
             pt.Z = -1; // Tag our intersection points.
         }
 
+        static int scaling = 10000;
+
         static void Main(string[] args)
         {
             // L
-            Path lPoly = new Path {
-            
-            new IntPoint( 0, 0),
-            new IntPoint( 0, 50),
-            new IntPoint( 10, 50),
-            new IntPoint( 10, 20),
-            new IntPoint( 60, 20),
-            new IntPoint( 60, 0),
-            new IntPoint( 0, 0)
+            GeoLibPoint[] init = new GeoLibPoint[] {
+
+            new GeoLibPoint( 0, 0),
+            new GeoLibPoint( 0, 50),
+            new GeoLibPoint( 10, 50),
+            new GeoLibPoint( 10, 20),
+            new GeoLibPoint( 60, 20),
+            new GeoLibPoint( 60, 0),
+            new GeoLibPoint( 0, 0)
 
             };
 
-            RayCast rc = new RayCast(lPoly, lPoly, 1000, projectCorners: true, invert: true);
+            Path lPoly = GeoWrangler.pathFromPoint(init, scaling);
+
+            RayCast rc = new RayCast(lPoly, lPoly, 1000 * scaling, projectCorners: true, invert: true);
 
             Paths rays = rc.getRays();
 
@@ -90,11 +94,11 @@ namespace partitionTest
                 }
             }
 
-            // Turn the new edges into cutters and slice.
+            // Turn the new edges into cutters and slice. Not terribly elegant and we're relying on rounding to squash notches later.
             ClipperOffset co = new ClipperOffset();
             co.AddPaths(newEdges, JoinType.jtMiter, EndType.etOpenSquare);
             PolyTree tp = new PolyTree();
-            co.Execute(ref tp, 1.0);
+            co.Execute(ref tp, 1000.0);
 
             Paths cutters = Clipper.ClosedPathsFromPolyTree(tp);
 
@@ -108,7 +112,9 @@ namespace partitionTest
             c.AddPath(lPoly, PolyType.ptSubject, true);
             c.AddPath(cutters[0], PolyType.ptClip, true);
             Paths f = new Paths();
-            c.Execute(ClipType.ctDifference, f);
+            c.Execute(ClipType.ctDifference, f, PolyFillType.pftEvenOdd, PolyFillType.pftEvenOdd);
+
+            List<GeoLibPoint[]> final = GeoWrangler.pointsFromPaths(f, scaling);
 
             Console.WriteLine("Hello World!");
         }

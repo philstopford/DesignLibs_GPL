@@ -250,18 +250,18 @@ namespace geoWrangler
         static GeoLibPoint[] pSimplify(GeoLibPoint[] iPoints)
         {
             List<IntPoint> ePoly = new List<IntPoint>();
-            ePoly = Clipper.SimplifyPolygon(pathFromPoint(iPoints))[0]; // assuming only one element
+            ePoly = Clipper.SimplifyPolygon(pathFromPoint(iPoints, 1))[0]; // assuming only one element
             ePoly = pStripTerminators(ePoly, false);
 
-            List<IntPoint> iPoly = pathFromPoint(iPoints);
+            List<IntPoint> iPoly = pathFromPoint(iPoints, 1);
             Clipper c = new Clipper();
             c.AddPath(iPoly, PolyType.ptClip, true);
             c.AddPath(iPoly, PolyType.ptSubject, true);
             List<List<IntPoint>> oPoly = new List<List<IntPoint>>();
             c.Execute(ClipType.ctIntersection, oPoly, PolyFillType.pftEvenOdd, PolyFillType.pftEvenOdd);
 
-            GeoLibPoint[] working = pointFromPath(oPoly[0]);
-            GeoLibPoint[] notWorking = pointFromPath(ePoly);
+            GeoLibPoint[] working = pointFromPath(oPoly[0], 1);
+            GeoLibPoint[] notWorking = pointFromPath(ePoly, 1);
 
             return notWorking;
         }

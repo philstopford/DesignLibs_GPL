@@ -74,7 +74,7 @@ namespace geoWrangler
             {
                 // We should only have one result.
                 union[0].Add(new IntPoint(union[0][0])); // force a close - it wasn't done in the Boolean.
-                ret = pointFromPath(union[0]);
+                ret = pointFromPath(union[0], 1);
             }
             else
             {

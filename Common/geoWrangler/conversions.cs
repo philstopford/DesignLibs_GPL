@@ -12,19 +12,19 @@ namespace geoWrangler
 
     public static partial class GeoWrangler
     {
-        public static Paths pathsFromPoints(List<GeoLibPoint[]> source)
+        public static Paths pathsFromPoints(List<GeoLibPoint[]> source, Int64 scaling)
         {
-            return pPathsFromPoints(source);
+            return pPathsFromPoints(source, scaling);
         }
 
-        static Paths pPathsFromPoints(List<GeoLibPoint[]> source)
+        static Paths pPathsFromPoints(List<GeoLibPoint[]> source, Int64 scaling)
         {
             Paths ret = new Paths();
             try
             {
                 for (int poly = 0; poly < source.Count; poly++)
                 {
-                    ret.Add(pathFromPoint(source[poly]));
+                    ret.Add(pathFromPoint(source[poly], scaling));
                 }
             }
             catch (Exception)
@@ -33,12 +33,12 @@ namespace geoWrangler
             return ret;
         }
 
-        public static Path pathFromPoint(GeoLibPoint[] source)
+        public static Path pathFromPoint(GeoLibPoint[] source, Int64 scaling)
         {
-            return pPathFromPoint(source);
+            return pPathFromPoint(source, scaling);
         }
 
-        static Path pPathFromPoint(GeoLibPoint[] source)
+        static Path pPathFromPoint(GeoLibPoint[] source, Int64 scaling)
         {
             int length = source.Length;
             if ((source[0].X != source[source.Length - 1].X) && (source[0].Y != source[source.Length - 1].Y))
@@ -50,7 +50,7 @@ namespace geoWrangler
             {
                 try
                 {
-                    returnPath.Add(new IntPoint(source[pt].X, source[pt].Y));
+                    returnPath.Add(new IntPoint(source[pt].X * scaling, source[pt].Y * scaling));
                 }
                 catch (Exception)
                 {
@@ -65,28 +65,28 @@ namespace geoWrangler
             return returnPath;
         }
 
-        public static List<GeoLibPoint[]> pointsFromPaths(Paths source)
+        public static List<GeoLibPoint[]> pointsFromPaths(Paths source, Int64 scaling)
         {
-            return pPointsFromPaths(source);
+            return pPointsFromPaths(source, scaling);
         }
 
-        static List<GeoLibPoint[]> pPointsFromPaths(Paths source)
+        static List<GeoLibPoint[]> pPointsFromPaths(Paths source, Int64 scaling)
         {
             List<GeoLibPoint[]> ret = new List<GeoLibPoint[]>();
             for (int poly = 0; poly < source.Count; poly++)
             {
-                ret.Add(pPointFromPath(source[poly]));
+                ret.Add(pPointFromPath(source[poly], scaling));
             }
 
             return ret;
         }
 
-        public static GeoLibPoint[] pointFromPath(Path source)
+        public static GeoLibPoint[] pointFromPath(Path source, Int64 scaling)
         {
-            return pPointFromPath(source);
+            return pPointFromPath(source, scaling);
         }
 
-        static GeoLibPoint[] pPointFromPath(Path source)
+        static GeoLibPoint[] pPointFromPath(Path source, Int64 scaling)
         {
             int length = source.Count;
             int sCount = length;
@@ -101,7 +101,8 @@ namespace geoWrangler
             for (int pt = 0; pt < source.Count; pt++)
 #endif
             {
-                returnPoint[pt] = new GeoLibPoint(source[pt].X, source[pt].Y);
+                
+                returnPoint[pt] = new GeoLibPoint((Int64)Math.Round(Convert.ToDecimal(source[pt].X / scaling)), (Int64)Math.Round(Convert.ToDecimal(source[pt].Y / scaling)));
             }
 #if GWTHREADED
             );

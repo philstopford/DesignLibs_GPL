@@ -1,6 +1,8 @@
 ﻿using ClipperLib;
+using geoLib;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace geoWrangler
@@ -146,6 +148,143 @@ namespace geoWrangler
             }
 
             return ret;
+        }
+
+
+        // Scaling value below is because the incoming geometry is upsized to allow minor notches to be discarded in the conversion back to ints. Default value provided based on testing.
+        public static List<GeoLibPoint[]> rectangular_decomposition(GeoLibPoint[] _poly, Int32 scaling = 10000)
+        {
+            return pRectangular_decomposition(_poly, scaling);
+        }
+
+        static List<GeoLibPoint[]> pRectangular_decomposition(GeoLibPoint[] _poly, Int32 scaling = 10000)
+        {
+            List<GeoLibPoint[]> ret = new List<GeoLibPoint[]>();
+            ret.Add(_poly.ToArray());
+
+            bool changed = true;
+            int startIndex = 0;
+            while (changed)
+            {
+                // Set so that we break out of the loop if nothing changes (i.e. decomposition is no longer possible).
+                changed = false;
+
+                int retCount = ret.Count;
+                for (int i = startIndex; i < retCount; i++)
+                {
+                    List<GeoLibPoint[]> decomp = decompose_poly_to_rectangles(ret[i].ToArray(), scaling);
+                    // If we got more than one polygon back, we decomposed across an internal edge.
+                    if (decomp.Count > 1)
+                    {
+                        // We decomposed something and need to store the new elements.
+                        // Remove original polygon from the list - we only want the decomposed entries in future.
+                        ret.RemoveAt(i);
+                        // Add our decomposed geometry to the end of the list for re-scan.
+                        ret.AddRange(decomp);
+                        // Set our start for the next pass to be this entry in the list. We avoid re-checking known-good polygons in this way.
+                        startIndex = i;
+                        // Flag that we changed something.
+                        changed = true;
+                        // Break out of this loop to start again.
+                        break;
+                    }
+                }
+            }
+
+            return ret;
+        }
+
+
+        static List<GeoLibPoint[]> decompose_poly_to_rectangles(GeoLibPoint[] _poly, Int32 scaling = 10000)
+        {
+            Path lPoly = GeoWrangler.pathFromPoint(_poly, scaling);
+
+            RayCast rc = new RayCast(lPoly, lPoly, 1000 * scaling, projectCorners: true, invert: true);
+
+            Paths rays = rc.getRays();
+
+            Paths newEdges = new Paths();
+
+            Clipper c = new Clipper();
+            // c.ZFillFunction = ZFillCallback;
+
+            for (int r = 0; r < rays.Count; r++)
+            {
+                c.AddPath(rays[r], PolyType.ptSubject, false);
+                c.AddPath(lPoly, PolyType.ptClip, true);
+
+                PolyTree pt = new PolyTree();
+
+                c.Execute(ClipType.ctIntersection, pt);
+                c.Clear();
+
+                Paths p = Clipper.OpenPathsFromPolyTree(pt);
+
+                if (p.Count > 0)
+                {
+                    // Should only have one path in the result.
+                    bool edgeIsNew = true;
+                    for (int e = 0; e < lPoly.Count - 1; e++)
+                    {
+                        if ((lPoly[e].X == p[0][0].X) && (lPoly[e].Y == p[0][0].Y))
+                        {
+                            int nextIndex = (e + 1) % lPoly.Count;
+                            if ((lPoly[nextIndex].X == p[0][1].X) && (lPoly[nextIndex].Y == p[0][1].Y))
+                            {
+                                edgeIsNew = false;
+                            }
+                        }
+
+                        if (edgeIsNew)
+                        {
+                            if ((lPoly[e].X == p[0][1].X) && (lPoly[e].Y == p[0][1].Y))
+                            {
+                                int nextIndex = (e + 1) % lPoly.Count;
+                                if ((lPoly[nextIndex].X == p[0][0].X) && (lPoly[nextIndex].Y == p[0][0].Y))
+                                {
+                                    edgeIsNew = false;
+                                }
+                            }
+                        }
+                    }
+
+                    if (edgeIsNew)
+                    {
+                        newEdges.Add(new Path(p[0]));
+                        break;
+                    }
+                    else
+                    {
+                    }
+                }
+            }
+
+            List<GeoLibPoint[]> final = new List<GeoLibPoint[]>();
+            if (newEdges.Count > 0)
+            {
+                // Turn the new edges into cutters and slice. Not terribly elegant and we're relying on rounding to squash notches later.
+                ClipperOffset co = new ClipperOffset();
+                co.AddPaths(newEdges, JoinType.jtMiter, EndType.etOpenSquare);
+                PolyTree tp = new PolyTree();
+                co.Execute(ref tp, 1.0);
+
+                Paths cutters = Clipper.ClosedPathsFromPolyTree(tp);
+
+                c.Clear();
+
+                c.AddPath(lPoly, PolyType.ptSubject, true);
+                c.AddPath(cutters[0], PolyType.ptClip, true);
+                Paths f = new Paths();
+                c.Execute(ClipType.ctDifference, f, PolyFillType.pftEvenOdd, PolyFillType.pftEvenOdd);
+
+                final = GeoWrangler.pointsFromPaths(f, scaling);
+
+                final = GeoWrangler.simplify(final);
+
+                final = GeoWrangler.clockwiseAndReorder(final);
+            }
+
+            return final;
         }
     }
 }

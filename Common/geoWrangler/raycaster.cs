@@ -169,12 +169,6 @@ namespace geoWrangler
                 IntPoint currentEdgeNormal = normals[pt];
                 IntPoint previousEdgeNormal = previousNormals[pt];
 
-                if (invert)
-                {
-                    currentEdgeNormal = new IntPoint(currentEdgeNormal.X, -currentEdgeNormal.Y);
-                    previousEdgeNormal = new IntPoint(previousEdgeNormal.X, -previousEdgeNormal.Y);
-                }
-
                 IntPoint averagedEdgeNormal = new IntPoint(0, 0);
 
                 IntPoint startPoint = new IntPoint(emissionPath[pt]);
@@ -197,6 +191,11 @@ namespace geoWrangler
                 }
                 else
                 {
+                    if (invert)
+                    {
+                        currentEdgeNormal = new IntPoint(currentEdgeNormal.X, -currentEdgeNormal.Y);
+                        previousEdgeNormal = new IntPoint(previousEdgeNormal.X, -previousEdgeNormal.Y);
+                    }
                     // Average out our normals
                     averagedEdgeNormal = new IntPoint((previousEdgeNormal.X + currentEdgeNormal.X) / 2, (previousEdgeNormal.Y + currentEdgeNormal.Y) / 2);
                 }

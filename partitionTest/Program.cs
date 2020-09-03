@@ -5,6 +5,7 @@ using System.Net.Security;
 using ClipperLib;
 using geoLib;
 using geoWrangler;
+using geoCoreLib;
 
 namespace partitionTest
 {
@@ -497,11 +498,73 @@ namespace partitionTest
 
             List<GeoLibPoint[]> c1 = GeoWrangler.rectangular_decomposition(C1);
 
+            writeToLayout("c1", C1, c1);
+
             List<GeoLibPoint[]> c2 = GeoWrangler.rectangular_decomposition(C2);
+
+            writeToLayout("c2", C2, c2);
 
             List<GeoLibPoint[]> s1 = GeoWrangler.rectangular_decomposition(S1);
 
+            writeToLayout("s1", S1, s1);
+
             Console.WriteLine("Hello World!");
+        }
+
+
+        static void writeToLayout(string filename, GeoLibPoint[] orig, List<GeoLibPoint[]> decomped)
+        {
+            // Can the system define geometry and write it correctly to Oasis and GDS files.
+            GeoCore g = new GeoCore();
+            g.reset();
+            GCDrawingfield drawing_ = new GCDrawingfield("");
+            drawing_.accyear = 2018;
+            drawing_.accmonth = 12;
+            drawing_.accday = 5;
+            drawing_.acchour = 2;
+            drawing_.accmin = 10;
+            drawing_.accsec = 10;
+            drawing_.modyear = 2018;
+            drawing_.modmonth = 12;
+            drawing_.modday = 5;
+            drawing_.modhour = 2;
+            drawing_.modmin = 10;
+            drawing_.modsec = 10;
+            drawing_.databaseunits = 1000;
+            drawing_.userunits = 1E-3;// 0.001 / 1E-6;
+            drawing_.libname = "noname";
+
+            GCCell gcell = drawing_.addCell();
+            gcell.accyear = 2018;
+            gcell.accmonth = 12;
+            gcell.accday = 5;
+            gcell.acchour = 2;
+            gcell.accmin = 10;
+            gcell.accsec = 10;
+            gcell.modyear = 2018;
+            gcell.modmonth = 12;
+            gcell.modday = 5;
+            gcell.modhour = 2;
+            gcell.modmin = 10;
+            gcell.modsec = 10;
+
+            gcell.cellName = "test";
+
+            gcell.addPolygon(orig, 1, 0);
+
+            for (int i = 0; i < decomped.Count; i++)
+            {
+                gcell.addBox(decomped[i], 1, 1);
+            }
+
+            g.setDrawing(drawing_);
+            g.setValid(true);
+
+            gds.gdsWriter gw = new gds.gdsWriter(g, "../../../../decomp_out/" + filename + "_partitiontest.gds");
+            gw.save();
+
+            oasis.oasWriter ow = new oasis.oasWriter(g, "../../../../decomp_out/" + filename + "_partitiontest.oas");
+            ow.save();
         }
     }
 }

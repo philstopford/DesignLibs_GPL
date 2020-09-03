@@ -29,7 +29,7 @@ namespace partitionTest
                 int retCount = ret.Count;
                 for (int i = 0; i < retCount; i++)
                 {
-                    List<GeoLibPoint[]> decomp = rect_decomp(ret[0].ToArray());
+                    List<GeoLibPoint[]> decomp = rect_decomp(ret[i].ToArray());
                     if (decomp.Count > 1)
                     {
                         // We decomposed something and need to start over.
@@ -188,9 +188,72 @@ namespace partitionTest
 
             };
 
-            List<GeoLibPoint[]> o = processGeometry(rL);
+            // T
+            GeoLibPoint[] T = new GeoLibPoint[] {
 
-            List<GeoLibPoint[]> p = processGeometry(U);
+            new GeoLibPoint( 0, 50),
+            new GeoLibPoint( 0, 80),
+            new GeoLibPoint( 80, 80),
+            new GeoLibPoint( 80, 50),
+            new GeoLibPoint( 60, 50),
+            new GeoLibPoint( 60, 0),
+            new GeoLibPoint( 40, 0),
+            new GeoLibPoint( 40, 50),
+            new GeoLibPoint( 0, 50)
+
+            };
+
+
+            // X
+            GeoLibPoint[] X = new GeoLibPoint[] {
+
+            new GeoLibPoint( 0, 50),
+            new GeoLibPoint( 0, 80),
+            new GeoLibPoint( 60, 80),
+            new GeoLibPoint( 60, 100),
+            new GeoLibPoint( 80, 100),
+            new GeoLibPoint( 80, 80),
+            new GeoLibPoint( 100, 80),
+            new GeoLibPoint( 100, 50),
+            new GeoLibPoint( 80, 50),
+            new GeoLibPoint( 80, 20),
+            new GeoLibPoint( 60, 20),
+            new GeoLibPoint( 60, 50),
+            new GeoLibPoint( 0, 50)
+
+            };
+
+
+            // S
+            GeoLibPoint[] S = new GeoLibPoint[] {
+
+            new GeoLibPoint( 0, 0),
+            new GeoLibPoint( 0, 20),
+            new GeoLibPoint( 20, 20),
+            new GeoLibPoint( 20, 50),
+            new GeoLibPoint( 0, 50),
+            new GeoLibPoint( 0, 110),
+            new GeoLibPoint( 100, 110),
+            new GeoLibPoint( 100, 80),
+            new GeoLibPoint( 80, 80),
+            new GeoLibPoint( 80, 60),
+            new GeoLibPoint( 100, 60),
+            new GeoLibPoint( 100, 0),
+            new GeoLibPoint( 0, 0)
+
+            };
+
+            List<GeoLibPoint[]> l = processGeometry(L);
+
+            List<GeoLibPoint[]> rl = processGeometry(rL);
+
+            List<GeoLibPoint[]> u = processGeometry(U);
+
+            List<GeoLibPoint[]> t = processGeometry(T);
+
+            List<GeoLibPoint[]> x = processGeometry(X);
+
+            List<GeoLibPoint[]> s = processGeometry(S);
 
             Console.WriteLine("Hello World!");
         }

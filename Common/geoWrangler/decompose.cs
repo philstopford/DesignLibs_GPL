@@ -191,13 +191,15 @@ namespace geoWrangler
                 }
             }
 
+
+
             return ret;
         }
 
 
         static List<GeoLibPoint[]> decompose_poly_to_rectangles(GeoLibPoint[] _poly, Int32 scaling = 10000)
         {
-            Path lPoly = GeoWrangler.pathFromPoint(_poly, scaling);
+            Path lPoly = GeoWrangler.pathFromPoint(pClockwiseAndReorder(_poly), scaling);
 
             RayCast rc = new RayCast(lPoly, lPoly, 1000 * scaling, projectCorners: true, invert: true);
 

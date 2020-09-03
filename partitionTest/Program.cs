@@ -19,6 +19,34 @@ namespace partitionTest
 
         static List<GeoLibPoint[]> processGeometry(GeoLibPoint[] _poly)
         {
+            List<GeoLibPoint[]> ret = new List<GeoLibPoint[]>();
+            ret.Add(_poly.ToArray());
+
+            bool changed = true;
+            while(changed)
+            {
+                changed = false;
+                int retCount = ret.Count;
+                for (int i = 0; i < retCount; i++)
+                {
+                    List<GeoLibPoint[]> decomp = rect_decomp(ret[0].ToArray());
+                    if (decomp.Count > 1)
+                    {
+                        // We decomposed something and need to start over.
+                        ret.RemoveAt(i);
+                        ret.AddRange(decomp);
+                        changed = true;
+                        break;
+                    }
+                }
+            }
+
+            return ret;
+        }
+
+
+        static List<GeoLibPoint[]> rect_decomp(GeoLibPoint[] _poly)
+        {
             Path lPoly = GeoWrangler.pathFromPoint(_poly, scaling);
 
             RayCast rc = new RayCast(lPoly, lPoly, 1000 * scaling, projectCorners: true, invert: true);
@@ -161,6 +189,8 @@ namespace partitionTest
             };
 
             List<GeoLibPoint[]> o = processGeometry(rL);
+
+            List<GeoLibPoint[]> p = processGeometry(U);
 
             Console.WriteLine("Hello World!");
         }

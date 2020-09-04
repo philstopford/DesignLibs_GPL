@@ -224,6 +224,73 @@ namespace geoWrangler
             return result;
         }
 
+        public static bool orthogonal(GeoLibPoint[] sourcePoly)
+        {
+            return pOrthogonal(sourcePoly);
+        }
+
+        static bool pOrthogonal(GeoLibPoint[] sourcePoly)
+        {
+            bool isOrthogonal = true;
+
+            double[] _angles = angles(sourcePoly, allowNegative: false);
+
+            for (int i = 0; i < _angles.Length; i++)
+            {
+                if (_angles[i] != 90.0)
+                {
+                    isOrthogonal = false;
+                    break;
+                }
+            }
+
+            return isOrthogonal;
+        }
+
+        public static double[] angles(GeoLibPoint[] sourcePoly, bool allowNegative)
+        {
+            return pAngles(sourcePoly, allowNegative);
+        }
+
+        static double[] pAngles(GeoLibPoint[] sourcePoly, bool allowNegative)
+        {
+            GeoLibPoint interSection_A, interSection_B, interSection_C;
+            GeoLibPoint[] stripped = pStripTerminators(sourcePoly, true);
+            int finalIndex = stripped.Length - 2;
+
+            double[] angles = new double[stripped.Length];
+
+            for (int pt = 0; pt <= finalIndex; pt++)
+            {
+                // Assess angle.
+                if (pt == 0)
+                {
+                    interSection_B = stripped[finalIndex]; // map to last point
+                    interSection_C = stripped[pt];
+                    interSection_A = stripped[pt + 1];
+                }
+                else if (pt == finalIndex) // last point in the list
+                {
+                    interSection_B = stripped[pt - 1];
+                    interSection_C = stripped[pt];
+                    interSection_A = stripped[0]; // map to the first point
+                }
+                else
+                {
+                    interSection_B = stripped[pt - 1];
+                    interSection_C = stripped[pt];
+                    interSection_A = stripped[pt + 1];
+                }
+
+                double theta = pAngleBetweenPoints(interSection_A, interSection_B, interSection_C, allowNegative);
+
+                angles[pt] = theta;
+            }
+
+            return angles;
+        }
+
+
         public static bool orthogonal(GeoLibPointF[] sourcePoly)
         {
             return pOrthogonal(sourcePoly);

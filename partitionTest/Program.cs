@@ -460,6 +460,45 @@ namespace partitionTest
 
             C2 = GeoWrangler.clockwiseAndReorder(C2);
 
+            // Complex 3
+            GeoLibPoint[] C3 = new GeoLibPoint[]
+            {
+            new GeoLibPoint(-63, -63),
+            new GeoLibPoint(-63, 63),
+            new GeoLibPoint(2, 63),
+            new GeoLibPoint(2, 57),
+            new GeoLibPoint(-57, 57),
+            new GeoLibPoint(-57, -57),
+            new GeoLibPoint(57, -57),
+            new GeoLibPoint(57, 37),
+            new GeoLibPoint(-37, 37),
+            new GeoLibPoint(-37, -37),
+            new GeoLibPoint(37, -37),
+            new GeoLibPoint(37, 17),
+            new GeoLibPoint(-17, 17),
+            new GeoLibPoint(-17, -17),
+            new GeoLibPoint(17, -17),
+            new GeoLibPoint(17, -3),
+            new GeoLibPoint(-2, -3),
+            new GeoLibPoint(-2, 3),
+            new GeoLibPoint(23, 3),
+            new GeoLibPoint(23, -23),
+            new GeoLibPoint(-23, -23),
+            new GeoLibPoint(-23, 23),
+            new GeoLibPoint(43, 23),
+            new GeoLibPoint(43, -43),
+            new GeoLibPoint(-43, -43),
+            new GeoLibPoint(-43, 43),
+            new GeoLibPoint(63, 43),
+            new GeoLibPoint(63, -63),
+            new GeoLibPoint(-63, -63),
+            };
+
+            // C3 = GeoWrangler.clockwiseAndReorder(C3);
+
+            bool orth = GeoWrangler.orthogonal(C2);
+            bool orth2 = GeoWrangler.orthogonal(C3);
+
             // Staircase
             GeoLibPoint[] S1 = new GeoLibPoint[] {
 
@@ -503,6 +542,10 @@ namespace partitionTest
             List<GeoLibPoint[]> c2 = GeoWrangler.rectangular_decomposition(C2);
 
             writeToLayout("c2", C2, c2);
+
+            List<GeoLibPoint[]> c3 = GeoWrangler.rectangular_decomposition(C3);
+
+            writeToLayout("c3", C3, c3);
 
             List<GeoLibPoint[]> s1 = GeoWrangler.rectangular_decomposition(S1);
 

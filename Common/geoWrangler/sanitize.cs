@@ -293,7 +293,7 @@ namespace geoWrangler
             GeoLibPoint[] working = pointFromPath(oPoly[0], 1);
             GeoLibPoint[] notWorking = pointFromPath(ePoly, 1);
 
-            return notWorking;
+            return working;
         }
 
         public static Paths[] getOutersAndCutters(Paths source)

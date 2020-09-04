@@ -519,21 +519,37 @@ namespace partitionTest
 
             // Rectangular decomposition will return non-orthogonal polygons in the output when encountered.
 
-            List<GeoLibPoint[]> l = GeoWrangler.rectangular_decomposition(L);
+            List<GeoLibPoint[]> l = GeoWrangler.rectangular_decomposition(L, maxRayLength: 1000);
+
+            writeToLayout("l", L, l);
 
             List<GeoLibPoint[]> lccw = GeoWrangler.rectangular_decomposition(L_ccw);
 
+            writeToLayout("lccw", L_ccw, lccw);
+
             List<GeoLibPoint[]> rl = GeoWrangler.rectangular_decomposition(rL);
+
+            writeToLayout("rl", rL, rl);
 
             List<GeoLibPoint[]> u = GeoWrangler.rectangular_decomposition(U);
 
+            writeToLayout("u", U, u);
+
             List<GeoLibPoint[]> t = GeoWrangler.rectangular_decomposition(T);
+
+            writeToLayout("t", T, t);
 
             List<GeoLibPoint[]> x = GeoWrangler.rectangular_decomposition(X);
 
+            writeToLayout("x", X, x);
+
             List<GeoLibPoint[]> s = GeoWrangler.rectangular_decomposition(S);
 
+            writeToLayout("s", S, s);
+
             List<GeoLibPoint[]> ns = GeoWrangler.rectangular_decomposition(nS);
+
+            writeToLayout("ns", nS, ns);
 
             List<GeoLibPoint[]> c1 = GeoWrangler.rectangular_decomposition(C1);
 

@@ -499,6 +499,70 @@ namespace geoWrangler
             return ret;
         }
 
+
+        public static GeoLibPoint[]  removeDuplicates(GeoLibPoint[] source)
+        {
+            return pRemoveDuplicates(source).ToArray();
+        }
+
+        public static List<GeoLibPoint> pRemoveDuplicates(GeoLibPoint[] source)
+        {
+            return pRemoveDuplicates(source.ToList());
+        }
+
+        static List<GeoLibPoint> pRemoveDuplicates(List<GeoLibPoint> source)
+        {
+            List<GeoLibPoint> ret = new List<GeoLibPoint>();
+            if (source.Count > 0)
+            {
+                ret.Add(new GeoLibPoint(source[0]));
+                int retIndex = 1;
+                for (int i = 1; i < source.Count - 1; i++)
+                {
+                    if ((source[i].X != ret[retIndex-1].X) || (source[i].Y != ret[retIndex - 1].Y))
+                    {
+                        ret.Add(new GeoLibPoint(source[i]));
+                        retIndex++;
+                    }
+                }
+            }
+
+            return ret;
+        }
+
+
+        public static GeoLibPointF[] removeDuplicates(GeoLibPointF[] source)
+        {
+            return pRemoveDuplicates(source).ToArray();
+        }
+
+        public static List<GeoLibPointF> pRemoveDuplicates(GeoLibPointF[] source)
+        {
+            return pRemoveDuplicates(source.ToList());
+        }
+
+        static List<GeoLibPointF> pRemoveDuplicates(List<GeoLibPointF> source)
+        {
+            List<GeoLibPointF> ret = new List<GeoLibPointF>();
+            if (source.Count > 0)
+            {
+                ret.Add(new GeoLibPointF(source[0]));
+                int retIndex = 1;
+                for (int i = 1; i < source.Count - 1; i++)
+                {
+                    if ((Math.Abs(source[i].X - ret[retIndex - 1].X) > double.Epsilon) || (Math.Abs(source[i].Y - ret[retIndex - 1].Y) > double.Epsilon))
+                    {
+                        ret.Add(new GeoLibPointF(source[i]));
+                        retIndex++;
+                    }
+                }
+            }
+
+            return ret;
+        }
+
+
+
         public static List<GeoLibPoint> stripTerminators(List<GeoLibPoint> source, bool keepLast)
         {
             return pStripTerminators(source, keepLast);

@@ -218,5 +218,116 @@ namespace geoWrangler
             }
             return returnPointF;
         }
+
+        public static List<GeoLibPoint[]> pointsFromPointFs(List<GeoLibPointF[]> source, Int64 scaling)
+        {
+            return pPointsFromPointFs(source, scaling);
+        }
+
+        static List<GeoLibPoint[]> pPointsFromPointFs(List<GeoLibPointF[]> source, Int64 scaling)
+        {
+            List<GeoLibPoint[]> ret = new List<GeoLibPoint[]>();
+            try
+            {
+                for (int poly = 0; poly < source.Count; poly++)
+                {
+                    ret.Add(pPointsFromPointF(source[poly], scaling));
+                }
+            }
+            catch (Exception)
+            {
+            }
+            return ret;
+        }
+
+        public static GeoLibPoint[] pointsFromPointF(GeoLibPointF[] source, Int64 scaling)
+        {
+            return pPointsFromPointF(source, scaling);
+        }
+
+        static GeoLibPoint[] pPointsFromPointF(GeoLibPointF[] source, Int64 scaling)
+        {
+            /*
+            int length = source.Length;
+            if ((source[0].X != source[source.Length - 1].X) && (source[0].Y != source[source.Length - 1].Y))
+            {
+                length++; // close the geometry
+            }
+            */
+            GeoLibPoint[] ret = new GeoLibPoint[source.Length];
+            for (int pt = 0; pt < source.Count(); pt++)
+            {
+                try
+                {
+                    ret[pt] = new GeoLibPoint(Convert.ToInt64(source[pt].X * scaling),
+                                                  Convert.ToInt64(source[pt].Y * scaling));
+                }
+                catch (Exception)
+                {
+                }
+            }
+
+            /*
+            // Close the shape
+            returnPath[length - 1] = new GeoLibPoint(returnPath[0]);
+            */
+            return ret;
+        }
+
+        public static List<GeoLibPointF[]> pointFsFromPoints(List<GeoLibPoint[]> source, Int64 scaling)
+        {
+            return pPointFsFromPoints(source, scaling);
+        }
+
+        static List<GeoLibPointF[]> pPointFsFromPoints(List<GeoLibPoint[]> source, Int64 scaling)
+        {
+            List<GeoLibPointF[]> ret = new List<GeoLibPointF[]>();
+            try
+            {
+                for (int poly = 0; poly < source.Count; poly++)
+                {
+                    ret.Add(pPointFsFromPoint(source[poly], scaling));
+                }
+            }
+            catch (Exception)
+            {
+            }
+            return ret;
+        }
+
+        public static GeoLibPointF[] pointFsFromPoint(GeoLibPoint[] source, Int64 scaling)
+        {
+            return pPointFsFromPoint(source, scaling);
+        }
+
+        static GeoLibPointF[] pPointFsFromPoint(GeoLibPoint[] source, Int64 scaling)
+        {
+            /*
+            int length = source.Length;
+            if ((source[0].X != source[source.Length - 1].X) && (source[0].Y != source[source.Length - 1].Y))
+            {
+                length++; // close the geometry
+            }
+            */
+            GeoLibPointF[] ret = new GeoLibPointF[source.Length];
+            for (int pt = 0; pt < source.Count(); pt++)
+            {
+                try
+                {
+                    ret[pt] = new GeoLibPointF(Convert.ToDouble(source[pt].X / scaling),
+                                                  Convert.ToDouble(source[pt].Y / scaling));
+                }
+                catch (Exception)
+                {
+                }
+            }
+
+            /*
+            // Close the shape
+            returnPath[length - 1] = new GeoLibPoint(returnPath[0]);
+            */
+            return ret;
+        }
+
     }
 }

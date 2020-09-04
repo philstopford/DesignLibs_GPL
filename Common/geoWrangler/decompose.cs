@@ -152,6 +152,21 @@ namespace geoWrangler
 
 
         // Scaling value below is because the incoming geometry is upsized to allow minor notches to be discarded in the conversion back to ints. Default value provided based on testing.
+        public static List<GeoLibPoint[]> rectangular_decomposition(List<GeoLibPoint[]> polys, Int32 scaling = 10000)
+        {
+            return pRectangular_decomposition(polys, scaling);
+        }
+        static List<GeoLibPoint[]> pRectangular_decomposition(List<GeoLibPoint[]> polys, Int32 scaling = 10000)
+        {
+            List<GeoLibPoint[]> ret = new List<GeoLibPoint[]>();
+
+            for (int i = 0; i < polys.Count; i++)
+            {
+                ret.AddRange(pRectangular_decomposition(polys[i], scaling));
+            }
+
+            return ret;
+        }
         public static List<GeoLibPoint[]> rectangular_decomposition(GeoLibPoint[] _poly, Int32 scaling = 10000)
         {
             return pRectangular_decomposition(_poly, scaling);
@@ -195,7 +210,6 @@ namespace geoWrangler
 
             return ret;
         }
-
 
         static List<GeoLibPoint[]> decompose_poly_to_rectangles(GeoLibPoint[] _poly, Int32 scaling = 10000)
         {

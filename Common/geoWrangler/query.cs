@@ -322,8 +322,8 @@ namespace geoWrangler
         static double[] pAngles(GeoLibPointF[] sourcePoly, bool allowNegative)
         {
             GeoLibPointF interSection_A, interSection_B, interSection_C;
-            GeoLibPointF[] stripped = pStripTerminators(sourcePoly, true);
-            int finalIndex = stripped.Length - 2;
+            GeoLibPointF[] stripped = pStripTerminators(sourcePoly, false);
+            int finalIndex = stripped.Length - 1;
 
             double[] angles = new double[stripped.Length];
 

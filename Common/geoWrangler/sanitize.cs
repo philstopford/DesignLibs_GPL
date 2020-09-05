@@ -778,6 +778,11 @@ namespace geoWrangler
 
         static Path pStripTerminators(Path source, bool keepLast)
         {
+            if (source.Count <= 1)
+            {
+                return source;
+            }
+
             bool firstLast_same = false;
             int pt_Check = source.Count - 1;
             if (GeoWrangler.distanceBetweenPoints(source[pt_Check], source[0]) < 10)
@@ -788,6 +793,10 @@ namespace geoWrangler
             {
                 source.RemoveAt(pt_Check); // remove duplicated points. The shape will be closed later
                 pt_Check--;
+                if (source.Count < 1)
+                {
+                    return source;
+                }
                 if (GeoWrangler.distanceBetweenPoints(source[pt_Check], source[0]) > 10)
                 {
                     firstLast_same = false; // stop at the first unmatched point.

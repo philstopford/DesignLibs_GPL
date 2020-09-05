@@ -90,9 +90,12 @@ namespace geoWrangler
         {
             int length = source.Count;
             int sCount = length;
-            if ((source[0].X != source[sCount - 1].X) && (source[0].Y != source[sCount - 1].Y))
+            if (length > 1)
             {
-                length++; // close the geometry
+                if ((source[0].X != source[sCount - 1].X) && (source[0].Y != source[sCount - 1].Y))
+                {
+                    length++; // close the geometry
+                }
             }
             GeoLibPoint[] returnPoint = new GeoLibPoint[length];
 #if GWTHREADED

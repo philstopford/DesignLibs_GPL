@@ -519,51 +519,53 @@ namespace partitionTest
 
             // Rectangular decomposition will return non-orthogonal polygons in the output when encountered.
 
-            List<GeoLibPoint[]> l = GeoWrangler.rectangular_decomposition(L, maxRayLength: 1000);
+            int rayLength = 1000;
+
+            List<GeoLibPoint[]> l = GeoWrangler.rectangular_decomposition(L, maxRayLength: rayLength);
 
             writeToLayout("l", L, l);
 
-            List<GeoLibPoint[]> lccw = GeoWrangler.rectangular_decomposition(L_ccw);
+            List<GeoLibPoint[]> lccw = GeoWrangler.rectangular_decomposition(L_ccw, maxRayLength: rayLength);
 
             writeToLayout("lccw", L_ccw, lccw);
 
-            List<GeoLibPoint[]> rl = GeoWrangler.rectangular_decomposition(rL);
+            List<GeoLibPoint[]> rl = GeoWrangler.rectangular_decomposition(rL, maxRayLength: rayLength);
 
             writeToLayout("rl", rL, rl);
 
-            List<GeoLibPoint[]> u = GeoWrangler.rectangular_decomposition(U);
+            List<GeoLibPoint[]> u = GeoWrangler.rectangular_decomposition(U, maxRayLength: rayLength);
 
             writeToLayout("u", U, u);
 
-            List<GeoLibPoint[]> t = GeoWrangler.rectangular_decomposition(T);
+            List<GeoLibPoint[]> t = GeoWrangler.rectangular_decomposition(T, maxRayLength: rayLength);
 
             writeToLayout("t", T, t);
 
-            List<GeoLibPoint[]> x = GeoWrangler.rectangular_decomposition(X);
+            List<GeoLibPoint[]> x = GeoWrangler.rectangular_decomposition(X, maxRayLength: rayLength);
 
             writeToLayout("x", X, x);
 
-            List<GeoLibPoint[]> s = GeoWrangler.rectangular_decomposition(S);
+            List<GeoLibPoint[]> s = GeoWrangler.rectangular_decomposition(S, maxRayLength: rayLength);
 
             writeToLayout("s", S, s);
 
-            List<GeoLibPoint[]> ns = GeoWrangler.rectangular_decomposition(nS);
+            List<GeoLibPoint[]> ns = GeoWrangler.rectangular_decomposition(nS, maxRayLength: rayLength);
 
             writeToLayout("ns", nS, ns);
 
-            List<GeoLibPoint[]> c1 = GeoWrangler.rectangular_decomposition(C1);
+            List<GeoLibPoint[]> c1 = GeoWrangler.rectangular_decomposition(C1, maxRayLength: rayLength);
 
             writeToLayout("c1", C1, c1);
 
-            List<GeoLibPoint[]> c2 = GeoWrangler.rectangular_decomposition(C2);
+            List<GeoLibPoint[]> c2 = GeoWrangler.rectangular_decomposition(C2, maxRayLength: rayLength);
 
             writeToLayout("c2", C2, c2);
 
-            List<GeoLibPoint[]> c3 = GeoWrangler.rectangular_decomposition(C3);
+            List<GeoLibPoint[]> c3 = GeoWrangler.rectangular_decomposition(C3, maxRayLength: rayLength);
 
             writeToLayout("c3", C3, c3);
 
-            List<GeoLibPoint[]> s1 = GeoWrangler.rectangular_decomposition(S1);
+            List<GeoLibPoint[]> s1 = GeoWrangler.rectangular_decomposition(S1, maxRayLength: rayLength);
 
             writeToLayout("s1", S1, s1);
 

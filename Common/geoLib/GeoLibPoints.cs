@@ -7,6 +7,9 @@ namespace geoLib
         public double X { get; set; }
         public double Y { get; set; }
 
+        // Special value for tracking.
+        public Int32 tag { get; set; }
+
         public GeoLibPointF()
         {
             pGeoLibPointF();
@@ -110,6 +113,8 @@ namespace geoLib
     {
         public Int32 X { get; set; }
         public Int32 Y { get; set; }
+
+        public Int32 tag { get; set; }
 
         public GeoLibPoint()
         {

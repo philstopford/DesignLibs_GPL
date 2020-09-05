@@ -119,6 +119,72 @@ namespace geoWrangler
             return minIndex;
         }
 
+        public static Int32 MinY(GeoLibPoint[] iPoints)
+        {
+            return pMinY(iPoints);
+        }
+
+        static Int32 pMinY(GeoLibPoint[] iPoints)
+        {
+            Int64 min = iPoints[0].Y;
+            Int32 minIndex = 0;
+
+            for (Int32 i = 1; i < iPoints.Length; ++i)
+            {
+                if (iPoints[i].Y < min)
+                {
+                    min = iPoints[i].Y;
+                    minIndex = i;
+                }
+            }
+
+            return minIndex;
+        }
+
+        public static Int32 MaxX(GeoLibPoint[] iPoints)
+        {
+            return pMaxX(iPoints);
+        }
+
+        static Int32 pMaxX(GeoLibPoint[] iPoints)
+        {
+            Int64 max = iPoints[0].X;
+            Int32 maxIndex = 0;
+
+            for (Int32 i = 1; i < iPoints.Length; ++i)
+            {
+                if (iPoints[i].X > max)
+                {
+                    max = iPoints[i].X;
+                    maxIndex = i;
+                }
+            }
+
+            return maxIndex;
+        }
+
+        public static Int32 MaxY(GeoLibPoint[] iPoints)
+        {
+            return pMaxY(iPoints);
+        }
+
+        static Int32 pMaxY(GeoLibPoint[] iPoints)
+        {
+            Int64 max = iPoints[0].Y;
+            Int32 maxIndex = 0;
+
+            for (Int32 i = 1; i < iPoints.Length; ++i)
+            {
+                if (iPoints[i].Y > max)
+                {
+                    max = iPoints[i].Y;
+                    maxIndex = i;
+                }
+            }
+
+            return maxIndex;
+        }
+
         public static Int32 MinX(GeoLibPointF[] iPoints)
         {
             return pMinX(iPoints);

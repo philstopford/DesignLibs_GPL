@@ -10,6 +10,56 @@ namespace geoWrangler
 
     public static partial class GeoWrangler
     {
+        public static GeoLibPointF midPoint(List<GeoLibPoint[]> source)
+        {
+            return pMidPoint(source);
+        }
+        static GeoLibPointF pMidPoint(List<GeoLibPoint[]> source)
+        {
+            GeoLibPoint[] bounds = getBounds(source[0]);
+
+            double minX = bounds[0].X;
+            double minY = bounds[0].Y;
+            double maxX = bounds[1].X;
+            double maxY = bounds[1].Y;
+
+            for (int i = 1; i < source.Count; i++)
+            {
+                GeoLibPoint[] tmp = getBounds(source[i]);
+                minX = Math.Min(minX, tmp[0].X);
+                minY = Math.Min(minY, tmp[0].Y);
+                maxX = Math.Max(maxX, tmp[1].X);
+                maxY = Math.Max(maxY, tmp[1].Y);
+            }
+
+            double avX = minX + (maxX - minX) / 2.0f;
+            double avY = minY + (maxY - minY) / 2.0f;
+
+            return new GeoLibPointF(avX, avY);
+        }
+
+        public static GeoLibPointF midPoint(GeoLibPoint[] source)
+        {
+            return pMidPoint(source);
+        }
+
+        static GeoLibPointF pMidPoint(GeoLibPoint[] source)
+        {
+            GeoLibPoint[] bounds = getBounds(source);
+
+            double minX = bounds[0].X;
+            double minY = bounds[0].Y;
+            double maxX = bounds[1].X;
+            double maxY = bounds[1].Y;
+
+            double avX = minX + (maxX - minX) / 2.0f;
+            double avY = minY + (maxY - minY) / 2.0f;
+
+            return new GeoLibPointF(avX, avY);
+        }
+
+
+
         public static GeoLibPointF midPoint(List<GeoLibPointF[]> source)
         {
             return pMidPoint(source);
@@ -64,6 +114,33 @@ namespace geoWrangler
             GeoLibPointF extents = pDistanceBetweenPoints_point(source[0], source[2]);
 
             return extents;
+        }
+
+        public static GeoLibPoint[] getBounds(GeoLibPoint[] source)
+        {
+            return pGetBounds(source);
+        }
+
+        static GeoLibPoint[] pGetBounds(GeoLibPoint[] source)
+        {
+            double minX = 0;
+            double minY = 0;
+            double maxX = 0;
+            double maxY = 0;
+
+            try
+            {
+                minX = source[MinX(source)].X;
+                maxX = source[MaxX(source)].X;
+                minY = source[MinY(source)].Y;
+                maxY = source[MaxY(source)].Y;
+            }
+            catch (Exception)
+            {
+
+            }
+
+            return new GeoLibPoint[] { new GeoLibPoint(minX, minY), new GeoLibPoint(maxX, maxY) };
         }
 
         public static GeoLibPointF[] getBounds(GeoLibPointF[] source)

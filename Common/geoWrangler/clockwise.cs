@@ -11,59 +11,73 @@ namespace geoWrangler
 
     public static partial class GeoWrangler
     {
-        public static List<GeoLibPointF[]> xySequence(List<GeoLibPointF[]> source)
+        public static List<GeoLibPointF[]> xySequence(List<GeoLibPointF[]> source, bool useMidPoint = false)
         {
-            return pXYSequence(source);
+            return pXYSequence(source, useMidPoint);
         }
 
-        static List<GeoLibPointF[]> pXYSequence(List<GeoLibPointF[]> source)
+        static List<GeoLibPointF[]> pXYSequence(List<GeoLibPointF[]> source, bool useMidPoint)
         {
             int sourceCount = source.Count;
 
-            List<GeoLibPointF> midPoints = new List<GeoLibPointF>();
+            List<GeoLibPointF> sortPoints = new List<GeoLibPointF>();
 
             for (int i = 0; i < sourceCount; i++)
             {
-                midPoints.Add(midPoint(source[i]));
-                midPoints[i].tag = i; // track our original poly for this midpoint through the re-order
+                if (useMidPoint)
+                {
+                    sortPoints.Add(midPoint(source[i]));
+                }
+                else
+                {
+                    sortPoints.Add(new GeoLibPointF(source[i][0]));
+                }
+                sortPoints[i].tag = i; // track our original poly for this midpoint through the re-order
             }
 
-            midPoints = midPoints.OrderBy(p => p.X).ThenBy(p => p.Y).ToList();
+            sortPoints = sortPoints.OrderBy(p => p.X).ThenBy(p => p.Y).ToList();
 
             List<GeoLibPointF[]> ret = new List<GeoLibPointF[]>();
 
             for (int i = 0; i < sourceCount; i++)
             {
-                ret.Add(source[midPoints[i].tag].ToArray());
+                ret.Add(source[sortPoints[i].tag].ToArray());
             }
 
             return ret;
         }
 
-        public static List<GeoLibPoint[]> xySequence(List<GeoLibPoint[]> source)
+        public static List<GeoLibPoint[]> xySequence(List<GeoLibPoint[]> source, bool useMidPoint = false)
         {
-            return pXYSequence(source);
+            return pXYSequence(source, useMidPoint);
         }
 
-        static List<GeoLibPoint[]> pXYSequence(List<GeoLibPoint[]> source)
+        static List<GeoLibPoint[]> pXYSequence(List<GeoLibPoint[]> source, bool useMidPoint)
         {
             int sourceCount = source.Count;
 
-            List<GeoLibPointF> midPoints = new List<GeoLibPointF>();
+            List<GeoLibPointF> sortPoints = new List<GeoLibPointF>();
 
             for (int i = 0; i < sourceCount; i++)
             {
-                midPoints.Add(midPoint(source[i]));
-                midPoints[i].tag = i; // track our original poly for this midpoint through the re-order
+                if (useMidPoint)
+                {
+                    sortPoints.Add(midPoint(source[i]));
+                }
+                else
+                {
+                    sortPoints.Add(new GeoLibPointF(source[i][0]));
+                }
+                sortPoints[i].tag = i; // track our original poly for this midpoint through the re-order
             }
 
-            midPoints = midPoints.OrderBy(p => p.X).ThenBy(p => p.Y).ToList();
+            sortPoints = sortPoints.OrderBy(p => p.X).ThenBy(p => p.Y).ToList();
 
             List<GeoLibPoint[]> ret = new List<GeoLibPoint[]>();
 
             for (int i = 0; i < sourceCount; i++)
             {
-                ret.Add(source[midPoints[i].tag].ToArray());
+                ret.Add(source[sortPoints[i].tag].ToArray());
             }
 
             return ret;

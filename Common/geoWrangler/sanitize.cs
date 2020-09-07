@@ -561,8 +561,6 @@ namespace geoWrangler
             return ret;
         }
 
-
-
         public static List<GeoLibPoint> stripTerminators(List<GeoLibPoint> source, bool keepLast)
         {
             return pStripTerminators(source, keepLast);

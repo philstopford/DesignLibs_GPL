@@ -25,6 +25,13 @@ namespace partitionTest
 
         static void Main(string[] args)
         {
+            partOne();
+
+            partTwo();
+        }
+
+        static void partOne()
+        {
             // L
             GeoLibPoint[] L = new GeoLibPoint[] {
 
@@ -572,6 +579,47 @@ namespace partitionTest
             Console.WriteLine("Hello World!");
         }
 
+        static void partTwo()
+        {
+            List<GeoLibPointF[]> incoming = new List<GeoLibPointF[]>();
+            GeoLibPointF[] lPieces = new GeoLibPointF[]
+            {
+                new GeoLibPointF(0.00000, 0.00000),
+                new GeoLibPointF(0.00000, 0.05000),
+                new GeoLibPointF(0.01000, 0.05000),
+                new GeoLibPointF(0.01000, 0.00000),
+                new GeoLibPointF(0.00000, 0.00000)
+            };
+
+
+            GeoLibPointF[] lPiece2 = new GeoLibPointF[]
+            {
+                new GeoLibPointF(0.01000, 0.00000),
+                new GeoLibPointF(0.01000, 0.02000),
+                new GeoLibPointF(0.06000, 0.02000),
+                new GeoLibPointF(0.06000, 0.00000),
+                new GeoLibPointF(0.01000, 0.00000)
+            };
+
+            Array.Reverse(lPieces);
+            Array.Reverse(lPiece2);
+            incoming.Add(lPieces);
+            incoming.Add(lPiece2);
+
+            Paths paths = GeoWrangler.pathsFromPointFs(incoming, 10000);
+
+            Clipper c = new Clipper();
+            c.AddPaths(paths, PolyType.ptSubject, true);
+            Paths ret = new Paths();
+
+            c.Execute(ClipType.ctUnion, ret);
+
+            List<GeoLibPointF[]> done = GeoWrangler.pointFsFromPaths(ret, 10000);
+
+            int xx = 2;
+
+        }
+
 
         static void writeToLayout(string filename, GeoLibPoint[] orig, List<GeoLibPoint[]> decomped)
         {
@@ -621,11 +669,12 @@ namespace partitionTest
             g.setDrawing(drawing_);
             g.setValid(true);
 
-            gds.gdsWriter gw = new gds.gdsWriter(g, "../../../../decomp_out/" + filename + "_partitiontest.gds");
+            gds.gdsWriter gw = new gds.gdsWriter(g, "D:/decomp_out/" + filename + "_partitiontest.gds");
             gw.save();
 
-            oasis.oasWriter ow = new oasis.oasWriter(g, "../../../../decomp_out/" + filename + "_partitiontest.oas");
+            oasis.oasWriter ow = new oasis.oasWriter(g, "D:/decomp_out/" + filename + "_partitiontest.oas");
             ow.save();
+
         }
     }
 }

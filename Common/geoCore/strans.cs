@@ -79,7 +79,6 @@ namespace geoCoreLib
             if (mirror_x)
             { angle += a; }
             else { angle -= a; }
-            //angle-=a;
             if (angle >= 360)
             {
                 angle -= 360;

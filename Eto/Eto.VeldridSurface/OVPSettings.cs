@@ -523,31 +523,27 @@ namespace VeldridEto
 
 		void tessPoly(PointF[] source, Color polyColor, float alpha)
 		{
-			// Now we need to check for polyfill, and triangulate the polygon if needed.
-			//if (enableFilledPolys)
+			var tess = new Tess();
+
+			ContourVertex[] contour = new ContourVertex[source.Length];
+			for (int pt = 0; pt < contour.Length; pt++)
 			{
-				var tess = new Tess();
+				contour[pt].Position = new Vec3 { X = source[pt].X, Y = source[pt].Y, Z = 0 };
+			}
+			tess.AddContour(contour, ContourOrientation.Clockwise); // keep our orientation to allow holes to be handled.
 
-				ContourVertex[] contour = new ContourVertex[source.Length];
-				for (int pt = 0; pt < contour.Length; pt++)
-				{
-					contour[pt].Position = new Vec3 { X = source[pt].X, Y = source[pt].Y, Z = 0 };
-				}
-				tess.AddContour(contour, ContourOrientation.Clockwise); // keep our orientation to allow holes to be handled.
+			// Triangulate.
+			tess.Tessellate(WindingRule.NonZero, ElementType.Polygons, 3); // We don't have any hole polygons here.
 
-				// Triangulate.
-				tess.Tessellate(WindingRule.NonZero, ElementType.Polygons, 3); // We don't have any hole polygons here.
+			// Iterate triangles and create output geometry
+			for (int i = 0; i < tess.ElementCount; i++)
+			{
+				PointF[] tempPoly = new PointF[3]; // 3 points.
+				tempPoly[0] = new PointF((float)tess.Vertices[tess.Elements[i * 3]].Position.X, (float)tess.Vertices[tess.Elements[i * 3]].Position.Y);
+				tempPoly[1] = new PointF((float)tess.Vertices[tess.Elements[(i * 3) + 1]].Position.X, (float)tess.Vertices[tess.Elements[(i * 3) + 1]].Position.Y);
+				tempPoly[2] = new PointF((float)tess.Vertices[tess.Elements[(i * 3) + 2]].Position.X, (float)tess.Vertices[tess.Elements[(i * 3) + 2]].Position.Y);
 
-				// Iterate triangles and create output geometry
-				for (int i = 0; i < tess.ElementCount; i++)
-				{
-					PointF[] tempPoly = new PointF[3]; // 3 points.
-					tempPoly[0] = new PointF((float)tess.Vertices[tess.Elements[i * 3]].Position.X, (float)tess.Vertices[tess.Elements[i * 3]].Position.Y);
-					tempPoly[1] = new PointF((float)tess.Vertices[tess.Elements[(i * 3) + 1]].Position.X, (float)tess.Vertices[tess.Elements[(i * 3) + 1]].Position.Y);
-					tempPoly[2] = new PointF((float)tess.Vertices[tess.Elements[(i * 3) + 2]].Position.X, (float)tess.Vertices[tess.Elements[(i * 3) + 2]].Position.Y);
-
-					tessPolyList.Add(new ovp_Poly(clockwiseOrder(tempPoly).ToArray(), polyColor, alpha));
-				}
+				tessPolyList.Add(new ovp_Poly(clockwiseOrder(tempPoly).ToArray(), polyColor, alpha));
 			}
 		}
 	}

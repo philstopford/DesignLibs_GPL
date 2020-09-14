@@ -222,7 +222,6 @@ namespace geoWrangler
             Paths newEdges = new Paths();
 
             Clipper c = new Clipper();
-            // c.ZFillFunction = ZFillCallback;
 
             for (int r = 0; r < rays.Count; r++)
             {

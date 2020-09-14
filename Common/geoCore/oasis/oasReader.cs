@@ -74,8 +74,8 @@ namespace oasis
         }
 
         GCCell cell_;
-        string[] cellNames = new string[1024000]; // GeoCore.maxLayers];
-        string[] textNames = new string[1024000]; // GeoCore.maxLayers];
+        string[] cellNames = new string[1024000]; // maxLayers
+        string[] textNames = new string[1024000]; // maxLayers
         public Dictionary<string, string> layerNames { get; set; }
         modals modal;
 

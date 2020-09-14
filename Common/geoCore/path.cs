@@ -151,8 +151,6 @@ namespace geoCoreLib
 
         void pClean()
         {
-            //for (uint i=0; i<pointarray.size();i++){printf("c x %d y %d\n",pointarray.point(i).x(),pointarray.point(i).y());}
-            //überflüssige Punkte entfernen
             for (int i = 0; i < pointarray.Length - 1; i++)
             {
                 if (pointarray.Length <= 2)

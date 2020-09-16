@@ -648,7 +648,7 @@ namespace VeldridEto
 			{
 				updateBuffer(ref PointsVertexBuffer, pointsList.ToArray(), VertexPositionColor.SizeInBytes, BufferUsage.VertexBuffer);
 			}
-			if (tessPolyListCount > 0)
+			if (ovpSettings.drawFilled() && (tessPolyListCount > 0))
 			{
 				updateBuffer(ref TessVertexBuffer, tessPolyList.ToArray(), VertexPositionColor.SizeInBytes, BufferUsage.VertexBuffer);
 			}

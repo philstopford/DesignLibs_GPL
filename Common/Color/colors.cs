@@ -40,6 +40,8 @@ namespace color
         public MyColor implantMean_Color { get; set; }
         public MyColor implantMax_Color { get; set; }
 
+        public MyColor extents_Color { get; set; }
+
         public MyColor default_subshape1_Color { get; set; }
         public MyColor default_subshape2_Color { get; set; }
         public MyColor default_subshape3_Color { get; set; }
@@ -79,6 +81,8 @@ namespace color
         public MyColor default_implantMin_Color { get; set; }
         public MyColor default_implantMean_Color { get; set; }
         public MyColor default_implantMax_Color { get; set; }
+
+        public MyColor default_extents_Color { get; set; }
 
         public Colors()
         {
@@ -126,6 +130,8 @@ namespace color
             default_implantMax_Color = MyColor.Red;
             default_implantMean_Color = MyColor.Green;
             default_implantMin_Color = MyColor.DarkRed;
+
+            default_extents_Color = MyColor.HotPink;
 
             reset();
         }
@@ -211,6 +217,8 @@ namespace color
             implantMin_Color = new MyColor(default_implantMin_Color);
             implantMean_Color = new MyColor(default_implantMean_Color);
             implantMax_Color = new MyColor(default_implantMax_Color);
+
+            extents_Color = new MyColor(default_extents_Color);
 
             rebuildLists();
         }

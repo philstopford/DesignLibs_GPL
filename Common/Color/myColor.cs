@@ -37,7 +37,7 @@ namespace color
         public static MyColor Gold = new MyColor(255, 215, 0);
         public static MyColor Goldenrod = new MyColor(218, 165, 32);
         public static MyColor Green = new MyColor(0, 128, 0);
-        public static MyColor HotPink = new MyColor(255, 105, 180);
+        public static MyColor HotPink = new MyColor(255, 0, 255);
         public static MyColor IndianRed = new MyColor(205, 92, 92);
         public static MyColor Indigo = new MyColor(75, 0, 130);
         public static MyColor Khaki = new MyColor(240, 230, 140);

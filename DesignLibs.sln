@@ -50,7 +50,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		nuget.config = nuget.config
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "partitionTest", "partitionTest\partitionTest.csproj", "{4F02D21D-3377-405D-A917-BFC686A7AA48}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "partitionTest", "partitionTest\partitionTest.csproj", "{4F02D21D-3377-405D-A917-BFC686A7AA48}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoWranglerTest", "GeoWranglerTest\GeoWranglerTest.csproj", "{70B4C488-FA87-48EC-97DA-9E2AD0189409}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -326,6 +328,18 @@ Global
 		{4F02D21D-3377-405D-A917-BFC686A7AA48}.Release|x64.Build.0 = Release|Any CPU
 		{4F02D21D-3377-405D-A917-BFC686A7AA48}.Release|x86.ActiveCfg = Release|Any CPU
 		{4F02D21D-3377-405D-A917-BFC686A7AA48}.Release|x86.Build.0 = Release|Any CPU
+		{70B4C488-FA87-48EC-97DA-9E2AD0189409}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70B4C488-FA87-48EC-97DA-9E2AD0189409}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70B4C488-FA87-48EC-97DA-9E2AD0189409}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{70B4C488-FA87-48EC-97DA-9E2AD0189409}.Debug|x64.Build.0 = Debug|Any CPU
+		{70B4C488-FA87-48EC-97DA-9E2AD0189409}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{70B4C488-FA87-48EC-97DA-9E2AD0189409}.Debug|x86.Build.0 = Debug|Any CPU
+		{70B4C488-FA87-48EC-97DA-9E2AD0189409}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70B4C488-FA87-48EC-97DA-9E2AD0189409}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70B4C488-FA87-48EC-97DA-9E2AD0189409}.Release|x64.ActiveCfg = Release|Any CPU
+		{70B4C488-FA87-48EC-97DA-9E2AD0189409}.Release|x64.Build.0 = Release|Any CPU
+		{70B4C488-FA87-48EC-97DA-9E2AD0189409}.Release|x86.ActiveCfg = Release|Any CPU
+		{70B4C488-FA87-48EC-97DA-9E2AD0189409}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

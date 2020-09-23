@@ -324,12 +324,12 @@ namespace geoWrangler
             return ret;
         }
 
-        public static Path stripColinear(Path source)
+        public static Path stripColinear(Path source, double tolerance = 0.0f)
         {
-            return pStripColinear(source);
+            return pStripColinear(source, tolerance);
         }
 
-        static Path pStripColinear(Path source)
+        static Path pStripColinear(Path source, double tolerance = 0.0f)
         {
             if (source.Count < 3)
             {
@@ -363,7 +363,7 @@ namespace geoWrangler
 
                 double theta = pAngleBetweenPoints(interSection_A, interSection_B, interSection_C, false);
 
-                if ((pt == 0) || (theta != 180))
+                if ((pt == 0) || (Math.Abs(theta - 180) > tolerance))
                 {
                     ret.Add(new IntPoint(source[pt]));
                 }
@@ -371,28 +371,28 @@ namespace geoWrangler
             return ret;
         }
 
-        public static List<GeoLibPoint[]> stripColinear(List<GeoLibPoint[]> source)
+        public static List<GeoLibPoint[]> stripColinear(List<GeoLibPoint[]> source, double tolerance = 0.0f)
         {
-            return pStripColinear(source);
+            return pStripColinear(source, tolerance);
         }
 
-        static List<GeoLibPoint[]> pStripColinear(List<GeoLibPoint[]> source)
+        static List<GeoLibPoint[]> pStripColinear(List<GeoLibPoint[]> source, double tolerance = 0.0f)
         {
             List<GeoLibPoint[]> ret = new List<GeoLibPoint[]>();
             for (int i = 0; i < source.Count; i++)
             {
-                ret.Add(pStripColinear(source[i]));
+                ret.Add(pStripColinear(source[i], tolerance));
             }
 
             return ret;
         }
 
-        public static GeoLibPoint[] stripColinear(GeoLibPoint[] source)
+        public static GeoLibPoint[] stripColinear(GeoLibPoint[] source, double tolerance = 0.0f)
         {
-            return pStripColinear(source);
+            return pStripColinear(source, tolerance);
         }
 
-        static GeoLibPoint[] pStripColinear(GeoLibPoint[] source)
+        static GeoLibPoint[] pStripColinear(GeoLibPoint[] source, double tolerance = 0.0f)
         {
             if (source.Length < 3)
             {
@@ -429,7 +429,7 @@ namespace geoWrangler
                 bool addPoint = true;
                 if ((pt != 0) && (pt != source.Length - 1))
                 {
-                    if (theta == 180)
+                    if (Math.Abs(theta - 180) < tolerance)
                     {
                         addPoint = false;
                     }
@@ -443,12 +443,12 @@ namespace geoWrangler
             return ret.ToArray();
         }
 
-        public static List<GeoLibPoint> stripColinear(List<GeoLibPoint> source)
+        public static List<GeoLibPoint> stripColinear(List<GeoLibPoint> source, double tolerance = 0.0f)
         {
-            return pStripColinear(source);
+            return pStripColinear(source, tolerance);
         }
 
-        static List<GeoLibPoint> pStripColinear(List<GeoLibPoint> source)
+        static List<GeoLibPoint> pStripColinear(List<GeoLibPoint> source, double tolerance = 0.0f)
         {
             if (source.Count < 3)
             {
@@ -485,7 +485,7 @@ namespace geoWrangler
                 bool addPoint = true;
                 if ((pt != 0) && (pt != source.Count - 1))
                 {
-                    if (theta == 180)
+                    if (Math.Abs(theta - 180) < tolerance)
                     {
                         addPoint = false;
                     }
@@ -601,28 +601,28 @@ namespace geoWrangler
             return source;
         }
 
-        public static List<GeoLibPointF[]> stripColinear(List<GeoLibPointF[]> source)
+        public static List<GeoLibPointF[]> stripColinear(List<GeoLibPointF[]> source, double tolerance = 0.0f)
         {
-            return pStripColinear(source);
+            return pStripColinear(source, tolerance);
         }
 
-        static List<GeoLibPointF[]> pStripColinear(List<GeoLibPointF[]> source)
+        static List<GeoLibPointF[]> pStripColinear(List<GeoLibPointF[]> source, double tolerance = 0.0f)
         {
             List<GeoLibPointF[]> ret = new List<GeoLibPointF[]>();
             for (int i = 0; i < source.Count; i++)
             {
-                ret.Add(pStripColinear(source[i]));
+                ret.Add(pStripColinear(source[i], tolerance));
             }
 
             return ret;
         }
 
-        public static GeoLibPointF[] stripColinear(GeoLibPointF[] source)
+        public static GeoLibPointF[] stripColinear(GeoLibPointF[] source, double tolerance = 0.0f)
         {
-            return pStripColinear(source);
+            return pStripColinear(source, tolerance);
         }
 
-        static GeoLibPointF[] pStripColinear(GeoLibPointF[] source)
+        static GeoLibPointF[] pStripColinear(GeoLibPointF[] source, double tolerance = 0.0f)
         {
             if (source.Length < 3)
             {
@@ -659,7 +659,7 @@ namespace geoWrangler
                 bool addPoint = true;
                 if ((pt != 0) && (pt != source.Length - 1))
                 {
-                    if (theta == 180)
+                    if (Math.Abs(theta - 180) < tolerance)
                     {
                         addPoint = false;
                     }
@@ -673,12 +673,12 @@ namespace geoWrangler
             return ret.ToArray();
         }
 
-        public static List<GeoLibPointF> stripColinear(List<GeoLibPointF> source)
+        public static List<GeoLibPointF> stripColinear(List<GeoLibPointF> source, double tolerance = 0.0f)
         {
-            return pStripColinear(source);
+            return pStripColinear(source, tolerance);
         }
 
-        static List<GeoLibPointF> pStripColinear(List<GeoLibPointF> source)
+        static List<GeoLibPointF> pStripColinear(List<GeoLibPointF> source, double tolerance = 0.0f)
         {
             if (source.Count < 3)
             {
@@ -715,7 +715,7 @@ namespace geoWrangler
                 bool addPoint = true;
                 if ((pt != 0) && (pt != source.Count - 1))
                 {
-                    if (theta == 180)
+                    if (Math.Abs(theta - 180) < tolerance)
                     {
                         addPoint = false;
                     }

@@ -608,11 +608,36 @@ namespace geoCoreLib
 
         bool isCircle(ref GeoLibPoint p, ref int radius)
         {
-            return false;
             if (pointarray.Length < 10)
             {
                 return false;
             }
+
+            GeoLibPointF mid = GeoWrangler.midPoint(pointarray);
+
+            double min_distance = Math.Abs(GeoWrangler.distanceBetweenPoints(mid, new GeoLibPointF(pointarray[0])));
+            double max_distance = Math.Abs(GeoWrangler.distanceBetweenPoints(mid, new GeoLibPointF(pointarray[0])));
+
+
+            for (int i = 1; i < pointarray.Length; i++)
+            {
+                double distance = Math.Abs(GeoWrangler.distanceBetweenPoints(mid, new GeoLibPointF(pointarray[i])));
+                min_distance = Math.Min(min_distance, distance);
+                max_distance = Math.Max(max_distance, distance);
+            }
+
+            double delta = max_distance - min_distance;
+
+            // Tolerance value - one DB unit.
+            double tol = 1.0f * 1000;
+
+            if (delta < tol)
+            {
+                return true;
+            }
+
+            return false;
+
             long x, y;
             x = 0; y = 0;
             for (int i = 1; i < pointarray.Length; i++)

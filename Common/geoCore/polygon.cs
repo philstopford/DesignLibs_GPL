@@ -608,6 +608,7 @@ namespace geoCoreLib
 
         bool isCircle(ref GeoLibPoint p, ref int radius)
         {
+            return false;
             if (pointarray.Length < 10)
             {
                 return false;

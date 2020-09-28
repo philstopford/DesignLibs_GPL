@@ -473,148 +473,7 @@ namespace geoCoreLib
                             ldIndex = structure_LayerDataTypeList[cellIndex].Count - 1;
                         }
 
-                        // Now we have to process our geometry into the right place.
-                        if (!drawing_.cellList[cell].elementList[element].isCellref() && !drawing_.cellList[cell].elementList[element].isCellrefArray())
-                        {
-                            GCPolygon p = drawing_.cellList[cell].elementList[element].convertToPolygon();
-                            // We should remove identical polygons here in case of doubled-up input geometry.
-                            string crP_Hash = utility.Utils.GetMD5Hash(p.pointarray);
-
-                            if (hashList.IndexOf(crP_Hash) == -1)
-                            {
-                                hashList.Add(crP_Hash);
-                                List<GeoLibPointF> t = new List<GeoLibPointF>();
-                                for (int pt = 0; pt < p.pointarray.Length; pt++)
-                                {
-                                    t.Add(new GeoLibPointF(p.pointarray[pt].X * scaling, p.pointarray[pt].Y * scaling));
-                                }
-                                if (drawing_.cellList[cell].elementList[element].isText())
-                                {
-                                    string text = drawing_.cellList[cell].elementList[element].getName();
-                                    structures[cellIndex].elements[ldIndex].addText(text, t);
-                                }
-                                else
-                                {
-                                    structures[cellIndex].elements[ldIndex].addPoly(t);
-                                }
-                                structures[cellIndex].elements[ldIndex].isCellRefArray.Add(false);
-                                structures[cellIndex].elements[ldIndex].arrayData.Add(null);
-                            }
-                        }
-                        else
-                        {
-                            // Need to de-reference these cases.
-                            double angle;
-                            GeoLibPoint point;
-                            double mag;
-                            GCCell tmpCel;
-                            double xSpace = 0;
-                            double ySpace = 0;
-                            int xCount = 1;
-                            int yCount = 1;
-
-                            if (drawing_.cellList[cell].elementList[element].isCellref())
-                            {
-                                GCCellref refCell = (GCCellref)drawing_.cellList[cell].elementList[element];
-                                point = refCell.getPos();
-                                mag = refCell.trans.mag;
-                                angle = refCell.trans.angle;
-                                tmpCel = refCell.cell_ref;
-                            }
-                            else
-                            {
-                                GCCellRefArray refCell = (GCCellRefArray)drawing_.cellList[cell].elementList[element];
-                                point = refCell.getPos();
-                                mag = refCell.trans.mag;
-                                angle = refCell.trans.angle;
-                                tmpCel = refCell.cell_ref;
-                                xSpace = refCell.pitch.X;
-                                ySpace = refCell.pitch.Y;
-                                xCount = refCell.count_x;
-                                yCount = refCell.count_y;
-                            }
-                            if (tmpCel != null) // guard against broken cellref
-                            {
-                                for (int cr = 0; cr < tmpCel.elementList.Count; cr++)
-                                {
-                                    if (!tmpCel.elementList[cr].isCellref() && !tmpCel.elementList[cr].isCellrefArray())
-                                    {
-                                        Int32 crLayer = tmpCel.elementList[cr].layer_nr;
-                                        Int32 crDatatype = tmpCel.elementList[cr].datatype_nr;
-
-                                        // See if our layer/datatype combination is known to us already.
-
-                                        string crSearchString = "L" + crLayer.ToString() + "D" + crDatatype.ToString();
-
-                                        Int32 crLDIndex = -1;
-
-                                        try
-                                        {
-                                            crLDIndex = structure_LayerDataTypeList[cellIndex].IndexOf(crSearchString);
-                                        }
-                                        catch (Exception)
-                                        {
-                                        }
-
-                                        if (crLDIndex == -1)
-                                        {
-                                            structure_LayerDataTypeList[cellIndex].Add(crSearchString);
-                                            structures[cellIndex].addElement();
-                                            int adIndex = structures[cellIndex].elements.Count - 1;
-
-                                            structures[cellIndex].elements[adIndex].isCellRefArray.Add(drawing_.cellList[cell].elementList[element].isCellrefArray());
-
-                                            GeoLibArray tmpArray = new GeoLibArray();
-                                            tmpArray.count = new GeoLibPoint(xCount, yCount);
-                                            tmpArray.point = new GeoLibPoint(point);
-                                            tmpArray.pitch = new GeoLibPoint(xSpace, ySpace);
-                                            structures[cellIndex].elements[adIndex].arrayData.Add(tmpArray);
-
-                                            crLDIndex = structure_LayerDataTypeList[cellIndex].Count - 1;
-                                        }
-
-                                        try
-                                        {
-                                            GCPolygon crP = tmpCel.elementList[cr].convertToPolygon();
-                                            crP.move(point);
-                                            crP.rotate(angle, point);
-                                            crP.scale(point, mag);
-
-                                            // We should remove identical polygons here in case of doubled-up input geometry.
-                                            string crP_Hash = utility.Utils.GetMD5Hash(crP.pointarray);
-
-                                            if (hashList.IndexOf(crP_Hash) == -1)
-                                            {
-                                                hashList.Add(crP_Hash);
-
-                                                int x = 0;
-                                                int y = 0;
-                                                /*
-                                                for (int x = 0; x < xCount; x++)
-                                                {
-                                                    for (int y = 0; y < yCount; y++)
-                                                    {
-                                                */
-                                                        List<GeoLibPointF> t = new List<GeoLibPointF>();
-                                                        for (int pt = 0; pt < crP.pointarray.Length; pt++)
-                                                        {
-                                                            t.Add(new GeoLibPointF((crP.pointarray[pt].X + (x * xSpace)) * scaling, (crP.pointarray[pt].Y + (y * ySpace)) * scaling));
-                                                        }
-                                                        structures[cellIndex].elements[crLDIndex].addPoly(t);
-                                                /*
-                                                    }
-                                                }
-                                                */
-                                            }
-                                        }
-                                        catch (Exception)
-                                        {
-                                            // Exception is not a big deal.
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        getGeometry(ref drawing_, cell, element, hashList, cellIndex, ldIndex);
                     }
                 }
             }
@@ -641,6 +500,174 @@ namespace geoCoreLib
                 }
             }
         }
+
+        void getGeometry(ref GCDrawingfield drawing_, int cell, int element, List<string> hashList, int cellIndex, int ldIndex)
+        {
+            getGeometry(ref drawing_, drawing_.cellList[cell], element, hashList, cellIndex, ldIndex);
+        }
+
+        void getGeometry_simple(GCCell gcCell, int element, List<string> hashList, int cellIndex, int ldIndex)
+        {
+            GCPolygon p = gcCell.elementList[element].convertToPolygon();
+            // We should remove identical polygons here in case of doubled-up input geometry.
+            string crP_Hash = utility.Utils.GetMD5Hash(p.pointarray);
+
+            if (hashList.IndexOf(crP_Hash) == -1)
+            {
+                hashList.Add(crP_Hash);
+                List<GeoLibPointF> t = new List<GeoLibPointF>();
+                for (int pt = 0; pt < p.pointarray.Length; pt++)
+                {
+                    t.Add(new GeoLibPointF(p.pointarray[pt].X * scaling, p.pointarray[pt].Y * scaling));
+                }
+                if (gcCell.elementList[element].isText())
+                {
+                    string text = gcCell.elementList[element].getName();
+                    structures[cellIndex].elements[ldIndex].addText(text, t);
+                }
+                else
+                {
+                    structures[cellIndex].elements[ldIndex].addPoly(t);
+                }
+                structures[cellIndex].elements[ldIndex].isCellRefArray.Add(false);
+                structures[cellIndex].elements[ldIndex].arrayData.Add(null);
+            }
+        }
+
+        void getGeometry_complex(GCCell gcCell, int element, List<string> hashList, int cellIndex, int ldIndex)
+        {
+            // Need to de-reference these cases.
+            double angle;
+            GeoLibPoint point;
+            double mag;
+            GCCell tmpCel;
+            double xSpace = 0;
+            double ySpace = 0;
+            int xCount = 1;
+            int yCount = 1;
+
+            if (gcCell.elementList[element].isCellref())
+            {
+                GCCellref refCell = (GCCellref)gcCell.elementList[element];
+                point = refCell.getPos();
+                mag = refCell.trans.mag;
+                angle = refCell.trans.angle;
+                tmpCel = refCell.cell_ref;
+            }
+            else
+            {
+                GCCellRefArray refCell = (GCCellRefArray)gcCell.elementList[element];
+                point = refCell.getPos();
+                mag = refCell.trans.mag;
+                angle = refCell.trans.angle;
+                tmpCel = refCell.cell_ref;
+                xSpace = refCell.pitch.X;
+                ySpace = refCell.pitch.Y;
+                xCount = refCell.count_x;
+                yCount = refCell.count_y;
+            }
+            if (tmpCel != null) // guard against broken cellref
+            {
+                for (int referenceElement = 0; referenceElement < tmpCel.elementList.Count; referenceElement++)
+                {
+                    if (!tmpCel.elementList[referenceElement].isCellref() && !tmpCel.elementList[referenceElement].isCellrefArray())
+                    {
+                        getGeometry_2(gcCell, element, hashList, tmpCel, cellIndex, referenceElement, point, xCount, yCount, xSpace, ySpace, angle, mag);
+                    }
+                }
+            }
+        }
+
+
+        void getGeometry_2(GCCell gcCell, int element, List<string> hashList, GCCell tmpCel, int cellIndex, int referenceElement, GeoLibPoint point, int xCount, int yCount, double xSpace, double ySpace, double angle, double mag)
+        {
+            Int32 crLayer = tmpCel.elementList[referenceElement].layer_nr;
+            Int32 crDatatype = tmpCel.elementList[referenceElement].datatype_nr;
+
+            // See if our layer/datatype combination is known to us already.
+
+            string crSearchString = "L" + crLayer.ToString() + "D" + crDatatype.ToString();
+
+            Int32 crLDIndex = -1;
+
+            try
+            {
+                crLDIndex = structure_LayerDataTypeList[cellIndex].IndexOf(crSearchString);
+            }
+            catch (Exception)
+            {
+            }
+
+            if (crLDIndex == -1)
+            {
+                structure_LayerDataTypeList[cellIndex].Add(crSearchString);
+                structures[cellIndex].addElement();
+                int adIndex = structures[cellIndex].elements.Count - 1;
+
+                structures[cellIndex].elements[adIndex].isCellRefArray.Add(gcCell.elementList[element].isCellrefArray());
+
+                GeoLibArray tmpArray = new GeoLibArray();
+                tmpArray.count = new GeoLibPoint(xCount, yCount);
+                tmpArray.point = new GeoLibPoint(point);
+                tmpArray.pitch = new GeoLibPoint(xSpace, ySpace);
+                structures[cellIndex].elements[adIndex].arrayData.Add(tmpArray);
+
+                crLDIndex = structure_LayerDataTypeList[cellIndex].Count - 1;
+            }
+
+            try
+            {
+                GCPolygon crP = tmpCel.elementList[referenceElement].convertToPolygon();
+                crP.move(point);
+                crP.rotate(angle, point);
+                crP.scale(point, mag);
+
+                // We should remove identical polygons here in case of doubled-up input geometry.
+                string crP_Hash = utility.Utils.GetMD5Hash(crP.pointarray);
+
+                if (hashList.IndexOf(crP_Hash) == -1)
+                {
+                    hashList.Add(crP_Hash);
+
+                    int x = 0;
+                    int y = 0;
+                    /*
+                    for (int x = 0; x < xCount; x++)
+                    {
+                        for (int y = 0; y < yCount; y++)
+                        {
+                    */
+                    List<GeoLibPointF> t = new List<GeoLibPointF>();
+                    for (int pt = 0; pt < crP.pointarray.Length; pt++)
+                    {
+                        t.Add(new GeoLibPointF((crP.pointarray[pt].X + (x * xSpace)) * scaling, (crP.pointarray[pt].Y + (y * ySpace)) * scaling));
+                    }
+                    structures[cellIndex].elements[crLDIndex].addPoly(t);
+                    /*
+                        }
+                    }
+                    */
+                }
+            }
+            catch (Exception)
+            {
+                // Exception is not a big deal.
+            }
+        }
+
+        void getGeometry(ref GCDrawingfield drawing_, GCCell gcCell, int element, List<string> hashList, int cellIndex, int ldIndex)
+        {
+            // Now we have to process our geometry into the right place.
+            if (!gcCell.elementList[element].isCellref() && !gcCell.elementList[element].isCellrefArray())
+            {
+                getGeometry_simple(gcCell, element, hashList, cellIndex, ldIndex);
+            }
+            else
+            {
+                getGeometry_complex(gcCell, element, hashList, cellIndex, ldIndex);
+            }
+        }
+
 
         public List<GeoLibArray> getArrayParameters()
         {

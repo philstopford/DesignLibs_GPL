@@ -11,7 +11,7 @@ namespace geoCoreLib
 {
     public partial class GeoCore
     {
-
+        public double scaling = 1.0f;
         GCDrawingfield drawingField;
 
         public static UInt16 maxLayers = UInt16.MaxValue;
@@ -94,6 +94,10 @@ namespace geoCoreLib
             {
                 public List<bool> isText { get; set; }
 
+                public List<bool> isCellRefArray { get; set; }
+
+                public List<GeoLibArray> arrayData { get; set; }
+
                 public List<string> name { get; set; }
 
                 public List<List<GeoLibPointF>> geometry { get; set; }
@@ -108,6 +112,8 @@ namespace geoCoreLib
                     geometry = new List<List<GeoLibPointF>>();
                     isText = new List<bool>();
                     name = new List<string>();
+                    isCellRefArray = new List<bool>();
+                    arrayData = new List<GeoLibArray>();
                 }
 
                 public Element(List<List<GeoLibPointF>> sourceGeo)
@@ -331,6 +337,8 @@ namespace geoCoreLib
             structures[0].addElement();
             structures[0].elements[0].addPoly(new List<GeoLibPointF>() { new GeoLibPointF(0, 0) });
 
+            
+
             pUpdateCollections();
         }
 
@@ -377,7 +385,7 @@ namespace geoCoreLib
             structure_LayerDataTypeList[0].Clear();
             structures.Clear();
 
-            double scaling = 1.0f;
+            scaling = 1.0f;
 
             // Set up the scaling for the conversion
             if (valid && (fileFormat == (int)fileType.gds))
@@ -489,6 +497,8 @@ namespace geoCoreLib
                                 {
                                     structures[cellIndex].elements[ldIndex].addPoly(t);
                                 }
+                                structures[cellIndex].elements[ldIndex].isCellRefArray.Add(false);
+                                structures[cellIndex].elements[ldIndex].arrayData.Add(null);
                             }
                         }
                         else
@@ -550,6 +560,16 @@ namespace geoCoreLib
                                         {
                                             structure_LayerDataTypeList[cellIndex].Add(crSearchString);
                                             structures[cellIndex].addElement();
+                                            int adIndex = structures[cellIndex].elements.Count - 1;
+
+                                            structures[cellIndex].elements[adIndex].isCellRefArray.Add(drawing_.cellList[i].elementList[e].isCellrefArray());
+
+                                            GeoLibArray tmpArray = new GeoLibArray();
+                                            tmpArray.count = new GeoLibPoint(xCount, yCount);
+                                            tmpArray.point = new GeoLibPoint(point);
+                                            tmpArray.space = new GeoLibPoint(xSpace, ySpace);
+                                            structures[cellIndex].elements[adIndex].arrayData.Add(tmpArray);
+
                                             crLDIndex = structure_LayerDataTypeList[cellIndex].Count - 1;
                                         }
 
@@ -566,18 +586,25 @@ namespace geoCoreLib
                                             if (hashList.IndexOf(crP_Hash) == -1)
                                             {
                                                 hashList.Add(crP_Hash);
+
+                                                int x = 0;
+                                                int y = 0;
+                                                /*
                                                 for (int x = 0; x < xCount; x++)
                                                 {
                                                     for (int y = 0; y < yCount; y++)
                                                     {
+                                                */
                                                         List<GeoLibPointF> t = new List<GeoLibPointF>();
                                                         for (int pt = 0; pt < crP.pointarray.Length; pt++)
                                                         {
                                                             t.Add(new GeoLibPointF((crP.pointarray[pt].X + (x * xSpace)) * scaling, (crP.pointarray[pt].Y + (y * ySpace)) * scaling));
                                                         }
                                                         structures[cellIndex].elements[crLDIndex].addPoly(t);
+                                                /*
                                                     }
                                                 }
+                                                */
                                             }
                                         }
                                         catch (Exception)
@@ -613,6 +640,16 @@ namespace geoCoreLib
                     structures[structure].elements.RemoveAt(index);
                 }
             }
+        }
+
+        public List<GeoLibArray> getArrayParameters()
+        {
+            return pGetArrayParameters();
+        }
+
+        List<GeoLibArray> pGetArrayParameters()
+        {
+            return structures[activeStructure].elements[activeLD].arrayData;
         }
 
         public List<GeoLibPointF[]> points()

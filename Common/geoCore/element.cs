@@ -439,7 +439,7 @@ namespace geoCoreLib
         // CellRefArray
         public virtual bool isCellrefArray() { return false; }
         public virtual GCCell getCellref() { return null; }
-        public virtual GCCellrefArray getCellrefArray() { return null; }
+        public virtual GCCellRefArray getCellrefArray() { return null; }
         public virtual void setMirrorx() { }
         public virtual void clearMirrorx() { }
         public virtual void toggleMirrorx() { }

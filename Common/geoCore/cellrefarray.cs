@@ -5,7 +5,7 @@ using System;
 
 namespace geoCoreLib
 {
-    public class GCCellrefArray : GCElement
+    public class GCCellRefArray : GCElement
     {
         GeoLibPoint point;
         public Int32 count_x, count_y;
@@ -14,7 +14,7 @@ namespace geoCoreLib
         string name;
         public GCStrans trans { get; set; }
 
-        public GCCellrefArray(GCCell c, GeoLibPoint[] array, Int32 xCount, Int32 yCount)
+        public GCCellRefArray(GCCell c, GeoLibPoint[] array, Int32 xCount, Int32 yCount)
         {
             cell_ref = c;
             point = array[0];
@@ -28,7 +28,7 @@ namespace geoCoreLib
             trans.reset();
         }
 
-        public GCCellrefArray(GCCell c, GeoLibPoint pos1, GeoLibPoint pos2, Int32 xCount, Int32 yCount)
+        public GCCellRefArray(GCCell c, GeoLibPoint pos1, GeoLibPoint pos2, Int32 xCount, Int32 yCount)
         {
             cell_ref = c;
             point = pos1;
@@ -43,7 +43,7 @@ namespace geoCoreLib
             trans.reset();
         }
 
-        public GCCellrefArray()
+        public GCCellRefArray()
         {
             cell_ref = null;
             // Tag layer and datatype to allow this element to be filtered out from LD and geo lists.

@@ -213,7 +213,7 @@ namespace geoCoreLib
 
         void pAddCellrefArray(GCCell c, GeoLibPoint[] array, Int32 anzx, Int32 anzy)
         {
-            GCElement e = new GCCellrefArray(c, array, anzx, anzy);
+            GCElement e = new GCCellRefArray(c, array, anzx, anzy);
             pAddElement(e);
         }
 
@@ -224,7 +224,7 @@ namespace geoCoreLib
 
         void pAddCellrefArray(GCCell c, GeoLibPoint pos1, GeoLibPoint pos2, Int32 anzx, Int32 anzy)
         {
-            GCElement e = new GCCellrefArray(c, pos1, pos2, anzx, anzy);
+            GCElement e = new GCCellRefArray(c, pos1, pos2, anzx, anzy);
             pAddElement(e);
         }
 

@@ -494,98 +494,95 @@ namespace geoCoreLib
                         else
                         {
                             // Need to de-reference these cases.
-                            //if (drawing_.cellList[i].elementList[e].isCellref())
+                            double angle;
+                            GeoLibPoint point;
+                            double mag;
+                            GCCell tmpCel;
+                            double xSpace = 0;
+                            double ySpace = 0;
+                            int xCount = 1;
+                            int yCount = 1;
+
+                            if (drawing_.cellList[i].elementList[e].isCellref())
                             {
-                                double angle = 0.0f;
-                                GeoLibPoint point = null;
-                                double mag = 1.0f;
-                                GCCell tmpCel = null;
-                                double xSpace = 0;
-                                double ySpace = 0;
-                                int xCount = 1;
-                                int yCount = 1;
-
-                                if (drawing_.cellList[i].elementList[e].isCellref())
+                                GCCellref refCell = (GCCellref)drawing_.cellList[i].elementList[e];
+                                point = refCell.getPos();
+                                mag = refCell.trans.mag;
+                                angle = refCell.trans.angle;
+                                tmpCel = refCell.cell_ref;
+                            }
+                            else
+                            {
+                                GCCellRefArray refCell = (GCCellRefArray)drawing_.cellList[i].elementList[e];
+                                point = refCell.getPos();
+                                mag = refCell.trans.mag;
+                                angle = refCell.trans.angle;
+                                tmpCel = refCell.cell_ref;
+                                xSpace = refCell.space.X;
+                                ySpace = refCell.space.Y;
+                                xCount = refCell.count_x;
+                                yCount = refCell.count_y;
+                            }
+                            if (tmpCel != null) // guard against broken cellref
+                            {
+                                for (int cr = 0; cr < tmpCel.elementList.Count; cr++)
                                 {
-                                    GCCellref refCell = (GCCellref)drawing_.cellList[i].elementList[e];
-                                    point = refCell.getPos();
-                                    mag = refCell.trans.mag;
-                                    angle = refCell.trans.angle;
-                                    tmpCel = refCell.cell_ref;
-                                }
-                                else
-                                {
-                                    GCCellrefArray refCell = (GCCellrefArray)drawing_.cellList[i].elementList[e];
-                                    point = refCell.getPos();
-                                    mag = refCell.trans.mag;
-                                    angle = refCell.trans.angle;
-                                    tmpCel = refCell.cell_ref;
-                                    xSpace = refCell.space.X;
-                                    ySpace = refCell.space.Y;
-                                    xCount = refCell.count_x;
-                                    yCount = refCell.count_y;
-                                }
-                                if (tmpCel != null) // guard against broken cellref
-                                {
-                                    for (int cr = 0; cr < tmpCel.elementList.Count; cr++)
+                                    if (!tmpCel.elementList[cr].isCellref() && !tmpCel.elementList[cr].isCellrefArray())
                                     {
-                                        if (!tmpCel.elementList[cr].isCellref() && !tmpCel.elementList[cr].isCellrefArray())
+                                        Int32 crLayer = tmpCel.elementList[cr].layer_nr;
+                                        Int32 crDatatype = tmpCel.elementList[cr].datatype_nr;
+
+                                        // See if our layer/datatype combination is known to us already.
+
+                                        string crSearchString = "L" + crLayer.ToString() + "D" + crDatatype.ToString();
+
+                                        Int32 crLDIndex = -1;
+
+                                        try
                                         {
-                                            Int32 crLayer = tmpCel.elementList[cr].layer_nr;
-                                            Int32 crDatatype = tmpCel.elementList[cr].datatype_nr;
+                                            crLDIndex = structure_LayerDataTypeList[cellIndex].IndexOf(crSearchString);
+                                        }
+                                        catch (Exception)
+                                        {
+                                        }
 
-                                            // See if our layer/datatype combination is known to us already.
+                                        if (crLDIndex == -1)
+                                        {
+                                            structure_LayerDataTypeList[cellIndex].Add(crSearchString);
+                                            structures[cellIndex].addElement();
+                                            crLDIndex = structure_LayerDataTypeList[cellIndex].Count - 1;
+                                        }
 
-                                            string crSearchString = "L" + crLayer.ToString() + "D" + crDatatype.ToString();
+                                        try
+                                        {
+                                            GCPolygon crP = tmpCel.elementList[cr].convertToPolygon();
+                                            crP.move(point);
+                                            crP.rotate(angle, point);
+                                            crP.scale(point, mag);
 
-                                            Int32 crLDIndex = -1;
+                                            // We should remove identical polygons here in case of doubled-up input geometry.
+                                            string crP_Hash = utility.Utils.GetMD5Hash(crP.pointarray);
 
-                                            try
+                                            if (hashList.IndexOf(crP_Hash) == -1)
                                             {
-                                                crLDIndex = structure_LayerDataTypeList[cellIndex].IndexOf(crSearchString);
-                                            }
-                                            catch (Exception)
-                                            {
-                                            }
-
-                                            if (crLDIndex == -1)
-                                            {
-                                                structure_LayerDataTypeList[cellIndex].Add(crSearchString);
-                                                structures[cellIndex].addElement();
-                                                crLDIndex = structure_LayerDataTypeList[cellIndex].Count - 1;
-                                            }
-
-                                            try
-                                            {
-                                                GCPolygon crP = tmpCel.elementList[cr].convertToPolygon();
-                                                crP.move(point);
-                                                crP.rotate(angle, point);
-                                                crP.scale(point, mag);
-
-                                                // We should remove identical polygons here in case of doubled-up input geometry.
-                                                string crP_Hash = utility.Utils.GetMD5Hash(crP.pointarray);
-
-                                                if (hashList.IndexOf(crP_Hash) == -1)
+                                                hashList.Add(crP_Hash);
+                                                for (int x = 0; x < xCount; x++)
                                                 {
-                                                    hashList.Add(crP_Hash);
-                                                    for (int x = 0; x < xCount; x++)
+                                                    for (int y = 0; y < yCount; y++)
                                                     {
-                                                        for (int y = 0; y < yCount; y++)
+                                                        List<GeoLibPointF> t = new List<GeoLibPointF>();
+                                                        for (int pt = 0; pt < crP.pointarray.Length; pt++)
                                                         {
-                                                            List<GeoLibPointF> t = new List<GeoLibPointF>();
-                                                            for (int pt = 0; pt < crP.pointarray.Length; pt++)
-                                                            {
-                                                                t.Add(new GeoLibPointF((crP.pointarray[pt].X + (x * xSpace)) * scaling, (crP.pointarray[pt].Y + (y * ySpace)) * scaling));
-                                                            }
-                                                            structures[cellIndex].elements[crLDIndex].addPoly(t);
+                                                            t.Add(new GeoLibPointF((crP.pointarray[pt].X + (x * xSpace)) * scaling, (crP.pointarray[pt].Y + (y * ySpace)) * scaling));
                                                         }
+                                                        structures[cellIndex].elements[crLDIndex].addPoly(t);
                                                     }
                                                 }
                                             }
-                                            catch (Exception)
-                                            {
-                                                // Exception is not a big deal.
-                                            }
+                                        }
+                                        catch (Exception)
+                                        {
+                                            // Exception is not a big deal.
                                         }
                                     }
                                 }

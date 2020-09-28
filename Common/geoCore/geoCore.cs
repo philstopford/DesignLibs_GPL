@@ -401,12 +401,12 @@ namespace geoCoreLib
 
             scaling *= baseScale; // this is used to compensate for any reader application needing scaled geometry.
 
-            for (int i = 0; i < drawing_.cellList.Count; i++)
+            for (int cell = 0; cell < drawing_.cellList.Count; cell++)
             {
-                if (drawing_.cellList[i].elementList != null)
+                if (drawing_.cellList[cell].elementList != null)
                 {
                     // Check whether our cell is known already.
-                    string cellName = drawing_.cellList[i].cellName;
+                    string cellName = drawing_.cellList[cell].cellName;
 
                     Int32 cellIndex = -1;
 
@@ -433,10 +433,10 @@ namespace geoCoreLib
                     // We have to be careful here - Oasis has the ability to have strings, GDS is numeric.
 
                     List<string> hashList = new List<string>();
-                    for (int e = 0; e < drawing_.cellList[i].elementList.Count; e++)
+                    for (int element = 0; element < drawing_.cellList[cell].elementList.Count; element++)
                     {
-                        Int32 layer = drawing_.cellList[i].elementList[e].layer_nr;
-                        Int32 datatype = drawing_.cellList[i].elementList[e].datatype_nr;
+                        Int32 layer = drawing_.cellList[cell].elementList[element].layer_nr;
+                        Int32 datatype = drawing_.cellList[cell].elementList[element].datatype_nr;
 
                         // See if our layer/datatype combination is known to us already.
 
@@ -474,9 +474,9 @@ namespace geoCoreLib
                         }
 
                         // Now we have to process our geometry into the right place.
-                        if (!drawing_.cellList[i].elementList[e].isCellref() && !drawing_.cellList[i].elementList[e].isCellrefArray())
+                        if (!drawing_.cellList[cell].elementList[element].isCellref() && !drawing_.cellList[cell].elementList[element].isCellrefArray())
                         {
-                            GCPolygon p = drawing_.cellList[i].elementList[e].convertToPolygon();
+                            GCPolygon p = drawing_.cellList[cell].elementList[element].convertToPolygon();
                             // We should remove identical polygons here in case of doubled-up input geometry.
                             string crP_Hash = utility.Utils.GetMD5Hash(p.pointarray);
 
@@ -488,9 +488,9 @@ namespace geoCoreLib
                                 {
                                     t.Add(new GeoLibPointF(p.pointarray[pt].X * scaling, p.pointarray[pt].Y * scaling));
                                 }
-                                if (drawing_.cellList[i].elementList[e].isText())
+                                if (drawing_.cellList[cell].elementList[element].isText())
                                 {
-                                    string text = drawing_.cellList[i].elementList[e].getName();
+                                    string text = drawing_.cellList[cell].elementList[element].getName();
                                     structures[cellIndex].elements[ldIndex].addText(text, t);
                                 }
                                 else
@@ -513,9 +513,9 @@ namespace geoCoreLib
                             int xCount = 1;
                             int yCount = 1;
 
-                            if (drawing_.cellList[i].elementList[e].isCellref())
+                            if (drawing_.cellList[cell].elementList[element].isCellref())
                             {
-                                GCCellref refCell = (GCCellref)drawing_.cellList[i].elementList[e];
+                                GCCellref refCell = (GCCellref)drawing_.cellList[cell].elementList[element];
                                 point = refCell.getPos();
                                 mag = refCell.trans.mag;
                                 angle = refCell.trans.angle;
@@ -523,7 +523,7 @@ namespace geoCoreLib
                             }
                             else
                             {
-                                GCCellRefArray refCell = (GCCellRefArray)drawing_.cellList[i].elementList[e];
+                                GCCellRefArray refCell = (GCCellRefArray)drawing_.cellList[cell].elementList[element];
                                 point = refCell.getPos();
                                 mag = refCell.trans.mag;
                                 angle = refCell.trans.angle;
@@ -562,7 +562,7 @@ namespace geoCoreLib
                                             structures[cellIndex].addElement();
                                             int adIndex = structures[cellIndex].elements.Count - 1;
 
-                                            structures[cellIndex].elements[adIndex].isCellRefArray.Add(drawing_.cellList[i].elementList[e].isCellrefArray());
+                                            structures[cellIndex].elements[adIndex].isCellRefArray.Add(drawing_.cellList[cell].elementList[element].isCellrefArray());
 
                                             GeoLibArray tmpArray = new GeoLibArray();
                                             tmpArray.count = new GeoLibPoint(xCount, yCount);

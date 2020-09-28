@@ -574,6 +574,10 @@ namespace geoCoreLib
                     {
                         getGeometry_2(gcCell, element, hashList, tmpCel, cellIndex, referenceElement, point, xCount, yCount, xSpace, ySpace, angle, mag);
                     }
+                    else
+                    {
+                        getGeometry_complex(tmpCel, element, hashList, cellIndex, ldIndex);
+                    }    
                 }
             }
         }
@@ -631,22 +635,12 @@ namespace geoCoreLib
 
                     int x = 0;
                     int y = 0;
-                    /*
-                    for (int x = 0; x < xCount; x++)
-                    {
-                        for (int y = 0; y < yCount; y++)
-                        {
-                    */
                     List<GeoLibPointF> t = new List<GeoLibPointF>();
                     for (int pt = 0; pt < crP.pointarray.Length; pt++)
                     {
                         t.Add(new GeoLibPointF((crP.pointarray[pt].X + (x * xSpace)) * scaling, (crP.pointarray[pt].Y + (y * ySpace)) * scaling));
                     }
                     structures[cellIndex].elements[crLDIndex].addPoly(t);
-                    /*
-                        }
-                    }
-                    */
                 }
             }
             catch (Exception)

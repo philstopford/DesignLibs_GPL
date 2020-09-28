@@ -528,8 +528,8 @@ namespace geoCoreLib
                                 mag = refCell.trans.mag;
                                 angle = refCell.trans.angle;
                                 tmpCel = refCell.cell_ref;
-                                xSpace = refCell.space.X;
-                                ySpace = refCell.space.Y;
+                                xSpace = refCell.pitch.X;
+                                ySpace = refCell.pitch.Y;
                                 xCount = refCell.count_x;
                                 yCount = refCell.count_y;
                             }
@@ -567,7 +567,7 @@ namespace geoCoreLib
                                             GeoLibArray tmpArray = new GeoLibArray();
                                             tmpArray.count = new GeoLibPoint(xCount, yCount);
                                             tmpArray.point = new GeoLibPoint(point);
-                                            tmpArray.space = new GeoLibPoint(xSpace, ySpace);
+                                            tmpArray.pitch = new GeoLibPoint(xSpace, ySpace);
                                             structures[cellIndex].elements[adIndex].arrayData.Add(tmpArray);
 
                                             crLDIndex = structure_LayerDataTypeList[cellIndex].Count - 1;

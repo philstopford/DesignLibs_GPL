@@ -1,5 +1,6 @@
 ﻿using gds;
 using geoLib;
+using geoWrangler;
 using oasis;
 using System;
 
@@ -9,7 +10,7 @@ namespace geoCoreLib
     {
         GeoLibPoint point;
         public Int32 count_x, count_y;
-        public GeoLibPoint space;
+        public GeoLibPoint pitch;
         public GCCell cell_ref { get; set; }
         string name;
         public GCStrans trans { get; set; }
@@ -18,7 +19,7 @@ namespace geoCoreLib
         {
             cell_ref = c;
             point = array[0];
-            space = new GeoLibPoint((array[1].X - point.X) / xCount,  (array[2].Y - point.Y) / yCount);
+            pitch = new GeoLibPoint((array[1].X - point.X) / xCount,  (array[2].Y - point.Y) / yCount);
             count_x = xCount;
             count_y = yCount;
             // Tag layer and datatype to allow this element to be filtered out from LD and geo lists.
@@ -33,7 +34,7 @@ namespace geoCoreLib
             cell_ref = c;
             point = pos1;
             GeoLibPoint p = new GeoLibPoint(pos2.X - pos1.X, pos2.Y - pos1.Y);
-            space = new GeoLibPoint(p.X, p.Y);
+            pitch = new GeoLibPoint(p.X, p.Y);
             count_x = xCount;
             count_y = yCount;
             // Tag layer and datatype to allow this element to be filtered out from LD and geo lists.
@@ -76,7 +77,7 @@ namespace geoCoreLib
                 for (int y = 0; y < 2; y++)
                 {
                     pos3 = point;
-                    pos3.Offset(new GeoLibPoint(space.X * x * (count_x - 1), space.Y * y * (count_y - 1)));
+                    pos3.Offset(new GeoLibPoint(pitch.X * x * (count_x - 1), pitch.Y * y * (count_y - 1)));
                     pos1 = new GeoLibPoint(p.X - pos3.X, p.Y - pos3.Y);
                     if (trans.mirror_x)
                     {
@@ -125,7 +126,7 @@ namespace geoCoreLib
                 for (int y = 0; y < 2; y++)
                 {
                     pos3 = point;
-                    pos3.Offset(new GeoLibPoint(space.X * x * (count_x - 1), space.Y * y * (count_y - 1)));
+                    pos3.Offset(new GeoLibPoint(pitch.X * x * (count_x - 1), pitch.Y * y * (count_y - 1)));
                     pos1 = new GeoLibPoint(p.X - pos3.X, p.Y - pos3.Y);
                     if (trans.mirror_x)
                     {
@@ -203,8 +204,8 @@ namespace geoCoreLib
         {
             point.X = (Int32)(point.X * factor);
             point.Y = (Int32)(point.Y * factor);
-            space.X = (Int32)(space.X * factor);
-            space.Y = (Int32)(space.Y * factor);
+            pitch.X = (Int32)(pitch.X * factor);
+            pitch.Y = (Int32)(pitch.Y * factor);
         }
 
         public override void setPos(GeoLibPoint p)
@@ -280,10 +281,10 @@ namespace geoCoreLib
             gw.bw.Write((byte)3);
             gw.bw.Write(point.X);
             gw.bw.Write(point.Y);
-            GeoLibPoint pos = new GeoLibPoint(space.X * count_x + point.X, space.Y + point.Y);
+            GeoLibPoint pos = new GeoLibPoint(pitch.X * count_x + point.X, pitch.Y + point.Y);
             gw.bw.Write(pos.X);
             gw.bw.Write(pos.Y);
-            pos = new GeoLibPoint(space.X * +point.X, space.Y * count_y + point.Y);
+            pos = new GeoLibPoint(pitch.X * +point.X, pitch.Y * count_y + point.Y);
             gw.bw.Write(pos.X);
             gw.bw.Write(pos.Y);
             // endel
@@ -366,16 +367,16 @@ namespace geoCoreLib
                     ow.writeUnsignedInteger(3);
                     ow.modal.y_dimension = count_y;
                     ow.writeUnsignedInteger((uint)(count_y - 2));
-                    ow.modal.y_space = space.Y;
-                    ow.writeUnsignedInteger((uint)space.Y);
+                    ow.modal.y_space = pitch.Y;
+                    ow.writeUnsignedInteger((uint)pitch.Y);
                 }
                 else if (count_y == 1)
                 {
                     ow.writeUnsignedInteger(2);
                     ow.modal.x_dimension = count_x;
                     ow.writeUnsignedInteger((uint)(count_x - 2));
-                    ow.modal.x_space = space.X;
-                    ow.writeUnsignedInteger((uint)space.X);
+                    ow.modal.x_space = pitch.X;
+                    ow.writeUnsignedInteger((uint)pitch.X);
                 }
                 else
                 {
@@ -384,10 +385,10 @@ namespace geoCoreLib
                     ow.modal.y_dimension = count_y;
                     ow.writeUnsignedInteger((uint)(count_x - 2));
                     ow.writeUnsignedInteger((uint)(count_y - 2));
-                    ow.modal.x_space = space.X;
-                    ow.modal.y_space = space.Y;
-                    ow.writeUnsignedInteger((uint)space.X);
-                    ow.writeUnsignedInteger((uint)space.Y);
+                    ow.modal.x_space = pitch.X;
+                    ow.modal.y_space = pitch.Y;
+                    ow.writeUnsignedInteger((uint)pitch.X);
+                    ow.writeUnsignedInteger((uint)pitch.Y);
                 }
             }
         }

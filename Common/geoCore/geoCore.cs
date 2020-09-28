@@ -494,10 +494,37 @@ namespace geoCoreLib
                         else
                         {
                             // Need to de-reference these cases.
-                            if (drawing_.cellList[i].elementList[e].isCellref())
+                            //if (drawing_.cellList[i].elementList[e].isCellref())
                             {
-                                GCCellref refCell = (GCCellref)drawing_.cellList[i].elementList[e];
-                                GCCell tmpCel = refCell.cell_ref;
+                                double angle = 0.0f;
+                                GeoLibPoint point = null;
+                                double mag = 1.0f;
+                                GCCell tmpCel = null;
+                                double xSpace = 0;
+                                double ySpace = 0;
+                                int xCount = 1;
+                                int yCount = 1;
+
+                                if (drawing_.cellList[i].elementList[e].isCellref())
+                                {
+                                    GCCellref refCell = (GCCellref)drawing_.cellList[i].elementList[e];
+                                    point = refCell.getPos();
+                                    mag = refCell.trans.mag;
+                                    angle = refCell.trans.angle;
+                                    tmpCel = refCell.cell_ref;
+                                }
+                                else
+                                {
+                                    GCCellrefArray refCell = (GCCellrefArray)drawing_.cellList[i].elementList[e];
+                                    point = refCell.getPos();
+                                    mag = refCell.trans.mag;
+                                    angle = refCell.trans.angle;
+                                    tmpCel = refCell.cell_ref;
+                                    xSpace = refCell.space.X;
+                                    ySpace = refCell.space.Y;
+                                    xCount = refCell.count_x;
+                                    yCount = refCell.count_y;
+                                }
                                 if (tmpCel != null) // guard against broken cellref
                                 {
                                     for (int cr = 0; cr < tmpCel.elementList.Count; cr++)
@@ -531,9 +558,9 @@ namespace geoCoreLib
                                             try
                                             {
                                                 GCPolygon crP = tmpCel.elementList[cr].convertToPolygon();
-                                                crP.move(refCell.point);
-                                                crP.rotate(refCell.trans.angle, refCell.point);
-                                                crP.scale(refCell.point, refCell.trans.mag);
+                                                crP.move(point);
+                                                crP.rotate(angle, point);
+                                                crP.scale(point, mag);
 
                                                 // We should remove identical polygons here in case of doubled-up input geometry.
                                                 string crP_Hash = utility.Utils.GetMD5Hash(crP.pointarray);
@@ -541,12 +568,18 @@ namespace geoCoreLib
                                                 if (hashList.IndexOf(crP_Hash) == -1)
                                                 {
                                                     hashList.Add(crP_Hash);
-                                                    List<GeoLibPointF> t = new List<GeoLibPointF>();
-                                                    for (int pt = 0; pt < crP.pointarray.Length; pt++)
+                                                    for (int x = 0; x < xCount; x++)
                                                     {
-                                                        t.Add(new GeoLibPointF(crP.pointarray[pt].X * scaling, crP.pointarray[pt].Y * scaling));
+                                                        for (int y = 0; y < yCount; y++)
+                                                        {
+                                                            List<GeoLibPointF> t = new List<GeoLibPointF>();
+                                                            for (int pt = 0; pt < crP.pointarray.Length; pt++)
+                                                            {
+                                                                t.Add(new GeoLibPointF((crP.pointarray[pt].X + (x * xSpace)) * scaling, (crP.pointarray[pt].Y + (y * ySpace)) * scaling));
+                                                            }
+                                                            structures[cellIndex].elements[crLDIndex].addPoly(t);
+                                                        }
                                                     }
-                                                    structures[cellIndex].elements[crLDIndex].addPoly(t);
                                                 }
                                             }
                                             catch (Exception)

@@ -438,7 +438,7 @@ namespace geoCoreLib
 
         // CellRefArray
         public virtual bool isCellrefArray() { return false; }
-        public virtual GCCellref getCellref() { return null; }
+        public virtual GCCell getCellref() { return null; }
         public virtual GCCellrefArray getCellrefArray() { return null; }
         public virtual void setMirrorx() { }
         public virtual void clearMirrorx() { }
@@ -449,6 +449,8 @@ namespace geoCoreLib
         public virtual void scale(GeoLibPoint origin, double factor) { }
         public virtual void setCellRef(GCCell cellRef) { }
         public virtual void setPos(GeoLibPoint p) { }
+
+        public virtual GeoLibPoint getPos() { return null; }
         public virtual List<GCElement> flatSelect() { return null; }
         // and txt;
         public virtual void setName(String s) { }

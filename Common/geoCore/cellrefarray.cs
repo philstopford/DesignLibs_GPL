@@ -8,18 +8,17 @@ namespace geoCoreLib
     public class GCCellrefArray : GCElement
     {
         GeoLibPoint point;
-        Int32 count_x, count_y;
-        GeoLibPoint space_x, space_y;
-        GCCell cell_ref;
+        public Int32 count_x, count_y;
+        public GeoLibPoint space;
+        public GCCell cell_ref { get; set; }
         string name;
-        GCStrans trans;
+        public GCStrans trans { get; set; }
 
         public GCCellrefArray(GCCell c, GeoLibPoint[] array, Int32 xCount, Int32 yCount)
         {
             cell_ref = c;
             point = array[0];
-            space_x = new GeoLibPoint((array[1].X - point.X) / xCount, (array[1].Y - point.Y) / xCount);
-            space_y = new GeoLibPoint((array[2].X - point.X) / yCount, (array[2].Y - point.Y) / yCount);
+            space = new GeoLibPoint((array[1].X - point.X) / xCount,  (array[2].Y - point.Y) / yCount);
             count_x = xCount;
             count_y = yCount;
             // Tag layer and datatype to allow this element to be filtered out from LD and geo lists.
@@ -34,8 +33,7 @@ namespace geoCoreLib
             cell_ref = c;
             point = pos1;
             GeoLibPoint p = new GeoLibPoint(pos2.X - pos1.X, pos2.Y - pos1.Y);
-            space_x = new GeoLibPoint(p.X, p.Y);
-            space_y = new GeoLibPoint(0, p.Y);
+            space = new GeoLibPoint(p.X, p.Y);
             count_x = xCount;
             count_y = yCount;
             // Tag layer and datatype to allow this element to be filtered out from LD and geo lists.
@@ -78,8 +76,7 @@ namespace geoCoreLib
                 for (int y = 0; y < 2; y++)
                 {
                     pos3 = point;
-                    pos3.Offset(new GeoLibPoint(space_x.X * x * (count_x - 1), space_x.Y * x * (count_x - 1)));
-                    pos3.Offset(new GeoLibPoint(space_y.X * y * (count_y - 1), space_y.Y * y * (count_y - 1)));
+                    pos3.Offset(new GeoLibPoint(space.X * x * (count_x - 1), space.Y * y * (count_y - 1)));
                     pos1 = new GeoLibPoint(p.X - pos3.X, p.Y - pos3.Y);
                     if (trans.mirror_x)
                     {
@@ -128,8 +125,7 @@ namespace geoCoreLib
                 for (int y = 0; y < 2; y++)
                 {
                     pos3 = point;
-                    pos3.Offset(new GeoLibPoint(space_x.X * x * (count_x - 1), space_x.Y * x * (count_x - 1)));
-                    pos3.Offset(new GeoLibPoint(space_y.X * y * (count_y - 1), space_y.Y * y * (count_y - 1)));
+                    pos3.Offset(new GeoLibPoint(space.X * x * (count_x - 1), space.Y * y * (count_y - 1)));
                     pos1 = new GeoLibPoint(p.X - pos3.X, p.Y - pos3.Y);
                     if (trans.mirror_x)
                     {
@@ -207,10 +203,8 @@ namespace geoCoreLib
         {
             point.X = (Int32)(point.X * factor);
             point.Y = (Int32)(point.Y * factor);
-            space_x.X = (Int32)(space_x.X * factor);
-            space_x.Y = (Int32)(space_x.Y * factor);
-            space_y.X = (Int32)(space_y.X * factor);
-            space_y.Y = (Int32)(space_y.Y * factor);
+            space.X = (Int32)(space.X * factor);
+            space.Y = (Int32)(space.Y * factor);
         }
 
         public override void setPos(GeoLibPoint p)
@@ -286,10 +280,10 @@ namespace geoCoreLib
             gw.bw.Write((byte)3);
             gw.bw.Write(point.X);
             gw.bw.Write(point.Y);
-            GeoLibPoint pos = new GeoLibPoint(space_x.X * count_x + point.X, space_x.Y + point.Y);
+            GeoLibPoint pos = new GeoLibPoint(space.X * count_x + point.X, space.Y + point.Y);
             gw.bw.Write(pos.X);
             gw.bw.Write(pos.Y);
-            pos = new GeoLibPoint(space_y.X * +point.X, space_y.Y * count_y + point.Y);
+            pos = new GeoLibPoint(space.X * +point.X, space.Y * count_y + point.Y);
             gw.bw.Write(pos.X);
             gw.bw.Write(pos.Y);
             // endel
@@ -372,16 +366,16 @@ namespace geoCoreLib
                     ow.writeUnsignedInteger(3);
                     ow.modal.y_dimension = count_y;
                     ow.writeUnsignedInteger((uint)(count_y - 2));
-                    ow.modal.y_space = space_y.Y;
-                    ow.writeUnsignedInteger((uint)space_y.Y);
+                    ow.modal.y_space = space.Y;
+                    ow.writeUnsignedInteger((uint)space.Y);
                 }
                 else if (count_y == 1)
                 {
                     ow.writeUnsignedInteger(2);
                     ow.modal.x_dimension = count_x;
                     ow.writeUnsignedInteger((uint)(count_x - 2));
-                    ow.modal.x_space = space_x.X;
-                    ow.writeUnsignedInteger((uint)space_x.X);
+                    ow.modal.x_space = space.X;
+                    ow.writeUnsignedInteger((uint)space.X);
                 }
                 else
                 {
@@ -390,12 +384,41 @@ namespace geoCoreLib
                     ow.modal.y_dimension = count_y;
                     ow.writeUnsignedInteger((uint)(count_x - 2));
                     ow.writeUnsignedInteger((uint)(count_y - 2));
-                    ow.modal.x_space = space_x.X;
-                    ow.modal.y_space = space_y.Y;
-                    ow.writeUnsignedInteger((uint)space_x.X);
-                    ow.writeUnsignedInteger((uint)space_y.Y);
+                    ow.modal.x_space = space.X;
+                    ow.modal.y_space = space.Y;
+                    ow.writeUnsignedInteger((uint)space.X);
+                    ow.writeUnsignedInteger((uint)space.Y);
                 }
             }
+        }
+
+        public override bool isCellrefArray()
+        {
+            return pIsCellRefArray();
+        }
+
+        bool pIsCellRefArray()
+        {
+            return true;
+        }
+
+        public override GCCell getCellref() {
+            return pGetCellRef();
+        }
+
+        GCCell pGetCellRef()
+        {
+            return cell_ref;
+        }
+
+        public override GeoLibPoint getPos()
+        {
+            return pGetPos();
+        }
+
+        GeoLibPoint pGetPos()
+        {
+            return point;
         }
     }
 }

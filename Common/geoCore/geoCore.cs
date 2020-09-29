@@ -570,7 +570,7 @@ namespace geoCoreLib
             {
                 for (int referenceElement = 0; referenceElement < tmpCel.elementList.Count; referenceElement++)
                 {
-                    if (!tmpCel.elementList[referenceElement].isCellref() && !tmpCel.elementList[referenceElement].isCellrefArray())
+                    if (!tmpCel.elementList[referenceElement].isCellref() && (!tmpCel.elementList[referenceElement].GetType().Equals(typeof(GCCellRefArray))))
                     {
                         getGeometry_2(gcCell, element, hashList, tmpCel, cellIndex, referenceElement, point, xCount, yCount, xSpace, ySpace, angle, mag);
                     }
@@ -608,7 +608,7 @@ namespace geoCoreLib
                 structures[cellIndex].addElement();
                 int adIndex = structures[cellIndex].elements.Count - 1;
 
-                structures[cellIndex].elements[adIndex].isCellRefArray.Add(gcCell.elementList[element].isCellrefArray());
+                structures[cellIndex].elements[adIndex].isCellRefArray.Add(gcCell.elementList[element].GetType().Equals(typeof(GCCellRefArray)));// gcCell.elementList[element].isCellrefArray());
 
                 GeoLibArray tmpArray = new GeoLibArray();
                 tmpArray.count = new GeoLibPoint(xCount, yCount);

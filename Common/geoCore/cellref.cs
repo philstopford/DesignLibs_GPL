@@ -64,6 +64,16 @@ namespace geoCoreLib
             point = new GeoLibPoint(p.X, p.Y);
         }
 
+        public override GeoLibPoint getPos()
+        {
+            return pGetPos();
+        }
+
+        GeoLibPoint pGetPos()
+        {
+            return point;
+        }
+
         public override void minimum(GeoLibPoint p)
         {
             pMinimum(p);

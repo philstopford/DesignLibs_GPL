@@ -4,6 +4,7 @@ using geoWrangler;
 using oasis;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace geoCoreLib
 {
@@ -431,7 +432,31 @@ namespace geoCoreLib
 
         List<GCPolygon> pConvertToPolygons()
         {
-            return null;
+            // This returns the contents of the reference.
+            List<GCPolygon> tmp = new List<GCPolygon>();
+            for (int element = 0; element < cell_ref.elementList.Count; element++)
+            {
+                List<GCPolygon> lp = cell_ref.elementList[element].convertToPolygons().ToList();
+                // Above should work with nested arrays due to the recursion of the convertToPolygons override.
+                tmp.AddRange(lp);
+            }
+
+            // Now we need to array the above.
+            List<GCPolygon> ret = new List<GCPolygon>();
+            for (int x = 0; x < count_x; x++)
+            {
+                for (int y = 0; y < count_y; y++)
+                {
+                    for (int p = 0; p < tmp.Count; p++)
+                    {
+                        GCPolygon tp = new GCPolygon(tmp[p]);
+                        tp.move(new GeoLibPoint(x * pitch.X, y * pitch.Y));
+                        ret.Add(tp);
+                    }
+                }
+            }
+
+            return ret;
         }
 
     }

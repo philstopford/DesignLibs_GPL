@@ -2,6 +2,7 @@
 using geoLib;
 using oasis;
 using System;
+using System.Collections.Generic;
 
 namespace geoCoreLib
 {
@@ -386,6 +387,23 @@ namespace geoCoreLib
                 ow.modal.placement_y = point.Y;
                 ow.writeSignedInteger(ow.modal.placement_y);
             }
+        }
+
+        public override List<GCPolygon> convertToPolygons()
+        {
+            return pConvertToPolygons();
+        }
+
+        List<GCPolygon> pConvertToPolygons()
+        {
+            List<GCPolygon> ret = new List<GCPolygon>();
+
+            for (int element = 0; element < cell_ref.elementList.Count; element++)
+            {
+                ret.AddRange(cell_ref.elementList[element].convertToPolygons());
+            }
+
+            return ret;
         }
     }
 }

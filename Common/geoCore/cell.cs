@@ -420,7 +420,7 @@ namespace geoCoreLib
                 {
                     if ((elementList[f].isBox()) && (elementList[f].select))
                     {
-                        GCPolygon p = elementList[f].convertToPolygon();
+                        GCPolygon p = elementList[f].convertToPolygons()[0];
                         p.map(m);
                         GCBox b = p.convertToBox();
                         if (b != null)
@@ -476,7 +476,7 @@ namespace geoCoreLib
                 {
                     if ((elementList[f].isBox()) && (elementList[f].select))
                     {
-                        GCPolygon p = elementList[f].convertToPolygon();
+                        GCPolygon p = elementList[f].convertToPolygons()[0];
                         p.map(m);
                         GCBox b = p.convertToBox();
                         if (b != null)
@@ -534,7 +534,7 @@ namespace geoCoreLib
                 {
                     if ((elementList[f].isBox()) && (elementList[f].select))
                     {
-                        GCPolygon p = elementList[f].convertToPolygon();
+                        GCPolygon p = elementList[f].convertToPolygons()[0];
                         p.map(m);
                         GCBox b = p.convertToBox();
                         if (b != null)
@@ -602,7 +602,7 @@ namespace geoCoreLib
                 {
                     if ((elementList[f].isBox()) && (elementList[f].select))
                     {
-                        GCPolygon p = elementList[f].convertToPolygon();
+                        GCPolygon p = elementList[f].convertToPolygons()[0];
                         p.select = true;
                         c = p.cutSelect(p1, p2);
                         GCBox b = p.convertToBox();

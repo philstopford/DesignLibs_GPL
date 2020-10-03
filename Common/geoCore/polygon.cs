@@ -3,6 +3,7 @@ using geoLib;
 using geoWrangler;
 using oasis;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace geoCoreLib
@@ -260,14 +261,16 @@ namespace geoCoreLib
             }
         }
 
-        public override GCPolygon convertToPolygon()
+        public override List<GCPolygon> convertToPolygons()
         {
-            return pConvertToPolygon();
+            return pConvertToPolygons();
         }
 
-        GCPolygon pConvertToPolygon()
+        List<GCPolygon> pConvertToPolygons()
         {
-            return new GCPolygon(this);
+            List<GCPolygon> ret = new List<GCPolygon>();
+            ret.Add(new GCPolygon(this));
+            return ret;
         }
 
         public override void clean()

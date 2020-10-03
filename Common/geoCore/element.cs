@@ -428,7 +428,7 @@ namespace geoCoreLib
         // Polygon
         public virtual bool isPolygon() { return false; }
         public virtual GCPolygon getPolygon() { return null; }
-        public virtual GCPolygon convertToPolygon() { return null; }
+        public virtual List<GCPolygon> convertToPolygons() { return null; }
         public virtual bool mergeSelect(GCPolygon p) { return false; }
         public virtual void edgeRemoveSelect(int edge) { }
         public virtual bool add(GeoLibPoint[] poly) { return false; }

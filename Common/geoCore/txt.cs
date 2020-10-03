@@ -2,6 +2,7 @@
 using geoLib;
 using oasis;
 using System;
+using System.Collections.Generic;
 
 namespace geoCoreLib
 {
@@ -304,20 +305,23 @@ namespace geoCoreLib
             }
         }
 
-        public override GCPolygon convertToPolygon()
+        public override List<GCPolygon> convertToPolygons()
         {
-            return pConvertToPolygon();
+            return pConvertToPolygons();
         }
 
-        GCPolygon pConvertToPolygon()
+        List<GCPolygon> pConvertToPolygons()
         {
+            List<GCPolygon> ret = new List<GCPolygon>();
             GeoLibPoint[] points = new GeoLibPoint[5];
             points[0] = new GeoLibPoint(point.X - 1, point.Y - 1);
             points[1] = new GeoLibPoint(point.X - 1, point.Y + 1);
             points[2] = new GeoLibPoint(point.X + 1, point.Y + 1);
             points[3] = new GeoLibPoint(point.X + 1, point.Y - 1);
             points[4] = new GeoLibPoint(points[0]);
-            return new GCPolygon(points, layer_nr, datatype_nr);
+            ret.Add(new GCPolygon(points, layer_nr, datatype_nr));
+
+            return ret;
         }
     }
 }

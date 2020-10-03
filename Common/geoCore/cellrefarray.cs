@@ -3,6 +3,7 @@ using geoLib;
 using geoWrangler;
 using oasis;
 using System;
+using System.Collections.Generic;
 
 namespace geoCoreLib
 {
@@ -421,5 +422,17 @@ namespace geoCoreLib
         {
             return point;
         }
+
+        public override List<GCPolygon> convertToPolygons()
+        {
+            return pConvertToPolygons();
+        }
+
+
+        List<GCPolygon> pConvertToPolygons()
+        {
+            return null;
+        }
+
     }
 }

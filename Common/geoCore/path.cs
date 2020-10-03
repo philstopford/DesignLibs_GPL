@@ -198,15 +198,17 @@ namespace geoCoreLib
             this.cap = cap;
         }
 
-        public override GCPolygon convertToPolygon()
+        public override List<GCPolygon> convertToPolygons()
         {
-            return pConvertToPolygon();
+            return pConvertToPolygons();
         }
 
-        GCPolygon pConvertToPolygon()
+        List<GCPolygon> pConvertToPolygons()
         {
+            List<GCPolygon> ret = new List<GCPolygon>();
             GeoLibPoint[] tmp = GeoWrangler.inflatePath(pointarray, width);
-            return new GCPolygon(tmp, layer_nr, datatype_nr);
+            ret.Add(new GCPolygon(tmp, layer_nr, datatype_nr));
+            return ret;
         }
 
         public void setRound(bool val)

@@ -697,8 +697,16 @@ namespace geoCoreLib
             for (Int32 poly = 0; poly < structures[activeStructure].elements[activeLD].geometry.Count; poly++)
             {
                 points.Add(structures[activeStructure].elements[activeLD].geometry[poly].ToArray());
-                array_count.Add(new GeoLibPoint(structures[activeStructure].elements[activeLD].arrayData[poly].count));
-                array_pitch.Add(new GeoLibPointF(structures[activeStructure].elements[activeLD].arrayData[poly].pitch));
+                if (structures[activeStructure].elements[activeLD].arrayData[poly] != null)
+                {
+                    array_count.Add(new GeoLibPoint(structures[activeStructure].elements[activeLD].arrayData[poly].count));
+                    array_pitch.Add(new GeoLibPointF(structures[activeStructure].elements[activeLD].arrayData[poly].pitch));
+                }
+                else
+                {
+                    array_count.Add(new GeoLibPoint(1, 1));
+                    array_pitch.Add(new GeoLibPointF(0, 0));
+                }
             }
 
             // Any arrays?

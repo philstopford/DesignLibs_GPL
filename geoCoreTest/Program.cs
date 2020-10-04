@@ -33,6 +33,20 @@ namespace geoCoreTest
 
             List<GeoLibPointF[]> geo = gcGDS.points(flatten:true);
 
+            GeoCoreHandler gH_GDS2 = new GeoCoreHandler();
+            gH_GDS2.updateGeoCoreHandler(arrayDir + "L_array_nested.gds", GeoCore.fileType.gds);
+            GeoCore gcGDS2 = gH_GDS2.getGeo();
+
+            // The array is in cell 'a'
+            gcGDS2.activeStructure = gcGDS2.getStructureList().IndexOf("b");
+
+            // Only a single layer datatype.
+            gcGDS2.activeLD = gcGDS2.getActiveStructureLDList().IndexOf("L1D0");
+
+            gcGDS2.updateGeometry(gcGDS2.activeStructure, gcGDS.activeLD);
+
+            List<GeoLibPointF[]> geo2 = gcGDS2.points(flatten: true);
+
             int xy = 2;
         }
 

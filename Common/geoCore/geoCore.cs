@@ -1,5 +1,6 @@
 ﻿using gds;
 using geoLib;
+using geoWrangler;
 using oasis;
 using System;
 using System.Collections.Generic;
@@ -584,6 +585,8 @@ namespace geoCoreLib
                     }    
                 }
             }
+
+            // Might need to track nested  array configurations here to handle recursive settings.
         }
 
 
@@ -681,18 +684,37 @@ namespace geoCoreLib
             return structures[activeStructure].elements[activeLD].arrayData;
         }
 
-        public List<GeoLibPointF[]> points()
+        public List<GeoLibPointF[]> points(bool flatten)
         {
-            return pPoints();
+            return pPoints(flatten);
         }
 
-        List<GeoLibPointF[]> pPoints()
+        List<GeoLibPointF[]> pPoints(bool flatten)
         {
             List<GeoLibPointF[]> points = new List<GeoLibPointF[]>();
+            List<GeoLibPoint> array_count = new List<GeoLibPoint>();
+            List<GeoLibPointF> array_pitch = new List<GeoLibPointF>();
             for (Int32 poly = 0; poly < structures[activeStructure].elements[activeLD].geometry.Count; poly++)
             {
                 points.Add(structures[activeStructure].elements[activeLD].geometry[poly].ToArray());
+                array_count.Add(new GeoLibPoint(structures[activeStructure].elements[activeLD].arrayData[poly].count));
+                array_pitch.Add(new GeoLibPointF(structures[activeStructure].elements[activeLD].arrayData[poly].pitch));
             }
+
+            // Any arrays?
+            if (flatten)
+            {
+                List<GeoLibPointF[]> arrayed = new List<GeoLibPointF[]>();
+                for (int i = 0; i < points.Count; i++)
+                {
+                    List<GeoLibPointF[]> fa = GeoWrangler.makeArray(points[i], array_count[i].X, array_pitch[i].X, array_count[i].Y, array_pitch[i].Y);
+                    arrayed.AddRange(fa);
+                }
+
+                points = arrayed;
+            }
+
+
             return points;
         }
 

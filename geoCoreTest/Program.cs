@@ -1,14 +1,43 @@
 ﻿using geoCoreLib;
 using geoLib;
 using System;
+using System.Collections.Generic;
+
 namespace geoCoreTest
 {
     class Program
     {
+        static string baseDir = "D:\\Google Drive\\Semi\\geocore_test\\";
+
         static void Main(string[] args)
         {
-            string baseName = "paisley";
-            string baseDir = "D:\\development\\Git\\Variance\\";
+            //test_1();
+            test_2();
+        }
+
+        static void test_2()
+        {
+            string arrayDir = baseDir + "cellrefarray\\";
+
+            GeoCoreHandler gH_GDS = new GeoCoreHandler();
+            gH_GDS.updateGeoCoreHandler(arrayDir + "L_array.gds", GeoCore.fileType.gds);
+            GeoCore gcGDS = gH_GDS.getGeo();
+
+            // The array is in cell 'a'
+            gcGDS.activeStructure = gcGDS.getStructureList().IndexOf("a");
+
+            // Only a single layer datatype.
+            gcGDS.activeLD = gcGDS.getActiveStructureLDList().IndexOf("L1D0");
+
+            gcGDS.updateGeometry(gcGDS.activeStructure, gcGDS.activeLD);
+
+            List<GeoLibPointF[]> geo = gcGDS.points(flatten:true);
+
+            int xy = 2;
+        }
+
+        static void test_1()
+        {
 
             string gdsDir = baseDir + "gdsFiles\\";
             string oasDir = baseDir + "oasFiles\\";
@@ -45,14 +74,14 @@ namespace geoCoreTest
 
             defineAndWrite_manyCellrefs(4, outDir);
 
+            string baseName = "paisley";
             loadSaveTest(baseName, gdsDir, oasDir, outDir);
         }
 
         static void loadSaveTest(string baseName, string gdsDir, string oasDir, string outDir)
         {
             GeoCoreHandler gH_GDS = new GeoCoreHandler();
-
-            gH_GDS.updateGeoCoreHandler(gdsDir + baseName + ".GDS", GeoCore.fileType.gds);
+            gH_GDS.updateGeoCoreHandler(gdsDir + baseName + ".gds", GeoCore.fileType.gds);
             GeoCore gcGDS = gH_GDS.getGeo();
 
             // Can we write consistent with what was read.
@@ -64,7 +93,7 @@ namespace geoCoreTest
             gow.save();
 
             GeoCoreHandler gH_OAS = new GeoCoreHandler();
-            gH_OAS.updateGeoCoreHandler(oasDir + baseName + ".OAS", GeoCore.fileType.oasis);
+            gH_OAS.updateGeoCoreHandler(oasDir + baseName + ".oas", GeoCore.fileType.oasis);
             GeoCore gcOAS = gH_OAS.getGeo();
 
             // Can we write consistent with what was read.
@@ -500,7 +529,7 @@ namespace geoCoreTest
 
             bool mirror_x = false;
             gcell = drawing_.addCell();
-            gcell.addCellref();
+            gcell.addCellref(drawing_.findCell("test"), new GeoLibPoint(0, 0));
             gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
             gcell.elementList[gcell.elementList.Count - 1].setPos(new GeoLibPoint(0, 0));
             gcell.elementList[gcell.elementList.Count - 1].setName("test");

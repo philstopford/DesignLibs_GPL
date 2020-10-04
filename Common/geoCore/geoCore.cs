@@ -586,6 +586,9 @@ namespace geoCoreLib
                 }
             }
 
+            // Need to construct the array of our geometry here!
+            structures[cellIndex].elements[element].geometry = GeoWrangler.makeArray(structures[cellIndex].elements[element].geometry, xCount, xSpace, yCount, ySpace);
+
             // Might need to track nested  array configurations here to handle recursive settings.
         }
 

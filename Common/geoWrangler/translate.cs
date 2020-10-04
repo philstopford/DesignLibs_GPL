@@ -29,6 +29,17 @@ namespace geoWrangler
             return ret;
         }
 
+        static List<List<GeoLibPointF>> pMove(List<List<GeoLibPointF>> source, double x, double y)
+        {
+            List<List<GeoLibPointF>> ret = new List<List<GeoLibPointF>>();
+            for (int i = 0; i < source.Count; i++)
+            {
+                ret.Add(pMove(source[i].ToArray(), x, y).ToList());
+            }
+
+            return ret;
+        }
+
         public static GeoLibPointF[] move(GeoLibPointF[] source, decimal x, decimal y)
         {
             return pMove(source, Convert.ToDouble(x), Convert.ToDouble(y));

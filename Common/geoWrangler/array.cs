@@ -31,6 +31,29 @@ namespace geoWrangler
             return ret;
         }
 
+        public static List<List<GeoLibPointF>> makeArray(List<List<GeoLibPointF>> source, int xCount, decimal xPitch, int yCount, decimal yPitch)
+        {
+            return pMakeArray(source, xCount, Convert.ToDouble(xPitch), yCount, Convert.ToDouble(yPitch));
+        }
+
+        public static List<List<GeoLibPointF>> makeArray(List<List<GeoLibPointF>> source, int xCount, double xPitch, int yCount, double yPitch)
+        {
+            return pMakeArray(source, xCount, xPitch, yCount, yPitch);
+        }
+
+        static List<List<GeoLibPointF>> pMakeArray(List<List<GeoLibPointF>> source, int xCount, double xPitch, int yCount, double yPitch)
+        {
+            List<List<GeoLibPointF>> ret = new List<List<GeoLibPointF>>();
+            for (int x = 0; x < xCount; x++)
+            {
+                for (int y = 0; y < yCount; y++)
+                {
+                    ret.AddRange(pMove(source, x * xPitch, y * yPitch));
+                }
+            }
+
+            return ret;
+        }
 
 
         public static List<GeoLibPointF[]> makeArray(List<GeoLibPointF[]> source, int xCount, decimal xPitch, int yCount, decimal yPitch)

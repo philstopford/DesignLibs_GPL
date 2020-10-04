@@ -11,11 +11,12 @@ namespace geoCoreTest
 
         static void Main(string[] args)
         {
-            //test_1();
-            test_2();
+            //test_basic();
+            //test_cellrefarray_basic();
+            test_cellrefarray_nested();
         }
 
-        static void test_2()
+        static void test_cellrefarray_basic()
         {
             string arrayDir = baseDir + "cellrefarray\\";
 
@@ -31,21 +32,28 @@ namespace geoCoreTest
 
             gcGDS.updateGeometry(gcGDS.activeStructure, gcGDS.activeLD);
 
-            List<GeoLibPointF[]> geo = gcGDS.points(flatten:true);
+            List<GeoLibPointF[]> geo = gcGDS.points(flatten: true);
 
-            GeoCoreHandler gH_GDS2 = new GeoCoreHandler();
-            gH_GDS2.updateGeoCoreHandler(arrayDir + "L_array_nested.gds", GeoCore.fileType.gds);
-            GeoCore gcGDS2 = gH_GDS2.getGeo();
+            int xy = 2;
+        }
+
+        static void test_cellrefarray_nested()
+        {
+            string arrayDir = baseDir + "cellrefarray\\";
+
+            GeoCoreHandler gH_GDS = new GeoCoreHandler();
+            gH_GDS.updateGeoCoreHandler(arrayDir + "L_array_nested.gds", GeoCore.fileType.gds);
+            GeoCore gcGDS = gH_GDS.getGeo();
 
             // The array is in cell 'a'
-            gcGDS2.activeStructure = gcGDS2.getStructureList().IndexOf("b");
+            gcGDS.activeStructure = gcGDS.getStructureList().IndexOf("b");
 
             // Only a single layer datatype.
-            gcGDS2.activeLD = gcGDS2.getActiveStructureLDList().IndexOf("L1D0");
+            gcGDS.activeLD = gcGDS.getActiveStructureLDList().IndexOf("L1D0");
 
-            gcGDS2.updateGeometry(gcGDS2.activeStructure, gcGDS.activeLD);
+            gcGDS.updateGeometry(gcGDS.activeStructure, gcGDS.activeLD);
 
-            List<GeoLibPointF[]> geo2 = gcGDS2.points(flatten: true);
+            List<GeoLibPointF[]> geo2 = gcGDS.points(flatten: true);
 
             int xy = 2;
         }

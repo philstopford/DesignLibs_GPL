@@ -740,6 +740,7 @@ namespace geoCoreLib
                 }
             }
 
+            /*
             // Any arrays?
             if (flatten)
             {
@@ -752,7 +753,7 @@ namespace geoCoreLib
 
                 points = arrayed;
             }
-
+            */
             // Update the geo.
             structures[activeLD].fgeo[activeLD] = points.ToList();
 

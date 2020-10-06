@@ -21,8 +21,6 @@ namespace geoCoreLib
 
         Boolean valid;
 
-        List<GeoLibPointF[]> fgeo;
-
         public void setValid(bool val)
         {
             pSetValid(val);
@@ -93,6 +91,9 @@ namespace geoCoreLib
         {
             public List<Element> elements { get; set; }
 
+            // Baked geo by element.
+            public List<List<GeoLibPointF[]>> fgeo;
+
             public class Element
             {
                 public List<bool> isText { get; set; }
@@ -162,6 +163,7 @@ namespace geoCoreLib
             void init()
             {
                 elements = new List<Element>();
+                fgeo = new List<List<GeoLibPointF[]>>();
             }
 
             public void addElement()
@@ -172,6 +174,7 @@ namespace geoCoreLib
             void pAddElement()
             {
                 elements.Add(new Element());
+                fgeo.Add(new List<GeoLibPointF[]>());
             }
         }
 
@@ -309,7 +312,6 @@ namespace geoCoreLib
             updateCollections();
             reset();
             genLDList();
-            fgeo = new List<GeoLibPointF[]>();
         }
 
         public void reset()
@@ -691,10 +693,10 @@ namespace geoCoreLib
                 ret = getGeometry_complex(gcCell, element, hashList, cellIndex, ldIndex);
             }
 
-            fgeo.Clear();
+            structures[cellIndex].fgeo[element].Clear();
             for (int i = 0; i < ret.Count; i++)
             {
-                fgeo.Add(ret[i].ToArray());
+                structures[cellIndex].fgeo[element].Add(ret[i].ToArray());
             }
         }
 
@@ -718,7 +720,7 @@ namespace geoCoreLib
         {
             if (flatten)
             {
-                return fgeo;
+                return structures[activeStructure].fgeo[activeLD];
             }
             List<GeoLibPointF[]> points = new List<GeoLibPointF[]>();
             List<GeoLibPoint> array_count = new List<GeoLibPoint>();
@@ -751,6 +753,8 @@ namespace geoCoreLib
                 points = arrayed;
             }
 
+            // Update the geo.
+            structures[activeLD].fgeo[activeLD] = points.ToList();
 
             return points;
         }

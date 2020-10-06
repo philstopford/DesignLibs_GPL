@@ -12,7 +12,7 @@ namespace geoCoreTest
         static void Main(string[] args)
         {
             //test_basic();
-            //test_cellrefarray_basic();
+            test_cellrefarray_basic();
             test_cellrefarray_nested();
         }
 
@@ -21,7 +21,7 @@ namespace geoCoreTest
             string arrayDir = baseDir + "cellrefarray\\";
 
             GeoCoreHandler gH_GDS = new GeoCoreHandler();
-            gH_GDS.updateGeoCoreHandler(arrayDir + "L_array.gds", GeoCore.fileType.gds);
+            gH_GDS.updateGeoCoreHandler(arrayDir + "L_array_nested.gds", GeoCore.fileType.gds);
             GeoCore gcGDS = gH_GDS.getGeo();
 
             // The array is in cell 'a'

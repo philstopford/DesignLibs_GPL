@@ -42,7 +42,7 @@ namespace geoCoreTest
             string arrayDir = baseDir + "cellrefarray\\";
 
             GeoCoreHandler gH_GDS = new GeoCoreHandler();
-            gH_GDS.updateGeoCoreHandler(arrayDir + "L_array_nested.gds", GeoCore.fileType.gds);
+            gH_GDS.updateGeoCoreHandler(arrayDir + "L_array_nested_2.gds", GeoCore.fileType.gds);
             GeoCore gcGDS = gH_GDS.getGeo();
 
             // The array is in cell 'a'

@@ -89,22 +89,77 @@ namespace geoCoreLib
 
         class Structure
         {
-            public List<Element> elements { get; set; }
+            public List<string> layerDataTypes;
 
-            // Baked geo by element.
-            public List<List<GeoLibPointF[]>> fgeo;
+            public List<Element> elements;
+
+            List<string> bakedGeo_LD;
+            List<BakedGeo> bakedGeo;
+
+            public class BakedGeo
+            {
+                public string LD { get; set; }
+                public List<GeoLibPointF[]> fgeo;
+
+                public BakedGeo()
+                {
+                    fgeo = new List<GeoLibPointF[]>();
+                }
+
+                public BakedGeo(List<GeoLibPointF[]> source, string ld)
+                {
+                    fgeo = source;
+                    LD = ld;
+                }
+            }
+
+            public void addBakedGeo(List<GeoLibPointF[]> source, string ld)
+            {
+                for (int i = 0; i < source.Count; i++)
+                {
+                    addBakedGeo(source[i], ld);
+                }
+            }
+
+            public void addBakedGeo(GeoLibPointF[] source, string ld)
+            {
+                int index = bakedGeo_LD.IndexOf(ld);
+                if (index == -1)
+                {
+                    bakedGeo.Add(new BakedGeo(new List<GeoLibPointF[]>() { source }, ld));
+                    bakedGeo_LD.Add(ld);
+                }
+                else
+                {
+                    bakedGeo[index].fgeo.Add(source);
+                }
+            }
+
+            public List<GeoLibPointF[]> getBakedGeo(string ld)
+            {
+                int index = bakedGeo_LD.IndexOf(ld);
+                if (index == -1)
+                {
+                    return new List<GeoLibPointF[]>();
+                }
+                else
+                {
+                    return bakedGeo[index].fgeo;
+                }
+            }
 
             public class Element
             {
-                public List<bool> isText { get; set; }
+                public string LD; // might be useful to track originating LD.
 
-                public List<string> isCellRefArray { get; set; }
+                public bool isText { get; set; }
+                public string isCellRefArray { get; set; }
 
-                public List<GeoLibArray> arrayData { get; set; }
+                public List<GeoLibPointF> geometry { get; set; }
 
-                public List<string> name { get; set; }
+                public GeoLibArray arrayData { get; set; }
 
-                public List<List<GeoLibPointF>> geometry { get; set; }
+                public string name { get; set; }
 
                 public Element()
                 {
@@ -113,47 +168,53 @@ namespace geoCoreLib
 
                 void init()
                 {
-                    geometry = new List<List<GeoLibPointF>>();
-                    isText = new List<bool>();
-                    name = new List<string>();
-                    isCellRefArray = new List<string>();
-                    arrayData = new List<GeoLibArray>();
+                    geometry = new List<GeoLibPointF>();
+                    isText = false;
+                    name = "";
+                    isCellRefArray = "";
+                    arrayData = null;
                 }
 
-                public Element(List<List<GeoLibPointF>> sourceGeo)
+                public Element(List<GeoLibPointF> sourceGeo)
                 {
                     init(sourceGeo);
                 }
 
-                void init(List<List<GeoLibPointF>> sourceGeo)
+                void init(List<GeoLibPointF> sourceGeo)
                 {
                     geometry = sourceGeo.ToList();
                 }
+            }
 
-                public void addPoly(List<GeoLibPointF> poly)
+            public void addPoly(List<GeoLibPointF> poly, string ldString)
+            {
+                pAddPoly(poly, ldString);
+            }
+
+            void pAddPoly(List<GeoLibPointF> poly, string ldString)
+            {
+                elements.Add(new Element(poly));
+                elements[elements.Count - 1].LD = ldString;
+                if (layerDataTypes.IndexOf(ldString) == -1)
                 {
-                    pAddPoly(poly);
+                    layerDataTypes.Add(ldString);
                 }
+            }
 
-                void pAddPoly(List<GeoLibPointF> poly)
-                {
-                    geometry.Add(poly.ToList());
-                    arrayData.Add(null);
-                    isText.Add(false);
-                    name.Add("");
-                }
+            public void addText(string name, List<GeoLibPointF> poly, string ldString)
+            {
+                pAddText(name, poly, ldString);
+            }
 
-                public void addText(string name, List<GeoLibPointF> poly)
+            void pAddText(string text, List<GeoLibPointF> poly, string ldString)
+            {
+                elements.Add(new Element(poly));
+                elements[elements.Count - 1].isText = true;
+                elements[elements.Count - 1].name = text;
+                elements[elements.Count - 1].LD = ldString;
+                if (layerDataTypes.IndexOf(ldString) == -1)
                 {
-                    pAddText(name, poly);
-                }
-
-                void pAddText(string text, List<GeoLibPointF> poly)
-                {
-                    geometry.Add(poly.ToList());
-                    arrayData.Add(null);
-                    isText.Add(true);
-                    name.Add(text);
+                    layerDataTypes.Add(ldString);
                 }
             }
 
@@ -165,7 +226,9 @@ namespace geoCoreLib
             void init()
             {
                 elements = new List<Element>();
-                fgeo = new List<List<GeoLibPointF[]>>();
+                layerDataTypes = new List<string>();
+                bakedGeo = new List<BakedGeo>();
+                bakedGeo_LD = new List<string>();
             }
 
             public void addElement()
@@ -176,7 +239,6 @@ namespace geoCoreLib
             void pAddElement()
             {
                 elements.Add(new Element());
-                fgeo.Add(new List<GeoLibPointF[]>());
             }
         }
 
@@ -342,10 +404,7 @@ namespace geoCoreLib
 
             structures = new List<Structure>();
             structures.Add(new Structure());
-            structures[0].addElement();
-            structures[0].elements[0].addPoly(new List<GeoLibPointF>() { new GeoLibPointF(0, 0) });
-
-            
+            //structures[0].addElement();
 
             pUpdateCollections();
         }
@@ -477,11 +536,11 @@ namespace geoCoreLib
                         if (ldIndex == -1)
                         {
                             structure_LayerDataTypeList[cellIndex].Add(searchString);
-                            structures[cellIndex].addElement();
+                            //structures[cellIndex].addElement();
                             ldIndex = structure_LayerDataTypeList[cellIndex].Count - 1;
                         }
 
-                        getGeometry(ref drawing_, cell, element, hashList, cellIndex, ldIndex);
+                        getGeometry(ref drawing_, cell, element, hashList, cellIndex, searchString);
                     }
                 }
             }
@@ -509,12 +568,12 @@ namespace geoCoreLib
             }
         }
 
-        void getGeometry(ref GCDrawingfield drawing_, int cell, int element, List<string> hashList, int cellIndex, int ldIndex)
+        void getGeometry(ref GCDrawingfield drawing_, int cell, int element, List<string> hashList, int cellIndex, string searchString)
         {
-            getGeometry(ref drawing_, drawing_.cellList[cell], element, hashList, cellIndex, ldIndex);
+            getGeometry(ref drawing_, drawing_.cellList[cell], element, hashList, cellIndex, searchString);
         }
 
-        List<List<GeoLibPointF>> getGeometry_simple(GCCell gcCell, int element, List<string> hashList, int cellIndex, int ldIndex)
+        List<List<GeoLibPointF>> getGeometry_simple(GCCell gcCell, int element, List<string> hashList, int cellIndex, string searchString)
         {
             List<List<GeoLibPointF>> ret = new List<List<GeoLibPointF>>();
             List<GCPolygon> lp = gcCell.elementList[element].convertToPolygons();
@@ -535,22 +594,20 @@ namespace geoCoreLib
                     if (gcCell.elementList[element].isText())
                     {
                         string text = gcCell.elementList[element].getName();
-                        structures[cellIndex].elements[ldIndex].addText(text, t);
+                        structures[cellIndex].addText(text, t, searchString);
                     }
                     else
                     {
-                        structures[cellIndex].elements[ldIndex].addPoly(t);
+                        structures[cellIndex].addPoly(t, searchString);
                     }
                     ret.Add(t);
-                    structures[cellIndex].elements[ldIndex].isCellRefArray.Add("");
-                    structures[cellIndex].elements[ldIndex].arrayData.Add(null);
                 }
             }
 
             return ret;
         }
 
-        List<List<GeoLibPointF>> getGeometry_complex(GCCell gcCell, int element, List<string> hashList, int cellIndex, int ldIndex)
+        List<List<GeoLibPointF>> getGeometry_complex(GCCell gcCell, int element, List<string> hashList, int cellIndex, string searchString)
         {
             List<List<GeoLibPointF>> ret = new List<List<GeoLibPointF>>();
             // Need to de-reference these cases.
@@ -593,7 +650,7 @@ namespace geoCoreLib
                     }
                     else
                     {
-                        ret = getGeometry_complex(tmpCel, element, hashList, cellIndex, ldIndex);
+                        ret = getGeometry_complex(tmpCel, element, hashList, cellIndex, searchString);
                     }    
                 }
             }
@@ -633,16 +690,14 @@ namespace geoCoreLib
 
                 if (gcCell.elementList[element].GetType().Equals(typeof(GCCellRefArray)))
                 {
-                    structures[cellIndex].elements[adIndex].isCellRefArray.Add(gcCell.elementList[element].depend().cellName);// gcCell.elementList[element].isCellrefArray());
+                    structures[cellIndex].elements[adIndex].isCellRefArray = gcCell.elementList[element].depend().cellName;// gcCell.elementList[element].isCellrefArray());
                 }
 
                 GeoLibArray tmpArray = new GeoLibArray();
                 tmpArray.count = new GeoLibPoint(xCount, yCount);
                 tmpArray.point = new GeoLibPoint(point);
                 tmpArray.pitch = new GeoLibPoint(xSpace, ySpace);
-                structures[cellIndex].elements[adIndex].arrayData.Add(tmpArray);
-
-                crLDIndex = structure_LayerDataTypeList[cellIndex].Count - 1;
+                structures[cellIndex].elements[adIndex].arrayData = tmpArray;
             }
 
             try
@@ -669,7 +724,7 @@ namespace geoCoreLib
                         {
                             t.Add(new GeoLibPointF((crP.pointarray[pt].X + (x * xSpace)) * scaling, (crP.pointarray[pt].Y + (y * ySpace)) * scaling));
                         }
-                        structures[cellIndex].elements[crLDIndex].addPoly(t);
+                        structures[cellIndex].addPoly(t, crSearchString);
                         ret.Add(t);
                     }
                 }
@@ -682,27 +737,27 @@ namespace geoCoreLib
             return ret;
         }
 
-        void getGeometry(ref GCDrawingfield drawing_, GCCell gcCell, int element, List<string> hashList, int cellIndex, int ldIndex)
+        void getGeometry(ref GCDrawingfield drawing_, GCCell gcCell, int element, List<string> hashList, int cellIndex, string searchString)
         {
             List<List<GeoLibPointF>> ret = new List<List<GeoLibPointF>>();
             // Now we have to process our geometry into the right place.
             if (!gcCell.elementList[element].isCellref() && !gcCell.elementList[element].isCellrefArray())
             {
-                ret = getGeometry_simple(gcCell, element, hashList, cellIndex, ldIndex);
+                ret = getGeometry_simple(gcCell, element, hashList, cellIndex, searchString);
             }
             else
             {
-                ret = getGeometry_complex(gcCell, element, hashList, cellIndex, ldIndex);
+                ret = getGeometry_complex(gcCell, element, hashList, cellIndex, searchString);
             }
 
-            structures[cellIndex].fgeo[element].Clear();
+            //structures[cellIndex].fgeo[element].Clear();
             for (int i = 0; i < ret.Count; i++)
             {
-                structures[cellIndex].fgeo[element].Add(ret[i].ToArray());
+                structures[cellIndex].addBakedGeo(ret[i].ToArray(), searchString);
             }
         }
 
-
+        /*
         public List<GeoLibArray> getArrayParameters()
         {
             return pGetArrayParameters();
@@ -712,7 +767,7 @@ namespace geoCoreLib
         {
             return structures[activeStructure].elements[activeLD].arrayData;
         }
-
+        */
         public List<GeoLibPointF[]> points(bool flatten)
         {
             return pPoints(flatten);
@@ -722,18 +777,18 @@ namespace geoCoreLib
         {
             if (flatten)
             {
-                return structures[activeStructure].fgeo[activeLD];
+                return structures[activeStructure].getBakedGeo(pActiveStructure_LDList[activeLD]);
             }
             List<GeoLibPointF[]> points = new List<GeoLibPointF[]>();
             List<GeoLibPoint> array_count = new List<GeoLibPoint>();
             List<GeoLibPointF> array_pitch = new List<GeoLibPointF>();
             for (Int32 poly = 0; poly < structures[activeStructure].elements[activeLD].geometry.Count; poly++)
             {
-                points.Add(structures[activeStructure].elements[activeLD].geometry[poly].ToArray());
-                if (structures[activeStructure].elements[activeLD].arrayData[poly] != null)
+                points.Add(structures[activeStructure].elements[activeLD].geometry.ToArray());
+                if (structures[activeStructure].elements[activeLD].arrayData != null)
                 {
-                    array_count.Add(new GeoLibPoint(structures[activeStructure].elements[activeLD].arrayData[poly].count));
-                    array_pitch.Add(new GeoLibPointF(structures[activeStructure].elements[activeLD].arrayData[poly].pitch));
+                    array_count.Add(new GeoLibPoint(structures[activeStructure].elements[activeLD].arrayData.count));
+                    array_pitch.Add(new GeoLibPointF(structures[activeStructure].elements[activeLD].arrayData.pitch));
                 }
                 else
                 {
@@ -757,11 +812,12 @@ namespace geoCoreLib
             }
             */
             // Update the geo.
-            structures[activeLD].fgeo[activeLD] = points.ToList();
+            // structures[activeLD].fgeo[activeLD] = points.ToList();
 
             return points;
         }
 
+        /*
         public List<bool> text()
         {
             return pText();
@@ -769,8 +825,9 @@ namespace geoCoreLib
 
         public List<bool> pText()
         {
-            return structures[activeStructure].elements[activeLD].isText.ToList();
+            return structures[activeStructure].elements[activeLD].isText;
         }
+        */
 
         public string getName(int index)
         {
@@ -779,7 +836,7 @@ namespace geoCoreLib
 
         string pGetName(int index)
         {
-            return structures[activeStructure].elements[activeLD].name[index];
+            return structures[activeStructure].elements[index].name;
         }
 
         public void updateGeometry(Int32 structure, Int32 layerdatatype)

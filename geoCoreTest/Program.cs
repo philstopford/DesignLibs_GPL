@@ -12,7 +12,7 @@ namespace geoCoreTest
         static void Main(string[] args)
         {
             //test_basic();
-            test_cellrefarray_basic();
+            //test_cellrefarray_basic();
             test_cellrefarray_nested();
         }
 

@@ -138,6 +138,7 @@ namespace geoCoreLib
                 void pAddPoly(List<GeoLibPointF> poly)
                 {
                     geometry.Add(poly.ToList());
+                    arrayData.Add(null);
                     isText.Add(false);
                     name.Add("");
                 }
@@ -150,6 +151,7 @@ namespace geoCoreLib
                 void pAddText(string text, List<GeoLibPointF> poly)
                 {
                     geometry.Add(poly.ToList());
+                    arrayData.Add(null);
                     isText.Add(true);
                     name.Add(text);
                 }

@@ -195,6 +195,10 @@ namespace geoCoreLib
             {
                 elements.Add(new Element(poly));
                 elements[elements.Count - 1].LD = ldString;
+                if (ldString == "L-1D-1")
+                {
+                    int xx = 2;
+                }
                 if (layerDataTypes.IndexOf(ldString) == -1)
                 {
                     layerDataTypes.Add(ldString);
@@ -212,6 +216,10 @@ namespace geoCoreLib
                 elements[elements.Count - 1].isText = true;
                 elements[elements.Count - 1].name = text;
                 elements[elements.Count - 1].LD = ldString;
+                if (ldString == "L-1D-1")
+                {
+                    int xx = 2;
+                }
                 if (layerDataTypes.IndexOf(ldString) == -1)
                 {
                     layerDataTypes.Add(ldString);
@@ -509,6 +517,12 @@ namespace geoCoreLib
 
                         string searchString = "L" + layer.ToString() + "D" + datatype.ToString();
 
+                        if (searchString == "L-1D-1")
+                        {
+                            // We get into trouble here as the cell reference needs to be followed.... Ugh.
+                            int xx = 2;
+                        }
+
                         // Query our dictionary.
                         string resultString = "";
                         try
@@ -533,7 +547,7 @@ namespace geoCoreLib
                         {
                         }
 
-                        if (ldIndex == -1)
+                        if ((ldIndex == -1) && (searchString != "L-1D-1"))
                         {
                             structure_LayerDataTypeList[cellIndex].Add(searchString);
                             //structures[cellIndex].addElement();
@@ -573,13 +587,19 @@ namespace geoCoreLib
             getGeometry(ref drawing_, drawing_.cellList[cell], element, hashList, cellIndex, searchString);
         }
 
-        List<List<GeoLibPointF>> getGeometry_simple(GCCell gcCell, int element, List<string> hashList, int cellIndex, string searchString)
+        GeoData getGeometry_simple(GCCell gcCell, int element, List<string> hashList, int cellIndex)
         {
             List<List<GeoLibPointF>> ret = new List<List<GeoLibPointF>>();
+            List<string> lds = new List<string>();
             List<GCPolygon> lp = gcCell.elementList[element].convertToPolygons();
             for (int poly = 0; poly < lp.Count; poly++)
             {
                 GCPolygon p = lp[poly];
+                string ldString = "L" + p.layer_nr.ToString() + "D" + p.datatype_nr.ToString();
+                if (ldString == "L-1D-1")
+                {
+                    int xx = 2;
+                }
                 // We should remove identical polygons here in case of doubled-up input geometry.
                 string crP_Hash = utility.Utils.GetMD5Hash(p.pointarray);
 
@@ -594,22 +614,23 @@ namespace geoCoreLib
                     if (gcCell.elementList[element].isText())
                     {
                         string text = gcCell.elementList[element].getName();
-                        structures[cellIndex].addText(text, t, searchString);
+                        structures[cellIndex].addText(text, t, ldString);
                     }
                     else
                     {
-                        structures[cellIndex].addPoly(t, searchString);
+                        structures[cellIndex].addPoly(t, ldString);
                     }
                     ret.Add(t);
+                    lds.Add(ldString);
                 }
             }
 
-            return ret;
+            return new GeoData(ret, lds);
         }
 
-        List<List<GeoLibPointF>> getGeometry_complex(GCCell gcCell, int element, List<string> hashList, int cellIndex, string searchString)
+        GeoData getGeometry_complex(GCCell gcCell, int element, List<string> hashList, int cellIndex)
         {
-            List<List<GeoLibPointF>> ret = new List<List<GeoLibPointF>>();
+            GeoData ret = new GeoData();
             // Need to de-reference these cases.
             double angle;
             GeoLibPoint point;
@@ -650,27 +671,46 @@ namespace geoCoreLib
                     }
                     else
                     {
-                        ret = getGeometry_complex(tmpCel, element, hashList, cellIndex, searchString);
+                        ret = getGeometry_complex(tmpCel, element, hashList, cellIndex);
                     }    
                 }
             }
 
             // Need to construct the array of our geometry here!
-            return GeoWrangler.makeArray(ret, xCount, xSpace, yCount, ySpace);
+            GeoData postArray = new GeoData();
+            for (int i = 0; i < ret.geo.Count; i++)
+            {
+                postArray.geo = GeoWrangler.makeArray2(ret.geo[i], xCount, xSpace, yCount, ySpace);
+                postArray.ld = new List<string>();
+                for (int j = 0; j < postArray.geo.Count; j++)
+                {
+                    postArray.ld.Add(ret.ld[i]);
+                }
+            }
+            // return GeoWrangler.makeArray(ret, xCount, xSpace, yCount, ySpace);
+
+            return postArray;
 
             // Might need to track nested  array configurations here to handle recursive settings.
         }
 
 
-        List<List<GeoLibPointF>> getGeometry_2(GCCell gcCell, int element, List<string> hashList, GCCell tmpCel, int cellIndex, int referenceElement, GeoLibPoint point, int xCount, int yCount, double xSpace, double ySpace, double angle, double mag)
+        GeoData getGeometry_2(GCCell gcCell, int element, List<string> hashList, GCCell tmpCel, int cellIndex, int referenceElement, GeoLibPoint point, int xCount, int yCount, double xSpace, double ySpace, double angle, double mag)
         {
             List<List<GeoLibPointF>> ret = new List<List<GeoLibPointF>>();
             Int32 crLayer = tmpCel.elementList[referenceElement].layer_nr;
             Int32 crDatatype = tmpCel.elementList[referenceElement].datatype_nr;
 
+            List<string> lds = new List<string>();
+
             // See if our layer/datatype combination is known to us already.
 
             string crSearchString = "L" + crLayer.ToString() + "D" + crDatatype.ToString();
+
+            if (crSearchString == "L-1D-1")
+            {
+                int xx = 2;
+            }
 
             Int32 crLDIndex = -1;
 
@@ -710,6 +750,8 @@ namespace geoCoreLib
                     crP.rotate(angle, point);
                     crP.scale(point, mag);
 
+                    string ldString = "L" + crP.layer_nr.ToString() + "D" + crP.datatype_nr.ToString();
+
                     // We should remove identical polygons here in case of doubled-up input geometry.
                     string crP_Hash = utility.Utils.GetMD5Hash(crP.pointarray);
 
@@ -724,8 +766,9 @@ namespace geoCoreLib
                         {
                             t.Add(new GeoLibPointF((crP.pointarray[pt].X + (x * xSpace)) * scaling, (crP.pointarray[pt].Y + (y * ySpace)) * scaling));
                         }
-                        structures[cellIndex].addPoly(t, crSearchString);
+                        structures[cellIndex].addPoly(t, ldString);
                         ret.Add(t);
+                        lds.Add(ldString);
                     }
                 }
             }
@@ -734,26 +777,49 @@ namespace geoCoreLib
                 // Exception is not a big deal.
             }
 
-            return ret;
+            return new GeoData(ret, lds);
+        }
+
+
+        public class GeoData
+        {
+            public List<List<GeoLibPointF>> geo;
+            public List<string> ld;
+
+            public GeoData()
+            {
+                geo = new List<List<GeoLibPointF>>();
+                ld = new List<string>();
+            }
+
+            public GeoData(List<List<GeoLibPointF>> poly, List<string> LDs)
+            {
+                geo = poly.ToList();
+                ld = LDs.ToList();
+            }
         }
 
         void getGeometry(ref GCDrawingfield drawing_, GCCell gcCell, int element, List<string> hashList, int cellIndex, string searchString)
         {
-            List<List<GeoLibPointF>> ret = new List<List<GeoLibPointF>>();
+            GeoData ret;
             // Now we have to process our geometry into the right place.
             if (!gcCell.elementList[element].isCellref() && !gcCell.elementList[element].isCellrefArray())
             {
-                ret = getGeometry_simple(gcCell, element, hashList, cellIndex, searchString);
+                ret = getGeometry_simple(gcCell, element, hashList, cellIndex);
             }
             else
             {
-                ret = getGeometry_complex(gcCell, element, hashList, cellIndex, searchString);
+                ret = getGeometry_complex(gcCell, element, hashList, cellIndex);
             }
 
-            //structures[cellIndex].fgeo[element].Clear();
-            for (int i = 0; i < ret.Count; i++)
+            if (searchString == "L-1D-1")
             {
-                structures[cellIndex].addBakedGeo(ret[i].ToArray(), searchString);
+                int x = 2;
+            }
+
+            for (int i = 0; i < ret.geo.Count; i++)
+            {
+                structures[cellIndex].addBakedGeo(ret.geo[i].ToArray(), ret.ld[i]);
             }
         }
 

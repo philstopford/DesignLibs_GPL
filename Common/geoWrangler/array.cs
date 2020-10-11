@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using geoLib;
 
@@ -7,6 +8,29 @@ namespace geoWrangler
 {
     public static partial class GeoWrangler
     {
+        public static List<List<GeoLibPointF>> makeArray2(List<GeoLibPointF> source, int xCount, double xPitch, int yCount, double yPitch)
+        {
+            List<GeoLibPointF[]> r = pMakeArray(source.ToArray(), xCount, xPitch, yCount, yPitch);
+
+            List<List<GeoLibPointF>> ret = new List<List<GeoLibPointF>>();
+            for (int i = 0; i < r.Count; i++)
+            {
+                ret.Add(r[i].ToList());
+            }
+
+            return ret;
+        }
+
+        public static List<GeoLibPointF[]> makeArray(List<GeoLibPointF> source, int xCount, decimal xPitch, int yCount, decimal yPitch)
+        {
+            return pMakeArray(source.ToArray(), xCount, Convert.ToDouble(xPitch), yCount, Convert.ToDouble(yPitch));
+        }
+
+        public static List<GeoLibPointF[]> makeArray(List<GeoLibPointF> source, int xCount, double xPitch, int yCount, double yPitch)
+        {
+            return pMakeArray(source.ToArray(), xCount, Convert.ToDouble(xPitch), yCount, Convert.ToDouble(yPitch));
+        }
+
         public static List<GeoLibPointF[]> makeArray(GeoLibPointF[] source, int xCount, decimal xPitch, int yCount, decimal yPitch)
         {
             return pMakeArray(source, xCount, Convert.ToDouble(xPitch), yCount, Convert.ToDouble(yPitch));

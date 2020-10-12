@@ -135,6 +135,7 @@ namespace geoCoreLib
                 else
                 {
                     bakedGeo[index].fgeo.Add(source);
+                    bakedGeo[index].isText.Add(text);
                 }
             }
 
@@ -168,11 +169,11 @@ namespace geoCoreLib
             public List<bool> isText(string ld)
             {
                 List<bool> ret = new List<bool>();
-                for (int i = 0; i < elements.Count; i++)
+                for (int i = 0; i < bakedGeo_LD.Count; i++)
                 {
-                    if (elements[i].LD == ld)
+                    if (bakedGeo_LD[i] == ld)
                     {
-                        ret.Add(elements[i].isText);
+                        ret.AddRange(bakedGeo[i].isText);
                     }
                 }
 
@@ -206,14 +207,15 @@ namespace geoCoreLib
                     arrayData = null;
                 }
 
-                public Element(List<GeoLibPointF> sourceGeo)
+                public Element(List<GeoLibPointF> sourceGeo, bool text)
                 {
-                    init(sourceGeo);
+                    init(sourceGeo, text);
                 }
 
-                void init(List<GeoLibPointF> sourceGeo)
+                void init(List<GeoLibPointF> sourceGeo, bool text)
                 {
                     geometry = sourceGeo.ToList();
+                    isText = text;
                 }
             }
 
@@ -224,7 +226,7 @@ namespace geoCoreLib
 
             void pAddPoly(List<GeoLibPointF> poly, string ldString)
             {
-                elements.Add(new Element(poly));
+                elements.Add(new Element(poly, false));
                 elements[elements.Count - 1].LD = ldString;
                 if (ldString == "L-1D-1")
                 {
@@ -243,8 +245,7 @@ namespace geoCoreLib
 
             void pAddText(string text, List<GeoLibPointF> poly, string ldString)
             {
-                elements.Add(new Element(poly));
-                elements[elements.Count - 1].isText = true;
+                elements.Add(new Element(poly, true));
                 elements[elements.Count - 1].name = text;
                 elements[elements.Count - 1].LD = ldString;
                 if (ldString == "L-1D-1")
@@ -716,9 +717,11 @@ namespace geoCoreLib
             {
                 postArray.geo = GeoWrangler.makeArray2(ret.geo[i], xCount, xSpace, yCount, ySpace);
                 postArray.ld = new List<string>();
+                postArray.isText = new List<bool>();
                 for (int j = 0; j < postArray.geo.Count; j++)
                 {
                     postArray.ld.Add(ret.ld[i]);
+                    postArray.isText.Add(ret.isText[i]);
                 }
             }
             // return GeoWrangler.makeArray(ret, xCount, xSpace, yCount, ySpace);
@@ -880,7 +883,8 @@ namespace geoCoreLib
 
         List<bool> pIsText()
         {
-            return structures[activeStructure].isText(pActiveStructure_LDList[activeLD]);
+            string text = pActiveStructure_LDList[activeLD];
+            return structures[activeStructure].isText(text);
         }
 
         public List<GeoLibPointF[]> points(bool flatten)
@@ -900,19 +904,17 @@ namespace geoCoreLib
             List<GeoLibPointF[]> points = new List<GeoLibPointF[]>();
             List<GeoLibPoint> array_count = new List<GeoLibPoint>();
             List<GeoLibPointF> array_pitch = new List<GeoLibPointF>();
-            for (Int32 poly = 0; poly < structures[activeStructure].elements[activeLD].geometry.Count; poly++)
+
+            points.Add(structures[activeStructure].elements[activeLD].geometry.ToArray());
+            if (structures[activeStructure].elements[activeLD].arrayData != null)
             {
-                points.Add(structures[activeStructure].elements[activeLD].geometry.ToArray());
-                if (structures[activeStructure].elements[activeLD].arrayData != null)
-                {
-                    array_count.Add(new GeoLibPoint(structures[activeStructure].elements[activeLD].arrayData.count));
-                    array_pitch.Add(new GeoLibPointF(structures[activeStructure].elements[activeLD].arrayData.pitch));
-                }
-                else
-                {
-                    array_count.Add(new GeoLibPoint(1, 1));
-                    array_pitch.Add(new GeoLibPointF(0, 0));
-                }
+                array_count.Add(new GeoLibPoint(structures[activeStructure].elements[activeLD].arrayData.count));
+                array_pitch.Add(new GeoLibPointF(structures[activeStructure].elements[activeLD].arrayData.pitch));
+            }
+            else
+            {
+                array_count.Add(new GeoLibPoint(1, 1));
+                array_pitch.Add(new GeoLibPointF(0, 0));
             }
 
             /*

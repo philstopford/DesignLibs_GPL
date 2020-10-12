@@ -897,8 +897,6 @@ namespace geoCoreLib
 
             // Do we ever get here?
 
-            throw new Exception("We got here");
-
             List<GeoLibPointF[]> points = new List<GeoLibPointF[]>();
             List<GeoLibPoint> array_count = new List<GeoLibPoint>();
             List<GeoLibPointF> array_pitch = new List<GeoLibPointF>();

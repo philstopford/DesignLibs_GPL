@@ -10,6 +10,7 @@ namespace geoCoreLib
 {
     public class GCPolygon : GCElement
     {
+        public bool text;
         public GeoLibPoint[] pointarray { get; set; }
 
         public GCPolygon()
@@ -1290,6 +1291,15 @@ namespace geoCoreLib
             }
 
 
+        }
+        public override bool isText()
+        {
+            return pIsText();
+        }
+
+        bool pIsText()
+        {
+            return text;
         }
     }
 }

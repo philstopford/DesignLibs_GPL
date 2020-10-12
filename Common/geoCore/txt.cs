@@ -321,6 +321,8 @@ namespace geoCoreLib
             points[4] = new GeoLibPoint(points[0]);
             ret.Add(new GCPolygon(points, layer_nr, datatype_nr));
 
+            ret[0].text = true;
+
             return ret;
         }
     }

@@ -157,7 +157,7 @@ namespace geoCoreLib
                 List<GeoLibArray> ret = new List<GeoLibArray>();
                 for (int i = 0; i < elements.Count; i++)
                 {
-                    if (elements[i].LD == ld)
+                    //if (elements[i].LD == ld)
                     {
                         ret.Add(elements[i].arrayData);
                     }
@@ -936,18 +936,6 @@ namespace geoCoreLib
 
             return points;
         }
-
-        /*
-        public List<bool> text()
-        {
-            return pText();
-        }
-
-        public List<bool> pText()
-        {
-            return structures[activeStructure].elements[activeLD].isText;
-        }
-        */
 
         public string getName(int index)
         {

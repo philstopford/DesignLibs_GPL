@@ -238,7 +238,7 @@ namespace geoWrangler
                     // Add more samples, each n-degrees rotated from the nominal ray
                     double rayAngle = (sample + 1) * angleStep;
 
-                    IntPoint endPoint_t = new IntPoint(endPoint.X - (endPointDeltaY * rayAngle / 90.0f), endPoint.Y - -(endPointDeltaX * rayAngle / 90.0f));
+                    IntPoint endPoint_t = new IntPoint(endPoint.X - (endPointDeltaY * rayAngle / 90.0f), endPoint.Y - (endPointDeltaX * rayAngle / 90.0f));
 
 
                     IntPoint endPoint1 = GeoWrangler.Rotate(startPoint, endPoint_t, rayAngle);

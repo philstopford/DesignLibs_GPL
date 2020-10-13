@@ -237,8 +237,12 @@ namespace geoWrangler
                 {
                     // Add more samples, each n-degrees rotated from the nominal ray
                     double rayAngle = (sample + 1) * angleStep;
-                    IntPoint endPoint1 = GeoWrangler.Rotate(startPoint, endPoint, rayAngle);
-                    IntPoint endPoint2 = GeoWrangler.Rotate(startPoint, endPoint, -rayAngle);
+
+                    IntPoint endPoint_t = new IntPoint(endPoint.X - (endPointDeltaY * rayAngle / 90.0f), endPoint.Y - -(endPointDeltaX * rayAngle / 90.0f));
+
+
+                    IntPoint endPoint1 = GeoWrangler.Rotate(startPoint, endPoint_t, rayAngle);
+                    IntPoint endPoint2 = GeoWrangler.Rotate(startPoint, endPoint_t, -rayAngle);
 
                     // The order of line1 below is important, but I'm not yet sure why. If you change it, the expansion becomes assymetrical on a square (lower section gets squashed).
                     Path line1 = new Path();

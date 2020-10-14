@@ -248,12 +248,12 @@ namespace geoCoreLib
             userunits *= scale;
         }
 
-        public List<List<GCPolygon>> convertToPolygons()
+        public List<List<GCPolygon>> convertToPolygons(int layer = -1, int datatype = -1)
         {
-            return pConvertToPolygons();
+            return pConvertToPolygons(layer, datatype);
         }
 
-        List<List<GCPolygon>> pConvertToPolygons()
+        List<List<GCPolygon>> pConvertToPolygons(int layer = -1, int datatype = -1)
         {
             int cellCount = cellList.Count;
             List<GCPolygon>[] ret = new List<GCPolygon>[cellCount];
@@ -266,7 +266,7 @@ namespace geoCoreLib
 #endif
             {
                 List<GCPolygon> cellPolys = new List<GCPolygon>();
-                cellPolys = cellList[i].convertToPolygons();
+                cellPolys = cellList[i].convertToPolygons(layer:layer, datatype:datatype);
                 ret[i] = cellPolys.ToList();
             }
 #if GCTHREADED

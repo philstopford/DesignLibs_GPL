@@ -966,5 +966,34 @@ namespace geoCoreLib
                 }
             }
         }
+
+        public List<GCPolygon> convertToPolygons(int layer, int datatype)
+        {
+            return pConvertToPolygons(layer: layer, datatype: datatype);
+        }
+
+        public List<GCPolygon> convertToPolygons(bool activeLDOnly = false)
+        {
+            return pConvertToPolygons(activeLDOnly);
+        }
+
+        List<GCPolygon> pConvertToPolygons(bool activeLDOnly = false)
+        {
+            int layer = -1;
+            int datatype = -1;
+            if (activeLDOnly)
+            {
+                // Recover our layer and dataype from the string representation.
+                string[] temp = pGetActiveStructureLDList()[activeStructure].Split(new char[] { 'L' })[1].Split(new char[] { 'D' });
+                layer = Convert.ToInt32(temp[0]);
+                datatype = Convert.ToInt32(temp[1]);
+            }
+            return pConvertToPolygons(layer: layer, datatype: datatype);
+        }
+
+        List<GCPolygon> pConvertToPolygons(int layer = -1, int datatype = -1)
+        {
+            return drawingField.cellList[activeStructure].convertToPolygons(layer: layer, datatype: datatype);
+        }
     }
 }

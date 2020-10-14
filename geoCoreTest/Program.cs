@@ -84,8 +84,11 @@ namespace geoCoreTest
 
             List<GCPolygon> t3 = gcGDS.getDrawing().cellList[gcGDS.activeStructure].convertToPolygons();
             List<GCPolygon> t3a = gcGDS.getDrawing().cellList[gcGDS.activeStructure].convertToPolygons(layer: 1, datatype: 0);
-            List<GCPolygon> t3b = gcGDS.getDrawing().cellList[gcGDS.activeStructure].convertToPolygons(layer:2, datatype: 0);
+            List<GCPolygon> t3b = gcGDS.getDrawing().cellList[gcGDS.activeStructure].convertToPolygons(layer: 2, datatype: 0);
 
+            List<GCPolygon> t4 = gcGDS.convertToPolygons();
+            List<GCPolygon> t4a = gcGDS.convertToPolygons(activeLDOnly: true);
+            List<GCPolygon> t4b = gcGDS.convertToPolygons(layer: 2, datatype: 0);
 
             int xy = 2;
         }

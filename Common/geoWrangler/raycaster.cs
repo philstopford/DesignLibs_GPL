@@ -16,18 +16,19 @@ namespace geoWrangler
         Paths clippedLines;
         Paths castLines;
 
-        public enum falloff { none, linear, gaussian, gaussian2, gaussian4 }
+        public static List<string> fallOffList = new List<string>() {"None", "Linear", "Gaussian"};
+        public enum falloff { none, linear, gaussian }
 
         // Corner projection is default and takes an orthogonal ray out from the corner. Setting to false causes an averaged normal to be generated.
 
-        public RayCast(Path emissionPath, Paths collisionPaths, Int64 max, bool projectCorners = true, bool invert = false, int multisampleRayCount = 0, bool runOuterLoopThreaded = false, bool runInnerLoopThreaded = false, IntPoint startOffset = new IntPoint(), IntPoint endOffset = new IntPoint(), falloff sideRayFallOff = falloff.none)
+        public RayCast(Path emissionPath, Paths collisionPaths, Int64 max, bool projectCorners = true, bool invert = false, int multisampleRayCount = 0, bool runOuterLoopThreaded = false, bool runInnerLoopThreaded = false, IntPoint startOffset = new IntPoint(), IntPoint endOffset = new IntPoint(), falloff sideRayFallOff = falloff.none, double sideRayFallOffMultiplier = 1.0f)
         {
-            rayCast(emissionPath, collisionPaths, max, projectCorners, invert, multisampleRayCount, runOuterLoopThreaded, runInnerLoopThreaded, startOffset, endOffset, sideRayFallOff);
+            rayCast(emissionPath, collisionPaths, max, projectCorners, invert, multisampleRayCount, runOuterLoopThreaded, runInnerLoopThreaded, startOffset, endOffset, sideRayFallOff, sideRayFallOffMultiplier);
         }
 
-        public RayCast(Path emissionPath, Path collisionPath, Int64 max, bool projectCorners = true, bool invert = false, int multisampleRayCount = 0, bool runOuterLoopThreaded = false, bool runInnerLoopThreaded = false, IntPoint startOffset = new IntPoint(), IntPoint endOffset = new IntPoint(), falloff sideRayFallOff = falloff.none)
+        public RayCast(Path emissionPath, Path collisionPath, Int64 max, bool projectCorners = true, bool invert = false, int multisampleRayCount = 0, bool runOuterLoopThreaded = false, bool runInnerLoopThreaded = false, IntPoint startOffset = new IntPoint(), IntPoint endOffset = new IntPoint(), falloff sideRayFallOff = falloff.none, double sideRayFallOffMultiplier = 1.0f)
         {
-            rayCast(emissionPath, new Paths() { collisionPath }, max, projectCorners, invert, multisampleRayCount, runOuterLoopThreaded, runInnerLoopThreaded, startOffset, endOffset, sideRayFallOff);
+            rayCast(emissionPath, new Paths() { collisionPath }, max, projectCorners, invert, multisampleRayCount, runOuterLoopThreaded, runInnerLoopThreaded, startOffset, endOffset, sideRayFallOff, sideRayFallOffMultiplier);
         }
 
         public Paths getRays()
@@ -64,7 +65,7 @@ namespace geoWrangler
             return GeoWrangler.distanceBetweenPoints(clippedLines[ray][0], clippedLines[ray][clippedLines[ray].Count - 1]);
         }
 
-        void rayCast(Path emissionPath, Paths collisionPaths, Int64 maxRayLength, bool projectCorners, bool invert, int multisampleRayCount, bool runOuterLoopThreaded, bool runInnerLoopThreaded, IntPoint startOffset, IntPoint endOffset, falloff sideRayFallOff)
+        void rayCast(Path emissionPath, Paths collisionPaths, Int64 maxRayLength, bool projectCorners, bool invert, int multisampleRayCount, bool runOuterLoopThreaded, bool runInnerLoopThreaded, IntPoint startOffset, IntPoint endOffset, falloff sideRayFallOff, double sideRayFallOffMultiplier)
         {
             if (startOffset == null)
             {
@@ -246,20 +247,12 @@ namespace geoWrangler
                     {
                         // Gaussian fall-off
                         case falloff.gaussian:
-                            falloff_g = Math.Exp(-(Math.Pow((rayAngle / 90.0f), 2)));
-                            endPoint_f = new IntPoint(startPoint.X + (falloff_g * endPointDeltaY), startPoint.Y + (falloff_g * endPointDeltaX));
-                            break;
-                        case falloff.gaussian2:
-                            falloff_g = Math.Exp(-(Math.Pow(2 * (rayAngle / 90.0f), 2)));
-                            endPoint_f = new IntPoint(startPoint.X + (falloff_g * endPointDeltaY), startPoint.Y + (falloff_g * endPointDeltaX));
-                            break;
-                        case falloff.gaussian4:
-                            falloff_g = Math.Exp(-(Math.Pow(4 * (rayAngle / 90.0f), 2)));
+                            falloff_g = Math.Exp(-(Math.Pow(sideRayFallOffMultiplier * (rayAngle / 90.0f), 2)));
                             endPoint_f = new IntPoint(startPoint.X + (falloff_g * endPointDeltaY), startPoint.Y + (falloff_g * endPointDeltaX));
                             break;
                         // Linear fall-off
                         case falloff.linear:
-                            endPoint_f = new IntPoint(endPoint.X - (endPointDeltaY * rayAngle / 90.0f), endPoint.Y - (endPointDeltaX * rayAngle / 90.0f));
+                            endPoint_f = new IntPoint(endPoint.X - Convert.ToInt64(endPointDeltaY * Math.Min(rayAngle / 90.0f, 1.0f)), endPoint.Y - Convert.ToInt64(endPointDeltaX * Math.Min(rayAngle / 90.0f, 1.0f)));
                             break;
                         // No falloff
                         default:

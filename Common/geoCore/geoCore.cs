@@ -956,6 +956,7 @@ namespace geoCoreLib
         {
             if (valid)
             {
+                drawingField.active_cell = structure;
                 activeStructure = structure;
                 activeLD = layerdatatype;
                 genLDList();

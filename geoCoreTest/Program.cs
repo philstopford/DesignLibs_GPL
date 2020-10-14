@@ -13,7 +13,43 @@ namespace geoCoreTest
         {
             //test_basic();
             //test_cellrefarray_basic();
-            test_cellrefarray_nested();
+            // test_cellrefarray_nested();
+            test_cell_export();
+        }
+
+        static void test_cell_export()
+        {
+            // Note that the cell computation is for all layers/dataypes. The list of GCPolygons would need to be filtered separately for the LD of interest.
+            string arrayDir = baseDir + "cellrefarray\\";
+
+            GeoCoreHandler gH_GDS = new GeoCoreHandler();
+            gH_GDS.updateGeoCoreHandler(arrayDir + "L_array_nested.gds", GeoCore.fileType.gds);
+            GeoCore gcGDS = gH_GDS.getGeo();
+
+            // Simple cell.
+            gcGDS.activeStructure = gcGDS.getStructureList().IndexOf("r");
+
+            // Only a single layer datatype.
+            gcGDS.activeLD = gcGDS.getActiveStructureLDList().IndexOf("L1D0");
+
+            gcGDS.updateGeometry(gcGDS.activeStructure, gcGDS.activeLD);
+
+            List<GCPolygon> t1 = gcGDS.getDrawing().cellList[gcGDS.activeStructure].convertToPolygons();
+
+            // Array
+            gcGDS.activeStructure = gcGDS.getStructureList().IndexOf("a");
+            gcGDS.updateGeometry(gcGDS.activeStructure, gcGDS.activeLD);
+
+            List<GCPolygon> t2 = gcGDS.getDrawing().cellList[gcGDS.activeStructure].convertToPolygons();
+
+            // Nested array
+            gcGDS.activeStructure = gcGDS.getStructureList().IndexOf("b");
+            gcGDS.updateGeometry(gcGDS.activeStructure, gcGDS.activeLD);
+
+            List<GCPolygon> t3 = gcGDS.getDrawing().cellList[gcGDS.activeStructure].convertToPolygons();
+
+
+            int xy = 2;
         }
 
         static void test_cellrefarray_basic()

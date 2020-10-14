@@ -16,16 +16,18 @@ namespace geoWrangler
         Paths clippedLines;
         Paths castLines;
 
+        public enum falloff { none, linear, gaussian, gaussian2, gaussian4 }
+
         // Corner projection is default and takes an orthogonal ray out from the corner. Setting to false causes an averaged normal to be generated.
 
-        public RayCast(Path emissionPath, Paths collisionPaths, Int64 max, bool projectCorners = true, bool invert = false, int multisampleRayCount = 0, bool runOuterLoopThreaded = false, bool runInnerLoopThreaded = false, IntPoint startOffset = new IntPoint(), IntPoint endOffset = new IntPoint())
+        public RayCast(Path emissionPath, Paths collisionPaths, Int64 max, bool projectCorners = true, bool invert = false, int multisampleRayCount = 0, bool runOuterLoopThreaded = false, bool runInnerLoopThreaded = false, IntPoint startOffset = new IntPoint(), IntPoint endOffset = new IntPoint(), falloff sideRayFallOff = falloff.none)
         {
-            rayCast(emissionPath, collisionPaths, max, projectCorners, invert, multisampleRayCount, runOuterLoopThreaded, runInnerLoopThreaded, startOffset, endOffset);
+            rayCast(emissionPath, collisionPaths, max, projectCorners, invert, multisampleRayCount, runOuterLoopThreaded, runInnerLoopThreaded, startOffset, endOffset, sideRayFallOff);
         }
 
-        public RayCast(Path emissionPath, Path collisionPath, Int64 max, bool projectCorners = true, bool invert = false, int multisampleRayCount = 0, bool runOuterLoopThreaded = false, bool runInnerLoopThreaded = false, IntPoint startOffset = new IntPoint(), IntPoint endOffset = new IntPoint())
+        public RayCast(Path emissionPath, Path collisionPath, Int64 max, bool projectCorners = true, bool invert = false, int multisampleRayCount = 0, bool runOuterLoopThreaded = false, bool runInnerLoopThreaded = false, IntPoint startOffset = new IntPoint(), IntPoint endOffset = new IntPoint(), falloff sideRayFallOff = falloff.none)
         {
-            rayCast(emissionPath, new Paths() { collisionPath }, max, projectCorners, invert, multisampleRayCount, runOuterLoopThreaded, runInnerLoopThreaded, startOffset, endOffset);
+            rayCast(emissionPath, new Paths() { collisionPath }, max, projectCorners, invert, multisampleRayCount, runOuterLoopThreaded, runInnerLoopThreaded, startOffset, endOffset, sideRayFallOff);
         }
 
         public Paths getRays()
@@ -62,7 +64,7 @@ namespace geoWrangler
             return GeoWrangler.distanceBetweenPoints(clippedLines[ray][0], clippedLines[ray][clippedLines[ray].Count - 1]);
         }
 
-        void rayCast(Path emissionPath, Paths collisionPaths, Int64 maxRayLength, bool projectCorners, bool invert, int multisampleRayCount, bool runOuterLoopThreaded, bool runInnerLoopThreaded, IntPoint startOffset, IntPoint endOffset)
+        void rayCast(Path emissionPath, Paths collisionPaths, Int64 maxRayLength, bool projectCorners, bool invert, int multisampleRayCount, bool runOuterLoopThreaded, bool runInnerLoopThreaded, IntPoint startOffset, IntPoint endOffset, falloff sideRayFallOff)
         {
             if (startOffset == null)
             {
@@ -238,11 +240,35 @@ namespace geoWrangler
                     // Add more samples, each n-degrees rotated from the nominal ray
                     double rayAngle = (sample + 1) * angleStep;
 
-                    IntPoint endPoint_t = new IntPoint(endPoint.X - (endPointDeltaY * rayAngle / 90.0f), endPoint.Y - (endPointDeltaX * rayAngle / 90.0f));
+                    IntPoint endPoint_f;
+                    double falloff_g = 1.0f;
+                    switch (sideRayFallOff)
+                    {
+                        // Gaussian fall-off
+                        case falloff.gaussian:
+                            falloff_g = Math.Exp(-(Math.Pow((rayAngle / 90.0f), 2)));
+                            endPoint_f = new IntPoint(startPoint.X + (falloff_g * endPointDeltaY), startPoint.Y + (falloff_g * endPointDeltaX));
+                            break;
+                        case falloff.gaussian2:
+                            falloff_g = Math.Exp(-(Math.Pow(2 * (rayAngle / 90.0f), 2)));
+                            endPoint_f = new IntPoint(startPoint.X + (falloff_g * endPointDeltaY), startPoint.Y + (falloff_g * endPointDeltaX));
+                            break;
+                        case falloff.gaussian4:
+                            falloff_g = Math.Exp(-(Math.Pow(4 * (rayAngle / 90.0f), 2)));
+                            endPoint_f = new IntPoint(startPoint.X + (falloff_g * endPointDeltaY), startPoint.Y + (falloff_g * endPointDeltaX));
+                            break;
+                        // Linear fall-off
+                        case falloff.linear:
+                            endPoint_f = new IntPoint(endPoint.X - (endPointDeltaY * rayAngle / 90.0f), endPoint.Y - (endPointDeltaX * rayAngle / 90.0f));
+                            break;
+                        // No falloff
+                        default:
+                            endPoint_f = endPoint;
+                            break;
+                    }
 
-
-                    IntPoint endPoint1 = GeoWrangler.Rotate(startPoint, endPoint_t, rayAngle);
-                    IntPoint endPoint2 = GeoWrangler.Rotate(startPoint, endPoint_t, -rayAngle);
+                    IntPoint endPoint1 = GeoWrangler.Rotate(startPoint, endPoint_f, rayAngle);
+                    IntPoint endPoint2 = GeoWrangler.Rotate(startPoint, endPoint_f, -rayAngle);
 
                     // The order of line1 below is important, but I'm not yet sure why. If you change it, the expansion becomes assymetrical on a square (lower section gets squashed).
                     Path line1 = new Path();

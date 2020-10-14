@@ -250,18 +250,28 @@ namespace geoCoreLib
 
         public List<List<GCPolygon>> convertToPolygons()
         {
+            return pConvertToPolygons();
+        }
+
+        List<List<GCPolygon>> pConvertToPolygons()
+        {
             int cellCount = cellList.Count;
             List<GCPolygon>[] ret = new List<GCPolygon>[cellCount];
             ParallelOptions po = new ParallelOptions();
 
+#if GCTHREADED
             Parallel.For(0, cellCount, po, i =>
-            //for (int i = 0; i < cellList.Count; i++)
+#else
+            for (int i = 0; i < cellList.Count; i++)
+#endif
             {
                 List<GCPolygon> cellPolys = new List<GCPolygon>();
                 cellPolys = cellList[i].convertToPolygons();
                 ret[i] = cellPolys.ToList();
             }
+#if GCTHREADED
             );
+#endif
             return ret.ToList();
         }
 

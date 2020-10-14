@@ -6,6 +6,10 @@
     <ReleaseVersion>0.24</ReleaseVersion>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>TRACE;GCTHREADED</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\geoLib\geoLib.csproj" />
     <ProjectReference Include="..\geoWrangler\geoWrangler.csproj" />

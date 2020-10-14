@@ -820,5 +820,24 @@ namespace geoCoreLib
             }
             saved = true;
         }
+
+        public List<GCPolygon> convertToPolygons()
+        {
+            return pConvertToPolygons();
+        }
+
+        List<GCPolygon> pConvertToPolygons()
+        {
+            List<GCPolygon> ret = new List<GCPolygon>();
+            for (int f = 0; f < elementList.Count; f++)
+            {
+                if (elementList[f] != null)
+                {
+                    ret.AddRange(elementList[f].convertToPolygons());
+                }
+            }
+
+            return ret;
+        }
     }
 }

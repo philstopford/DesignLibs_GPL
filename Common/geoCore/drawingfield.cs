@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace geoCoreLib
 {
@@ -246,5 +247,23 @@ namespace geoCoreLib
             databaseunits /= scale;
             userunits *= scale;
         }
+
+        public List<List<GCPolygon>> convertToPolygons()
+        {
+            int cellCount = cellList.Count;
+            List<GCPolygon>[] ret = new List<GCPolygon>[cellCount];
+            ParallelOptions po = new ParallelOptions();
+
+            Parallel.For(0, cellCount, po, i =>
+            //for (int i = 0; i < cellList.Count; i++)
+            {
+                List<GCPolygon> cellPolys = new List<GCPolygon>();
+                cellPolys = cellList[i].convertToPolygons();
+                ret[i] = cellPolys.ToList();
+            }
+            );
+            return ret.ToList();
+        }
+
     }
 }

@@ -984,7 +984,7 @@ namespace geoCoreLib
             if (activeLDOnly)
             {
                 // Recover our layer and dataype from the string representation.
-                string[] temp = pGetActiveStructureLDList()[activeStructure].Split(new char[] { 'L' })[1].Split(new char[] { 'D' });
+                string[] temp = pActiveStructure_LDList[activeLD].Split(new char[] { 'L' })[1].Split(new char[] { 'D' });
                 layer = Convert.ToInt32(temp[0]);
                 datatype = Convert.ToInt32(temp[1]);
             }

@@ -90,6 +90,21 @@ namespace geoCoreTest
             List<GCPolygon> t4a = gcGDS.convertToPolygons(activeLDOnly: true);
             List<GCPolygon> t4b = gcGDS.convertToPolygons(layer: 2, datatype: 0);
 
+            if (t3.Count != t4.Count)
+            {
+                throw new Exception("test_cell_export_complex failed : t3,t4");
+            }
+
+            if (t3a.Count != t4a.Count)
+            {
+                throw new Exception("test_cell_export_complex failed : t3a, t4a");
+            }
+
+            if (t3b.Count != t4b.Count)
+            {
+                throw new Exception("test_cell_export_complex failed : t3b, t4b");
+            }
+
             int xy = 2;
         }
 

@@ -821,19 +821,26 @@ namespace geoCoreLib
             saved = true;
         }
 
-        public List<GCPolygon> convertToPolygons()
+        public List<GCPolygon> convertToPolygons(int layer = -1, int datatype = -1)
         {
-            return pConvertToPolygons();
+            return pConvertToPolygons(layer, datatype);
         }
 
-        List<GCPolygon> pConvertToPolygons()
+        List<GCPolygon> pConvertToPolygons(int layer = -1, int datatype = -1)
         {
             List<GCPolygon> ret = new List<GCPolygon>();
             for (int f = 0; f < elementList.Count; f++)
             {
                 if (elementList[f] != null)
                 {
-                    ret.AddRange(elementList[f].convertToPolygons());
+                    if ((layer == -1) || (datatype == -1))
+                    {
+                        ret.AddRange(elementList[f].convertToPolygons());
+                    }
+                    else
+                    {
+                        ret.AddRange(elementList[f].convertToPolygons().Where(p => p.layer_nr == layer && p.datatype_nr == datatype));
+                    }
                 }
             }
 

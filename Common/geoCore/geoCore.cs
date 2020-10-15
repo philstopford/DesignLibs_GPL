@@ -883,8 +883,19 @@ namespace geoCoreLib
 
         List<bool> pIsText()
         {
-            string text = pActiveStructure_LDList[activeLD];
-            return structures[activeStructure].isText(text);
+            //string text = pActiveStructure_LDList[activeLD];
+            //return structures[activeStructure].isText(text);
+
+            List<bool> ret = new List<bool>();
+
+            List<GCPolygon> tmp = convertToPolygons(true);
+            for (int i = 0; i < tmp.Count; i++)
+            {
+                ret.Add(tmp[i].isText());
+            }
+
+            return ret;
+
         }
 
         public List<GeoLibPointF[]> points(bool flatten)
@@ -903,7 +914,6 @@ namespace geoCoreLib
                     GeoLibPointF[] p = GeoWrangler.pointFsFromPoint(tmp[i].pointarray, 1);
                     ret.Add(p);
                 }
-
                 return ret;
 
                 return structures[activeStructure].getBakedGeo(pActiveStructure_LDList[activeLD]);

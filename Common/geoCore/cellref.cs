@@ -279,6 +279,16 @@ namespace geoCoreLib
             cell_ref = cellRef;
         }
 
+        public override GCCell getCellref()
+        {
+            return pGetCellRef();
+        }
+
+        GCCell pGetCellRef()
+        {
+            return cell_ref;
+        }
+
         public override void saveGDS(gdsWriter bw)
         {
             pSaveGDS(bw);

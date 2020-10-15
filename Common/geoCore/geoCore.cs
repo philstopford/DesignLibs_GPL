@@ -1005,5 +1005,30 @@ namespace geoCoreLib
         {
             return drawingField.cellList[activeStructure].convertToPolygons(layer: layer, datatype: datatype);
         }
+
+        public bool nestedCellRef(int cellIndex, int elementIndex)
+        {
+            return nestedCellRef(drawingField.cellList[activeStructure], elementIndex);
+        }
+
+        bool nestedCellRef(GCCell cell, int elementIndex)
+        {
+            bool ret = false;
+            if ((cell.elementList[elementIndex].isCellref()) || (cell.elementList[elementIndex].isCellrefArray()))
+            {
+                GCCell rCell = cell.elementList[elementIndex].getCellref();
+                for (int i = 0; i < rCell.elementList.Count; i++)
+                {
+                    if ((rCell.elementList[i].isCellref()) || (rCell.elementList[i].isCellrefArray()))
+                    {
+                        ret = true;
+                        break;
+                    }
+                }
+            }
+
+            return ret;
+        }
+
     }
 }

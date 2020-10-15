@@ -16,6 +16,11 @@ namespace geoWrangler
         Paths clippedLines;
         Paths castLines;
 
+        void prox_ZFillCallback(IntPoint bot1, IntPoint top1, IntPoint bot2, IntPoint top2, ref IntPoint pt)
+        {
+            pt.Z = bot1.Z;
+        }
+
         public static List<string> fallOffList = new List<string>() {"None", "Linear", "Gaussian"};
         public enum falloff { none, linear, gaussian }
 
@@ -294,6 +299,7 @@ namespace geoWrangler
                 Parallel.For(0, rays.Count, po_inner, ray =>
                 {
                     Clipper d = new Clipper();
+                    d.ZFillFunction = prox_ZFillCallback;
                     d.AddPath(rays[ray], PolyType.ptSubject, false);
                     d.AddPaths(collisionPaths, PolyType.ptClip, true);
                     PolyTree polyTree = new PolyTree();

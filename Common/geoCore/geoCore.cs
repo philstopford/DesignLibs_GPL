@@ -625,10 +625,12 @@ namespace geoCoreLib
             List<string> lds = new List<string>();
             List<GCPolygon> lp = gcCell.elementList[element].convertToPolygons();
             List<bool> isText = new List<bool>();
+            List<string> names = new List<string>();
             for (int poly = 0; poly < lp.Count; poly++)
             {
                 GCPolygon p = lp[poly];
                 isText.Add(p.isText());
+                names.Add(p.getName());
 
                 string ldString = "L" + p.layer_nr.ToString() + "D" + p.datatype_nr.ToString();
                 if (ldString == "L-1D-1")
@@ -660,7 +662,7 @@ namespace geoCoreLib
                 }
             }
 
-            return new GeoData(ret, isText, lds);
+            return new GeoData(ret, isText, lds, names);
         }
 
         GeoData getGeometry_complex(GCCell gcCell, int element, List<string> hashList, int cellIndex)
@@ -742,6 +744,8 @@ namespace geoCoreLib
 
             List<bool> text = new List<bool>();
 
+            List<string> names = new List<string>();
+
             // See if our layer/datatype combination is known to us already.
 
             string crSearchString = "L" + crLayer.ToString() + "D" + crDatatype.ToString();
@@ -809,6 +813,7 @@ namespace geoCoreLib
                         ret.Add(t);
                         text.Add(crP.isText());
                         lds.Add(ldString);
+                        names.Add(crP.getName());
                     }
                 }
             }
@@ -817,7 +822,7 @@ namespace geoCoreLib
                 // Exception is not a big deal.
             }
 
-            return new GeoData(ret, text, lds);
+            return new GeoData(ret, text, lds, names);
         }
 
 
@@ -826,19 +831,22 @@ namespace geoCoreLib
             public List<List<GeoLibPointF>> geo;
             public List<string> ld;
             public List<bool> isText;
+            public List<string> name;
 
             public GeoData()
             {
                 geo = new List<List<GeoLibPointF>>();
                 ld = new List<string>();
                 isText = new List<bool>();
+                name = new List<string>();
             }
 
-            public GeoData(List<List<GeoLibPointF>> poly, List<bool> text, List<string> LDs)
+            public GeoData(List<List<GeoLibPointF>> poly, List<bool> text, List<string> LDs, List<string> names)
             {
                 geo = poly.ToList();
                 ld = LDs.ToList();
                 isText = text.ToList();
+                name = names.ToList();
             }
         }
 
@@ -892,6 +900,28 @@ namespace geoCoreLib
             for (int i = 0; i < tmp.Count; i++)
             {
                 ret.Add(tmp[i].isText());
+            }
+
+            return ret;
+
+        }
+
+        public List<string> names()
+        {
+            return pNames();
+        }
+
+        List<string> pNames()
+        {
+            //string text = pActiveStructure_LDList[activeLD];
+            //return structures[activeStructure].isText(text);
+
+            List<string> ret = new List<string>();
+
+            List<GCPolygon> tmp = convertToPolygons(true);
+            for (int i = 0; i < tmp.Count; i++)
+            {
+                ret.Add(tmp[i].getName());
             }
 
             return ret;

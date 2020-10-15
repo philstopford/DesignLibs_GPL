@@ -11,6 +11,7 @@ namespace geoCoreLib
     public class GCPolygon : GCElement
     {
         public bool text;
+        public string name;
         public GeoLibPoint[] pointarray { get; set; }
 
         public GCPolygon()
@@ -1301,5 +1302,16 @@ namespace geoCoreLib
         {
             return text;
         }
+
+        public override string getName()
+        {
+            return pGetName();
+        }
+
+        string pGetName()
+        {
+            return name;
+        }
+
     }
 }

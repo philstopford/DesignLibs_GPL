@@ -3,6 +3,7 @@ using geoLib;
 using oasis;
 using System;
 using System.Collections.Generic;
+using utility;
 
 namespace geoCoreLib
 {
@@ -400,7 +401,14 @@ namespace geoCoreLib
 
             for (int element = 0; element < cell_ref.elementList.Count; element++)
             {
-                ret.AddRange(cell_ref.elementList[element].convertToPolygons());
+                List<GCPolygon> tmp = cell_ref.elementList[element].convertToPolygons();
+                ret.AddRange(tmp);
+            }
+
+            for (int poly = 0; poly < ret.Count; poly++)
+            {
+                ret[poly].rotate(trans.angle, pGetPos());
+                ret[poly].scale(trans.mag);
             }
 
             return ret;

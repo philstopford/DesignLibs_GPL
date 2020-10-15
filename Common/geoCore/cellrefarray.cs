@@ -456,6 +456,12 @@ namespace geoCoreLib
                 }
             }
 
+            for (int poly = 0; poly < ret.Count; poly++)
+            {
+                ret[poly].rotate(trans.angle, pGetPos());
+                ret[poly].scale(trans.mag);
+            }
+
             return ret;
         }
 

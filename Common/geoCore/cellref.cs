@@ -3,6 +3,7 @@ using geoLib;
 using oasis;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using utility;
 
 namespace geoCoreLib
@@ -415,12 +416,18 @@ namespace geoCoreLib
                 ret.AddRange(tmp);
             }
 
+#if GCTHREADED
+            Parallel.For(0, ret.Count, (poly, loopstate) =>
+#else
             for (int poly = 0; poly < ret.Count; poly++)
+#endif
             {
-                ret[poly].rotate(trans.angle, pGetPos());
+                ret[poly].rotate(trans.angle, point);
                 ret[poly].scale(trans.mag);
             }
-
+#if GCTHREADED
+            );
+#endif
             return ret;
         }
     }

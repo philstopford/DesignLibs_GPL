@@ -896,6 +896,16 @@ namespace geoCoreLib
         {
             if (flatten)
             {
+                List<GeoLibPointF[]> ret = new List<GeoLibPointF[]>();
+                List<GCPolygon> tmp = convertToPolygons(true);
+                for (int i = 0; i < tmp.Count; i++)
+                {
+                    GeoLibPointF[] p = GeoWrangler.pointFsFromPoint(tmp[i].pointarray, 1);
+                    ret.Add(p);
+                }
+
+                return ret;
+
                 return structures[activeStructure].getBakedGeo(pActiveStructure_LDList[activeLD]);
             }
 

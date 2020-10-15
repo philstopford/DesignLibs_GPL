@@ -317,8 +317,8 @@ namespace geoWrangler
             {
                 try
                 {
-                    ret[pt] = new GeoLibPointF(Convert.ToDouble(source[pt].X / scaling),
-                                                  Convert.ToDouble(source[pt].Y / scaling));
+                    ret[pt] = new GeoLibPointF(Convert.ToDouble(source[pt].X) / scaling,
+                                                  Convert.ToDouble(source[pt].Y) / scaling);
                 }
                 catch (Exception)
                 {

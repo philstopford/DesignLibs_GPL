@@ -1006,6 +1006,23 @@ namespace geoCoreLib
             return drawingField.cellList[activeStructure].convertToPolygons(layer: layer, datatype: datatype);
         }
 
+        public bool nestedCellRef(int cellIndex)
+        {
+            bool ret = false;
+
+            for (int i = 0; i < drawingField.cellList[activeStructure].elementList.Count; i++)
+            {
+                ret = nestedCellRef(cellIndex, i);
+
+                if (ret)
+                {
+                    break;
+                }
+            }
+
+            return ret;
+        }
+
         public bool nestedCellRef(int cellIndex, int elementIndex)
         {
             return nestedCellRef(drawingField.cellList[activeStructure], elementIndex);

@@ -82,6 +82,9 @@ namespace geoWrangler
                 endOffset = new IntPoint(0, 0);
             }
 
+            // Setting this to true, we shorten rays with the falloff. False means we reduce the contribution to the average instead.
+            bool truncateRaysByWeight = true;
+
             int ptCount = emissionPath.Count;
 
             // Due to threading and need to tie to polygon point order, we have to use these local storage options and will do the conversion at the end.
@@ -231,7 +234,7 @@ namespace geoWrangler
                 }
                 endPointDeltaX *= -1;
 
-                IntPoint endPoint = new IntPoint(endPointDeltaY + startPoint.X, endPointDeltaX + startPoint.Y);
+                IntPoint endPoint = new IntPoint(endPointDeltaY + startPoint.X, endPointDeltaX + startPoint.Y, 1E4);
 
                 Paths rays = new Paths();
                 Path line = new Path();
@@ -241,23 +244,26 @@ namespace geoWrangler
 
                 double angleStep = 90.0f / (1 + multisampleRayCount);
 
+
                 for (int sample = 0; sample < multisampleRayCount; sample++)
                 {
                     // Add more samples, each n-degrees rotated from the nominal ray
                     double rayAngle = (sample + 1) * angleStep;
 
                     IntPoint endPoint_f;
+
+                    endPoint_f = endPoint;
+
                     double falloff_g = 1.0f;
                     switch (sideRayFallOff)
                     {
                         // Gaussian fall-off
                         case falloff.gaussian:
                             falloff_g = Math.Exp(-(Math.Pow(sideRayFallOffMultiplier * (rayAngle / 90.0f), 2)));
-                            endPoint_f = new IntPoint(startPoint.X + (falloff_g * endPointDeltaY), startPoint.Y + (falloff_g * endPointDeltaX));
                             break;
                         // Linear fall-off
                         case falloff.linear:
-                            endPoint_f = new IntPoint(endPoint.X - Convert.ToInt64(endPointDeltaY * Math.Min(rayAngle / 90.0f, 1.0f)), endPoint.Y - Convert.ToInt64(endPointDeltaX * Math.Min(rayAngle / 90.0f, 1.0f)));
+                            falloff_g = Math.Min(rayAngle / 90.0f, 1.0f);
                             break;
                         // Cosine fall-off
                         case falloff.cosine:
@@ -274,12 +280,15 @@ namespace geoWrangler
                             // Shift up and flatten to 0-1 range.
                             falloff_g += 1.0f;
                             falloff_g *= 0.5;
-                            endPoint_f = new IntPoint(startPoint.X + (falloff_g * endPointDeltaY), startPoint.Y + (falloff_g * endPointDeltaX));
                             break;
                         // No falloff
                         default:
-                            endPoint_f = endPoint;
                             break;
+                    }
+
+                    if (truncateRaysByWeight)
+                    {
+                        endPoint_f = new IntPoint(startPoint.X + (falloff_g * endPointDeltaY), startPoint.Y + (falloff_g * endPointDeltaX), Convert.ToInt64(falloff_g * 1E4));
                     }
 
                     IntPoint endPoint1 = GeoWrangler.Rotate(startPoint, endPoint_f, rayAngle);
@@ -309,6 +318,7 @@ namespace geoWrangler
 
                 Int64[] resultX = new Int64[rays.Count];
                 Int64[] resultY = new Int64[rays.Count];
+                double[] weight = new double[rays.Count];
 
                 previousEdgeNormal = new IntPoint(currentEdgeNormal.X, currentEdgeNormal.Y);
 
@@ -342,6 +352,7 @@ namespace geoWrangler
                         {
                             resultX[ray] = startPoint.X;
                             resultY[ray] = startPoint.Y;
+                            weight[ray] = 1.0f;
                         }
                         finally
                         {
@@ -392,6 +403,7 @@ namespace geoWrangler
                             {
                                 resultX[ray] = tmpLine[tL][1].X;
                                 resultY[ray] = tmpLine[tL][1].Y;
+                                weight[ray] = tmpLine[tL][1].Z / 1E4;
                             }
                             finally
                             {
@@ -406,6 +418,7 @@ namespace geoWrangler
                                 // Clipper reversed the line direction, so we need to deal with this.
                                 resultX[ray] = tmpLine[tL][0].X;
                                 resultY[ray] = tmpLine[tL][0].Y;
+                                weight[ray] = tmpLine[tL][0].Z / 1E4;
                             }
                             finally
                             {
@@ -427,15 +440,21 @@ namespace geoWrangler
                 // Average the result to give a weighted spacing across the rays.
                 for (int result = 0; result < resultX.Length; result++)
                 {
+                    double weight_ = 1.0f;
+                    if (!truncateRaysByWeight)
+                    {
+                        weight_ = weight[result];
+                    }
+
                     if (Math.Abs(resultX[result]) > 1000)
                     {
                         xCount++;
-                        xAv += resultX[result];
+                        xAv += Convert.ToInt64(weight_ * resultX[result]);
                     }
                     if (Math.Abs(resultY[result]) > 1000)
                     {
                         yCount++;
-                        yAv += resultY[result];
+                        yAv += Convert.ToInt64(weight_ * resultY[result]);
                     }
                 }
 

@@ -123,7 +123,7 @@ namespace geoWrangler
             double y = pivot.Y + ((point.X - pivot.X) * Math.Sin(angle) +
                 (point.Y - pivot.Y) * Math.Cos(angle));
 
-            IntPoint rotated = new IntPoint(x, y);
+            IntPoint rotated = new IntPoint(x, y, point.Z);
             return rotated;
         }
 

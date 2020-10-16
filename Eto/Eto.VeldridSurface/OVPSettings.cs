@@ -39,12 +39,16 @@ namespace VeldridEto
         public List<ovp_Poly> polyList { get; set; }
         public List<int> polyListPtCount { get; set; }
         public List<int> polySourceIndex { get; set; } // will eventually track source of polygon, allowing for layer generating, etc. in output.
+
+        public List<bool> polyMask { get; set; } // Masking boolean for overriding handling of polygons as-desired.
         public List<ovp_Poly> bgPolyList { get; set; }
         public List<int> bgPolyListPtCount { get; set; }
         public List<int> bgPolySourceIndex { get; set; } // will eventually track source of polygon, allowing for layer generating, etc. in output.
         public List<ovp_Poly> lineList { get; set; } // purely for lines.
         public List<int> lineListPtCount { get; set; }
         public List<int> lineSourceIndex { get; set; } // will eventually track source of polygon, allowing for layer generating, etc. in output.
+        public List<bool> lineMask { get; set; } // Masking boolean for overriding handling of polygons as-desired.
+
         public List<ovp_Poly> tessPolyList { get; set; } // triangles, but also need to track color. This is decoupled to allow boundary extraction without triangles getting in the way.
         public List<bool> drawnPoly { get; set; } // tracks whether the polygon corresponds to an enabled configuration or not.
 
@@ -336,6 +340,7 @@ namespace VeldridEto
 		{
 			polyList.Clear();
 			polySourceIndex.Clear();
+            polyMask.Clear();
 			polyListPtCount.Clear();
 			if (clearBG)
 			{
@@ -345,38 +350,40 @@ namespace VeldridEto
 			}
 			lineList.Clear();
 			lineSourceIndex.Clear();
+            lineMask.Clear();
 			lineListPtCount.Clear();
 			tessPolyList.Clear();
             changed = true;
         }
 
-        public void addLine(PointF[] line, Color lineColor, float alpha, int layerIndex)
+        public void addLine(PointF[] line, Color lineColor, float alpha, int layerIndex, bool mask = true)
 		{
-			pAddLine(line, lineColor, alpha, layerIndex);
+			pAddLine(line, lineColor, alpha, layerIndex, mask);
 		}
 
-		void pAddLine(PointF[] line, Color lineColor, float alpha, int layerIndex)
+		void pAddLine(PointF[] line, Color lineColor, float alpha, int layerIndex, bool mask)
 		{
 			lineList.Add(new ovp_Poly(line, lineColor, alpha));
 			lineSourceIndex.Add(layerIndex);
 			lineListPtCount.Add((line.Length - 1) * 2);
+            lineMask.Add(true);
             changed = true;
         }
 
-        public void addPolygon(PointF[] poly, Color polyColor, float alpha, bool drawn, int layerIndex)
+        public void addPolygon(PointF[] poly, Color polyColor, float alpha, bool drawn, int layerIndex, bool mask = true)
 		{
 			if (drawn)
 			{
 				// Drawn polygons are to be treated as lines : they don't get filled.
-				addLine(poly, polyColor, alpha, layerIndex);
+				addLine(poly, polyColor, alpha, layerIndex, mask);
 			}
 			else
 			{
-				pAddPolygon(poly, polyColor, alpha, drawn, layerIndex);
+				pAddPolygon(poly, polyColor, alpha, drawn, layerIndex, mask);
 			}
 		}
 
-		void pAddPolygon(PointF[] poly, Color polyColor, float alpha, bool drawn, int layerIndex)
+		void pAddPolygon(PointF[] poly, Color polyColor, float alpha, bool drawn, int layerIndex, bool mask)
 		{
 			if (!drawn && enableFilledPolys) // avoid tessellation unless really necessary.
 			{
@@ -395,6 +402,7 @@ namespace VeldridEto
 			polyList.Add(new ovp_Poly(poly, polyColor, alpha));
 			polySourceIndex.Add(layerIndex);
 			polyListPtCount.Add(poly.Length);
+            polyMask.Add(mask);
 			drawnPoly.Add(drawn);
             changed = true;
         }
@@ -456,9 +464,11 @@ namespace VeldridEto
 			bgPolyListPtCount = new List<int>();
 			polyList = new List<ovp_Poly>();
 			polySourceIndex = new List<int>();
+            polyMask = new List<bool>();
 			polyListPtCount = new List<int>();
 			lineList = new List<ovp_Poly>();
 			lineSourceIndex = new List<int>();
+            lineMask = new List<bool>();
 			lineListPtCount = new List<int>();
 			tessPolyList = new List<ovp_Poly>();
 			drawnPoly = new List<bool>();

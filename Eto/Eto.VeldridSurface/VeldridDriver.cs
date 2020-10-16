@@ -479,7 +479,7 @@ namespace VeldridEto
 			{
 				for (int poly = 0; poly < ovpSettings.polyList.Count; poly++)
 				{
-					if ((index == -1) || (ovpSettings.polySourceIndex[poly] == index))
+					if ((index == -1) || ((ovpSettings.polySourceIndex[poly] == index) && ovpSettings.polyMask[poly]))
 					{
 						if (!set)
 						{
@@ -505,7 +505,7 @@ namespace VeldridEto
 			{
 				for (int line = 0; line < ovpSettings.lineList.Count; line++)
 				{
-					if ((index == -1) || (ovpSettings.lineSourceIndex[line] == index))
+					if ((index == -1) || ((ovpSettings.lineSourceIndex[line] == index) && ovpSettings.lineMask[line]))
 					{
 						if (!set)
 						{

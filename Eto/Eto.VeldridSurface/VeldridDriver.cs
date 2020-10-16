@@ -372,20 +372,19 @@ namespace VeldridEto
 
 		void keyHandler(object sender, KeyEventArgs e)
 		{
+			e.Handled = true;
+
 			if (ovpSettings.isLocked())
 			{
 				if (e.Key != Keys.F)
 				{
 					return;
 				}
-				ovpSettings.lockVP(false);
-				return;
 			}
 
 			if (e.Key == Keys.F)
 			{
-				ovpSettings.lockVP(true);
-				return;
+				ovpSettings.lockVP(!ovpSettings.isLocked());
 			}
 
 			if (e.Key == Keys.R)
@@ -437,7 +436,6 @@ namespace VeldridEto
 			{
 				updateViewport();
 			}
-			e.Handled = true;
 		}
 
 		void zoomHandler(object sender, MouseEventArgs e)

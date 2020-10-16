@@ -23,6 +23,8 @@ namespace VeldridEto
         // This is true if something changed in the settings (set internally for query). The viewport itself should set this false when the changes are handled.
         public bool changed { get; set; }
 
+        public Int32 selectedIndex { get; set; }
+
 		public float minX { get; set; }
         public float maxX { get; set; }
         public float minY { get; set; }

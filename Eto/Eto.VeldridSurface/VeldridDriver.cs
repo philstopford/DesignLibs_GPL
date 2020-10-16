@@ -207,9 +207,9 @@ namespace VeldridEto
 			savedLocation_valid = true;
 		}
 
-		public void zoomExtents()
+		public void zoomExtents(int index)
 		{
-			getExtents();
+			getExtents(index);
 
 			if (((ovpSettings.polyList.Count == 0) && (ovpSettings.lineList.Count == 0)) ||
 				((ovpSettings.minX == 0) && (ovpSettings.maxX == 0)) ||
@@ -423,7 +423,13 @@ namespace VeldridEto
 
 			if (e.Key == Keys.X)
 			{
-				zoomExtents();
+				zoomExtents(-1);
+				doUpdate = false; // update performed in extents
+			}
+
+			if (e.Key == Keys.Z)
+			{
+				zoomExtents(ovpSettings.selectedIndex);
 				doUpdate = false; // update performed in extents
 			}
 
@@ -454,11 +460,13 @@ namespace VeldridEto
 			//e.Handled = true;
 		}
 
-		void getExtents()
+		void getExtents(int index)
 		{
 			float minX = 0;
 			float maxX = 0;
 			float minY = 0, maxY = 0;
+
+			bool set = false;
 
 			if ((ovpSettings.polyList.Count == 0) && (ovpSettings.lineList.Count == 0))
 			{
@@ -471,20 +479,27 @@ namespace VeldridEto
 
 			if (ovpSettings.polyList.Count != 0)
 			{
-				minX = ovpSettings.polyList[0].poly[0].X;
-				maxX = ovpSettings.polyList[0].poly[0].X;
-				minY = ovpSettings.polyList[0].poly[0].Y;
-				maxY = ovpSettings.polyList[0].poly[0].Y;
 				for (int poly = 0; poly < ovpSettings.polyList.Count; poly++)
 				{
-					float tMinX = ovpSettings.polyList[poly].poly.Min(p => p.X);
-					float tMaxX = ovpSettings.polyList[poly].poly.Max(p => p.X);
-					float tMinY = ovpSettings.polyList[poly].poly.Min(p => p.Y);
-					float tMaxY = ovpSettings.polyList[poly].poly.Max(p => p.Y);
-					minX = Math.Min(minX, tMinX);
-					maxX = Math.Max(maxX, tMaxX);
-					minY = Math.Min(minY, tMinY);
-					maxY = Math.Max(maxY, tMaxY);
+					if ((index == -1) || (ovpSettings.polySourceIndex[poly] == index))
+					{
+						if (!set)
+						{
+							minX = ovpSettings.polyList[poly].poly[0].X;
+							maxX = ovpSettings.polyList[poly].poly[0].X;
+							minY = ovpSettings.polyList[poly].poly[0].Y;
+							maxY = ovpSettings.polyList[poly].poly[0].Y;
+							set = true;
+						}
+						float tMinX = ovpSettings.polyList[poly].poly.Min(p => p.X);
+						float tMaxX = ovpSettings.polyList[poly].poly.Max(p => p.X);
+						float tMinY = ovpSettings.polyList[poly].poly.Min(p => p.Y);
+						float tMaxY = ovpSettings.polyList[poly].poly.Max(p => p.Y);
+						minX = Math.Min(minX, tMinX);
+						maxX = Math.Max(maxX, tMaxX);
+						minY = Math.Min(minY, tMinY);
+						maxY = Math.Max(maxY, tMaxY);
+					}
 				}
 			}
 
@@ -492,14 +507,25 @@ namespace VeldridEto
 			{
 				for (int line = 0; line < ovpSettings.lineList.Count; line++)
 				{
-					float tMinX = ovpSettings.lineList[line].poly.Min(p => p.X);
-					float tMaxX = ovpSettings.lineList[line].poly.Max(p => p.X);
-					float tMinY = ovpSettings.lineList[line].poly.Min(p => p.Y);
-					float tMaxY = ovpSettings.lineList[line].poly.Max(p => p.Y);
-					minX = Math.Min(minX, tMinX);
-					maxX = Math.Max(maxX, tMaxX);
-					minY = Math.Min(minY, tMinY);
-					maxY = Math.Max(maxY, tMaxY);
+					if ((index == -1) || (ovpSettings.lineSourceIndex[line] == index))
+					{
+						if (!set)
+						{
+							minX = ovpSettings.lineList[line].poly[0].X;
+							maxX = ovpSettings.lineList[line].poly[0].X;
+							minY = ovpSettings.lineList[line].poly[0].Y;
+							maxY = ovpSettings.lineList[line].poly[0].Y;
+							set = true;
+						}
+						float tMinX = ovpSettings.lineList[line].poly.Min(p => p.X);
+						float tMaxX = ovpSettings.lineList[line].poly.Max(p => p.X);
+						float tMinY = ovpSettings.lineList[line].poly.Min(p => p.Y);
+						float tMaxY = ovpSettings.lineList[line].poly.Max(p => p.Y);
+						minX = Math.Min(minX, tMinX);
+						maxX = Math.Max(maxX, tMaxX);
+						minY = Math.Min(minY, tMinY);
+						maxY = Math.Max(maxY, tMaxY);
+					}
 				}
 			}
 

@@ -11,6 +11,8 @@ namespace color
 
         public MyColor selected_Color { get; set; }
 
+        public MyColor deselected_Color { get; set; }
+
         public MyColor layer1_Color { get; set; }
         public MyColor layer2_Color { get; set; }
         public MyColor layer3_Color { get; set; }
@@ -48,6 +50,8 @@ namespace color
         public MyColor default_enabled_Color { get; set; }
 
         public MyColor default_selected_Color { get; set; }
+
+        public MyColor default_deselected_Color { get; set; }
 
         public MyColor default_layer1_Color { get; set; }
         public MyColor default_layer2_Color { get; set; }
@@ -92,6 +96,8 @@ namespace color
         void pColors()
         {
             default_selected_Color = MyColor.Black;
+
+            default_deselected_Color = MyColor.LightGray;
 
             default_enabled_Color = MyColor.Black;
             default_subshape1_Color = MyColor.Red;
@@ -182,6 +188,7 @@ namespace color
         void pReset()
         {
             selected_Color = new MyColor(default_selected_Color);
+            deselected_Color = new MyColor(default_deselected_Color);
             enabled_Color = new MyColor(default_enabled_Color);
             subshape1_Color = new MyColor(default_subshape1_Color);
             subshape2_Color = new MyColor(default_subshape2_Color);

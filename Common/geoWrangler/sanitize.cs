@@ -155,12 +155,12 @@ namespace geoWrangler
                 // Now to start the re-indexing.
                 for (Int32 pt = reIndexStart; pt < iPoints.Count; pt++)
                 {
-                    tempList.Add(new IntPoint(iPoints[pt].X, iPoints[pt].Y));
+                    tempList.Add(new IntPoint(iPoints[pt].X, iPoints[pt].Y, iPoints[pt].Z));
                 }
                 // Ensure we close the shape by hitting the reIndexStart point again, since we will possibly have pushed it to the beginning of the shape.
                 for (Int32 pt = 0; pt <= reIndexStart; pt++)
                 {
-                    tempList.Add(new IntPoint(iPoints[pt].X, iPoints[pt].Y));
+                    tempList.Add(new IntPoint(iPoints[pt].X, iPoints[pt].Y, iPoints[pt].Z));
                 }
 
                 iPoints = tempList.ToList();

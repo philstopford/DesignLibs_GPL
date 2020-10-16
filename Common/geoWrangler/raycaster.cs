@@ -254,16 +254,16 @@ namespace geoWrangler
 
                     endPoint_f = endPoint;
 
-                    double falloff_g = 1.0f;
+                    double weight_val = 1.0f;
                     switch (sideRayFallOff)
                     {
                         // Gaussian fall-off
                         case falloff.gaussian:
-                            falloff_g = Math.Exp(-(Math.Pow(sideRayFallOffMultiplier * (rayAngle / 90.0f), 2)));
+                            weight_val = Math.Exp(-(Math.Pow(sideRayFallOffMultiplier * (rayAngle / 90.0f), 2)));
                             break;
                         // Linear fall-off
                         case falloff.linear:
-                            falloff_g = Math.Min(rayAngle / 90.0f, 1.0f);
+                            weight_val = 1.0f - Math.Min(rayAngle / 90.0f, 1.0f);
                             break;
                         // Cosine fall-off
                         case falloff.cosine:
@@ -276,10 +276,10 @@ namespace geoWrangler
                             {
                                 angle = 0;
                             }
-                            falloff_g = Math.Cos(Utils.toRadians(angle));
+                            weight_val = Math.Cos(Utils.toRadians(angle));
                             // Shift up and flatten to 0-1 range.
-                            falloff_g += 1.0f;
-                            falloff_g *= 0.5;
+                            weight_val += 1.0f;
+                            weight_val *= 0.5;
                             break;
                         // No falloff
                         default:
@@ -288,19 +288,22 @@ namespace geoWrangler
 
                     if (truncateRaysByWeight)
                     {
-                        endPoint_f = new IntPoint(startPoint.X + (falloff_g * endPointDeltaY), startPoint.Y + (falloff_g * endPointDeltaX), Convert.ToInt64(falloff_g * 1E4));
+                        endPoint_f = new IntPoint(startPoint.X + (weight_val * endPointDeltaY), startPoint.Y + (weight_val * endPointDeltaX), Convert.ToInt64(weight_val * 1E4));
                     }
 
+                    endPoint_f.Z = Convert.ToInt64(weight_val * 1E4);
+
+                    IntPoint sPoint = new IntPoint(startPoint.X, startPoint.Y, endPoint_f.Z);
                     IntPoint endPoint1 = GeoWrangler.Rotate(startPoint, endPoint_f, rayAngle);
                     IntPoint endPoint2 = GeoWrangler.Rotate(startPoint, endPoint_f, -rayAngle);
 
                     // The order of line1 below is important, but I'm not yet sure why. If you change it, the expansion becomes assymetrical on a square (lower section gets squashed).
                     Path line1 = new Path();
                     line1.Add(new IntPoint(endPoint1));
-                    line1.Add(new IntPoint(startPoint));
+                    line1.Add(new IntPoint(sPoint));
                     rays.Add(line1);
                     Path line2 = new Path();
-                    line2.Add(new IntPoint(startPoint));
+                    line2.Add(new IntPoint(sPoint));
                     line2.Add(new IntPoint(endPoint2));
                     rays.Add(line2);
                 }
@@ -403,7 +406,7 @@ namespace geoWrangler
                             {
                                 resultX[ray] = tmpLine[tL][1].X;
                                 resultY[ray] = tmpLine[tL][1].Y;
-                                weight[ray] = tmpLine[tL][1].Z / 1E4;
+                                weight[ray] = Convert.ToDouble(tmpLine[tL][1].Z) / 1E4;
                             }
                             finally
                             {
@@ -418,7 +421,7 @@ namespace geoWrangler
                                 // Clipper reversed the line direction, so we need to deal with this.
                                 resultX[ray] = tmpLine[tL][0].X;
                                 resultY[ray] = tmpLine[tL][0].Y;
-                                weight[ray] = tmpLine[tL][0].Z / 1E4;
+                                weight[ray] = Convert.ToDouble(tmpLine[tL][0].Z) / 1E4;
                             }
                             finally
                             {

@@ -21,8 +21,8 @@ namespace geoWrangler
             pt.Z = bot1.Z;
         }
 
-        public static List<string> fallOffList = new List<string>() {"None", "Linear", "Gaussian"};
-        public enum falloff { none, linear, gaussian }
+        public static List<string> fallOffList = new List<string>() {"None", "Linear", "Gaussian", "Cosine"};
+        public enum falloff { none, linear, gaussian, cosine }
 
         // Corner projection is default and takes an orthogonal ray out from the corner. Setting to false causes an averaged normal to be generated.
 
@@ -258,6 +258,23 @@ namespace geoWrangler
                         // Linear fall-off
                         case falloff.linear:
                             endPoint_f = new IntPoint(endPoint.X - Convert.ToInt64(endPointDeltaY * Math.Min(rayAngle / 90.0f, 1.0f)), endPoint.Y - Convert.ToInt64(endPointDeltaX * Math.Min(rayAngle / 90.0f, 1.0f)));
+                            break;
+                        // Cosine fall-off
+                        case falloff.cosine:
+                            double angle = sideRayFallOffMultiplier * rayAngle;
+                            if (angle > 90.0)
+                            {
+                                angle = 90.0;
+                            }
+                            if (angle < 0)
+                            {
+                                angle = 0;
+                            }
+                            falloff_g = Math.Cos(Utils.toRadians(angle));
+                            // Shift up and flatten to 0-1 range.
+                            falloff_g += 1.0f;
+                            falloff_g *= 0.5;
+                            endPoint_f = new IntPoint(startPoint.X + (falloff_g * endPointDeltaY), startPoint.Y + (falloff_g * endPointDeltaX));
                             break;
                         // No falloff
                         default:

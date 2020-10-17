@@ -440,34 +440,44 @@ namespace geoWrangler
                 int yCount = 0;
                 Int64 yAv = 0;
 
+                double totalWeight = 0.0f;
+                for (int w = 0; w < weight.Length; w++)
+                {
+                    totalWeight += weight[w];
+                }
+
                 // Average the result to give a weighted spacing across the rays.
-                for (int result = 0; result < resultX.Length; result++)
+                for (int w = 0; w < weight.Length; w++)
                 {
                     double weight_ = 1.0f;
-                    if (!truncateRaysByWeight)
+                    if ((!truncateRaysByWeight) && (totalWeight > 0))
                     {
-                        weight_ = weight[result];
+                        weight_ = weight[w] / totalWeight;
                     }
 
-                    if (Math.Abs(resultX[result]) > 1000)
+                    if (Math.Abs(resultX[w]) > 1000)
                     {
                         xCount++;
-                        xAv += Convert.ToInt64(weight_ * resultX[result]);
+                        xAv += Convert.ToInt64(weight_ * resultX[w]);
                     }
-                    if (Math.Abs(resultY[result]) > 1000)
+                    if (Math.Abs(resultY[w]) > 1000)
                     {
                         yCount++;
-                        yAv += Convert.ToInt64(weight_ * resultY[result]);
+                        yAv += Convert.ToInt64(weight_ * resultY[w]);
                     }
                 }
 
-                if (xCount != 0)
+                // If we are not truncating by weight, we do not need to average here - it was done with the normalization above.
+                if (truncateRaysByWeight)
                 {
-                    xAv /= xCount;
-                }
-                if (yCount != 0)
-                {
-                    yAv /= yCount;
+                    if (xCount != 0)
+                    {
+                        xAv /= xCount;
+                    }
+                    if (yCount != 0)
+                    {
+                        yAv /= yCount;
+                    }
                 }
 
                 resultPath.Add(new IntPoint(xAv, yAv));

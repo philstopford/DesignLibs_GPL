@@ -83,7 +83,7 @@ namespace geoWrangler
             }
 
             // Setting this to true, we shorten rays with the falloff. False means we reduce the contribution to the average instead.
-            bool truncateRaysByWeight = true;
+            bool truncateRaysByWeight = false;
 
             int ptCount = emissionPath.Count;
 

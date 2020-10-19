@@ -440,36 +440,24 @@ namespace geoWrangler
                 int yCount = 0;
                 Int64 yAv = 0;
 
-                double totalWeight = 0.0f;
-                for (int w = 0; w < weight.Length; w++)
-                {
-                    totalWeight += weight[w];
-                }
-
-                // Average the result to give a weighted spacing across the rays.
-                for (int w = 0; w < weight.Length; w++)
-                {
-                    double weight_ = 1.0f;
-                    if (sideRayFallOff != falloff.none && (!truncateRaysByWeight) && (totalWeight > 0))
-                    {
-                        weight_ = weight[w] / totalWeight;
-                    }
-
-                    if (Math.Abs(resultX[w]) > 1000)
-                    {
-                        xCount++;
-                        xAv += Convert.ToInt64(weight_ * resultX[w]);
-                    }
-                    if (Math.Abs(resultY[w]) > 1000)
-                    {
-                        yCount++;
-                        yAv += Convert.ToInt64(weight_ * resultY[w]);
-                    }
-                }
-
                 // If we are not truncating by weight, we do not need to average here - it was done with the normalization above.
                 if (sideRayFallOff == falloff.none)
                 {
+                    // Average the result to give a weighted spacing across the rays.
+                    for (int result = 0; result < resultX.Length; result++)
+                    {
+                        if (Math.Abs(resultX[result]) > 1000)
+                        {
+                            xCount++;
+                            xAv += resultX[result];
+                        }
+                        if (Math.Abs(resultY[result]) > 1000)
+                        {
+                            yCount++;
+                            yAv += resultY[result];
+                        }
+                    }
+
                     if (xCount != 0)
                     {
                         xAv /= xCount;
@@ -477,6 +465,35 @@ namespace geoWrangler
                     if (yCount != 0)
                     {
                         yAv /= yCount;
+                    }
+                }
+                else
+                {
+                    double totalWeight = 0.0f;
+                    for (int w = 0; w < weight.Length; w++)
+                    {
+                        totalWeight += weight[w];
+                    }
+
+                    // Average the result to give a weighted spacing across the rays.
+                    for (int w = 0; w < weight.Length; w++)
+                    {
+                        double weight_ = 1.0f;
+                        if (sideRayFallOff != falloff.none && (!truncateRaysByWeight) && (totalWeight > 0))
+                        {
+                            weight_ = weight[w] / totalWeight;
+                        }
+
+                        if (Math.Abs(resultX[w]) > 1000)
+                        {
+                            xCount++;
+                            xAv += Convert.ToInt64(weight_ * resultX[w]);
+                        }
+                        if (Math.Abs(resultY[w]) > 1000)
+                        {
+                            yCount++;
+                            yAv += Convert.ToInt64(weight_ * resultY[w]);
+                        }
                     }
                 }
 

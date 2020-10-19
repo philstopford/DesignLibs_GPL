@@ -14,7 +14,7 @@ namespace geoWrangler
         // Sizing is used to define the keyhole width (default) and will be used for the sliver/gap removal.
         // Use of a custom value will cause headaches.
         static double sizing = 500;
-        static double nudge = 1.03;
+        static double nudge = 1.74;
 
         public static Paths makeKeyHole(Paths outers, Paths cutters, double customSizing = 0)
         {

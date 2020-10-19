@@ -191,7 +191,7 @@ namespace geoWrangler
                     ((currentEdgeNormal.Y == 0) && (previousEdgeNormal.X == 0))))
                 {
                     // If we're traversing a 90 degree corner, let's not project a diagonal, but fix on our current edge normal.
-                    if (invert)
+                    if (!invert)
                     {
                         averagedEdgeNormal = new IntPoint(-currentEdgeNormal.X, -currentEdgeNormal.Y);
                     }

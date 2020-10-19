@@ -48,7 +48,10 @@ namespace geoWrangler
             }
 
             Paths[] decomp = pGetDecomposed(input);
-
+            for (int i = 0; i < decomp.Length; i++)
+            {
+                decomp[i] = pClose(decomp[i]);
+            }
             Paths ret = pMakeKeyHole(decomp[(int)type.outer], decomp[(int)type.cutter], customSizing);
 
             if (ret.Count == 0)

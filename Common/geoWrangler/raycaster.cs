@@ -234,7 +234,12 @@ namespace geoWrangler
                 }
                 endPointDeltaX *= -1;
 
-                IntPoint endPoint = new IntPoint(endPointDeltaY + startPoint.X, endPointDeltaX + startPoint.Y, 1E4);
+                IntPoint endPoint = new IntPoint(endPointDeltaY + startPoint.X, endPointDeltaX + startPoint.Y);
+
+                if (sideRayFallOff != falloff.none)
+                {
+                    endPoint.Z = (Int64)1E4;
+                }
 
                 Paths rays = new Paths();
                 Path line = new Path();
@@ -243,7 +248,6 @@ namespace geoWrangler
                 rays.Add(line/*.ToList()*/);
 
                 double angleStep = 90.0f / (1 + multisampleRayCount);
-
 
                 for (int sample = 0; sample < multisampleRayCount; sample++)
                 {
@@ -288,12 +292,16 @@ namespace geoWrangler
 
                     if (truncateRaysByWeight)
                     {
-                        endPoint_f = new IntPoint(startPoint.X + (weight_val * endPointDeltaY), startPoint.Y + (weight_val * endPointDeltaX), Convert.ToInt64(weight_val * 1E4));
+                        endPoint_f = new IntPoint(startPoint.X + (weight_val * endPointDeltaY), startPoint.Y + (weight_val * endPointDeltaX));
                     }
 
-                    endPoint_f.Z = Convert.ToInt64(weight_val * 1E4);
+                    IntPoint sPoint = new IntPoint(startPoint.X, startPoint.Y);
 
-                    IntPoint sPoint = new IntPoint(startPoint.X, startPoint.Y, endPoint_f.Z);
+                    if (sideRayFallOff != falloff.none)
+                    {
+                        endPoint_f.Z = Convert.ToInt64(weight_val * 1E4);
+                        sPoint.Z = endPoint_f.Z;
+                    }
                     IntPoint endPoint1 = GeoWrangler.Rotate(startPoint, endPoint_f, rayAngle);
                     IntPoint endPoint2 = GeoWrangler.Rotate(startPoint, endPoint_f, -rayAngle);
 
@@ -329,7 +337,10 @@ namespace geoWrangler
                 Parallel.For(0, rays.Count, po_inner, ray =>
                 {
                     Clipper d = new Clipper();
-                    d.ZFillFunction = prox_ZFillCallback;
+                    if (sideRayFallOff != falloff.none)
+                    {
+                        d.ZFillFunction = prox_ZFillCallback;
+                    }
                     d.AddPath(rays[ray], PolyType.ptSubject, false);
                     d.AddPaths(collisionPaths, PolyType.ptClip, true);
                     PolyTree polyTree = new PolyTree();

@@ -339,6 +339,17 @@ namespace geoWrangler
             return ret;
         }
 
+        public static Paths stripColinear(Paths source, double tolerance = 0.0f)
+        {
+            Paths ret = new Paths();
+            for (int i = 0; i < source.Count; i++)
+            {
+                ret.Add(pStripColinear(source[i], tolerance));
+            }
+
+            return ret;
+        }
+
         public static Path stripColinear(Path source, double tolerance = 0.0f)
         {
             return pStripColinear(source, tolerance);

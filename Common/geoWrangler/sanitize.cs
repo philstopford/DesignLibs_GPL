@@ -119,6 +119,21 @@ namespace geoWrangler
             return iPoints;
         }
 
+        public static Paths reOrder(Paths iPoints)
+        {
+            return pReorder(iPoints);
+        }
+
+        static Paths pReorder(Paths iPoints)
+        {
+            Paths ret = new Paths();
+            for (int i = 0; i < iPoints.Count; i++)
+            {
+                ret.Add(pReorder(iPoints[i]));
+            }
+            return ret;
+        }
+
         public static Path reOrder(Path iPoints)
         {
             return pReorder(iPoints);

@@ -85,6 +85,7 @@ namespace geoWrangler
 
                     bool projectCorners = orthogonal(projCheck);
                     cutters[hole] = pClose(cutters[hole]);
+                    cutters[hole].Reverse();
                     RayCast rc = new RayCast(cutters[hole], outers, 1000000, invert: true, projectCorners: projectCorners);
                     Paths clipped = rc.getClippedRays();
                     // Need to find minimal length, ideally orthogonal.

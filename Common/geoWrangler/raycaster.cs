@@ -450,7 +450,7 @@ namespace geoWrangler
                 for (int w = 0; w < weight.Length; w++)
                 {
                     double weight_ = 1.0f;
-                    if ((!truncateRaysByWeight) && (totalWeight > 0))
+                    if (sideRayFallOff != falloff.none && (!truncateRaysByWeight) && (totalWeight > 0))
                     {
                         weight_ = weight[w] / totalWeight;
                     }
@@ -468,7 +468,7 @@ namespace geoWrangler
                 }
 
                 // If we are not truncating by weight, we do not need to average here - it was done with the normalization above.
-                if (truncateRaysByWeight)
+                if (sideRayFallOff == falloff.none)
                 {
                     if (xCount != 0)
                     {

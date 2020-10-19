@@ -84,13 +84,6 @@ namespace geoWrangler
                     projCheck = pClockwise(projCheck);
 
                     bool projectCorners = orthogonal(projCheck);
-                    //cutters[hole] = pClose(cutters[hole]);
-
-                    // Messy, but Clipper fiddles with our orientations after the first pass, so we need to tweak things.
-                    if (hole > 0) // (Clipper.Orientation(cutters[hole]))
-                    {
-                        cutters[hole].Reverse();
-                    }
                     RayCast rc = new RayCast(cutters[hole], outers, 1000000, invert: true, projectCorners: projectCorners);
                     Paths clipped = rc.getClippedRays();
                     // Need to find minimal length, ideally orthogonal.

@@ -26,14 +26,14 @@ namespace geoWrangler
 
         // Corner projection is default and takes an orthogonal ray out from the corner. Setting to false causes an averaged normal to be generated.
 
-        public RayCast(Path emissionPath, Paths collisionPaths, Int64 max, bool projectCorners = true, bool invert = false, int multisampleRayCount = 0, bool runOuterLoopThreaded = false, bool runInnerLoopThreaded = false, IntPoint startOffset = new IntPoint(), IntPoint endOffset = new IntPoint(), falloff sideRayFallOff = falloff.none, double sideRayFallOffMultiplier = 1.0f)
+        public RayCast(Path emissionPath, Paths collisionPaths, Int64 max, bool projectCorners = true, bool invert = false, int multisampleRayCount = 0, bool runOuterLoopThreaded = false, bool runInnerLoopThreaded = false, IntPoint startOffset = new IntPoint(), IntPoint endOffset = new IntPoint(), falloff sideRayFallOff = falloff.none, double sideRayFallOffMultiplier = 1.0f, bool dirOverride = false)
         {
-            rayCast(emissionPath, collisionPaths, max, projectCorners, invert, multisampleRayCount, runOuterLoopThreaded, runInnerLoopThreaded, startOffset, endOffset, sideRayFallOff, sideRayFallOffMultiplier);
+            rayCast(emissionPath, collisionPaths, max, projectCorners, invert, multisampleRayCount, runOuterLoopThreaded, runInnerLoopThreaded, startOffset, endOffset, sideRayFallOff, sideRayFallOffMultiplier, dirOverride);
         }
 
-        public RayCast(Path emissionPath, Path collisionPath, Int64 max, bool projectCorners = true, bool invert = false, int multisampleRayCount = 0, bool runOuterLoopThreaded = false, bool runInnerLoopThreaded = false, IntPoint startOffset = new IntPoint(), IntPoint endOffset = new IntPoint(), falloff sideRayFallOff = falloff.none, double sideRayFallOffMultiplier = 1.0f)
+        public RayCast(Path emissionPath, Path collisionPath, Int64 max, bool projectCorners = true, bool invert = false, int multisampleRayCount = 0, bool runOuterLoopThreaded = false, bool runInnerLoopThreaded = false, IntPoint startOffset = new IntPoint(), IntPoint endOffset = new IntPoint(), falloff sideRayFallOff = falloff.none, double sideRayFallOffMultiplier = 1.0f, bool dirOverride = false)
         {
-            rayCast(emissionPath, new Paths() { collisionPath }, max, projectCorners, invert, multisampleRayCount, runOuterLoopThreaded, runInnerLoopThreaded, startOffset, endOffset, sideRayFallOff, sideRayFallOffMultiplier);
+            rayCast(emissionPath, new Paths() { collisionPath }, max, projectCorners, invert, multisampleRayCount, runOuterLoopThreaded, runInnerLoopThreaded, startOffset, endOffset, sideRayFallOff, sideRayFallOffMultiplier, dirOverride);
         }
 
         public Paths getRays()
@@ -70,7 +70,7 @@ namespace geoWrangler
             return GeoWrangler.distanceBetweenPoints(clippedLines[ray][0], clippedLines[ray][clippedLines[ray].Count - 1]);
         }
 
-        void rayCast(Path emissionPath, Paths collisionPaths, Int64 maxRayLength, bool projectCorners, bool invert, int multisampleRayCount, bool runOuterLoopThreaded, bool runInnerLoopThreaded, IntPoint startOffset, IntPoint endOffset, falloff sideRayFallOff, double sideRayFallOffMultiplier)
+        void rayCast(Path emissionPath, Paths collisionPaths, Int64 maxRayLength, bool projectCorners, bool invert, int multisampleRayCount, bool runOuterLoopThreaded, bool runInnerLoopThreaded, IntPoint startOffset, IntPoint endOffset, falloff sideRayFallOff, double sideRayFallOffMultiplier, bool dirOverride)
         {
             if (startOffset == null)
             {
@@ -191,7 +191,7 @@ namespace geoWrangler
                     ((currentEdgeNormal.Y == 0) && (previousEdgeNormal.X == 0))))
                 {
                     // If we're traversing a 90 degree corner, let's not project a diagonal, but fix on our current edge normal.
-                    if (!invert)
+                    if (dirOverride || !invert)
                     {
                         averagedEdgeNormal = new IntPoint(-currentEdgeNormal.X, -currentEdgeNormal.Y);
                     }

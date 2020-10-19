@@ -215,11 +215,8 @@ namespace geoWrangler
         {
             Path lPoly = GeoWrangler.pathFromPoint(pClockwiseAndReorder(_poly), scaling);
 
-            // Do this to force a vertical dicing with the raycaster. Keeping the original poly will result in horizontal dicing.
-            Path lPoly_s = new Path(lPoly);
-            lPoly_s.Reverse();
-
-            RayCast rc = new RayCast(lPoly_s, lPoly, maxRayLength * scaling, projectCorners: true, invert: true, runOuterLoopThreaded:true, runInnerLoopThreaded: true);
+            // dirOverride switches from a horizontally-biased raycast to a vertical case in this case.
+            RayCast rc = new RayCast(lPoly, lPoly, maxRayLength * scaling, projectCorners: true, invert: true, runOuterLoopThreaded:true, runInnerLoopThreaded: true, dirOverride: true);
 
             Paths rays = rc.getRays();
 

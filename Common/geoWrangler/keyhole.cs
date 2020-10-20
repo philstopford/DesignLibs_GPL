@@ -52,7 +52,7 @@ namespace geoWrangler
             {
                 decomp[i] = pClose(decomp[i]);
             }
-            Paths ret = pMakeKeyHole(decomp[(int)type.outer], decomp[(int)type.cutter], customSizing);
+            Paths ret = pMakeKeyHole(decomp[(int)type.outer], decomp[(int)type.cutter], customSizing, extension);
 
             if (ret.Count == 0)
             {

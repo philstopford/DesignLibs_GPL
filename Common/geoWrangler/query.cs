@@ -183,9 +183,9 @@ namespace geoWrangler
         }
 
         // To handle this situation, a gap removal is performed. This strips the keyhole (if present) and yields enclosed cutters that we can detect and flag for rigorous processing.
-        public static bool enclosed(Paths source, double customSizing, bool strict = false)
+        public static bool enclosed(Paths source, double customSizing, double extension, bool strict = false)
         {
-            return pEnclosed(pGetOutersAndCutters(pRemoveFragments(source, customSizing)), strict);
+            return pEnclosed(pGetOutersAndCutters(pRemoveFragments(source, customSizing, extension)), strict);
         }
 
         public static bool enclosed(Paths a, Paths b, bool strict = false)

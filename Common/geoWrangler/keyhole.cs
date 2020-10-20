@@ -14,19 +14,19 @@ namespace geoWrangler
         // Sizing is used to define the keyhole width (default) and will be used for the sliver/gap removal.
         // Use of a custom value will cause headaches.
         static double sizing = 500;
-        static double nudge = 1.74;
+        static double default_nudge = 1.03;
 
-        public static Paths makeKeyHole(Paths outers, Paths cutters, double customSizing = 0)
+        public static Paths makeKeyHole(Paths outers, Paths cutters, double customSizing = 0, double extension = 0)
         {
-            return pMakeKeyHole(outers, cutters);
+            return pMakeKeyHole(outers, cutters, customSizing: customSizing, extension: extension);
         }
 
-        public static Paths makeKeyHole(Paths source, double customSizing = 0)
+        public static Paths makeKeyHole(Paths source, double customSizing = 0, double extension = 0)
         {
-            return pMakeKeyHole(source);
+            return pMakeKeyHole(source, customSizing: customSizing, extension: extension);
         }
 
-        static Paths pMakeKeyHole(Paths source, double customSizing = 0)
+        static Paths pMakeKeyHole(Paths source, double customSizing = 0, double extension = 0)
         {
             if (source.Count < 1)
             {
@@ -40,7 +40,7 @@ namespace geoWrangler
 
             // Limit the offset used in the removal otherwise we can cause self-intersections that
             // result in lots of artifacts and trouble.
-            Paths input = pRemoveFragments(source, customSizing);
+            Paths input = pRemoveFragments(source, customSizing, extension);
 
             if (input.Count < 2)
             {
@@ -64,7 +64,7 @@ namespace geoWrangler
             return ret;
         }
 
-        static Paths pMakeKeyHole(Paths outers, Paths cutters, double customSizing = 0)
+        static Paths pMakeKeyHole(Paths outers, Paths cutters, double customSizing = 0, double extension = 0)
         {
             if (customSizing == 0)
             {
@@ -190,19 +190,19 @@ namespace geoWrangler
             return sPaths;
         }
 
-        public static Paths sliverGapRemoval(Paths source, double customSizing = 0, bool maySimplify = false, bool doSomething = true)
+        public static Paths sliverGapRemoval(Paths source, double customSizing = 0, double extension = 0, bool maySimplify = false, bool doSomething = true)
         {
-            return pSliverGapRemoval(source, customSizing, maySimplify: maySimplify, doSomething: doSomething);
+            return pSliverGapRemoval(source, customSizing, extension, maySimplify: maySimplify, doSomething: doSomething);
         }
 
-        static Paths pSliverGapRemoval(Paths source, double customSizing, bool maySimplify, bool doSomething)
+        static Paths pSliverGapRemoval(Paths source, double customSizing, double extension, bool maySimplify, bool doSomething)
         {
             if (customSizing == 0)
             {
                 customSizing = sizing;
             }
             // Remove gaps, then remove slivers. Same process, different direction for sizing.
-            Paths ret = pRemoveFragments(pRemoveFragments(source, customSizing, maySimplify), -customSizing, maySimplify: maySimplify, doSomething: doSomething);
+            Paths ret = pRemoveFragments(pRemoveFragments(source, customSizing, extension, maySimplify), -customSizing, extension, maySimplify: maySimplify, doSomething: doSomething);
 
             if (ret.Count == 0)
             {
@@ -213,7 +213,7 @@ namespace geoWrangler
             return ret;
         }
 
-        public static Paths gapRemoval(Paths source, double customSizing = 0, bool maySimplify = false, bool doSomething = true)
+        public static Paths gapRemoval(Paths source, double customSizing = 0, double extension = 0, bool maySimplify = false, bool doSomething = true)
         {
             if (source.Count < 1)
             {
@@ -223,7 +223,7 @@ namespace geoWrangler
             bool orig_orient_gw = GeoWrangler.isClockwise(source[0]);
             bool orig_orient_c = Clipper.Orientation(source[0]);
 
-            Paths ret = pRemoveFragments(source, customSizing, maySimplify, doSomething: doSomething);
+            Paths ret = pRemoveFragments(source, customSizing, extension, maySimplify, doSomething: doSomething);
 
             if (ret.Count == 0)
             {
@@ -254,7 +254,7 @@ namespace geoWrangler
             return ret;
         }
 
-        public static Paths sliverRemoval(Paths source, double customSizing = 0, bool maySimplify = false, bool doSomething = true)
+        public static Paths sliverRemoval(Paths source, double customSizing = 0, double extension = 0, bool maySimplify = false, bool doSomething = true)
         {
             if (customSizing == 0)
             {
@@ -265,7 +265,7 @@ namespace geoWrangler
             {
                 oArea += Clipper.Area(source[i]);
             }
-            Paths ret = pRemoveFragments(source, -customSizing, maySimplify: maySimplify, doSomething: doSomething);
+            Paths ret = pRemoveFragments(source, -customSizing, extension, maySimplify: maySimplify, doSomething: doSomething);
             double nArea = 0;
             for (int i = 0; i < ret.Count; i++)
             {
@@ -281,15 +281,20 @@ namespace geoWrangler
         }
 
         // Positive incoming value removes gaps (keyholes); negative incoming value will remove slivers.
-        static Paths pRemoveFragments(Paths source, double customSizing, bool maySimplify = false, JoinType joinType = JoinType.jtMiter, bool doSomething = true)
+        static Paths pRemoveFragments(Paths source, double customSizing, double extension, bool maySimplify = false, JoinType joinType = JoinType.jtMiter, bool doSomething = true)
         {
             if (customSizing == 0)
             {
                 customSizing = sizing;
             }
 
+            if (extension == 0)
+            {
+                extension = default_nudge;
+            }
+
             // Used to try and avoid residual fragments; empirically derived.
-            customSizing *= nudge;
+            customSizing *= extension;
 
             Paths cGeometry = new Paths();
 

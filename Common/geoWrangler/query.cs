@@ -58,8 +58,6 @@ namespace geoWrangler
             return new GeoLibPointF(avX, avY);
         }
 
-
-
         public static GeoLibPointF midPoint(List<GeoLibPointF[]> source)
         {
             return pMidPoint(source);

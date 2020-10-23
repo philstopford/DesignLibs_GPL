@@ -49,10 +49,28 @@ This provides the basic geometric primitives (integer and floating point both). 
 
 This is a general purpose library to wrangle geometry of different types. Integer and floating points from GeoLib, as well as the Path(s) constructs from ClipperLib are all supported. This library allows for various transformations and conversions of geometry.
 
-It also provides raycaster, fragmentation and decimation features.
-
-Keyholing is also included in this library.
-
+It also provides:
+ - raycaster
+ - fragmentation and decimation features
+ - keyholding
+ - arraying
+ - inversion (including n-polygon forms)
+ - sanitization (point sequence orientation, re-ordering, etc.)
+ 
 ### GeoCore:
 
 This is a layout parsing library for GDSII and Oasis files. The design is a mix of inspiration from various references. Example usage is available in the root level geoCoreTest and also the gdsTest and oasTest projects.
+
+## Eto
+
+### Eto.VeldridSurface:
+
+This uses the Eto.Veldrid project to deliver a common 2D viewport library for use inside end-user applications. The choice of API depends on platform. This viewport is supported on .NET Core 3.1 and modern .NET, where etoViewport cannot run due to OpenTK issues. The shaders folder is relevant to this project.
+
+### etoViewport:
+
+This is legacy code. It uses Eto.OpenTK to provide common 2D viewports, but has been replaced by Eto.Veldrid due to general incompatibility with .NET Core 3.1 and later.
+
+### errorReporter:
+
+Simple error handler, intended to allow end-user code to call errorReporter in headless or Eto without worrying about how the error is being shown to the user.

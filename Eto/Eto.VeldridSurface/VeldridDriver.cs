@@ -9,6 +9,7 @@ using System.Numerics;
 using System.Runtime.InteropServices;
 using Veldrid;
 using Veldrid.SPIRV;
+using KDTree;
 
 namespace VeldridEto
 {
@@ -50,6 +51,9 @@ namespace VeldridEto
 
 		public delegate void updateHost();
 		public updateHost updateHostFunc { get; set; }
+
+		public delegate void updateHostSelection(int index);
+		public updateHostSelection updateHostSelectionFunc { get; set; }
 
 		public bool ok { get; set; }
 		public bool savedLocation_valid { get; set; }
@@ -165,8 +169,23 @@ namespace VeldridEto
 
 		Point WorldToScreen(float x, float y)
 		{
-			return new Point((int)((x - ovpSettings.getCameraX() / (ovpSettings.getZoomFactor() * ovpSettings.getBaseZoom())) + Surface.RenderWidth / 2),
-					(int)((y - ovpSettings.getCameraY() / (ovpSettings.getZoomFactor() * ovpSettings.getBaseZoom())) + Surface.RenderHeight / 2));
+			// int oX = (int)((x - ovpSettings.getCameraX() / (ovpSettings.getZoomFactor() * ovpSettings.getBaseZoom())) + Surface.RenderWidth / 2);
+
+			double oX_2 = Surface.RenderWidth / 2;
+			double oX_3 = ovpSettings.getCameraX() / (ovpSettings.getZoomFactor() * ovpSettings.getBaseZoom());
+			double oX_4 = x;
+
+			int oXC = (int)((oX_4 - oX_3) + oX_2);
+
+			// int oY = (int)((y - ovpSettings.getCameraY() / (ovpSettings.getZoomFactor() * ovpSettings.getBaseZoom())) + Surface.RenderHeight / 2);
+
+			double oY_2 = Surface.RenderHeight / 2;
+			double oY_3 = ovpSettings.getCameraY() / (ovpSettings.getZoomFactor() * ovpSettings.getBaseZoom());
+			double oY_4 = y;
+
+			int oYC = (int)((oY_4 - oY_3) + oY_2);
+
+			return new Point(oXC, oYC);
 		}
 
 		Size WorldToScreen(SizeF pt)
@@ -176,8 +195,22 @@ namespace VeldridEto
 			return new Size(pt2.X - pt1.X, pt2.Y - pt1.Y);
 		}
 
-		PointF ScreenToWorld(int x, int y)
+		SizeF ScreenToWorld(SizeF pt)
 		{
+			PointF pt1 = ScreenToWorld(0, 0);
+			PointF pt2 = ScreenToWorld(pt.Width, pt.Height);
+			return new SizeF(pt2.X - pt1.X, pt2.Y - pt1.Y);
+		}
+
+		PointF ScreenToWorld(float x, float y)
+		{
+			double oX_2 = Surface.RenderWidth / 2;
+			double oX_3 = ovpSettings.getCameraX() / (ovpSettings.getZoomFactor() * ovpSettings.getBaseZoom());
+			double oX_4 = x;
+
+			double oXC = ((oX_4 - oX_2) + oX_3);
+
+
 			return new PointF((x - Surface.RenderWidth / 2) * (ovpSettings.getZoomFactor() * ovpSettings.getBaseZoom()) + ovpSettings.getCameraX(),
 					 (y - Surface.RenderHeight / 2) * (ovpSettings.getZoomFactor() * ovpSettings.getBaseZoom()) + ovpSettings.getCameraY());
 		}
@@ -187,6 +220,10 @@ namespace VeldridEto
 			if (e.Buttons == MouseButtons.Primary)
 			{
 				setDown(e.Location.X, e.Location.Y);
+			}
+			if (e.Buttons == MouseButtons.Middle)
+			{
+				selectByClick(e.Location.X, e.Location.Y);
 			}
 			//e.Handled = true;
 		}
@@ -289,6 +326,51 @@ namespace VeldridEto
 			ovpSettings.lockVP(!ovpSettings.isLocked());
 			updateHostFunc?.Invoke();
 		}
+
+		void selectByClick(float x, float y)
+        {
+			// Where did we click?
+			PointF scaledLocation = new PointF(x * Surface.ParentWindow.LogicalPixelSize, y * Surface.ParentWindow.LogicalPixelSize);
+
+			SizeF test = ScreenToWorld(new SizeF(x, y));
+
+			// Figure out how many points are going into the tree.
+			int numberOfPoints = 0;
+			for (int i = 0; i < ovpSettings.polyListPtCount.Count; i++)
+			{
+				numberOfPoints += ovpSettings.polyListPtCount[i];
+			}
+
+			double currentMinimum = 0;
+			bool minDistSet = false;
+			int selIndex = 0;
+
+			// Populate our tree.
+			for (int poly = 0; poly < ovpSettings.polyList.Count; poly++)
+			{
+				KDTree<PointF> pTree = new KDTree<PointF>(2, numberOfPoints);
+				for (int pt = 0; pt < ovpSettings.polyList[poly].poly.Length; pt++)
+				{
+					pTree.AddPoint(new double[] { ovpSettings.polyList[poly].poly[pt].X, ovpSettings.polyList[poly].poly[pt].Y }, new PointF(ovpSettings.polyList[poly].poly[pt].X, ovpSettings.polyList[poly].poly[pt].Y));
+				}
+				// '1' forces a single nearest neighbor to be returned.
+				var pIter = pTree.NearestNeighbors(new double[] { scaledLocation.X, scaledLocation.Y }, 1);
+				while (pIter.MoveNext())
+				{
+					double distance = pIter.CurrentDistance;
+					// Found a match.
+					if ((!minDistSet) || (distance < currentMinimum))
+                    {
+						currentMinimum = distance;
+						minDistSet = true;
+						selIndex = ovpSettings.polySourceIndex[poly];
+                    }
+				}
+			}
+
+			updateHostSelectionFunc?.Invoke(selIndex);
+		}
+
 
 		void upHandler(object sender, MouseEventArgs e)
 		{

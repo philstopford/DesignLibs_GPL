@@ -29,6 +29,7 @@
   </ItemGroup>
   
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\KDTree\KDTree.csproj" />
     <ProjectReference Include="..\..\Common\utility\utility.csproj" />
   </ItemGroup>
   

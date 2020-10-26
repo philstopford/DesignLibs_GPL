@@ -225,7 +225,7 @@ namespace VeldridEto
 			{
 				selectByClick(e.Location.X, e.Location.Y);
 			}
-			//e.Handled = true;
+			e.Handled = true;
 		}
 
 		void setDown(float x, float y)
@@ -318,7 +318,7 @@ namespace VeldridEto
 				}
 			}
 			updateViewport();
-			//e.Handled = true;
+			e.Handled = true;
 		}
 
 		public void freeze_thaw()
@@ -331,15 +331,7 @@ namespace VeldridEto
         {
 			// Where did we click?
 			PointF scaledLocation = new PointF(x * Surface.ParentWindow.LogicalPixelSize, y * Surface.ParentWindow.LogicalPixelSize);
-
-			SizeF test = ScreenToWorld(new SizeF(x, y));
-
-			// Figure out how many points are going into the tree.
-			int numberOfPoints = 0;
-			for (int i = 0; i < ovpSettings.polyListPtCount.Count; i++)
-			{
-				numberOfPoints += ovpSettings.polyListPtCount[i];
-			}
+			scaledLocation = ScreenToWorld(scaledLocation.X, scaledLocation.Y);
 
 			double currentMinimum = 0;
 			bool minDistSet = false;
@@ -348,10 +340,11 @@ namespace VeldridEto
 			// Populate our tree.
 			for (int poly = 0; poly < ovpSettings.polyList.Count; poly++)
 			{
-				KDTree<PointF> pTree = new KDTree<PointF>(2, numberOfPoints);
+				KDTree<PointF> pTree = new KDTree<PointF>(2, ovpSettings.polyListPtCount[poly]);
 				for (int pt = 0; pt < ovpSettings.polyList[poly].poly.Length; pt++)
 				{
-					pTree.AddPoint(new double[] { ovpSettings.polyList[poly].poly[pt].X, ovpSettings.polyList[poly].poly[pt].Y }, new PointF(ovpSettings.polyList[poly].poly[pt].X, ovpSettings.polyList[poly].poly[pt].Y));
+					PointF t = new PointF(ovpSettings.polyList[poly].poly[pt].X, ovpSettings.polyList[poly].poly[pt].Y);
+					pTree.AddPoint(new double[] { t.X, t.Y }, t);
 				}
 				// '1' forces a single nearest neighbor to be returned.
 				var pIter = pTree.NearestNeighbors(new double[] { scaledLocation.X, scaledLocation.Y }, 1);

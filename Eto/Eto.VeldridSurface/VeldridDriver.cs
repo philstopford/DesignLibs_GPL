@@ -213,7 +213,7 @@ namespace VeldridEto
 
 
 			return new PointF((x - Surface.RenderWidth / 2) * (ovpSettings.getZoomFactor() * ovpSettings.getBaseZoom()) + ovpSettings.getCameraX(),
-					 (y - Surface.RenderHeight / 2) * (ovpSettings.getZoomFactor() * ovpSettings.getBaseZoom()) + ovpSettings.getCameraY());
+					 ((Surface.RenderHeight / 2) - y) * (ovpSettings.getZoomFactor() * ovpSettings.getBaseZoom()) + ovpSettings.getCameraY());
 		}
 
 		void downHandler(object sender, MouseEventArgs e)
@@ -331,8 +331,10 @@ namespace VeldridEto
 		void selectByClick(float x, float y)
         {
 			// Where did we click?
-			PointF scaledLocation = new PointF(x * Surface.ParentWindow.LogicalPixelSize, y * Surface.ParentWindow.LogicalPixelSize);
-			scaledLocation = ScreenToWorld(scaledLocation.X, Surface.ParentWindow.Height - scaledLocation.Y);
+			PointF scaledLocation = new PointF(x, y);
+			scaledLocation = ScreenToWorld(scaledLocation.X * Surface.ParentWindow.LogicalPixelSize, scaledLocation.Y * Surface.ParentWindow.LogicalPixelSize);
+
+			PointF cPos = ovpSettings.getCameraPos();
 
 			// Populate our tree.
 			int polyCount = ovpSettings.polyList.Count;
@@ -383,8 +385,8 @@ namespace VeldridEto
 							PointF t = new PointF(ovpSettings.lineList[line].poly[pt].X * Surface.ParentWindow.LogicalPixelSize, ovpSettings.lineList[line].poly[pt].Y * Surface.ParentWindow.LogicalPixelSize);
 							pTree.AddPoint(new double[] { t.X, t.Y }, t);
 						}
-					// '1' forces a single nearest neighbor to be returned.
-					var pIter = pTree.NearestNeighbors(new double[] { scaledLocation.X, scaledLocation.Y }, 1);
+						// '1' forces a single nearest neighbor to be returned.
+						var pIter = pTree.NearestNeighbors(new double[] { scaledLocation.X, scaledLocation.Y }, 1);
 						while (pIter.MoveNext())
 						{
 							distances[line] = Math.Abs(pIter.CurrentDistance);

@@ -336,31 +336,68 @@ namespace VeldridEto
 
 			// Populate our tree.
 			int polyCount = ovpSettings.polyList.Count;
-			double[] distances = new double[polyCount];
-			int[] indices = new int[polyCount];
-			ParallelOptions po = new ParallelOptions();
-			Parallel.For(0, polyCount, po, (poly, loopstate) =>
-			//for (int poly = 0; poly < ovpSettings.polyList.Count; poly++)
+			if (polyCount > 0)
 			{
-				KDTree<PointF> pTree = new KDTree<PointF>(2, ovpSettings.polyListPtCount[poly]);
-				for (int pt = 0; pt < ovpSettings.polyList[poly].poly.Length; pt++)
+				double[] distances = new double[polyCount];
+				int[] indices = new int[polyCount];
+				ParallelOptions po = new ParallelOptions();
+				Parallel.For(0, polyCount, po, (poly, loopstate) =>
+				//for (int poly = 0; poly < ovpSettings.polyList.Count; poly++)
 				{
-					PointF t = new PointF(ovpSettings.polyList[poly].poly[pt].X, ovpSettings.polyList[poly].poly[pt].Y);
-					pTree.AddPoint(new double[] { t.X, t.Y }, t);
+					KDTree<PointF> pTree = new KDTree<PointF>(2, ovpSettings.polyListPtCount[poly]);
+					for (int pt = 0; pt < ovpSettings.polyList[poly].poly.Length; pt++)
+					{
+						PointF t = new PointF(ovpSettings.polyList[poly].poly[pt].X * Surface.ParentWindow.LogicalPixelSize, ovpSettings.polyList[poly].poly[pt].Y * Surface.ParentWindow.LogicalPixelSize);
+						pTree.AddPoint(new double[] { t.X, t.Y }, t);
+					}
+					// '1' forces a single nearest neighbor to be returned.
+					var pIter = pTree.NearestNeighbors(new double[] { scaledLocation.X, scaledLocation.Y }, 1);
+					while (pIter.MoveNext())
+					{
+						distances[poly] = Math.Abs(pIter.CurrentDistance);
+						indices[poly] = ovpSettings.polySourceIndex[poly];
+					}
 				}
-				// '1' forces a single nearest neighbor to be returned.
-				var pIter = pTree.NearestNeighbors(new double[] { scaledLocation.X, scaledLocation.Y }, 1);
-				while (pIter.MoveNext())
+				);
+
+				int selIndex = indices[Array.IndexOf(distances, distances.Min())];
+
+				updateHostSelectionFunc?.Invoke(selIndex);
+			}
+
+			else
+			{
+				// Populate our tree.
+				int lineCount = ovpSettings.lineList.Count;
+				if (lineCount > 0)
 				{
-					distances[poly] = Math.Abs(pIter.CurrentDistance);
-					indices[poly] = ovpSettings.polySourceIndex[poly];
+					double[] distances = new double[lineCount];
+					int[] indices = new int[lineCount];
+					ParallelOptions po = new ParallelOptions();
+					Parallel.For(0, lineCount, po, (line, loopstate) =>
+					//for (int poly = 0; poly < ovpSettings.polyList.Count; poly++)
+					{
+						KDTree<PointF> pTree = new KDTree<PointF>(2, ovpSettings.lineListPtCount[line]);
+						for (int pt = 0; pt < ovpSettings.lineList[line].poly.Length; pt++)
+						{
+							PointF t = new PointF(ovpSettings.lineList[line].poly[pt].X * Surface.ParentWindow.LogicalPixelSize, ovpSettings.lineList[line].poly[pt].Y * Surface.ParentWindow.LogicalPixelSize);
+							pTree.AddPoint(new double[] { t.X, t.Y }, t);
+						}
+					// '1' forces a single nearest neighbor to be returned.
+					var pIter = pTree.NearestNeighbors(new double[] { scaledLocation.X, scaledLocation.Y }, 1);
+						while (pIter.MoveNext())
+						{
+							distances[line] = Math.Abs(pIter.CurrentDistance);
+							indices[line] = ovpSettings.lineSourceIndex[line];
+						}
+					}
+					);
+
+					int selIndex = indices[Array.IndexOf(distances, distances.Min())];
+
+					updateHostSelectionFunc?.Invoke(selIndex);
 				}
 			}
-			);
-
-			int selIndex = indices[Array.IndexOf(distances, distances.Min())];
-
-			updateHostSelectionFunc?.Invoke(selIndex);
 		}
 
 

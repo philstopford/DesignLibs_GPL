@@ -10,6 +10,7 @@ using System.Runtime.InteropServices;
 using Veldrid;
 using Veldrid.SPIRV;
 using KDTree;
+using System.Threading.Tasks;
 
 namespace VeldridEto
 {
@@ -331,14 +332,15 @@ namespace VeldridEto
         {
 			// Where did we click?
 			PointF scaledLocation = new PointF(x * Surface.ParentWindow.LogicalPixelSize, y * Surface.ParentWindow.LogicalPixelSize);
-			scaledLocation = ScreenToWorld(scaledLocation.X, scaledLocation.Y);
-
-			double currentMinimum = 0;
-			bool minDistSet = false;
-			int selIndex = 0;
+			scaledLocation = ScreenToWorld(scaledLocation.X, Surface.ParentWindow.Height - scaledLocation.Y);
 
 			// Populate our tree.
-			for (int poly = 0; poly < ovpSettings.polyList.Count; poly++)
+			int polyCount = ovpSettings.polyList.Count;
+			double[] distances = new double[polyCount];
+			int[] indices = new int[polyCount];
+			ParallelOptions po = new ParallelOptions();
+			Parallel.For(0, polyCount, po, (poly, loopstate) =>
+			//for (int poly = 0; poly < ovpSettings.polyList.Count; poly++)
 			{
 				KDTree<PointF> pTree = new KDTree<PointF>(2, ovpSettings.polyListPtCount[poly]);
 				for (int pt = 0; pt < ovpSettings.polyList[poly].poly.Length; pt++)
@@ -350,16 +352,13 @@ namespace VeldridEto
 				var pIter = pTree.NearestNeighbors(new double[] { scaledLocation.X, scaledLocation.Y }, 1);
 				while (pIter.MoveNext())
 				{
-					double distance = pIter.CurrentDistance;
-					// Found a match.
-					if ((!minDistSet) || (distance < currentMinimum))
-                    {
-						currentMinimum = distance;
-						minDistSet = true;
-						selIndex = ovpSettings.polySourceIndex[poly];
-                    }
+					distances[poly] = Math.Abs(pIter.CurrentDistance);
+					indices[poly] = ovpSettings.polySourceIndex[poly];
 				}
 			}
+			);
+
+			int selIndex = indices[Array.IndexOf(distances, distances.Min())];
 
 			updateHostSelectionFunc?.Invoke(selIndex);
 		}

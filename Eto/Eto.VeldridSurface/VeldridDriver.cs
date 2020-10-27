@@ -343,15 +343,27 @@ namespace VeldridEto
 				double[] distances = new double[polyCount];
 				int[] indices = new int[polyCount];
 				ParallelOptions po = new ParallelOptions();
-				Parallel.For(0, polyCount, po, (poly, loopstate) =>
-				//for (int poly = 0; poly < ovpSettings.polyList.Count; poly++)
+				//Parallel.For(0, polyCount, po, (poly, loopstate) =>
+				for (int poly = 0; poly < ovpSettings.polyList.Count; poly++)
 				{
-					KDTree<PointF> pTree = new KDTree<PointF>(2, ovpSettings.polyListPtCount[poly]);
+					KDTree<PointF> pTree = new KDTree<PointF>(2, ovpSettings.polyListPtCount[poly] + 1); // add one for the midpoint.
 					for (int pt = 0; pt < ovpSettings.polyList[poly].poly.Length; pt++)
 					{
-						PointF t = new PointF(ovpSettings.polyList[poly].poly[pt].X * Surface.ParentWindow.LogicalPixelSize, ovpSettings.polyList[poly].poly[pt].Y * Surface.ParentWindow.LogicalPixelSize);
+						PointF t = new PointF(ovpSettings.polyList[poly].poly[pt].X, ovpSettings.polyList[poly].poly[pt].Y);
 						pTree.AddPoint(new double[] { t.X, t.Y }, t);
 					}
+
+					double maxX = ovpSettings.polyList[poly].poly.Max(p => p.X);
+					double minX = ovpSettings.polyList[poly].poly.Min(p => p.X);
+					double maxY = ovpSettings.polyList[poly].poly.Max(p => p.Y);
+					double minY = ovpSettings.polyList[poly].poly.Min(p => p.Y);
+
+					double deltaX = (maxX - minX) * 0.5f;
+					double deltaY = (maxY - minY) * 0.5f;
+
+					PointF midPoint = new PointF((float)(minX + deltaX), (float)(minY + deltaY));
+					pTree.AddPoint(new double[] { midPoint.X, midPoint.Y }, midPoint);
+
 					// '1' forces a single nearest neighbor to be returned.
 					var pIter = pTree.NearestNeighbors(new double[] { scaledLocation.X, scaledLocation.Y }, 1);
 					while (pIter.MoveNext())
@@ -360,7 +372,7 @@ namespace VeldridEto
 						indices[poly] = ovpSettings.polySourceIndex[poly];
 					}
 				}
-				);
+				//);
 
 				int selIndex = indices[Array.IndexOf(distances, distances.Min())];
 
@@ -376,15 +388,27 @@ namespace VeldridEto
 					double[] distances = new double[lineCount];
 					int[] indices = new int[lineCount];
 					ParallelOptions po = new ParallelOptions();
-					Parallel.For(0, lineCount, po, (line, loopstate) =>
-					//for (int poly = 0; poly < ovpSettings.polyList.Count; poly++)
+					//Parallel.For(0, lineCount, po, (line, loopstate) =>
+					for (int line = 0; line < ovpSettings.lineList.Count; line++)
 					{
-						KDTree<PointF> pTree = new KDTree<PointF>(2, ovpSettings.lineListPtCount[line]);
+						KDTree<PointF> pTree = new KDTree<PointF>(2, ovpSettings.lineListPtCount[line] + 1); // add one for the midpoint.
 						for (int pt = 0; pt < ovpSettings.lineList[line].poly.Length; pt++)
 						{
-							PointF t = new PointF(ovpSettings.lineList[line].poly[pt].X * Surface.ParentWindow.LogicalPixelSize, ovpSettings.lineList[line].poly[pt].Y * Surface.ParentWindow.LogicalPixelSize);
+							PointF t = new PointF(ovpSettings.lineList[line].poly[pt].X, ovpSettings.lineList[line].poly[pt].Y);
 							pTree.AddPoint(new double[] { t.X, t.Y }, t);
 						}
+
+						double maxX = ovpSettings.lineList[line].poly.Max(p => p.X);
+						double minX = ovpSettings.lineList[line].poly.Min(p => p.X);
+						double maxY = ovpSettings.lineList[line].poly.Max(p => p.Y);
+						double minY = ovpSettings.lineList[line].poly.Min(p => p.Y);
+
+						double deltaX = (maxX - minX) * 0.5f;
+						double deltaY = (maxY - minY) * 0.5f;
+
+						PointF midPoint = new PointF((float)(minX + deltaX), (float)(minY + deltaY));
+						pTree.AddPoint(new double[] { midPoint.X, midPoint.Y }, midPoint);
+
 						// '1' forces a single nearest neighbor to be returned.
 						var pIter = pTree.NearestNeighbors(new double[] { scaledLocation.X, scaledLocation.Y }, 1);
 						while (pIter.MoveNext())
@@ -393,7 +417,7 @@ namespace VeldridEto
 							indices[line] = ovpSettings.lineSourceIndex[line];
 						}
 					}
-					);
+					//);
 
 					int selIndex = indices[Array.IndexOf(distances, distances.Min())];
 

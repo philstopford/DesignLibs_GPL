@@ -426,7 +426,6 @@ namespace VeldridEto
 			}
 		}
 
-
 		void upHandler(object sender, MouseEventArgs e)
 		{
 			if (e.Buttons == MouseButtons.Alternate)

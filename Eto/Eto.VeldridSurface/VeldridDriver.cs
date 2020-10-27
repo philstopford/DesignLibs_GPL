@@ -222,7 +222,7 @@ namespace VeldridEto
 			{
 				setDown(e.Location.X, e.Location.Y);
 			}
-			if (e.Buttons == MouseButtons.Middle)
+			if ((e.Buttons == MouseButtons.Middle) || ((e.Modifiers == Keys.Control) && (e.Buttons == MouseButtons.Primary)))
 			{
 				selectByClick(e.Location.X, e.Location.Y);
 			}

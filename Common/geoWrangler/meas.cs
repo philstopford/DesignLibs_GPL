@@ -49,7 +49,6 @@ namespace geoWrangler
             return Math.Sqrt(Utils.myPow(pt1.X - pt2.X, 2) + Utils.myPow(pt1.Y - pt2.Y, 2));
         }
 
-
         public static GeoLibPointF distanceBetweenPoints_point(GeoLibPointF pt1, GeoLibPointF pt2)
         {
             return pDistanceBetweenPoints_point(pt1, pt2);

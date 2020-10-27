@@ -1015,13 +1015,16 @@ namespace VeldridEto
 		public void updateBuffer<T>(ref DeviceBuffer buffer, T[] data, uint elementSize, BufferUsage usage)
 			where T : struct
 		{
-			buffer?.Dispose();
+			if (data.Length > 0)
+			{
+				buffer?.Dispose();
 
-			ResourceFactory factory = Surface.GraphicsDevice.ResourceFactory;
+				ResourceFactory factory = Surface.GraphicsDevice.ResourceFactory;
 
-			buffer = factory.CreateBuffer(new BufferDescription(elementSize * (uint)data.Length, usage));
+				buffer = factory.CreateBuffer(new BufferDescription(elementSize * (uint)data.Length, usage));
 
-			Surface.GraphicsDevice.UpdateBuffer(buffer, 0, data);
+				Surface.GraphicsDevice.UpdateBuffer(buffer, 0, data);
+			}
 		}
 
 		public void updateViewport()

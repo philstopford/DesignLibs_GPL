@@ -3,6 +3,7 @@ using MiscUtil.Conversion;
 using MiscUtil.IO;
 using System;
 using System.IO;
+using System.IO.Compression;
 
 namespace gds
 {
@@ -39,12 +40,24 @@ namespace gds
         {
             ok = true;
 
+            bool compressed = filename_.ToLower().EndsWith(".gz");
+
             Stream s = File.Create(filename_);
 
             statusUpdateUI?.Invoke("Saving GDS");
             progressUpdateUI?.Invoke(0);
 
-            bw = new EndianBinaryWriter(EndianBitConverter.Big, s);
+            if (compressed)
+            {
+                using (GZipStream gzs = new GZipStream(s, CompressionMode.Compress))
+                {
+                    bw = new EndianBinaryWriter(EndianBitConverter.Big, gzs);
+                }
+            }
+            else
+            {
+                bw = new EndianBinaryWriter(EndianBitConverter.Big, s);
+            }
 
             bw.Write((UInt16)6);
             bw.Write((UInt16)2);

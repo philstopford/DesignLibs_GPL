@@ -5,6 +5,7 @@ using MiscUtil.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 
 namespace oasis
 {
@@ -108,11 +109,23 @@ namespace oasis
         {
             bool ok = true;
 
+            bool compressed = filename_.ToLower().EndsWith(".gz");
+
             statusUpdateUI?.Invoke("Saving Oasis");
             progressUpdateUI?.Invoke(0);
 
             Stream s = File.OpenWrite(filename_);
-            bw = new EndianBinaryWriter(EndianBitConverter.Little, s);
+            if (compressed)
+            {
+                using (GZipStream gzs = new GZipStream(s, CompressionMode.Compress))
+                {
+                    bw = new EndianBinaryWriter(EndianBitConverter.Little, gzs);
+                }
+            }
+            else
+            {
+                bw = new EndianBinaryWriter(EndianBitConverter.Little, s);
+            }
 
             bw.Write("%SEMI-OASIS".ToCharArray());
             bw.Write((byte)13);

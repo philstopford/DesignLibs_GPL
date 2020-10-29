@@ -471,7 +471,10 @@ namespace oasis
                     break;
                 default: throw new Exception("Repetition unknown.");
             }
-            if (i != 0) modal.repetition = i;
+            if (i != 0)
+            {
+                modal.repetition = i;
+            }
         }
 
         void readExtension()
@@ -598,20 +601,6 @@ namespace oasis
                     }
                     break;
             }
-            /*
-			if (addImplecid)
-			{
-				modal.polygon_point_list.Add(modal.polygon_point_list[0]);
-			}
-            */
-
-            /*
-			// Scale everything.
-			for (Int32 pt = 0; pt < modal.polygon_point_list.Count; pt++)
-			{
-				modal.polygon_point_list[pt] = new GeoLibPoint((modal.polygon_point_list[pt].X * drawing_.databaseunits), (modal.polygon_point_list[pt].Y * drawing_.databaseunits));
-			}
-            */
             modal.polygon_point_list = pointlist.ToList();
         }
 
@@ -633,54 +622,5 @@ namespace oasis
             }
             return get;
         }
-
-        /*
-        void oasis::zlibInit(uint before, uint after){
-         zlib.next_in= &zlibIn[0];
-         zlib.next_out= &zlibOut[0];
-         zlib.avail_in=1024;
-         zlib.avail_out=1024;
-         zlib.zalloc=Z_NULL;
-         zlib.zfree=Z_NULL;
-         zlib.opaque=Z_NULL;
-         zlibUsed=true;
-         zlibBefore=before;
-         zlibAfter=after;
-         zlibInPos=0;
-         zlibOutPos=0;
-         zlibSend();
-         inflateInit(&zlib);
-         inflate(&zlib,Z_SYNC_FLUSH); 
-        }
-
-        void oasis::zlibSend(){
-        uint size=zlibBefore-zlibInPos;
-        if (size>1024) size=1024;
-        for (uint i=0;i<size;i++){
-  	        (*streamPtr)>>zlibIn[i];}
-        zlibInPos+=size;
-        zlib.avail_in=size;
-        zlib.next_in= &zlibIn[0];
-        }
-
-        quint8 oasis::zlibReadRaw(){
-        quint8 get=zlibOut[zlibOutPos];
-        zlibOutPos++;
-        if (zlibOutPos>=1024-zlib.avail_out) {
-	        zlib.next_out= &zlibOut[0];
-	        zlib.avail_out=1024;
-	        zlibOutPos=0;
-	        if (zlib.avail_in==0){zlibSend();}
-	        inflate(&zlib,Z_SYNC_FLUSH); 
-	        if(zlib.avail_out==1024){
-		        if ((zlib.total_out!=zlibAfter)||(zlib.total_in!=zlibBefore))
-			        error->addItem(tr("Error in decompression"),2);
-		        inflateEnd(&zlib);
- 		        zlibUsed=false;
-		        }
-	        }
-        return get;
-        }
-        */
     }
 }

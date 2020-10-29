@@ -102,12 +102,11 @@ namespace oasis
 
         public bool save()
         {
-            return pSave();
+            return pSave_setup();
         }
 
-        bool pSave()
+        bool pSave_setup()
         {
-            bool ok = true;
 
             bool compressed = filename_.ToLower().EndsWith(".gz");
 
@@ -115,18 +114,47 @@ namespace oasis
             progressUpdateUI?.Invoke(0);
 
             Stream s = File.OpenWrite(filename_);
+
+            bool ret = false;
+
             if (compressed)
             {
                 using (GZipStream gzs = new GZipStream(s, CompressionMode.Compress))
                 {
                     bw = new EndianBinaryWriter(EndianBitConverter.Little, gzs);
+                    try
+                    {
+                        pSave_write();
+                        ret = true;
+                    }
+                    catch (Exception)
+                    {
+
+                    }
                 }
             }
             else
             {
                 bw = new EndianBinaryWriter(EndianBitConverter.Little, s);
+                try
+                {
+                    pSave_write();
+                    ret = true;
+                }
+                catch (Exception)
+                {
+
+                }
             }
 
+            s.Close();
+            s.Dispose();
+
+            return ret;
+        }
+
+        void pSave_write()
+        {
             bw.Write("%SEMI-OASIS".ToCharArray());
             bw.Write((byte)13);
             bw.Write((byte)10);
@@ -267,9 +295,6 @@ namespace oasis
 
             bw.Close();
             bw.Dispose();
-            s.Close();
-            s.Dispose();
-            return ok;
         }
     }
 }

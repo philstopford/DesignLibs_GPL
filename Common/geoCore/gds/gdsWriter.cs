@@ -17,7 +17,6 @@ namespace gds
         public EndianBinaryWriter bw { get; set; }
         public GCDrawingfield drawing_ { get; set; }
         string filename_;
-        bool ok;
         bool noTerminate = false; // debug to allow file comparison during write.
 
         public gdsWriter(GeoCore gc, String filename)
@@ -33,13 +32,11 @@ namespace gds
 
         public bool save()
         {
-            return pSave();
+            return pSave_setup();
         }
 
-        bool pSave()
+        bool pSave_setup()
         {
-            ok = true;
-
             bool compressed = filename_.ToLower().EndsWith(".gz");
 
             Stream s = File.Create(filename_);
@@ -47,18 +44,46 @@ namespace gds
             statusUpdateUI?.Invoke("Saving GDS");
             progressUpdateUI?.Invoke(0);
 
+            bool ret = false;
+
             if (compressed)
             {
                 using (GZipStream gzs = new GZipStream(s, CompressionMode.Compress))
                 {
                     bw = new EndianBinaryWriter(EndianBitConverter.Big, gzs);
+                    try
+                    {
+                        pSave_write();
+                        ret = true;
+                    }
+                    catch (Exception)
+                    {
+
+                    }
                 }
             }
             else
             {
                 bw = new EndianBinaryWriter(EndianBitConverter.Big, s);
+                try
+                {
+                    pSave_write();
+                    ret = true;
+                }
+                catch (Exception)
+                {
+
+                }
             }
 
+            s.Close();
+            s.Dispose();
+
+            return ret;
+        }
+
+        void pSave_write()
+        {
             bw.Write((UInt16)6);
             bw.Write((UInt16)2);
             bw.Write((UInt16)600);
@@ -148,10 +173,6 @@ namespace gds
 
             bw.Close();
             bw.Dispose();
-            s.Close();
-            s.Dispose();
-
-            return ok;
         }
     }
 }

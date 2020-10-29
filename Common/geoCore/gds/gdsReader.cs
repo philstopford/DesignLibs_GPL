@@ -5,6 +5,7 @@ using MiscUtil.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using utility;
 
 namespace gds
@@ -123,8 +124,22 @@ namespace gds
             {
                 statusUpdateUI?.Invoke("Loading");
                 progressUpdateUI?.Invoke(0);
-                Stream s = File.OpenRead(filename);
-                br = new EndianBinaryReader(EndianBitConverter.Big, s);
+                Stream s;
+                s = File.OpenRead(filename);
+                if (filename.ToLower().EndsWith("gz"))
+                {
+                    using (GZipStream gzs = new GZipStream(s, CompressionMode.Decompress))
+                    {
+                        MemoryStream ms = new MemoryStream();
+                        gzs.CopyTo(ms);
+                        ms.Seek(0, SeekOrigin.Begin);
+                        br = new EndianBinaryReader(EndianBitConverter.Big, ms);
+                    }
+                }
+                else
+                {
+                    br = new EndianBinaryReader(EndianBitConverter.Big, s);
+                }
                 System.Text.Encoding ascii = System.Text.Encoding.ASCII;
 
                 List<GCCell> firstcellhelp = drawing_.cellList;

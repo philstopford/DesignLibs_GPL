@@ -5,6 +5,7 @@ using MiscUtil.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Text;
 
 namespace oasis
@@ -161,7 +162,23 @@ namespace oasis
                 statusUpdateUI?.Invoke("Loading");
                 progressUpdateUI?.Invoke(0);
 
-                br = new EndianBinaryReader(EndianBitConverter.Little, File.OpenRead(filename));
+                Stream stream;
+                stream = File.OpenRead(filename);
+                if (filename.ToLower().EndsWith("gz"))
+                {
+                    using (GZipStream gzs = new GZipStream(stream, CompressionMode.Decompress))
+                    {
+                        MemoryStream ms = new MemoryStream();
+                        gzs.CopyTo(ms);
+                        ms.Seek(0, SeekOrigin.Begin);
+                        br = new EndianBinaryReader(EndianBitConverter.Little, ms);
+                    }
+                }
+                else
+                {
+                    br = new EndianBinaryReader(EndianBitConverter.Little, stream);
+                }
+
                 string s, s1;
                 byte help;
                 Int32 i = 0;

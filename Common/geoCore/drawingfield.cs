@@ -235,7 +235,12 @@ namespace geoCoreLib
 
         void pResize(double scale)
         {
-            for (int i = 0; i < cellList.Count; i++)
+            int cellListCount = cellList.Count;
+#if GCTHREADED
+            Parallel.For(i, cellListCount, (i) =>
+#else
+            for (int i = 0; i < cellListCount; i++)
+#endif
             {
                 if (cellList[i].elementList == null)
                 {
@@ -243,6 +248,9 @@ namespace geoCoreLib
                 }
                 cellList[i].resize(1.0f / scale);
             }
+#if GCTHREADED
+            );
+#endif
 
             databaseunits /= scale;
             userunits *= scale;

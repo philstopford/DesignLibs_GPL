@@ -115,22 +115,10 @@ namespace geoCoreLib
             }
             pos1.Offset(point);
             pos2.Offset(point);
-            if (pos2.X < p.X)
-            {
-                p.X = pos2.X;
-            }
-            if (pos1.X < p.X)
-            {
-                p.X = pos1.X;
-            }
-            if (pos2.Y < p.Y)
-            {
-                p.Y = pos2.Y;
-            }
-            if (pos1.Y < p.Y)
-            {
-                p.Y = pos1.Y;
-            }
+            p.X = Math.Min(p.X, pos2.X);
+            p.X = Math.Min(p.X, pos1.X);
+            p.Y = Math.Min(p.Y, pos2.Y);
+            p.Y = Math.Min(p.Y, pos1.Y);
         }
 
         public override void scale(double factor)
@@ -191,22 +179,10 @@ namespace geoCoreLib
             }
             pos1.Offset(point);
             pos2.Offset(point);
-            if (pos2.X > p.X)
-            {
-                p.X = pos2.X;
-            }
-            if (pos1.X > p.X)
-            {
-                p.X = pos1.X;
-            }
-            if (pos2.Y > p.Y)
-            {
-                p.Y = pos2.Y;
-            }
-            if (pos1.Y > p.Y)
-            {
-                p.Y = pos1.Y;
-            }
+            p.X = Math.Max(p.X, pos2.X);
+            p.X = Math.Max(p.X, pos1.X);
+            p.Y = Math.Max(p.Y, pos2.Y);
+            p.Y = Math.Max(p.Y, pos1.Y);
         }
 
         public override GCCell depend()

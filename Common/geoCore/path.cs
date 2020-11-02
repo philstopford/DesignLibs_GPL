@@ -65,18 +65,9 @@ namespace geoCoreLib
 
         void pMinimum(GeoLibPoint pos)
         {
-            for (Int32 i = 0; i < pointarray.Count(); i++)
-            {
-                GeoLibPoint p = pointarray[i];
-                if (p.X < pos.X)
-                {
-                    pos.X = p.X;
-                }
-                if (p.Y < pos.Y)
-                {
-                    pos.Y = p.Y;
-                }
-            }
+            GeoLibPoint p = GeoWrangler.getMinimumPoint(pointarray);
+            pos.X = Math.Min(pos.X, p.X);
+            pos.Y = Math.Min(pos.Y, p.Y);
         }
 
         public override void maximum(GeoLibPoint pos)
@@ -86,18 +77,9 @@ namespace geoCoreLib
 
         void pMaximum(GeoLibPoint pos)
         {
-            for (Int32 i = 0; i < pointarray.Count(); i++)
-            {
-                GeoLibPoint p = pointarray[i];
-                if (p.X > pos.X)
-                {
-                    pos.X = p.X;
-                }
-                if (p.Y > pos.Y)
-                {
-                    pos.Y = p.Y;
-                }
-            }
+            GeoLibPoint p = GeoWrangler.getMaximumPoint(pointarray);
+            pos.X = Math.Max(pos.X, p.X);
+            pos.Y = Math.Max(pos.Y, p.Y);
         }
 
         public override void moveSelect(GeoLibPoint pos)
@@ -109,11 +91,19 @@ namespace geoCoreLib
         {
             if (select)
             {
-                for (Int32 i = 0; i < pointarray.Count(); i++)
+                int pointArrayCount = pointarray.Length;
+#if GCTHREADED
+                Parallel.For(i, pointArrayCount, (i) =>
+#else
+                for (int i = 0; i < pointArrayCount; i++)
+#endif
                 {
                     pointarray[i].Offset(pos);
                 }
             }
+#if GCTHREADED
+            );
+#endif
         }
 
         public override void move(GeoLibPoint pos)
@@ -123,10 +113,18 @@ namespace geoCoreLib
 
         void pMove(GeoLibPoint pos)
         {
-            for (Int32 i = 0; i < pointarray.Count(); i++)
+            int pointArrayCount = pointarray.Length;
+#if GCTHREADED
+            Parallel.For(i, pointArrayCount, (i) =>
+#else
+            for (int i = 0; i < pointArrayCount; i++)
+#endif
             {
                 pointarray[i].Offset(pos);
             }
+#if GCTHREADED
+            );
+#endif
         }
 
         public override void resize(double size)
@@ -137,11 +135,7 @@ namespace geoCoreLib
         void pResize(double size)
         {
             width = (Int32)(size * width);
-            for (Int32 i = 0; i < pointarray.Count(); i++)
-            {
-                GeoLibPoint p = new GeoLibPoint((pointarray[i].X * size), (pointarray[i].Y * size));
-                pointarray[i] = p;
-            }
+            pointarray = GeoWrangler.resize(pointarray, size);
         }
 
         public override void clean()
@@ -170,11 +164,8 @@ namespace geoCoreLib
 
         void pDeletePoint(int pos)
         {
-            List<GeoLibPoint> newArray = new List<GeoLibPoint>();
-            for (Int32 i = pos; i < pointarray.Length - 1; i++)
-            {
-                newArray.Add(pointarray[i + 1]);
-            }
+            List<GeoLibPoint> newArray = pointarray.ToList();
+            newArray.RemoveAt(pos);
             pointarray = newArray.ToArray();
         }
 

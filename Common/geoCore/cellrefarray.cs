@@ -433,6 +433,7 @@ namespace geoCoreLib
 
         List<GCPolygon> pConvertToPolygons()
         {
+            /*
             // This returns the contents of the reference.
             List<GCPolygon> tmp = new List<GCPolygon>();
             for (int element = 0; element < cell_ref.elementList.Count; element++)
@@ -441,6 +442,9 @@ namespace geoCoreLib
                 // Above should work with nested arrays due to the recursion of the convertToPolygons override.
                 tmp.AddRange(lp);
             }
+            */
+
+            List<GCPolygon> tmp = cell_ref.convertToPolygons();
 
             // Now we need to array the above.
             List<GCPolygon> ret = new List<GCPolygon>();

@@ -408,6 +408,7 @@ namespace geoCoreLib
 
         List<GCPolygon> pConvertToPolygons()
         {
+            /*
             List<GCPolygon> ret = new List<GCPolygon>();
 
             for (int element = 0; element < cell_ref.elementList.Count; element++)
@@ -415,6 +416,9 @@ namespace geoCoreLib
                 List<GCPolygon> tmp = cell_ref.elementList[element].convertToPolygons();
                 ret.AddRange(tmp);
             }
+            */
+            List<GCPolygon> ret = cell_ref.convertToPolygons();
+
 
 #if GCTHREADED
             Parallel.For(0, ret.Count, (poly, loopstate) =>

@@ -10,6 +10,35 @@ namespace geoWrangler
 {
     public static partial class GeoWrangler
     {
+        public static GeoLibPoint[] Rotate(GeoLibPoint pivot, GeoLibPoint[] pointList, double angleDegree)
+        {
+            return pRotate(pivot, pointList, angleDegree);
+        }
+
+        static GeoLibPoint[] pRotate(GeoLibPoint pivot, GeoLibPoint[] pointList, double angleDegree)
+        {
+            if (Math.Abs(angleDegree) < 1E-2) // essentially a zero rotation clamp at 0.01 degrees
+            {
+                return pointList;
+            }
+
+            int pointListLength = pointList.Length;
+            GeoLibPoint[] returnList = new GeoLibPoint[pointListLength];
+
+#if GWTHREADED
+            Parallel.For(0, pointListLength, (i) =>
+#else
+            for (Int32 i = 0; i < pointList.Count(); i++)
+#endif
+            {
+                returnList[i] = Rotate(pivot, pointList[i], angleDegree);
+            }
+#if GWTHREADED
+            );
+#endif
+            return returnList;
+        }
+
         public static GeoLibPointF[] Rotate(GeoLibPointF pivot, GeoLibPointF[] pointList, double angleDegree)
         {
             return pRotate(pivot, pointList, angleDegree);

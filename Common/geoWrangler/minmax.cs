@@ -2,6 +2,7 @@
 using geoLib;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace geoWrangler
 {
@@ -273,5 +274,56 @@ namespace geoWrangler
             return maxIndex;
         }
 
+        public static GeoLibPoint getMinimumPoint(GeoLibPoint[] iPoints)
+        {
+            return pGetMinimumPoint(iPoints);
+        }
+
+        static GeoLibPoint pGetMinimumPoint(GeoLibPoint[] iPoints)
+        {
+            int x = iPoints.Min(p => p.X);
+            int y = iPoints.Min(p => p.Y);
+
+            return new GeoLibPoint(x, y);
+        }
+
+        public static GeoLibPoint getMaximumPoint(GeoLibPoint[] iPoints)
+        {
+            return pGetMaximumPoint(iPoints);
+        }
+
+        static GeoLibPoint pGetMaximumPoint(GeoLibPoint[] iPoints)
+        {
+            int x = iPoints.Max(p => p.X);
+            int y = iPoints.Max(p => p.Y);
+
+            return new GeoLibPoint(x, y);
+        }
+
+        public static GeoLibPointF getMinimumPoint(GeoLibPointF[] iPoints)
+        {
+            return pGetMinimumPoint(iPoints);
+        }
+
+        static GeoLibPointF pGetMinimumPoint(GeoLibPointF[] iPoints)
+        {
+            double x = iPoints.Min(p => p.X);
+            double y = iPoints.Min(p => p.Y);
+
+            return new GeoLibPointF(x, y);
+        }
+
+        public static GeoLibPointF getMaximumPoint(GeoLibPointF[] iPoints)
+        {
+            return pGetMaximumPoint(iPoints);
+        }
+
+        static GeoLibPointF pGetMaximumPoint(GeoLibPointF[] iPoints)
+        {
+            double x = iPoints.Max(p => p.X);
+            double y = iPoints.Max(p => p.Y);
+
+            return new GeoLibPointF(x, y);
+        }
     }
 }

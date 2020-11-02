@@ -60,26 +60,7 @@ namespace geoCoreLib
                 return;
             }
 
-            for (Int32 i = 0; i < pointarray.Length; i++)
-            {
-                pointarray[i] = pRotate(pointarray[i], pos, angleDegree);
-            }
-        }
-
-        GeoLibPoint pRotate(GeoLibPoint point, GeoLibPoint pivot, double angleDegree)
-        {
-            if (angleDegree == 0)
-            {
-                return point;
-            }
-
-            double angle = angleDegree * Math.PI / 180;
-            double x = pivot.X + ((point.X - pivot.X) * Math.Cos(angle) -
-                (point.Y - pivot.Y) * Math.Sin(angle));
-            double y = pivot.Y + ((point.X - pivot.X) * Math.Sin(angle) +
-                (point.Y - pivot.Y) * Math.Cos(angle));
-
-            return new GeoLibPoint(x, y);
+            pointarray = GeoWrangler.Rotate(pos, pointarray, angleDegree);
         }
 
         public override void scale(double size)
@@ -89,10 +70,7 @@ namespace geoCoreLib
 
         void pScale(double size)
         {
-            for (int i = 0; i < pointarray.Length; i++)
-            {
-                pointarray[i] = new GeoLibPoint(pointarray[i].X * size, pointarray[i].Y * size);
-            }
+            pointarray = GeoWrangler.resize(pointarray, size);
         }
 
         public override void scale(GeoLibPoint origin, double size)
@@ -199,18 +177,10 @@ namespace geoCoreLib
 
         void pMinimum(GeoLibPoint pos)
         {
-            for (Int32 i = 0; i < pointarray.Count(); i++)
-            {
-                GeoLibPoint p = pointarray[i];
-                if (p.X < pos.X)
-                {
-                    pos.X = p.X;
-                }
-                if (p.Y < pos.Y)
-                {
-                    pos.Y = p.Y;
-                }
-            }
+            GeoLibPoint t = GeoWrangler.getMinimumPoint(pointarray);
+
+            pos.X = Math.Min(pos.X, t.X);
+            pos.Y = Math.Min(pos.Y, t.Y);
         }
 
         public override void maximum(GeoLibPoint pos)
@@ -220,18 +190,10 @@ namespace geoCoreLib
 
         void pMaximum(GeoLibPoint pos)
         {
-            for (Int32 i = 0; i < pointarray.Count(); i++)
-            {
-                GeoLibPoint p = pointarray[i];
-                if (p.X > pos.X)
-                {
-                    pos.X = p.X;
-                }
-                if (p.Y > pos.Y)
-                {
-                    pos.Y = p.Y;
-                }
-            }
+            GeoLibPoint t = GeoWrangler.getMaximumPoint(pointarray);
+
+            pos.X = Math.Max(pos.X, t.X);
+            pos.Y = Math.Max(pos.Y, t.Y);
         }
 
         public override void moveSelect(GeoLibPoint pos)

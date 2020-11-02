@@ -80,10 +80,7 @@ namespace geoCoreLib
 
         void pScale(GeoLibPoint origin, double size)
         {
-            for (int i = 0; i < pointarray.Length; i++)
-            {
-                pointarray[i] = new GeoLibPoint(origin.X + ((pointarray[i].X - origin.X) * size), origin.Y + ((pointarray[i].Y - origin.Y) * size));
-            }
+            pointarray = GeoWrangler.resize(origin, pointarray, size);
         }
 
         public void deletePoint(Int32 pos)

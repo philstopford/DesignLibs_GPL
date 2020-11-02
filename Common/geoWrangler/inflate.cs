@@ -150,5 +150,27 @@ namespace geoWrangler
 #endif
             return ret;
         }
+
+        public static GeoLibPoint[] resize(GeoLibPoint pivot, GeoLibPoint[] source, double factor)
+        {
+            return pResize(pivot, source, factor);
+        }
+
+        static GeoLibPoint[] pResize(GeoLibPoint pivot, GeoLibPoint[] source, double factor)
+        {
+            GeoLibPoint[] pointarray = new GeoLibPoint[source.Length];
+#if GWTHREADED
+            Parallel.For(0, pointarray.Length, (i) => 
+#else
+            for (int i = 0; i < pointarray.Length; i++)
+#endif
+            {
+                pointarray[i] = new GeoLibPoint(pivot.X + ((source[i].X - pivot.X) * factor), pivot.Y + ((source[i].Y - pivot.Y) * factor));
+            }
+#if GWTHREADED
+            );
+#endif
+            return pointarray;
+        }
     }
 }

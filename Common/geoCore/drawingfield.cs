@@ -237,16 +237,15 @@ namespace geoCoreLib
         {
             int cellListCount = cellList.Count;
 #if GCTHREADED
-            Parallel.For(i, cellListCount, (i) =>
+            Parallel.For(0, cellListCount, (i) =>
 #else
             for (int i = 0; i < cellListCount; i++)
 #endif
             {
-                if (cellList[i].elementList == null)
+                if (cellList[i].elementList != null)
                 {
-                    continue;
+                    cellList[i].resize(1.0f / scale);
                 }
-                cellList[i].resize(1.0f / scale);
             }
 #if GCTHREADED
             );

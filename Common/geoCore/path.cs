@@ -5,6 +5,7 @@ using oasis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace geoCoreLib
 {
@@ -93,17 +94,17 @@ namespace geoCoreLib
             {
                 int pointArrayCount = pointarray.Length;
 #if GCTHREADED
-                Parallel.For(i, pointArrayCount, (i) =>
+                Parallel.For(0, pointArrayCount, (i) =>
 #else
                 for (int i = 0; i < pointArrayCount; i++)
 #endif
                 {
                     pointarray[i].Offset(pos);
                 }
-            }
 #if GCTHREADED
             );
 #endif
+            }
         }
 
         public override void move(GeoLibPoint pos)
@@ -115,7 +116,7 @@ namespace geoCoreLib
         {
             int pointArrayCount = pointarray.Length;
 #if GCTHREADED
-            Parallel.For(i, pointArrayCount, (i) =>
+            Parallel.For(0, pointArrayCount, (i) =>
 #else
             for (int i = 0; i < pointArrayCount; i++)
 #endif

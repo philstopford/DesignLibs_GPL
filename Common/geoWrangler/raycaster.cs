@@ -16,7 +16,7 @@ namespace geoWrangler
         Paths clippedLines;
         Paths castLines;
 
-        public enum forceSingleDirection { no, vertical, horizontal }
+        public enum forceSingleDirection { no, vertical, horizontal } // No and horizontal are treated the same in this code at the moment; leaving these to make the code more readable and intent clearer.
 
         void prox_ZFillCallback(IntPoint bot1, IntPoint top1, IntPoint bot2, IntPoint top2, ref IntPoint pt)
         {
@@ -195,7 +195,7 @@ namespace geoWrangler
                     Int64 tX = currentEdgeNormal.X;
                     Int64 tY = currentEdgeNormal.Y;
                     // If we're traversing a 90 degree corner, let's not project a diagonal, but fix on our current edge normal.
-                    if (!invert || (dirOverride != forceSingleDirection.no))
+                    if (!invert || (dirOverride == forceSingleDirection.vertical))
                     {
                         tX = -tX;
                         tY = -tY;

@@ -258,7 +258,7 @@ namespace geoWrangler
                             minDist = Math.Min(minDist, bDist);
                         }
 
-                        if (minDist > 1000)
+                        if (minDist > 0)
                         {
                             p.RemoveAt(path);
                         }
@@ -296,7 +296,7 @@ namespace geoWrangler
 
                     if (edgeIsNew)
                     {
-                        newEdges.Add(new Path(p[0]));
+                        newEdges.AddRange(p);// new Path(p[0]));
                         break;
                     }
                     else

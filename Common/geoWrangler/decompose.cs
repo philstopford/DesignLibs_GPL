@@ -241,6 +241,31 @@ namespace geoWrangler
 
                 Paths p = Clipper.OpenPathsFromPolyTree(pt);
 
+                int pCount = p.Count;
+
+                if (pCount > 0)
+                {
+                    for (int path = pCount - 1; path >= 0; path--)
+                    {
+                        double minDist = 100000;
+                        // See whether the start or end point exists in the lPoly geometry. If not, we should drop this path from the list.
+                        for (int lPolyPt = 0; lPolyPt < lPoly.Count; lPolyPt++)
+                        {
+                            double aDist = GeoWrangler.distanceBetweenPoints(lPoly[lPolyPt], p[path][0]);
+                            double bDist = GeoWrangler.distanceBetweenPoints(lPoly[lPolyPt], p[path][1]);
+
+                            minDist = Math.Min(minDist, aDist);
+                            minDist = Math.Min(minDist, bDist);
+                        }
+
+                        if (minDist > 1000)
+                        {
+                            p.RemoveAt(path);
+                        }
+                    }
+
+                }
+
                 if (p.Count > 0)
                 {
                     // Should only have one path in the result.

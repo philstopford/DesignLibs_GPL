@@ -16,6 +16,8 @@ namespace geoWrangler
         Paths clippedLines;
         Paths castLines;
 
+        public enum forceSingleDirection { no, vertical, horizontal }
+
         void prox_ZFillCallback(IntPoint bot1, IntPoint top1, IntPoint bot2, IntPoint top2, ref IntPoint pt)
         {
             pt.Z = bot1.Z;
@@ -26,12 +28,12 @@ namespace geoWrangler
 
         // Corner projection is default and takes an orthogonal ray out from the corner. Setting to false causes an averaged normal to be generated.
 
-        public RayCast(Path emissionPath, Paths collisionPaths, Int64 max, bool projectCorners = true, bool invert = false, int multisampleRayCount = 0, bool runOuterLoopThreaded = false, bool runInnerLoopThreaded = false, IntPoint startOffset = new IntPoint(), IntPoint endOffset = new IntPoint(), falloff sideRayFallOff = falloff.none, double sideRayFallOffMultiplier = 1.0f, bool dirOverride = false)
+        public RayCast(Path emissionPath, Paths collisionPaths, Int64 max, bool projectCorners = true, bool invert = false, int multisampleRayCount = 0, bool runOuterLoopThreaded = false, bool runInnerLoopThreaded = false, IntPoint startOffset = new IntPoint(), IntPoint endOffset = new IntPoint(), falloff sideRayFallOff = falloff.none, double sideRayFallOffMultiplier = 1.0f, forceSingleDirection dirOverride = forceSingleDirection.no)
         {
             rayCast(emissionPath, collisionPaths, max, projectCorners, invert, multisampleRayCount, runOuterLoopThreaded, runInnerLoopThreaded, startOffset, endOffset, sideRayFallOff, sideRayFallOffMultiplier, dirOverride);
         }
 
-        public RayCast(Path emissionPath, Path collisionPath, Int64 max, bool projectCorners = true, bool invert = false, int multisampleRayCount = 0, bool runOuterLoopThreaded = false, bool runInnerLoopThreaded = false, IntPoint startOffset = new IntPoint(), IntPoint endOffset = new IntPoint(), falloff sideRayFallOff = falloff.none, double sideRayFallOffMultiplier = 1.0f, bool dirOverride = false)
+        public RayCast(Path emissionPath, Path collisionPath, Int64 max, bool projectCorners = true, bool invert = false, int multisampleRayCount = 0, bool runOuterLoopThreaded = false, bool runInnerLoopThreaded = false, IntPoint startOffset = new IntPoint(), IntPoint endOffset = new IntPoint(), falloff sideRayFallOff = falloff.none, double sideRayFallOffMultiplier = 1.0f, forceSingleDirection dirOverride = forceSingleDirection.no)
         {
             rayCast(emissionPath, new Paths() { collisionPath }, max, projectCorners, invert, multisampleRayCount, runOuterLoopThreaded, runInnerLoopThreaded, startOffset, endOffset, sideRayFallOff, sideRayFallOffMultiplier, dirOverride);
         }
@@ -70,7 +72,7 @@ namespace geoWrangler
             return GeoWrangler.distanceBetweenPoints(clippedLines[ray][0], clippedLines[ray][clippedLines[ray].Count - 1]);
         }
 
-        void rayCast(Path emissionPath, Paths collisionPaths, Int64 maxRayLength, bool projectCorners, bool invert, int multisampleRayCount, bool runOuterLoopThreaded, bool runInnerLoopThreaded, IntPoint startOffset, IntPoint endOffset, falloff sideRayFallOff, double sideRayFallOffMultiplier, bool dirOverride)
+        void rayCast(Path emissionPath, Paths collisionPaths, Int64 maxRayLength, bool projectCorners, bool invert, int multisampleRayCount, bool runOuterLoopThreaded, bool runInnerLoopThreaded, IntPoint startOffset, IntPoint endOffset, falloff sideRayFallOff, double sideRayFallOffMultiplier, forceSingleDirection dirOverride)
         {
             if (startOffset == null)
             {
@@ -190,15 +192,26 @@ namespace geoWrangler
                 if (projectCorners && (((currentEdgeNormal.X == 0) && (previousEdgeNormal.Y == 0)) ||
                     ((currentEdgeNormal.Y == 0) && (previousEdgeNormal.X == 0))))
                 {
+                    Int64 tX = currentEdgeNormal.X;
+                    Int64 tY = currentEdgeNormal.Y;
                     // If we're traversing a 90 degree corner, let's not project a diagonal, but fix on our current edge normal.
-                    if (dirOverride || !invert)
+                    if (!invert)
                     {
-                        averagedEdgeNormal = new IntPoint(-currentEdgeNormal.X, -currentEdgeNormal.Y);
+                        tX = -tX;
+                        tY = -tY;
                     }
-                    else
+                    switch (dirOverride)
                     {
-                        averagedEdgeNormal = new IntPoint(currentEdgeNormal.X, currentEdgeNormal.Y);
+                        case forceSingleDirection.vertical:
+                            tY = 0;
+                            tX = -tX;
+                            break;
+                        case forceSingleDirection.horizontal:
+                            tX = 0;
+                            tY = -tY;
+                            break;
                     }
+                    averagedEdgeNormal = new IntPoint(tX, tY);
                 }
                 else
                 {

@@ -195,21 +195,10 @@ namespace geoWrangler
                     Int64 tX = currentEdgeNormal.X;
                     Int64 tY = currentEdgeNormal.Y;
                     // If we're traversing a 90 degree corner, let's not project a diagonal, but fix on our current edge normal.
-                    if (!invert)
+                    if (!invert || (dirOverride != forceSingleDirection.no))
                     {
                         tX = -tX;
                         tY = -tY;
-                    }
-                    switch (dirOverride)
-                    {
-                        case forceSingleDirection.vertical:
-                            tY = 0;
-                            tX = -tX;
-                            break;
-                        case forceSingleDirection.horizontal:
-                            tX = 0;
-                            tY = -tY;
-                            break;
                     }
                     averagedEdgeNormal = new IntPoint(tX, tY);
                 }

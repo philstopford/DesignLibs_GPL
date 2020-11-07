@@ -215,6 +215,11 @@ namespace geoWrangler
         {
             Path lPoly = GeoWrangler.pathFromPoint(pClockwiseAndReorder(_poly), scaling);
 
+            if ((_poly.Length == 5) && GeoWrangler.orthogonal(GeoWrangler.stripTerminators(_poly, false)))
+            {
+                return new List<GeoLibPoint[]>() { _poly };
+            }
+
             // dirOverride switches from a horizontally-biased raycast to a vertical case in this case.
             RayCast rc = new RayCast(lPoly, lPoly, maxRayLength * scaling, projectCorners: true, invert: true, runOuterLoopThreaded:true, runInnerLoopThreaded: true, dirOverride: vertical);
 

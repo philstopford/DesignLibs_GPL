@@ -308,7 +308,7 @@ namespace geoWrangler
         {
             bool isOrthogonal = true;
 
-            double[] _angles = angles(sourcePoly, allowNegative: false);
+            double[] _angles = angles(sourcePoly, allowNegative: true);
 
             for (int i = 0; i < _angles.Length; i++)
             {
@@ -333,7 +333,7 @@ namespace geoWrangler
             GeoLibPoint[] stripped = pStripTerminators(sourcePoly, true);
             int finalIndex = stripped.Length - 2;
 
-            double[] angles = new double[stripped.Length];
+            double[] angles = new double[finalIndex + 1];
 
             for (int pt = 0; pt <= finalIndex; pt++)
             {

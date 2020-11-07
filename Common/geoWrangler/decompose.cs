@@ -239,25 +239,18 @@ namespace geoWrangler
                 c.Execute(ClipType.ctIntersection, pt);
                 c.Clear();
 
-                Paths ps = Clipper.OpenPathsFromPolyTree(pt);
+                Paths p = Clipper.OpenPathsFromPolyTree(pt);
 
-                if (ps.Count > 0)
+                if (p.Count > 0)
                 {
-                    foreach (Path p in ps)
+                    // Should only have one path in the result.
+                    bool edgeIsNew = true;
+                    for (int e = 0; e < lPoly.Count - 1; e++)
                     {
-                        // Should only have one path in the result.
-                        bool edgeIsNew = true;
-
-                        if (vertical)
+                        if ((lPoly[e].X == p[0][0].X) && (lPoly[e].Y == p[0][0].Y))
                         {
-                            if (p[0].Y != p[1].Y)
-                            {
-                                edgeIsNew = false;
-                            }
-                        }
-                        else
-                        {
-                            if (p[0].X != p[1].X)
+                            int nextIndex = (e + 1) % lPoly.Count;
+                            if ((lPoly[nextIndex].X == p[0][1].X) && (lPoly[nextIndex].Y == p[0][1].Y))
                             {
                                 edgeIsNew = false;
                             }
@@ -265,38 +258,24 @@ namespace geoWrangler
 
                         if (edgeIsNew)
                         {
-                            for (int e = 0; e < lPoly.Count - 1; e++)
+                            if ((lPoly[e].X == p[0][1].X) && (lPoly[e].Y == p[0][1].Y))
                             {
-                                if ((lPoly[e].X == p[0].X) && (lPoly[e].Y == p[0].Y))
+                                int nextIndex = (e + 1) % lPoly.Count;
+                                if ((lPoly[nextIndex].X == p[0][0].X) && (lPoly[nextIndex].Y == p[0][0].Y))
                                 {
-                                    int nextIndex = (e + 1) % lPoly.Count;
-                                    if ((lPoly[nextIndex].X == p[1].X) && (lPoly[nextIndex].Y == p[1].Y))
-                                    {
-                                        edgeIsNew = false;
-                                    }
-                                }
-
-                                if (edgeIsNew)
-                                {
-                                    if ((lPoly[e].X == p[1].X) && (lPoly[e].Y == p[1].Y))
-                                    {
-                                        int nextIndex = (e + 1) % lPoly.Count;
-                                        if ((lPoly[nextIndex].X == p[0].X) && (lPoly[nextIndex].Y == p[0].Y))
-                                        {
-                                            edgeIsNew = false;
-                                        }
-                                    }
+                                    edgeIsNew = false;
                                 }
                             }
                         }
-                        if (edgeIsNew)
-                        {
-                            newEdges.Add(new Path(p));
-                            break;
-                        }
-                        else
-                        {
-                        }
+                    }
+
+                    if (edgeIsNew)
+                    {
+                        newEdges.Add(new Path(p[0]));
+                        break;
+                    }
+                    else
+                    {
                     }
                 }
             }

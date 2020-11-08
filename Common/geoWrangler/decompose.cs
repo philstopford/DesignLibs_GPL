@@ -220,11 +220,12 @@ namespace geoWrangler
                 return new List<GeoLibPoint[]>() { _poly };
             }
 
-            // dirOverride switches from a horizontally-biased raycast to a vertical case in this case.
+            // dirOverride switches from a horizontally-biased raycast to vertical in this case.
             RayCast rc = new RayCast(lPoly, lPoly, maxRayLength * scaling, projectCorners: true, invert: true, runOuterLoopThreaded:true, runInnerLoopThreaded: true, dirOverride: vertical ? RayCast.forceSingleDirection.vertical : RayCast.forceSingleDirection.horizontal);
 
             Paths rays = rc.getRays();
 
+            // Contains edges from ray intersections that are not part of the original geometry.
             Paths newEdges = new Paths();
 
             Clipper c = new Clipper();
@@ -272,32 +273,37 @@ namespace geoWrangler
 
                 if (p.Count > 0)
                 {
-                    if (p.Count > 1)
+                    int pCount_ = p.Count;
+                    for (int p_ = pCount_ - 1; p_ >= 0; p_--)
                     {
-                        int pCount_ = p.Count;
-                        for (int p_ = pCount_ - 1; p_ >= 0; p_--)
+                        /*
+                        if (p.Count == 1)
                         {
-                            if (p.Count == 1)
+                            // Last result standing - if we break, we don't kill it off just for directional selection.
+                            // break;
+                        }
+                        */
+                        if (vertical)
+                        {
+                            if (p[p_][0].X != p[p_][1].X)
                             {
-                                // Last result standing - don't kill it off just for directional selection.
-                                break;
+                                p.RemoveAt(p_);
                             }
-                            if (vertical)
+                        }
+                        else
+                        {
+                            if (p[p_][0].Y != p[p_][1].Y)
                             {
-                                if (p[p_][0].X != p[p_][1].X)
-                                {
-                                    p.RemoveAt(p_);
-                                }
-                            }
-                            else
-                            {
-                                if (p[p_][0].Y != p[p_][1].Y)
-                                {
-                                    p.RemoveAt(p_);
-                                }
+                                p.RemoveAt(p_);
                             }
                         }
                     }
+
+                    if (p.Count == 0)
+                    {
+                        continue;
+                    }
+
                     // Should only have at least one path in the result, hopefully with desired direction. Could still have more than one, though.
 
                     int path = 0;
@@ -354,6 +360,8 @@ namespace geoWrangler
                 c.Clear();
 
                 c.AddPath(lPoly, PolyType.ptSubject, true);
+
+                // Take first cutter only - we only cut once, no matter how many potential cutters we have.
                 c.AddPath(cutters[0], PolyType.ptClip, true);
                 Paths f = new Paths();
                 c.Execute(ClipType.ctDifference, f, PolyFillType.pftEvenOdd, PolyFillType.pftEvenOdd);

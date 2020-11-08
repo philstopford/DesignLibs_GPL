@@ -247,18 +247,22 @@ namespace geoWrangler
                 {
                     for (int path = pCount - 1; path >= 0; path--)
                     {
-                        double minDist = 100000;
+                        double aDist = 10000;
+                        double bDist = 10000;
                         // See whether the start or end point exists in the lPoly geometry. If not, we should drop this path from the list.
                         for (int lPolyPt = 0; lPolyPt < lPoly.Count; lPolyPt++)
                         {
-                            double aDist = GeoWrangler.distanceBetweenPoints(lPoly[lPolyPt], p[path][0]);
-                            double bDist = GeoWrangler.distanceBetweenPoints(lPoly[lPolyPt], p[path][1]);
+                            double aDist_t = GeoWrangler.distanceBetweenPoints(lPoly[lPolyPt], p[path][0]);
+                            double bDist_t = GeoWrangler.distanceBetweenPoints(lPoly[lPolyPt], p[path][1]);
 
-                            minDist = Math.Min(minDist, aDist);
-                            minDist = Math.Min(minDist, bDist);
+                            aDist = Math.Min(aDist_t, aDist);
+                            bDist = Math.Min(bDist_t, bDist);
                         }
 
-                        if (minDist > 0)
+                        double minDist = Math.Min(aDist, bDist);
+
+                        // Remove any path which has a min distance to existing points of more than 0.
+                        if ((minDist > 0))//|| ((aDist == 0) && (bDist == 0)))
                         {
                             p.RemoveAt(path);
                         }

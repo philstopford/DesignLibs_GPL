@@ -247,8 +247,8 @@ namespace geoWrangler
                 {
                     for (int path = pCount - 1; path >= 0; path--)
                     {
-                        double aDist = 10000;
-                        double bDist = 10000;
+                        double aDist = double.MaxValue;
+                        double bDist = double.MaxValue;
                         // See whether the start or end point exists in the lPoly geometry. If not, we should drop this path from the list.
                         for (int lPolyPt = 0; lPolyPt < lPoly.Count; lPolyPt++)
                         {
@@ -272,39 +272,70 @@ namespace geoWrangler
 
                 if (p.Count > 0)
                 {
-                    // Should only have one path in the result.
-                    bool edgeIsNew = true;
-                    for (int e = 0; e < lPoly.Count - 1; e++)
+                    if (p.Count > 1)
                     {
-                        if ((lPoly[e].X == p[0][0].X) && (lPoly[e].Y == p[0][0].Y))
+                        int pCount_ = p.Count;
+                        for (int p_ = pCount_ - 1; p_ >= 0; p_--)
                         {
-                            int nextIndex = (e + 1) % lPoly.Count;
-                            if ((lPoly[nextIndex].X == p[0][1].X) && (lPoly[nextIndex].Y == p[0][1].Y))
+                            if (p.Count == 1)
                             {
-                                edgeIsNew = false;
+                                // Last result standing - don't kill it off just for directional selection.
+                                break;
+                            }
+                            if (vertical)
+                            {
+                                if (p[p_][0].X != p[p_][1].X)
+                                {
+                                    p.RemoveAt(p_);
+                                }
+                            }
+                            else
+                            {
+                                if (p[p_][0].Y != p[p_][1].Y)
+                                {
+                                    p.RemoveAt(p_);
+                                }
+                            }
+                        }
+                    }
+                    // Should only have at least one path in the result, hopefully with desired direction. Could still have more than one, though.
+
+                    int path = 0;
+                    //for (int path = 0; path < p.Count; path++)
+                    {
+                        bool edgeIsNew = true;
+                        for (int e = 0; e < lPoly.Count - 1; e++)
+                        {
+                            if ((lPoly[e].X == p[path][0].X) && (lPoly[e].Y == p[path][0].Y))
+                            {
+                                int nextIndex = (e + 1) % lPoly.Count;
+                                if ((lPoly[nextIndex].X == p[path][1].X) && (lPoly[nextIndex].Y == p[path][1].Y))
+                                {
+                                    edgeIsNew = false;
+                                }
+                            }
+
+                            if (edgeIsNew)
+                            {
+                                if ((lPoly[e].X == p[path][1].X) && (lPoly[e].Y == p[path][1].Y))
+                                {
+                                    int nextIndex = (e + 1) % lPoly.Count;
+                                    if ((lPoly[nextIndex].X == p[path][0].X) && (lPoly[nextIndex].Y == p[path][0].Y))
+                                    {
+                                        edgeIsNew = false;
+                                    }
+                                }
                             }
                         }
 
                         if (edgeIsNew)
                         {
-                            if ((lPoly[e].X == p[0][1].X) && (lPoly[e].Y == p[0][1].Y))
-                            {
-                                int nextIndex = (e + 1) % lPoly.Count;
-                                if ((lPoly[nextIndex].X == p[0][0].X) && (lPoly[nextIndex].Y == p[0][0].Y))
-                                {
-                                    edgeIsNew = false;
-                                }
-                            }
+                            newEdges.Add(p[path]);// new Path(p[0]));
+                            break;
                         }
-                    }
-
-                    if (edgeIsNew)
-                    {
-                        newEdges.AddRange(p);// new Path(p[0]));
-                        break;
-                    }
-                    else
-                    {
+                        else
+                        {
+                        }
                     }
                 }
             }

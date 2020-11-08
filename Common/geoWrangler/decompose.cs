@@ -306,8 +306,8 @@ namespace geoWrangler
 
                     // Should only have at least one path in the result, hopefully with desired direction. Could still have more than one, though.
 
-                    int path = 0;
-                    //for (int path = 0; path < p.Count; path++)
+                    bool breakOut = false;
+                    for (int path = 0; path < p.Count; path++)
                     {
                         bool edgeIsNew = true;
                         for (int e = 0; e < lPoly.Count - 1; e++)
@@ -337,11 +337,16 @@ namespace geoWrangler
                         if (edgeIsNew)
                         {
                             newEdges.Add(p[path]);// new Path(p[0]));
+                            breakOut = true;
                             break;
                         }
                         else
                         {
                         }
+                    }
+                    if (breakOut)
+                    {
+                        break;
                     }
                 }
             }

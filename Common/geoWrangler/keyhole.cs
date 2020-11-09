@@ -21,6 +21,11 @@ namespace geoWrangler
             return pMakeKeyHole(outers, cutters, customSizing: customSizing, extension: extension);
         }
 
+        public static Paths makeKeyHole(Path source, double customSizing = 0, double extension = 0)
+        {
+            return pMakeKeyHole(new Paths() { source }, customSizing, extension);
+        }
+
         public static Paths makeKeyHole(Paths source, double customSizing = 0, double extension = 0)
         {
             return pMakeKeyHole(source, customSizing: customSizing, extension: extension);

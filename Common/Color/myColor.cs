@@ -70,6 +70,8 @@ namespace color
         public static MyColor White = new MyColor(255, 255, 255);
         public static MyColor Yellow = new MyColor(255, 255, 0);
 
+        public static MyColor Algae = new MyColor(78, 161, 71);
+
         public float Rf { get; set; }
         public float Gf { get; set; }
         public float Bf { get; set; }

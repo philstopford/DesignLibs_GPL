@@ -97,7 +97,7 @@ namespace color
         {
             default_selected_Color = MyColor.Black;
 
-            default_deselected_Color = MyColor.LightGray;
+            default_deselected_Color = MyColor.Algae;
 
             default_enabled_Color = MyColor.Black;
             default_subshape1_Color = MyColor.Red;

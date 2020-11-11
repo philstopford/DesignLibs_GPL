@@ -5,4 +5,9 @@
     <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
 </Project>

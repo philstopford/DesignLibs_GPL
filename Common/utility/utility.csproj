@@ -6,4 +6,9 @@
     <ReleaseVersion>0.24</ReleaseVersion>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
 </Project>

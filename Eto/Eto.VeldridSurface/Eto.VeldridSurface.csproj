@@ -8,6 +8,10 @@
     <Configurations>Debug;Release</Configurations>
     <ReleaseVersion>0.24</ReleaseVersion>
   </PropertyGroup>
+    <PropertyGroup>
+    <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' " />
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">

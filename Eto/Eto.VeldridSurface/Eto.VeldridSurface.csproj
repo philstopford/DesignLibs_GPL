@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>netcoreapp5</TargetFramework>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <RootNamespace>Eto.Veldrid</RootNamespace>
     <Title>Eto.Veldrid</Title>

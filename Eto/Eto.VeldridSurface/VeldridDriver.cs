@@ -1013,7 +1013,7 @@ namespace VeldridEto
 		/// <param name="elementSize">The size in bytes of each element.</param>
 		/// <param name="usage">The Veldrid.BufferUsage type of 'buffer'.</param>
 		public void updateBuffer<T>(ref DeviceBuffer buffer, T[] data, uint elementSize, BufferUsage usage)
-			where T : struct
+			where T : unmanaged
 		{
 			if (data.Length > 0)
 			{

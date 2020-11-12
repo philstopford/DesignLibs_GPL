@@ -641,6 +641,11 @@ namespace oasis
                             if ((info_byte & 64) != 0)
                             {
                                 modal.geometry_w = readUnsignedInteger();
+                                // Avoid zero width path.
+                                if (modal.geometry_w == 0)
+                                {
+                                    modal.geometry_w = 10;
+                                }
                             }
                             if ((info_byte & 128) != 0)
                             {

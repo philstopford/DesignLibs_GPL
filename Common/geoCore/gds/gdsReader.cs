@@ -318,6 +318,11 @@ namespace gds
                             {
                                 modal.width = -modal.width;
                             }
+                            // Zero width is problematic for Variance and Quilt.
+                            if (modal.width == 0)
+                            {
+                                modal.width = 10;
+                            }
                             break;
                         case 16: //XY
                             modal.point_array = new GeoLibPoint[(items / 2)];

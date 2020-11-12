@@ -700,24 +700,25 @@ namespace geoCoreLib
                     xCount = refCell.count_x;
                     yCount = refCell.count_y;
                 }
-                if (tmpCel != null) // guard against broken cellref
-                {
-                    for (int referenceElement = 0; referenceElement < tmpCel.elementList.Count; referenceElement++)
-                    {
-                        if (!tmpCel.elementList[referenceElement].isCellref() && (!tmpCel.elementList[referenceElement].GetType().Equals(typeof(GCCellRefArray))))
-                        {
-                            ret = getGeometry_2(gcCell, element, hashList, tmpCel, cellIndex, referenceElement, point, xCount, yCount, xSpace, ySpace, angle, mag);
-                        }
-                        else
-                        {
-                            ret = getGeometry_complex(tmpCel, element, hashList, cellIndex);
-                        }
-                    }
-                }
             }
             catch (Exception)
             {
+                int xx = 2;
+            }
 
+            if (tmpCel != null) // guard against broken cellref
+            {
+                for (int referenceElement = 0; referenceElement < tmpCel.elementList.Count; referenceElement++)
+                {
+                    if (!tmpCel.elementList[referenceElement].isCellref() && (!tmpCel.elementList[referenceElement].GetType().Equals(typeof(GCCellRefArray))))
+                    {
+                        ret = getGeometry_2(gcCell, element, hashList, tmpCel, cellIndex, referenceElement, point, xCount, yCount, xSpace, ySpace, angle, mag);
+                    }
+                    else
+                    {
+                        ret = getGeometry_complex(tmpCel, referenceElement, hashList, cellIndex);
+                    }
+                }
             }
 
             // Need to construct the array of our geometry here!

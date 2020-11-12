@@ -669,48 +669,55 @@ namespace geoCoreLib
         {
             GeoData ret = new GeoData();
             // Need to de-reference these cases.
-            double angle;
-            GeoLibPoint point;
-            double mag;
-            GCCell tmpCel;
+            double angle = 0.0f;
+            GeoLibPoint point = null;
+            double mag = 1.0f;
+            GCCell tmpCel = gcCell;
             double xSpace = 0;
             double ySpace = 0;
             int xCount = 1;
             int yCount = 1;
 
-            if (gcCell.elementList[element].isCellref())
+            try
             {
-                GCCellref refCell = (GCCellref)gcCell.elementList[element];
-                point = refCell.getPos();
-                mag = refCell.trans.mag;
-                angle = refCell.trans.angle;
-                tmpCel = refCell.cell_ref;
-            }
-            else
-            {
-                GCCellRefArray refCell = (GCCellRefArray)gcCell.elementList[element];
-                point = refCell.getPos();
-                mag = refCell.trans.mag;
-                angle = refCell.trans.angle;
-                tmpCel = refCell.cell_ref;
-                xSpace = refCell.pitch.X;
-                ySpace = refCell.pitch.Y;
-                xCount = refCell.count_x;
-                yCount = refCell.count_y;
-            }
-            if (tmpCel != null) // guard against broken cellref
-            {
-                for (int referenceElement = 0; referenceElement < tmpCel.elementList.Count; referenceElement++)
+                if (gcCell.elementList[element].isCellref())
                 {
-                    if (!tmpCel.elementList[referenceElement].isCellref() && (!tmpCel.elementList[referenceElement].GetType().Equals(typeof(GCCellRefArray))))
-                    {
-                        ret = getGeometry_2(gcCell, element, hashList, tmpCel, cellIndex, referenceElement, point, xCount, yCount, xSpace, ySpace, angle, mag);
-                    }
-                    else
-                    {
-                        ret = getGeometry_complex(tmpCel, element, hashList, cellIndex);
-                    }    
+                    GCCellref refCell = (GCCellref)gcCell.elementList[element];
+                    point = refCell.getPos();
+                    mag = refCell.trans.mag;
+                    angle = refCell.trans.angle;
+                    tmpCel = refCell.cell_ref;
                 }
+                else
+                {
+                    GCCellRefArray refCell = (GCCellRefArray)gcCell.elementList[element];
+                    point = refCell.getPos();
+                    mag = refCell.trans.mag;
+                    angle = refCell.trans.angle;
+                    tmpCel = refCell.cell_ref;
+                    xSpace = refCell.pitch.X;
+                    ySpace = refCell.pitch.Y;
+                    xCount = refCell.count_x;
+                    yCount = refCell.count_y;
+                }
+                if (tmpCel != null) // guard against broken cellref
+                {
+                    for (int referenceElement = 0; referenceElement < tmpCel.elementList.Count; referenceElement++)
+                    {
+                        if (!tmpCel.elementList[referenceElement].isCellref() && (!tmpCel.elementList[referenceElement].GetType().Equals(typeof(GCCellRefArray))))
+                        {
+                            ret = getGeometry_2(gcCell, element, hashList, tmpCel, cellIndex, referenceElement, point, xCount, yCount, xSpace, ySpace, angle, mag);
+                        }
+                        else
+                        {
+                            ret = getGeometry_complex(tmpCel, element, hashList, cellIndex);
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
             }
 
             // Need to construct the array of our geometry here!

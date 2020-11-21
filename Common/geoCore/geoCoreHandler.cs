@@ -28,6 +28,7 @@ namespace geoCoreLib
         }
 
         Boolean valid;
+        public string errormsg;
         public bool isValid()
         {
             return pIsValid();
@@ -88,10 +89,11 @@ namespace geoCoreLib
         void init()
         {
             // stubs
-            valid = false;
             changed = false;
             filename = "";
             geo = new GeoCore();
+            valid = geo.isValid();
+            errormsg = geo.errormsg;
         }
 
         public void reset()
@@ -102,25 +104,27 @@ namespace geoCoreLib
         void pReset()
         {
             changed = true;
-            valid = false;
             geo.reset();
+            valid = geo.isValid();
+            errormsg = geo.errormsg;
             filename = "";
         }
 
-        public void readValues(GeoCoreHandler sourceGDSHandler)
+        public void readValues(GeoCoreHandler sourceGeoCoreHandler)
         {
-            pReadValues(sourceGDSHandler);
+            pReadValues(sourceGeoCoreHandler);
         }
 
-        void pReadValues(GeoCoreHandler sourceGDSHandler)
+        void pReadValues(GeoCoreHandler sourceGeoCoreHandler)
         {
-            valid = sourceGDSHandler.valid;
-            filename = sourceGDSHandler.filename;
+            valid = sourceGeoCoreHandler.valid;
+            errormsg = sourceGeoCoreHandler.errormsg;
+            filename = sourceGeoCoreHandler.filename;
             if (geo == null)
             {
                 geo = new GeoCore();
             }
-            geo.readValues(sourceGDSHandler.geo);
+            geo.readValues(sourceGeoCoreHandler.geo);
         }
 
         public void updateGeoCoreHandler(string filename, GeoCore.fileType type)
@@ -135,6 +139,7 @@ namespace geoCoreLib
 
             geo.updateGeoCore(filename, type);
             valid = geo.isValid();
+            errormsg = geo.errormsg;
         }
 
         public void setPoints(Int32 structureIndex, Int32 ldIndex)

@@ -25,6 +25,7 @@ namespace oasis
         public delegate void ProgressUpdateUI(double progress);
         public ProgressUpdateUI progressUpdateUI { get; set; }
 
+        public string errormsg;
         public bool valid { get; set; }
 
         GCDrawingfield drawing_;
@@ -112,6 +113,7 @@ namespace oasis
             cell_ = null;
             resetModal();
             valid = false;
+            errormsg = "";
         }
 
         void resetModal()
@@ -155,6 +157,7 @@ namespace oasis
         {
             drawing_ = drawing;
             valid = true;
+            errormsg = "";
 
             layerNames = new Dictionary<string, string>();
             try
@@ -1046,14 +1049,22 @@ namespace oasis
                     }
                 }
 
-                drawing_.active_cell = drawing.findCellIndex(cell_.cellName);
+                try
+                {
+                    drawing_.active_cell = drawing.findCellIndex(cell_.cellName);
+                }
+                catch (Exception)
+                {
+                    throw new Exception("Unable to find any cells. Is this file saved in strict mode?");
+                }
 
                 statusUpdateUI?.Invoke("Done");
                 progressUpdateUI?.Invoke(1.0f);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 valid = false;
+                errormsg = e.Message;
             }
             return valid;
         }

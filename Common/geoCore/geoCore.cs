@@ -19,6 +19,7 @@ namespace geoCoreLib
 
         public double baseScale = 1.0;
 
+        public string errormsg;
         Boolean valid;
 
         public void setValid(bool val)
@@ -334,6 +335,7 @@ namespace geoCoreLib
                     gdsReader gdsFileData = new gdsReader(filename);
                     valid = gdsFileData.load(ref drawingField);
                     fileFormat = (int)fileType.gds;
+                    errormsg = gdsFileData.errormsg;
                     if (valid)
                     {
                         processGeometry(ref drawingField, gdsFileData.layerNames);
@@ -345,6 +347,7 @@ namespace geoCoreLib
                     oasReader oasFileData = new oasReader(filename);
                     valid = oasFileData.load(ref drawingField);
                     fileFormat = (int)fileType.oasis;
+                    errormsg = oasFileData.errormsg;
                     if (valid)
                     {
                         processGeometry(ref drawingField, oasFileData.layerNames);
@@ -428,6 +431,7 @@ namespace geoCoreLib
             drawingField.reset();
 
             valid = false;
+            errormsg = "";
             activeStructure = 0;
             filename = "";
 

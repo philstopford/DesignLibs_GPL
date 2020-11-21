@@ -1055,7 +1055,7 @@ namespace oasis
                 }
                 catch (Exception)
                 {
-                    throw new Exception("Unable to find any cells. Is this file saved in strict mode?");
+                    throw new Exception("Unable to find any cells. This library only supports Oasis saved in strict mode.");
                 }
 
                 statusUpdateUI?.Invoke("Done");

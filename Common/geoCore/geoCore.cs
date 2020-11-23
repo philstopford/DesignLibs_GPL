@@ -19,7 +19,7 @@ namespace geoCoreLib
 
         public double baseScale = 1.0;
 
-        public string errormsg;
+        public List<string> error_msgs;
         Boolean valid;
 
         public void setValid(bool val)
@@ -335,7 +335,7 @@ namespace geoCoreLib
                     gdsReader gdsFileData = new gdsReader(filename);
                     valid = gdsFileData.load(ref drawingField);
                     fileFormat = (int)fileType.gds;
-                    errormsg = gdsFileData.errormsg;
+                    error_msgs = gdsFileData.error_msgs;
                     if (valid)
                     {
                         processGeometry(ref drawingField, gdsFileData.layerNames);
@@ -347,7 +347,7 @@ namespace geoCoreLib
                     oasReader oasFileData = new oasReader(filename);
                     valid = oasFileData.load(ref drawingField);
                     fileFormat = (int)fileType.oasis;
-                    errormsg = oasFileData.errormsg;
+                    error_msgs = oasFileData.error_msgs;
                     if (valid)
                     {
                         processGeometry(ref drawingField, oasFileData.layerNames);
@@ -416,6 +416,7 @@ namespace geoCoreLib
             pActiveStructure_LDList.Add("");
             structureList_ = new ObservableCollection<string>();
             activeStructure_LayerDataTypeList_ = new ObservableCollection<string>();
+            error_msgs = new List<string>();
             updateCollections();
             reset();
             genLDList();
@@ -431,7 +432,7 @@ namespace geoCoreLib
             drawingField.reset();
 
             valid = false;
-            errormsg = "";
+            error_msgs.Clear();
             activeStructure = 0;
             filename = "";
 

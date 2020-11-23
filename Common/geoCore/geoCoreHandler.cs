@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace geoCoreLib
 {
@@ -28,7 +29,7 @@ namespace geoCoreLib
         }
 
         Boolean valid;
-        public string errormsg;
+        public List<string> error_msgs;
         public bool isValid()
         {
             return pIsValid();
@@ -93,7 +94,7 @@ namespace geoCoreLib
             filename = "";
             geo = new GeoCore();
             valid = geo.isValid();
-            errormsg = geo.errormsg;
+            error_msgs = geo.error_msgs;
         }
 
         public void reset()
@@ -106,7 +107,7 @@ namespace geoCoreLib
             changed = true;
             geo.reset();
             valid = geo.isValid();
-            errormsg = geo.errormsg;
+            error_msgs = geo.error_msgs;
             filename = "";
         }
 
@@ -118,7 +119,7 @@ namespace geoCoreLib
         void pReadValues(GeoCoreHandler sourceGeoCoreHandler)
         {
             valid = sourceGeoCoreHandler.valid;
-            errormsg = sourceGeoCoreHandler.errormsg;
+            error_msgs = sourceGeoCoreHandler.error_msgs;
             filename = sourceGeoCoreHandler.filename;
             if (geo == null)
             {
@@ -139,7 +140,7 @@ namespace geoCoreLib
 
             geo.updateGeoCore(filename, type);
             valid = geo.isValid();
-            errormsg = geo.errormsg;
+            error_msgs = geo.error_msgs;
         }
 
         public void setPoints(Int32 structureIndex, Int32 ldIndex)

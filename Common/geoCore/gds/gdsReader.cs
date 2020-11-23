@@ -17,7 +17,7 @@ namespace gds
         public delegate void ProgressUpdateUI(double progress);
         public ProgressUpdateUI progressUpdateUI { get; set; }
 
-        public string errormsg;
+        public List<string> error_msgs;
         public bool valid { get; set; }
         public bool abortLoad_ { get; set; }
         GCDrawingfield drawing_;
@@ -71,7 +71,7 @@ namespace gds
             cell_ = null;
             resetModal();
             valid = false;
-            errormsg = "";
+            error_msgs.Clear();
         }
 
         void resetModal()
@@ -109,6 +109,7 @@ namespace gds
         {
             drawing_ = new GCDrawingfield(filename);
             this.filename = filename;
+            error_msgs = new List<string>();
         }
 
         public bool load(ref GCDrawingfield drawing)
@@ -546,7 +547,9 @@ namespace gds
                 }
                 catch (Exception)
                 {
-                    throw new Exception("Unable to find any cells. Is this file legal GDS?");
+                    string err = "Unable to find any cells. Is this file legal GDS?";
+                    error_msgs.Add(err);
+                    throw new Exception(err);
                 }
 
                 statusUpdateUI?.Invoke("Done");
@@ -555,7 +558,7 @@ namespace gds
             catch (Exception e)
             {
                 valid = false;
-                errormsg = e.Message;
+                error_msgs.Add(e.Message);
             }
             return valid;
         }

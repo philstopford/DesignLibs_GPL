@@ -25,7 +25,7 @@ namespace oasis
         public delegate void ProgressUpdateUI(double progress);
         public ProgressUpdateUI progressUpdateUI { get; set; }
 
-        public string errormsg;
+        public List<string> error_msgs;
         public bool valid { get; set; }
 
         GCDrawingfield drawing_;
@@ -97,6 +97,7 @@ namespace oasis
         void pOASReader(String filename)
         {
             drawing_ = new GCDrawingfield(filename);
+            error_msgs = new List<string>();
             modal.repArray = new List<GeoLibPoint>();
             modal.polygon_point_list = new List<GeoLibPoint>();
             this.filename = filename;
@@ -113,7 +114,7 @@ namespace oasis
             cell_ = null;
             resetModal();
             valid = false;
-            errormsg = "";
+            error_msgs.Clear();
         }
 
         void resetModal()
@@ -157,7 +158,7 @@ namespace oasis
         {
             drawing_ = drawing;
             valid = true;
-            errormsg = "";
+            error_msgs.Clear();
 
             layerNames = new Dictionary<string, string>();
             try
@@ -199,7 +200,9 @@ namespace oasis
                 }
                 if (s1 != "%SEMI-OASIS\r\n")
                 {
-                    throw new Exception("invalid Format.");
+                    string err = "Invalid Format.";
+                    error_msgs.Add(err);
+                    throw new Exception(err);
                 }
                 Int32 record = 0;
                 bool tableAtEnd = false;
@@ -211,11 +214,15 @@ namespace oasis
                 {
                     if (cellNameCount > cellNames.Length)
                     {
-                        throw new Exception("More cells (" + cellNameCount.ToString() + ") than are able to be supported (" + cellNames.Length.ToString() + ")!");
+                        string err = "More cells (" + cellNameCount.ToString() + ") than are able to be supported (" + cellNames.Length.ToString() + ")!";
+                        error_msgs.Add(err);
+                        throw new Exception(err);
                     }
                     if (textNameCount > textNames.Length)
                     {
-                        throw new Exception("More text names (" + textNameCount.ToString() + ") than are able to be supported (" + textNames.Length.ToString() + ")!");
+                        string err = "More text names (" + textNameCount.ToString() + ") than are able to be supported (" + textNames.Length.ToString() + ")!";
+                        error_msgs.Add(err);
+                        throw new Exception(err);
                     }
                     record = readUnsignedInteger();
                     switch (record)
@@ -226,7 +233,9 @@ namespace oasis
                             s = readString();
                             if (s != "1.0")
                             {
-                                throw new Exception("Unknown/unsupported version of OASIS: " + s);
+                                string err2 = "Unknown/unsupported version of OASIS: " + s;
+                                error_msgs.Add(err2);
+                                throw new Exception(err2);
                             }
                             drawing_.databaseunits = readReal();
                             i = readUnsignedInteger();
@@ -998,7 +1007,9 @@ namespace oasis
                             zLibInit(after, before);
                             break;
                         default:
-                            throw new Exception("Unknown/unsupported Record." + record.ToString());
+                            string err = "Unknown/unsupported Record." + record.ToString();
+                            error_msgs.Add(err);
+                            throw new Exception(err);
                     }
                 }
 
@@ -1055,7 +1066,9 @@ namespace oasis
                 }
                 catch (Exception)
                 {
-                    throw new Exception("Unable to find any cells. This library only supports Oasis saved in strict mode.");
+                    string err = "Unable to find any cells. This library only supports Oasis saved in strict mode.";
+                    error_msgs.Add(err);
+                    throw new Exception(err);
                 }
 
                 statusUpdateUI?.Invoke("Done");
@@ -1064,7 +1077,10 @@ namespace oasis
             catch (Exception e)
             {
                 valid = false;
-                errormsg = e.Message;
+                if (error_msgs.IndexOf(e.Message) == -1)
+                {
+                    error_msgs.Add(e.Message);
+                }
             }
             return valid;
         }

@@ -1,0 +1,42 @@
+﻿<!--<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:eto="clr-namespace:Eto.Wpf.Forms.Controls;assembly=Eto.Wpf"                                        
+                    >
+
+    <Style x:Key="{x:Type Border}" TargetType="{x:Type Border}">
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+
+        <Setter Property="Background" Value="{DynamicResource RadioButton.Static.Background}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource RadioButton.Static.Border}" />
+        <Setter Property="BorderThickness" Value="1" />        
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Label">
+                    <Border x:Name="border"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        SnapsToDevicePixels="True">
+                        
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                            RecognizesAccessKey="True" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <Style x:Key="{x:Type Panel}"
+       BasedOn="{StaticResource {x:Type Border}}"
+       TargetType="{x:Type Panel}"/>
+
+    <Style x:Key="{x:Type eto:PanelHandler}"
+       BasedOn="{StaticResource {x:Type Border}}"
+       TargetType="{x:Type eto:PanelHandler}"/>
+
+</ResourceDictionary>-->

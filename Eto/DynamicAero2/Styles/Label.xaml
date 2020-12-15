@@ -4,11 +4,12 @@
                     >
 
     <Style x:Key="{x:Type Label}" TargetType="{x:Type Label}">
+        <Setter Property="Background" Value="{DynamicResource Border.Static.Background}"/>
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="VerticalContentAlignment" Value="Top" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="Label">
+                <ControlTemplate TargetType="{x:Type Label}">
                     <Border x:Name="border"
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"

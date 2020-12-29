@@ -1085,7 +1085,10 @@ namespace VeldridEto
 			// said context. Second, this project creates its swapchain with a
 			// depth buffer, and that buffer needs to be reset at the start of
 			// each frame.
-			CommandList.ClearColorTarget(0, RgbaFloat.White);
+
+			RgbaFloat bgColor = new RgbaFloat(ovpSettings.backColor.R, ovpSettings.backColor.G, ovpSettings.backColor.B, 1.0f);
+
+			CommandList.ClearColorTarget(0, bgColor);
 			CommandList.ClearDepthStencil(1.0f);
 
 			if (GridVertexBuffer != null)

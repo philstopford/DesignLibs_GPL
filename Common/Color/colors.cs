@@ -36,6 +36,7 @@ namespace color
 
         public MyColor major_Color { get; set; }
         public MyColor minor_Color { get; set; }
+        public MyColor background_Color { get; set; }
 
         public MyColor implantResist_Color { get; set; }
         public MyColor implantMin_Color { get; set; }
@@ -76,6 +77,8 @@ namespace color
 
         public MyColor default_major_Color { get; set; }
         public MyColor default_minor_Color { get; set; }
+
+        public MyColor default_background_Color { get; set; }
 
         public List<MyColor> simOutputColors { get; set; }
         public List<MyColor> simPreviewColors { get; set; }
@@ -131,6 +134,7 @@ namespace color
 
             default_major_Color = MyColor.SlateGray;
             default_minor_Color = MyColor.LightGray;
+            default_background_Color = MyColor.White;
 
             default_implantResist_Color = MyColor.Blue;
             default_implantMax_Color = MyColor.Red;
@@ -219,6 +223,7 @@ namespace color
 
             major_Color = new MyColor(default_major_Color);
             minor_Color = new MyColor(default_minor_Color);
+            background_Color = new MyColor(default_background_Color);
 
             implantResist_Color = new MyColor(default_implantResist_Color);
             implantMin_Color = new MyColor(default_implantMin_Color);

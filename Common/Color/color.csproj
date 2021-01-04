@@ -13,7 +13,6 @@
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' " />
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' " >
-    <IntermediateOutputPath>obj\Release\netcoreapp3.1</IntermediateOutputPath>
     <Optimize>true</Optimize>
     <DefineConstants>TRACE;RELEASE;NETCOREAPP;NETCOREAPP3_1</DefineConstants>
   </PropertyGroup>

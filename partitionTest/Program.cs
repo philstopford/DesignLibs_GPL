@@ -2819,8 +2819,6 @@ namespace partitionTest
 
         static void partFour()
         {
-            return;
-
             try
 
             {
@@ -4276,7 +4274,7 @@ namespace partitionTest
 
                 Console.WriteLine("  Keyhole....");
                 // Give the keyholder a whirl:
-                GeoLibPoint[] toDecomp = GeoWrangler.pointFromPath(GeoWrangler.makeKeyHole(GeoWrangler.pathFromPoint(points, 1))[0], 1);
+                GeoLibPoint[] toDecomp = GeoWrangler.pointFromPath(GeoWrangler.makeKeyHole(GeoWrangler.pathFromPoint(points, 1000))[0], 1);
 
                 Console.WriteLine("  Query....");
                 GeoLibPoint[] bounds = GeoWrangler.getBounds(toDecomp);

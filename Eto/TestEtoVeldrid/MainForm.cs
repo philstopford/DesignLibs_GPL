@@ -68,6 +68,7 @@ namespace TestEtoVeldrid
 
 			ovpSettings = new OVPSettings();
 			ovpSettings.drawFilled(true);
+			ovpSettings.drawDrawn(true);
 			ovpSettings.drawPoints(true);
 
 			addPolys();

@@ -339,7 +339,7 @@ namespace geoWrangler
             return ret;
         }
 
-        public static Paths stripColinear(Paths source, double tolerance = 0.0f)
+        public static Paths stripColinear(Paths source, double tolerance = 0.1f)
         {
             Paths ret = new Paths();
             for (int i = 0; i < source.Count; i++)
@@ -350,12 +350,12 @@ namespace geoWrangler
             return ret;
         }
 
-        public static Path stripColinear(Path source, double tolerance = 0.0f)
+        public static Path stripColinear(Path source, double tolerance = 0.1f)
         {
             return pStripColinear(source, tolerance);
         }
 
-        static Path pStripColinear(Path source, double tolerance = 0.0f)
+        static Path pStripColinear(Path source, double tolerance = 0.1f)
         {
             if (source.Count < 3)
             {
@@ -397,12 +397,12 @@ namespace geoWrangler
             return ret;
         }
 
-        public static List<GeoLibPoint[]> stripColinear(List<GeoLibPoint[]> source, double tolerance = 0.0f)
+        public static List<GeoLibPoint[]> stripColinear(List<GeoLibPoint[]> source, double tolerance = 0.1f)
         {
             return pStripColinear(source, tolerance);
         }
 
-        static List<GeoLibPoint[]> pStripColinear(List<GeoLibPoint[]> source, double tolerance = 0.0f)
+        static List<GeoLibPoint[]> pStripColinear(List<GeoLibPoint[]> source, double tolerance = 0.1f)
         {
             List<GeoLibPoint[]> ret = new List<GeoLibPoint[]>();
             for (int i = 0; i < source.Count; i++)
@@ -413,12 +413,12 @@ namespace geoWrangler
             return ret;
         }
 
-        public static GeoLibPoint[] stripColinear(GeoLibPoint[] source, double tolerance = 0.0f)
+        public static GeoLibPoint[] stripColinear(GeoLibPoint[] source, double tolerance = 0.1f)
         {
             return pStripColinear(source, tolerance);
         }
 
-        static GeoLibPoint[] pStripColinear(GeoLibPoint[] source, double tolerance = 0.0f)
+        static GeoLibPoint[] pStripColinear(GeoLibPoint[] source, double tolerance = 0.1f)
         {
             if (source.Length < 3)
             {
@@ -469,12 +469,12 @@ namespace geoWrangler
             return ret.ToArray();
         }
 
-        public static List<GeoLibPoint> stripColinear(List<GeoLibPoint> source, double tolerance = 0.0f)
+        public static List<GeoLibPoint> stripColinear(List<GeoLibPoint> source, double tolerance = 0.1f)
         {
             return pStripColinear(source, tolerance);
         }
 
-        static List<GeoLibPoint> pStripColinear(List<GeoLibPoint> source, double tolerance = 0.0f)
+        static List<GeoLibPoint> pStripColinear(List<GeoLibPoint> source, double tolerance = 0.1f)
         {
             if (source.Count < 3)
             {
@@ -627,12 +627,12 @@ namespace geoWrangler
             return source;
         }
 
-        public static List<GeoLibPointF[]> stripColinear(List<GeoLibPointF[]> source, double tolerance = 0.0f)
+        public static List<GeoLibPointF[]> stripColinear(List<GeoLibPointF[]> source, double tolerance = 0.1f)
         {
             return pStripColinear(source, tolerance);
         }
 
-        static List<GeoLibPointF[]> pStripColinear(List<GeoLibPointF[]> source, double tolerance = 0.0f)
+        static List<GeoLibPointF[]> pStripColinear(List<GeoLibPointF[]> source, double tolerance = 0.1f)
         {
             List<GeoLibPointF[]> ret = new List<GeoLibPointF[]>();
             for (int i = 0; i < source.Count; i++)
@@ -643,12 +643,12 @@ namespace geoWrangler
             return ret;
         }
 
-        public static GeoLibPointF[] stripColinear(GeoLibPointF[] source, double tolerance = 0.0f)
+        public static GeoLibPointF[] stripColinear(GeoLibPointF[] source, double tolerance = 0.1f)
         {
             return pStripColinear(source, tolerance);
         }
 
-        static GeoLibPointF[] pStripColinear(GeoLibPointF[] source, double tolerance = 0.0f)
+        static GeoLibPointF[] pStripColinear(GeoLibPointF[] source, double tolerance = 0.1f)
         {
             if (source.Length < 3)
             {
@@ -699,12 +699,12 @@ namespace geoWrangler
             return ret.ToArray();
         }
 
-        public static List<GeoLibPointF> stripColinear(List<GeoLibPointF> source, double tolerance = 0.0f)
+        public static List<GeoLibPointF> stripColinear(List<GeoLibPointF> source, double tolerance = 0.1f)
         {
             return pStripColinear(source, tolerance);
         }
 
-        static List<GeoLibPointF> pStripColinear(List<GeoLibPointF> source, double tolerance = 0.0f)
+        static List<GeoLibPointF> pStripColinear(List<GeoLibPointF> source, double tolerance = 0.1f)
         {
             if (source.Count < 3)
             {
@@ -957,12 +957,12 @@ namespace geoWrangler
                 }
             }
 
-            // Set up our contours. Since Clipper sets up the subject as the first item, we'll make that clockwise and force the rest to counterclockwise.	
+            // Set up our contours. Since Clipper sets up the subject as the first item, we'll make that clockwise and force the rest to counterclockwise.  
             var tess = new Tess();
 
             for (int poly = 0; poly < outers.Count; poly++)
             {
-                // Skip tiny fragments. The tessellator has trouble with them.	
+                // Skip tiny fragments. The tessellator has trouble with them.  
                 /*
                 if (Math.Abs(Clipper.Area(outers[poly])) < 1E-16)
                 {
@@ -1001,12 +1001,12 @@ namespace geoWrangler
 
                 Paths retPaths = new Paths();
 
-                // Triangulate. This gives us a triangle soup, which may not be entirely helpful for the case where we're punching multiple holes into a mesh. For now, this works, but the limitation will need to be reviewd.	
-                // It might be that a PolyTree is needed as the input to the keyhole for these complex cases.... or clockwise paths may need to be evaluated piecewise using all counterclockwise paths for the tessellation.	
+                // Triangulate. This gives us a triangle soup, which may not be entirely helpful for the case where we're punching multiple holes into a mesh. For now, this works, but the limitation will need to be reviewd. 
+                // It might be that a PolyTree is needed as the input to the keyhole for these complex cases.... or clockwise paths may need to be evaluated piecewise using all counterclockwise paths for the tessellation.   
                 int polysize = 3;
                 tess.Tessellate(wr, ElementType.Polygons, polysize);
 
-                // Iterate triangles and create output geometry. We'll use clipper to simplify the output geometry.	
+                // Iterate triangles and create output geometry. We'll use clipper to simplify the output geometry. 
                 Clipper c = new Clipper();
                 c.PreserveCollinear = true;
                 retPaths = new Paths();
@@ -1033,7 +1033,7 @@ namespace geoWrangler
                     }
                 }
 
-                // Add paths to the clipper.	
+                // Add paths to the clipper.    
                 c.AddPaths(cPaths, PolyType.ptSubject, true);
                 c.AddPaths(aPaths, PolyType.ptClip, true);
 

@@ -103,8 +103,6 @@ namespace TestEtoVeldrid
 		void addPolys()
 		{
 			ovpSettings.clear();
-			ovpSettings.drawDrawn(true);
-			ovpSettings.drawPoints(true);
 
 			float r = 0.0f;
 
@@ -198,21 +196,21 @@ namespace TestEtoVeldrid
 			VPMenuDisplayOptionsMenu.Items.Add(new ButtonMenuItem { Text = "Toggle AA" });
 			VPMenuDisplayOptionsMenu.Items[displayOptionsSubItemIndex].Click += delegate
 			{
-				Driver.ovpSettings.aA(!Driver.ovpSettings.aA());
+				ovpSettings.aA(!ovpSettings.aA());
 				updateViewport();
 			};
 			displayOptionsSubItemIndex++;
 			VPMenuDisplayOptionsMenu.Items.Add(new ButtonMenuItem { Text = "Toggle Fill" });
 			VPMenuDisplayOptionsMenu.Items[displayOptionsSubItemIndex].Click += delegate
 			{
-				Driver.ovpSettings.drawFilled(!Driver.ovpSettings.drawFilled());
+				ovpSettings.drawFilled(!ovpSettings.drawFilled());
 				updateViewport();
 			};
 			displayOptionsSubItemIndex++;
 			VPMenuDisplayOptionsMenu.Items.Add(new ButtonMenuItem { Text = "Toggle Points" });
 			VPMenuDisplayOptionsMenu.Items[displayOptionsSubItemIndex].Click += delegate
 			{
-				Driver.ovpSettings.drawPoints(!Driver.ovpSettings.drawPoints());
+				ovpSettings.drawPoints(!ovpSettings.drawPoints());
 				updateViewport();
 			};
 			displayOptionsSubItemIndex++;

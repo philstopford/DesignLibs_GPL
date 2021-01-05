@@ -13,16 +13,6 @@ namespace partitionTest
     using Paths = List<List<IntPoint>>;
     class Program
     {
-        /*
-        // Unusued
-        static void ZFillCallback(IntPoint bot1, IntPoint top1, IntPoint bot2, IntPoint top2, ref IntPoint pt)
-        {
-            pt.Z = -1; // Tag our intersection points.
-        }
-        */
-
-        static int scaling = 10000;
-
         static void Main(string[] args)
         {
             System.Console.WriteLine("Part One");
@@ -2841,6 +2831,71 @@ namespace partitionTest
 
         }
 
+        static void partFour()
+        {
+            System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+            Console.WriteLine(" Part 1....");
+            Console.WriteLine("  Preparing....");
+            sw.Start();
+            GeoLibPoint[] points_1 = partFour_1_prep();
+            points_1 = GeoWrangler.close(points_1);
+            sw.Stop();
+            Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
+
+            partFour_do(points_1, "complex_loop");
+
+            Console.WriteLine(" Part 2....");
+            Console.WriteLine("  Preparing....");
+            sw.Start();
+            GeoLibPoint[] points_2 = partFour_2_prep();
+            points_2 = GeoWrangler.close(points_2);
+            sw.Stop();
+            Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
+            partFour_do(points_2, "complex_loop_rot");
+        }
+
+        static void partFour_do(GeoLibPoint[] points, string baseString)
+        {
+            System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+
+            bool vertical = true;
+
+            Console.WriteLine("  Keyhole....");
+            // Give the keyholder a whirl:
+            sw.Restart();
+            GeoLibPoint[] toDecomp = GeoWrangler.pointFromPath(GeoWrangler.makeKeyHole(GeoWrangler.pathFromPoint(points, 1000))[0], 1);
+            sw.Stop();
+            Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
+
+            Console.WriteLine("  Query....");
+            sw.Restart();
+            GeoLibPoint[] bounds = GeoWrangler.getBounds(toDecomp);
+            GeoLibPointF dist = GeoWrangler.distanceBetweenPoints_point(bounds[0], bounds[1]);
+            sw.Stop();
+            Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
+
+            Console.WriteLine("  Decomposition (vertical)....");
+            sw.Restart();
+            List<GeoLibPoint[]> decompOut = GeoWrangler.rectangular_decomposition(toDecomp, scaling: 2, maxRayLength: (Int64)Math.Max(Math.Abs(dist.X), Math.Abs(dist.Y)) * 1, vertical: vertical);
+            sw.Stop();
+            Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
+
+            Console.WriteLine("  Writing....");
+            writeToLayout(baseString, points, decompOut);
+
+            Console.WriteLine("  Decomposition (horizontal)....");
+            sw.Restart();
+            decompOut = GeoWrangler.rectangular_decomposition(toDecomp, scaling: 2, maxRayLength: (Int64)Math.Max(Math.Abs(dist.X), Math.Abs(dist.Y)) * 1, vertical: !vertical);
+            sw.Stop();
+            Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
+
+            Console.WriteLine("  Writing....");
+            writeToLayout(baseString + "_horizontal", points, decompOut);
+            Console.WriteLine("  Done.");
+
+            sw.Stop();
+        }
+
         static GeoLibPoint[] partFour_1_prep()
         {
             GeoLibPoint[] points = new GeoLibPoint[] {
@@ -4288,71 +4343,6 @@ namespace partitionTest
             };
 
             return points;
-        }
-
-        static void partFour()
-        {
-            System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
-            Console.WriteLine(" Part 1....");
-            Console.WriteLine("  Preparing....");
-            sw.Start();
-            GeoLibPoint[] points_1 = partFour_1_prep();
-            points_1 = GeoWrangler.close(points_1);
-            sw.Stop();
-            Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
-
-            partFour_do(points_1, "complex_loop");
-
-            Console.WriteLine(" Part 2....");
-            Console.WriteLine("  Preparing....");
-            sw.Start();
-            GeoLibPoint[] points_2 = partFour_2_prep();
-            points_2 = GeoWrangler.close(points_2);
-            sw.Stop();
-            Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
-            partFour_do(points_2, "complex_loop_rot");
-        }
-
-        static void partFour_do(GeoLibPoint[] points, string baseString)
-        {
-            System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
-
-            bool vertical = true;
-
-            Console.WriteLine("  Keyhole....");
-            // Give the keyholder a whirl:
-            sw.Restart();
-            GeoLibPoint[] toDecomp = GeoWrangler.pointFromPath(GeoWrangler.makeKeyHole(GeoWrangler.pathFromPoint(points, 1000))[0], 1);
-            sw.Stop();
-            Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
-
-            Console.WriteLine("  Query....");
-            sw.Restart();
-            GeoLibPoint[] bounds = GeoWrangler.getBounds(toDecomp);
-            GeoLibPointF dist = GeoWrangler.distanceBetweenPoints_point(bounds[0], bounds[1]);
-            sw.Stop();
-            Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
-
-            Console.WriteLine("  Decomposition (vertical)....");
-            sw.Restart();
-            List<GeoLibPoint[]> decompOut = GeoWrangler.rectangular_decomposition(toDecomp, scaling: 2, maxRayLength: (Int64)Math.Max(Math.Abs(dist.X), Math.Abs(dist.Y)) * 1, vertical: vertical);
-            sw.Stop();
-            Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
-
-            Console.WriteLine("  Writing....");
-            writeToLayout(baseString, points, decompOut);
-
-            Console.WriteLine("  Decomposition (horizontal)....");
-            sw.Restart();
-            decompOut = GeoWrangler.rectangular_decomposition(toDecomp, scaling: 2, maxRayLength: (Int64)Math.Max(Math.Abs(dist.X), Math.Abs(dist.Y)) * 1, vertical: !vertical);
-            sw.Stop();
-            Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
-
-            Console.WriteLine("  Writing....");
-            writeToLayout(baseString + "_horizontal", points, decompOut);
-            Console.WriteLine("  Done.");
-
-            sw.Stop();
         }
 
         static GeoLibPoint[] partFour_2_prep()

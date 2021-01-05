@@ -630,9 +630,11 @@ namespace partitionTest
 
         static void partThree()
         {
+            System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
             int rayLength = 10000;
 
             Console.WriteLine("  Preparing....");
+            sw.Start();
 
             GeoLibPointF[] poly = new GeoLibPointF[] {
                 new GeoLibPointF(0.01000,   -0.21300),
@@ -2802,19 +2804,41 @@ namespace partitionTest
                 new GeoLibPointF(0.01000,   -0.21300),
                 };
 
+            sw.Stop();
+            Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
+
             Console.WriteLine("  Geo clean-up....");
+            sw.Restart();
             poly = GeoWrangler.clockwiseAndReorder(poly);
+            sw.Stop();
+            Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 
             Console.WriteLine("  Conversion....");
+            sw.Restart();
             List<GeoLibPoint[]> done = new List<GeoLibPoint[]>() { GeoWrangler.pointsFromPointF(poly, 1000) };
+            sw.Stop();
+            Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 
-            Console.WriteLine("  Decomposition....");
+            Console.WriteLine("  Decomposition (vertical)....");
+            sw.Restart();
             List<GeoLibPoint[]> ns = GeoWrangler.rectangular_decomposition(done, maxRayLength: rayLength);
+            sw.Stop();
+            Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 
             Console.WriteLine("  Writing....");
             writeToLayout("complex", done[0], ns);
 
+            Console.WriteLine("  Decomposition (horizontal)....");
+            sw.Restart();
+            ns = GeoWrangler.rectangular_decomposition(done, maxRayLength: rayLength, vertical: false);
+            sw.Stop();
+            Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
+
+            Console.WriteLine("  Writing....");
+            writeToLayout("complex_horizontal", done[0], ns);
+
             Console.WriteLine("  Done.");
+
         }
 
         static void partFour()
@@ -2822,9 +2846,12 @@ namespace partitionTest
             try
 
             {
+                System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+
                 bool vertical = true;
 
                 Console.WriteLine("  Preparing....");
+                sw.Start();
 
                 GeoLibPoint[] points = new GeoLibPoint[] {
                     new GeoLibPoint(-210, 10),
@@ -4271,21 +4298,43 @@ namespace partitionTest
                 };
 
                 points = GeoWrangler.close(points);
+                sw.Stop();
+                Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 
                 Console.WriteLine("  Keyhole....");
                 // Give the keyholder a whirl:
+                sw.Restart();
                 GeoLibPoint[] toDecomp = GeoWrangler.pointFromPath(GeoWrangler.makeKeyHole(GeoWrangler.pathFromPoint(points, 1000))[0], 1);
+                sw.Stop();
+                Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 
                 Console.WriteLine("  Query....");
+                sw.Restart();
                 GeoLibPoint[] bounds = GeoWrangler.getBounds(toDecomp);
                 GeoLibPointF dist = GeoWrangler.distanceBetweenPoints_point(bounds[0], bounds[1]);
-                Console.WriteLine("  Decomposition....");
+                sw.Stop();
+                Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
+
+                Console.WriteLine("  Decomposition (vertical)....");
+                sw.Restart();
                 List<GeoLibPoint[]> decompOut = GeoWrangler.rectangular_decomposition(toDecomp, scaling: 2, maxRayLength: (Int64)Math.Max(Math.Abs(dist.X), Math.Abs(dist.Y)) * 1, vertical: vertical);
+                sw.Stop();
+                Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 
                 Console.WriteLine("  Writing....");
                 writeToLayout("complex_loop", points, decompOut);
 
+                Console.WriteLine("  Decomposition (horizontal)....");
+                sw.Restart();
+                decompOut = GeoWrangler.rectangular_decomposition(toDecomp, scaling: 2, maxRayLength: (Int64)Math.Max(Math.Abs(dist.X), Math.Abs(dist.Y)) * 1, vertical: !vertical);
+                sw.Stop();
+                Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
+
+                Console.WriteLine("  Writing....");
+                writeToLayout("complex_loop_horizontal", points, decompOut);
                 Console.WriteLine("  Done.");
+
+                sw.Stop();
             }
 
             catch (Exception e)

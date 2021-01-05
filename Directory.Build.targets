@@ -15,7 +15,12 @@
     </PropertyGroup>
   </Target>
 
-  <Target Name="CopyVeldridSpirvNative" AfterTargets="SetPaths" BeforeTargets="Cleanup" Condition="$(OutputType) != 'library'">
+  <PropertyGroup>
+    <PackageVeldrid Condition="$(OutputType) != 'Library'">true</PackageVeldrid>
+    <NoPackageVeldrid Condition="$([System.Text.RegularExpressions.Regex]::IsMatch($(DefineConstants), '^(.*;)*NOVELDRID(;.*)*$'))">true</NoPackageVeldrid>
+  </PropertyGroup>
+
+  <Target Name="CopyVeldridSpirvNative" AfterTargets="SetPaths" BeforeTargets="Cleanup" Condition="$(PackageVeldrid) == 'true' AND $(NoPackageVeldrid) != 'true'">
     <Copy
       SourceFiles="$([MSBuild]::EnsureTrailingSlash('$(NuGetPackageRoot)'))veldrid.spirv\$(VeldridSpirvVersion)\runtimes\$(RuntimeID)\native\$(VeldridSpirvNativeName)"
       DestinationFolder="$(OutputPath)" />
@@ -32,7 +37,7 @@
     <Delete Files="@(_DelItems4)" />
   </Target>
 
-  <Target Name="CopyShaders" AfterTargets="Cleanup" Condition="$(OutputType) != 'library'">
+  <Target Name="CopyShaders" AfterTargets="Cleanup" Condition="$(PackageVeldrid) == 'true' AND $(NoPackageVeldrid) != 'true'">
     <ItemGroup>
       <Shaders Include="$(TopLevelDirectory)..\DesignLibs_GPL\Eto\shaders\**\*" />
     </ItemGroup>

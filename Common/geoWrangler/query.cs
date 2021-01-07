@@ -379,7 +379,7 @@ namespace geoWrangler
 
             for (int i = 0; i < _angles.Length; i++)
             {
-                if (Math.Abs(_angles[i]) - 90.0 > 1E-6)
+                if (Math.Abs(_angles[i]) != 90.0)
                 {
                     isOrthogonal = false;
                     break;

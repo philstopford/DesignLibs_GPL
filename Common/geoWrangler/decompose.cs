@@ -276,13 +276,6 @@ namespace geoWrangler
                     int pCount_ = p.Count;
                     for (int p_ = pCount_ - 1; p_ >= 0; p_--)
                     {
-                        /*
-                        if (p.Count == 1)
-                        {
-                            // Last result standing - if we break, we don't kill it off just for directional selection.
-                            // break;
-                        }
-                        */
                         if (vertical)
                         {
                             if (p[p_][0].X != p[p_][1].X)

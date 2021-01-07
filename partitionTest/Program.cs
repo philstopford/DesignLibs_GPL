@@ -501,8 +501,8 @@ namespace partitionTest
 
             // C3 = GeoWrangler.clockwiseAndReorder(C3);
 
-            bool orth = GeoWrangler.orthogonal(C2);
-            bool orth2 = GeoWrangler.orthogonal(C3);
+            bool orth = GeoWrangler.orthogonal(C2, angularTolerance: 0);
+            bool orth2 = GeoWrangler.orthogonal(C3, angularTolerance: 0);
 
             // Staircase
             GeoLibPoint[] S1 = new GeoLibPoint[] {
@@ -573,8 +573,6 @@ namespace partitionTest
             List<GeoLibPoint[]> s1 = GeoWrangler.rectangular_decomposition(S1, maxRayLength: rayLength);
 
             writeToLayout("s1", S1, s1);
-
-            Console.WriteLine("Hello World!");
         }
 
         static void partTwo()

@@ -16,22 +16,22 @@ namespace geoWrangler
         static double sizing = 500;
         static double default_nudge = 1.03;
 
-        public static Paths makeKeyHole(Paths outers, Paths cutters, double customSizing = 0, double extension = 0, double angularTolerance = 0)
+        public static Paths makeKeyHole(Paths outers, Paths cutters, double customSizing = 0, double extension = 0)
         {
-            return pMakeKeyHole(outers, cutters, customSizing: customSizing, extension: extension, angularTolerance: angularTolerance);
+            return pMakeKeyHole(outers, cutters, customSizing: customSizing, extension: extension);
         }
 
-        public static Paths makeKeyHole(Path source, double customSizing = 0, double extension = 0, double angularTolerance = 0)
+        public static Paths makeKeyHole(Path source, double customSizing = 0, double extension = 0)
         {
-            return pMakeKeyHole(new Paths() { source }, customSizing, extension, angularTolerance);
+            return pMakeKeyHole(new Paths() { source }, customSizing, extension);
         }
 
-        public static Paths makeKeyHole(Paths source, double customSizing = 0, double extension = 0, double angularTolerance = 0)
+        public static Paths makeKeyHole(Paths source, double customSizing = 0, double extension = 0)
         {
-            return pMakeKeyHole(source, customSizing: customSizing, extension: extension, angularTolerance: angularTolerance);
+            return pMakeKeyHole(source, customSizing: customSizing, extension: extension);
         }
 
-        static Paths pMakeKeyHole(Paths source, double customSizing = 0, double extension = 0, double angularTolerance = 0)
+        static Paths pMakeKeyHole(Paths source, double customSizing = 0, double extension = 0)
         {
             if (source.Count < 1)
             {
@@ -57,7 +57,7 @@ namespace geoWrangler
             {
                 decomp[i] = pClose(decomp[i]);
             }
-            Paths ret = pMakeKeyHole(decomp[(int)type.outer], decomp[(int)type.cutter], customSizing, extension, angularTolerance: angularTolerance);
+            Paths ret = pMakeKeyHole(decomp[(int)type.outer], decomp[(int)type.cutter], customSizing, extension);
 
             if (ret.Count == 0)
             {
@@ -69,7 +69,7 @@ namespace geoWrangler
             return ret;
         }
 
-        static Paths pMakeKeyHole(Paths outers, Paths cutters, double customSizing = 0, double extension = 0, double angularTolerance = 0)
+        static Paths pMakeKeyHole(Paths outers, Paths cutters, double customSizing = 0, double extension = 0)
         {
             if (customSizing == 0)
             {
@@ -88,7 +88,7 @@ namespace geoWrangler
                     projCheck = pStripTerminators(projCheck, false);
                     projCheck = pClockwise(projCheck);
 
-                    bool projectCorners = orthogonal(projCheck, angularTolerance);
+                    bool projectCorners = orthogonal(projCheck);
                     RayCast rc = new RayCast(cutters[hole], outers, 1000000, invert: true, projectCorners: projectCorners);
                     Paths clipped = rc.getClippedRays();
                     // Need to find minimal length, ideally orthogonal.

@@ -152,27 +152,27 @@ namespace geoWrangler
 
 
         // Scaling value below is because the incoming geometry is upsized to allow minor notches to be discarded in the conversion back to ints. Default value provided based on testing.
-        public static List<GeoLibPoint[]> rectangular_decomposition(List<GeoLibPoint[]> polys, Int32 scaling = 10000, Int64 maxRayLength=-1, bool vertical= true, Int32 tolerance = 0, double angularTolerance = 0)
+        public static List<GeoLibPoint[]> rectangular_decomposition(List<GeoLibPoint[]> polys, Int32 scaling = 10000, Int64 maxRayLength=-1, bool vertical= true, Int32 tolerance = 0)
         {
-            return pRectangular_decomposition(polys, scaling, maxRayLength, vertical, tolerance, angularTolerance);
+            return pRectangular_decomposition(polys, scaling, maxRayLength, vertical, tolerance);
         }
-        static List<GeoLibPoint[]> pRectangular_decomposition(List<GeoLibPoint[]> polys, Int32 scaling, Int64 maxRayLength, bool vertical, Int32 tolerance, double angularTolerance = 0)
+        static List<GeoLibPoint[]> pRectangular_decomposition(List<GeoLibPoint[]> polys, Int32 scaling, Int64 maxRayLength, bool vertical, Int32 tolerance)
         {
             List<GeoLibPoint[]> ret = new List<GeoLibPoint[]>();
 
             for (int i = 0; i < polys.Count; i++)
             {
-                ret.AddRange(pRectangular_decomposition(polys[i], scaling, maxRayLength, vertical, tolerance, angularTolerance));
+                ret.AddRange(pRectangular_decomposition(polys[i], scaling, maxRayLength, vertical, tolerance));
             }
 
             return ret;
         }
-        public static List<GeoLibPoint[]> rectangular_decomposition(GeoLibPoint[] _poly, Int32 scaling = 10000, Int64 maxRayLength=-1, bool vertical = true, Int32 tolerance = 0, double angularTolerance = 0)
+        public static List<GeoLibPoint[]> rectangular_decomposition(GeoLibPoint[] _poly, Int32 scaling = 10000, Int64 maxRayLength=-1, bool vertical = true, Int32 tolerance = 0)
         {
-            return pRectangular_decomposition(_poly, scaling, maxRayLength, vertical, tolerance, angularTolerance);
+            return pRectangular_decomposition(_poly, scaling, maxRayLength, vertical, tolerance);
         }
 
-        static List<GeoLibPoint[]> pRectangular_decomposition(GeoLibPoint[] _poly, Int32 scaling, Int64 maxRayLength, bool vertical, Int32 tolerance, double angularTolerance)
+        static List<GeoLibPoint[]> pRectangular_decomposition(GeoLibPoint[] _poly, Int32 scaling, Int64 maxRayLength, bool vertical, Int32 tolerance)
         {
             List<GeoLibPoint[]> ret = new List<GeoLibPoint[]>();
             ret.Add(_poly.ToArray());
@@ -187,7 +187,7 @@ namespace geoWrangler
                 int retCount = ret.Count;
                 for (int i = startIndex; i < retCount; i++)
                 {
-                    List<GeoLibPoint[]> decomp = decompose_poly_to_rectangles(ret[i].ToArray(), scaling, maxRayLength, vertical, tolerance, angularTolerance);
+                    List<GeoLibPoint[]> decomp = decompose_poly_to_rectangles(ret[i].ToArray(), scaling, maxRayLength, vertical, tolerance);
                     // If we got more than one polygon back, we decomposed across an internal edge.
                     if (decomp.Count > 1)
                     {
@@ -211,11 +211,11 @@ namespace geoWrangler
             return ret;
         }
 
-        static List<GeoLibPoint[]> decompose_poly_to_rectangles(GeoLibPoint[] _poly, Int32 scaling, Int64 maxRayLength, bool vertical, Int32 tolerance, double angularTolerance)
+        static List<GeoLibPoint[]> decompose_poly_to_rectangles(GeoLibPoint[] _poly, Int32 scaling, Int64 maxRayLength, bool vertical, Int32 tolerance)
         {
             Path lPoly = GeoWrangler.pathFromPoint(pClockwiseAndReorder(_poly), scaling);
 
-            if ((_poly.Length == 5) && GeoWrangler.orthogonal(GeoWrangler.stripTerminators(_poly, false), angularTolerance))
+            if ((_poly.Length == 5) && GeoWrangler.orthogonal(GeoWrangler.stripTerminators(_poly, false)))
             {
                 return new List<GeoLibPoint[]>() { _poly };
             }

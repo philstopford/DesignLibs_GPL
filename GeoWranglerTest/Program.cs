@@ -84,7 +84,7 @@ namespace GeoWranglerTest
                 new GeoLibPointF(0.03692, 0.19706)
             };
 
-            GeoLibPointF[] cleaned = GeoWrangler.stripColinear(source, tolerance:0.2);
+            GeoLibPointF[] cleaned = GeoWrangler.stripColinear(source, angularTolerance:0.2);
 
             int xx = 2;
         }

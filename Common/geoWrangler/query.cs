@@ -299,12 +299,12 @@ namespace geoWrangler
             return result;
         }
 
-        public static bool orthogonal(GeoLibPoint[] sourcePoly)
+        public static bool orthogonal(GeoLibPoint[] sourcePoly, double angularTolerance)
         {
-            return pOrthogonal(sourcePoly);
+            return pOrthogonal(sourcePoly, angularTolerance);
         }
 
-        static bool pOrthogonal(GeoLibPoint[] sourcePoly)
+        static bool pOrthogonal(GeoLibPoint[] sourcePoly, double angularTolerance)
         {
             bool isOrthogonal = true;
 
@@ -312,7 +312,7 @@ namespace geoWrangler
 
             for (int i = 0; i < _angles.Length; i++)
             {
-                if (Math.Abs(_angles[i]) != 90.0)
+                if (Math.Abs(Math.Abs(_angles[i]) - 90.0) > angularTolerance)
                 {
                     isOrthogonal = false;
                     break;
@@ -365,13 +365,12 @@ namespace geoWrangler
             return angles;
         }
 
-
-        public static bool orthogonal(GeoLibPointF[] sourcePoly)
+        public static bool orthogonal(GeoLibPointF[] sourcePoly, double angularTolerance)
         {
-            return pOrthogonal(sourcePoly);
+            return pOrthogonal(sourcePoly, angularTolerance);
         }
 
-        static bool pOrthogonal(GeoLibPointF[] sourcePoly)
+        static bool pOrthogonal(GeoLibPointF[] sourcePoly, double angularTolerance)
         {
             bool isOrthogonal = true;
 
@@ -379,7 +378,7 @@ namespace geoWrangler
 
             for (int i = 0; i < _angles.Length; i++)
             {
-                if (Math.Abs(_angles[i]) != 90.0)
+                if (Math.Abs(Math.Abs(_angles[i]) - 90.0) > angularTolerance)
                 {
                     isOrthogonal = false;
                     break;
@@ -432,12 +431,12 @@ namespace geoWrangler
             return angles;
         }
 
-        public static bool orthogonal(Path sourcePoly)
+        public static bool orthogonal(Path sourcePoly, double angularTolerance)
         {
-            return pOrthogonal(sourcePoly);
+            return pOrthogonal(sourcePoly, angularTolerance);
         }
 
-        static bool pOrthogonal(Path sourcePoly)
+        static bool pOrthogonal(Path sourcePoly, double angularTolerance)
         {
             bool isOrthogonal = true;
 
@@ -445,7 +444,7 @@ namespace geoWrangler
 
             for (int i = 0; i < _angles.Length; i++)
             {
-                if (Math.Abs(_angles[i]) != 90.0)
+                if (Math.Abs(Math.Abs(_angles[i]) - 90.0) > angularTolerance)
                 {
                     isOrthogonal = false;
                     break;

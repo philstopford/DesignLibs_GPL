@@ -1063,6 +1063,7 @@ namespace oasis
                 try
                 {
                     drawing_.active_cell = drawing.findCellIndex(cell_.cellName);
+                    drawing_.resize(1000.0 / drawing_.databaseunits);
                 }
                 catch (Exception)
                 {

@@ -73,6 +73,14 @@ namespace geoCoreLib
             pointarray = GeoWrangler.resize(pointarray, size);
         }
 
+        public override void resize(double factor)
+        {
+            for (int i = 0; i < pointarray.Length; i++)
+            {
+                pointarray[i] = new GeoLibPoint(pointarray[i].X * factor, pointarray[i].Y * factor);
+            }
+        }
+
         public override void scale(GeoLibPoint origin, double size)
         {
             pScale(origin, size);

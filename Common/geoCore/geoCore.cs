@@ -502,16 +502,16 @@ namespace geoCoreLib
             // Set up the scaling for the conversion
             if (valid && (fileFormat == (int)fileType.gds))
             {
-                scaling = drawing_.userunits;
-                drawing_.databaseunits = 1 / drawing_.userunits;
+                // scaling = drawing_.databaseunits;
+                // drawing_.databaseunits = 1 / drawing_.userunits;
             }
             else if (valid && (fileFormat == (int)fileType.oasis))
             {
-                scaling = 1.0 / drawing_.databaseunits;
-                drawing_.userunits = 1 / drawing_.databaseunits;
+                // scaling = 1.0 / drawing_.databaseunits;
+                // drawing_.userunits = 1 / drawing_.databaseunits;
             }
 
-            scaling *= baseScale; // this is used to compensate for any reader application needing scaled geometry.
+            // scaling *= baseScale; // this is used to compensate for any reader application needing scaled geometry.
 
             for (int cell = 0; cell < drawing_.cellList.Count; cell++)
             {

@@ -244,7 +244,7 @@ namespace geoCoreLib
             {
                 if (cellList[i].elementList != null)
                 {
-                    cellList[i].resize(1.0f / scale);
+                    cellList[i].resize(scale);
                 }
             }
 #if GCTHREADED

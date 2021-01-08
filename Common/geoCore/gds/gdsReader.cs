@@ -544,6 +544,7 @@ namespace gds
                 try
                 {
                     drawing_.active_cell = drawing.findCellIndex(cell_.cellName);
+                    drawing_.resize((drawing_.userunits / 1E-3));
                 }
                 catch (Exception)
                 {

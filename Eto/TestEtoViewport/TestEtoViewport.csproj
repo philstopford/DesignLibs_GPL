@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <RootNamespace>TestEtoViewport</RootNamespace>
+    <Title>TestEtoViewport</Title>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Eto.Forms" Version="2.5.9-ci-20201231.454003721" />
+    <PackageReference Include="Eto.OpenTK" Version="0.1.2" />
+    <PackageReference Include="Eto.Veldrid" Version="0.1.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Unofficial.LibTessDotNet" Version="2.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Eto.VeldridSurface\Eto.VeldridSurface.csproj" />
+    <ProjectReference Include="..\etoViewport\etoViewport.csproj" />
+  </ItemGroup>
+
+</Project>

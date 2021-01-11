@@ -1,0 +1,818 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\phils\AppData\Local\JetBrains\Rider2020.3\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\phils\AppData\Local\JetBrains\Rider2020.3\resharper-host\Local\Transient\Rider\v203\SolutionCaches\_DesignLibs.1466291169.00" t="ExcludeRecursive" />
+    <e p="D:\development\git\DesignLibs_GPL" t="IncludeFlat">
+      <e p="artifacts\bin" t="ExcludeRecursive" />
+      <e p="artifacts\obj" t="ExcludeRecursive">
+        <e p="Windows\clipper\Debug\net5.0" t="Include">
+          <e p="clipper.AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Windows\Color\Debug\net5.0" t="Include">
+          <e p="color.AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Windows\DynamicAero2\Debug\netcoreapp3.1" t="Include">
+          <e p="DynamicAero2.AssemblyInfo.cs" t="Include" />
+          <e p="Styles" t="Include">
+            <e p="ContextMenu.g.cs" t="Include" />
+          </e>
+          <e p="Theme.g.cs" t="Include" />
+        </e>
+        <e p="Windows\entropyRNG\Debug\net5.0" t="Include">
+          <e p="entropyRNG.AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Windows\errorReporter\Debug\net5.0" t="Include">
+          <e p="errorReporter.AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Windows\Eto.VeldridSurface\Debug\net5.0" t="Include">
+          <e p="Eto.VeldridSurface.AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Windows\etoViewport\Debug\net5.0" t="Include">
+          <e p="etoViewport.AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Windows\gdsTest\Debug\net5.0" t="Include">
+          <e p="gdsTest.AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Windows\geoCore\Debug\net5.0" t="Include">
+          <e p="geoCore.AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Windows\geoCoreTest\Debug\net5.0" t="Include">
+          <e p="geoCoreTest.AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Windows\geoLib\Debug\net5.0" t="Include">
+          <e p="geoLib.AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Windows\geoWrangler\Debug\net5.0" t="Include">
+          <e p="geoWrangler.AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Windows\GeoWranglerTest\Debug\net5.0" t="Include">
+          <e p="GeoWranglerTest.AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Windows\HistoTest\Debug\net5.0" t="Include">
+          <e p="HistoTest.AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Windows\info.lundin.math\Debug\net5.0" t="Include">
+          <e p="info.lundin.math.AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Windows\KDTree\Debug\net5.0" t="Include">
+          <e p="KDTree.AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Windows\KeyHolerTest\Debug\net5.0" t="Include">
+          <e p="KeyHolerTest.AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Windows\LibTessDotNet\Debug\net5.0" t="Include">
+          <e p="LibTessDotNet.AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Windows\MersenneTwister\Debug\net5.0" t="Include">
+          <e p="MersenneTwister.AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Windows\MiscUtil\Debug\net5.0" t="Include">
+          <e p="MiscUtil.AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Windows\Noise\Debug\net5.0" t="Include">
+          <e p="noise.AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Windows\oasTest\Debug\net5.0" t="Include">
+          <e p="oasTest.AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Windows\partitionTest\Debug\net5.0" t="Include">
+          <e p="partitionTest.AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Windows\TestEtoVeldrid\Debug\net5.0" t="Include">
+          <e p="TestEtoVeldrid.AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Windows\TestEtoVeldrid.Gtk\Debug\net5.0" t="Include">
+          <e p="TestEtoVeldrid.Gtk.AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Windows\TestEtoVeldrid.Mac64\Debug\net5.0" t="Include">
+          <e p="TestEtoVeldrid.Mac64.AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Windows\TestEtoVeldrid.WinForms\Debug\net5.0-windows" t="Include">
+          <e p="TestEtoVeldrid.WinForms.AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Windows\TestEtoVeldrid.Wpf\Debug\net5.0-windows" t="Include">
+          <e p="TestEtoVeldrid.Wpf.AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Windows\TestEtoViewport\Debug\net5.0" t="Include">
+          <e p="TestEtoViewport.AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Windows\TestEtoViewport.Gtk\Debug\net5.0" t="Include">
+          <e p="TestEtoViewport.Gtk.AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Windows\TestEtoViewport.Mac64\Debug\net5.0" t="Include">
+          <e p="TestEtoViewport.Mac64.AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Windows\TestEtoViewport.WinForms\Debug\net5.0-windows" t="Include">
+          <e p="TestEtoViewport.WinForms.AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Windows\TestEtoViewport.Wpf\Debug\net5.0-windows" t="Include">
+          <e p="TestEtoViewport.Wpf.AssemblyInfo.cs" t="Include" />
+        </e>
+        <e p="Windows\utility\Debug\net5.0" t="Include">
+          <e p="utility.AssemblyInfo.cs" t="Include" />
+        </e>
+      </e>
+      <e p="Common\clipper" t="IncludeRecursive">
+        <e p="clipper.csproj" t="IncludeRecursive" />
+        <e p="clipper_512.cs" t="Include" />
+        <e p="Documentation" t="Include">
+          <e p="clipper.chm" t="Include" />
+          <e p="default.css" t="Include" />
+          <e p="Docs" t="Include">
+            <e p="_Body.htm" t="Include" />
+            <e p="Overview" t="Include">
+              <e p="_Body.htm" t="Include" />
+              <e p="Changes.htm" t="Include" />
+              <e p="Deprecated.htm" t="Include" />
+              <e p="Example.htm" t="Include" />
+              <e p="FAQ.htm" t="Include" />
+              <e p="License.htm" t="Include" />
+              <e p="Rounding.htm" t="Include" />
+            </e>
+            <e p="Units" t="Include">
+              <e p="ClipperLib" t="Include">
+                <e p="_Body.htm" t="Include" />
+                <e p="Classes" t="Include">
+                  <e p="clipper" t="Include">
+                    <e p="_Body.htm" t="Include" />
+                    <e p="Methods" t="Include">
+                      <e p="Constructor.htm" t="Include" />
+                      <e p="Execute.htm" t="Include" />
+                    </e>
+                    <e p="Properties" t="Include">
+                      <e p="PreserveCollinear.htm" t="Include" />
+                      <e p="ReverseSolution.htm" t="Include" />
+                      <e p="StrictlySimple.htm" t="Include" />
+                      <e p="ZFillFunction.htm" t="Include" />
+                    </e>
+                  </e>
+                  <e p="ClipperBase" t="Include">
+                    <e p="_Body.htm" t="Include" />
+                    <e p="Methods" t="Include">
+                      <e p="AddPath.htm" t="Include" />
+                      <e p="AddPaths.htm" t="Include" />
+                      <e p="Clear.htm" t="Include" />
+                      <e p="GetBounds.htm" t="Include" />
+                    </e>
+                  </e>
+                  <e p="ClipperOffset" t="Include">
+                    <e p="_Body.htm" t="Include" />
+                    <e p="Methods" t="Include">
+                      <e p="AddPath.htm" t="Include" />
+                      <e p="AddPaths.htm" t="Include" />
+                      <e p="Clear.htm" t="Include" />
+                      <e p="Constructor.htm" t="Include" />
+                      <e p="Execute.htm" t="Include" />
+                    </e>
+                    <e p="Properties" t="Include">
+                      <e p="ArcTolerance.htm" t="Include" />
+                      <e p="MiterLimit.htm" t="Include" />
+                    </e>
+                  </e>
+                  <e p="PolyNode" t="Include">
+                    <e p="_Body.htm" t="Include" />
+                    <e p="Methods" t="Include">
+                      <e p="GetNext.htm" t="Include" />
+                    </e>
+                    <e p="Properties" t="Include">
+                      <e p="ChildCount.htm" t="Include" />
+                      <e p="Childs.htm" t="Include" />
+                      <e p="Contour.htm" t="Include" />
+                      <e p="IsHole.htm" t="Include" />
+                      <e p="IsOpen.htm" t="Include" />
+                      <e p="Parent.htm" t="Include" />
+                    </e>
+                  </e>
+                  <e p="PolyTree" t="Include">
+                    <e p="_Body.htm" t="Include" />
+                    <e p="Methods" t="Include">
+                      <e p="Clear.htm" t="Include" />
+                      <e p="GetFirst.htm" t="Include" />
+                    </e>
+                    <e p="Properties" t="Include">
+                      <e p="Total.htm" t="Include" />
+                    </e>
+                  </e>
+                </e>
+                <e p="Functions" t="Include">
+                  <e p="Area.htm" t="Include" />
+                  <e p="CleanPolygon.htm" t="Include" />
+                  <e p="CleanPolygons.htm" t="Include" />
+                  <e p="ClosedPathsFromPolyTree.htm" t="Include" />
+                  <e p="MinkowskiDiff.htm" t="Include" />
+                  <e p="MinkowskiSum.htm" t="Include" />
+                  <e p="OffsetPaths.htm" t="Include" />
+                  <e p="OpenPathsFromPolyTree.htm" t="Include" />
+                  <e p="Orientation.htm" t="Include" />
+                  <e p="PointInPolygon.htm" t="Include" />
+                  <e p="PolyTreeToPaths.htm" t="Include" />
+                  <e p="ReversePath.htm" t="Include" />
+                  <e p="ReversePaths.htm" t="Include" />
+                  <e p="SimplifyPolygon.htm" t="Include" />
+                  <e p="SimplifyPolygons.htm" t="Include" />
+                </e>
+                <e p="PreProcessor" t="Include">
+                  <e p="Defines.htm" t="Include" />
+                </e>
+                <e p="Types" t="Include">
+                  <e p="CInt.htm" t="Include" />
+                  <e p="ClipType.htm" t="Include" />
+                  <e p="EndType.htm" t="Include" />
+                  <e p="InitOptions.htm" t="Include" />
+                  <e p="IntPoint.htm" t="Include" />
+                  <e p="IntRect.htm" t="Include" />
+                  <e p="JoinType.htm" t="Include" />
+                  <e p="Path.htm" t="Include" />
+                  <e p="Paths.htm" t="Include" />
+                  <e p="PolyFillType.htm" t="Include" />
+                  <e p="PolyType.htm" t="Include" />
+                  <e p="ZFillCallback.htm" t="Include" />
+                </e>
+              </e>
+            </e>
+          </e>
+          <e p="Images" t="Include">
+            <e p="_BranchEmpty.gif" t="Include" />
+            <e p="_BranchRight.gif" t="Include" />
+            <e p="_BranchVert.gif" t="Include" />
+            <e p="_BranchVertRight.gif" t="Include" />
+            <e p="_buttons.gif" t="Include" />
+            <e p="_Class.gif" t="Include" />
+            <e p="_Home.gif" t="Include" />
+            <e p="_Project_Logo.gif" t="Include" />
+            <e p="_Unit.gif" t="Include" />
+            <e p="clean1.png" t="Include" />
+            <e p="clean2.png" t="Include" />
+            <e p="clipper_rounding.png" t="Include" />
+            <e p="clipper_rounding2.png" t="Include" />
+            <e p="clipper_rounding3.png" t="Include" />
+            <e p="clipper_rounding4.png" t="Include" />
+            <e p="cliptype.png" t="Include" />
+            <e p="common_edges.png" t="Include" />
+            <e p="difference.png" t="Include" />
+            <e p="endtypes1.png" t="Include" />
+            <e p="endtypes2.png" t="Include" />
+            <e p="evenodd.png" t="Include" />
+            <e p="int.png" t="Include" />
+            <e p="intersection.png" t="Include" />
+            <e p="jointypes.png" t="Include" />
+            <e p="kangaroo_small.png" t="Include" />
+            <e p="line_clipping.png" t="Include" />
+            <e p="line_clipping2.png" t="Include" />
+            <e p="linesdemo.png" t="Include" />
+            <e p="minkowski.png" t="Include" />
+            <e p="minkowski2.png" t="Include" />
+            <e p="miterlimit.png" t="Include" />
+            <e p="negative.png" t="Include" />
+            <e p="nonzero.png" t="Include" />
+            <e p="offset1.png" t="Include" />
+            <e p="orientation.png" t="Include" />
+            <e p="polytree.png" t="Include" />
+            <e p="positive.png" t="Include" />
+            <e p="sample1.png" t="Include" />
+            <e p="simplify.png" t="Include" />
+            <e p="simplify2.png" t="Include" />
+            <e p="simplify3.png" t="Include" />
+            <e p="union.png" t="Include" />
+            <e p="winding_number.png" t="Include" />
+            <e p="wn.png" t="Include" />
+            <e p="xor.png" t="Include" />
+            <e p="zfill.png" t="Include" />
+          </e>
+          <e p="index.htm" t="Include" />
+          <e p="offset_triginometry.svg" t="Include" />
+          <e p="offset_triginometry2.svg" t="Include" />
+          <e p="offset_triginometry3.svg" t="Include" />
+          <e p="Scripts" t="Include">
+            <e p="bootstrap.js" t="Include" />
+            <e p="expandable.js" t="Include" />
+            <e p="menu_data.js" t="Include" />
+            <e p="menu_script.js" t="Include" />
+            <e p="SyntaxHighlighter" t="Include">
+              <e p="compass" t="Include">
+                <e p="_theme_template.scss" t="Include" />
+                <e p="config.rb" t="Include" />
+                <e p="shCore.scss" t="Include" />
+                <e p="shCoreDefault.scss" t="Include" />
+                <e p="shCoreDjango.scss" t="Include" />
+                <e p="shCoreEclipse.scss" t="Include" />
+                <e p="shCoreEmacs.scss" t="Include" />
+                <e p="shCoreFadeToGrey.scss" t="Include" />
+                <e p="shCoreMDUltra.scss" t="Include" />
+                <e p="shCoreMidnight.scss" t="Include" />
+                <e p="shCoreRDark.scss" t="Include" />
+                <e p="shThemeDefault.scss" t="Include" />
+                <e p="shThemeDjango.scss" t="Include" />
+                <e p="shThemeEclipse.scss" t="Include" />
+                <e p="shThemeEmacs.scss" t="Include" />
+                <e p="shThemeFadeToGrey.scss" t="Include" />
+                <e p="shThemeMDUltra.scss" t="Include" />
+                <e p="shThemeMidnight.scss" t="Include" />
+                <e p="shThemeRDark.scss" t="Include" />
+              </e>
+              <e p="index.html" t="Include" />
+              <e p="LGPL-LICENSE" t="Include" />
+              <e p="MIT-LICENSE" t="Include" />
+              <e p="Scripts" t="Include">
+                <e p="shAutoloader.js" t="Include" />
+                <e p="shBrushAppleScript.js" t="Include" />
+                <e p="shBrushAS3.js" t="Include" />
+                <e p="shBrushBash.js" t="Include" />
+                <e p="shBrushColdFusion.js" t="Include" />
+                <e p="shBrushCpp.js" t="Include" />
+                <e p="shBrushCSharp.js" t="Include" />
+                <e p="shBrushCss.js" t="Include" />
+                <e p="shBrushDelphi.js" t="Include" />
+                <e p="shBrushDiff.js" t="Include" />
+                <e p="shBrushErlang.js" t="Include" />
+                <e p="shBrushGroovy.js" t="Include" />
+                <e p="shBrushJava.js" t="Include" />
+                <e p="shBrushJavaFX.js" t="Include" />
+                <e p="shBrushJScript.js" t="Include" />
+                <e p="shBrushPerl.js" t="Include" />
+                <e p="shBrushPhp.js" t="Include" />
+                <e p="shBrushPlain.js" t="Include" />
+                <e p="shBrushPowerShell.js" t="Include" />
+                <e p="shBrushPython.js" t="Include" />
+                <e p="shBrushRuby.js" t="Include" />
+                <e p="shBrushSass.js" t="Include" />
+                <e p="shBrushScala.js" t="Include" />
+                <e p="shBrushSql.js" t="Include" />
+                <e p="shBrushVb.js" t="Include" />
+                <e p="shBrushXml.js" t="Include" />
+                <e p="shCore.js" t="Include" />
+                <e p="shLegacy.js" t="Include" />
+              </e>
+              <e p="src" t="Include">
+                <e p="shAutoloader.js" t="Include" />
+                <e p="shCore.js" t="Include" />
+                <e p="shLegacy.js" t="Include" />
+              </e>
+              <e p="Styles" t="Include">
+                <e p="shCore.css" t="Include" />
+                <e p="shCoreDefault.css" t="Include" />
+                <e p="shCoreDjango.css" t="Include" />
+                <e p="shCoreEclipse.css" t="Include" />
+                <e p="shCoreEmacs.css" t="Include" />
+                <e p="shCoreFadeToGrey.css" t="Include" />
+                <e p="shCoreMDUltra.css" t="Include" />
+                <e p="shCoreMidnight.css" t="Include" />
+                <e p="shCoreRDark.css" t="Include" />
+                <e p="shThemeDefault.css" t="Include" />
+                <e p="shThemeDjango.css" t="Include" />
+                <e p="shThemeEclipse.css" t="Include" />
+                <e p="shThemeEmacs.css" t="Include" />
+                <e p="shThemeFadeToGrey.css" t="Include" />
+                <e p="shThemeMDUltra.css" t="Include" />
+                <e p="shThemeMidnight.css" t="Include" />
+                <e p="shThemeRDark.css" t="Include" />
+              </e>
+              <e p="Tests" t="Include">
+                <e p=".rvmrc" t="Include" />
+                <e p="Brushes" t="Include">
+                  <e p="sass.html" t="Include" />
+                </e>
+                <e p="brushes_tests.html" t="Include" />
+                <e p="cases" t="Include">
+                  <e p="001_basic.html" t="Include" />
+                  <e p="002_brushes.html" t="Include" />
+                  <e p="003_script_tag.html" t="Include" />
+                  <e p="004_url_parsing.html" t="Include" />
+                  <e p="005_no_gutter.html" t="Include" />
+                  <e p="006_pad_line_numbers.html" t="Include" />
+                  <e p="007_collapse.html" t="Include" />
+                  <e p="007_collapse_interaction.html" t="Include" />
+                  <e p="008_first_line.html" t="Include" />
+                  <e p="009_class_name.html" t="Include" />
+                  <e p="010_highlight.html" t="Include" />
+                  <e p="011_smart_tabs.html" t="Include" />
+                  <e p="012_server_side.html" t="Include" />
+                  <e p="013_html_script.html" t="Include" />
+                  <e p="014_legacy.html" t="Include" />
+                </e>
+                <e p="commonjs_tests.js" t="Include" />
+                <e p="js" t="Include">
+                  <e p="jquery-1.4.2.js" t="Include" />
+                  <e p="qunit.css" t="Include" />
+                  <e p="qunit.js" t="Include" />
+                </e>
+                <e p="syntaxhighlighter_tests.html" t="Include" />
+                <e p="theme_tests.html" t="Include" />
+                <e p="webrick.rb" t="Include" />
+                <e p="webrick.sh" t="Include" />
+              </e>
+            </e>
+          </e>
+          <e p="Styles" t="Include">
+            <e p="default.css" t="Include" />
+          </e>
+        </e>
+        <e p="License.txt" t="Include" />
+        <e p="README" t="Include" />
+      </e>
+      <e p="Common\Color" t="IncludeRecursive">
+        <e p="color.csproj" t="IncludeRecursive" />
+        <e p="colors.cs" t="Include" />
+        <e p="myColor.cs" t="Include" />
+      </e>
+      <e p="Common\entropyRNG" t="IncludeRecursive">
+        <e p="commonRNG.cs" t="Include" />
+        <e p="crypto.cs" t="Include" />
+        <e p="entropyRNG.csproj" t="IncludeRecursive" />
+        <e p="mersennetwister.cs" t="Include" />
+        <e p="system.cs" t="Include" />
+      </e>
+      <e p="Common\gdsTest" t="IncludeRecursive">
+        <e p="gdsTest.csproj" t="IncludeRecursive" />
+        <e p="Program.cs" t="Include" />
+      </e>
+      <e p="Common\geoCore" t="IncludeRecursive">
+        <e p="box.cs" t="Include" />
+        <e p="cell.cs" t="Include" />
+        <e p="cellref.cs" t="Include" />
+        <e p="cellrefarray.cs" t="Include" />
+        <e p="drawingfield.cs" t="Include" />
+        <e p="element.cs" t="Include" />
+        <e p="gds" t="Include">
+          <e p="gdsAddMethods.cs" t="Include" />
+          <e p="gdsReader.cs" t="Include" />
+          <e p="gdsWriter.cs" t="Include" />
+          <e p="gdsWriterMethods.cs" t="Include" />
+        </e>
+        <e p="geoCore.cs" t="Include" />
+        <e p="geoCore.csproj" t="IncludeRecursive" />
+        <e p="geoCoreHandler.cs" t="Include" />
+        <e p="oasis" t="Include">
+          <e p="oasisAddMethods.cs" t="Include" />
+          <e p="oasisReaderMethods.cs" t="Include" />
+          <e p="oasReader.cs" t="Include" />
+          <e p="oasWriter.cs" t="Include" />
+          <e p="oasWriterMethods.cs" t="Include" />
+        </e>
+        <e p="path.cs" t="Include" />
+        <e p="polygon.cs" t="Include" />
+        <e p="setup.cs" t="Include" />
+        <e p="strans.cs" t="Include" />
+        <e p="txt.cs" t="Include" />
+      </e>
+      <e p="Common\geoLib" t="IncludeRecursive">
+        <e p="geoLib.csproj" t="IncludeRecursive" />
+        <e p="GeoLibArray.cs" t="Include" />
+        <e p="GeoLibMatrix.cs" t="Include" />
+        <e p="GeoLibPoints.cs" t="Include" />
+        <e p="GeoLibRect.cs" t="Include" />
+        <e p="Primitives.cs" t="Include" />
+      </e>
+      <e p="Common\geoWrangler" t="IncludeRecursive">
+        <e p="array.cs" t="Include" />
+        <e p="bipartite.cs" t="Include" />
+        <e p="clockwise.cs" t="Include" />
+        <e p="conversions.cs" t="Include" />
+        <e p="decompose.cs" t="Include" />
+        <e p="fordfulkerson.cs" t="Include" />
+        <e p="fragmenter.cs" t="Include" />
+        <e p="geoWrangler.csproj" t="IncludeRecursive" />
+        <e p="inflate.cs" t="Include" />
+        <e p="invert.cs" t="Include" />
+        <e p="keyhole.cs" t="Include" />
+        <e p="meas.cs" t="Include" />
+        <e p="minmax.cs" t="Include" />
+        <e p="query.cs" t="Include" />
+        <e p="raycaster.cs" t="Include" />
+        <e p="rotate.cs" t="Include" />
+        <e p="sanitize.cs" t="Include" />
+        <e p="translate.cs" t="Include" />
+      </e>
+      <e p="Common\info.lundin.math" t="IncludeRecursive">
+        <e p="DefaultOperators.cs" t="Include" />
+        <e p="DoubleValue.cs" t="Include" />
+        <e p="Expression.cs" t="Include" />
+        <e p="ExpressionDictionary.cs" t="Include" />
+        <e p="ExpressionParser.cs" t="Include" />
+        <e p="info.lundin.math.csproj" t="IncludeRecursive" />
+        <e p="key.snk" t="Include" />
+        <e p="MathExtra.cs" t="Include" />
+        <e p="Node.cs" t="Include" />
+        <e p="Operator.cs" t="Include" />
+        <e p="ParserException.cs" t="Include" />
+        <e p="StringValue.cs" t="Include" />
+        <e p="TreeParser.cs" t="Include" />
+        <e p="Value.cs" t="Include" />
+        <e p="ValuesDictionary.cs" t="Include" />
+      </e>
+      <e p="Common\KDTree" t="IncludeRecursive">
+        <e p="DistanceFunctions.cs" t="Include" />
+        <e p="IntervalHeap.cs" t="Include" />
+        <e p="KDNode.cs" t="Include" />
+        <e p="KDTree.cs" t="Include" />
+        <e p="KDTree.csproj" t="IncludeRecursive" />
+        <e p="MinHeap.cs" t="Include" />
+        <e p="NearestNeighbour.cs" t="Include" />
+      </e>
+      <e p="Common\LibTessDotNet" t="IncludeRecursive">
+        <e p="LibTessDotNet.csproj" t="IncludeRecursive" />
+        <e p="Sources" t="Include">
+          <e p="Dict.cs" t="Include" />
+          <e p="Geom.cs" t="Include" />
+          <e p="Mesh.cs" t="Include" />
+          <e p="MeshUtils.cs" t="Include" />
+          <e p="PriorityHeap.cs" t="Include" />
+          <e p="PriorityQueue.cs" t="Include" />
+          <e p="Sweep.cs" t="Include" />
+          <e p="Tess.cs" t="Include" />
+        </e>
+      </e>
+      <e p="Common\MersenneTwister" t="IncludeRecursive">
+        <e p="mersennetwister.cs" t="Include" />
+        <e p="MersenneTwister.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="Common\MiscUtil" t="IncludeRecursive">
+        <e p="ApplicationChooser.cs" t="Include" />
+        <e p="BufferAcquisitionException.cs" t="Include" />
+        <e p="CachedBuffer.cs" t="Include" />
+        <e p="CachingBufferManager.cs" t="Include" />
+        <e p="Checksum" t="Include">
+          <e p="Adler32.cs" t="Include" />
+        </e>
+        <e p="Collections" t="Include">
+          <e p="ComparisonComparer.cs" t="Include" />
+          <e p="DictionaryByType.cs" t="Include" />
+          <e p="Extensions" t="Include">
+            <e p="ComparerExt.cs" t="Include" />
+            <e p="DictionaryExt.cs" t="Include" />
+            <e p="RangeBasedExt.cs" t="Include" />
+            <e p="SmartEnumerableExt.cs" t="Include" />
+          </e>
+          <e p="LinkedComparer.cs" t="Include" />
+          <e p="ProjectionComparer.cs" t="Include" />
+          <e p="ProjectionEqualityComparer.cs" t="Include" />
+          <e p="RandomAccessQueue.cs" t="Include" />
+          <e p="Range.cs" t="Include" />
+          <e p="RangeIterator.cs" t="Include" />
+          <e p="ReverseComparer.cs" t="Include" />
+          <e p="SmartEnumerable.cs" t="Include" />
+        </e>
+        <e p="Compression" t="Include">
+          <e p="Vcdiff" t="Include">
+            <e p="AddressCache.cs" t="Include" />
+            <e p="CodeTable.cs" t="Include" />
+            <e p="Instruction.cs" t="Include" />
+            <e p="InstructionType.cs" t="Include" />
+            <e p="IOHelper.cs" t="Include" />
+            <e p="VcdiffDecoder.cs" t="Include" />
+            <e p="VcdiffFormatException.cs" t="Include" />
+          </e>
+        </e>
+        <e p="Conversion" t="Include">
+          <e p="BigEndianBitConverter.cs" t="Include" />
+          <e p="DoubleConverter.cs" t="Include" />
+          <e p="EndianBitConverter.cs" t="Include" />
+          <e p="Endianness.cs" t="Include" />
+          <e p="LittleEndianBitConverter.cs" t="Include" />
+        </e>
+        <e p="EventArgs.cs" t="Include" />
+        <e p="Extensions" t="Include">
+          <e p="ReferenceExt.cs" t="Include" />
+          <e p="TimeRelated" t="Include">
+            <e p="DateTimeBasedExt.cs" t="Include" />
+            <e p="TimeSpanBasedExt.cs" t="Include" />
+          </e>
+        </e>
+        <e p="GenericMath.cs" t="Include" />
+        <e p="IBuffer.cs" t="Include" />
+        <e p="IBufferManager.cs" t="Include" />
+        <e p="IO" t="Include">
+          <e p="EndianBinaryReader.cs" t="Include" />
+          <e p="EndianBinaryWriter.cs" t="Include" />
+          <e p="LineReader.cs" t="Include" />
+          <e p="NonClosingStreamWrapper.cs" t="Include" />
+          <e p="ReverseLineReader.cs" t="Include" />
+          <e p="StreamUtil.cs" t="Include" />
+          <e p="StringWriterWithEncoding.cs" t="Include" />
+        </e>
+        <e p="Linq" t="Include">
+          <e p="DataProducer.cs" t="Include" />
+          <e p="EditableLookup.cs" t="Include" />
+          <e p="EditableLookup.LookupGrouping.cs" t="Include" />
+          <e p="ExpressionUtil.cs" t="Include" />
+          <e p="Extensions" t="Include">
+            <e p="DataProducerExt.Conversion.cs" t="Include" />
+            <e p="DataProducerExt.cs" t="Include" />
+            <e p="DataProducerExt.Grouping.cs" t="Include" />
+            <e p="DataProducerExt.Math.cs" t="Include" />
+            <e p="DataProducerExt.Pipeline.cs" t="Include" />
+            <e p="DataProducerExt.SingleReturn.cs" t="Include" />
+            <e p="EnumerableExt.cs" t="Include" />
+            <e p="ListExt.cs" t="Include" />
+            <e p="TypeExt.cs" t="Include" />
+          </e>
+          <e p="Future.cs" t="Include" />
+          <e p="FutureProxy.cs" t="Include" />
+          <e p="IDataProducer.cs" t="Include" />
+          <e p="IFuture.cs" t="Include" />
+          <e p="IOrderedDataProducer.cs" t="Include" />
+          <e p="IProducerGrouping.cs" t="Include" />
+          <e p="KeyValueTuple.cs" t="Include" />
+          <e p="OrderedDataProducer.cs" t="Include" />
+          <e p="ProducerGrouping.cs" t="Include" />
+        </e>
+        <e p="MiscUtil.csproj" t="IncludeRecursive" />
+        <e p="NonNullable.cs" t="Include" />
+        <e p="NullOp.cs" t="Include" />
+        <e p="Operator.cs" t="Include" />
+        <e p="PartialComparer.cs" t="Include" />
+        <e p="Reflection" t="Include">
+          <e p="PropertyCopy.cs" t="Include" />
+        </e>
+        <e p="StaticRandom.cs" t="Include" />
+        <e p="Text" t="Include">
+          <e p="UnicodeRange.cs" t="Include" />
+          <e p="Utf32String.cs" t="Include" />
+        </e>
+        <e p="Threading" t="Include">
+          <e p="CustomThreadPool.cs" t="Include" />
+          <e p="Delegates.cs" t="Include" />
+          <e p="LockOrderException.cs" t="Include" />
+          <e p="LockTimeoutException.cs" t="Include" />
+          <e p="LockToken.cs" t="Include" />
+          <e p="OrderedLock.cs" t="Include" />
+          <e p="SyncLock.cs" t="Include" />
+          <e p="ThreadController.cs" t="Include" />
+          <e p="ThreadPoolWorkItem.cs" t="Include" />
+        </e>
+        <e p="Xml" t="Include">
+          <e p="Linq" t="Include">
+            <e p="Extensions" t="Include">
+              <e p="ObjectExt.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="Common\Noise" t="IncludeRecursive">
+        <e p="noise.csproj" t="IncludeRecursive" />
+        <e p="openSimplexNoise.cs" t="Include" />
+        <e p="perlinNoise.cs" t="Include" />
+        <e p="simplexNoise.cs" t="Include" />
+      </e>
+      <e p="Common\oasTest" t="IncludeRecursive">
+        <e p="OasisTest.txt" t="Include" />
+        <e p="oasTest.csproj" t="IncludeRecursive" />
+        <e p="Program.cs" t="Include" />
+      </e>
+      <e p="Common\utility" t="IncludeRecursive">
+        <e p="FrExp.cs" t="Include" />
+        <e p="Histo.cs" t="Include" />
+        <e p="utility.cs" t="Include" />
+        <e p="utility.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="DesignLibs.sln" t="IncludeFlat" />
+      <e p="Eto" t="Include">
+        <e p="DynamicAero2" t="IncludeRecursive">
+          <e p="Brushes" t="Include">
+            <e p="Dark.xaml" t="Include" />
+            <e p="Light.xaml" t="Include" />
+            <e p="Material" t="Include">
+              <e p="Brushes.xaml" t="Include" />
+              <e p="DarkColors.xaml" t="Include" />
+              <e p="LightColors.xaml" t="Include" />
+            </e>
+            <e p="NormalColor.xaml" t="Include" />
+          </e>
+          <e p="DynamicAero2.csproj" t="IncludeRecursive" />
+          <e p="Replace.txt" t="Include" />
+          <e p="Styles" t="Include">
+            <e p="Button.xaml" t="Include" />
+            <e p="CheckBox.xaml" t="Include" />
+            <e p="ComboBox.xaml" t="Include" />
+            <e p="ComboBoxItem.xaml" t="Include" />
+            <e p="ContextMenu.xaml" t="Include" />
+            <e p="ContextMenu.xaml.cs" t="Include" />
+            <e p="DataGrid.xaml" t="Include" />
+            <e p="Expander.xaml" t="Include" />
+            <e p="FocusVisual.xaml" t="Include" />
+            <e p="GroupBox.xaml" t="Include" />
+            <e p="Label.xaml" t="Include" />
+            <e p="ListBox.xaml" t="Include" />
+            <e p="ListBoxItem.xaml" t="Include" />
+            <e p="Menu.xaml" t="Include" />
+            <e p="MenuItem.xaml" t="Include" />
+            <e p="ProgressBar.xaml" t="Include" />
+            <e p="RadioButton.xaml" t="Include" />
+            <e p="ScrollBar.xaml" t="Include" />
+            <e p="Slider.xaml" t="Include" />
+            <e p="StatusBar.xaml" t="Include" />
+            <e p="TabControl.xaml" t="Include" />
+            <e p="TabItem.xaml" t="Include" />
+            <e p="TextBox.xaml" t="Include" />
+            <e p="ToolBar.xaml" t="Include" />
+            <e p="ToolTip.xaml" t="Include" />
+          </e>
+          <e p="Theme.xaml" t="Include" />
+          <e p="Theme.xaml.cs" t="Include" />
+          <e p="ThemeColor.cs" t="Include" />
+        </e>
+        <e p="errorReporter" t="IncludeRecursive">
+          <e p="errorReporter.cs" t="Include" />
+          <e p="errorReporter.csproj" t="IncludeRecursive" />
+        </e>
+        <e p="Eto.VeldridSurface" t="IncludeRecursive">
+          <e p="Eto.VeldridSurface.csproj" t="IncludeRecursive" />
+          <e p="ovp_Poly.cs" t="Include" />
+          <e p="OVPSettings.cs" t="Include" />
+          <e p="VeldridDriver.cs" t="Include" />
+        </e>
+        <e p="etoViewport" t="IncludeRecursive">
+          <e p="etoViewport.csproj" t="IncludeRecursive" />
+          <e p="ovp_Poly.cs" t="Include" />
+          <e p="OVPSettings.cs" t="Include" />
+          <e p="TestViewport.cs" t="Include" />
+        </e>
+        <e p="shaders" t="Include">
+          <e p="VertexColor-fragment.450.glsl" t="Include" />
+          <e p="VertexColor-vertex.450.glsl" t="Include" />
+        </e>
+        <e p="TestEtoVeldrid" t="IncludeRecursive">
+          <e p="MainForm.cs" t="Include" />
+          <e p="MainForm.eto.cs" t="Include" />
+          <e p="TestEtoVeldrid.csproj" t="IncludeRecursive" />
+        </e>
+        <e p="TestEtoVeldrid.Gtk" t="IncludeRecursive">
+          <e p="App.config" t="Include" />
+          <e p="Program.cs" t="Include" />
+          <e p="TestEtoVeldrid.Gtk.csproj" t="IncludeRecursive" />
+        </e>
+        <e p="TestEtoVeldrid.Mac" t="IncludeRecursive">
+          <e p="App.config" t="Include" />
+          <e p="Icon.icns" t="Include" />
+          <e p="Info.plist" t="Include" />
+          <e p="Program.cs" t="Include" />
+          <e p="TestEtoVeldrid.Mac64.csproj" t="IncludeRecursive" />
+        </e>
+        <e p="TestEtoVeldrid.WinForms" t="IncludeRecursive">
+          <e p="App.config" t="Include" />
+          <e p="Program.cs" t="Include" />
+          <e p="TestEtoVeldrid.WinForms.csproj" t="IncludeRecursive" />
+        </e>
+        <e p="TestEtoVeldrid.Wpf" t="IncludeRecursive">
+          <e p="App.config" t="Include" />
+          <e p="app1.manifest" t="Include" />
+          <e p="Program.cs" t="Include" />
+          <e p="TestEtoVeldrid.Wpf.csproj" t="IncludeRecursive" />
+        </e>
+        <e p="TestEtoViewport" t="IncludeRecursive">
+          <e p="MainForm.cs" t="Include" />
+          <e p="TestEtoViewport.csproj" t="IncludeRecursive" />
+        </e>
+        <e p="TestEtoViewport.Gtk" t="IncludeRecursive">
+          <e p="App.config" t="Include" />
+          <e p="Program.cs" t="Include" />
+          <e p="TestEtoViewport.Gtk.csproj" t="IncludeRecursive" />
+        </e>
+        <e p="TestEtoViewport.Mac" t="IncludeRecursive">
+          <e p="App.config" t="Include" />
+          <e p="Icon.icns" t="Include" />
+          <e p="Info.plist" t="Include" />
+          <e p="Program.cs" t="Include" />
+          <e p="TestEtoViewport.Mac64.csproj" t="IncludeRecursive" />
+        </e>
+        <e p="TestEtoViewport.WinForms" t="IncludeRecursive">
+          <e p="App.config" t="Include" />
+          <e p="Program.cs" t="Include" />
+          <e p="TestEtoViewport.WinForms.csproj" t="IncludeRecursive" />
+        </e>
+        <e p="TestEtoViewport.Wpf" t="IncludeRecursive">
+          <e p="App.config" t="Include" />
+          <e p="app1.manifest" t="Include" />
+          <e p="Program.cs" t="Include" />
+          <e p="TestEtoViewport.Wpf.csproj" t="IncludeRecursive" />
+        </e>
+      </e>
+      <e p="geoCoreTest" t="IncludeRecursive">
+        <e p="geoCoreTest.csproj" t="IncludeRecursive" />
+        <e p="Program.cs" t="Include" />
+      </e>
+      <e p="GeoWranglerTest" t="IncludeRecursive">
+        <e p="GeoWranglerTest.csproj" t="IncludeRecursive" />
+        <e p="Program.cs" t="Include" />
+      </e>
+      <e p="HistoTest" t="IncludeRecursive">
+        <e p="HistogramExample.cs" t="Include" />
+        <e p="HistoTest.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="KeyHolerTest" t="IncludeRecursive">
+        <e p="KeyHolerTest.csproj" t="IncludeRecursive" />
+        <e p="Program.cs" t="Include" />
+      </e>
+      <e p="Libs" t="Include" />
+      <e p="nuget.config" t="Include" />
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="partitionTest" t="IncludeRecursive">
+        <e p="partitionTest.csproj" t="IncludeRecursive" />
+        <e p="Program.cs" t="Include" />
+      </e>
+      <e p="Solution Items" t="Include" />
+      <e p="Tests" t="Include" />
+    </e>
+  </component>
+</project>

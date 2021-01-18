@@ -18,4 +18,8 @@
     <DefineConstants>TRACE;GWTHREADED;GCTHREADED;GEOLIBTHREADED;NOVELDRID</DefineConstants>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Common\utility\utility.csproj" />
+  </ItemGroup>
+
 </Project>

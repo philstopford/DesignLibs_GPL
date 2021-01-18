@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "color", "Common\Color\color
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "entropyRNG", "Common\entropyRNG\entropyRNG.csproj", "{F1F90248-4928-471E-A34E-5234FC0C8957}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MersenneTwister", "Common\MersenneTwister\MersenneTwister.csproj", "{8F68FFC9-C127-4F6A-9773-8C7BDA276875}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MersenneTwister", "Common\MersenneTwister\mersenneTwister.csproj", "{8F68FFC9-C127-4F6A-9773-8C7BDA276875}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "errorReporter", "Eto\errorReporter\errorReporter.csproj", "{E3676D55-B27B-4827-B1B5-67EAF838C080}"
 EndProject

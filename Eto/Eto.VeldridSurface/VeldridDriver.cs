@@ -296,29 +296,28 @@ namespace VeldridEto
 
 		void dragHandler(object sender, MouseEventArgs e)
 		{
-			if (ovpSettings.isLocked())
+			if (!ovpSettings.isLocked())
 			{
-				return;
-			}
-			if (e.Buttons == MouseButtons.Primary)
-			{
-				PointF scaledLocation = e.Location * Surface.ParentWindow.LogicalPixelSize;
+				if (e.Buttons == MouseButtons.Primary)
+				{
+					PointF scaledLocation = e.Location * Surface.ParentWindow.LogicalPixelSize;
 
-				if (!dragging)
-				{
-					setDown(scaledLocation.X, scaledLocation.Y);
+					if (!dragging)
+					{
+						setDown(scaledLocation.X, scaledLocation.Y);
+					}
+					object locking = new object();
+					lock (locking)
+					{
+						float new_X = (ovpSettings.getCameraX() - ((scaledLocation.X - x_orig) * ovpSettings.getZoomFactor() * ovpSettings.getBaseZoom()));
+						float new_Y = (ovpSettings.getCameraY() + ((scaledLocation.Y - y_orig) * ovpSettings.getZoomFactor() * ovpSettings.getBaseZoom()));
+						ovpSettings.setCameraPos(new_X, new_Y);
+						x_orig = scaledLocation.X;
+						y_orig = scaledLocation.Y;
+					}
 				}
-				object locking = new object();
-				lock (locking)
-				{
-					float new_X = (ovpSettings.getCameraX() - ((scaledLocation.X - x_orig) * ovpSettings.getZoomFactor() * ovpSettings.getBaseZoom()));
-					float new_Y = (ovpSettings.getCameraY() + ((scaledLocation.Y - y_orig) * ovpSettings.getZoomFactor() * ovpSettings.getBaseZoom()));
-					ovpSettings.setCameraPos(new_X, new_Y);
-					x_orig = scaledLocation.X;
-					y_orig = scaledLocation.Y;
-				}
+				updateViewport();
 			}
-			updateViewport();
 			e.Handled = true;
 		}
 
@@ -443,7 +442,7 @@ namespace VeldridEto
 			{
 				dragging = false;
 			}
-			//e.Handled = true
+			e.Handled = true;
 		}
 
 		public void zoomIn(float delta)
@@ -576,22 +575,20 @@ namespace VeldridEto
 
 		void zoomHandler(object sender, MouseEventArgs e)
 		{
-			if (ovpSettings.isLocked())
+			if (!ovpSettings.isLocked())
 			{
-				return;
+				float wheelZoom = e.Delta.Height; // SystemInformation.MouseWheelScrollLines;
+				if (wheelZoom > 0)
+				{
+					zoomIn(wheelZoom);
+				}
+				if (wheelZoom < 0)
+				{
+					zoomOut(-wheelZoom);
+				}
+				updateViewport();
 			}
-
-			float wheelZoom = e.Delta.Height; // SystemInformation.MouseWheelScrollLines;
-			if (wheelZoom > 0)
-			{
-				zoomIn(wheelZoom);
-			}
-			if (wheelZoom < 0)
-			{
-				zoomOut(-wheelZoom);
-			}
-			updateViewport();
-			//e.Handled = true;
+			e.Handled = true;
 		}
 
 		void getExtents(int index)

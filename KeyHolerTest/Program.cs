@@ -70,6 +70,7 @@ namespace KeyHolerTest
             comboTest();
             simple_islandTest();
             complex_islandTest();
+            multiHoleTest();
         }
 
         static void singleTest()
@@ -665,5 +666,55 @@ namespace KeyHolerTest
 
             int x = 2;
         }
+
+        static void multiHoleTest()
+        {
+            Paths paths = new Paths();
+            Path path_1 = new Path();
+            path_1.Add(new IntPoint(50000, 0));
+            path_1.Add(new IntPoint(0, 0));
+            path_1.Add(new IntPoint(0, 155000));
+            path_1.Add(new IntPoint(50000, 155000));
+            path_1.Add(new IntPoint(50000, 0));
+            paths.Add(path_1);
+
+            Path path_2 = new Path();
+            path_2.Add(new IntPoint(35000, 135000));
+            path_2.Add(new IntPoint(35000, 150000));
+            path_2.Add(new IntPoint(5000, 150000));
+            path_2.Add(new IntPoint(5000, 135000));
+            path_2.Add(new IntPoint(35000, 135000));
+            paths.Add(path_2);
+
+            Path path_3 = new Path();
+            path_3.Add(new IntPoint(22000, 95000));
+            path_3.Add(new IntPoint(22000, 125000));
+            path_3.Add(new IntPoint(5000, 125000));
+            path_3.Add(new IntPoint(5000, 95000));
+            path_3.Add(new IntPoint(22000, 95000));
+            paths.Add(path_3);
+
+            Path path_4 = new Path();
+            path_4.Add(new IntPoint(35000, 45000));
+            path_4.Add(new IntPoint(35000, 75000));
+            path_4.Add(new IntPoint(5000, 75000));
+            path_4.Add(new IntPoint(5000, 45000));
+            path_4.Add(new IntPoint(35000, 45000));
+            paths.Add(path_4);
+
+            Path path_5 = new Path();
+            path_5.Add(new IntPoint(35000, 5000));
+            path_5.Add(new IntPoint(35000, 35000));
+            path_5.Add(new IntPoint(5000, 35000));
+            path_5.Add(new IntPoint(5000, 5000));
+            path_5.Add(new IntPoint(35000, 5000));
+            paths.Add(path_5);
+
+            // Generate keyholed geometry
+            Paths kH = GeoWrangler.makeKeyHole(paths);
+
+            int xx = 2;
+        }
+
     }
 }

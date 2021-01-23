@@ -77,11 +77,11 @@ namespace geoWrangler
             }
             try
             {
-                Paths extraCutters = new Paths();
-
+                bool outerOrient = Clipper.Orientation(outers[0]);
                 // Use raycaster to project from holes to outer, to try and find a keyhole path that is minimal length, and ideally orthogonal.
                 for (int hole = 0; hole < cutters.Count; hole++)
                 {
+                    Paths extraCutters = new Paths();
                     Path projCheck = pStripTerminators(cutters[hole], true);
                     projCheck = pStripColinear(projCheck);
                     //  Strip the terminator again to meet the requirements below.
@@ -129,6 +129,10 @@ namespace geoWrangler
 
                         extraCutters.AddRange(new Paths(sPaths));
                     }
+                    else
+                    {
+                        int xxx = 2;
+                    }
 
                     Clipper c = new Clipper();
                     c.AddPaths(cutters, PolyType.ptSubject, true);
@@ -145,7 +149,14 @@ namespace geoWrangler
                     Paths new_outers = new Paths();
                     c.Execute(ClipType.ctDifference, new_outers);//, PolyFillType.pftNonZero, PolyFillType.pftNegative);
 
-                    outers = new_outers.ToList();
+                    outers.Clear();
+                    for (int p = 0; p < new_outers.Count; p++)
+                    {
+                        if (Clipper.Orientation(new_outers[p]) == outerOrient)
+                        {
+                            outers.Add(new_outers[p]);
+                        }
+                    }
                 }
 
                 return pClockwiseAndReorder(outers);

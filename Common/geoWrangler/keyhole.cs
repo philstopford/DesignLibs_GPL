@@ -206,6 +206,11 @@ namespace geoWrangler
             return sPaths;
         }
 
+        public static Paths sliverGapRemoval(Path source, double customSizing = 0, double extension = 0, bool maySimplify = false, bool doSomething = true)
+        {
+            return pSliverGapRemoval(new Paths() { source }, customSizing, extension, maySimplify: maySimplify, doSomething: doSomething);
+        }
+
         public static Paths sliverGapRemoval(Paths source, double customSizing = 0, double extension = 0, bool maySimplify = false, bool doSomething = true)
         {
             return pSliverGapRemoval(source, customSizing, extension, maySimplify: maySimplify, doSomething: doSomething);
@@ -227,6 +232,11 @@ namespace geoWrangler
             }
 
             return ret;
+        }
+
+        public static Paths gapRemoval(Path source, double customSizing = 0, double extension = 0, bool maySimplify = false, bool doSomething = true)
+        {
+            return gapRemoval(new Paths() { source }, customSizing, extension, maySimplify, doSomething);
         }
 
         public static Paths gapRemoval(Paths source, double customSizing = 0, double extension = 0, bool maySimplify = false, bool doSomething = true)

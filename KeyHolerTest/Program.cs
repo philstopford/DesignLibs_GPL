@@ -110,10 +110,10 @@ namespace KeyHolerTest
             c.Execute(ClipType.ctDifference, sL);
 
             // Gap removal test
-            Paths gR = GeoWrangler.gapRemoval(kH, 100, doSomething: true);
+            Paths gR = GeoWrangler.gapRemoval(kH, 100);
 
             // Sliver removal test
-            Paths sR = GeoWrangler.gapRemoval(sL, -100, doSomething: true);
+            Paths sR = GeoWrangler.gapRemoval(sL, -100);
             int x = 2;
         }
 
@@ -163,10 +163,10 @@ namespace KeyHolerTest
             c.Execute(ClipType.ctDifference, sL);
 
             // Gap removal test
-            Paths gR = GeoWrangler.gapRemoval(kH, 100, doSomething: true);
+            Paths gR = GeoWrangler.gapRemoval(kH, 100);
 
             // Sliver removal test
-            Paths sR = GeoWrangler.gapRemoval(sL, -100, doSomething: true);
+            Paths sR = GeoWrangler.gapRemoval(sL, -100);
 
             int x = 2;
         }
@@ -222,8 +222,8 @@ namespace KeyHolerTest
             c.Execute(ClipType.ctDifference, sL2);
 
             // Gap removal test
-            Paths gR = GeoWrangler.gapRemoval(kH, 100, doSomething: true);
-            Paths gR2 = GeoWrangler.gapRemoval(kH2, 100, doSomething: true);
+            Paths gR = GeoWrangler.gapRemoval(kH, 100);
+            Paths gR2 = GeoWrangler.gapRemoval(kH2, 100);
 
             Paths kHSource3 = new Paths();
             kHSource3.AddRange(gR);
@@ -236,8 +236,8 @@ namespace KeyHolerTest
             Paths kH4 = GeoWrangler.makeKeyHole(new Paths(kHSource4));
 
             // Sliver removal test
-            Paths sR = GeoWrangler.gapRemoval(sL, -100, doSomething: true);
-            Paths sR2 = GeoWrangler.gapRemoval(sL2, -100, doSomething: true);
+            Paths sR = GeoWrangler.gapRemoval(sL, -100);
+            Paths sR2 = GeoWrangler.gapRemoval(sL2, -100);
 
             int x = 2;
         }
@@ -522,10 +522,10 @@ namespace KeyHolerTest
             Paths kH = GeoWrangler.makeKeyHole(kHSource);
 
             // Gap removal test
-            Paths gR = GeoWrangler.gapRemoval(kH, 100, doSomething: true);
+            Paths gR = GeoWrangler.gapRemoval(kH, 100);
 
             // Sliver removal test
-            Paths sR = GeoWrangler.gapRemoval(kH, -100, doSomething: true);
+            Paths sR = GeoWrangler.gapRemoval(kH, -100);
 
             int x = 2;
         }
@@ -578,10 +578,10 @@ namespace KeyHolerTest
             c.Execute(ClipType.ctDifference, sL);
 
             // Gap removal test
-            Paths gR = GeoWrangler.gapRemoval(kH, 100, doSomething: true);
+            Paths gR = GeoWrangler.gapRemoval(kH, 100);
 
             // Sliver removal test
-            Paths sR = GeoWrangler.gapRemoval(sL, -100, doSomething: true);
+            Paths sR = GeoWrangler.gapRemoval(sL, -100);
 
             int x = 2;
         }
@@ -659,10 +659,10 @@ namespace KeyHolerTest
             Paths kH = GeoWrangler.makeKeyHole(kHSource);
 
             // Gap removal test
-            Paths gR = GeoWrangler.gapRemoval(kH, 100, doSomething: true);
+            Paths gR = GeoWrangler.gapRemoval(kH, 100);
 
             // Sliver removal test
-            Paths sR = GeoWrangler.gapRemoval(kH, -100, doSomething: true);
+            Paths sR = GeoWrangler.gapRemoval(kH, -100);
 
             int x = 2;
         }
@@ -715,6 +715,5 @@ namespace KeyHolerTest
 
             int xx = 2;
         }
-
     }
 }

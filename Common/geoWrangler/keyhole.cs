@@ -206,24 +206,24 @@ namespace geoWrangler
             return sPaths;
         }
 
-        public static Paths sliverGapRemoval(Path source, double customSizing = 0, double extension = 0, bool maySimplify = false)
+        public static Paths sliverGapRemoval(Path source, double customSizing = 0, double extension = 0, bool maySimplify = false, bool doSomething = true)
         {
-            return pSliverGapRemoval(new Paths() { source }, customSizing, extension, maySimplify: maySimplify);
+            return pSliverGapRemoval(new Paths() { source }, customSizing, extension, maySimplify: maySimplify, doSomething: doSomething);
         }
 
-        public static Paths sliverGapRemoval(Paths source, double customSizing = 0, double extension = 0, bool maySimplify = false)
+        public static Paths sliverGapRemoval(Paths source, double customSizing = 0, double extension = 0, bool maySimplify = false, bool doSomething = true)
         {
-            return pSliverGapRemoval(source, customSizing, extension, maySimplify: maySimplify);
+            return pSliverGapRemoval(source, customSizing, extension, maySimplify: maySimplify, doSomething: doSomething);
         }
 
-        static Paths pSliverGapRemoval(Paths source, double customSizing, double extension, bool maySimplify)
+        static Paths pSliverGapRemoval(Paths source, double customSizing, double extension, bool maySimplify, bool doSomething)
         {
             if (customSizing == 0)
             {
                 customSizing = sizing;
             }
             // Remove gaps, then remove slivers. Same process, different direction for sizing.
-            Paths ret = pRemoveFragments(pRemoveFragments(source, customSizing, extension, maySimplify), -customSizing, extension, maySimplify: maySimplify);
+            Paths ret = pRemoveFragments(pRemoveFragments(source, customSizing, extension, maySimplify), -customSizing, extension, maySimplify: maySimplify, doSomething: doSomething);
 
             if (ret.Count == 0)
             {
@@ -234,12 +234,12 @@ namespace geoWrangler
             return ret;
         }
 
-        public static Paths gapRemoval(Path source, double customSizing = 0, double extension = 0, bool maySimplify = false)
+        public static Paths gapRemoval(Path source, double customSizing = 0, double extension = 0, bool maySimplify = false, bool doSomething = true)
         {
-            return gapRemoval(new Paths() { source }, customSizing, extension, maySimplify);
+            return gapRemoval(new Paths() { source }, customSizing, extension, maySimplify, doSomething);
         }
 
-        public static Paths gapRemoval(Paths source, double customSizing = 0, double extension = 0, bool maySimplify = false)
+        public static Paths gapRemoval(Paths source, double customSizing = 0, double extension = 0, bool maySimplify = false, bool doSomething = true)
         {
             if (source.Count < 1)
             {
@@ -249,7 +249,7 @@ namespace geoWrangler
             bool orig_orient_gw = GeoWrangler.isClockwise(source[0]);
             bool orig_orient_c = Clipper.Orientation(source[0]);
 
-            Paths ret = pRemoveFragments(source, customSizing, extension, maySimplify);
+            Paths ret = pRemoveFragments(source, customSizing, extension, maySimplify, doSomething: doSomething);
 
             if (ret.Count == 0)
             {
@@ -280,7 +280,7 @@ namespace geoWrangler
             return ret;
         }
 
-        public static Paths sliverRemoval(Paths source, double customSizing = 0, double extension = 0, bool maySimplify = false)
+        public static Paths sliverRemoval(Paths source, double customSizing = 0, double extension = 0, bool maySimplify = false, bool doSomething = true)
         {
             if (customSizing == 0)
             {
@@ -291,7 +291,7 @@ namespace geoWrangler
             {
                 oArea += Clipper.Area(source[i]);
             }
-            Paths ret = pRemoveFragments(source, -customSizing, extension, maySimplify: maySimplify);
+            Paths ret = pRemoveFragments(source, -customSizing, extension, maySimplify: maySimplify, doSomething: doSomething);
             double nArea = 0;
             for (int i = 0; i < ret.Count; i++)
             {
@@ -307,7 +307,7 @@ namespace geoWrangler
         }
 
         // Positive incoming value removes gaps (keyholes); negative incoming value will remove slivers.
-        static Paths pRemoveFragments(Paths source, double customSizing, double extension, bool maySimplify = false, JoinType joinType = JoinType.jtMiter)
+        static Paths pRemoveFragments(Paths source, double customSizing, double extension, bool maySimplify = false, JoinType joinType = JoinType.jtMiter, bool doSomething = true)
         {
             if (customSizing == 0)
             {
@@ -349,57 +349,64 @@ namespace geoWrangler
             return cGeometry;
         }
 
-        static Paths pRemoveFragments(Path source, double customSizing, bool maySimplify = false, JoinType joinType = JoinType.jtMiter)
+        static Paths pRemoveFragments(Path source, double customSizing, bool maySimplify = false, JoinType joinType = JoinType.jtMiter, bool doSomething = true)
         {
             Paths cGeometry = new Paths();
-
-            if (customSizing == 0)
+            if (!doSomething)
             {
-                customSizing = sizing;
-            }
-            double sourceArea = Clipper.Area(source);
-
-            ClipperOffset co = new ClipperOffset();
-            co.PreserveCollinear = !maySimplify;
-            co.AddPath(source, joinType, EndType.etClosedPolygon);
-            co.Execute(ref cGeometry, customSizing);
-            co.Clear();
-            co.AddPaths(cGeometry.ToList(), joinType, EndType.etClosedPolygon);
-            cGeometry.Clear();
-            co.Execute(ref cGeometry, -customSizing); // Size back to original dimensions
-
-            double newArea = 0;
-            for (int i = 0; i < cGeometry.Count; i++)
-            {
-                newArea += Clipper.Area(cGeometry[i]);
-            }
-
-            if (Math.Abs(newArea) < double.Epsilon)
-            {
-                // We crushed our geometry, it seems.
-                // This was probably not the plan, so send back the original geometry instead.
-                cGeometry.Clear();
                 cGeometry.Add(source);
+                return cGeometry;
             }
             else
             {
-                // Do we need to flip the direction to match the original orientation?
-                if (((sourceArea < 0) && (newArea > 0)) || ((sourceArea > 0) && (newArea < 0)))
+                if (customSizing == 0)
                 {
-                    // Multi-path handling gets interesting. The first path is assumed to be the outer. Let's compare that with the original geometry. If the orientation is different, reverse the full set.
-                    bool orientation = Clipper.Orientation(source);
-                    bool origCG0_o = Clipper.Orientation(cGeometry[0]);
-                    for (int i = 0; i < cGeometry.Count; i++)
+                    customSizing = sizing;
+                }
+                double sourceArea = Clipper.Area(source);
+
+                ClipperOffset co = new ClipperOffset();
+                co.PreserveCollinear = !maySimplify;
+                co.AddPath(source, joinType, EndType.etClosedPolygon);
+                co.Execute(ref cGeometry, customSizing);
+                co.Clear();
+                co.AddPaths(cGeometry.ToList(), joinType, EndType.etClosedPolygon);
+                cGeometry.Clear();
+                co.Execute(ref cGeometry, -customSizing); // Size back to original dimensions
+
+                double newArea = 0;
+                for (int i = 0; i < cGeometry.Count; i++)
+                {
+                    newArea += Clipper.Area(cGeometry[i]);
+                }
+
+                if (Math.Abs(newArea) < double.Epsilon)
+                {
+                    // We crushed our geometry, it seems.
+                    // This was probably not the plan, so send back the original geometry instead.
+                    cGeometry.Clear();
+                    cGeometry.Add(source);
+                }
+                else
+                {
+                    // Do we need to flip the direction to match the original orientation?
+                    if (((sourceArea < 0) && (newArea > 0)) || ((sourceArea > 0) && (newArea < 0)))
                     {
-                        if (origCG0_o != orientation)
+                        // Multi-path handling gets interesting. The first path is assumed to be the outer. Let's compare that with the original geometry. If the orientation is different, reverse the full set.
+                        bool orientation = Clipper.Orientation(source);
+                        bool origCG0_o = Clipper.Orientation(cGeometry[0]);
+                        for (int i = 0; i < cGeometry.Count; i++)
                         {
-                            cGeometry[i].Reverse();
+                            if (origCG0_o != orientation)
+                            {
+                                cGeometry[i].Reverse();
+                            }
                         }
                     }
                 }
-            }
 
-            return cGeometry;
+                return cGeometry;
+            }
         }
     }
 }

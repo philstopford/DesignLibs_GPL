@@ -1061,7 +1061,7 @@ namespace geoWrangler
             Paths solution = new Paths();
             c.Execute(ClipType.ctUnion, solution);
 
-            Paths keyHoled = pMakeKeyHole(solution);
+            Paths keyHoled = pMakeKeyHole(solution, customSizing: 2, extension: 1.0);
 
             return pPointFsFromPaths(pClockwiseAndReorder(keyHoled), scaling);
         }

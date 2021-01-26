@@ -1049,11 +1049,11 @@ namespace geoWrangler
             }
         }
 
-        public static List<GeoLibPointF[]> clean_and_flatten(List<GeoLibPointF[]> source, long scaling)
+        public static List<GeoLibPointF[]> clean_and_flatten(List<GeoLibPointF[]> source, long scaling, double customSizing = 0, double extension = 0)
         {
-            return pClean_and_flatten(source, scaling);
+            return pClean_and_flatten(source, scaling, customSizing, extension);
         }
-        static List<GeoLibPointF[]> pClean_and_flatten(List<GeoLibPointF[]> source, long scaling)
+        static List<GeoLibPointF[]> pClean_and_flatten(List<GeoLibPointF[]> source, long scaling, double customSizing = 0, double extension = 0)
         {
             Paths sourcePaths = pPathsFromPointFs(source, scaling);
             Clipper c = new Clipper();
@@ -1061,7 +1061,7 @@ namespace geoWrangler
             Paths solution = new Paths();
             c.Execute(ClipType.ctUnion, solution);
 
-            Paths keyHoled = pMakeKeyHole(solution, customSizing: 2, extension: 1.0);
+            Paths keyHoled = pMakeKeyHole(solution, customSizing: customSizing, extension: extension);
 
             return pPointFsFromPaths(pClockwiseAndReorder(keyHoled), scaling);
         }

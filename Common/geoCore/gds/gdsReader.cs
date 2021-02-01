@@ -337,6 +337,15 @@ namespace gds
                             }
                             break;
                         case 17: //ENDEL
+                            // Looks like some cases, we don't register the associated LD (e.g. layers with only text). Workaround for now until cause is understood.
+                            try
+                            {
+                                layerNames.Add("L" + modal.layer.ToString() + "D" + modal.datatype.ToString(), "L" + modal.layer.ToString() + "D" + modal.datatype.ToString());
+                            }
+                            catch (Exception)
+                            {
+
+                            }
                             switch (modal.elementmode)
                             {
                                 case 100:

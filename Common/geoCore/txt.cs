@@ -37,7 +37,7 @@ namespace geoCoreLib
             datatype_nr = d;
             trans = new GCStrans();
             presentation = 0;
-            width = -10;
+            width = 10;
         }
 
         public override void minimum(GeoLibPoint pos)
@@ -135,6 +135,18 @@ namespace geoCoreLib
         void pRotate(double angle)
         {
             trans.rotate(-angle);
+        }
+
+        public override void resize(double factor)
+        {
+            pResize(factor);
+        }
+
+        void pResize(double factor)
+        {
+            point.X = (Int32)(point.X * factor);
+            point.Y = (Int32)(point.Y * factor);
+            width = (Int32)(width * factor);
         }
 
         public override void scale(double scale)

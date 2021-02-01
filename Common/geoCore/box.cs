@@ -113,8 +113,8 @@ namespace geoCoreLib
         void pResize(double size)
         {
             rect = new GeoLibRectangle(
-                    rect.X,
-                    rect.Y,
+                    (Int32)(rect.X * size),
+                    (Int32)(rect.Y * size),
                     (Int32)(rect.Width * size),
                     (Int32)(rect.Height * size)
                 );

@@ -609,55 +609,6 @@ namespace geoCoreLib
             }
 
             return false;
-
-            long x, y;
-            x = 0; y = 0;
-            for (int i = 1; i < pointarray.Length; i++)
-            {
-                x += pointarray[i].X;
-                y += pointarray[i].Y;
-            }
-            x = round((double)x / (pointarray.Length - 1));
-            y = round((double)y / (pointarray.Length - 1));
-            GeoLibPoint pc = new GeoLibPoint(x, y);
-            double d = distance(pc, pointarray[1]);
-            double sum = d;
-            double min = d;
-            double max = d;
-            int offset = (int)(0.02 * distance(pc, pointarray[0])) + 10;
-            for (int i = 2; i < pointarray.Length; i++)
-            {
-                double d1 = distance(pc, pointarray[i]);
-                sum += d1;
-                if (d1 > max)
-                {
-                    max = d1;
-                    if (max > d + offset)
-                    {
-                        return false;
-                    }
-                }
-                if (d1 < min)
-                {
-                    min = d1;
-                    if (min < d - offset)
-                    {
-                        return false;
-                    }
-                }
-            }
-            p = pc;
-            radius = round(sum / (pointarray.Length - 1));
-            offset = (int)(0.001 * radius + 3);
-            if (radius < round(max - offset))
-            {
-                return false;
-            }
-            if (radius > round(min + offset))
-            {
-                return false;
-            }
-            return true;
         }
 
         void pSaveOASIS(oasWriter ow)

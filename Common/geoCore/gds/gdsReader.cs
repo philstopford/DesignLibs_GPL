@@ -308,7 +308,7 @@ namespace gds
                             modal.datatype = br.ReadInt16();
                             try
                             {
-                                layerNames.Add("L" + modal.layer.ToString() + "D" + modal.datatype.ToString(), "L" + modal.layer.ToString() + "D" + modal.datatype.ToString());
+                                layerNames.Add("L" + modal.layer + "D" + modal.datatype, "L" + modal.layer + "D" + modal.datatype);
                             }
                             catch (Exception)
                             {
@@ -340,7 +340,7 @@ namespace gds
                             // Looks like some cases, we don't register the associated LD (e.g. layers with only text). Workaround for now until cause is understood.
                             try
                             {
-                                layerNames.Add("L" + modal.layer.ToString() + "D" + modal.datatype.ToString(), "L" + modal.layer.ToString() + "D" + modal.datatype.ToString());
+                                layerNames.Add("L" + modal.layer + "D" + modal.datatype, "L" + modal.layer + "D" + modal.datatype);
                             }
                             catch (Exception)
                             {

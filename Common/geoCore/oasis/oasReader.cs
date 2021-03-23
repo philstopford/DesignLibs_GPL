@@ -214,13 +214,13 @@ namespace oasis
                 {
                     if (cellNameCount > cellNames.Length)
                     {
-                        string err = "More cells (" + cellNameCount.ToString() + ") than are able to be supported (" + cellNames.Length.ToString() + ")!";
+                        string err = "More cells (" + cellNameCount + ") than are able to be supported (" + cellNames.Length + ")!";
                         error_msgs.Add(err);
                         throw new Exception(err);
                     }
                     if (textNameCount > textNames.Length)
                     {
-                        string err = "More text names (" + textNameCount.ToString() + ") than are able to be supported (" + textNames.Length.ToString() + ")!";
+                        string err = "More text names (" + textNameCount + ") than are able to be supported (" + textNames.Length + ")!";
                         error_msgs.Add(err);
                         throw new Exception(err);
                     }
@@ -341,7 +341,7 @@ namespace oasis
                             };
                             try
                             {
-                                layerNames.Add("L" + l.ToString() + "D" + i.ToString(), s);
+                                layerNames.Add("L" + l + "D" + i, s);
                             }
                             catch (Exception)
                             {
@@ -352,7 +352,7 @@ namespace oasis
                             i = readUnsignedInteger();
                             if (cellNames[i] == "")
                             {
-                                cellNames[i] = "layout#cell~" + i.ToString();
+                                cellNames[i] = "layout#cell~" + i;
                             }
                             cell_.cellName = cellNames[i];
                             resetModal();
@@ -380,7 +380,7 @@ namespace oasis
                                     i = readUnsignedInteger();
                                     if (cellNames[i] == "")
                                     {
-                                        cellNames[i] = "layout#cell~" + i.ToString();
+                                        cellNames[i] = "layout#cell~" + i;
                                     }
                                     modal.placement_cell = cellNames[i];
                                 }
@@ -443,7 +443,7 @@ namespace oasis
                                     i = readUnsignedInteger();
                                     if (cellNames[i] == "")
                                     {
-                                        cellNames[i] = "layout#cell~" + i.ToString();
+                                        cellNames[i] = "layout#cell~" + i;
                                     }
                                     modal.placement_cell = cellNames[i];
                                 }
@@ -499,7 +499,7 @@ namespace oasis
                                     i = readUnsignedInteger();
                                     if (textNames[i] == "")
                                     {
-                                        textNames[i] = "layout#text~" + i.ToString();
+                                        textNames[i] = "layout#text~" + i;
                                     }
                                     modal.text_string = textNames[i];
                                 }
@@ -1007,7 +1007,7 @@ namespace oasis
                             zLibInit(after, before);
                             break;
                         default:
-                            string err = "Unknown/unsupported Record." + record.ToString();
+                            string err = "Unknown/unsupported Record." + record;
                             error_msgs.Add(err);
                             throw new Exception(err);
                     }

@@ -79,6 +79,9 @@
         <e p="Windows\partitionTest\Debug\net5.0" t="Include">
           <e p="partitionTest.AssemblyInfo.cs" t="Include" />
         </e>
+        <e p="Windows\PartitionTestGeometrySource\Debug\net5.0" t="Include">
+          <e p="PartitionTestGeometrySource.AssemblyInfo.cs" t="Include" />
+        </e>
         <e p="Windows\TestEtoVeldrid\Debug\net5.0" t="Include">
           <e p="TestEtoVeldrid.AssemblyInfo.cs" t="Include" />
         </e>
@@ -670,9 +673,11 @@
       <e p="Eto" t="Include">
         <e p="DynamicAero2" t="IncludeRecursive">
           <e p="Brushes" t="Include">
+            <e p="Black.xaml" t="Include" />
             <e p="Dark.xaml" t="Include" />
             <e p="Light.xaml" t="Include" />
             <e p="Material" t="Include">
+              <e p="BlackColors.xaml" t="Include" />
               <e p="Brushes.xaml" t="Include" />
               <e p="DarkColors.xaml" t="Include" />
               <e p="LightColors.xaml" t="Include" />
@@ -812,6 +817,11 @@
         <e p="Program.cs" t="Include" />
       </e>
       <e p="Solution Items" t="Include" />
+      <e p="TestGeometrySource" t="IncludeRecursive">
+        <e p="basic.cs" t="Include" />
+        <e p="complex.cs" t="Include" />
+        <e p="PartitionTestGeometrySource.csproj" t="IncludeRecursive" />
+      </e>
       <e p="Tests" t="Include" />
     </e>
   </component>

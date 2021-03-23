@@ -459,7 +459,7 @@ namespace geoCoreLib
             pActiveStructure_LDList.Clear();
             for (int ld = 0; ld < structure_LayerDataTypeList[activeStructure].Count; ld++)
             {
-                pActiveStructure_LDList.Add(structure_LayerDataTypeList[activeStructure][ld].ToString());
+                pActiveStructure_LDList.Add(structure_LayerDataTypeList[activeStructure][ld]);
             }
         }
 
@@ -552,7 +552,7 @@ namespace geoCoreLib
 
                         // See if our layer/datatype combination is known to us already.
 
-                        string searchString = "L" + layer.ToString() + "D" + datatype.ToString();
+                        string searchString = "L" + layer + "D" + datatype;
 
                         if (searchString == "L-1D-1")
                         {
@@ -637,7 +637,7 @@ namespace geoCoreLib
                 isText.Add(p.isText());
                 names.Add(p.getName());
 
-                string ldString = "L" + p.layer_nr.ToString() + "D" + p.datatype_nr.ToString();
+                string ldString = "L" + p.layer_nr + "D" + p.datatype_nr;
                 if (ldString == "L-1D-1")
                 {
                     int xx = 2;
@@ -761,7 +761,7 @@ namespace geoCoreLib
 
             // See if our layer/datatype combination is known to us already.
 
-            string crSearchString = "L" + crLayer.ToString() + "D" + crDatatype.ToString();
+            string crSearchString = "L" + crLayer + "D" + crDatatype;
 
             if (crSearchString == "L-1D-1")
             {
@@ -806,7 +806,7 @@ namespace geoCoreLib
                     crP.rotate(angle, point);
                     crP.scale(point, mag);
 
-                    string ldString = "L" + crP.layer_nr.ToString() + "D" + crP.datatype_nr.ToString();
+                    string ldString = "L" + crP.layer_nr + "D" + crP.datatype_nr;
 
                     // We should remove identical polygons here in case of doubled-up input geometry.
                     string crP_Hash = utility.Utils.GetMD5Hash(crP.pointarray);

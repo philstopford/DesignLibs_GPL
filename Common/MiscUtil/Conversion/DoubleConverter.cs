@@ -117,7 +117,7 @@ namespace MiscUtil.Conversion
 
             // Finally, return the string with an appropriate sign
             if (r.negative)
-                return "-" + ad.ToString();
+                return "-" + ad;
             else
                 return ad.ToString();
         }

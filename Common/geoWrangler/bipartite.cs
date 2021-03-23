@@ -1,10 +1,4 @@
-﻿using geoLib;
-using ClipperLib;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace geoWrangler
+﻿namespace geoWrangler
 {
 	// Experimental - not really used for anything at the moment, but it might be useful in the future.
 

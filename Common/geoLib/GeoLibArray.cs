@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace geoLib
+﻿namespace geoLib
 {
     public class GeoLibArray
     {

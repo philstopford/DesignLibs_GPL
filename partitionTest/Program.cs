@@ -75,51 +75,53 @@ namespace partitionTest
 
             int rayLength = 1000;
 
-            List<GeoLibPoint[]> l = GeoWrangler.rectangular_decomposition(L, maxRayLength: rayLength);
+            bool abort = false;
+
+            List<GeoLibPoint[]> l = GeoWrangler.rectangular_decomposition(ref abort, L, maxRayLength: rayLength);
 
             writeToLayout("l", L, l);
 
-            List<GeoLibPoint[]> lccw = GeoWrangler.rectangular_decomposition(L_ccw, maxRayLength: rayLength);
+            List<GeoLibPoint[]> lccw = GeoWrangler.rectangular_decomposition(ref abort, L_ccw, maxRayLength: rayLength);
 
             writeToLayout("lccw", L_ccw, lccw);
 
-            List<GeoLibPoint[]> rl = GeoWrangler.rectangular_decomposition(rL, maxRayLength: rayLength);
+            List<GeoLibPoint[]> rl = GeoWrangler.rectangular_decomposition(ref abort, rL, maxRayLength: rayLength);
 
             writeToLayout("rl", rL, rl);
 
-            List<GeoLibPoint[]> u = GeoWrangler.rectangular_decomposition(U, maxRayLength: rayLength);
+            List<GeoLibPoint[]> u = GeoWrangler.rectangular_decomposition(ref abort, U, maxRayLength: rayLength);
 
             writeToLayout("u", U, u);
 
-            List<GeoLibPoint[]> t = GeoWrangler.rectangular_decomposition(T, maxRayLength: rayLength);
+            List<GeoLibPoint[]> t = GeoWrangler.rectangular_decomposition(ref abort, T, maxRayLength: rayLength);
 
             writeToLayout("t", T, t);
 
-            List<GeoLibPoint[]> x = GeoWrangler.rectangular_decomposition(X, maxRayLength: rayLength);
+            List<GeoLibPoint[]> x = GeoWrangler.rectangular_decomposition(ref abort, X, maxRayLength: rayLength);
 
             writeToLayout("x", X, x);
 
-            List<GeoLibPoint[]> s = GeoWrangler.rectangular_decomposition(S, maxRayLength: rayLength);
+            List<GeoLibPoint[]> s = GeoWrangler.rectangular_decomposition(ref abort, S, maxRayLength: rayLength);
 
             writeToLayout("s", S, s);
 
-            List<GeoLibPoint[]> ns = GeoWrangler.rectangular_decomposition(nS, maxRayLength: rayLength);
+            List<GeoLibPoint[]> ns = GeoWrangler.rectangular_decomposition(ref abort, nS, maxRayLength: rayLength);
 
             writeToLayout("ns", nS, ns);
 
-            List<GeoLibPoint[]> c1 = GeoWrangler.rectangular_decomposition(C1, maxRayLength: rayLength);
+            List<GeoLibPoint[]> c1 = GeoWrangler.rectangular_decomposition(ref abort, C1, maxRayLength: rayLength);
 
             writeToLayout("c1", C1, c1);
 
-            List<GeoLibPoint[]> c2 = GeoWrangler.rectangular_decomposition(C2, maxRayLength: rayLength);
+            List<GeoLibPoint[]> c2 = GeoWrangler.rectangular_decomposition(ref abort, C2, maxRayLength: rayLength);
 
             writeToLayout("c2", C2, c2);
 
-            List<GeoLibPoint[]> c3 = GeoWrangler.rectangular_decomposition(C3, maxRayLength: rayLength);
+            List<GeoLibPoint[]> c3 = GeoWrangler.rectangular_decomposition(ref abort, C3, maxRayLength: rayLength);
 
             writeToLayout("c3", C3, c3);
 
-            List<GeoLibPoint[]> s1 = GeoWrangler.rectangular_decomposition(S1, maxRayLength: rayLength);
+            List<GeoLibPoint[]> s1 = GeoWrangler.rectangular_decomposition(ref abort, S1, maxRayLength: rayLength);
 
             writeToLayout("s1", S1, s1);
         }
@@ -2356,9 +2358,11 @@ namespace partitionTest
             sw.Stop();
             Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 
+            bool abort = false;
+            
             Console.WriteLine("  Decomposition (vertical)....");
             sw.Restart();
-            List<GeoLibPoint[]> ns = GeoWrangler.rectangular_decomposition(done, maxRayLength: rayLength);
+            List<GeoLibPoint[]> ns = GeoWrangler.rectangular_decomposition(ref abort, done, maxRayLength: rayLength);
             sw.Stop();
             Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 
@@ -2367,7 +2371,7 @@ namespace partitionTest
 
             Console.WriteLine("  Decomposition (horizontal)....");
             sw.Restart();
-            ns = GeoWrangler.rectangular_decomposition(done, maxRayLength: rayLength, vertical: false);
+            ns = GeoWrangler.rectangular_decomposition(ref abort, done, maxRayLength: rayLength, vertical: false);
             sw.Stop();
             Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 
@@ -2406,6 +2410,7 @@ namespace partitionTest
             System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
 
             bool vertical = true;
+            bool abort = false;
 
             Console.WriteLine("  Keyhole....");
             // Give the keyholder a whirl:
@@ -2423,7 +2428,7 @@ namespace partitionTest
 
             Console.WriteLine("  Decomposition (vertical)....");
             sw.Restart();
-            List<GeoLibPoint[]> decompOut = GeoWrangler.rectangular_decomposition(toDecomp, scaling: 2, maxRayLength: (Int64)Math.Max(Math.Abs(dist.X), Math.Abs(dist.Y)) * 1, vertical: vertical);
+            List<GeoLibPoint[]> decompOut = GeoWrangler.rectangular_decomposition(ref abort, toDecomp, scaling: 2, maxRayLength: (Int64)Math.Max(Math.Abs(dist.X), Math.Abs(dist.Y)) * 1, vertical: vertical);
             sw.Stop();
             Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 
@@ -2432,7 +2437,7 @@ namespace partitionTest
 
             Console.WriteLine("  Decomposition (horizontal)....");
             sw.Restart();
-            decompOut = GeoWrangler.rectangular_decomposition(toDecomp, scaling: 2, maxRayLength: (Int64)Math.Max(Math.Abs(dist.X), Math.Abs(dist.Y)) * 1, vertical: !vertical);
+            decompOut = GeoWrangler.rectangular_decomposition(ref abort, toDecomp, scaling: 2, maxRayLength: (Int64)Math.Max(Math.Abs(dist.X), Math.Abs(dist.Y)) * 1, vertical: !vertical);
             sw.Stop();
             Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 

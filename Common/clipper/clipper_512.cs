@@ -252,7 +252,7 @@ namespace ClipperLib
             return !(val1 == val2);
         }
 
-        public override bool Equals(System.Object obj)
+        public override bool Equals(Object obj)
         {
             if (obj == null || !(obj is Int128))
                 return false;
@@ -754,10 +754,10 @@ namespace ClipperLib
             for (; ; )
             {
                 while (E.Bot != E.Prev.Bot || E.Curr == E.Top) E = E.Next;
-                if (E.Dx != horizontal && E.Prev.Dx != horizontal) break;
-                while (E.Prev.Dx == horizontal) E = E.Prev;
+                if (Math.Abs(E.Dx - horizontal) > Double.Epsilon && Math.Abs(E.Prev.Dx - horizontal) > Double.Epsilon) break;
+                while (Math.Abs(E.Prev.Dx - horizontal) < Double.Epsilon) E = E.Prev;
                 E2 = E;
-                while (E.Dx == horizontal) E = E.Next;
+                while (Math.Abs(E.Dx - horizontal) < Double.Epsilon) E = E.Next;
                 if (E.Top.Y == E.Prev.Bot.Y) continue; //ie just an intermediate horz.
                 if (E2.Prev.Bot.X < E.Bot.X) E = E2;
                 break;
@@ -779,12 +779,12 @@ namespace ClipperLib
                 if (LeftBoundIsForward)
                 {
                     while (E.Top.Y == E.Next.Bot.Y) E = E.Next;
-                    while (E != Result && E.Dx == horizontal) E = E.Prev;
+                    while (E != Result && Math.Abs(E.Dx - horizontal) < Double.Epsilon) E = E.Prev;
                 }
                 else
                 {
                     while (E.Top.Y == E.Prev.Bot.Y) E = E.Prev;
-                    while (E != Result && E.Dx == horizontal) E = E.Next;
+                    while (E != Result && Math.Abs(E.Dx - horizontal) < Double.Epsilon) E = E.Next;
                 }
                 if (E == Result)
                 {
@@ -810,14 +810,14 @@ namespace ClipperLib
                 return Result;
             }
 
-            if (E.Dx == horizontal)
+            if (Math.Abs(E.Dx - horizontal) < Double.Epsilon)
             {
                 //We need to be careful with open paths because this may not be a
                 //true local minima (ie E may be following a skip edge).
                 //Also, consecutive horz. edges may start heading left before going right.
                 if (LeftBoundIsForward) EStart = E.Prev;
                 else EStart = E.Next;
-                if (EStart.Dx == horizontal) //ie an adjoining horizontal skip edge
+                if (Math.Abs(EStart.Dx - horizontal) < Double.Epsilon) //ie an adjoining horizontal skip edge
                 {
                     if (EStart.Bot.X != E.Bot.X && EStart.Top.X != E.Bot.X)
                         ReverseHorizontal(E);
@@ -831,23 +831,23 @@ namespace ClipperLib
             {
                 while (Result.Top.Y == Result.Next.Bot.Y && Result.Next.OutIdx != Skip)
                     Result = Result.Next;
-                if (Result.Dx == horizontal && Result.Next.OutIdx != Skip)
+                if (Math.Abs(Result.Dx - horizontal) < Double.Epsilon && Result.Next.OutIdx != Skip)
                 {
                     //nb: at the top of a bound, horizontals are added to the bound
                     //only when the preceding edge attaches to the horizontal's left vertex
                     //unless a Skip edge is encountered when that becomes the top divide
                     Horz = Result;
-                    while (Horz.Prev.Dx == horizontal) Horz = Horz.Prev;
+                    while (Math.Abs(Horz.Prev.Dx - horizontal) < Double.Epsilon) Horz = Horz.Prev;
                     if (Horz.Prev.Top.X > Result.Next.Top.X) Result = Horz.Prev;
                 }
                 while (E != Result)
                 {
                     E.NextInLML = E.Next;
-                    if (E.Dx == horizontal && E != EStart && E.Bot.X != E.Prev.Top.X)
+                    if (Math.Abs(E.Dx - horizontal) < Double.Epsilon && E != EStart && E.Bot.X != E.Prev.Top.X)
                         ReverseHorizontal(E);
                     E = E.Next;
                 }
-                if (E.Dx == horizontal && E != EStart && E.Bot.X != E.Prev.Top.X)
+                if (Math.Abs(E.Dx - horizontal) < Double.Epsilon && E != EStart && E.Bot.X != E.Prev.Top.X)
                     ReverseHorizontal(E);
                 Result = Result.Next; //move to the edge just beyond current bound
             }
@@ -855,10 +855,10 @@ namespace ClipperLib
             {
                 while (Result.Top.Y == Result.Prev.Bot.Y && Result.Prev.OutIdx != Skip)
                     Result = Result.Prev;
-                if (Result.Dx == horizontal && Result.Prev.OutIdx != Skip)
+                if (Math.Abs(Result.Dx - horizontal) < Double.Epsilon && Result.Prev.OutIdx != Skip)
                 {
                     Horz = Result;
-                    while (Horz.Next.Dx == horizontal) Horz = Horz.Next;
+                    while (Math.Abs(Horz.Next.Dx - horizontal) < Double.Epsilon) Horz = Horz.Next;
                     if (Horz.Next.Top.X == Result.Prev.Top.X ||
                         Horz.Next.Top.X > Result.Prev.Top.X) Result = Horz.Next;
                 }
@@ -866,11 +866,11 @@ namespace ClipperLib
                 while (E != Result)
                 {
                     E.NextInLML = E.Prev;
-                    if (E.Dx == horizontal && E != EStart && E.Bot.X != E.Next.Top.X)
+                    if (Math.Abs(E.Dx - horizontal) < Double.Epsilon && E != EStart && E.Bot.X != E.Next.Top.X)
                         ReverseHorizontal(E);
                     E = E.Prev;
                 }
-                if (E.Dx == horizontal && E != EStart && E.Bot.X != E.Next.Top.X)
+                if (Math.Abs(E.Dx - horizontal) < Double.Epsilon && E != EStart && E.Bot.X != E.Next.Top.X)
                     ReverseHorizontal(E);
                 Result = Result.Prev; //move to the edge just beyond current bound
             }
@@ -1380,7 +1380,7 @@ namespace ClipperLib
           IntPoint bot2, IntPoint top2, ref IntPoint pt);
         public ZFillCallback ZFillFunction { get; set; }
 #endif
-        public Clipper(int InitOptions = 0) : base() //constructor
+        public Clipper(int InitOptions = 0) //constructor
         {
             m_Scanbeam = null;
             m_Maxima = null;
@@ -2263,8 +2263,8 @@ namespace ClipperLib
             while ((p.Pt == btmPt2.Pt) && (p != btmPt2)) p = p.Next;
             double dx2n = Math.Abs(GetDx(btmPt2.Pt, p.Pt));
 
-            if (Math.Max(dx1p, dx1n) == Math.Max(dx2p, dx2n) &&
-              Math.Min(dx1p, dx1n) == Math.Min(dx2p, dx2n))
+            if (Math.Abs(Math.Max(dx1p, dx1n) - Math.Max(dx2p, dx2n)) < Double.Epsilon &&
+              Math.Abs(Math.Min(dx1p, dx1n) - Math.Min(dx2p, dx2n)) < Double.Epsilon)
                 return Area(btmPt1) > 0; //if otherwise identical use orientation
             else
                 return (dx1p >= dx2p && dx1p >= dx2n) || (dx1n >= dx2p && dx1n >= dx2n);
@@ -2679,22 +2679,7 @@ namespace ClipperLib
                     SwapSides(e1, e2);
             }
         }
-        //------------------------------------------------------------------------------
 
-        private void DeleteFromSEL(TEdge e)
-        {
-            TEdge SelPrev = e.PrevInSEL;
-            TEdge SelNext = e.NextInSEL;
-            if (SelPrev == null && SelNext == null && (e != m_SortedEdges))
-                return; //already deleted
-            if (SelPrev != null)
-                SelPrev.NextInSEL = SelNext;
-            else m_SortedEdges = SelNext;
-            if (SelNext != null)
-                SelNext.PrevInSEL = SelPrev;
-            e.NextInSEL = null;
-            e.PrevInSEL = null;
-        }
         //------------------------------------------------------------------------------
 
         private void ProcessHorizontals()
@@ -2786,7 +2771,7 @@ namespace ClipperLib
                                 currMax = currMax.Prev;
                             }
                         }
-                    };
+                    }
 
                     if ((dir == Direction.dLeftToRight && e.Curr.X > horzRight) ||
                       (dir == Direction.dRightToLeft && e.Curr.X < horzLeft)) break;
@@ -2915,23 +2900,18 @@ namespace ClipperLib
         {
             return Direction == Direction.dLeftToRight ? e.NextInAEL : e.PrevInAEL;
         }
-        //------------------------------------------------------------------------------
 
-        private bool IsMinima(TEdge e)
-        {
-            return e != null && (e.Prev.NextInLML != e) && (e.Next.NextInLML != e);
-        }
         //------------------------------------------------------------------------------
 
         private bool IsMaxima(TEdge e, double Y)
         {
-            return (e != null && e.Top.Y == Y && e.NextInLML == null);
+            return (e != null && Math.Abs(e.Top.Y - Y) < Double.Epsilon && e.NextInLML == null);
         }
         //------------------------------------------------------------------------------
 
         private bool IsIntermediate(TEdge e, double Y)
         {
-            return (e.Top.Y == Y && e.NextInLML != null);
+            return (Math.Abs(e.Top.Y - Y) < Double.Epsilon && e.NextInLML != null);
         }
         //------------------------------------------------------------------------------
 
@@ -3033,14 +3013,7 @@ namespace ClipperLib
             return (inode.Edge1.NextInSEL == inode.Edge2) ||
               (inode.Edge1.PrevInSEL == inode.Edge2);
         }
-        //------------------------------------------------------------------------------
 
-        private static int IntersectNodeSort(IntersectNode node1, IntersectNode node2)
-        {
-            //the following typecast is safe because the differences in Pt.Y will
-            //be limited to the height of the scanbeam.
-            return (int)(node2.Pt.Y - node1.Pt.Y);
-        }
         //------------------------------------------------------------------------------
 
         private bool FixupIntersectionOrder()
@@ -3105,7 +3078,7 @@ namespace ClipperLib
             double b1, b2;
             //nb: with very large coordinate values, it's possible for SlopesEqual() to 
             //return false but for the edge.Dx value be equal due to double precision rounding.
-            if (edge1.Dx == edge2.Dx)
+            if (Math.Abs(edge1.Dx - edge2.Dx) < Double.Epsilon)
             {
                 ip.Y = edge1.Curr.Y;
                 ip.X = TopX(edge1, ip.Y);
@@ -3410,9 +3383,8 @@ namespace ClipperLib
 
             //fixup PolyNode links etc ...
             polytree.m_Childs.Capacity = m_PolyOuts.Count;
-            for (int i = 0; i < m_PolyOuts.Count; i++)
+            foreach (var outRec in m_PolyOuts)
             {
-                OutRec outRec = m_PolyOuts[i];
                 if (outRec.PolyNode == null) continue;
                 else if (outRec.IsOpen)
                 {
@@ -3420,7 +3392,7 @@ namespace ClipperLib
                     polytree.AddChild(outRec.PolyNode);
                 }
                 else if (outRec.FirstLeft != null &&
-                  outRec.FirstLeft.PolyNode != null)
+                         outRec.FirstLeft.PolyNode != null)
                     outRec.FirstLeft.PolyNode.AddChild(outRec.PolyNode);
                 else
                     polytree.AddChild(outRec.PolyNode);
@@ -3578,7 +3550,7 @@ namespace ClipperLib
                     op2 = op2b;
                     op2.Pt = Pt;
                     op2b = DupOutPt(op2, !DiscardLeft);
-                };
+                }
             }
             else
             {
@@ -3592,8 +3564,8 @@ namespace ClipperLib
                     op2 = op2b;
                     op2.Pt = Pt;
                     op2b = DupOutPt(op2, DiscardLeft);
-                };
-            };
+                }
+            }
 
             if ((Dir1 == Direction.dLeftToRight) == DiscardLeft)
             {
@@ -3731,7 +3703,7 @@ namespace ClipperLib
                     while ((op1b.Pt == op1.Pt) && (op1b != op1)) op1b = op1b.Prev;
                     if ((op1b.Pt.Y > op1.Pt.Y) ||
                       !SlopesEqual(op1.Pt, op1b.Pt, j.OffPt, m_UseFullRange)) return false;
-                };
+                }
                 op2b = op2.Next;
                 while ((op2b.Pt == op2.Pt) && (op2b != op2)) op2b = op2b.Next;
                 bool Reverse2 = ((op2b.Pt.Y > op2.Pt.Y) ||
@@ -4169,14 +4141,7 @@ namespace ClipperLib
             c.Execute(ClipType.ctUnion, result, fillType, fillType);
             return result;
         }
-        //------------------------------------------------------------------------------
 
-        private static double DistanceSqrd(IntPoint pt1, IntPoint pt2)
-        {
-            double dx = ((double)pt1.X - pt2.X);
-            double dy = ((double)pt1.Y - pt2.Y);
-            return (dx * dx + dy * dy);
-        }
         //------------------------------------------------------------------------------
 
         private static double DistanceFromLineSqrd(IntPoint pt, IntPoint ln1, IntPoint ln2)
@@ -4295,7 +4260,7 @@ namespace ClipperLib
                 result.Add(op.Pt);
                 op = op.Next;
             }
-            outPts = null;
+
             return result;
         }
         //------------------------------------------------------------------------------
@@ -4417,7 +4382,6 @@ namespace ClipperLib
             {
                 case NodeType.ntOpen: return;
                 case NodeType.ntClosed: match = !polynode.IsOpen; break;
-                default: break;
             }
 
             if (polynode.m_polygon.Count > 0 && match)
@@ -4751,7 +4715,6 @@ namespace ClipperLib
                     }
                     else
                     {
-                        k = 1;
                         m_sinA = 0;
                         if (node.m_endtype == EndType.etOpenSquare)
                             DoSquare(0, 1);

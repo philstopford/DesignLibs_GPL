@@ -55,7 +55,7 @@
         public double DistanceToRectangle(double[] point, double[] min, double[] max)
         {
             double fSum = 0;
-            double fDifference = 0;
+            double fDifference;
             for (int i = 0; i < point.Length; ++i)
             {
                 fDifference = 0;

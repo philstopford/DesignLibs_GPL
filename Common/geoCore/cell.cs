@@ -4,7 +4,6 @@ using oasis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace geoCoreLib
 {
@@ -141,13 +140,11 @@ namespace geoCoreLib
             {
                 e = new GCBox(x1, y1, (x2 - x1) + 1, (y2 - y1) + 1, layer, datatype);
                 pAddElement(e);
-                return;
             }
             else
             {
                 e = new GCPolygon(points, layer, datatype);
                 pAddElement(e);
-                return;
             }
         }
 
@@ -635,110 +632,7 @@ namespace geoCoreLib
             );
 #endif
         }
-
-        public void flatSelect()
-        {
-            pFlatSelect();
-        }
-
-        void pFlatSelect()
-        {
-            List<GCElement> e = null;
-            List<GCElement> a = null;
-            List<GCElement> c = null;
-            a = null;
-            for (int f = 0; f < elementList.Count; f++)
-            {
-                if (elementList[f] != null)
-                {
-                    e = elementList[f].flatSelect();
-                    if (e != null)
-                    {
-                        c.AddRange(a.ToList());
-                        a = e;
-                        elementList[f] = null;
-                    }
-                }
-            }
-            if (elementList != null)
-            {
-                elementList.AddRange(a.ToList());
-            }
-            clean();
-        }
-
-        public void cutSelect(GeoLibPoint p1, GeoLibPoint p2)
-        {
-            pCutSelect(p1, p2);
-        }
-
-        void pCutSelect(GeoLibPoint p1, GeoLibPoint p2)
-        {
-            List<GCElement> a = null;
-            List<GCElement> d = null;
-            List<GCElement> c = null;
-            for (int f = 0; f < elementList.Count; f++)
-            {
-                if (elementList[f] != null)
-                {
-                    if ((elementList[f].isBox()) && (elementList[f].select))
-                    {
-                        GCPolygon p = elementList[f].convertToPolygons()[0];
-                        p.select = true;
-                        c = p.cutSelect(p1, p2);
-                        GCBox b = p.convertToBox();
-                        if (b == null)
-                        {
-                            elementList[f] = p;
-                        }
-                        else
-                        {
-                            b.select = true;
-                            elementList[f] = b;
-                        }
-                    }
-                    else
-                    {
-                        c = elementList[f].cutSelect(p1, p2);
-                    }
-                }
-                if (c != null)
-                {
-                    d.AddRange(a.ToList());
-                    a = c;
-                }
-            }
-            elementList.AddRange(a);
-            clean();
-        }
-
-        public void group(GCCell cell_)
-        {
-            pGroup(cell_);
-        }
-
-        void pGroup(GCCell cell_)
-        {
-            List<GCElement> a = cell_.elementList.ToList();
-            List<GCElement> b;
-            for (int f = 0; f < elementList.Count; f++)
-            {
-                if (elementList[f] != null)
-                {
-                    if (elementList[f].select)
-                    {
-                        b = new List<GCElement>();
-                        b.AddRange(a.ToList());
-                        b.Add(elementList[f]);
-                        a = b;
-                        elementList[f] = null;
-                    }
-                }
-            }
-            clean();
-            cell_.elementList = a;
-        }
-
+        
         public void minimum(GeoLibPoint pos)
         {
             pMinimum(pos);
@@ -746,11 +640,11 @@ namespace geoCoreLib
 
         void pMinimum(GeoLibPoint pos)
         {
-            for (int f = 0; f < elementList.Count; f++)
+            foreach (var el in elementList)
             {
-                if (elementList[f] != null)
+                if (el != null)
                 {
-                    elementList[f].minimum(pos);
+                    el.minimum(pos);
                 }
             }
         }
@@ -762,11 +656,11 @@ namespace geoCoreLib
 
         void pMaximum(GeoLibPoint pos)
         {
-            for (int f = 0; f < elementList.Count; f++)
+            foreach (var el in elementList)
             {
-                if (elementList[f] != null)
+                if (el != null)
                 {
-                    elementList[f].maximum(pos);
+                    el.maximum(pos);
                 }
             }
         }
@@ -832,11 +726,11 @@ namespace geoCoreLib
                 return false;
             }
 
-            for (int f = 0; f < elementList.Count; f++)
+            foreach (var element in elementList)
             {
-                if (elementList[f] != null)
+                if (element != null)
                 {
-                    GCCell cellHelp = elementList[f].depend();
+                    GCCell cellHelp = element.depend();
                     if ((cellHelp != null) && (!b))
                     {
                         if (!cellHelp.saved)
@@ -884,11 +778,11 @@ namespace geoCoreLib
             gw.bw.Write(accmin);
             gw.bw.Write(accsec);
             gw.writeString(cellName, 6);
-            for (int f = 0; f < elementList.Count; f++)
+            foreach (var el in elementList)
             {
-                if (elementList[f] != null)
+                if (el != null)
                 {
-                    elementList[f].saveGDS(gw);
+                    el.saveGDS(gw);
                 }
             }
             //endstr
@@ -905,13 +799,14 @@ namespace geoCoreLib
 
         void pSaveOASIS(oasWriter ow)
         {
-            for (int f = 0; f < elementList.Count; f++)
+            foreach (var el in elementList)
             {
-                if (elementList[f] != null)
+                if (el != null)
                 {
-                    elementList[f].saveOASIS(ow);
+                    el.saveOASIS(ow);
                 }
             }
+
             saved = true;
         }
 

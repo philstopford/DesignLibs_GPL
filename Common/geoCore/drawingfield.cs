@@ -81,11 +81,10 @@ namespace geoCoreLib
 
         int pFindCell_serial(string s)
         {
-            string name = "";
             int found = -1;
             for (int i = 0; i < cellList.Count; i++)
             {
-                name = cellList[i].cellName;
+                string name = cellList[i].cellName;
                 if (name == s)
                 {
                     found = i;
@@ -99,11 +98,7 @@ namespace geoCoreLib
         GCCell pFindCell(string s)
         {
             int found = pFindCell_serial(s);
-            if (found > -1)
-            {
-                return cellList[found];
-            }
-            return null;
+            return found > -1 ? cellList[found] : null;
         }
 
         public GCCell findCell_par(string s)
@@ -113,22 +108,17 @@ namespace geoCoreLib
 
         GCCell pFindCell_par(string s)
         {
-            string name = "";
             int found = -1;
             for (int i = 0; i < cellList.Count; i++)
             {
-                name = cellList[i].cellName;
+                string name = cellList[i].cellName;
                 if (name == s)
                 {
                     found = i;
                     break;
                 }
             }
-            if (found > -1)
-            {
-                return cellList[found];
-            }
-            return null;
+            return found > -1 ? cellList[found] : null;
         }
 
         public void addCells(int count)
@@ -157,7 +147,7 @@ namespace geoCoreLib
                 cellList = new List<GCCell>();
             }
             cellList.Add(new GCCell());
-            return cellList[cellList.Count - 1];
+            return cellList[^1];
         }
 
         public GCCell findTopCell()
@@ -170,12 +160,11 @@ namespace geoCoreLib
             List<GCCell> cell_list = cellList.ToList();
             List<GCCell> celllist = cellList.ToList();
 
-            bool topcell;
             int i = 0;
             int j = 0;
             for (i = 0; i < cell_list.Count(); i++)
             {
-                topcell = true;
+                bool topcell = true;
                 for (j = 0; j < celllist.Count; j++)
                 {
                     if (cell_list[i] != celllist[i])
@@ -203,12 +192,11 @@ namespace geoCoreLib
         {
             List<GCCell> cell_list = cellList.ToList();
             List<GCCell> celllist = cellList.ToList();
-            bool topcell;
             int i = 0;
             int j = 0;
             for (i = 0; i < cell_list.Count(); i++)
             {
-                topcell = true;
+                bool topcell = true;
                 for (j = 0; j < celllist.Count; j++)
                 {
                     if (cell_list[i] != celllist[i])
@@ -264,16 +252,15 @@ namespace geoCoreLib
         {
             int cellCount = cellList.Count;
             List<GCPolygon>[] ret = new List<GCPolygon>[cellCount];
-            ParallelOptions po = new ParallelOptions();
 
 #if GCTHREADED
+            ParallelOptions po = new ParallelOptions();
             Parallel.For(0, cellCount, po, i =>
 #else
             for (int i = 0; i < cellList.Count; i++)
 #endif
             {
-                List<GCPolygon> cellPolys = new List<GCPolygon>();
-                cellPolys = cellList[i].convertToPolygons(layer:layer, datatype:datatype);
+                List<GCPolygon> cellPolys = cellList[i].convertToPolygons(layer:layer, datatype:datatype);
                 ret[i] = cellPolys.ToList();
             }
 #if GCTHREADED

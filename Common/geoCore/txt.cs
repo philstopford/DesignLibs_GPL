@@ -214,7 +214,7 @@ namespace geoCoreLib
             if (trans.mirror_x)
             {
                 strans_ |= 0x8000;
-            };
+            }
             //STRANS
             gw.bw.Write((UInt16)6);
             gw.bw.Write((byte)0x1A);
@@ -307,7 +307,7 @@ namespace geoCoreLib
             {
                 //o->error->addItem("Text presentation can not be saved in OASIS files.", 4);
             }
-            if (trans.mag != 1)
+            if (Math.Abs(trans.mag - 1) > Double.Epsilon)
             {
                 //o->error->addItem("Scaled text can not be saved in OASIS files.", 4);
             }

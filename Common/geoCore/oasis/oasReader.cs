@@ -89,18 +89,18 @@ namespace oasis
         string filename;
         EndianBinaryReader br;
 
-        public oasReader(String filename)
+        public oasReader(String filename_)
         {
-            pOASReader(filename);
+            pOASReader(filename_);
         }
 
-        void pOASReader(String filename)
+        void pOASReader(String filename_)
         {
-            drawing_ = new GCDrawingfield(filename);
+            drawing_ = new GCDrawingfield(filename_);
             error_msgs = new List<string>();
             modal.repArray = new List<GeoLibPoint>();
             modal.polygon_point_list = new List<GeoLibPoint>();
-            this.filename = filename;
+            filename = filename_;
         }
 
         public void reset()
@@ -136,17 +136,6 @@ namespace oasis
             modal.repetition = -1;
             modal.polygon_point_list = new List<GeoLibPoint>();
             modal.repArray = new List<GeoLibPoint>();
-        }
-
-        static string BytesToStringConverted(byte[] bytes)
-        {
-            using (var stream = new MemoryStream(bytes))
-            {
-                using (var streamReader = new StreamReader(stream))
-                {
-                    return streamReader.ReadToEnd();
-                }
-            }
         }
 
         public bool load(ref GCDrawingfield drawing)
@@ -185,8 +174,7 @@ namespace oasis
 
                 string s, s1;
                 byte help;
-                Int32 i = 0;
-                Int32 k = 0;
+                Int32 i;
                 s1 = "";
                 zLibUsed = false;
                 for (i = 0; i < 13; i++)
@@ -194,7 +182,7 @@ namespace oasis
                     help = readRaw();
                     if (help != 0)
                     {
-                        s = Encoding.UTF8.GetString(new byte[] { help });
+                        s = Encoding.UTF8.GetString(new [] { help });
                         s1 += s;
                     }
                 }
@@ -204,7 +192,7 @@ namespace oasis
                     error_msgs.Add(err);
                     throw new Exception(err);
                 }
-                Int32 record = 0;
+                Int32 record;
                 bool tableAtEnd = false;
                 cell_ = null;
                 byte info_byte;
@@ -244,7 +232,7 @@ namespace oasis
                                 tableAtEnd = false;
                                 for (i = 0; i < 12; i++)
                                 {
-                                    k = readUnsignedInteger();
+                                    readUnsignedInteger();
                                 }
                             }
                             else tableAtEnd = true;
@@ -254,7 +242,7 @@ namespace oasis
                             {
                                 for (i = 0; i < 12; i++)
                                 {
-                                    k = readUnsignedInteger();
+                                    readUnsignedInteger();
                                 }
                             }
                             break;
@@ -309,12 +297,12 @@ namespace oasis
                                     break;
                                 case 4:
                                     i = readUnsignedInteger();
-                                    k = readUnsignedInteger();
+                                    readUnsignedInteger();
                                     break;
                                 default:
                                     //"Error in layername/textlayername"
                                     break;
-                            };
+                            }
                             int l = i;
                             //datatype
                             i = readUnsignedInteger();
@@ -333,12 +321,12 @@ namespace oasis
                                     break;
                                 case 4:
                                     i = readUnsignedInteger();
-                                    k = readUnsignedInteger();
+                                    readUnsignedInteger();
                                     break;
                                 default:
                                     // "Error in layername/textlayername"
                                     break;
-                            };
+                            }
                             try
                             {
                                 layerNames.Add("L" + l + "D" + i, s);
@@ -750,7 +738,10 @@ namespace oasis
                                 readRepetition();
                                 processRepetition(elementType.trapezoidElement);
                             }
-                            else { addTrapezoid(); };
+                            else
+                            {
+                                addTrapezoid();
+                            }
                             break;
                         case 24:
                         case 25:
@@ -817,7 +808,7 @@ namespace oasis
                             else
                             {
                                 addTrapezoid();
-                            };
+                            }
                             break;
                         case 26:
                             // ctrapezoid
@@ -869,7 +860,10 @@ namespace oasis
                                 readRepetition();
                                 processRepetition(elementType.ctrapezoidElement);
                             }
-                            else { addCtrapezoid(); };
+                            else
+                            {
+                                addCtrapezoid();
+                            }
                             break;
                         case 27:
                             // circle
@@ -1016,44 +1010,44 @@ namespace oasis
                 while (record != 2);
 
                 // update cellref/text, if table at end
-                for (int j = 0; j < drawing_.cellList.Count; j++)
+                foreach (var t in drawing_.cellList)
                 {
-                    if (drawing_.cellList[j] != null)
+                    if (t != null)
                     {
-                        s1 = drawing_.cellList[j].cellName;
+                        s1 = t.cellName;
                         if (s1.Left(12) == "layout#cell~")
                         {
                             s1 = s1.Substring(12, s1.Length - 12);
-                            drawing_.cellList[j].cellName = cellNames[Convert.ToInt32(s1)];
-                        };
+                            t.cellName = cellNames[Convert.ToInt32(s1)];
+                        }
                     }
                 }
-                for (int j = 0; j < drawing_.cellList.Count; j++)
+                foreach (var t in drawing_.cellList)
                 {
-                    if (drawing_.cellList[j] != null)
+                    if (t != null)
                     {
-                        for (int e = 0; e < drawing_.cellList[j].elementList.Count; e++)
+                        foreach (var t1 in t.elementList)
                         {
-                            if (drawing_.cellList[j].elementList[e].isCellref() || drawing_.cellList[j].elementList[e].isCellrefArray())
+                            if (t1.isCellref() || t1.isCellrefArray())
                             {
-                                if (drawing_.cellList[j].elementList[e].depend() == null)
+                                if (t1.depend() == null)
                                 {
-                                    s1 = drawing_.cellList[j].elementList[e].getName();
+                                    s1 = t1.getName();
                                     if ((s1 != null) && (s1.Left(12) == "layout#cell~"))
                                     {
                                         s1 = s1.Substring(12, s1.Length - 12);
-                                        drawing_.cellList[j].elementList[e].setName(cellNames[Convert.ToInt32(s1)]);
-                                        drawing_.cellList[j].elementList[e].setCellRef(drawing_.findCell(cellNames[Convert.ToInt32(s1)]));
+                                        t1.setName(cellNames[Convert.ToInt32(s1)]);
+                                        t1.setCellRef(drawing_.findCell(cellNames[Convert.ToInt32(s1)]));
                                     };
                                 }
                             }
-                            if (drawing_.cellList[j].elementList[e].isText())
+                            if (t1.isText())
                             {
-                                s1 = drawing_.cellList[j].elementList[e].getName();
+                                s1 = t1.getName();
                                 if (s1.Left(12) == "layout#text~")
                                 {
                                     s1 = s1.Substring(12, s1.Length - 12);
-                                    drawing_.cellList[j].elementList[e].setName(textNames[Convert.ToInt32(s1)]);
+                                    t1.setName(textNames[Convert.ToInt32(s1)]);
                                 };
                             };
                         }

@@ -84,8 +84,6 @@ namespace oasis
                     modal.text_x = x;
                     modal.text_y = y;
                     break;
-                default:
-                    break;
             }
         }
 
@@ -97,14 +95,14 @@ namespace oasis
         void addCellref()
         {
             cell_.addCellref();
-            cell_.elementList[cell_.elementList.Count - 1].setPos(new GeoLibPoint(modal.placement_x, modal.placement_y));
-            cell_.elementList[cell_.elementList.Count - 1].setCellRef(drawing_.findCell(modal.placement_cell));
-            cell_.elementList[cell_.elementList.Count - 1].setName(modal.placement_cell);
-            cell_.elementList[cell_.elementList.Count - 1].rotate(modal.angle);
-            cell_.elementList[cell_.elementList.Count - 1].scale(modal.mag);
+            cell_.elementList[^1].setPos(new GeoLibPoint(modal.placement_x, modal.placement_y));
+            cell_.elementList[^1].setCellRef(drawing_.findCell(modal.placement_cell));
+            cell_.elementList[^1].setName(modal.placement_cell);
+            cell_.elementList[^1].rotate(modal.angle);
+            cell_.elementList[^1].scale(modal.mag);
             if (modal.mirror_x)
             {
-                cell_.elementList[cell_.elementList.Count - 1].setMirrorx();
+                cell_.elementList[^1].setMirrorx();
             }
         }
 
@@ -123,14 +121,14 @@ namespace oasis
                 pa[i].Offset(p.X, p.Y);
             }
             cell_.addPath(pa, modal.layer, modal.datatype);
-            cell_.elementList[cell_.elementList.Count - 1].setWidth(2 * modal.geometry_w);
+            cell_.elementList[^1].setWidth(2 * modal.geometry_w);
             if ((modal.path_start_extension == 2) && (modal.path_end_extension == 2))
             {
-                cell_.elementList[cell_.elementList.Count - 1].setCap(2);
+                cell_.elementList[^1].setCap(2);
             }
             else if ((modal.path_start_extension == 0) && (modal.path_end_extension == 0))
             {
-                cell_.elementList[cell_.elementList.Count - 1].setCap(0);
+                cell_.elementList[^1].setCap(0);
             }
             else
             {
@@ -144,7 +142,7 @@ namespace oasis
                 {
                     ende = modal.geometry_w;
                 }
-                cell_.elementList[cell_.elementList.Count - 1].expandCaps(start, ende);
+                cell_.elementList[^1].expandCaps(start, ende);
             }
         }
 
@@ -163,8 +161,8 @@ namespace oasis
         void addText()
         {
             cell_.addText(modal.textlayer, modal.datatype, new GeoLibPoint(modal.text_x, modal.text_y), modal.text_string);
-            cell_.elementList[cell_.elementList.Count - 1].setWidth(GCSetup.defaultTextWidth);
-            cell_.elementList[cell_.elementList.Count - 1].setPresentation(GCSetup.defaultTextPresentation);
+            cell_.elementList[^1].setWidth(GCSetup.defaultTextWidth);
+            cell_.elementList[^1].setPresentation(GCSetup.defaultTextPresentation);
         }
 
         void addTrapezoid()
@@ -201,7 +199,7 @@ namespace oasis
             switch (modal.ctrapezoid_type)
             {
                 case 0:
-                    coords = new Int32[4, 4] {
+                    coords = new [,] {
                                                 { 0, 0, 0, 0 },  // x=0*w+0*h, y=0*w+0*h ...
                                                 { 0, 0, 0, 1 },
                                                 { 1, -1, 0, 1 },
@@ -210,7 +208,7 @@ namespace oasis
                     break;
 
                 case 1:
-                    coords = new Int32[4, 4] {
+                    coords = new [,] {
                                                 { 0, 0, 0, 0 },
                                                 { 0, 0, 0, 1 },
                                                 { 1, 0, 0, 1 },
@@ -219,7 +217,7 @@ namespace oasis
                     break;
 
                 case 2:
-                    coords = new Int32[4, 4] {
+                    coords = new [,] {
                                                 { 0, 0, 0, 0 },
                                                 { 0, 1, 0, 1 },
                                                 { 1, 0, 0, 1 },
@@ -228,7 +226,7 @@ namespace oasis
                     break;
 
                 case 3:
-                    coords = new Int32[4, 4] {
+                    coords = new [,] {
                                                 { 0, 1, 0, 0 },
                                                 { 0, 0, 0, 1 },
                                                 { 1, 0, 0, 1 },
@@ -237,7 +235,7 @@ namespace oasis
                     break;
 
                 case 4:
-                    coords = new Int32[4, 4] {
+                    coords = new [,] {
                                                 { 0, 0, 0, 0 },
                                                 { 0, 1, 0, 1 },
                                                 { 1, -1, 0, 1 },
@@ -246,7 +244,7 @@ namespace oasis
                     break;
 
                 case 5:
-                    coords = new Int32[4, 4] {
+                    coords = new [,] {
                                                 { 0, 1, 0, 0 },
                                                 { 0, 0, 0, 1 },
                                                 { 1, 0, 0, 1 },
@@ -255,7 +253,7 @@ namespace oasis
                     break;
 
                 case 6:
-                    coords = new Int32[4, 4] {
+                    coords = new [,] {
                                                 { 0, 0, 0, 0 },
                                                 { 0, 1, 0, 1 },
                                                 { 1, 0, 0, 1 },
@@ -264,7 +262,7 @@ namespace oasis
                     break;
 
                 case 7:
-                    coords = new Int32[4, 4] {
+                    coords = new [,] {
                                                 { 0, 1, 0, 0 },
                                                 { 0, 0, 0, 1 },
                                                 { 1, -1, 0, 1 },
@@ -273,7 +271,7 @@ namespace oasis
                     break;
 
                 case 8:
-                    coords = new Int32[4, 4] {
+                    coords = new [,] {
                                                 { 0, 0, 0, 0 },
                                                 { 0, 0, 0, 1 },
                                                 { 1, 0, -1, 1 },
@@ -282,7 +280,7 @@ namespace oasis
                     break;
 
                 case 9:
-                    coords = new Int32[4, 4] {
+                    coords = new [,] {
                                                 { 0, 0, 0, 0 },
                                                 { 0, 0, -1, 1 },
                                                 { 1, 0, 0, 1 },
@@ -291,7 +289,7 @@ namespace oasis
                     break;
 
                 case 10:
-                    coords = new Int32[4, 4] {
+                    coords = new [,] {
                                                 { 0, 0, 0, 0 },
                                                 { 0, 0, 0, 1 },
                                                 { 1, 0, 0, 1 },
@@ -300,7 +298,7 @@ namespace oasis
                     break;
 
                 case 11:
-                    coords = new Int32[4, 4] {
+                    coords = new [,] {
                                                 { 0, 0, 1, 0 },
                                                 { 0, 0, 0, 1 },
                                                 { 1, 0, 0, 1 },
@@ -309,7 +307,7 @@ namespace oasis
                     break;
 
                 case 12:
-                    coords = new Int32[4, 4] {
+                    coords = new [,] {
                                                 { 0, 0, 0, 0 },
                                                 { 0, 0, 0, 1 },
                                                 { 1, 0, -1, 1 },
@@ -318,7 +316,7 @@ namespace oasis
                     break;
 
                 case 13:
-                    coords = new Int32[4, 4] {
+                    coords = new [,] {
                                                 { 0, 0, 1, 0 },
                                                 { 0, 0, -1, 1 },
                                                 { 1, 0, 0, 1 },
@@ -327,7 +325,7 @@ namespace oasis
                     break;
 
                 case 14:
-                    coords = new Int32[4, 4] {
+                    coords = new [,] {
                                                 { 0, 0, 0, 0 },
                                                 { 0, 0, -1, 1 },
                                                 { 1, 0, 0, 1 },
@@ -336,7 +334,7 @@ namespace oasis
                     break;
 
                 case 15:
-                    coords = new Int32[4, 4] {
+                    coords = new [,] {
                                                 { 0, 0, 1, 0 },
                                                 { 0, 0, 0, 1 },
                                                 { 1, 0, -1, 1 },
@@ -345,7 +343,7 @@ namespace oasis
                     break;
 
                 case 16:
-                    coords = new Int32[4, 4] {
+                    coords = new [,] {
                                                 { 0, 0, 0, 0 },
                                                 { 0, 0, 1, 0 },
                                                 { 1, 0, 0, 0 },
@@ -354,7 +352,7 @@ namespace oasis
                     break;
 
                 case 17:
-                    coords = new Int32[4, 4] {
+                    coords = new [,] {
                                                 { 0, 0, 0, 0 },
                                                 { 0, 0, 1, 0 },
                                                 { 1, 0, 1, 0 },
@@ -363,7 +361,7 @@ namespace oasis
                     break;
 
                 case 18:
-                    coords = new Int32[4, 4] {
+                    coords = new [,] {
                                                 { 0, 0, 0, 0 },
                                                 { 1, 0, 1, 0 },
                                                 { 1, 0, 0, 0 },
@@ -372,7 +370,7 @@ namespace oasis
                     break;
 
                 case 19:
-                    coords = new Int32[4, 4] {
+                    coords = new [,] {
                                                 { 0, 0, 1, 0 },
                                                 { 1, 0, 1, 0 },
                                                 { 1, 0, 0, 0 },
@@ -381,7 +379,7 @@ namespace oasis
                     break;
 
                 case 20:
-                    coords = new Int32[4, 4] {
+                    coords = new [,] {
                                                 { 0, 0, 0, 0 },
                                                 { 0, 1, 0, 1 },
                                                 { 0, 2, 0, 0 },
@@ -390,7 +388,7 @@ namespace oasis
                     break;
 
                 case 21:
-                    coords = new Int32[4, 4] {
+                    coords = new [,] {
                                                 { 0, 0, 0, 1 },
                                                 { 0, 2, 0, 1 },
                                                 { 0, 1, 0, 0 },
@@ -399,7 +397,7 @@ namespace oasis
                     break;
 
                 case 22:
-                    coords = new Int32[4, 4] {
+                    coords = new [,] {
                                                 { 0, 0, 0, 0 },
                                                 { 0, 0, 2, 0 },
                                                 { 1, 0, 1, 0 },
@@ -408,7 +406,7 @@ namespace oasis
                     break;
 
                 case 23:
-                    coords = new Int32[4, 4] {
+                    coords = new [,] {
                                                 { 1, 0, 0, 0 },
                                                 { 0, 0, 1, 0 },
                                                 { 1, 0, 2, 0 },
@@ -417,7 +415,7 @@ namespace oasis
                     break;
 
                 case 24:
-                    coords = new Int32[4, 4] {
+                    coords = new [,] {
                                                 { 0, 0, 0, 0 },
                                                 { 0, 0, 0, 1 },
                                                 { 1, 0, 0, 1 },
@@ -426,7 +424,7 @@ namespace oasis
                     break;
 
                 case 25:
-                    coords = new Int32[4, 4] {
+                    coords = new [,] {
                                                 { 0, 0, 0, 0 },
                                                 { 0, 0, 1, 0 },
                                                 { 1, 0, 1, 0 },
@@ -474,7 +472,7 @@ namespace oasis
                 }
             }
 
-            pa[pa.Length - 1] = new GeoLibPoint(pa[0]);
+            pa[^1] = new GeoLibPoint(pa[0]);
 
             cell_.addPolygon(pa, modal.layer, modal.datatype);
         }
@@ -489,12 +487,12 @@ namespace oasis
                         {
                             cell_.addCellrefArray(drawing_.findCell(modal.placement_cell), new GeoLibPoint(modal.placement_x, modal.placement_y),
                                    new GeoLibPoint(modal.x_space + modal.placement_x, modal.y_space + modal.placement_y), modal.x_dimension, modal.y_dimension);
-                            cell_.elementList[cell_.elementList.Count - 1].setName(modal.placement_cell);
-                            cell_.elementList[cell_.elementList.Count - 1].rotate(modal.angle);
-                            cell_.elementList[cell_.elementList.Count - 1].scale(modal.mag);
+                            cell_.elementList[^1].setName(modal.placement_cell);
+                            cell_.elementList[^1].rotate(modal.angle);
+                            cell_.elementList[^1].scale(modal.mag);
                             if (modal.mirror_x)
                             {
-                                cell_.elementList[cell_.elementList.Count - 1].setMirrorx();
+                                cell_.elementList[^1].setMirrorx();
                             }
                         }
                         break;
@@ -502,12 +500,12 @@ namespace oasis
                         {
                             cell_.addCellrefArray(drawing_.findCell(modal.placement_cell), new GeoLibPoint(modal.placement_x, modal.placement_y),
                                    new GeoLibPoint(modal.x_space + modal.placement_x, modal.placement_y), modal.x_dimension, 1);
-                            cell_.elementList[cell_.elementList.Count - 1].setName(modal.placement_cell);
-                            cell_.elementList[cell_.elementList.Count - 1].rotate(modal.angle);
-                            cell_.elementList[cell_.elementList.Count - 1].scale(modal.mag);
+                            cell_.elementList[^1].setName(modal.placement_cell);
+                            cell_.elementList[^1].rotate(modal.angle);
+                            cell_.elementList[^1].scale(modal.mag);
                             if (modal.mirror_x)
                             {
-                                cell_.elementList[cell_.elementList.Count - 1].setMirrorx();
+                                cell_.elementList[^1].setMirrorx();
                             }
                         }
                         break;
@@ -515,12 +513,12 @@ namespace oasis
                         {
                             cell_.addCellrefArray(drawing_.findCell(modal.placement_cell), new GeoLibPoint(modal.placement_x, modal.placement_y),
                                    new GeoLibPoint(modal.placement_x, modal.y_space + modal.placement_y), 1, modal.y_dimension);
-                            cell_.elementList[cell_.elementList.Count - 1].setName(modal.placement_cell);
-                            cell_.elementList[cell_.elementList.Count - 1].rotate(modal.angle);
-                            cell_.elementList[cell_.elementList.Count - 1].scale(modal.mag);
+                            cell_.elementList[^1].setName(modal.placement_cell);
+                            cell_.elementList[^1].rotate(modal.angle);
+                            cell_.elementList[^1].scale(modal.mag);
                             if (modal.mirror_x)
                             {
-                                cell_.elementList[cell_.elementList.Count - 1].setMirrorx();
+                                cell_.elementList[^1].setMirrorx();
                             }
                         }
                         break;

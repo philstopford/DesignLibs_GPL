@@ -281,10 +281,10 @@ namespace geoCoreLib
                     }
                     if (pointarray.Length > 3)
                     {
-                        while ((pointarray.Length > 3) && (parallel(pointarray[0], pointarray[1], pointarray[pointarray.Length - 1], pointarray[pointarray.Length - 2])))
+                        while ((pointarray.Length > 3) && (parallel(pointarray[0], pointarray[1], pointarray[^1], pointarray[^2])))
                         {
                             deletePoint(pointarray.Length - 1);
-                            pointarray[0] = pointarray[pointarray.Length - 1];
+                            pointarray[0] = pointarray[^1];
                         }
                     }
                 }
@@ -295,7 +295,7 @@ namespace geoCoreLib
                 }
                 if (pointarray.Length > 3)
                 {
-                    a += angle(pointarray[pointarray.Length - 2], pointarray[0], pointarray[1]);
+                    a += angle(pointarray[^2], pointarray[0], pointarray[1]);
                 }
                 // Punkte linksdrehend
                 if (a < -185)
@@ -351,7 +351,7 @@ namespace geoCoreLib
                             {
                                 int h1, h2, h3, h4, h5, h6;
                                 bool side = true;
-                                bool change = false;
+                                bool change;
                                 if (pointarray[j + 1] == pointarray[i])
                                 {
                                     change = true;
@@ -519,9 +519,9 @@ namespace geoCoreLib
         {
             GeoLibPoint pc = new GeoLibPoint();
             int r = 0;
-            if (isCircle(ref pc, ref r))
+            if (isCircle())
             {
-                GCPath tPath = new GCPath(new GeoLibPoint[] { pc }, layer_nr, datatype_nr);
+                GCPath tPath = new GCPath(new [] { pc }, layer_nr, datatype_nr);
                 tPath.setWidth(r * 2);
                 tPath.setCap(1); // set cap to 'round' type. Also forced in the saver for a round path type, as a safety.
                 tPath.setRound(true); // this is the important thing to set - it forces the correct handling (including cap value)
@@ -578,7 +578,7 @@ namespace geoCoreLib
             pSaveOASIS(ow);
         }
 
-        bool isCircle(ref GeoLibPoint p, ref int radius)
+        bool isCircle()
         {
             if (pointarray.Length < 10)
             {
@@ -619,7 +619,7 @@ namespace geoCoreLib
                 // pc and r are manipulated in isCircle()
                 GeoLibPoint pc = new GeoLibPoint();
                 int r = 0;
-                if (isCircle(ref pc, ref r))
+                if (isCircle())
                 {
                     // save as circle
                     if (!ow.modal.absoluteMode)
@@ -643,7 +643,7 @@ namespace geoCoreLib
                     {
                         info_byte += 8;
                     }
-                    if (r != ow.modal.circle_radius)
+                    if (Math.Abs(r - ow.modal.circle_radius) > Double.Epsilon)
                     {
                         info_byte += 32;
                     }
@@ -687,19 +687,19 @@ namespace geoCoreLib
                 for (int i = 1; i < pointarray.Length; i++)
                 {
                     GeoLibPointF pd = GeoWrangler.distanceBetweenPoints_point(pointarray[i], pointarray[i - 1]);
-                    if ((pd.X == pd.Y) && (pd.X > 0))
+                    if ((Math.Abs(pd.X - pd.Y) < Double.Epsilon) && (pd.X > 0))
                     {
                         form = form * 10 + 9;
                     }
-                    else if ((pd.X == pd.Y) && (pd.X < 0))
+                    else if ((Math.Abs(pd.X - pd.Y) < Double.Epsilon) && (pd.X < 0))
                     {
                         form = form * 10 + 1;
                     }
-                    else if ((pd.X == -pd.Y) && (pd.X < 0))
+                    else if ((Math.Abs(pd.X - (-pd.Y)) < Double.Epsilon) && (pd.X < 0))
                     {
                         form = form * 10 + 7;
                     }
-                    else if ((pd.X == -pd.Y) && (pd.X > 0))
+                    else if ((Math.Abs(pd.X - (-pd.Y)) < Double.Epsilon) && (pd.X > 0))
                     {
                         form = form * 10 + 3;
                     }

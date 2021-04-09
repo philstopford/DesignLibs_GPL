@@ -3,7 +3,6 @@ using geoLib;
 using oasis;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace geoCoreLib
 {
@@ -89,7 +88,7 @@ namespace geoCoreLib
             {
                 pos1.Y = -pos1.Y;
             }
-            if (trans.angle == 180)
+            if (Math.Abs(trans.angle - 180) < Double.Epsilon)
             {
                 pos1.Y = -pos1.Y;
                 pos1.X = -pos1.X;
@@ -102,12 +101,12 @@ namespace geoCoreLib
                 pos1.Y = -pos1.Y;
                 pos2.Y = -pos2.Y;
             }
-            if (trans.angle == 180)
+            if (Math.Abs(trans.angle - 180) < Double.Epsilon)
             {
                 pos1.Y = -pos1.Y;
                 pos1.X = -pos1.X;
             }
-            if (trans.angle == 180)
+            if (Math.Abs(trans.angle - 180) < Double.Epsilon)
             {
                 pos2.Y = -pos2.Y;
                 pos2.X = -pos2.X;
@@ -153,7 +152,7 @@ namespace geoCoreLib
             {
                 pos1.Y = -pos1.Y;
             }
-            if (trans.angle == 180)
+            if (Math.Abs(trans.angle - 180) < Double.Epsilon)
             {
                 pos1.Y = -pos1.Y;
                 pos1.X = -pos1.X;
@@ -166,12 +165,12 @@ namespace geoCoreLib
                 pos1.Y = -pos1.Y;
                 pos2.Y = -pos2.Y;
             }
-            if (trans.angle == 180)
+            if (Math.Abs(trans.angle - 180) < Double.Epsilon)
             {
                 pos1.Y = -pos1.Y;
                 pos1.X = -pos1.X;
             }
-            if (trans.angle == 180)
+            if (Math.Abs(trans.angle - 180) < Double.Epsilon)
             {
                 pos2.Y = -pos2.Y;
                 pos2.X = -pos2.X;
@@ -337,7 +336,7 @@ namespace geoCoreLib
             {
                 info_byte += 1;
             }
-            if (trans.mag != 1)
+            if (Math.Abs(trans.mag - 1) > Double.Epsilon)
             {
                 info_byte += 4;
             }

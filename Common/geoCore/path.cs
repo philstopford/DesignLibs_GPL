@@ -5,7 +5,6 @@ using oasis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace geoCoreLib
 {
@@ -170,24 +169,24 @@ namespace geoCoreLib
             pointarray = newArray.ToArray();
         }
 
-        public override void setWidth(int width)
+        public override void setWidth(int width_)
         {
-            pSetWidth(width);
+            pSetWidth(width_);
         }
 
-        void pSetWidth(int width)
+        void pSetWidth(int width_)
         {
-            this.width = width;
+            width = width_;
         }
 
-        public override void setCap(int cap)
+        public override void setCap(int cap_)
         {
-            pSetCap(cap);
+            pSetCap(cap_);
         }
 
-        void pSetCap(int cap)
+        void pSetCap(int cap_)
         {
-            this.cap = cap;
+            cap = cap_;
         }
 
         public override List<GCPolygon> convertToPolygons()

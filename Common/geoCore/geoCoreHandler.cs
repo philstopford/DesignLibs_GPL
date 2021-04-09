@@ -128,15 +128,15 @@ namespace geoCoreLib
             geo.readValues(sourceGeoCoreHandler.geo);
         }
 
-        public void updateGeoCoreHandler(string filename, GeoCore.fileType type)
+        public void updateGeoCoreHandler(string filename_, GeoCore.fileType type)
         {
-            pUpdateGeoCoreHandler(filename, type);
+            pUpdateGeoCoreHandler(filename_, type);
         }
 
-        void pUpdateGeoCoreHandler(string filename, GeoCore.fileType type)
+        void pUpdateGeoCoreHandler(string filename_, GeoCore.fileType type)
         {
             valid = true;
-            this.filename = filename;
+            filename = filename_;
 
             geo.updateGeoCore(filename, type);
             valid = geo.isValid();

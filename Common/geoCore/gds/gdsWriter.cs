@@ -137,29 +137,29 @@ namespace gds
             while (!saved)
             {
                 saved = true;
-                for (int i = 0; i < drawing_.cellList.Count; i++)
+                foreach (var t in drawing_.cellList)
                 {
                     if (cc % updateInterval == 0)
                     {
-                        statusUpdateUI?.Invoke(drawing_.cellList[i].cellName);
+                        statusUpdateUI?.Invoke(t.cellName);
                         progressUpdateUI?.Invoke(progress);
                         progress += 0.01;
                     }
-                    if (drawing_.cellList[i].elementList == null)
+                    if (t.elementList == null)
                     {
                         continue;
                     }
-                    if (drawing_.cellList[i].saved == false)
+                    if (t.saved == false)
                     {
-                        if (!drawing_.cellList[i].dependNotSaved())
+                        if (!t.dependNotSaved())
                         {
-                            drawing_.cellList[i].saveGDS(this);
+                            t.saveGDS(this);
                         }
                         else
                         {
                             saved = false;
                         }
-                    };
+                    }
                     cc++;
                 }
             }

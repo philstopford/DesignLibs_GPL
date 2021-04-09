@@ -19,27 +19,68 @@ namespace geoCoreLib
 
         double pAngle(GeoLibPoint p1, GeoLibPoint p2, GeoLibPoint p3)
         {
-            double a1 = 0, a2 = 0;
+            double a1, a2;
             GeoLibPointF dif1, dif2;
             dif1 = new GeoLibPointF(p2.X - p1.X, p2.Y - p1.Y);
             dif2 = new GeoLibPointF(p3.X - p2.X, p3.Y - p2.Y);
             if (dif1.X != 0)
             {
                 a1 = Math.Atan(dif1.Y / dif1.X) / 2 / Math.PI * 360;
-                if (dif1.X < 0) { a1 -= 180; }
-                if (a1 < -180) { a1 += 360; }
+                if (dif1.X < 0)
+                {
+                    a1 -= 180;
+                }
+
+                if (a1 < -180)
+                {
+                    a1 += 360;
+                }
             }
-            else { if (dif1.Y > 0) { a1 = 90; } else { a1 = -90; } }
+            else
+            {
+                if (dif1.Y > 0)
+                {
+                    a1 = 90;
+                }
+                else
+                {
+                    a1 = -90;
+                }
+            }
             if (dif2.X != 0)
             {
                 a2 = Math.Atan(dif2.Y / dif2.X) / 2 / Math.PI * 360;
-                if (dif2.X < 0) { a2 -= 180; }
-                if (a2 < -180) { a2 += 360; }
+                if (dif2.X < 0)
+                {
+                    a2 -= 180;
+                }
+
+                if (a2 < -180)
+                {
+                    a2 += 360;
+                }
             }
-            else { if (dif2.Y > 0) { a2 = 90; } else { a2 = -90; } }
+            else
+            {
+                if (dif2.Y > 0)
+                {
+                    a2 = 90;
+                }
+                else
+                {
+                    a2 = -90;
+                }
+            }
             a1 = a2 - a1;
-            if (a1 <= -180) a1 += 360;
-            if (a1 >= 180) a1 -= 360;
+            if (a1 <= -180)
+            {
+                a1 += 360;
+            }
+
+            if (a1 >= 180)
+            {
+                a1 -= 360;
+            }
             return (a1);
         }
 
@@ -50,18 +91,43 @@ namespace geoCoreLib
 
         double pAngle(GeoLibPoint p1, GeoLibPoint p2)
         {
-            double a1 = 0;
+            double a1;
             GeoLibPointF dif1;
             dif1 = new GeoLibPointF(p2.X - p1.X, p2.Y - p1.Y);
             if (dif1.X != 0)
             {
                 a1 = Math.Atan(dif1.Y / dif1.X) / 2 / Math.PI * 360;
-                if (dif1.X < 0) { a1 -= 180; }
-                if (a1 < -180) { a1 += 360; }
+                if (dif1.X < 0)
+                {
+                    a1 -= 180;
+                }
+
+                if (a1 < -180)
+                {
+                    a1 += 360;
+                }
             }
-            else { if (dif1.Y > 0) { a1 = 90; } else { a1 = -90; } }
-            if (a1 <= -180) a1 += 360;
-            if (a1 > 180) a1 -= 360;
+            else
+            {
+                if (dif1.Y > 0)
+                {
+                    a1 = 90;
+                }
+                else
+                {
+                    a1 = -90;
+                }
+            }
+
+            if (a1 <= -180)
+            {
+                a1 += 360;
+            }
+
+            if (a1 > 180)
+            {
+                a1 -= 360;
+            }
             return (a1);
         }
 
@@ -86,45 +152,100 @@ namespace geoCoreLib
                 m2 = dif2.Y / dif2.X;
                 b1 = -m1 * p1.X + p1.Y;
                 b2 = -m2 * p3.X + p3.Y;
-                if (m1 == m2) { return false; }
+                if (Math.Abs(m1 - m2) < Double.Epsilon)
+                {
+                    return false;
+                }
                 pc.X = (round((b2 - b1) / (m1 - m2)));
-                if (dif1.Y == 0) { pc.Y = (p1.Y); }
-                else if (dif2.Y == 0) { pc.Y = (p3.Y); }
-                else pc.Y = (round(m1 * pc.X + b1));
+                if (dif1.Y == 0)
+                {
+                    pc.Y = (p1.Y);
+                }
+                else if (dif2.Y == 0)
+                {
+                    pc.Y = (p3.Y);
+                }
+                else
+                {
+                    pc.Y = (round(m1 * pc.X + b1));
+                }
             }
             if ((dif1.X == 0) && (dif2.X != 0))
             {
                 m2 = dif2.Y / dif2.X;
                 b2 = -m2 * p3.X + p3.Y;
                 pc.X = (p1.X);
-                if (dif2.Y != 0) { pc.Y = (round(m2 * pc.X + b2)); }
-                else pc.Y = (p3.Y);
+                if (dif2.Y != 0)
+                {
+                    pc.Y = (round(m2 * pc.X + b2));
+                }
+                else
+                {
+                    pc.Y = (p3.Y);
+                }
             }
             if ((dif1.X != 0) && (dif2.X == 0))
             {
                 m1 = dif1.Y / dif1.X;
                 b1 = -m1 * p1.X + p1.Y;
                 pc.X = (p3.X);
-                if (dif2.Y != 0) { pc.Y = (round(m1 * pc.X + b1)); }
-                else pc.Y = (p1.Y);
+                if (dif2.Y != 0)
+                {
+                    pc.Y = (round(m1 * pc.X + b1));
+                }
+                else
+                {
+                    pc.Y = (p1.Y);
+                }
             }
-            if ((dif1.X == 0) && (dif2.X == 0)) { return false; }
-            if (pc == p1) { return false; }
-            if (pc == p2) { return false; }
-            if (pc == p3) { return false; }
-            if (pc == p4) { return false; }
-            if (p1.X > p2.X) { help = p1.X; p1.X = (p2.X); p2.X = (help); }
-            if (p3.X > p4.X) { help = p3.X; p3.X = (p4.X); p4.X = (help); }
-            if (pc.X < p1.X) { return false; }
-            if (pc.X > p2.X) { return false; }
-            if (pc.X < p3.X) { return false; }
-            if (pc.X > p4.X) { return false; }
-            if (p1.Y > p2.Y) { help = p1.Y; p1.Y = (p2.Y); p2.Y = (help); }
-            if (p3.Y > p4.Y) { help = p3.Y; p3.Y = (p4.Y); p4.Y = (help); }
-            if (pc.Y < p1.Y) { return false; }
-            if (pc.Y > p2.Y) { return false; }
-            if (pc.Y < p3.Y) { return false; }
-            if (pc.Y > p4.Y) { return false; }
+
+            if ((dif1.X == 0) && (dif2.X == 0))
+            {
+                return false;
+            }
+
+            if ((pc == p1) || (pc == p2) || (pc == p3) || (pc == p4))
+            {
+                return false;
+            }
+
+            if (p1.X > p2.X)
+            {
+                help = p1.X;
+                p1.X = (p2.X);
+                p2.X = (help);
+            }
+
+            if (p3.X > p4.X)
+            {
+                help = p3.X;
+                p3.X = (p4.X);
+                p4.X = (help);
+            }
+
+            if ((pc.X < p1.X) || (pc.X > p2.X) || (pc.X < p3.X) || (pc.X > p4.X))
+            {
+                return false;
+            }
+
+            if (p1.Y > p2.Y)
+            {
+                help = p1.Y;
+                p1.Y = (p2.Y);
+                p2.Y = (help);
+            }
+
+            if (p3.Y > p4.Y)
+            {
+                help = p3.Y;
+                p3.Y = (p4.Y);
+                p4.Y = (help);
+            }
+
+            if ((pc.Y < p1.Y) || (pc.Y > p2.Y) || (pc.Y < p3.Y) || (pc.Y > p4.Y))
+            {
+                return false;
+            }
             return true;
         }
 
@@ -208,24 +329,36 @@ namespace geoCoreLib
             {
                 m1 = dif1.X / dif1.Y;
                 m2 = dif2.X / dif2.Y;
-                //printf("m %f %f\n",m1,m2);
-                if (m1 != m2) { return false; }
+
+                if (Math.Abs(m1 - m2) > Double.Epsilon)
+                {
+                    return false;
+                }
                 b1 = -m1 * p1.Y + p1.X;
                 b2 = -m2 * p3.Y + p3.X;
-                //printf("b %f %f\n",b1,b2);
-                if (b1 != b2) { return false; }
+
+                if (Math.Abs(b1 - b2) > Double.Epsilon)
+                {
+                    return false;
+                }
                 return true;
             }
             else if ((dif1.X != 0) && (dif2.X != 0))
             {
                 m1 = dif1.Y / dif1.X;
                 m2 = dif2.Y / dif2.X;
-                //printf("m %f %f\n",m1,m2);
-                if (m1 != m2) { return false; }
+
+                if (Math.Abs(m1 - m2) > Double.Epsilon)
+                {
+                    return false;
+                }
                 b1 = -m1 * p1.X + p1.Y;
                 b2 = -m2 * p3.X + p3.Y;
-                //printf("b %f %f\n",b1,b2);
-                if (b1 != b2) { return false; }
+
+                if (Math.Abs(b1 - b2) > Double.Epsilon)
+                {
+                    return false;
+                }
                 return true;
             }
             return false;
@@ -256,7 +389,7 @@ namespace geoCoreLib
             {
                 m1 = (double)(dif1.X) / (dif1.Y);
                 m2 = (double)(dif2.X) / (dif2.Y);
-                if (m1 != m2)
+                if (Math.Abs(m1 - m2) > Double.Epsilon)
                 {
                     return false;
                 }
@@ -266,7 +399,7 @@ namespace geoCoreLib
             {
                 m1 = (double)(dif1.Y) / (dif1.X);
                 m2 = (double)(dif2.Y) / (dif2.X);
-                if (m1 != m2)
+                if (Math.Abs(m1 - m2) > Double.Epsilon)
                 {
                     return false;
                 }
@@ -322,20 +455,39 @@ namespace geoCoreLib
             {
                 m1 = dif1.Y / dif1.X;
                 b1 = -m1 * p1.X + p1.Y;
-                if (p3.Y != m1 * p3.X + b1) { return false; }
+                if (Math.Abs(p3.Y - (m1 * p3.X + b1)) > Double.Epsilon)
+                {
+                    return false;
+                }
             }
             else
             {
                 if (p3.X != p1.X) { return false; }
             }
-            if (p3 == p1) { return false; }
-            if (p3 == p2) { return false; }
-            if (p1.X > p2.X) { help = p1.X; p1.X = (p2.X); p2.X = (help); }
-            if (p1.Y > p2.Y) { help = p1.Y; p1.Y = (p2.Y); p2.Y = (help); }
-            if (p3.X < p1.X) { return false; }
-            if (p3.Y < p1.Y) { return false; }
-            if (p3.X > p2.X) { return false; }
-            if (p3.Y > p2.Y) { return false; }
+
+            if ((p3 == p1) || (p3 == p2))
+            {
+                return false;
+            }
+
+            if (p1.X > p2.X)
+            {
+                help = p1.X;
+                p1.X = (p2.X);
+                p2.X = (help);
+            }
+
+            if (p1.Y > p2.Y)
+            {
+                help = p1.Y;
+                p1.Y = (p2.Y);
+                p2.Y = (help);
+            }
+
+            if ((p3.X < p1.X) || (p3.Y < p1.Y) || (p3.X > p2.X) || (p3.Y > p2.Y))
+            {
+                return false;
+            }
 
             return true;
         }

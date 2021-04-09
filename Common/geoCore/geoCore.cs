@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace geoCoreLib
 {
-    public partial class GeoCore
+    public class GeoCore
     {
         public double scaling = 1.0f;
         GCDrawingfield drawingField;
@@ -156,11 +156,11 @@ namespace geoCoreLib
             public List<GeoLibArray> getArrayData(string ld)
             {
                 List<GeoLibArray> ret = new List<GeoLibArray>();
-                for (int i = 0; i < elements.Count; i++)
+                foreach (var t in elements)
                 {
                     //if (elements[i].LD == ld)
                     {
-                        ret.Add(elements[i].arrayData);
+                        ret.Add(t.arrayData);
                     }
                 }
 
@@ -228,7 +228,7 @@ namespace geoCoreLib
             void pAddPoly(List<GeoLibPointF> poly, string ldString)
             {
                 elements.Add(new Element(poly, false));
-                elements[elements.Count - 1].LD = ldString;
+                elements[^1].LD = ldString;
                 if (ldString == "L-1D-1")
                 {
                     int xx = 2;
@@ -247,8 +247,8 @@ namespace geoCoreLib
             void pAddText(string text, List<GeoLibPointF> poly, string ldString)
             {
                 elements.Add(new Element(poly, true));
-                elements[elements.Count - 1].name = text;
-                elements[elements.Count - 1].LD = ldString;
+                elements[^1].name = text;
+                elements[^1].LD = ldString;
                 if (ldString == "L-1D-1")
                 {
                     int xx = 2;
@@ -304,15 +304,15 @@ namespace geoCoreLib
             }
         }
 
-        public void updateGeoCore(string filename, fileType type)
+        public void updateGeoCore(string filename_, fileType type)
         {
-            pUpdateGeoCore(filename, type);
+            pUpdateGeoCore(filename_, type);
         }
 
-        void pUpdateGeoCore(string filename, fileType type)
+        void pUpdateGeoCore(string filename_, fileType type)
         {
             reset();
-            this.filename = filename;
+            filename = filename_;
 
             if (filename == "")
             {
@@ -490,7 +490,7 @@ namespace geoCoreLib
             genLDList();
         }
 
-        void processGeometry(ref GCDrawingfield drawing_, Dictionary<string, string> layerNames)
+        void processGeometry(ref GCDrawingfield drawing_, Dictionary<string, string> layerNames_)
         {
             // Should have been reset before this call. Remove the defaults.
             pStructureList.Clear();
@@ -561,10 +561,10 @@ namespace geoCoreLib
                         }
 
                         // Query our dictionary.
-                        string resultString = "";
+                        string resultString;
                         try
                         {
-                            if (layerNames.TryGetValue(searchString, out resultString))
+                            if (layerNames_.TryGetValue(searchString, out resultString))
                             {
                                 searchString = resultString;
                             }
@@ -621,7 +621,7 @@ namespace geoCoreLib
 
         void getGeometry(ref GCDrawingfield drawing_, int cell, int element, List<string> hashList, int cellIndex, string searchString)
         {
-            getGeometry(ref drawing_, drawing_.cellList[cell], element, hashList, cellIndex, searchString);
+            getGeometry(drawing_.cellList[cell], element, hashList, cellIndex, searchString);
         }
 
         GeoData getGeometry_simple(GCCell gcCell, int element, List<string> hashList, int cellIndex)
@@ -863,7 +863,7 @@ namespace geoCoreLib
             }
         }
 
-        void getGeometry(ref GCDrawingfield drawing_, GCCell gcCell, int element, List<string> hashList, int cellIndex, string searchString)
+        void getGeometry(GCCell gcCell, int element, List<string> hashList, int cellIndex, string searchString)
         {
             GeoData ret;
             // Now we have to process our geometry into the right place.
@@ -958,8 +958,6 @@ namespace geoCoreLib
                     ret.Add(p);
                 }
                 return ret;
-
-                return structures[activeStructure].getBakedGeo(pActiveStructure_LDList[activeLD]);
             }
 
             // Do we ever get here?
@@ -1023,10 +1021,6 @@ namespace geoCoreLib
                 activeStructure = structure;
                 activeLD = layerdatatype;
                 genLDList();
-                if (structures[structure].elements[layerdatatype] == null)
-                {
-                    return;
-                }
             }
         }
 
@@ -1048,7 +1042,7 @@ namespace geoCoreLib
             {
                 // Recover our layer and dataype from the string representation.
                 string ld = layerNames.FirstOrDefault(x => x.Value == pActiveStructure_LDList[activeLD]).Key;
-                string[] temp = ld.Split(new char[] { 'L' })[1].Split(new char[] { 'D' });
+                string[] temp = ld.Split(new [] { 'L' })[1].Split(new [] { 'D' });
                 layer = Convert.ToInt32(temp[0]);
                 datatype = Convert.ToInt32(temp[1]);
             }

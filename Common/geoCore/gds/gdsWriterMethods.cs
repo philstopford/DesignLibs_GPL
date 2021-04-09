@@ -31,7 +31,7 @@ namespace gds
             {
                 double lg16 = Math.Log(d) / Math.Log(16.0);
                 e = (int)(Math.Ceiling(Math.Log(d) / Math.Log(16.0)));
-                if (e == lg16)
+                if (Math.Abs(e - lg16) < Double.Epsilon)
                 {
                     ++e;
                 }

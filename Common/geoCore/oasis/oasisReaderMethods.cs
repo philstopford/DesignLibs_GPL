@@ -159,7 +159,7 @@ namespace oasis
                 help = readRaw();
                 if (help != 0)
                 {
-                    s = Encoding.UTF8.GetString(new byte[] { help });
+                    s = Encoding.UTF8.GetString(new [] { help });
                     s1 += s;
                 }
             }
@@ -530,8 +530,8 @@ namespace oasis
                     if (addImplecid)
                     {
                         Array.Resize(ref pointlist, pointlist.Length + 2);
-                        pointlist[pointlist.Length - 2] = new GeoLibPoint(0, pointlist[pointlist.Length - 3].Y);
-                        pointlist[pointlist.Length - 1] = new GeoLibPoint(pointlist[0]);
+                        pointlist[^2] = new GeoLibPoint(0, pointlist[^3].Y);
+                        pointlist[^1] = new GeoLibPoint(pointlist[0]);
                     }
                     break;
                 case 1:
@@ -544,8 +544,8 @@ namespace oasis
                     if (addImplecid)
                     {
                         Array.Resize(ref pointlist, pointlist.Length + 2);
-                        pointlist[pointlist.Length - 2] = new GeoLibPoint(pointlist[pointlist.Length - 3].X, 0);
-                        pointlist[pointlist.Length - 1] = new GeoLibPoint(pointlist[0]);
+                        pointlist[^2] = new GeoLibPoint(pointlist[^3].X, 0);
+                        pointlist[^1] = new GeoLibPoint(pointlist[0]);
                     }
                     break;
                 case 2:
@@ -557,7 +557,7 @@ namespace oasis
                     if (addImplecid)
                     {
                         Array.Resize(ref pointlist, pointlist.Length + 1);
-                        pointlist[pointlist.Length - 1] = new GeoLibPoint(pointlist[0]);
+                        pointlist[^1] = new GeoLibPoint(pointlist[0]);
                     }
                     break;
                 case 3:
@@ -569,7 +569,7 @@ namespace oasis
                     if (addImplecid)
                     {
                         Array.Resize(ref pointlist, pointlist.Length + 1);
-                        pointlist[pointlist.Length - 1] = new GeoLibPoint(pointlist[0]);
+                        pointlist[^1] = new GeoLibPoint(pointlist[0]);
                     }
                     break;
                 case 4:
@@ -581,7 +581,7 @@ namespace oasis
                     if (addImplecid)
                     {
                         Array.Resize(ref pointlist, pointlist.Length + 1);
-                        pointlist[pointlist.Length - 1] = new GeoLibPoint(pointlist[0]);
+                        pointlist[^1] = new GeoLibPoint(pointlist[0]);
                     }
                     break;
                 case 5:
@@ -596,7 +596,7 @@ namespace oasis
                         if (addImplecid)
                         {
                             Array.Resize(ref pointlist, pointlist.Length + 1);
-                            pointlist[pointlist.Length - 1] = new GeoLibPoint(pointlist[0]);
+                            pointlist[^1] = new GeoLibPoint(pointlist[0]);
                         }
                     }
                     break;

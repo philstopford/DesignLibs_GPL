@@ -3,7 +3,6 @@ using geoLib;
 using oasis;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace geoCoreLib
 {
@@ -83,7 +82,7 @@ namespace geoCoreLib
                     if (trans.mirror_x)
                     {
                         pos1.Y = (-pos1.Y);
-                    };
+                    }
                     pos2 = pos1;
                     cell_ref.maximum(pos1);
                     cell_ref.minimum(pos2);
@@ -91,7 +90,7 @@ namespace geoCoreLib
                     {
                         pos1.Y = (-pos1.Y);
                         pos2.Y = (-pos2.Y);
-                    };
+                    }
                     pos1.Offset(pos3);
                     pos2.Offset(pos3);
                     p.X = Math.Min(p.X, pos2.X);
@@ -120,7 +119,7 @@ namespace geoCoreLib
                     if (trans.mirror_x)
                     {
                         pos1.Y = -pos1.Y;
-                    };
+                    }
                     pos2 = pos1;
                     cell_ref.maximum(pos1);
                     cell_ref.minimum(pos2);
@@ -128,7 +127,7 @@ namespace geoCoreLib
                     {
                         pos1.Y = -pos1.Y;
                         pos2.Y = -pos2.Y;
-                    };
+                    }
                     pos1.Offset(pos3);
                     pos2.Offset(pos3);
                     p.X = Math.Max(p.X, pos1.X);
@@ -223,7 +222,7 @@ namespace geoCoreLib
             if (trans.mirror_x)
             {
                 strans_ |= 0x8000;
-            };
+            }
             //STRANS
             gw.bw.Write((UInt16)6);
             gw.bw.Write((byte)0x1A);
@@ -294,7 +293,7 @@ namespace geoCoreLib
                 info_byte += 1;
             }
 
-            if (trans.mag != 1)
+            if (Math.Abs(trans.mag - 1) > Double.Epsilon)
             {
                 info_byte += 4;
             }

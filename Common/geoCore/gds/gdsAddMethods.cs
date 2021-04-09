@@ -1,4 +1,5 @@
-﻿using geoLib;
+﻿using System;
+using geoLib;
 
 namespace gds
 {
@@ -7,14 +8,14 @@ namespace gds
         void addCellRef()
         {
             cell_.addCellref();
-            cell_.elementList[cell_.elementList.Count - 1].setPos(new GeoLibPoint(modal.point_array[0].X, modal.point_array[0].Y));
-            cell_.elementList[cell_.elementList.Count - 1].setCellRef(drawing_.findCell(modal.sname));
-            cell_.elementList[cell_.elementList.Count - 1].setName(modal.sname);
-            cell_.elementList[cell_.elementList.Count - 1].rotate(modal.angle);
-            cell_.elementList[cell_.elementList.Count - 1].scale(modal.mag);
+            cell_.elementList[^1].setPos(new GeoLibPoint(modal.point_array[0].X, modal.point_array[0].Y));
+            cell_.elementList[^1].setCellRef(drawing_.findCell(modal.sname));
+            cell_.elementList[^1].setName(modal.sname);
+            cell_.elementList[^1].rotate(modal.angle);
+            cell_.elementList[^1].scale(modal.mag);
             if (modal.mirror_x)
             {
-                cell_.elementList[cell_.elementList.Count - 1].setMirrorx();
+                cell_.elementList[^1].setMirrorx();
             }
         }
 
@@ -30,17 +31,17 @@ namespace gds
             cell_.addCellrefArray(drawing_.findCell(modal.sname), modal.point_array, modal.anzx, modal.anzy);
             if (modal.mirror_x)
             {
-                cell_.elementList[cell_.elementList.Count - 1].rotate(-modal.angle);
+                cell_.elementList[^1].rotate(-modal.angle);
             }
             else
             {
-                cell_.elementList[cell_.elementList.Count - 1].rotate(modal.angle);
+                cell_.elementList[^1].rotate(modal.angle);
             }
-            cell_.elementList[cell_.elementList.Count - 1].scale(modal.mag);
-            cell_.elementList[cell_.elementList.Count - 1].setName(modal.sname);
+            cell_.elementList[^1].scale(modal.mag);
+            cell_.elementList[^1].setName(modal.sname);
             if (modal.mirror_x)
             {
-                cell_.elementList[cell_.elementList.Count - 1].setMirrorx();
+                cell_.elementList[^1].setMirrorx();
             }
         }
 
@@ -71,39 +72,39 @@ namespace gds
             cell_.addText(modal.layer, modal.datatype, modal.point_array[0], modal.sname);
             if (modal.mirror_x)
             {
-                cell_.elementList[cell_.elementList.Count - 1].rotate(-modal.angle);
+                cell_.elementList[^1].rotate(-modal.angle);
             }
             else
             {
-                cell_.elementList[cell_.elementList.Count - 1].rotate(modal.angle);
+                cell_.elementList[^1].rotate(modal.angle);
             }
-            cell_.elementList[cell_.elementList.Count - 1].scale(modal.mag);
-            cell_.elementList[cell_.elementList.Count - 1].setName(modal.sname);
+            cell_.elementList[^1].scale(modal.mag);
+            cell_.elementList[^1].setName(modal.sname);
             if (modal.mirror_x)
             {
-                cell_.elementList[cell_.elementList.Count - 1].setMirrorx();
+                cell_.elementList[^1].setMirrorx();
             }
-            cell_.elementList[cell_.elementList.Count - 1].setWidth(modal.width);
-            cell_.elementList[cell_.elementList.Count - 1].setPresentation(modal.presentation);
+            cell_.elementList[^1].setWidth(modal.width);
+            cell_.elementList[^1].setPresentation(modal.presentation);
         }
 
         void addPath()
         {
             if (modal.point_array.Length == 1)
             {
-                cell_.addCircle(modal.layer, modal.datatype, modal.point_array[0], modal.width / 2);
+                cell_.addCircle(modal.layer, modal.datatype, modal.point_array[0], Convert.ToDouble(modal.width) / 2);
             }
             else
             {
                 cell_.addPath(modal.point_array, modal.layer, modal.datatype);
-                cell_.elementList[cell_.elementList.Count - 1].setWidth(modal.width);
+                cell_.elementList[^1].setWidth(modal.width);
                 if (modal.cap != 4)
                 {
-                    cell_.elementList[cell_.elementList.Count - 1].setCap(modal.cap);
+                    cell_.elementList[^1].setCap(modal.cap);
                 }
                 else
                 {
-                    cell_.elementList[cell_.elementList.Count - 1].expandCaps(modal.beginExt, modal.endExt);
+                    cell_.elementList[^1].expandCaps(modal.beginExt, modal.endExt);
                 }
             }
         }

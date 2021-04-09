@@ -77,7 +77,7 @@ namespace oasis
             else
             {
                 writeUnsignedInteger(7);
-                byte[] a = new byte[8];
+                byte[] a;
                 a = BitConverter.GetBytes(d);
                 bw.Write(a);
             }
@@ -127,7 +127,7 @@ namespace oasis
                     type2 = false;
                 }
 
-                if ((pd.X != 0) && (pd.Y != 0) && (pd.X != pd.Y) && (pd.X != -pd.Y))
+                if ((pd.X != 0) && (pd.Y != 0) && (Math.Abs(pd.X - pd.Y) > Double.Epsilon) && (Math.Abs(pd.X - (-pd.Y)) > Double.Epsilon))
                 {
                     type3 = false;
                 }
@@ -135,7 +135,7 @@ namespace oasis
             if (type0)
             {
                 writeUnsignedInteger(0);
-                int count = 0;
+                int count;
                 if (excludeImplicid)
                 {
                     count = p.Length - 3;
@@ -156,7 +156,7 @@ namespace oasis
             else if (type1)
             {
                 writeUnsignedInteger(1);
-                int count = 0;
+                int count;
                 if (excludeImplicid)
                 {
                     count = p.Length - 3;
@@ -177,7 +177,7 @@ namespace oasis
             else if (type2)
             {
                 writeUnsignedInteger(2);
-                int count = 0;
+                int count;
                 if (excludeImplicid)
                 {
                     count = p.Length - 2;
@@ -198,7 +198,7 @@ namespace oasis
             else if (type3)
             {
                 writeUnsignedInteger(3);
-                int count = 0;
+                int count;
                 if (excludeImplicid)
                 {
                     count = p.Length - 2;
@@ -219,7 +219,7 @@ namespace oasis
             else
             {
                 writeUnsignedInteger(4);
-                int count = 0;
+                int count;
                 if (excludeImplicid)
                 {
                     count = p.Length - 2;
@@ -314,7 +314,7 @@ namespace oasis
                     w = ((int)-p.X << 3) + 2;
                 }
             }
-            else if (p.Y == p.X)
+            else if (Math.Abs(p.Y - p.X) < Double.Epsilon)
             {
                 if (p.Y > 0)
                 {
@@ -343,11 +343,11 @@ namespace oasis
         {
             if ((p.Y == 0))
             {
-                int i = 0;
+                int i;
                 if (p.X >= 0)
                 {
                     i = 0;
-                    i = ((int)p.X << 4) + 2 * i;
+                    i = ((int)p.X << 4) + 2;
                 }
                 else
                 {
@@ -358,11 +358,11 @@ namespace oasis
             }
             else if (p.X == 0)
             {
-                int i = 0;
+                int i;
                 if (p.Y >= 0)
                 {
                     i = 1;
-                    i = ((int)p.Y << 4) + 2 * i;
+                    i = ((int)p.Y << 4) + 2;
                 }
                 else
                 {
@@ -371,7 +371,7 @@ namespace oasis
                 }
                 writeUnsignedInteger((uint)i);
             }
-            else if (p.Y == p.X)
+            else if (Math.Abs(p.Y - p.X) < Double.Epsilon)
             {
                 int i = 0;
                 if (p.X >= 0)
@@ -386,7 +386,7 @@ namespace oasis
                 }
                 writeUnsignedInteger((uint)i);
             }
-            else if (p.Y == -p.X)
+            else if (Math.Abs(p.Y - (-p.X)) < Double.Epsilon)
             {
                 int i = 0;
                 if (p.X >= 0)
@@ -411,7 +411,7 @@ namespace oasis
                 }
                 else
                 {
-                    k = ((int)p.X << 2) + i + 1;
+                    k = ((int)p.X << 2) + 1;
                 }
                 writeUnsignedInteger((uint)k);
                 if (p.Y <= 0)
@@ -421,7 +421,7 @@ namespace oasis
                 }
                 else
                 {
-                    k = ((int)p.Y << 1) + j;
+                    k = ((int)p.Y << 1);
                 }
                 writeUnsignedInteger((uint)k);
             }

@@ -628,7 +628,7 @@ namespace MiscUtil.Threading
                         // Work out where in the queue the item should go
 
                         // Common case: it belongs at the end
-                        if (queue[queue.Count - 1].Priority >= workItem.Priority)
+                        if (queue[^1].Priority >= workItem.Priority)
                         {
                             queue.Enqueue(workItem);
                         }

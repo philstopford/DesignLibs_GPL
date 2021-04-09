@@ -519,14 +519,14 @@ namespace VeldridEto
 		{
 			PointF[] source = poly.ToArray();
 
-			if ((poly[0].X != poly[poly.Length - 1].X) && (poly[0].Y != poly[poly.Length - 1].Y))
+			if ((poly[0].X != poly[^1].X) && (poly[0].Y != poly[^1].Y))
 			{
 				PointF[] tempPoly = new PointF[poly.Length + 1];
 				for (int pt = 0; pt < poly.Length; pt++)
 				{
 					tempPoly[pt] = new PointF(poly[pt].X, poly[pt].Y);
 				}
-				tempPoly[tempPoly.Length - 1] = new PointF(tempPoly[0].X, tempPoly[0].Y);
+				tempPoly[^1] = new PointF(tempPoly[0].X, tempPoly[0].Y);
 				source = tempPoly.ToArray();
 			}
 

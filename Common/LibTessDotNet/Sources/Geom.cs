@@ -68,11 +68,11 @@ namespace LibTessDotNet
         }
         public static bool VertEq(MeshUtils.Vertex lhs, MeshUtils.Vertex rhs)
         {
-            return lhs._s == rhs._s && lhs._t == rhs._t;
+            return Math.Abs(lhs._s - rhs._s) < float.Epsilon && Math.Abs(lhs._t - rhs._t) < float.Epsilon;
         }
         public static bool VertLeq(MeshUtils.Vertex lhs, MeshUtils.Vertex rhs)
         {
-            return (lhs._s < rhs._s) || (lhs._s == rhs._s && lhs._t <= rhs._t);
+            return (lhs._s < rhs._s) || (Math.Abs(lhs._s - rhs._s) < float.Epsilon && lhs._t <= rhs._t);
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace LibTessDotNet
 
         public static bool TransLeq(MeshUtils.Vertex lhs, MeshUtils.Vertex rhs)
         {
-            return (lhs._t < rhs._t) || (lhs._t == rhs._t && lhs._s <= rhs._s);
+            return (lhs._t < rhs._t) || (Math.Abs(lhs._t - rhs._t) < float.Epsilon && lhs._s <= rhs._s);
         }
 
         public static Real TransEval(MeshUtils.Vertex u, MeshUtils.Vertex v, MeshUtils.Vertex w)

@@ -226,10 +226,10 @@ namespace LibTessDotNet
         {
             var v = _mesh._vHead._next;
 
-            var minVal = new Real[3] { v._coords.X, v._coords.Y, v._coords.Z };
-            var minVert = new MeshUtils.Vertex[3] { v, v, v };
-            var maxVal = new Real[3] { v._coords.X, v._coords.Y, v._coords.Z };
-            var maxVert = new MeshUtils.Vertex[3] { v, v, v };
+            var minVal = new [] { v._coords.X, v._coords.Y, v._coords.Z };
+            var minVert = new [] { v, v, v };
+            var maxVal = new [] { v._coords.X, v._coords.Y, v._coords.Z };
+            var maxVert = new [] { v, v, v };
 
             for (; v != _mesh._vHead; v = v._next)
             {

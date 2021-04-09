@@ -91,7 +91,7 @@ namespace geoWrangler
         {
             Path ret = new Path();
             bool closed = false;
-            if ((source[0].X == source[source.Count - 1].X) && (source[0].Y == source[source.Count - 1].Y))
+            if ((source[0].X == source[^1].X) && (source[0].Y == source[^1].Y))
             {
                 closed = true;
             }
@@ -114,8 +114,8 @@ namespace geoWrangler
 
             if (closed)
             {
-                ret.Add(new IntPoint(t[t.Count - 1]));
-                ret.AddRange(pFragmentPath(t[t.Count - 1], t[0]));
+                ret.Add(new IntPoint(t[^1]));
+                ret.AddRange(pFragmentPath(t[^1], t[0]));
                 ret = GeoWrangler.close(ret);
             }
 
@@ -142,8 +142,8 @@ namespace geoWrangler
             }
             if (fragmentCount > 0)
             {
-                double x_Step = x_Distance / fragmentCount;
-                double y_Step = y_Distance / fragmentCount;
+                double x_Step = Convert.ToDouble(x_Distance) / fragmentCount;
+                double y_Step = Convert.ToDouble(y_Distance) / fragmentCount;
 
                 for (Int32 i = 1; i < fragmentCount; i++)
                 {

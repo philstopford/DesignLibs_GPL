@@ -12,9 +12,9 @@ namespace geoWrangler
             List<GeoLibPointF[]> r = pMakeArray(source.ToArray(), xCount, xPitch, yCount, yPitch);
 
             List<List<GeoLibPointF>> ret = new List<List<GeoLibPointF>>();
-            for (int i = 0; i < r.Count; i++)
+            foreach (var t in r)
             {
-                ret.Add(r[i].ToList());
+                ret.Add(t.ToList());
             }
 
             return ret;

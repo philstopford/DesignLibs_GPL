@@ -43,7 +43,7 @@ namespace geoWrangler
 
         static GeoLibPoint[] pReorder(GeoLibPoint[] iPoints)
         {
-            Int32 reIndexStart = 0;
+            Int32 reIndexStart;
             Int32 minX_index = MinX(iPoints);
             Int64 minX = iPoints[minX_index].X;
             // This will reorder the point index so that the 0-indexed point is at the minimum X value, and, in the case of multiple points at min X, at the lowest Y of all of those.
@@ -141,7 +141,7 @@ namespace geoWrangler
 
         static Path pReorder(Path iPoints)
         {
-            Int32 reIndexStart = 0;
+            Int32 reIndexStart;
             Int32 minX_index = MinX(iPoints);
             Int64 minX = iPoints[minX_index].X;
             // This will reorder the point index so that the 0-indexed point is at the minimum X value, and, in the case of multiple points at min X, at the lowest Y of all of those.
@@ -213,14 +213,14 @@ namespace geoWrangler
 
         static GeoLibPointF[] pReorder(GeoLibPointF[] iPoints)
         {
-            Int32 reIndexStart = 0;
+            Int32 reIndexStart;
             Int32 minX_index = MinX(iPoints);
             double minX = iPoints[minX_index].X;
             // This will reorder the point index so that the 0-indexed point is at the minimum X value, and, in the case of multiple points at min X, at the lowest Y of all of those.
             List<Int32> minXPoints = new List<Int32>();
             for (Int32 pt = 0; pt < iPoints.Length; pt++)
             {
-                if (iPoints[pt].X == minX)
+                if (Math.Abs(iPoints[pt].X - minX) < Double.Epsilon)
                 {
                     minXPoints.Add(pt);
                 }
@@ -245,7 +245,7 @@ namespace geoWrangler
                     // Avoid adding duplicate vertices
                     if (tempList.Count > 1)
                     {
-                        if ((tempList[tempList.Count - 1].X == iPoints[pt].X) && (tempList[tempList.Count - 1].Y == iPoints[pt].Y))
+                        if ((Math.Abs(tempList[^1].X - iPoints[pt].X) < Double.Epsilon) && (Math.Abs(tempList[^1].Y - iPoints[pt].Y) < Double.Epsilon))
                         {
                             continue;
                         }
@@ -258,7 +258,7 @@ namespace geoWrangler
                     // Avoid adding duplicate vertices
                     if (tempList.Count > 1)
                     {
-                        if ((tempList[tempList.Count - 1].X == iPoints[pt].X) && (tempList[tempList.Count - 1].Y == iPoints[pt].Y))
+                        if ((Math.Abs(tempList[^1].X - iPoints[pt].X) < Double.Epsilon) && (Math.Abs(tempList[^1].Y - iPoints[pt].Y) < Double.Epsilon))
                         {
                             continue;
                         }
@@ -294,7 +294,7 @@ namespace geoWrangler
 
         static GeoLibPoint[] pSimplify(GeoLibPoint[] iPoints)
         {
-            List<IntPoint> ePoly = new List<IntPoint>();
+            List<IntPoint> ePoly;
             ePoly = Clipper.SimplifyPolygon(pathFromPoint(iPoints, 1))[0]; // assuming only one element
             ePoly = pStripTerminators(ePoly, false);
 
@@ -370,7 +370,7 @@ namespace geoWrangler
                 // Assess angle.
                 if (pt == 0)
                 {
-                    interSection_B = source[source.Count - 1]; // map to last point
+                    interSection_B = source[^1]; // map to last point
                     interSection_C = source[pt];
                     interSection_A = source[pt + 1];
                 }
@@ -433,7 +433,7 @@ namespace geoWrangler
                 // Assess angle.
                 if (pt == 0)
                 {
-                    interSection_B = source[source.Length - 1]; // map to last point
+                    interSection_B = source[^1]; // map to last point
                     interSection_C = source[pt];
                     interSection_A = source[pt + 1];
                 }
@@ -489,7 +489,7 @@ namespace geoWrangler
                 // Assess angle.
                 if (pt == 0)
                 {
-                    interSection_B = source[source.Count - 1]; // map to last point
+                    interSection_B = source[^1]; // map to last point
                     interSection_C = source[pt];
                     interSection_A = source[pt + 1];
                 }
@@ -663,7 +663,7 @@ namespace geoWrangler
                 // Assess angle.
                 if (pt == 0)
                 {
-                    interSection_B = source[source.Length - 1]; // map to last point
+                    interSection_B = source[^1]; // map to last point
                     interSection_C = source[pt];
                     interSection_A = source[pt + 1];
                 }
@@ -719,7 +719,7 @@ namespace geoWrangler
                 // Assess angle.
                 if (pt == 0)
                 {
-                    interSection_B = source[source.Count - 1]; // map to last point
+                    interSection_B = source[^1]; // map to last point
                     interSection_C = source[pt];
                     interSection_A = source[pt + 1];
                 }
@@ -860,7 +860,7 @@ namespace geoWrangler
             {
                 return source;
             }
-            if ((source[0].X != source[source.Count - 1].X) || (source[0].Y != source[source.Count - 1].Y))
+            if ((source[0].X != source[^1].X) || (source[0].Y != source[^1].Y))
             {
                 source.Add(new IntPoint(source[0]));
             }
@@ -878,7 +878,7 @@ namespace geoWrangler
             {
                 return source;
             }
-            if ((source[0].X != source[source.Count - 1].X) || (source[0].Y != source[source.Count - 1].Y))
+            if ((source[0].X != source[^1].X) || (source[0].Y != source[^1].Y))
             {
                 source.Add(new GeoLibPoint(source[0]));
             }
@@ -912,7 +912,7 @@ namespace geoWrangler
             {
                 return source;
             }
-            if ((source[0].X != source[source.Count - 1].X) || (source[0].Y != source[source.Count - 1].Y))
+            if ((Math.Abs(source[0].X - source[^1].X) > Double.Epsilon) || (Math.Abs(source[0].Y - source[^1].Y) > Double.Epsilon))
             {
                 source.Add(new GeoLibPointF(source[0]));
             }
@@ -999,7 +999,7 @@ namespace geoWrangler
             try
             {
 
-                Paths retPaths = new Paths();
+                Paths retPaths;
 
                 // Triangulate. This gives us a triangle soup, which may not be entirely helpful for the case where we're punching multiple holes into a mesh. For now, this works, but the limitation will need to be reviewd.	
                 // It might be that a PolyTree is needed as the input to the keyhole for these complex cases.... or clockwise paths may need to be evaluated piecewise using all counterclockwise paths for the tessellation.	

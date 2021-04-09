@@ -3,7 +3,6 @@ using geoLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace geoWrangler
 {
@@ -41,7 +40,7 @@ namespace geoWrangler
         static Path pPathFromPoint(GeoLibPoint[] source, Int64 scaling)
         {
             int length = source.Length;
-            if ((source[0].X != source[source.Length - 1].X) && (source[0].Y != source[source.Length - 1].Y))
+            if ((source[0].X != source[^1].X) && (source[0].Y != source[^1].Y))
             {
                 length++; // close the geometry
             }
@@ -147,7 +146,7 @@ namespace geoWrangler
         static Path pPathFromPointF(GeoLibPointF[] source, Int64 scaling)
         {
             int length = source.Length;
-            if ((source[0].X != source[source.Length - 1].X) && (source[0].Y != source[source.Length - 1].Y))
+            if ((Math.Abs(source[0].X - source[^1].X) > Double.Epsilon) && (Math.Abs(source[0].Y - source[^1].Y) > Double.Epsilon))
             {
                 length++; // close the geometry
             }

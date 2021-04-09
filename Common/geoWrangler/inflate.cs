@@ -2,7 +2,6 @@
 using geoLib;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace geoWrangler
 {
@@ -67,8 +66,6 @@ namespace geoWrangler
             Paths union = new Paths();
             c.Execute(ClipType.ctIntersection, union, PolyFillType.pftPositive);
 
-            int test = union.Count();
-
             GeoLibPoint[] ret;
             if (union.Count() > 0)
             {
@@ -78,7 +75,7 @@ namespace geoWrangler
             }
             else
             {
-                ret = new GeoLibPoint[1] { new GeoLibPoint(0, 0) };
+                ret = new [] { new GeoLibPoint(0, 0) };
             }
 
             return ret;

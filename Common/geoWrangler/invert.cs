@@ -49,7 +49,6 @@ namespace geoWrangler
             else
             {
                 IntRect firstLayerBounds = Clipper.GetBounds(sourcePaths);
-                IntPoint delta_to_midPoint = new IntPoint(((firstLayerBounds.right - firstLayerBounds.left) / 2), (firstLayerBounds.top - firstLayerBounds.bottom) / 2);
                 Path firstLayerBP = new Path();
                 if (!useBounds)
                 {

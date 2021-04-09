@@ -109,7 +109,7 @@ namespace geoWrangler
         public static GeoLibPointF getExtents(GeoLibPointF[] source)
         {
             GeoLibPointF[] bounds = pGetBounds(source);
-            GeoLibPointF extents = pDistanceBetweenPoints_point(source[0], source[2]);
+            GeoLibPointF extents = pDistanceBetweenPoints_point(bounds[0], bounds[2]);
 
             return extents;
         }
@@ -138,7 +138,7 @@ namespace geoWrangler
 
             }
 
-            return new GeoLibPoint[] { new GeoLibPoint(minX, minY), new GeoLibPoint(maxX, maxY) };
+            return new [] { new GeoLibPoint(minX, minY), new GeoLibPoint(maxX, maxY) };
         }
 
         public static GeoLibPointF[] getBounds(GeoLibPointF[] source)
@@ -165,7 +165,7 @@ namespace geoWrangler
 
             }
 
-            return new GeoLibPointF[] { new GeoLibPointF(minX, minY), new GeoLibPointF(maxX, maxY) };
+            return new [] { new GeoLibPointF(minX, minY), new GeoLibPointF(maxX, maxY) };
         }
 
         public static bool enclosed(Path a, Paths b, bool strict = false)
@@ -202,13 +202,14 @@ namespace geoWrangler
 
         static bool pEnclosed(Paths a, Paths b, bool strict)
         {
-            bool result = false;
 
             if ((a.Count == 0) || (b.Count == 0))
             {
-                return result;
+                return false;
             }
 
+            bool result = false;
+            
             Clipper c = new Clipper();
 
             Paths rationalizedFirstLayer = new Paths();
@@ -274,22 +275,17 @@ namespace geoWrangler
                         }
                     }
                 }
-
-                result = polyMatchFound;
-
+                
                 // Check based on area. This seems to be needed - the above doesn't do the right thing every time.
                 double overlapArea = Math.Abs(Clipper.Area(intersectionPath));
                 double clipArea = Math.Abs(Clipper.Area(rationalizedSecondLayer[0]));
                 double subjArea = Math.Abs(Clipper.Area(rationalizedFirstLayer[0]));
 
-                if ((overlapArea == clipArea) || (overlapArea == subjArea))
+                if ((Math.Abs(overlapArea - clipArea) < Double.Epsilon) || (Math.Abs(overlapArea - subjArea) < Double.Epsilon))
                 {
                     result = true;
                 }
-                else
-                {
-                    result = false;
-                }
+
                 if (result)
                 {
                     break;
@@ -512,8 +508,8 @@ namespace geoWrangler
 
             for (Int32 pt = 0; pt < points.Length; pt++)
             {
-                Int64 deltaX = 0;
-                Int64 deltaY = 0;
+                Int64 deltaX;
+                Int64 deltaY;
                 if (pt == points.Length - 1)
                 {
                     deltaX = (points[0].X - points[pt].X);
@@ -552,8 +548,8 @@ namespace geoWrangler
 
             for (Int32 pt = 0; pt < points.Length; pt++)
             {
-                double deltaX = 0;
-                double deltaY = 0;
+                double deltaX;
+                double deltaY;
                 if (pt == points.Length - 1)
                 {
                     deltaX = (points[0].X - points[pt].X);
@@ -592,8 +588,8 @@ namespace geoWrangler
 
             for (Int32 pt = 0; pt < points.Count; pt++)
             {
-                Int64 deltaX = 0;
-                Int64 deltaY = 0;
+                Int64 deltaX;
+                Int64 deltaY;
                 if (pt == points.Count - 1)
                 {
                     deltaX = (points[0].X - points[pt].X);

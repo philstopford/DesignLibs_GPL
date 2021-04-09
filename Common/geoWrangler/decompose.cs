@@ -3,7 +3,6 @@ using geoLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace geoWrangler
 {
@@ -70,7 +69,7 @@ namespace geoWrangler
 #if GWTHREADED
                         Parallel.For(0, crCount, (j) =>
 #else
-                        for (int j = 0; j < cR.Count; j++)
+                        for (int j = 0; j < crCount; j++)
 #endif
                         {
                             cR[j].Reverse();
@@ -95,7 +94,7 @@ namespace geoWrangler
 #if GWTHREADED
                     Parallel.For(0, rCount, (i) =>
 #else
-                    for (int i = 0; i < ret.Count; i++)
+                    for (int i = 0; i < rCount; i++)
 #endif
                     {
                         ret[i].Reverse();

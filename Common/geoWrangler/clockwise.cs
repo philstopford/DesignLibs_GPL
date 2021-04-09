@@ -106,7 +106,7 @@ namespace geoWrangler
             {
                 for (int j = 0; j < sourceCount; j++)
                 {
-                    if ((reorderedMidPoints[i].X == midPoints[j].X) && (reorderedMidPoints[i].Y == midPoints[j].Y))
+                    if ((Math.Abs(reorderedMidPoints[i].X - midPoints[j].X) < Double.Epsilon) && (Math.Abs(reorderedMidPoints[i].Y - midPoints[j].Y) < Double.Epsilon))
                     {
                         newOrder[i] = j;
                         break;
@@ -146,7 +146,7 @@ namespace geoWrangler
             {
                 for (int j = 0; j < sourceCount; j++)
                 {
-                    if ((reorderedMidPoints[i].X == midPoints[j].X) && (reorderedMidPoints[i].Y == midPoints[j].Y))
+                    if ((Math.Abs(reorderedMidPoints[i].X - midPoints[j].X) < Double.Epsilon) && (Math.Abs(reorderedMidPoints[i].Y - midPoints[j].Y) < Double.Epsilon))
                     {
                         newOrder[i] = j;
                         break;

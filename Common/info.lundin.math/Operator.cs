@@ -19,7 +19,7 @@ namespace info.lundin.math
     {
         private String op = ""; // the string operator 
         private int args = 0; // the number of arguments this operator takes
-        private int prec = System.Int32.MaxValue; // the precedence this operator has
+        private int prec = Int32.MaxValue; // the precedence this operator has
         private Evaluator evaluator;
 
         /// <summary>
@@ -40,10 +40,10 @@ namespace info.lundin.math
         /// <param name="eval">delegate to use for evaluating operator</param>
         public Operator(String _operator, int arguments, int precedence, Evaluator eval)
         {
-            this.op = _operator;
-            this.args = arguments;
-            this.prec = precedence;
-            this.evaluator = eval;
+            op = _operator;
+            args = arguments;
+            prec = precedence;
+            evaluator = eval;
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace info.lundin.math
         /// </summary>
         public int Precedence
         {
-            get { return (this.prec); }
+            get { return (prec); }
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace info.lundin.math
         /// </summary>
         public string Symbol
         {
-            get { return (this.op); }
+            get { return (op); }
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace info.lundin.math
         /// </summary>
         public int Arguments
         {
-            get { return (this.args); }
+            get { return (args); }
         }
 
     } // End class Operator

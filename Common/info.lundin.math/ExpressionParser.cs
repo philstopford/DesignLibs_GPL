@@ -245,7 +245,7 @@ namespace info.lundin.math
                 else
                 {
                     // apparently a nested expression, parse and cache
-                    htbl[tree.Variable] = new StringValue() { Value = value.ToString(culture) };
+                    htbl[tree.Variable] = new StringValue { Value = value.ToString(culture) };
 
                     tmp = value.ToString(culture);
                     Expression expression = treeParser.Parse(tmp);

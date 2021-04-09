@@ -231,7 +231,7 @@ namespace geoWrangler
 
             if ((_poly.Length == 5) && orthogonal(stripTerminators(_poly, false), angularTolerance))
             {
-                return new List<GeoLibPoint[]>() { _poly };
+                return new List<GeoLibPoint[]> { _poly };
             }
 
             // dirOverride switches from a horizontally-biased raycast to vertical in this case.

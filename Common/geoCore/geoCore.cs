@@ -130,7 +130,7 @@ namespace geoCoreLib
                 int index = bakedGeo_LD.IndexOf(ld);
                 if (index == -1)
                 {
-                    bakedGeo.Add(new BakedGeo(new List<GeoLibPointF[]>() { source }, new List<bool>() { text }, ld));
+                    bakedGeo.Add(new BakedGeo(new List<GeoLibPointF[]> { source }, new List<bool> { text }, ld));
                     bakedGeo_LD.Add(ld);
                 }
                 else

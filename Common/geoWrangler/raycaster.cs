@@ -23,7 +23,7 @@ namespace geoWrangler
             pt.Z = bot1.Z;
         }
 
-        public static List<string> fallOffList = new List<string>() {"None", "Linear", "Gaussian", "Cosine"};
+        public static List<string> fallOffList = new List<string> {"None", "Linear", "Gaussian", "Cosine"};
         public enum falloff { none, linear, gaussian, cosine }
 
         // Corner projection is default and takes an orthogonal ray out from the corner. Setting to false causes an averaged normal to be generated.
@@ -35,7 +35,7 @@ namespace geoWrangler
 
         public RayCast(Path emissionPath, Path collisionPath, Int64 max, bool projectCorners = true, bool invert = false, int multisampleRayCount = 0, bool runOuterLoopThreaded = false, bool runInnerLoopThreaded = false, IntPoint startOffset = new IntPoint(), IntPoint endOffset = new IntPoint(), falloff sideRayFallOff = falloff.none, double sideRayFallOffMultiplier = 1.0f, forceSingleDirection dirOverride = forceSingleDirection.no)
         {
-            rayCast(emissionPath, new Paths() { collisionPath }, max, projectCorners, invert, multisampleRayCount, runOuterLoopThreaded, runInnerLoopThreaded, startOffset, endOffset, sideRayFallOff, sideRayFallOffMultiplier, dirOverride);
+            rayCast(emissionPath, new Paths { collisionPath }, max, projectCorners, invert, multisampleRayCount, runOuterLoopThreaded, runInnerLoopThreaded, startOffset, endOffset, sideRayFallOff, sideRayFallOffMultiplier, dirOverride);
         }
 
         public Paths getRays()

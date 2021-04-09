@@ -12,7 +12,7 @@ namespace info.lundin.math
     /// <summary>
     /// Exception class for parser related exceptions
     /// </summary>
-    public class ParserException : System.Exception
+    public class ParserException : Exception
     {
         public ParserException()
             : base()

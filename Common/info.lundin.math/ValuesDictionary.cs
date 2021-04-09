@@ -29,7 +29,7 @@ namespace info.lundin.math
         /// <param name="value">string value</param>
         public void Add(string variable, string value)
         {
-            Add(variable, new StringValue() { Value = value });
+            Add(variable, new StringValue { Value = value });
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace info.lundin.math
         /// <param name="value">double value</param>
         public void Add(string variable, double value)
         {
-            Add(variable, new DoubleValue() { Value = value });
+            Add(variable, new DoubleValue { Value = value });
         }
 
         /// <summary>

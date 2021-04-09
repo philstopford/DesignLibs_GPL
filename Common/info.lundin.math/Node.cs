@@ -56,9 +56,9 @@ namespace info.lundin.math
             this.arg1 = arg1;
             this.arg2 = arg2;
             this.op = op;
-            this.args = 2;
+            args = 2;
 
-            this.type = NodeType.Expression;
+            type = NodeType.Expression;
         }
 
         /// <summary>
@@ -71,9 +71,9 @@ namespace info.lundin.math
         {
             this.arg1 = arg1;
             this.op = op;
-            this.args = 1;
+            args = 1;
 
-            this.type = NodeType.Expression;
+            type = NodeType.Expression;
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace info.lundin.math
         internal Node(string variable)
         {
             this.variable = variable;
-            this.type = NodeType.Variable;
+            type = NodeType.Variable;
         }
 
         /// <summary>
@@ -94,8 +94,8 @@ namespace info.lundin.math
         /// <param name="value">the value for this Node</param>
         internal Node(double value)
         {
-            this.value = new DoubleValue() { Value = value };
-            this.type = NodeType.Value;
+            this.value = new DoubleValue { Value = value };
+            type = NodeType.Value;
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace info.lundin.math
         /// </summary>
         internal Operator Operator
         {
-            get { return this.op; }
+            get { return op; }
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace info.lundin.math
         /// </summary>
         internal Value Value
         {
-            get { return this.value; }
+            get { return value; }
             set { this.value = value; }
         }
 
@@ -120,7 +120,7 @@ namespace info.lundin.math
         /// </summary>
         internal String Variable
         {
-            get { return (this.variable); }
+            get { return (variable); }
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace info.lundin.math
         /// </summary>
         internal int Arguments
         {
-            get { return (this.args); }
+            get { return (args); }
         }
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace info.lundin.math
         /// </summary>
         internal NodeType Type
         {
-            get { return (this.type); }
+            get { return (type); }
         }
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace info.lundin.math
         /// </summary>
         internal Node FirstArgument
         {
-            get { return this.arg1; }
+            get { return arg1; }
         }
 
         /// <summary>
@@ -152,7 +152,7 @@ namespace info.lundin.math
         /// </summary>
         internal Node SecondArgument
         {
-            get { return this.arg2; }
+            get { return arg2; }
         }
 
     } // End class Node

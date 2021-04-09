@@ -23,7 +23,7 @@ namespace DynamicAero2
         }
         void SetColor(ThemeColor color)
         {
-            MergedDictionaries[0] = new ResourceDictionary() { Source = new Uri($"/DynamicAero2;component/Brushes/{color}.xaml", UriKind.Relative) };
+            MergedDictionaries[0] = new ResourceDictionary { Source = new Uri($"/DynamicAero2;component/Brushes/{color}.xaml", UriKind.Relative) };
         }
     }
 }

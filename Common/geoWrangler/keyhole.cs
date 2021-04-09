@@ -23,7 +23,7 @@ namespace geoWrangler
 
         public static Paths makeKeyHole(Path source, double customSizing = 0, double extension = 0, double angularTolerance = 0)
         {
-            return pMakeKeyHole(new Paths() { source }, customSizing, extension, angularTolerance);
+            return pMakeKeyHole(new Paths { source }, customSizing, extension, angularTolerance);
         }
 
         public static Paths makeKeyHole(Paths source, double customSizing = 0, double extension = 0, double angularTolerance = 0)
@@ -208,7 +208,7 @@ namespace geoWrangler
 
         public static Paths sliverGapRemoval(Path source, double customSizing = 0, double extension = 0, bool maySimplify = false)
         {
-            return pSliverGapRemoval(new Paths() { source }, customSizing, extension, maySimplify: maySimplify);
+            return pSliverGapRemoval(new Paths { source }, customSizing, extension, maySimplify: maySimplify);
         }
 
         public static Paths sliverGapRemoval(Paths source, double customSizing = 0, double extension = 0, bool maySimplify = false)
@@ -236,7 +236,7 @@ namespace geoWrangler
 
         public static Paths gapRemoval(Path source, double customSizing = 0, double extension = 0, bool maySimplify = false)
         {
-            return gapRemoval(new Paths() { source }, customSizing, extension, maySimplify);
+            return gapRemoval(new Paths { source }, customSizing, extension, maySimplify);
         }
 
         public static Paths gapRemoval(Paths source, double customSizing = 0, double extension = 0, bool maySimplify = false)

@@ -61,7 +61,7 @@ namespace geoWrangler
             bPath.Add(new IntPoint(b.right, b.top));
             bPath.Add(new IntPoint(b.right, b.bottom));
 
-            c.AddPaths(new Paths() { bPath }, PolyType.ptClip, true);
+            c.AddPaths(new Paths { bPath }, PolyType.ptClip, true);
 
             Paths union = new Paths();
             c.Execute(ClipType.ctIntersection, union, PolyFillType.pftPositive);

@@ -10,7 +10,7 @@ namespace entropyRNG
         public static double[] random_gauss3()
         {
             double[] myReturn = random_gauss();
-            return new double[] { myReturn[0] / 3.0f, myReturn[1] / 3.0f };
+            return new [] { myReturn[0] / 3.0f, myReturn[1] / 3.0f };
         }
 
         public static double[] random_gauss()

@@ -11,10 +11,6 @@ namespace Noise
         private double[] frequencys;
         private double[] amplitudes;
 
-        private int largestFeature;
-        private double persistence;
-        private int seed;
-
         public SimplexNoise(int seed) : this(30, 0.7, seed)
         {
             // Defaults from original repository were 850, 0.7, seed.
@@ -23,10 +19,6 @@ namespace Noise
 
         public SimplexNoise(int largestFeature, double persistence, int seed)
         {
-            this.largestFeature = largestFeature;
-            this.persistence = persistence;
-            this.seed = seed;
-
             // Recieves a number (eg 128) and calculates what power of 2 it is (eg 2^7)
             int numberOfOctaves = (int)Math.Ceiling(Math.Log10(largestFeature) / Math.Log10(2));
 

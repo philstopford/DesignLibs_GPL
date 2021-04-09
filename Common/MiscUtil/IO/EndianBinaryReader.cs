@@ -75,8 +75,8 @@ namespace MiscUtil.IO
             this.stream = stream;
             this.bitConverter = bitConverter;
             this.encoding = encoding;
-            this.decoder = encoding.GetDecoder();
-            this.minBytesPerChar = 1;
+            decoder = encoding.GetDecoder();
+            minBytesPerChar = 1;
 
             if (encoding is UnicodeEncoding)
             {

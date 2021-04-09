@@ -264,7 +264,7 @@ namespace MiscUtil.IO
         {
             if (value == null)
             {
-                throw (new System.ArgumentNullException("value"));
+                throw (new ArgumentNullException("value"));
             }
             WriteInternal(value, value.Length);
         }

@@ -48,7 +48,7 @@ namespace geoWrangler
             }
             else
             {
-                IntRect firstLayerBounds = Clipper.GetBounds(sourcePaths);
+                IntRect firstLayerBounds = ClipperBase.GetBounds(sourcePaths);
                 Path firstLayerBP = new Path();
                 if (!useBounds)
                 {
@@ -60,7 +60,7 @@ namespace geoWrangler
                 }
                 else
                 {
-                    IntRect bounds = Clipper.GetBounds(sourcePaths);
+                    IntRect bounds = ClipperBase.GetBounds(sourcePaths);
                     firstLayerBP.Add(new IntPoint(bounds.left, bounds.bottom));
                     firstLayerBP.Add(new IntPoint(bounds.left, bounds.top));
                     firstLayerBP.Add(new IntPoint(bounds.right, bounds.top));

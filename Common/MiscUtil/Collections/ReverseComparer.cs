@@ -28,7 +28,7 @@ namespace MiscUtil.Collections
         public ReverseComparer(IComparer<T> original)
         {
             original.ThrowIfNull("original");
-            this.originalComparer = original;
+            originalComparer = original;
         }
 
         /// <summary>

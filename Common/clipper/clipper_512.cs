@@ -74,15 +74,15 @@ namespace ClipperLib
 
         public DoublePoint(double x = 0, double y = 0)
         {
-            this.X = x; this.Y = y;
+            X = x; Y = y;
         }
         public DoublePoint(DoublePoint dp)
         {
-            this.X = dp.X; this.Y = dp.Y;
+            X = dp.X; Y = dp.Y;
         }
         public DoublePoint(IntPoint ip)
         {
-            this.X = ip.X; this.Y = ip.Y;
+            X = ip.X; Y = ip.Y;
         }
     };
 
@@ -359,22 +359,22 @@ namespace ClipperLib
 
         public IntPoint(cInt x, cInt y, cInt z = 0)
         {
-            this.X = x; this.Y = y; this.Z = z;
+            X = x; Y = y; Z = z;
         }
 
         public IntPoint(double x, double y, double z = 0)
         {
-            this.X = (cInt)x; this.Y = (cInt)y; this.Z = (cInt)z;
+            X = (cInt)x; Y = (cInt)y; Z = (cInt)z;
         }
 
         public IntPoint(DoublePoint dp)
         {
-            this.X = (cInt)dp.X; this.Y = (cInt)dp.Y; this.Z = 0;
+            X = (cInt)dp.X; Y = (cInt)dp.Y; Z = 0;
         }
 
         public IntPoint(IntPoint pt)
         {
-            this.X = pt.X; this.Y = pt.Y; this.Z = pt.Z;
+            X = pt.X; Y = pt.Y; Z = pt.Z;
         }
 #else
     public IntPoint(cInt X, cInt Y)
@@ -430,13 +430,13 @@ namespace ClipperLib
 
         public IntRect(cInt l, cInt t, cInt r, cInt b)
         {
-            this.left = l; this.top = t;
-            this.right = r; this.bottom = b;
+            left = l; top = t;
+            right = r; bottom = b;
         }
         public IntRect(IntRect ir)
         {
-            this.left = ir.left; this.top = ir.top;
-            this.right = ir.right; this.bottom = ir.bottom;
+            left = ir.left; top = ir.top;
+            right = ir.right; bottom = ir.bottom;
         }
     }
 
@@ -4743,7 +4743,7 @@ namespace ClipperLib
             }
             else
             {
-                IntRect r = Clipper.GetBounds(m_destPolys);
+                IntRect r = ClipperBase.GetBounds(m_destPolys);
                 Path outer = new Path(4);
 
                 outer.Add(new IntPoint(r.left - 10, r.bottom + 10));
@@ -4776,7 +4776,7 @@ namespace ClipperLib
             }
             else
             {
-                IntRect r = Clipper.GetBounds(m_destPolys);
+                IntRect r = ClipperBase.GetBounds(m_destPolys);
                 Path outer = new Path(4);
 
                 outer.Add(new IntPoint(r.left - 10, r.bottom + 10));

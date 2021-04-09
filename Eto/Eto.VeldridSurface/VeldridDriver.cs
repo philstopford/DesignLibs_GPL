@@ -1364,7 +1364,7 @@ namespace VeldridEto
 				PrimitiveTopology = PrimitiveTopology.LineStrip,
 				ResourceLayouts = new[] { viewMatrixLayout, modelMatrixLayout },
 				ShaderSet = new ShaderSetDescription(
-					vertexLayouts: new VertexLayoutDescription[] { vertexLayout },
+					vertexLayouts: new[] { vertexLayout },
 					shaders: shaders),
 				Outputs = Surface.Swapchain.Framebuffer.OutputDescription
 			});
@@ -1385,7 +1385,7 @@ namespace VeldridEto
 				PrimitiveTopology = PrimitiveTopology.LineList,
 				ResourceLayouts = new[] { viewMatrixLayout, modelMatrixLayout },
 				ShaderSet = new ShaderSetDescription(
-					vertexLayouts: new VertexLayoutDescription[] { vertexLayout },
+					vertexLayouts: new[] { vertexLayout },
 					shaders: shaders),
 				Outputs = Surface.Swapchain.Framebuffer.OutputDescription
 			});
@@ -1406,7 +1406,7 @@ namespace VeldridEto
 				PrimitiveTopology = PrimitiveTopology.LineStrip,
 				ResourceLayouts = new[] { viewMatrixLayout, modelMatrixLayout },
 				ShaderSet = new ShaderSetDescription(
-					vertexLayouts: new VertexLayoutDescription[] { vertexLayout },
+					vertexLayouts: new[] { vertexLayout },
 					shaders: shaders),
 				Outputs = Surface.Swapchain.Framebuffer.OutputDescription
 			});
@@ -1427,7 +1427,7 @@ namespace VeldridEto
 				PrimitiveTopology = PrimitiveTopology.TriangleStrip,
 				ResourceLayouts = new[] { viewMatrixLayout, modelMatrixLayout },
 				ShaderSet = new ShaderSetDescription(
-					vertexLayouts: new VertexLayoutDescription[] { vertexLayout },
+					vertexLayouts: new[] { vertexLayout },
 					shaders: shaders),
 				Outputs = Surface.Swapchain.Framebuffer.OutputDescription
 			});

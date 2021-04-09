@@ -73,7 +73,7 @@ namespace utility
             {
                 CalcBinBoundaries(numBins, maxValue, minValue);
             }
-            CheckBinBoundaries(this.binBoundaries_);
+            CheckBinBoundaries(binBoundaries_);
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace utility
             Array.Sort(sortedData);
             counts_ = new int[numBins];
             CalcBinBoundaries(numBins, sortedData[0], sortedData[data.Length - 1]);
-            CheckBinBoundaries(this.binBoundaries_);
+            CheckBinBoundaries(binBoundaries_);
             AddSortedData(sortedData);
         }
 

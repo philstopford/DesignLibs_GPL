@@ -93,7 +93,7 @@ namespace color
             this.B = B;
             Bf = B / 255.0f;
 
-            this.A = 255;
+            A = 255;
             Af = 1.0f;
         }
 
@@ -119,7 +119,7 @@ namespace color
             this.B = (Int32)(B * 255);
 
             A = 255;
-            this.Af = 1.0f;
+            Af = 1.0f;
         }
 
         public MyColor(MyColor sourceColor)

@@ -216,13 +216,13 @@ namespace geoWrangler
             // Force to clockwise as a safety measure.
             for (int i = 0; i < a.Count; i++)
             {
-                rationalizedFirstLayer.Add(GeoWrangler.clockwise(/*Clipper.CleanPolygon*/(a[i])));
+                rationalizedFirstLayer.Add(clockwise(/*Clipper.CleanPolygon*/(a[i])));
             }
 
             Paths rationalizedSecondLayer = new Paths();
             for (int i = 0; i < b.Count; i++)
             {
-                rationalizedSecondLayer.Add(GeoWrangler.clockwise(/*Clipper.CleanPolygon*/(b[i])));
+                rationalizedSecondLayer.Add(clockwise(/*Clipper.CleanPolygon*/(b[i])));
             }
 
             // Intersection should not matter based on order.
@@ -235,7 +235,7 @@ namespace geoWrangler
             for (int i = 0; i < intersectionPaths.Count; i++)
             {
                 // Fix point order to ensure we can compare easily.
-                Path intersectionPath = GeoWrangler.clockwise(intersectionPaths[i]);
+                Path intersectionPath = clockwise(intersectionPaths[i]);
 
                 // Compare hashes.
                 string intersectionPathHash = utility.Utils.GetMD5Hash(intersectionPath.ToString());

@@ -661,7 +661,7 @@ namespace MiscUtil.Conversion
             /// <param name="i">The integer value of the new instance.</param>
             internal Int32SingleUnion(int i)
             {
-                this.f = 0; // Just to keep the compiler happy
+                f = 0; // Just to keep the compiler happy
                 this.i = i;
             }
 
@@ -671,7 +671,7 @@ namespace MiscUtil.Conversion
             /// <param name="f">The floating point value of the new instance.</param>
             internal Int32SingleUnion(float f)
             {
-                this.i = 0; // Just to keep the compiler happy
+                i = 0; // Just to keep the compiler happy
                 this.f = f;
             }
 

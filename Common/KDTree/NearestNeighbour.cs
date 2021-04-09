@@ -51,19 +51,19 @@ namespace KDTree
             Array.Copy(tSearchPoint, this.tSearchPoint, tSearchPoint.Length);
 
             // Store the point count, distance function and tree root.
-            this.iPointsRemaining = Math.Min(iMaxPoints, pRoot.Size);
+            iPointsRemaining = Math.Min(iMaxPoints, pRoot.Size);
             this.fThreshold = fThreshold;
-            this.kDistanceFunction = kDistance;
+            kDistanceFunction = kDistance;
             this.pRoot = pRoot;
-            this.iMaxPointsReturned = iMaxPoints;
+            iMaxPointsReturned = iMaxPoints;
             _CurrentDistance = -1;
 
             // Create an interval heap for the points we check.
-            this.pEvaluated = new IntervalHeap<T>();
+            pEvaluated = new IntervalHeap<T>();
 
             // Create a min heap for the things we need to check.
-            this.pPending = new MinHeap<KDNode<T>>();
-            this.pPending.Insert(0, pRoot);
+            pPending = new MinHeap<KDNode<T>>();
+            pPending.Insert(0, pRoot);
         }
 
         /// <summary>
@@ -188,15 +188,15 @@ namespace KDTree
         public void Reset()
         {
             // Store the point count and the distance function.
-            this.iPointsRemaining = Math.Min(iMaxPointsReturned, pRoot.Size);
+            iPointsRemaining = Math.Min(iMaxPointsReturned, pRoot.Size);
             _CurrentDistance = -1;
 
             // Create an interval heap for the points we check.
-            this.pEvaluated = new IntervalHeap<T>();
+            pEvaluated = new IntervalHeap<T>();
 
             // Create a min heap for the things we need to check.
-            this.pPending = new MinHeap<KDNode<T>>();
-            this.pPending.Insert(0, pRoot);
+            pPending = new MinHeap<KDNode<T>>();
+            pPending.Insert(0, pRoot);
         }
 
         /// <summary>

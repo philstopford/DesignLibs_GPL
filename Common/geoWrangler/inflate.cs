@@ -53,7 +53,7 @@ namespace geoWrangler
             Clipper c = new Clipper();
             c.AddPaths(allSolutions, PolyType.ptSubject, true);
 
-            IntRect b = Clipper.GetBounds(allSolutions);
+            IntRect b = ClipperBase.GetBounds(allSolutions);
 
             Path bPath = new Path();
             bPath.Add(new IntPoint(b.left, b.bottom));

@@ -69,12 +69,12 @@ namespace KDTree
             // Variables.
             this.iDimensions = iDimensions;
             this.iBucketCapacity = iBucketCapacity;
-            this.Size = 0;
-            this.bSinglePoint = true;
+            Size = 0;
+            bSinglePoint = true;
 
             // Setup leaf elements.
-            this.tPoints = new double[iBucketCapacity + 1][];
-            this.tData = new T[iBucketCapacity + 1];
+            tPoints = new double[iBucketCapacity + 1][];
+            tData = new T[iBucketCapacity + 1];
         }
         #endregion
 

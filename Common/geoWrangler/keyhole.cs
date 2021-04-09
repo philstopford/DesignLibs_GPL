@@ -246,7 +246,7 @@ namespace geoWrangler
                 return source;
             }
 
-            bool orig_orient_gw = GeoWrangler.isClockwise(source[0]);
+            bool orig_orient_gw = isClockwise(source[0]);
             bool orig_orient_c = Clipper.Orientation(source[0]);
 
             Paths ret = pRemoveFragments(source, customSizing, extension, maySimplify);
@@ -260,7 +260,7 @@ namespace geoWrangler
             ret = Clipper.SimplifyPolygons(ret);
 
             // Validate orientations.
-            bool gR_orient_gw = GeoWrangler.isClockwise(ret[0]);
+            bool gR_orient_gw = isClockwise(ret[0]);
             bool gR_orient_c = Clipper.Orientation(ret[0]);
 
             bool reverseNeeded = (gR_orient_gw != orig_orient_gw) || (gR_orient_c != orig_orient_c);

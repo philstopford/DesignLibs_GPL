@@ -93,8 +93,8 @@ namespace MiscUtil.Collections
             this.start = start;
             this.end = end;
             this.comparer = comparer;
-            this.includesStart = includeStart;
-            this.includesEnd = includeEnd;
+            includesStart = includeStart;
+            includesEnd = includeEnd;
         }
 
         /// <summary>

@@ -45,7 +45,7 @@ namespace MiscUtil
             // Make sure the settings are available to all threads.
             using (padlock.Lock())
             {
-                this.options = new Options();
+                options = new Options();
             }
         }
 

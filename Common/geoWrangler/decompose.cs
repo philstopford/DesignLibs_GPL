@@ -227,9 +227,9 @@ namespace geoWrangler
 
         static List<GeoLibPoint[]> decompose_poly_to_rectangles(ref bool abort, GeoLibPoint[] _poly, Int32 scaling, Int64 maxRayLength, double angularTolerance, bool vertical)
         {
-            Path lPoly = GeoWrangler.pathFromPoint(pClockwiseAndReorder(_poly), scaling);
+            Path lPoly = pathFromPoint(pClockwiseAndReorder(_poly), scaling);
 
-            if ((_poly.Length == 5) && GeoWrangler.orthogonal(GeoWrangler.stripTerminators(_poly, false), angularTolerance))
+            if ((_poly.Length == 5) && orthogonal(stripTerminators(_poly, false), angularTolerance))
             {
                 return new List<GeoLibPoint[]>() { _poly };
             }
@@ -279,8 +279,8 @@ namespace geoWrangler
                             {
                                 break;
                             }
-                            double aDist_t = GeoWrangler.distanceBetweenPoints(lPoly[lPolyPt], p[path][0]);
-                            double bDist_t = GeoWrangler.distanceBetweenPoints(lPoly[lPolyPt], p[path][1]);
+                            double aDist_t = distanceBetweenPoints(lPoly[lPolyPt], p[path][0]);
+                            double bDist_t = distanceBetweenPoints(lPoly[lPolyPt], p[path][1]);
 
                             aDist = Math.Min(aDist_t, aDist);
                             bDist = Math.Min(bDist_t, bDist);
@@ -402,11 +402,11 @@ namespace geoWrangler
                 Paths f = new Paths();
                 c.Execute(ClipType.ctDifference, f, PolyFillType.pftEvenOdd, PolyFillType.pftEvenOdd);
 
-                final = GeoWrangler.pointsFromPaths(f, scaling);
+                final = pointsFromPaths(f, scaling);
 
-                final = GeoWrangler.simplify(final);
+                final = simplify(final);
 
-                final = GeoWrangler.clockwiseAndReorder(final);
+                final = clockwiseAndReorder(final);
             }
 
             return final;

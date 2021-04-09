@@ -175,7 +175,7 @@ namespace MiscUtil.Compression.Vcdiff
             MemoryStream tableDelta = new MemoryStream(compressedTableData, false);
             byte[] decompressedTableData = new byte[1536];
             MemoryStream tableOutput = new MemoryStream(decompressedTableData, true);
-            VcdiffDecoder.Decode(tableOriginal, tableDelta, tableOutput);
+            Decode(tableOriginal, tableDelta, tableOutput);
 
             if (tableOutput.Position != 1536)
             {

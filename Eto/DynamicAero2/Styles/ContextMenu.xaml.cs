@@ -16,7 +16,7 @@ namespace DynamicAero2.Styles
         {
             var baseStyle = this[baseType] as Style;
             var style = new Style(targetType, baseStyle);
-            this.Add(targetType, style);
+            Add(targetType, style);
         }
     }
 }

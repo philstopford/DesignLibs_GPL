@@ -101,7 +101,7 @@ namespace MiscUtil
         /// </summary>
         public bool Equals(NonNullable<T> other)
         {
-            return object.Equals(this.value, other.value);
+            return object.Equals(value, other.value);
         }
 
         /// <summary>

@@ -106,7 +106,7 @@ namespace MiscUtil.Text
         {
             if (utf16 == null)
             {
-                throw (new System.ArgumentNullException("utf16"));
+                throw (new ArgumentNullException("utf16"));
             }
             // Assume no surrogates to start with
             characters = new int[utf16.Length];
@@ -179,7 +179,7 @@ namespace MiscUtil.Text
             }
             if (start == Length)
             {
-                return Utf32String.Empty;
+                return Empty;
             }
             return Substring(start, Length - start);
         }
@@ -213,7 +213,7 @@ namespace MiscUtil.Text
             }
             if (count == 0)
             {
-                return Utf32String.Empty;
+                return Empty;
             }
             int[] tmp = new int[count];
             Array.Copy(characters, start, tmp, 0, count);
@@ -262,7 +262,7 @@ namespace MiscUtil.Text
         {
             if (value == null)
             {
-                throw (new System.ArgumentNullException("value"));
+                throw (new ArgumentNullException("value"));
             }
             if (start < 0 || start > Length)
             {
@@ -375,7 +375,7 @@ namespace MiscUtil.Text
         /// <returns>Whether or not this string is equal to the other one.</returns>
         public bool Equals(Utf32String other)
         {
-            if (Object.ReferenceEquals(this, other))
+            if (ReferenceEquals(this, other))
             {
                 return true;
             }
@@ -402,7 +402,7 @@ namespace MiscUtil.Text
         /// is lexicographically before strB; a positive number otherwise</returns>
         public static int Compare(Utf32String strA, Utf32String strB)
         {
-            if (object.ReferenceEquals(strA, strB))
+            if (ReferenceEquals(strA, strB))
             {
                 return 0;
             }
@@ -436,7 +436,7 @@ namespace MiscUtil.Text
             }
             if (size == 0)
             {
-                return Utf32String.Empty;
+                return Empty;
             }
             int[] tmp = new int[size];
             int index = 0;
@@ -459,7 +459,7 @@ namespace MiscUtil.Text
         /// <returns>A string consisting of the first string followed by the second</returns>
         public static Utf32String Concat(Utf32String strA, Utf32String strB)
         {
-            return Concat(new Utf32String[] { strA, strB });
+            return Concat(new[] { strA, strB });
         }
 
         /// <summary>
@@ -474,7 +474,7 @@ namespace MiscUtil.Text
         /// </returns>
         public static Utf32String Concat(Utf32String strA, Utf32String strB, Utf32String strC)
         {
-            return Concat(new Utf32String[] { strA, strB, strC });
+            return Concat(new[] { strA, strB, strC });
         }
 
         /// <summary>
@@ -491,7 +491,7 @@ namespace MiscUtil.Text
         /// </returns>
         public static Utf32String Concat(Utf32String strA, Utf32String strB, Utf32String strC, Utf32String strD)
         {
-            return Concat(new Utf32String[] { strA, strB, strC, strD });
+            return Concat(new[] { strA, strB, strC, strD });
         }
         #endregion
 
@@ -643,7 +643,7 @@ namespace MiscUtil.Text
                 throw new ArgumentException("Can only compare Utf32Strings", "obj");
             }
 
-            int minLength = Math.Min(this.Length, other.Length);
+            int minLength = Math.Min(Length, other.Length);
             for (int i = 0; i < minLength; i++)
             {
                 int result = this[i] - other[i];
@@ -654,7 +654,7 @@ namespace MiscUtil.Text
             }
             // Both strings are the same for all the characters in the shorter
             // one. The longer one is now greater, or they're the same.
-            return this.Length - other.Length;
+            return Length - other.Length;
         }
         #endregion
 

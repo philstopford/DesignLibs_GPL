@@ -38,10 +38,10 @@ namespace KDTree
         /// <param name="capacity"></param>
         public IntervalHeap(int capacity)
         {
-            this.tData = new T[capacity];
-            this.tKeys = new double[capacity];
-            this.Capacity = capacity;
-            this.Size = 0;
+            tData = new T[capacity];
+            tKeys = new double[capacity];
+            Capacity = capacity;
+            Size = 0;
         }
 
         /// <summary>

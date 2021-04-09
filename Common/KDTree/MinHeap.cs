@@ -37,10 +37,10 @@ namespace KDTree
         /// <param name="iCapacity"></param>
         public MinHeap(int iCapacity)
         {
-            this.tData = new T[iCapacity];
-            this.tKeys = new double[iCapacity];
-            this.Capacity = iCapacity;
-            this.Size = 0;
+            tData = new T[iCapacity];
+            tKeys = new double[iCapacity];
+            Capacity = iCapacity;
+            Size = 0;
         }
 
         /// <summary>

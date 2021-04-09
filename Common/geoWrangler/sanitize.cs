@@ -605,7 +605,7 @@ namespace geoWrangler
         {
             bool firstLast_same = false;
             int pt_Check = source.Count - 1;
-            if (GeoWrangler.distanceBetweenPoints(source[pt_Check], source[0]) < 0.01)
+            if (distanceBetweenPoints(source[pt_Check], source[0]) < 0.01)
             {
                 firstLast_same = true; // remove duplicated points. The shape will be closed later.
             }
@@ -613,7 +613,7 @@ namespace geoWrangler
             {
                 source.RemoveAt(pt_Check); // remove duplicated points. The shape will be closed later
                 pt_Check--;
-                if (GeoWrangler.distanceBetweenPoints(source[pt_Check], source[0]) > 0.01)
+                if (distanceBetweenPoints(source[pt_Check], source[0]) > 0.01)
                 {
                     firstLast_same = false; // stop at the first unmatched point.
                 }
@@ -773,7 +773,7 @@ namespace geoWrangler
         {
             bool firstLast_same = false;
             int pt_Check = source.Count - 1;
-            if (GeoWrangler.distanceBetweenPoints(source[pt_Check], source[0]) < 0.01)
+            if (distanceBetweenPoints(source[pt_Check], source[0]) < 0.01)
             {
                 firstLast_same = true; // remove duplicated points. The shape will be closed later.
             }
@@ -781,7 +781,7 @@ namespace geoWrangler
             {
                 source.RemoveAt(pt_Check); // remove duplicated points. The shape will be closed later
                 pt_Check--;
-                if (GeoWrangler.distanceBetweenPoints(source[pt_Check], source[0]) > 0.01)
+                if (distanceBetweenPoints(source[pt_Check], source[0]) > 0.01)
                 {
                     firstLast_same = false; // stop at the first unmatched point.
                 }
@@ -809,7 +809,7 @@ namespace geoWrangler
 
             bool firstLast_same = false;
             int pt_Check = source.Count - 1;
-            if (GeoWrangler.distanceBetweenPoints(source[pt_Check], source[0]) < 10)
+            if (distanceBetweenPoints(source[pt_Check], source[0]) < 10)
             {
                 firstLast_same = true; // remove duplicated points. The shape will be closed later.
             }
@@ -821,7 +821,7 @@ namespace geoWrangler
                 {
                     return source;
                 }
-                if (GeoWrangler.distanceBetweenPoints(source[pt_Check], source[0]) > 10)
+                if (distanceBetweenPoints(source[pt_Check], source[0]) > 10)
                 {
                     firstLast_same = false; // stop at the first unmatched point.
                 }

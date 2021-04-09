@@ -25,7 +25,7 @@ namespace utility
 
         static string pFriendlyNumber(double number)
         {
-            string ret = "";
+            string ret;
             if (number >= 1E12)
             {
                 ret = (number / 1E12).ToString("0.##") + " trillion";
@@ -129,7 +129,7 @@ namespace utility
         /// <returns>
         ///     A base 64 encoded string representation of the hash.
         /// </returns>
-        public static string GetHash<T>(this object instance) where T : System.Security.Cryptography.HashAlgorithm, new()
+        public static string GetHash<T>(this object instance) where T : HashAlgorithm, new()
         {
             T cryptoServiceProvider = new T();
             return computeHash(instance, cryptoServiceProvider);

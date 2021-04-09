@@ -21,7 +21,7 @@ namespace utility
 
             // Test for NaN, infinity, and zero.
             if (Double.IsNaN(value) ||
-                value + value == value ||
+                Math.Abs(value + value - value) < Double.Epsilon ||
                 Double.IsInfinity(value))
             {
                 result.exponent = 0;

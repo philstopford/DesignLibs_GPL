@@ -60,7 +60,7 @@ namespace utility
         /// be created.</exception>
         public Histo(int numBins, double minValue, double maxValue)
         {
-            if (minValue == maxValue)
+            if (Math.Abs(minValue - maxValue) < Double.Epsilon)
             {
                 throw new ArgumentException("Maximum and minimum values are equal");
             }
@@ -325,7 +325,7 @@ namespace utility
             {
                 ++numSmaller_;
             }
-            else if (d > binBoundaries_[binBoundaries_.Length - 1])
+            else if (d > binBoundaries_[^1])
             {
                 ++numLarger_;
             }
@@ -338,7 +338,7 @@ namespace utility
                 }
                 if (bin == binBoundaries_.Length)
                 {
-                    ++counts_[counts_.Length - 1];
+                    ++counts_[^1];
                 }
                 else
                 {
@@ -424,7 +424,7 @@ namespace utility
         {
             binBoundaries_ = new double[numBins + 1];
             binBoundaries_[0] = minValue;
-            binBoundaries_[binBoundaries_.Length - 1] = maxValue;
+            binBoundaries_[^1] = maxValue;
             double binSize = (maxValue - minValue) / numBins;
             for (int i = 1; i < binBoundaries_.Length - 1; ++i)
             {

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 
 namespace geoLib
 {
@@ -142,7 +141,7 @@ namespace geoLib
 #if GEOLIBTHREADED
             Parallel.For(0, sLength, (pt) =>
 #else
-            for (int pt = 0; pt < source.Length; pt++)
+            for (int pt = 0; pt < sLength; pt++)
 #endif
             {
                 double x1 = m11 * source[pt].X + m21 * source[pt].Y + dx;
@@ -172,7 +171,7 @@ namespace geoLib
 #if GEOLIBTHREADED
             Parallel.For(0, sLength, (pt) => 
 #else
-            for (int pt = 0; pt < source.Length; pt++)
+            for (int pt = 0; pt < sLength; pt++)
 #endif
             {
                 double x1 = m11 * source[pt].X + m21 * source[pt].Y + dx;

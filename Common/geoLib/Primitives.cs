@@ -27,14 +27,14 @@ namespace geoLib
             pMyVertex(source.X, source.Y, source.direction, source.vertical, source.inner, source.type);
         }
 
-        void pMyVertex(double X, double Y, typeDirection direction, bool vertical, bool inner, typeVertex type)
+        void pMyVertex(double X_, double Y_, typeDirection direction_, bool vertical_, bool inner_, typeVertex type_)
         {
-            this.X = X;
-            this.Y = Y;
-            this.direction = direction;
-            this.vertical = vertical;
-            this.inner = inner;
-            this.type = type;
+            X = X_;
+            Y = Y_;
+            direction = direction_;
+            vertical = vertical_;
+            inner = inner_;
+            type = type_;
             xBiasApplied = false;
             yBiasApplied = false;
         }

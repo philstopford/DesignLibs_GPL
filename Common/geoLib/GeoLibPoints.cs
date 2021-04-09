@@ -42,26 +42,26 @@ namespace geoLib
             Y = sourcePoint.Y;
         }
 
-        public GeoLibPointF(double X, double Y)
+        public GeoLibPointF(double X_, double Y_)
         {
-            pGeoLibPointF(X, Y);
+            pGeoLibPointF(X_, Y_);
         }
 
-        void pGeoLibPointF(double X, double Y)
+        void pGeoLibPointF(double X_, double Y_)
         {
-            this.X = X;
-            this.Y = Y;
+            X = X_;
+            Y = Y_;
         }
 
-        public GeoLibPointF(float X, float Y)
+        public GeoLibPointF(float X_, float Y_)
         {
-            pGeoLibPointF(X, Y);
+            pGeoLibPointF(X_, Y_);
         }
 
-        void pGeoLibPointF(float X, float Y)
+        void pGeoLibPointF(float X_, float Y_)
         {
-            this.X = X;
-            this.Y = Y;
+            X = X_;
+            Y = Y_;
         }
 
         public void Offset(GeoLibPoint offset)
@@ -137,37 +137,37 @@ namespace geoLib
             Y = sourcePoint.Y;
         }
 
-        public GeoLibPoint(double X, double Y)
+        public GeoLibPoint(double X_, double Y_)
         {
-            pGeoLibPoint(X, Y);
+            pGeoLibPoint(X_, Y_);
         }
 
-        void pGeoLibPoint(double X, double Y)
+        void pGeoLibPoint(double X_, double Y_)
         {
-            this.X = (Int32)X;
-            this.Y = (Int32)Y;
+            X = (Int32)X_;
+            Y = (Int32)Y_;
         }
 
-        public GeoLibPoint(float X, float Y)
+        public GeoLibPoint(float X_, float Y_)
         {
-            pGeoLibPoint(X, Y);
+            pGeoLibPoint(X_, Y_);
         }
 
-        void pGeoLibPoint(float X, float Y)
+        void pGeoLibPoint(float X_, float Y_)
         {
-            this.X = (Int32)X;
-            this.Y = (Int32)Y;
+            X = (Int32)X_;
+            Y = (Int32)Y_;
         }
 
-        public GeoLibPoint(Int32 X, Int32 Y)
+        public GeoLibPoint(Int32 X_, Int32 Y_)
         {
-            pGeoLibPoint(X, Y);
+            pGeoLibPoint(X_, Y_);
         }
 
-        void pGeoLibPoint(Int32 X, Int32 Y)
+        void pGeoLibPoint(Int32 X_, Int32 Y_)
         {
-            this.X = X;
-            this.Y = Y;
+            X = X_;
+            Y = Y_;
         }
 
         public void Offset(GeoLibPoint offset)

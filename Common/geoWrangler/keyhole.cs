@@ -129,10 +129,6 @@ namespace geoWrangler
 
                         extraCutters.AddRange(new Paths(sPaths));
                     }
-                    else
-                    {
-                        int xxx = 2;
-                    }
 
                     Clipper c = new Clipper();
                     c.AddPaths(cutters, PolyType.ptSubject, true);

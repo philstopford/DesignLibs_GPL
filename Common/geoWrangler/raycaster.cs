@@ -74,16 +74,6 @@ namespace geoWrangler
 
         void rayCast(Path emissionPath, Paths collisionPaths, Int64 maxRayLength, bool projectCorners, bool invert, int multisampleRayCount, bool runOuterLoopThreaded, bool runInnerLoopThreaded, IntPoint startOffset, IntPoint endOffset, falloff sideRayFallOff, double sideRayFallOffMultiplier, forceSingleDirection dirOverride)
         {
-            if (startOffset == null)
-            {
-                startOffset = new IntPoint(0, 0);
-            }
-
-            if (endOffset == null)
-            {
-                endOffset = new IntPoint(0, 0);
-            }
-
             // Setting this to true, we shorten rays with the falloff. False means we reduce the contribution to the average instead.
             bool truncateRaysByWeight = false;
 
@@ -96,14 +86,7 @@ namespace geoWrangler
             Path[] clippedLines_ = new Path[ptCount];
 
             // We need to think about the end point case.
-            bool closedPathEmitter = false;
-            if ((ptCount > 3) && ((emissionPath[0].X == emissionPath[ptCount - 1].X) && (emissionPath[0].Y == emissionPath[ptCount - 1].Y)))
-            {
-                closedPathEmitter = true;
-            }
-
-            Int64 dx = 0;
-            Int64 dy = 0;
+            bool closedPathEmitter = (ptCount > 3) && ((emissionPath[0].X == emissionPath[ptCount - 1].X) && (emissionPath[0].Y == emissionPath[ptCount - 1].Y));
 
             // Get average angle for this vertex based on angles from line segments.
             // http://stackoverflow.com/questions/1243614/how-do-i-calculate-the-normal-vector-of-a-line-segment
@@ -115,7 +98,8 @@ namespace geoWrangler
             for (Int32 pt = 0; pt < ptCount; pt++)
             {
                 // Start point
-                IntPoint startPoint = new IntPoint(emissionPath[pt]);
+                Int64 dx;
+                Int64 dy;
                 if (pt == emissionPath.Count - 1)
                 {
                     // Last matches the first. Since we flip the dx and dy tone later, we need to compensate here.
@@ -190,7 +174,7 @@ namespace geoWrangler
                 // http://stackoverflow.com/questions/1243614/how-do-i-calculate-the-normal-vector-of-a-line-segment
 
                 if (projectCorners && (((currentEdgeNormal.X == 0) && (previousEdgeNormal.Y == 0)) ||
-                    ((currentEdgeNormal.Y == 0) && (previousEdgeNormal.X == 0))))
+                                       ((currentEdgeNormal.Y == 0) && (previousEdgeNormal.X == 0))))
                 {
                     Int64 tX = currentEdgeNormal.X;
                     Int64 tY = currentEdgeNormal.Y;
@@ -337,112 +321,112 @@ namespace geoWrangler
 
                 object resultLock = new object();
                 Parallel.For(0, rays.Count, po_inner, ray =>
-                {
-                    Clipper d = new Clipper();
-                    if (sideRayFallOff != falloff.none)
                     {
-                        d.ZFillFunction = prox_ZFillCallback;
-                    }
-                    d.AddPath(rays[ray], PolyType.ptSubject, false);
-                    d.AddPaths(collisionPaths, PolyType.ptClip, true);
-                    PolyTree polyTree = new PolyTree();
-                    if (invert)
-                    {
-                        d.Execute(ClipType.ctIntersection, polyTree);
-                    }
-                    else
-                    {
-                        d.Execute(ClipType.ctDifference, polyTree);
-                    }
-
-                    // There is no matching order in the return output here, so we have to take this odd approach.
-                    Paths tmpLine = Clipper.OpenPathsFromPolyTree(polyTree);
-
-                    int tmpLineCount = tmpLine.Count;
-
-                    // If we got no result, let's get that sorted out. End and start points are the same.
-                    if (tmpLineCount == 0)
-                    {
-                        Monitor.Enter(resultLock);
-                        try
+                        Clipper d = new Clipper();
+                        if (sideRayFallOff != falloff.none)
                         {
-                            resultX[ray] = startPoint.X;
-                            resultY[ray] = startPoint.Y;
-                            weight[ray] = 1.0f;
+                            d.ZFillFunction = prox_ZFillCallback;
                         }
-                        finally
+                        d.AddPath(rays[ray], PolyType.ptSubject, false);
+                        d.AddPaths(collisionPaths, PolyType.ptClip, true);
+                        PolyTree polyTree = new PolyTree();
+                        if (invert)
                         {
-                            Monitor.Exit(resultLock);
-                        }
-                    }
-
-                    if (tmpLineCount > 1)
-                    {
-                        // We got two lines back. Need to check this carefully.
-                        // We need to find the line that has a start/end point matched to our origin point for the ray.
-                        int index = -1;
-                        for (int tL = 0; tL < tmpLine.Count; tL++)
-                        {
-                            Int64 tL0X = tmpLine[tL][0].X;
-                            Int64 tL0Y = tmpLine[tL][0].Y;
-                            Int64 tL1X = tmpLine[tL][1].X;
-                            Int64 tL1Y = tmpLine[tL][1].Y;
-                            if (((tL0X == startPoint.X) && (tL0Y == startPoint.Y)) || ((tL1X == startPoint.X) && (tL1Y == startPoint.Y)))
-                            {
-                                index = tL;
-                                break;
-                            }
-                        }
-                        Path tPath = new Path();
-                        if (index >= 0)
-                        {
-                            tPath = tmpLine[index];
+                            d.Execute(ClipType.ctIntersection, polyTree);
                         }
                         else
                         {
-                            tPath.Add(startPoint);
-                            tPath.Add(startPoint);
+                            d.Execute(ClipType.ctDifference, polyTree);
                         }
-                        tmpLine.Clear();
-                        tmpLine.Add(tPath);
-                    }
 
-                    tmpLineCount = tmpLine.Count;
+                        // There is no matching order in the return output here, so we have to take this odd approach.
+                        Paths tmpLine = Clipper.OpenPathsFromPolyTree(polyTree);
 
-                    for (int tL = 0; tL < tmpLineCount; tL++)
-                    {
-                        // Figure out which end of the result line matches our origin point.
-                        if ((tmpLine[tL][0].X == startPoint.X) && (tmpLine[tL][0].Y == startPoint.Y))
+                        int tmpLineCount = tmpLine.Count;
+
+                        // If we got no result, let's get that sorted out. End and start points are the same.
+                        if (tmpLineCount == 0)
                         {
                             Monitor.Enter(resultLock);
                             try
                             {
-                                resultX[ray] = tmpLine[tL][1].X;
-                                resultY[ray] = tmpLine[tL][1].Y;
-                                weight[ray] = Convert.ToDouble(tmpLine[tL][1].Z) / 1E4;
+                                resultX[ray] = startPoint.X;
+                                resultY[ray] = startPoint.Y;
+                                weight[ray] = 1.0f;
                             }
                             finally
                             {
                                 Monitor.Exit(resultLock);
                             }
                         }
-                        else if ((tmpLine[tL][1].X == startPoint.X) && (tmpLine[tL][1].Y == startPoint.Y))
+
+                        if (tmpLineCount > 1)
                         {
-                            Monitor.Enter(resultLock);
-                            try
+                            // We got two lines back. Need to check this carefully.
+                            // We need to find the line that has a start/end point matched to our origin point for the ray.
+                            int index = -1;
+                            for (int tL = 0; tL < tmpLine.Count; tL++)
                             {
-                                // Clipper reversed the line direction, so we need to deal with this.
-                                resultX[ray] = tmpLine[tL][0].X;
-                                resultY[ray] = tmpLine[tL][0].Y;
-                                weight[ray] = Convert.ToDouble(tmpLine[tL][0].Z) / 1E4;
+                                Int64 tL0X = tmpLine[tL][0].X;
+                                Int64 tL0Y = tmpLine[tL][0].Y;
+                                Int64 tL1X = tmpLine[tL][1].X;
+                                Int64 tL1Y = tmpLine[tL][1].Y;
+                                if (((tL0X == startPoint.X) && (tL0Y == startPoint.Y)) || ((tL1X == startPoint.X) && (tL1Y == startPoint.Y)))
+                                {
+                                    index = tL;
+                                    break;
+                                }
                             }
-                            finally
+                            Path tPath = new Path();
+                            if (index >= 0)
                             {
-                                Monitor.Exit(resultLock);
+                                tPath = tmpLine[index];
+                            }
+                            else
+                            {
+                                tPath.Add(startPoint);
+                                tPath.Add(startPoint);
+                            }
+                            tmpLine.Clear();
+                            tmpLine.Add(tPath);
+                        }
+
+                        tmpLineCount = tmpLine.Count;
+
+                        for (int tL = 0; tL < tmpLineCount; tL++)
+                        {
+                            // Figure out which end of the result line matches our origin point.
+                            if ((tmpLine[tL][0].X == startPoint.X) && (tmpLine[tL][0].Y == startPoint.Y))
+                            {
+                                Monitor.Enter(resultLock);
+                                try
+                                {
+                                    resultX[ray] = tmpLine[tL][1].X;
+                                    resultY[ray] = tmpLine[tL][1].Y;
+                                    weight[ray] = Convert.ToDouble(tmpLine[tL][1].Z) / 1E4;
+                                }
+                                finally
+                                {
+                                    Monitor.Exit(resultLock);
+                                }
+                            }
+                            else if ((tmpLine[tL][1].X == startPoint.X) && (tmpLine[tL][1].Y == startPoint.Y))
+                            {
+                                Monitor.Enter(resultLock);
+                                try
+                                {
+                                    // Clipper reversed the line direction, so we need to deal with this.
+                                    resultX[ray] = tmpLine[tL][0].X;
+                                    resultY[ray] = tmpLine[tL][0].Y;
+                                    weight[ray] = Convert.ToDouble(tmpLine[tL][0].Z) / 1E4;
+                                }
+                                finally
+                                {
+                                    Monitor.Exit(resultLock);
+                                }
                             }
                         }
                     }
-                }
                 );
 
                 Path resultPath = new Path();

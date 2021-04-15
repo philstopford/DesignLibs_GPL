@@ -229,10 +229,6 @@ namespace geoCoreLib
             {
                 elements.Add(new Element(poly, false));
                 elements[^1].LD = ldString;
-                if (ldString == "L-1D-1")
-                {
-                    int xx = 2;
-                }
                 if (layerDataTypes.IndexOf(ldString) == -1)
                 {
                     layerDataTypes.Add(ldString);
@@ -249,10 +245,6 @@ namespace geoCoreLib
                 elements.Add(new Element(poly, true));
                 elements[^1].name = text;
                 elements[^1].LD = ldString;
-                if (ldString == "L-1D-1")
-                {
-                    int xx = 2;
-                }
                 if (layerDataTypes.IndexOf(ldString) == -1)
                 {
                     layerDataTypes.Add(ldString);
@@ -554,12 +546,6 @@ namespace geoCoreLib
 
                         string searchString = "L" + layer + "D" + datatype;
 
-                        if (searchString == "L-1D-1")
-                        {
-                            // We get into trouble here as the cell reference needs to be followed.... Ugh.
-                            int xx = 2;
-                        }
-
                         // Query our dictionary.
                         string resultString;
                         try
@@ -638,10 +624,7 @@ namespace geoCoreLib
                 names.Add(p.getName());
 
                 string ldString = "L" + p.layer_nr + "D" + p.datatype_nr;
-                if (ldString == "L-1D-1")
-                {
-                    int xx = 2;
-                }
+
                 // We should remove identical polygons here in case of doubled-up input geometry.
                 string crP_Hash = utility.Utils.GetMD5Hash(p.pointarray);
 
@@ -649,9 +632,9 @@ namespace geoCoreLib
                 {
                     hashList.Add(crP_Hash);
                     List<GeoLibPointF> t = new List<GeoLibPointF>();
-                    for (int pt = 0; pt < p.pointarray.Length; pt++)
+                    foreach (var t1 in p.pointarray)
                     {
-                        t.Add(new GeoLibPointF(p.pointarray[pt].X * scaling, p.pointarray[pt].Y * scaling));
+                        t.Add(new GeoLibPointF(t1.X * scaling, t1.Y * scaling));
                     }
                     if (gcCell.elementList[element].isText())
                     {
@@ -708,7 +691,6 @@ namespace geoCoreLib
             }
             catch (Exception)
             {
-                int xx = 2;
             }
 
             if (tmpCel != null) // guard against broken cellref
@@ -762,12 +744,7 @@ namespace geoCoreLib
             // See if our layer/datatype combination is known to us already.
 
             string crSearchString = "L" + crLayer + "D" + crDatatype;
-
-            if (crSearchString == "L-1D-1")
-            {
-                int xx = 2;
-            }
-
+            
             Int32 crLDIndex = -1;
 
             try
@@ -875,12 +852,7 @@ namespace geoCoreLib
             {
                 ret = getGeometry_complex(gcCell, element, hashList, cellIndex);
             }
-
-            if (searchString == "L-1D-1")
-            {
-                int x = 2;
-            }
-
+            
             for (int i = 0; i < ret.geo.Count; i++)
             {
                 structures[cellIndex].addBakedGeo(ret.geo[i].ToArray(), ret.isText[i], ret.ld[i]);

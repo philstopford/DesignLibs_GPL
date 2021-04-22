@@ -49,58 +49,12 @@ namespace gds
             }
 
             bw.Write(b);
-
-            /*
-            return;
-            utility.FrExp.FRexpResult r = utility.FrExp.calculate(d);
-
-
-            double mantissa = r.mantissa;
-            int exponent = r.exponent;
-
-            int i = Math.Abs(exponent) % 4;
-            int exptwo = exponent;
-            exponent = exponent / 4;
-            if (i != 0)
-            {
-                exponent++;
-                if (exptwo > 0)
-                {
-                    mantissa /= Math.Pow(2, 4 - i);
-                }
-                else
-                {
-                    mantissa /= Math.Pow(2, i);
-                    exponent--;
-                }
-            }
-
-            byte help = (byte)(exponent + 64);
-            if (0 > mantissa)
-            {
-                help |= 0x80;
-                mantissa *= -1;
-            }
-            bw.Write(help);
-            for (int k = 0; k < 7; k++)
-            {
-                mantissa *= 256;
-                help = (byte)mantissa;
-                bw.Write(help);
-                mantissa -= help;
-            }
-            */
         }
 
         public void writeString(string s, int type)
         {
             int len = s.Length;
-            bool add = false;
-            if (len % 2 == 1)
-            {
-                add = true;
-                //len++;
-            }
+            bool add = len % 2 == 1;
             if (add)
             {
                 bw.Write((UInt16)(len + 5));

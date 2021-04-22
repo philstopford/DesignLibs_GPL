@@ -175,8 +175,7 @@ namespace geoWrangler
 
         static bool pEnclosed(Path a, Paths b, bool strict = false)
         {
-            Paths aPath = new Paths();
-            aPath.Add(a);
+            Paths aPath = new Paths {a};
             return pEnclosed(aPath, b, strict);
         }
 
@@ -214,15 +213,15 @@ namespace geoWrangler
 
             Paths rationalizedFirstLayer = new Paths();
             // Force to clockwise as a safety measure.
-            for (int i = 0; i < a.Count; i++)
+            foreach (Path t in a)
             {
-                rationalizedFirstLayer.Add(clockwise(/*Clipper.CleanPolygon*/(a[i])));
+                rationalizedFirstLayer.Add(clockwise(/*Clipper.CleanPolygon*/(t)));
             }
 
             Paths rationalizedSecondLayer = new Paths();
-            for (int i = 0; i < b.Count; i++)
+            foreach (Path t in b)
             {
-                rationalizedSecondLayer.Add(clockwise(/*Clipper.CleanPolygon*/(b[i])));
+                rationalizedSecondLayer.Add(clockwise(/*Clipper.CleanPolygon*/(t)));
             }
 
             // Intersection should not matter based on order.
@@ -232,19 +231,19 @@ namespace geoWrangler
             c.Execute(ClipType.ctUnion, intersectionPaths);
 
             // Force clockwise.
-            for (int i = 0; i < intersectionPaths.Count; i++)
+            foreach (Path t in intersectionPaths)
             {
                 // Fix point order to ensure we can compare easily.
-                Path intersectionPath = clockwise(intersectionPaths[i]);
+                Path intersectionPath = clockwise(t);
 
                 // Compare hashes.
                 string intersectionPathHash = utility.Utils.GetMD5Hash(intersectionPath.ToString());
 
                 bool polyMatchFound = false;
 
-                for (int poly = 0; poly < rationalizedSecondLayer.Count; poly++)
+                foreach (Path t1 in rationalizedSecondLayer)
                 {
-                    string myHash = utility.Utils.GetMD5Hash(rationalizedSecondLayer[poly].ToString());
+                    string myHash = utility.Utils.GetMD5Hash(t1.ToString());
 
                     if (myHash == intersectionPathHash)
                     {
@@ -260,9 +259,9 @@ namespace geoWrangler
                 // Strict requires a to be enclosed by b and not to check the case that b is enclosed by a.
                 if (!strict && !polyMatchFound)
                 {
-                    for (int poly = 0; poly < rationalizedFirstLayer.Count; poly++)
+                    foreach (Path t1 in rationalizedFirstLayer)
                     {
-                        string myHash = utility.Utils.GetMD5Hash(rationalizedFirstLayer[poly].ToString());
+                        string myHash = utility.Utils.GetMD5Hash(t1.ToString());
 
                         if (myHash == intersectionPathHash)
                         {
@@ -306,9 +305,9 @@ namespace geoWrangler
 
             double[] _angles = angles(sourcePoly, allowNegative: true);
 
-            for (int i = 0; i < _angles.Length; i++)
+            foreach (double t in _angles)
             {
-                if (Math.Abs(Math.Abs(_angles[i]) - 90.0) > angularTolerance)
+                if (Math.Abs(Math.Abs(t) - 90.0) > angularTolerance)
                 {
                     isOrthogonal = false;
                     break;
@@ -325,7 +324,6 @@ namespace geoWrangler
 
         static double[] pAngles(GeoLibPoint[] sourcePoly, bool allowNegative)
         {
-            GeoLibPoint interSection_A, interSection_B, interSection_C;
             GeoLibPoint[] stripped = pStripTerminators(sourcePoly, true);
             int finalIndex = stripped.Length - 2;
 
@@ -334,6 +332,9 @@ namespace geoWrangler
             for (int pt = 0; pt <= finalIndex; pt++)
             {
                 // Assess angle.
+                GeoLibPoint interSection_A;
+                GeoLibPoint interSection_B;
+                GeoLibPoint interSection_C;
                 if (pt == 0)
                 {
                     interSection_B = stripped[finalIndex]; // map to last point
@@ -372,9 +373,9 @@ namespace geoWrangler
 
             double[] _angles = angles(sourcePoly, allowNegative: false);
 
-            for (int i = 0; i < _angles.Length; i++)
+            foreach (double t in _angles)
             {
-                if (Math.Abs(Math.Abs(_angles[i]) - 90.0) > angularTolerance)
+                if (Math.Abs(Math.Abs(t) - 90.0) > angularTolerance)
                 {
                     isOrthogonal = false;
                     break;
@@ -391,7 +392,6 @@ namespace geoWrangler
 
         static double[] pAngles(GeoLibPointF[] sourcePoly, bool allowNegative)
         {
-            GeoLibPointF interSection_A, interSection_B, interSection_C;
             GeoLibPointF[] stripped = pStripTerminators(sourcePoly, false);
             int finalIndex = stripped.Length - 1;
 
@@ -400,6 +400,9 @@ namespace geoWrangler
             for (int pt = 0; pt <= finalIndex; pt++)
             {
                 // Assess angle.
+                GeoLibPointF interSection_A;
+                GeoLibPointF interSection_B;
+                GeoLibPointF interSection_C;
                 if (pt == 0)
                 {
                     interSection_B = stripped[finalIndex]; // map to last point
@@ -438,9 +441,9 @@ namespace geoWrangler
 
             double[] _angles = angles(sourcePoly, allowNegative: false);
 
-            for (int i = 0; i < _angles.Length; i++)
+            foreach (double t in _angles)
             {
-                if (Math.Abs(Math.Abs(_angles[i]) - 90.0) > angularTolerance)
+                if (Math.Abs(Math.Abs(t) - 90.0) > angularTolerance)
                 {
                     isOrthogonal = false;
                     break;
@@ -457,8 +460,6 @@ namespace geoWrangler
 
         static double[] pAngles(Path sourcePoly, bool allowNegative)
         {
-            IntPoint interSection_A, interSection_B, interSection_C;
-
             Path stripped = pStripTerminators(sourcePoly, false);
             int finalIndex = stripped.Count - 1;
 
@@ -467,6 +468,9 @@ namespace geoWrangler
             for (int pt = 0; pt <= finalIndex; pt++)
             {
                 // Assess angle.
+                IntPoint interSection_A;
+                IntPoint interSection_B;
+                IntPoint interSection_C;
                 if (pt == 0)
                 {
                     interSection_B = stripped[finalIndex]; // map to last point

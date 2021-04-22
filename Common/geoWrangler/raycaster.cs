@@ -23,7 +23,7 @@ namespace geoWrangler
             pt.Z = bot1.Z;
         }
 
-        public static List<string> fallOffList = new List<string> {"None", "Linear", "Gaussian", "Cosine"};
+        public static readonly List<string> fallOffList = new List<string> {"None", "Linear", "Gaussian", "Cosine"};
         public enum falloff { none, linear, gaussian, cosine }
 
         // Corner projection is default and takes an orthogonal ray out from the corner. Setting to false causes an averaged normal to be generated.
@@ -166,7 +166,7 @@ namespace geoWrangler
                 IntPoint currentEdgeNormal = normals[pt];
                 IntPoint previousEdgeNormal = previousNormals[pt];
 
-                IntPoint averagedEdgeNormal = new IntPoint(0, 0);
+                IntPoint averagedEdgeNormal;
 
                 IntPoint startPoint = new IntPoint(emissionPath[pt]);
 
@@ -228,9 +228,7 @@ namespace geoWrangler
                 }
 
                 Paths rays = new Paths();
-                Path line = new Path();
-                line.Add(new IntPoint(startPoint));
-                line.Add(new IntPoint(endPoint));
+                Path line = new Path {new IntPoint(startPoint), new IntPoint(endPoint)};
                 rays.Add(line/*.ToList()*/);
 
                 double angleStep = 90.0f / (1 + multisampleRayCount);
@@ -240,9 +238,7 @@ namespace geoWrangler
                     // Add more samples, each n-degrees rotated from the nominal ray
                     double rayAngle = (sample + 1) * angleStep;
 
-                    IntPoint endPoint_f;
-
-                    endPoint_f = endPoint;
+                    IntPoint endPoint_f = endPoint;
 
                     double weight_val = 1.0f;
                     switch (sideRayFallOff)
@@ -272,8 +268,6 @@ namespace geoWrangler
                             weight_val *= 0.5;
                             break;
                         // No falloff
-                        default:
-                            break;
                     }
 
                     if (truncateRaysByWeight)
@@ -291,14 +285,10 @@ namespace geoWrangler
                     IntPoint endPoint1 = GeoWrangler.Rotate(startPoint, endPoint_f, rayAngle);
                     IntPoint endPoint2 = GeoWrangler.Rotate(startPoint, endPoint_f, -rayAngle);
 
-                    // The order of line1 below is important, but I'm not yet sure why. If you change it, the expansion becomes assymetrical on a square (lower section gets squashed).
-                    Path line1 = new Path();
-                    line1.Add(new IntPoint(endPoint1));
-                    line1.Add(new IntPoint(sPoint));
+                    // The order of line1 below is important, but I'm not yet sure why. If you change it, the expansion becomes asymmetrical on a square (lower section gets squashed).
+                    Path line1 = new Path {new IntPoint(endPoint1), new IntPoint(sPoint)};
                     rays.Add(line1);
-                    Path line2 = new Path();
-                    line2.Add(new IntPoint(sPoint));
-                    line2.Add(new IntPoint(endPoint2));
+                    Path line2 = new Path {new IntPoint(sPoint), new IntPoint(endPoint2)};
                     rays.Add(line2);
                 }
 
@@ -429,8 +419,7 @@ namespace geoWrangler
                     }
                 );
 
-                Path resultPath = new Path();
-                resultPath.Add(startPoint);
+                Path resultPath = new Path {startPoint};
 
                 int xCount = 0;
                 Int64 xAv = 0;
@@ -467,9 +456,9 @@ namespace geoWrangler
                 else
                 {
                     double totalWeight = 0.0f;
-                    for (int w = 0; w < weight.Length; w++)
+                    foreach (double t in weight)
                     {
-                        totalWeight += weight[w];
+                        totalWeight += t;
                     }
 
                     // Average the result to give a weighted spacing across the rays.
@@ -509,9 +498,9 @@ namespace geoWrangler
             // Convert the array back to a list.
             clippedLines = clippedLines_.ToList();
             castLines = new Paths();
-            for (int i = 0; i < castLines_.Length; i++)
+            foreach (Paths t in castLines_)
             {
-                castLines.AddRange(castLines_[i]);
+                castLines.AddRange(t);
             }
         }
     }

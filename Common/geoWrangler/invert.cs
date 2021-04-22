@@ -24,8 +24,7 @@ namespace geoWrangler
 
         public static Paths invertTone(Path sourcePath, bool useTriangulation = false, bool useBounds = false)
         {
-            Paths t = new Paths();
-            t.Add(sourcePath);
+            Paths t = new Paths {sourcePath};
             return invertTone(t, useTriangulation, useBounds);
         }
 
@@ -48,7 +47,6 @@ namespace geoWrangler
             }
             else
             {
-                IntRect firstLayerBounds = ClipperBase.GetBounds(sourcePaths);
                 Path firstLayerBP = new Path();
                 if (!useBounds)
                 {
@@ -68,8 +66,7 @@ namespace geoWrangler
                     firstLayerBP.Add(new IntPoint(bounds.left, bounds.bottom));
                 }
 
-                Clipper c = new Clipper();
-                c.PreserveCollinear = false;
+                Clipper c = new Clipper {PreserveCollinear = false};
 
                 c.AddPath(firstLayerBP, PolyType.ptSubject, true);
                 // Add hole polygons from our paths

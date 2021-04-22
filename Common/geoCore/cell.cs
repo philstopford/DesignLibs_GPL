@@ -85,10 +85,10 @@ namespace geoCoreLib
                 return;
             }
             GeoLibPoint p;
-            Int32 x1, x2, y1, y2;
+            Int32 x2, y2;
             p = points[0];
-            x1 = p.X;
-            y1 = p.Y;
+            int x1 = p.X;
+            int y1 = p.Y;
             p = points[1];
             if (p.X < x1)
             {
@@ -268,12 +268,11 @@ namespace geoCoreLib
         bool pDepend(GCCell cell)
         {
             bool b = false;
-            GCCell cellhelp;
-            for (int f = 0; f < elementList.Count; f++)
+            foreach (GCElement t in elementList)
             {
-                if (elementList[f] != null)
+                if (t != null)
                 {
-                    cellhelp = elementList[f].depend();
+                    GCCell cellhelp = t.depend();
                     if (cellhelp == cell)
                     {
                         b = true;
@@ -683,7 +682,7 @@ namespace geoCoreLib
                     }
                 }
             }
-            elementList.RemoveAll(null);
+            elementList.RemoveAll(null!);
         }
 
         public void updateCellref(GCCell oldCell, GCCell newCell)
@@ -779,7 +778,7 @@ namespace geoCoreLib
             gw.bw.Write(accmin);
             gw.bw.Write(accsec);
             gw.writeString(cellName, 6);
-            foreach (var el in elementList)
+            foreach (GCElement el in elementList)
             {
                 if (el != null)
                 {

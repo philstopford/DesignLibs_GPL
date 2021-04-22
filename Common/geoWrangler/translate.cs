@@ -20,9 +20,9 @@ namespace geoWrangler
         static List<GeoLibPointF[]> pMove(List<GeoLibPointF[]> source, double x, double y)
         {
             List<GeoLibPointF[]> ret = new List<GeoLibPointF[]>();
-            for (int i = 0; i < source.Count; i++)
+            foreach (GeoLibPointF[] t in source)
             {
-                ret.Add(pMove(source[i], x, y));
+                ret.Add(pMove(t, x, y));
             }
 
             return ret;
@@ -31,9 +31,9 @@ namespace geoWrangler
         static List<List<GeoLibPointF>> pMove(List<List<GeoLibPointF>> source, double x, double y)
         {
             List<List<GeoLibPointF>> ret = new List<List<GeoLibPointF>>();
-            for (int i = 0; i < source.Count; i++)
+            foreach (List<GeoLibPointF> t in source)
             {
-                ret.Add(pMove(source[i].ToArray(), x, y).ToList());
+                ret.Add(pMove(t.ToArray(), x, y).ToList());
             }
 
             return ret;

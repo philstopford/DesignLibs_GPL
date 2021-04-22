@@ -72,19 +72,18 @@ namespace geoCoreLib
 
         void pMinimum(GeoLibPoint p)
         {
-            GeoLibPoint pos1, pos2, pos3;
             for (int x = 0; x < 2; x++)
             {
                 for (int y = 0; y < 2; y++)
                 {
-                    pos3 = point;
+                    GeoLibPoint pos3 = point;
                     pos3.Offset(new GeoLibPoint(pitch.X * x * (count_x - 1), pitch.Y * y * (count_y - 1)));
-                    pos1 = new GeoLibPoint(p.X - pos3.X, p.Y - pos3.Y);
+                    GeoLibPoint pos1 = new GeoLibPoint(p.X - pos3.X, p.Y - pos3.Y);
                     if (trans.mirror_x)
                     {
                         pos1.Y = (-pos1.Y);
                     }
-                    pos2 = pos1;
+                    GeoLibPoint pos2 = pos1;
                     cell_ref.maximum(pos1);
                     cell_ref.minimum(pos2);
                     if (trans.mirror_x)
@@ -109,19 +108,18 @@ namespace geoCoreLib
 
         void pMaximum(GeoLibPoint p)
         {
-            GeoLibPoint pos1, pos2, pos3;
             for (int x = 0; x < 2; x++)
             {
                 for (int y = 0; y < 2; y++)
                 {
-                    pos3 = point;
+                    GeoLibPoint pos3 = point;
                     pos3.Offset(new GeoLibPoint(pitch.X * x * (count_x - 1), pitch.Y * y * (count_y - 1)));
-                    pos1 = new GeoLibPoint(p.X - pos3.X, p.Y - pos3.Y);
+                    GeoLibPoint pos1 = new GeoLibPoint(p.X - pos3.X, p.Y - pos3.Y);
                     if (trans.mirror_x)
                     {
                         pos1.Y = -pos1.Y;
                     }
-                    pos2 = pos1;
+                    GeoLibPoint pos2 = pos1;
                     cell_ref.maximum(pos1);
                     cell_ref.minimum(pos2);
                     if (trans.mirror_x)
@@ -426,9 +424,9 @@ namespace geoCoreLib
             {
                 for (int y = 0; y < count_y; y++)
                 {
-                    for (int p = 0; p < tmp.Count; p++)
+                    foreach (GCPolygon t in tmp)
                     {
-                        GCPolygon tp = new GCPolygon(tmp[p]);
+                        GCPolygon tp = new GCPolygon(t);
                         tp.move(new GeoLibPoint(x * pitch.X, y * pitch.Y));
                         ret.Add(tp);
                     }

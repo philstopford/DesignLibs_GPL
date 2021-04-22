@@ -116,30 +116,24 @@ namespace oasis
                     return -(double)readUnsignedInteger() / readUnsignedInteger();
                 case 6:
                     {
-                        //union {
-                        double d;
                         byte[] a = new byte[4];
-                        //};
 
                         for (uint z = 0; z < 4; z++)
                         {
                             a[z] = readRaw();
                         }
-                        d = BitConverter.ToDouble(a, 0);
+                        double d = BitConverter.ToDouble(a, 0);
                         return d;
                     }
                 case 7:
                     {
-                        //union {
-                        double d;
                         byte[] a = new byte[8];
-                        //};
 
                         for (uint z = 0; z < 8; z++)
                         {
                             a[z] = readRaw();
                         }
-                        d = BitConverter.ToDouble(a, 0);
+                        double d = BitConverter.ToDouble(a, 0);
                         return d;
                     }
                 default:
@@ -150,16 +144,14 @@ namespace oasis
         string readString()
         {
             Int32 items = readUnsignedInteger();
-            string s, s1;
-            byte help;
             uint i;
-            s1 = "";
+            string s1 = "";
             for (i = 0; i < items; i++)
             {
-                help = readRaw();
+                byte help = readRaw();
                 if (help != 0)
                 {
-                    s = Encoding.UTF8.GetString(new [] { help });
+                    string s = Encoding.UTF8.GetString(new [] { help });
                     s1 += s;
                 }
             }
@@ -168,17 +160,15 @@ namespace oasis
 
         int readSignedInteger()
         {
-            byte help;
-            int result;
             int pos = 0;
-            help = readRaw();
+            byte help = readRaw();
             bool sig = false;
             Int32 h = help & 127;
             if ((h % 2) == 1)
             {
                 sig = true;
             }
-            result = (h >> 1);
+            int result = (h >> 1);
             pos += 6;
             while (help >= 128)
             {

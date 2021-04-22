@@ -22,9 +22,9 @@ namespace geoWrangler
         static List<GeoLibPoint[]> pClockwiseAndReorder(List<GeoLibPoint[]> iPoints)
         {
             List<GeoLibPoint[]> ret = new List<GeoLibPoint[]>();
-            for (int i = 0; i < iPoints.Count; i++)
+            foreach (GeoLibPoint[] t in iPoints)
             {
-                ret.Add(pClockwiseAndReorder(iPoints[i]));
+                ret.Add(pClockwiseAndReorder(t));
             }
             return ret;
         }
@@ -43,7 +43,6 @@ namespace geoWrangler
 
         static GeoLibPoint[] pReorder(GeoLibPoint[] iPoints)
         {
-            Int32 reIndexStart;
             Int32 minX_index = MinX(iPoints);
             Int64 minX = iPoints[minX_index].X;
             // This will reorder the point index so that the 0-indexed point is at the minimum X value, and, in the case of multiple points at min X, at the lowest Y of all of those.
@@ -57,7 +56,7 @@ namespace geoWrangler
             }
             // Now we need to query our minXPoints to find the point with the lowest Y value.
             Int64 minY = iPoints[minXPoints[0]].Y;
-            reIndexStart = minXPoints[0];
+            int reIndexStart = minXPoints[0];
             for (Int32 index = 1; index < minXPoints.Count; index++)
             {
                 if (iPoints[minXPoints[index]].Y < minY)
@@ -94,13 +93,12 @@ namespace geoWrangler
         static Paths pClockwiseAndReorder(Paths iPoints)
         {
             Paths retPaths = new Paths();
-            for (int i = 0; i < iPoints.Count; i++)
+            foreach (Path t1 in iPoints)
             {
-                Path t = pClockwiseAndReorder(iPoints[i]);
+                Path t = pClockwiseAndReorder(t1);
                 t.Reverse(); // Getting a reversed path from the above, not sure why.
                 t = pClose(t);
                 retPaths.Add(t);
-
             }
 
             return retPaths;
@@ -127,9 +125,9 @@ namespace geoWrangler
         static Paths pReorder(Paths iPoints)
         {
             Paths ret = new Paths();
-            for (int i = 0; i < iPoints.Count; i++)
+            foreach (Path t in iPoints)
             {
-                ret.Add(pReorder(iPoints[i]));
+                ret.Add(pReorder(t));
             }
             return ret;
         }
@@ -141,7 +139,6 @@ namespace geoWrangler
 
         static Path pReorder(Path iPoints)
         {
-            Int32 reIndexStart;
             Int32 minX_index = MinX(iPoints);
             Int64 minX = iPoints[minX_index].X;
             // This will reorder the point index so that the 0-indexed point is at the minimum X value, and, in the case of multiple points at min X, at the lowest Y of all of those.
@@ -155,7 +152,7 @@ namespace geoWrangler
             }
             // Now we need to query our minXPoints to find the point with the lowest Y value.
             Int64 minY = iPoints[minXPoints[0]].Y;
-            reIndexStart = minXPoints[0];
+            int reIndexStart = minXPoints[0];
             for (Int32 index = 1; index < minXPoints.Count; index++)
             {
                 if (iPoints[minXPoints[index]].Y < minY)
@@ -192,9 +189,9 @@ namespace geoWrangler
         static List<GeoLibPointF[]> pClockwiseAndReorder(List<GeoLibPointF[]> iPoints)
         {
             List<GeoLibPointF[]> ret = new List<GeoLibPointF[]>();
-            for (int i = 0; i < iPoints.Count; i++)
+            foreach (GeoLibPointF[] t in iPoints)
             {
-                ret.Add(pClockwiseAndReorder(iPoints[i]));
+                ret.Add(pClockwiseAndReorder(t));
             }
             return ret;
         }
@@ -213,7 +210,6 @@ namespace geoWrangler
 
         static GeoLibPointF[] pReorder(GeoLibPointF[] iPoints)
         {
-            Int32 reIndexStart;
             Int32 minX_index = MinX(iPoints);
             double minX = iPoints[minX_index].X;
             // This will reorder the point index so that the 0-indexed point is at the minimum X value, and, in the case of multiple points at min X, at the lowest Y of all of those.
@@ -227,7 +223,7 @@ namespace geoWrangler
             }
             // Now we need to query our minXPoints to find the point with the lowest Y value.
             double minY = iPoints[minXPoints[0]].Y;
-            reIndexStart = minXPoints[0];
+            int reIndexStart = minXPoints[0];
             for (Int32 index = 1; index < minXPoints.Count; index++)
             {
                 if (iPoints[minXPoints[index]].Y < minY)
@@ -280,9 +276,9 @@ namespace geoWrangler
         static List<GeoLibPoint[]> pSimplify(List<GeoLibPoint[]> source)
         {
             List<GeoLibPoint[]> ret = new List<GeoLibPoint[]>();
-            for (int i = 0; i < source.Count; i++)
+            foreach (GeoLibPoint[] t in source)
             {
-                ret.Add(pSimplify(source[i]));
+                ret.Add(pSimplify(t));
             }
 
             return ret;
@@ -294,10 +290,6 @@ namespace geoWrangler
 
         static GeoLibPoint[] pSimplify(GeoLibPoint[] iPoints)
         {
-            List<IntPoint> ePoly;
-            ePoly = Clipper.SimplifyPolygon(pathFromPoint(iPoints, 1))[0]; // assuming only one element
-            ePoly = pStripTerminators(ePoly, false);
-
             List<IntPoint> iPoly = pathFromPoint(iPoints, 1);
             Clipper c = new Clipper();
             c.AddPath(iPoly, PolyType.ptClip, true);
@@ -306,7 +298,6 @@ namespace geoWrangler
             c.Execute(ClipType.ctIntersection, oPoly, PolyFillType.pftEvenOdd, PolyFillType.pftEvenOdd);
 
             GeoLibPoint[] working = pointFromPath(oPoly[0], 1);
-            GeoLibPoint[] notWorking = pointFromPath(ePoly, 1);
 
             return working;
         }
@@ -322,15 +313,15 @@ namespace geoWrangler
             // Find cutters and outers.
             Paths outers = new Paths();
             Paths cutters = new Paths();
-            for (int i = 0; i < source.Count; i++)
+            foreach (Path t in source)
             {
-                if (pIsClockwise(source[i]))
+                if (pIsClockwise(t))
                 {
-                    outers.Add(source[i]);
+                    outers.Add(t);
                 }
                 else
                 {
-                    cutters.Add(source[i]);
+                    cutters.Add(t);
                 }
             }
             ret[(int)outerCutterIndex.outer] = outers;
@@ -342,9 +333,9 @@ namespace geoWrangler
         public static Paths stripColinear(Paths source, double angularTolerance = 0.0f)
         {
             Paths ret = new Paths();
-            for (int i = 0; i < source.Count; i++)
+            foreach (Path t in source)
             {
-                ret.Add(pStripColinear(source[i], angularTolerance));
+                ret.Add(pStripColinear(t, angularTolerance));
             }
 
             return ret;
@@ -405,9 +396,9 @@ namespace geoWrangler
         static List<GeoLibPoint[]> pStripColinear(List<GeoLibPoint[]> source, double angularTolerance = 0.0f)
         {
             List<GeoLibPoint[]> ret = new List<GeoLibPoint[]>();
-            for (int i = 0; i < source.Count; i++)
+            foreach (GeoLibPoint[] t in source)
             {
-                ret.Add(pStripColinear(source[i], angularTolerance));
+                ret.Add(pStripColinear(t, angularTolerance));
             }
 
             return ret;
@@ -635,9 +626,9 @@ namespace geoWrangler
         static List<GeoLibPointF[]> pStripColinear(List<GeoLibPointF[]> source, double angularTolerance = 0.0f)
         {
             List<GeoLibPointF[]> ret = new List<GeoLibPointF[]>();
-            for (int i = 0; i < source.Count; i++)
+            foreach (GeoLibPointF[] t in source)
             {
-                ret.Add(pStripColinear(source[i], angularTolerance));
+                ret.Add(pStripColinear(t, angularTolerance));
             }
 
             return ret;
@@ -843,9 +834,9 @@ namespace geoWrangler
         static Paths pClose(Paths source)
         {
             Paths ret = new Paths();
-            for (int i = 0; i < source.Count; i++)
+            foreach (Path t in source)
             {
-                ret.Add(pClose(source[i]));
+                ret.Add(pClose(t));
             }
             return ret;
         }
@@ -945,22 +936,22 @@ namespace geoWrangler
             Paths outers = new Paths();
             Paths cutters = new Paths();
 
-            for (int i = 0; i < source.Count; i++)
+            foreach (Path t in source)
             {
-                if (Clipper.Orientation(source[i]) == Clipper.Orientation(source[0]))
+                if (Clipper.Orientation(t) == Clipper.Orientation(source[0]))
                 {
-                    outers.Add(new Path(source[i]));
+                    outers.Add(new Path(t));
                 }
                 else
                 {
-                    cutters.Add(new Path(source[i]));
+                    cutters.Add(new Path(t));
                 }
             }
 
             // Set up our contours. Since Clipper sets up the subject as the first item, we'll make that clockwise and force the rest to counterclockwise.	
             var tess = new Tess();
 
-            for (int poly = 0; poly < outers.Count; poly++)
+            foreach (Path t in outers)
             {
                 // Skip tiny fragments. The tessellator has trouble with them.	
                 /*
@@ -969,16 +960,16 @@ namespace geoWrangler
                     continue;
                 }
                 */
-                ContourVertex[] contour = new ContourVertex[outers[poly].Count];
+                ContourVertex[] contour = new ContourVertex[t.Count];
                 for (int i = 0; i < contour.Length; i++)
                 {
-                    contour[i].Position = new Vec3 { X = outers[poly][i].X, Y = outers[poly][i].Y, Z = 0 };
+                    contour[i].Position = new Vec3 { X = t[i].X, Y = t[i].Y, Z = 0 };
                 }
 
                 tess.AddContour(contour);
             }
 
-            for (int poly = 0; poly < cutters.Count; poly++)
+            foreach (Path t in cutters)
             {
                 // Skip tiny fragments. The tessellator has trouble with them.
                 /*
@@ -987,10 +978,10 @@ namespace geoWrangler
                     continue;
                 }
                 */
-                ContourVertex[] contour = new ContourVertex[cutters[poly].Count];
+                ContourVertex[] contour = new ContourVertex[t.Count];
                 for (int i = 0; i < contour.Length; i++)
                 {
-                    contour[i].Position = new Vec3 { X = cutters[poly][i].X, Y = cutters[poly][i].Y, Z = 0 };
+                    contour[i].Position = new Vec3 { X = t[i].X, Y = t[i].Y, Z = 0 };
                 }
 
                 tess.AddContour(contour, ContourOrientation.CounterClockwise);
@@ -998,18 +989,14 @@ namespace geoWrangler
 
             try
             {
-
-                Paths retPaths;
-
                 // Triangulate. This gives us a triangle soup, which may not be entirely helpful for the case where we're punching multiple holes into a mesh. For now, this works, but the limitation will need to be reviewd.	
                 // It might be that a PolyTree is needed as the input to the keyhole for these complex cases.... or clockwise paths may need to be evaluated piecewise using all counterclockwise paths for the tessellation.	
                 int polysize = 3;
                 tess.Tessellate(wr, ElementType.Polygons, polysize);
 
                 // Iterate triangles and create output geometry. We'll use clipper to simplify the output geometry.	
-                Clipper c = new Clipper();
-                c.PreserveCollinear = true;
-                retPaths = new Paths();
+                Clipper c = new Clipper {PreserveCollinear = true};
+                Paths retPaths = new Paths();
 
                 Paths cPaths = new Paths();
                 Paths aPaths = new Paths();

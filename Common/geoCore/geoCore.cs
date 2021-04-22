@@ -285,14 +285,14 @@ namespace geoCoreLib
         void pUpdateCollections()
         {
             structureList_.Clear();
-            for (int i = 0; i < pStructureList.Count; i++)
+            foreach (string t in pStructureList)
             {
-                structureList_.Add(pStructureList[i]);
+                structureList_.Add(t);
             }
             activeStructure_LayerDataTypeList_.Clear();
-            for (int i = 0; i < pActiveStructure_LDList.Count; i++)
+            foreach (string t in pActiveStructure_LDList)
             {
-                activeStructure_LayerDataTypeList_.Add(pActiveStructure_LDList[i]);
+                activeStructure_LayerDataTypeList_.Add(t);
             }
         }
 
@@ -402,10 +402,8 @@ namespace geoCoreLib
         void pGeoCore()
         {
             drawingField = new GCDrawingfield("");
-            pStructureList = new List<string>();
-            pStructureList.Add("");
-            pActiveStructure_LDList = new List<string>();
-            pActiveStructure_LDList.Add("");
+            pStructureList = new List<string> {""};
+            pActiveStructure_LDList = new List<string> {""};
             structureList_ = new ObservableCollection<string>();
             activeStructure_LayerDataTypeList_ = new ObservableCollection<string>();
             error_msgs = new List<string>();
@@ -435,12 +433,10 @@ namespace geoCoreLib
             pActiveStructure_LDList.Clear();
             pActiveStructure_LDList.Add("");
 
-            structure_LayerDataTypeList = new List<List<string>>();
-            structure_LayerDataTypeList.Add(new List<string>());
+            structure_LayerDataTypeList = new List<List<string>> {new List<string>()};
             structure_LayerDataTypeList[0].Add("");
 
-            structures = new List<Structure>();
-            structures.Add(new Structure());
+            structures = new List<Structure> {new Structure()};
             //structures[0].addElement();
 
             pUpdateCollections();
@@ -490,21 +486,7 @@ namespace geoCoreLib
             structures.Clear();
 
             scaling = 1.0f;
-
-            // Set up the scaling for the conversion
-            if (valid && (fileFormat == (int)fileType.gds))
-            {
-                // scaling = drawing_.databaseunits;
-                // drawing_.databaseunits = 1 / drawing_.userunits;
-            }
-            else if (valid && (fileFormat == (int)fileType.oasis))
-            {
-                // scaling = 1.0 / drawing_.databaseunits;
-                // drawing_.userunits = 1 / drawing_.databaseunits;
-            }
-
-            // scaling *= baseScale; // this is used to compensate for any reader application needing scaled geometry.
-
+            
             for (int cell = 0; cell < drawing_.cellList.Count; cell++)
             {
                 if (drawing_.cellList[cell].elementList != null)
@@ -547,9 +529,9 @@ namespace geoCoreLib
                         string searchString = "L" + layer + "D" + datatype;
 
                         // Query our dictionary.
-                        string resultString;
                         try
                         {
+                            string resultString;
                             if (layerNames_.TryGetValue(searchString, out resultString))
                             {
                                 searchString = resultString;
@@ -617,9 +599,8 @@ namespace geoCoreLib
             List<GCPolygon> lp = gcCell.elementList[element].convertToPolygons();
             List<bool> isText = new List<bool>();
             List<string> names = new List<string>();
-            for (int poly = 0; poly < lp.Count; poly++)
+            foreach (GCPolygon p in lp)
             {
-                GCPolygon p = lp[poly];
                 isText.Add(p.isText());
                 names.Add(p.getName());
 
@@ -632,7 +613,7 @@ namespace geoCoreLib
                 {
                     hashList.Add(crP_Hash);
                     List<GeoLibPointF> t = new List<GeoLibPointF>();
-                    foreach (var t1 in p.pointarray)
+                    foreach (GeoLibPoint t1 in p.pointarray)
                     {
                         t.Add(new GeoLibPointF(t1.X * scaling, t1.Y * scaling));
                     }
@@ -697,6 +678,8 @@ namespace geoCoreLib
             {
                 for (int referenceElement = 0; referenceElement < tmpCel.elementList.Count; referenceElement++)
                 {
+                    // ReSharper disable once CheckForReferenceEqualityInstead.1
+                    // ReSharper disable once CheckForReferenceEqualityInstead.3
                     if (!tmpCel.elementList[referenceElement].isCellref() && (!tmpCel.elementList[referenceElement].GetType().Equals(typeof(GCCellRefArray))))
                     {
                         ret = getGeometry_2(gcCell, element, hashList, tmpCel, cellIndex, referenceElement, point, xCount, yCount, xSpace, ySpace, angle, mag);
@@ -721,7 +704,6 @@ namespace geoCoreLib
                     postArray.isText.Add(ret.isText[i]);
                 }
             }
-            // return GeoWrangler.makeArray(ret, xCount, xSpace, yCount, ySpace);
 
             return postArray;
 
@@ -761,24 +743,26 @@ namespace geoCoreLib
                 structures[cellIndex].addElement();
                 int adIndex = structures[cellIndex].elements.Count - 1;
 
+                // ReSharper disable once CheckForReferenceEqualityInstead.1
                 if (gcCell.elementList[element].GetType().Equals(typeof(GCCellRefArray)))
                 {
-                    structures[cellIndex].elements[adIndex].isCellRefArray = gcCell.elementList[element].depend().cellName;// gcCell.elementList[element].isCellrefArray());
+                    structures[cellIndex].elements[adIndex].isCellRefArray = gcCell.elementList[element].depend().cellName;
                 }
 
-                GeoLibArray tmpArray = new GeoLibArray();
-                tmpArray.count = new GeoLibPoint(xCount, yCount);
-                tmpArray.point = new GeoLibPoint(point);
-                tmpArray.pitch = new GeoLibPoint(xSpace, ySpace);
+                GeoLibArray tmpArray = new GeoLibArray
+                {
+                    count = new GeoLibPoint(xCount, yCount),
+                    point = new GeoLibPoint(point),
+                    pitch = new GeoLibPoint(xSpace, ySpace)
+                };
                 structures[cellIndex].elements[adIndex].arrayData = tmpArray;
             }
 
             try
             {
                 List<GCPolygon> lCRP = tmpCel.elementList[referenceElement].convertToPolygons();
-                for (int p = 0; p < lCRP.Count; p++)
+                foreach (GCPolygon crP in lCRP)
                 {
-                    GCPolygon crP = lCRP[p];
                     crP.move(point);
                     crP.rotate(angle, point);
                     crP.scale(point, mag);
@@ -795,9 +779,9 @@ namespace geoCoreLib
                         int x = 0;
                         int y = 0;
                         List<GeoLibPointF> t = new List<GeoLibPointF>();
-                        for (int pt = 0; pt < crP.pointarray.Length; pt++)
+                        foreach (GeoLibPoint t1 in crP.pointarray)
                         {
-                            t.Add(new GeoLibPointF((crP.pointarray[pt].X + (x * xSpace)) * scaling, (crP.pointarray[pt].Y + (y * ySpace)) * scaling));
+                            t.Add(new GeoLibPointF((t1.X + (x * xSpace)) * scaling, (t1.Y + (y * ySpace)) * scaling));
                         }
                         structures[cellIndex].addPoly(t, ldString);
                         ret.Add(t);
@@ -882,9 +866,9 @@ namespace geoCoreLib
             List<bool> ret = new List<bool>();
 
             List<GCPolygon> tmp = convertToPolygons(true);
-            for (int i = 0; i < tmp.Count; i++)
+            foreach (GCPolygon t in tmp)
             {
-                ret.Add(tmp[i].isText());
+                ret.Add(t.isText());
             }
 
             return ret;
@@ -904,9 +888,9 @@ namespace geoCoreLib
             List<string> ret = new List<string>();
 
             List<GCPolygon> tmp = convertToPolygons(true);
-            for (int i = 0; i < tmp.Count; i++)
+            foreach (GCPolygon t in tmp)
             {
-                ret.Add(tmp[i].getName());
+                ret.Add(t.getName());
             }
 
             return ret;
@@ -924,9 +908,9 @@ namespace geoCoreLib
             {
                 List<GeoLibPointF[]> ret = new List<GeoLibPointF[]>();
                 List<GCPolygon> tmp = convertToPolygons(true);
-                for (int i = 0; i < tmp.Count; i++)
+                foreach (GCPolygon t in tmp)
                 {
-                    GeoLibPointF[] p = GeoWrangler.pointFsFromPoint(tmp[i].pointarray, 1);
+                    GeoLibPointF[] p = GeoWrangler.pointFsFromPoint(t.pointarray, 1);
                     ret.Add(p);
                 }
                 return ret;
@@ -949,24 +933,7 @@ namespace geoCoreLib
                 array_count.Add(new GeoLibPoint(1, 1));
                 array_pitch.Add(new GeoLibPointF(0, 0));
             }
-
-            /*
-            // Any arrays?
-            if (flatten)
-            {
-                List<GeoLibPointF[]> arrayed = new List<GeoLibPointF[]>();
-                for (int i = 0; i < points.Count; i++)
-                {
-                    List<GeoLibPointF[]> fa = GeoWrangler.makeArray(points[i], array_count[i].X, array_pitch[i].X, array_count[i].Y, array_pitch[i].Y);
-                    arrayed.AddRange(fa);
-                }
-
-                points = arrayed;
-            }
-            */
-            // Update the geo.
-            // structures[activeLD].fgeo[activeLD] = points.ToList();
-
+            
             return points;
         }
 
@@ -1012,7 +979,7 @@ namespace geoCoreLib
             int datatype = -1;
             if (activeLDOnly)
             {
-                // Recover our layer and dataype from the string representation.
+                // Recover our layer and datatype from the string representation.
                 string ld = layerNames.FirstOrDefault(x => x.Value == pActiveStructure_LDList[activeLD]).Key;
                 string[] temp = ld.Split(new [] { 'L' })[1].Split(new [] { 'D' });
                 layer = Convert.ToInt32(temp[0]);
@@ -1054,9 +1021,9 @@ namespace geoCoreLib
             if ((cell.elementList[elementIndex].isCellref()) || (cell.elementList[elementIndex].isCellrefArray()))
             {
                 GCCell rCell = cell.elementList[elementIndex].getCellref();
-                for (int i = 0; i < rCell.elementList.Count; i++)
+                foreach (GCElement t in rCell.elementList)
                 {
-                    if ((rCell.elementList[i].isCellref()) || (rCell.elementList[i].isCellrefArray()))
+                    if ((t.isCellref()) || (t.isCellrefArray()))
                     {
                         ret = true;
                         break;

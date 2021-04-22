@@ -19,7 +19,7 @@ namespace Noise
 
         public SimplexNoise(int largestFeature, double persistence, int seed)
         {
-            // Recieves a number (eg 128) and calculates what power of 2 it is (eg 2^7)
+            // Receives a number (eg 128) and calculates what power of 2 it is (eg 2^7)
             int numberOfOctaves = (int)Math.Ceiling(Math.Log10(largestFeature) / Math.Log10(2));
 
             octaves = new SimplexNoiseOctave[numberOfOctaves];

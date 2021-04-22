@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Runtime.Serialization;
@@ -48,7 +49,7 @@ namespace utility
             }
             else
             {
-                ret = number.ToString();
+                ret = number.ToString(CultureInfo.InvariantCulture);
             }
 
             return ret;

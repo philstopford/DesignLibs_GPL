@@ -17,7 +17,6 @@ namespace utility
         {
             FRexpResult result = new FRexpResult();
             long bits = BitConverter.DoubleToInt64Bits(value);
-            double realMant = 1.0;
 
             // Test for NaN, infinity, and zero.
             if (Double.IsNaN(value) ||
@@ -47,7 +46,7 @@ namespace utility
                 // we are treating the mantissa as m.0 instead of 0.m
                 //  so subtract another 52.
                 exponent -= 1075;
-                realMant = mantissa;
+                double realMant = mantissa;
 
                 // normalize
                 while (realMant > 1.0)

@@ -40,9 +40,9 @@ namespace geoWrangler
             }
 
             List<GeoLibPointF[]> ret = new List<GeoLibPointF[]>();
-            for (int i = 0; i < source.Count; i++)
+            foreach (GeoLibPointF[] t in source)
             {
-                ret.Add(pFragmentPath(source[i].ToArray()));
+                ret.Add(pFragmentPath(t.ToArray()));
             }
 
             return ret.ToList();
@@ -74,9 +74,9 @@ namespace geoWrangler
         Paths pFragmentPaths(Paths source)
         {
             Paths ret = new Paths();
-            for (int i = 0; i < source.Count; i++)
+            foreach (Path t in source)
             {
-                ret.Add(pFragmentPath(source[i]));
+                ret.Add(pFragmentPath(t));
             }
 
             return ret;
@@ -90,11 +90,7 @@ namespace geoWrangler
         Path pFragmentPath(Path source)
         {
             Path ret = new Path();
-            bool closed = false;
-            if ((source[0].X == source[^1].X) && (source[0].Y == source[^1].Y))
-            {
-                closed = true;
-            }
+            bool closed = (source[0].X == source[^1].X) && (source[0].Y == source[^1].Y);
             // Decouple the geometry.
             Path t = new Path();
             for (int p = 0; p < source.Count; p++)

@@ -27,8 +27,7 @@ namespace geoWrangler
 
                 // Create a queue, enqueue source vertex and mark 
                 // source vertex as visited 
-                List<int> queue = new List<int>();
-                queue.Add(s);
+                List<int> queue = new List<int> {s};
                 visited[s] = true;
                 parent[s] = -1;
 
@@ -52,7 +51,7 @@ namespace geoWrangler
                 // If we reached sink in BFS  
                 // starting from source, then 
                 // return true, else false 
-                return (visited[t] == true);
+                return visited[t];
             }
 
             // Returns tne maximum flow 
@@ -82,11 +81,11 @@ namespace geoWrangler
 
                 int max_flow = 0; // There is no flow initially 
 
-                // Augment the flow while tere is path from source 
+                // Augment the flow while there is path from source 
                 // to sink 
                 while (bfs(rGraph, s, t, parent))
                 {
-                    // Find minimum residual capacity of the edhes 
+                    // Find minimum residual capacity of the edges 
                     // along the path filled by BFS. Or we can say 
                     // find the maximum flow through the path found. 
                     int path_flow = int.MaxValue;

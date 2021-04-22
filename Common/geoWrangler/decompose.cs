@@ -28,32 +28,31 @@ namespace geoWrangler
 
             Paths ret = new Paths();
 
-            Clipper c = new Clipper();
-            c.PreserveCollinear = true;
+            Clipper c = new Clipper {PreserveCollinear = true};
 
             // Reconcile each path separately to get a clean representation.
-            for (int i = 0; i < source.Count; i++)
+            foreach (Path t1 in source)
             {
-                double a1 = Clipper.Area(source[i]);
+                double a1 = Clipper.Area(t1);
                 double a2 = 0;
                 c.Clear();
-                c.AddPath(source[i], PolyType.ptSubject, true);
+                c.AddPath(t1, PolyType.ptSubject, true);
                 Paths t = new Paths();
                 c.Execute(ClipType.ctUnion, t);
-                for (int j = 0; j < t.Count; j++)
+                foreach (Path t2 in t)
                 {
-                    a2 += Clipper.Area(t[j]);
+                    a2 += Clipper.Area(t2);
                 }
 
                 if (Math.Abs(Math.Abs(a1) - Math.Abs(a2)) < double.Epsilon)
                 {
                     // shape didn't really change.
-                    ret.Add(source[i]);
+                    ret.Add(t1);
                 }
                 else
                 {
                     // Orientation tracking.
-                    bool origOrient = Clipper.Orientation(source[i]);
+                    bool origOrient = Clipper.Orientation(t1);
 
                     c.AddPaths(source, PolyType.ptSubject, true);
 
@@ -72,9 +71,9 @@ namespace geoWrangler
 #else
                         for (int j = 0; j < crCount; j++)
 #endif
-                        {
-                            cR[j].Reverse();
-                        }
+                            {
+                                cR[j].Reverse();
+                            }
 #if GWTHREADED
                         );
 #endif
@@ -136,15 +135,15 @@ namespace geoWrangler
             ret[0] = new Paths();
             ret[1] = new Paths();
 
-            for (int i = 0; i < source.Count; i++)
+            foreach (Path t in source)
             {
                 int r = (int)type.outer;
-                if (!Clipper.Orientation(source[i]))
+                if (!Clipper.Orientation(t))
                 {
                     r = (int)type.cutter;
                 }
 
-                ret[r].Add(new Path(source[i]));
+                ret[r].Add(new Path(t));
             }
 
             return ret;
@@ -160,14 +159,14 @@ namespace geoWrangler
         {
             List<GeoLibPoint[]> ret = new List<GeoLibPoint[]>();
 
-            for (int i = 0; i < polys.Count; i++)
+            foreach (GeoLibPoint[] t in polys)
             {
                 if (abort)
                 {
                     ret.Clear();
                     break;
                 }
-                ret.AddRange(pRectangular_decomposition(ref abort, polys[i], scaling, maxRayLength, angularTolerance, vertical));
+                ret.AddRange(pRectangular_decomposition(ref abort, t, scaling, maxRayLength, angularTolerance, vertical));
             }
 
             return ret;
@@ -179,8 +178,7 @@ namespace geoWrangler
 
         static List<GeoLibPoint[]> pRectangular_decomposition(ref bool abort, GeoLibPoint[] _poly, Int32 scaling, Int64 maxRayLength, double angularTolerance, bool vertical)
         {
-            List<GeoLibPoint[]> ret = new List<GeoLibPoint[]>();
-            ret.Add(_poly.ToArray());
+            List<GeoLibPoint[]> ret = new List<GeoLibPoint[]> {_poly.ToArray()};
 
             bool changed = true;
             int startIndex = 0;
@@ -245,13 +243,13 @@ namespace geoWrangler
 
             Clipper c = new Clipper();
 
-            for (int r = 0; r < rays.Count; r++)
+            foreach (Path t in rays)
             {
                 if (abort)
                 {
                     break;
                 }
-                c.AddPath(rays[r], PolyType.ptSubject, false);
+                c.AddPath(t, PolyType.ptSubject, false);
                 c.AddPath(lPoly, PolyType.ptClip, true);
 
                 PolyTree pt = new PolyTree();
@@ -274,14 +272,14 @@ namespace geoWrangler
                         double aDist = double.MaxValue;
                         double bDist = double.MaxValue;
                         // See whether the start or end point exists in the lPoly geometry. If not, we should drop this path from the list.
-                        for (int lPolyPt = 0; lPolyPt < lPoly.Count; lPolyPt++)
+                        foreach (IntPoint t1 in lPoly)
                         {
                             if (abort)
                             {
                                 break;
                             }
-                            double aDist_t = distanceBetweenPoints(lPoly[lPolyPt], p[path][0]);
-                            double bDist_t = distanceBetweenPoints(lPoly[lPolyPt], p[path][1]);
+                            double aDist_t = distanceBetweenPoints(t1, p[path][0]);
+                            double bDist_t = distanceBetweenPoints(t1, p[path][1]);
 
                             aDist = Math.Min(aDist_t, aDist);
                             bDist = Math.Min(bDist_t, bDist);
@@ -331,7 +329,7 @@ namespace geoWrangler
                     // Should only have at least one path in the result, hopefully with desired direction. Could still have more than one, though.
 
                     bool breakOut = false;
-                    for (int path = 0; path < p.Count; path++)
+                    foreach (Path t1 in p)
                     {
                         if (abort)
                         {
@@ -344,10 +342,10 @@ namespace geoWrangler
                             {
                                 break;
                             }
-                            if ((lPoly[e].X == p[path][0].X) && (lPoly[e].Y == p[path][0].Y))
+                            if ((lPoly[e].X == t1[0].X) && (lPoly[e].Y == t1[0].Y))
                             {
                                 int nextIndex = (e + 1) % lPoly.Count;
-                                if ((lPoly[nextIndex].X == p[path][1].X) && (lPoly[nextIndex].Y == p[path][1].Y))
+                                if ((lPoly[nextIndex].X == t1[1].X) && (lPoly[nextIndex].Y == t1[1].Y))
                                 {
                                     edgeIsNew = false;
                                 }
@@ -355,10 +353,10 @@ namespace geoWrangler
 
                             if (edgeIsNew)
                             {
-                                if ((lPoly[e].X == p[path][1].X) && (lPoly[e].Y == p[path][1].Y))
+                                if ((lPoly[e].X == t1[1].X) && (lPoly[e].Y == t1[1].Y))
                                 {
                                     int nextIndex = (e + 1) % lPoly.Count;
-                                    if ((lPoly[nextIndex].X == p[path][0].X) && (lPoly[nextIndex].Y == p[path][0].Y))
+                                    if ((lPoly[nextIndex].X == t1[0].X) && (lPoly[nextIndex].Y == t1[0].Y))
                                     {
                                         edgeIsNew = false;
                                     }
@@ -368,7 +366,7 @@ namespace geoWrangler
 
                         if (edgeIsNew)
                         {
-                            newEdges.Add(p[path]);// new Path(p[0]));
+                            newEdges.Add(t1);// new Path(p[0]));
                             breakOut = true;
                             break;
                         }

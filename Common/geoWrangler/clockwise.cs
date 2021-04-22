@@ -196,9 +196,9 @@ namespace geoWrangler
         public static Paths clockwise(Paths source)
         {
             Paths ret = new Paths();
-            for (int i = 0; i < source.Count; i++)
+            foreach (Path t in source)
             {
-                ret.Add(pClockwise(source[i].ToList()));
+                ret.Add(pClockwise(t.ToList()));
             }
 
             return ret;

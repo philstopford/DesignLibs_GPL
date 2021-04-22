@@ -120,9 +120,9 @@ namespace gds
             write8ByteReal(1E-6 / drawing_.databaseunits);
 
             int cellCount = 0;
-            for (int i = 0; i < drawing_.cellList.Count; i++)
+            foreach (GCCell t in drawing_.cellList)
             {
-                drawing_.cellList[i].saved = false;
+                t.saved = false;
                 cellCount++;
             }
 

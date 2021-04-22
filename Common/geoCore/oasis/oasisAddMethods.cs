@@ -434,11 +434,9 @@ namespace oasis
 
             }
 
-            Int32 x, y;
-
             for (Int32 pt = 0; pt < 4; pt++)
             {
-                x = 0;
+                Int32 x = 0;
                 if (coords[pt, 0] != 0)
                 {
                     x += coords[pt, 0] * modal.geometry_w;
@@ -449,7 +447,7 @@ namespace oasis
                     x += coords[pt, 1] * modal.geometry_h;
                 }
 
-                y = 0;
+                Int32 y = 0;
                 if (coords[pt, 2] != 0)
                 {
                     y += coords[pt, 2] * modal.geometry_w;
@@ -548,9 +546,9 @@ namespace oasis
                         }
                         break;
                     default:
-                        for (int x = 0; x < modal.repArray.Count; x++)
+                        foreach (GeoLibPoint t in modal.repArray)
                         {
-                            addElement(e, modal.repArray[x]);
+                            addElement(e, t);
                         }
                         break;
                 }

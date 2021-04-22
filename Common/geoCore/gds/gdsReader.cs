@@ -302,7 +302,7 @@ namespace gds
                         case 13: //LAYER
                             modal.layer = br.ReadInt16();
                             break;
-                        case 14: //DTATYP
+                        case 14: //DATATYPE
                             modal.datatype = br.ReadInt16();
                             try
                             {
@@ -407,30 +407,9 @@ namespace gds
                             break;
                         case 26: //STRANS
                             int16 = br.ReadInt16();
-                            if ((int16 & 0x8000) != 0)
-                            {
-                                modal.mirror_x = true;
-                            }
-                            else
-                            {
-                                modal.mirror_x = false;
-                            }
-                            if ((int16 & 0x0002) != 0)
-                            {
-                                modal.rotate = true;
-                            }
-                            else
-                            {
-                                modal.rotate = false;
-                            }
-                            if ((int16 & 0x0004) != 0)
-                            {
-                                modal.mag_ = true;
-                            }
-                            else
-                            {
-                                modal.mag_ = false;
-                            }
+                            modal.mirror_x = (int16 & 0x8000) != 0;
+                            modal.rotate = (int16 & 0x0002) != 0;
+                            modal.mag_ = (int16 & 0x0004) != 0;
                             break;
                         case 27: //MAG
                             modal.mag = read8ByteReal();
@@ -573,13 +552,10 @@ namespace gds
 
         double read8ByteReal()
         {
-            int exp; // help 
             int sig; // help
             int i;
-            byte help;   //help
-            double double_;
-            help = br.ReadByte();
-            exp = help & 0x7f;
+            byte help = br.ReadByte();
+            int exp = help & 0x7f;
             if ((help & 0x80) != 0)
             {
                 sig = -1;
@@ -588,7 +564,7 @@ namespace gds
             {
                 sig = 1;
             }
-            double_ = 0;
+            double double_ = 0;
             for (i = 0; i < 7; i++)
             {
                 help = br.ReadByte();

@@ -20,9 +20,8 @@ namespace geoCoreLib
         double pAngle(GeoLibPoint p1, GeoLibPoint p2, GeoLibPoint p3)
         {
             double a1, a2;
-            GeoLibPointF dif1, dif2;
-            dif1 = new GeoLibPointF(p2.X - p1.X, p2.Y - p1.Y);
-            dif2 = new GeoLibPointF(p3.X - p2.X, p3.Y - p2.Y);
+            GeoLibPointF dif1 = new GeoLibPointF(p2.X - p1.X, p2.Y - p1.Y);
+            GeoLibPointF dif2 = new GeoLibPointF(p3.X - p2.X, p3.Y - p2.Y);
             if (dif1.X != 0)
             {
                 a1 = Math.Atan(dif1.Y / dif1.X) / 2 / Math.PI * 360;
@@ -92,8 +91,7 @@ namespace geoCoreLib
         double pAngle(GeoLibPoint p1, GeoLibPoint p2)
         {
             double a1;
-            GeoLibPointF dif1;
-            dif1 = new GeoLibPointF(p2.X - p1.X, p2.Y - p1.Y);
+            GeoLibPointF dif1 = new GeoLibPointF(p2.X - p1.X, p2.Y - p1.Y);
             if (dif1.X != 0)
             {
                 a1 = Math.Atan(dif1.Y / dif1.X) / 2 / Math.PI * 360;
@@ -140,10 +138,9 @@ namespace geoCoreLib
         {
             //between  p1-p2+p3-p4
             double m1, m2, b1, b2;
-            GeoLibPointF dif1, dif2;
             int help;
-            dif1 = new GeoLibPointF(p2.X - p1.X, p2.Y - p1.Y);
-            dif2 = new GeoLibPointF(p4.X - p3.X, p4.Y - p3.Y);
+            GeoLibPointF dif1 = new GeoLibPointF(p2.X - p1.X, p2.Y - p1.Y);
+            GeoLibPointF dif2 = new GeoLibPointF(p4.X - p3.X, p4.Y - p3.Y);
             pc.X = (1 << 30);
             pc.Y = (1 << 30);
             if ((dif1.X != 0) && (dif2.X != 0))
@@ -257,14 +254,12 @@ namespace geoCoreLib
         double pDistance(GeoLibPoint p1, GeoLibPoint p2, GeoLibPoint p3)
         {
             // >0 if left off line
-            double m1, b1, wert;
-            GeoLibPoint dif1;
-            dif1 = new GeoLibPoint(p2.X - p1.X, p2.Y - p1.Y);
+            GeoLibPoint dif1 = new GeoLibPoint(p2.X - p1.X, p2.Y - p1.Y);
             if ((dif1.X != 0))
             {
-                m1 = (double)(dif1.Y) / (dif1.X);
-                b1 = -m1 * p1.X + p1.Y;
-                wert = m1 * p3.X + b1 - p3.Y;
+                double m1 = (double)(dif1.Y) / (dif1.X);
+                double b1 = -m1 * p1.X + p1.Y;
+                double wert = m1 * p3.X + b1 - p3.Y;
                 if (dif1.Y == 0)
                 {
                     if (dif1.X > 0)
@@ -322,9 +317,8 @@ namespace geoCoreLib
         bool pIdentical(GeoLibPoint p1, GeoLibPoint p2, GeoLibPoint p3, GeoLibPoint p4)
         {
             double m1, m2, b1, b2;
-            GeoLibPointF dif1, dif2;
-            dif1 = new GeoLibPointF(p2.X - p1.X, p2.Y - p1.Y);
-            dif2 = new GeoLibPointF(p4.X - p3.X, p4.Y - p3.Y);
+            GeoLibPointF dif1 = new GeoLibPointF(p2.X - p1.X, p2.Y - p1.Y);
+            GeoLibPointF dif2 = new GeoLibPointF(p4.X - p3.X, p4.Y - p3.Y);
             if ((dif1.Y != 0) && (dif2.Y != 0))
             {
                 m1 = dif1.X / dif1.Y;
@@ -382,9 +376,8 @@ namespace geoCoreLib
         bool pParallel(GeoLibPoint p1, GeoLibPoint p2, GeoLibPoint p3, GeoLibPoint p4)
         {
             double m1, m2;
-            GeoLibPoint dif1, dif2;
-            dif1 = new GeoLibPoint(p2.X - p1.X, p2.Y - p1.Y);
-            dif2 = new GeoLibPoint(p4.X - p3.X, p4.Y - p3.Y);
+            GeoLibPoint dif1 = new GeoLibPoint(p2.X - p1.X, p2.Y - p1.Y);
+            GeoLibPoint dif2 = new GeoLibPoint(p4.X - p3.X, p4.Y - p3.Y);
             if ((dif1.Y != 0) && (dif2.Y != 0))
             {
                 m1 = (double)(dif1.X) / (dif1.Y);
@@ -416,16 +409,22 @@ namespace geoCoreLib
         bool pNearlyParallel(GeoLibPoint p1, GeoLibPoint p2, GeoLibPoint p3, GeoLibPoint p4)
         {
             double m1, m2;
-            GeoLibPointF dif1, dif2;
-            dif1 = new GeoLibPointF(p2.X - p1.X, p2.Y - p1.Y);
-            dif2 = new GeoLibPointF(p4.X - p3.X, p4.Y - p3.Y);
+            GeoLibPointF dif1 = new GeoLibPointF(p2.X - p1.X, p2.Y - p1.Y);
+            GeoLibPointF dif2 = new GeoLibPointF(p4.X - p3.X, p4.Y - p3.Y);
             if ((dif1.Y != 0) && (dif2.Y != 0))
             {
                 m1 = dif1.X / dif1.Y;
                 m2 = dif2.X / dif2.Y;
-                m2 = m2 - m1;
-                if ((m2 < 0) && (-0.005 > m2)) { return false; }
-                if ((m2 > 0) && (0.005 < m2)) { return false; }
+                m2 -= m1;
+                if ((m2 < 0) && (-0.005 > m2))
+                {
+                    return false;
+                }
+
+                if ((m2 > 0) && (0.005 < m2))
+                {
+                    return false;
+                }
                 return true;
             }
             else if ((dif1.X != 0) && (dif2.X != 0))
@@ -433,8 +432,15 @@ namespace geoCoreLib
                 m1 = dif1.Y / dif1.X;
                 m2 = dif2.Y / dif2.X;
                 m2 = m2 - m1;
-                if ((m2 < 0) && (-0.005 > m2)) { return false; }
-                if ((m2 > 0) && (0.005 < m2)) { return false; }
+                if ((m2 < 0) && (-0.005 > m2))
+                {
+                    return false;
+                }
+
+                if ((m2 > 0) && (0.005 < m2))
+                {
+                    return false;
+                }
                 return true;
             }
             return false;
@@ -447,14 +453,12 @@ namespace geoCoreLib
 
         bool pOnLine2(GeoLibPoint p1, GeoLibPoint p2, GeoLibPoint p3)
         {
-            double m1, b1;
-            GeoLibPointF dif1;
             int help;
-            dif1 = new GeoLibPointF(p2.X - p1.X, p2.Y - p1.Y);
+            GeoLibPointF dif1 = new GeoLibPointF(p2.X - p1.X, p2.Y - p1.Y);
             if ((dif1.X != 0))
             {
-                m1 = dif1.Y / dif1.X;
-                b1 = -m1 * p1.X + p1.Y;
+                double m1 = dif1.Y / dif1.X;
+                double b1 = -m1 * p1.X + p1.Y;
                 if (Math.Abs(p3.Y - (m1 * p3.X + b1)) > Double.Epsilon)
                 {
                     return false;

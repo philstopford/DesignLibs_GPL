@@ -132,29 +132,6 @@ namespace geoCoreLib
             {
                 m.matrix.TransformPoints(pointarray);
             }
-            /*
-			if (select)
-			{
-				for (i = 0; i < pointarray.Count(); i++)
-				{
-					Point p = pointarray[i];
-					p = m.matrix.map(p);
-					pointarray[i] = p;
-				}
-			}
-			else
-			{
-				for (i = 0; i < pointarray.size(); i++)
-				{
-					if (p_select.testBit(i))
-					{
-						p = pointarray[i);
-						p = m.matrix.TransformPoints(p);
-						pointarray.setPoint(i, p);
-					}
-				}
-			}
-			*/
         }
 
         public override void map(GCStrans m)
@@ -165,14 +142,6 @@ namespace geoCoreLib
         void pMap(GCStrans m)
         {
             m.matrix.TransformPoints(pointarray);
-            /*
-			for (Int32 i = 0; i < pointarray.size(); i++)
-			{
-				Point p = pointarray[i];
-				p = m.matrix.map(p);
-				pointarray.setPoint(i, p);
-			}
-			*/
         }
 
         public override void minimum(GeoLibPoint pos)
@@ -237,8 +206,7 @@ namespace geoCoreLib
 
         List<GCPolygon> pConvertToPolygons()
         {
-            List<GCPolygon> ret = new List<GCPolygon>();
-            ret.Add(new GCPolygon(this));
+            List<GCPolygon> ret = new List<GCPolygon> {new GCPolygon(this)};
             return ret;
         }
 
@@ -251,7 +219,6 @@ namespace geoCoreLib
         {
             GeoLibPoint p = new GeoLibPoint(0, 0);
             double a;
-            bool b;
             int anz = 0;
             for (a = 0; ((a < 350) || (a > 370)) && (anz < 3);)
             {
@@ -297,7 +264,7 @@ namespace geoCoreLib
                 {
                     a += angle(pointarray[^2], pointarray[0], pointarray[1]);
                 }
-                // Punkte linksdrehend
+
                 if (a < -185)
                 {
                     for (Int32 i = 1; i < (pointarray.Length) / 2; i++)
@@ -307,14 +274,14 @@ namespace geoCoreLib
                         pointarray[i] = p;
                     }
                 }
-                // (simple selfintersecting)
+                // (simple self-intersecting)
                 if ((a > 370) || ((a < 350) && (a > -350)))
                 {
                     for (Int32 i = 0; i < pointarray.Length - 1; i++)
                     {
                         for (Int32 j = i + 2; j < pointarray.Length - 1; j++)
                         {
-                            b = cutPoint2(pointarray[i], pointarray[i + 1], pointarray[j], pointarray[j + 1], p);
+                            bool b = cutPoint2(pointarray[i], pointarray[i + 1], pointarray[j], pointarray[j + 1], p);
                             if (b)
                             {
                                 if (!((i == 0) && (j == pointarray.Length - 2)))
@@ -338,7 +305,7 @@ namespace geoCoreLib
                         }
                     }
                 }
-                // remove selfintersection 
+                // remove self-intersection 
                 if (pointarray.Length >= 8)
                 {
                     bool ende2 = false;
@@ -349,7 +316,7 @@ namespace geoCoreLib
                         {
                             if (identical(pointarray[i], pointarray[i + 1], pointarray[j + 1], pointarray[j]))
                             {
-                                int h1, h2, h3, h4, h5, h6;
+                                int h1, h2;
                                 bool side = true;
                                 bool change;
                                 if (pointarray[j + 1] == pointarray[i])
@@ -365,9 +332,9 @@ namespace geoCoreLib
                                     {
                                         h2 = 1;
                                     }
-                                    double d1, d2;
-                                    d1 = angle(pointarray[h1], pointarray[i], pointarray[i + 1]);
-                                    d2 = angle(pointarray[h2], pointarray[j + 1], pointarray[j]);
+
+                                    double d1 = angle(pointarray[h1], pointarray[i], pointarray[i + 1]);
+                                    double d2 = angle(pointarray[h2], pointarray[j + 1], pointarray[j]);
                                     if (d1 < 0)
                                     {
                                         d1 += 360;
@@ -428,7 +395,7 @@ namespace geoCoreLib
                                 {
                                     h2 = 1;
                                 }
-                                h3 = h2 + 1;
+                                int h3 = h2 + 1;
                                 if (h3 == pointarray.Length)
                                 {
                                     h3 = 1;
@@ -438,17 +405,17 @@ namespace geoCoreLib
                                 {
                                     h1 = pointarray.Length - 2;
                                 }
-                                h4 = j + 1;
+                                int h4 = j + 1;
                                 if (h4 == pointarray.Length)
                                 {
                                     h4 = 1;
                                 }
-                                h5 = h4 + 1;
+                                int h5 = h4 + 1;
                                 if (h5 == pointarray.Length)
                                 {
                                     h5 = 1;
                                 }
-                                h6 = i - 1;
+                                int h6 = i - 1;
                                 if (h6 == -1)
                                 {
                                     h6 = pointarray.Length - 2;
@@ -469,9 +436,8 @@ namespace geoCoreLib
                                 }
                                 else
                                 {
-                                    double d1, d2;
-                                    d1 = angle(pointarray[h6], pointarray[i], pointarray[h2]);
-                                    d2 = angle(pointarray[h5], pointarray[h4], pointarray[j]);
+                                    double d1 = angle(pointarray[h6], pointarray[i], pointarray[h2]);
+                                    double d2 = angle(pointarray[h5], pointarray[h4], pointarray[j]);
                                     if (d1 < 0)
                                     {
                                         d1 += 360;
@@ -550,7 +516,7 @@ namespace geoCoreLib
                     // "Polygon with more than 8191 points. Data is lost."
                 }
                 //xy 
-                // Add one to the pointlist length value (i) to mark the closed shape.
+                // Add one to the point-list length value (i) to mark the closed shape.
                 int val = ((i + 1) * 2 * 4) + 4;
                 gw.bw.Write((UInt16)val);
                 gw.bw.Write((byte)0x10);
@@ -613,7 +579,7 @@ namespace geoCoreLib
 
         void pSaveOASIS(oasWriter ow)
         {
-            byte info_byte = 0;
+            byte info_byte;
             if (GCSetup.oasisSaveCircle)
             {
                 // pc and r are manipulated in isCircle()
@@ -683,7 +649,6 @@ namespace geoCoreLib
             {
                 int form = 0;
                 int off = 0;
-                int w, h;
                 for (int i = 1; i < pointarray.Length; i++)
                 {
                     GeoLibPointF pd = GeoWrangler.distanceBetweenPoints_point(pointarray[i], pointarray[i - 1]);
@@ -730,6 +695,8 @@ namespace geoCoreLib
                 }
                 if (form != -1)
                 {
+                    int w;
+                    int h;
                     if (pointarray.Length == 4)
                     {
                         switch (form)
@@ -1058,12 +1025,11 @@ namespace geoCoreLib
             if ((GCSetup.oasisSaveTrapezoid) && (pointarray.Length == 5))
             {
                 int form = 0;
-                int minX, minY, maxX, maxY;
-                int w, h, da, db;
-                minX = pointarray[0].X;
-                maxX = pointarray[0].X;
-                minY = pointarray[0].Y;
-                maxY = pointarray[0].Y;
+                int da, db;
+                int minX = pointarray[0].X;
+                int maxX = pointarray[0].X;
+                int minY = pointarray[0].Y;
+                int maxY = pointarray[0].Y;
                 for (int i = 1; i < pointarray.Length; i++)
                 {
                     if (pointarray[i].X > maxX)
@@ -1096,8 +1062,8 @@ namespace geoCoreLib
                         form = form * 10;
                     }
                 }
-                w = maxX - minX;
-                h = maxY - minY;
+                int w = maxX - minX;
+                int h = maxY - minY;
                 switch (form)
                 {
                     case 1010:
@@ -1168,7 +1134,7 @@ namespace geoCoreLib
             {
                 ow.modal.absoluteMode = true;
             }
-            info_byte = 32;  //write pointlist;
+            info_byte = 32;  //write point-list;
             if (layer_nr != ow.modal.layer)
             {
                 info_byte += 1;

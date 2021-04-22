@@ -183,9 +183,9 @@ namespace oasis
             writeString("S_TOP_CELL");
 
             int cellCount = 0;
-            for (int i = 0; i < drawing_.cellList.Count; i++)
+            foreach (GCCell t in drawing_.cellList)
             {
-                drawing_.cellList[i].saved = false;
+                t.saved = false;
                 cellCount++;
             }
 
@@ -213,10 +213,10 @@ namespace oasis
 
             cellNames_beingWritten.Reverse();
 
-            for (int i = 0; i < cellNames_beingWritten.Count; i++)
+            foreach (string t in cellNames_beingWritten)
             {
                 bw.Write((byte)3);
-                writeString(cellNames_beingWritten[i]);
+                writeString(t);
             }
 
             // Write out the layer names.
@@ -245,9 +245,9 @@ namespace oasis
                 writeUnsignedInteger((uint)datatype);
             }
 
-            for (int i = 0; i < drawing_.cellList.Count; i++)
+            foreach (GCCell t in drawing_.cellList)
             {
-                drawing_.cellList[i].saved = false;
+                t.saved = false;
             }
 
             int cellCounter = cellNames_beingWritten.Count;
@@ -258,28 +258,28 @@ namespace oasis
                 updateInterval = 1;
             }
             double progress = 0;
-            for (int i = 0; i < drawing_.cellList.Count; i++)
+            foreach (GCCell t in drawing_.cellList)
             {
                 if (cc % updateInterval == 0)
                 {
-                    statusUpdateUI?.Invoke(drawing_.cellList[i].cellName);
+                    statusUpdateUI?.Invoke(t.cellName);
                     progressUpdateUI?.Invoke(progress);
                     progress += 0.01;
                 }
-                if (drawing_.cellList[i].elementList == null)
+                if (t.elementList == null)
                 {
                     continue;
                 }
                 cellCounter--;
-                if (drawing_.cellList[i].saved == false)
+                if (t.saved == false)
                 {
-                    if (!drawing_.cellList[i].dependNotSaved())
+                    if (!t.dependNotSaved())
                     {
                         resetModal();
                         bw.Write((byte)13);
                         writeUnsignedInteger((uint)cellCounter);
-                        drawing_.cellList[i].saveOASIS(this);
-                        drawing_.cellList[i].saved = true;
+                        t.saveOASIS(this);
+                        t.saved = true;
                     }
                 }
                 cc++;

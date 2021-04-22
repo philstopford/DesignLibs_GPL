@@ -28,9 +28,10 @@ namespace geoWrangler
             for (int i = 0; i < source.Length - 1; i++)
             {
                 ClipperOffset co = new ClipperOffset();
-                Path o = new Path();
-                o.Add(new IntPoint(source[i].X, source[i].Y));
-                o.Add(new IntPoint(source[i + 1].X, source[i + 1].Y));
+                Path o = new Path
+                {
+                    new IntPoint(source[i].X, source[i].Y), new IntPoint(source[i + 1].X, source[i + 1].Y)
+                };
                 co.AddPath(o, JoinType.jtMiter, EndType.etClosedLine);
 
                 int offsetVal = width / 2;
@@ -42,11 +43,13 @@ namespace geoWrangler
                 allSolutions.Add(new Path(solution[0]));
 
                 // Need to add a patch polygon to link the segments.
-                Path patchPoly = new Path();
-                patchPoly.Add(new IntPoint(source[i + 1].X - offsetVal, source[i + 1].Y - offsetVal));
-                patchPoly.Add(new IntPoint(source[i + 1].X - offsetVal, source[i + 1].Y + offsetVal));
-                patchPoly.Add(new IntPoint(source[i + 1].X + offsetVal, source[i + 1].Y + offsetVal));
-                patchPoly.Add(new IntPoint(source[i + 1].X + offsetVal, source[i + 1].Y - offsetVal));
+                Path patchPoly = new Path
+                {
+                    new IntPoint(source[i + 1].X - offsetVal, source[i + 1].Y - offsetVal),
+                    new IntPoint(source[i + 1].X - offsetVal, source[i + 1].Y + offsetVal),
+                    new IntPoint(source[i + 1].X + offsetVal, source[i + 1].Y + offsetVal),
+                    new IntPoint(source[i + 1].X + offsetVal, source[i + 1].Y - offsetVal)
+                };
 
                 allSolutions.Add(new Path(patchPoly));
             }
@@ -56,11 +59,13 @@ namespace geoWrangler
 
             IntRect b = ClipperBase.GetBounds(allSolutions);
 
-            Path bPath = new Path();
-            bPath.Add(new IntPoint(b.left, b.bottom));
-            bPath.Add(new IntPoint(b.left, b.top));
-            bPath.Add(new IntPoint(b.right, b.top));
-            bPath.Add(new IntPoint(b.right, b.bottom));
+            Path bPath = new Path
+            {
+                new IntPoint(b.left, b.bottom),
+                new IntPoint(b.left, b.top),
+                new IntPoint(b.right, b.top),
+                new IntPoint(b.right, b.bottom)
+            };
 
             c.AddPaths(new Paths { bPath }, PolyType.ptClip, true);
 
@@ -68,7 +73,7 @@ namespace geoWrangler
             c.Execute(ClipType.ctIntersection, union, PolyFillType.pftPositive);
 
             GeoLibPoint[] ret;
-            if (union.Count() > 0)
+            if (union.Any())
             {
                 // We should only have one result.
                 union[0].Add(new IntPoint(union[0][0])); // force a close - it wasn't done in the Boolean.

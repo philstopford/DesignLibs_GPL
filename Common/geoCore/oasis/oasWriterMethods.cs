@@ -26,11 +26,7 @@ namespace oasis
 
         public void writeSignedInteger(int i)
         {
-            bool sig = false;
-            if (i < 0)
-            {
-                sig = true;
-            }
+            bool sig = i < 0;
             i = Math.Abs(i);
             int h = (i & (63)) << 1;
             i = i >> 6;
@@ -77,8 +73,7 @@ namespace oasis
             else
             {
                 writeUnsignedInteger(7);
-                byte[] a;
-                a = BitConverter.GetBytes(d);
+                byte[] a = BitConverter.GetBytes(d);
                 bw.Write(a);
             }
         }
@@ -346,7 +341,6 @@ namespace oasis
                 int i;
                 if (p.X >= 0)
                 {
-                    i = 0;
                     i = ((int)p.X << 4) + 2;
                 }
                 else
@@ -361,7 +355,6 @@ namespace oasis
                 int i;
                 if (p.Y >= 0)
                 {
-                    i = 1;
                     i = ((int)p.Y << 4) + 2;
                 }
                 else
@@ -373,7 +366,7 @@ namespace oasis
             }
             else if (Math.Abs(p.Y - p.X) < Double.Epsilon)
             {
-                int i = 0;
+                int i;
                 if (p.X >= 0)
                 {
                     i = 4;
@@ -388,7 +381,7 @@ namespace oasis
             }
             else if (Math.Abs(p.Y - (-p.X)) < Double.Epsilon)
             {
-                int i = 0;
+                int i;
                 if (p.X >= 0)
                 {
                     i = 7;
@@ -403,10 +396,10 @@ namespace oasis
             }
             else
             {
-                int i = 0, k = 0, j = 0;
+                int k, j;
                 if (p.X <= 0)
                 {
-                    i = 2;
+                    int i = 2;
                     k = ((int)-p.X << 2) + i + 1;
                 }
                 else
@@ -433,7 +426,7 @@ namespace oasis
             {
                 modal.absoluteMode = true;
             }
-            byte info_byte = 0;  //write pointlist;
+            byte info_byte = 0;  //write point-list;
             if (layerNum != modal.layer)
             {
                 info_byte += 1;
@@ -513,7 +506,7 @@ namespace oasis
             {
                 modal.absoluteMode = true;
             }
-            byte info_byte = 0;  //write pointlist;
+            byte info_byte = 0;  //write point-list;
             if (layerNum != modal.layer)
             {
                 info_byte += 1;

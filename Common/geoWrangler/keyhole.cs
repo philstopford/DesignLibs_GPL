@@ -79,17 +79,17 @@ namespace geoWrangler
             {
                 bool outerOrient = Clipper.Orientation(outers[0]);
                 // Use raycaster to project from holes to outer, to try and find a keyhole path that is minimal length, and ideally orthogonal.
-                for (int hole = 0; hole < cutters.Count; hole++)
+                foreach (Path t in cutters)
                 {
                     Paths extraCutters = new Paths();
-                    Path projCheck = pStripTerminators(cutters[hole], true);
+                    Path projCheck = pStripTerminators(t, true);
                     projCheck = pStripColinear(projCheck);
                     //  Strip the terminator again to meet the requirements below.
                     projCheck = pStripTerminators(projCheck, false);
                     projCheck = pClockwise(projCheck);
 
                     bool projectCorners = orthogonal(projCheck, angularTolerance);
-                    RayCast rc = new RayCast(cutters[hole], outers, 1000000, invert: true, projectCorners: projectCorners);
+                    RayCast rc = new RayCast(t, outers, 1000000, invert: true, projectCorners: projectCorners);
                     Paths clipped = rc.getClippedRays();
                     // Need to find minimal length, ideally orthogonal.
                     double minLength = -1;
@@ -146,11 +146,11 @@ namespace geoWrangler
                     c.Execute(ClipType.ctDifference, new_outers);//, PolyFillType.pftNonZero, PolyFillType.pftNegative);
 
                     outers.Clear();
-                    for (int p = 0; p < new_outers.Count; p++)
+                    foreach (Path t1 in new_outers)
                     {
-                        if (Clipper.Orientation(new_outers[p]) == outerOrient)
+                        if (Clipper.Orientation(t1) == outerOrient)
                         {
-                            outers.Add(new_outers[p]);
+                            outers.Add(t1);
                         }
                     }
                 }
@@ -192,8 +192,7 @@ namespace geoWrangler
             edge[0] = new IntPoint((Int64)(edge[0].X - Math.Abs(dx * sizing)), (Int64)(edge[0].Y - Math.Abs(dy * sizing)));
             edge[1] = new IntPoint((Int64)(edge[1].X + Math.Abs(dx * sizing)), (Int64)(edge[1].Y + Math.Abs(dy * sizing)));
 
-            ClipperOffset co = new ClipperOffset();
-            co.PreserveCollinear = true;
+            ClipperOffset co = new ClipperOffset {PreserveCollinear = true};
             co.AddPath(edge, JoinType.jtMiter, EndType.etOpenSquare);
             PolyTree solution = new PolyTree();
             co.Execute(ref solution, customSizing);
@@ -261,16 +260,16 @@ namespace geoWrangler
 
             bool reverseNeeded = (gR_orient_gw != orig_orient_gw) || (gR_orient_c != orig_orient_c);
 
-            // Respin if needed. 1st path is always an outer, so we need to ensure the orientation is consistent.
+            // Re-spin if needed. 1st path is always an outer, so we need to ensure the orientation is consistent.
             if (reverseNeeded)
             {
-                for (int i = 0; i < ret.Count; i++)
+                foreach (Path t in ret)
                 {
-                    ret[i].Reverse();
+                    t.Reverse();
                 }
             }
 
-            // Clean-up stripped colinear vertices; need to refragment.
+            // Clean-up stripped co-linear vertices; need to re-fragment.
             ret = pClose(ret);
 
             return ret;
@@ -283,15 +282,15 @@ namespace geoWrangler
                 customSizing = sizing;
             }
             double oArea = 0;
-            for (int i = 0; i < source.Count; i++)
+            foreach (Path t in source)
             {
-                oArea += Clipper.Area(source[i]);
+                oArea += Clipper.Area(t);
             }
             Paths ret = pRemoveFragments(source, -customSizing, extension, maySimplify: maySimplify);
             double nArea = 0;
-            for (int i = 0; i < ret.Count; i++)
+            foreach (Path t in ret)
             {
-                nArea += Clipper.Area(ret[i]);
+                nArea += Clipper.Area(t);
             }
 
             if ((Math.Abs(oArea) - Math.Abs(nArea)) < 10000)
@@ -320,8 +319,7 @@ namespace geoWrangler
 
             Paths cGeometry = new Paths();
 
-            ClipperOffset co = new ClipperOffset();
-            co.PreserveCollinear = !maySimplify;
+            ClipperOffset co = new ClipperOffset {PreserveCollinear = !maySimplify};
             co.AddPaths(source, joinType, EndType.etClosedPolygon);
             co.Execute(ref cGeometry, customSizing);
             co.Clear();
@@ -330,9 +328,9 @@ namespace geoWrangler
             co.Execute(ref cGeometry, -customSizing); // Size back to original dimensions
 
             double newArea = 0;
-            for (int i = 0; i < cGeometry.Count; i++)
+            foreach (Path t in cGeometry)
             {
-                newArea += Clipper.Area(cGeometry[i]);
+                newArea += Clipper.Area(t);
             }
 
             if (Math.Abs(newArea) < double.Epsilon)
@@ -355,8 +353,7 @@ namespace geoWrangler
             }
             double sourceArea = Clipper.Area(source);
 
-            ClipperOffset co = new ClipperOffset();
-            co.PreserveCollinear = !maySimplify;
+            ClipperOffset co = new ClipperOffset {PreserveCollinear = !maySimplify};
             co.AddPath(source, joinType, EndType.etClosedPolygon);
             co.Execute(ref cGeometry, customSizing);
             co.Clear();
@@ -365,9 +362,9 @@ namespace geoWrangler
             co.Execute(ref cGeometry, -customSizing); // Size back to original dimensions
 
             double newArea = 0;
-            for (int i = 0; i < cGeometry.Count; i++)
+            foreach (Path t in cGeometry)
             {
-                newArea += Clipper.Area(cGeometry[i]);
+                newArea += Clipper.Area(t);
             }
 
             if (Math.Abs(newArea) < double.Epsilon)
@@ -385,11 +382,11 @@ namespace geoWrangler
                     // Multi-path handling gets interesting. The first path is assumed to be the outer. Let's compare that with the original geometry. If the orientation is different, reverse the full set.
                     bool orientation = Clipper.Orientation(source);
                     bool origCG0_o = Clipper.Orientation(cGeometry[0]);
-                    for (int i = 0; i < cGeometry.Count; i++)
+                    foreach (Path t in cGeometry)
                     {
                         if (origCG0_o != orientation)
                         {
-                            cGeometry[i].Reverse();
+                            t.Reverse();
                         }
                     }
                 }

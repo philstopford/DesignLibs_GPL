@@ -155,8 +155,7 @@ namespace oasis
                 statusUpdateUI?.Invoke("Loading");
                 progressUpdateUI?.Invoke(0);
 
-                Stream stream;
-                stream = File.OpenRead(filename);
+                Stream stream = File.OpenRead(filename);
                 if (filename.ToLower().EndsWith("gz"))
                 {
                     using (GZipStream gzs = new GZipStream(stream, CompressionMode.Decompress))
@@ -172,14 +171,13 @@ namespace oasis
                     br = new EndianBinaryReader(EndianBitConverter.Little, stream);
                 }
 
-                string s, s1;
-                byte help;
+                string s;
                 Int32 i;
-                s1 = "";
+                string s1 = "";
                 zLibUsed = false;
                 for (i = 0; i < 13; i++)
                 {
-                    help = readRaw();
+                    byte help = readRaw();
                     if (help != 0)
                     {
                         s = Encoding.UTF8.GetString(new [] { help });
@@ -195,7 +193,6 @@ namespace oasis
                 Int32 record;
                 bool tableAtEnd = false;
                 cell_ = null;
-                byte info_byte;
                 int cellNameCount = 0;
                 int textNameCount = 0;
                 do
@@ -213,6 +210,7 @@ namespace oasis
                         throw new Exception(err);
                     }
                     record = readUnsignedInteger();
+                    byte info_byte;
                     switch (record)
                     {
                         case 0: //pad
@@ -919,7 +917,7 @@ namespace oasis
                             {
                                 readUnsignedInteger();
                             }
-                            if (((info_byte & 4) != 0) && (!((info_byte & 2) != 0)))
+                            if (((info_byte & 4) != 0) && ((info_byte & 2) == 0))
                             {
                                 readString();
                             }
@@ -1038,7 +1036,7 @@ namespace oasis
                                         s1 = s1.Substring(12, s1.Length - 12);
                                         t1.setName(cellNames[Convert.ToInt32(s1)]);
                                         t1.setCellRef(drawing_.findCell(cellNames[Convert.ToInt32(s1)]));
-                                    };
+                                    }
                                 }
                             }
                             if (t1.isText())
@@ -1048,8 +1046,8 @@ namespace oasis
                                 {
                                     s1 = s1.Substring(12, s1.Length - 12);
                                     t1.setName(textNames[Convert.ToInt32(s1)]);
-                                };
-                            };
+                                }
+                            }
                         }
                     }
                 }

@@ -11,4 +11,8 @@
 
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\entropyRNG\entropyRNG.csproj" />
+  </ItemGroup>
+
 </Project>

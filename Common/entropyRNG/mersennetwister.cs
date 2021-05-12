@@ -87,7 +87,31 @@ namespace entropyRNG
                 _local = random = new MersenneTwister(BitConverter.ToInt32(buffer, 0));
             }
 
+            return nextint(random);
+        }
+        
+        static Int32 nextint(MersenneTwister random)
+        {
             return random.Next();
+        }
+        
+        public static Int32 nextint(int min, int max)
+        {
+            MersenneTwister random = _local;
+
+            if (random == null)
+            {
+                byte[] buffer = new byte[4];
+                _global.GetBytes(buffer);
+                _local = random = new MersenneTwister(BitConverter.ToInt32(buffer, 0));
+            }
+
+            return nextint(random, min, max);
+        }
+
+        static Int32 nextint(MersenneTwister random, int min, int max)
+        {
+            return random.Next(min, max);
         }
     }
 }

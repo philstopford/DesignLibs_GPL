@@ -87,7 +87,31 @@ namespace entropyRNG
                 _local = random = new Random(BitConverter.ToInt32(buffer, 0));
             }
 
+            return nextint(random);
+        }
+
+        static Int32 nextint(Random random)
+        {
             return random.Next();
+        }
+
+        public static Int32 nextint(int min, int max)
+        {
+            Random random = _local;
+
+            if (random == null)
+            {
+                byte[] buffer = new byte[4];
+                _global.GetBytes(buffer);
+                _local = random = new Random(BitConverter.ToInt32(buffer, 0));
+            }
+
+            return nextint(random, min, max);
+        }
+
+        static Int32 nextint(Random random, int min, int max)
+        {
+            return random.Next(min, max);
         }
 
         // This is a slightly different version of our Gaussian RNG

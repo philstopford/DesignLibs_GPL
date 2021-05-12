@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Runtime.Serialization;
 using System.Security.Cryptography;
+using entropyRNG;
 
 namespace utility
 {
@@ -196,4 +198,23 @@ namespace utility
             }
         }
     }
+    
+    public static class IListExtensions {
+        /// <summary>
+        /// Shuffles the element order of the specified list.
+        /// </summary>
+        public static void Shuffle<T>(this IList<T> ts) {
+            var count = ts.Count;
+            var last = count - 1;
+            Random rnd = new Random();
+
+            for (var i = 0; i < last; ++i) {
+                // var r = rnd.Next(i, count);
+                var r = RNG.nextint(i, count);
+                var tmp = ts[i];
+                ts[i] = ts[r];
+                ts[r] = tmp;
+            }
+        }
+    }    
 }

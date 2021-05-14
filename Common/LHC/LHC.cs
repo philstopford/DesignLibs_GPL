@@ -87,7 +87,7 @@ namespace LHC
 
         public FinalSamplePoints[]  getPoints()
         {
-            List<TempSamplePointsForDimension> sampleset = new List<TempSamplePointsForDimension>();
+            List<TempSamplePointsForDimension> sampleset = new();
             for (int dim = 0; dim < dimensions; dim++)
             {
                 sampleset.Add(divider(dim));
@@ -96,17 +96,21 @@ namespace LHC
             FinalSamplePoints[] pointsForUse = new FinalSamplePoints[dimensions];
             for (int i = 0; i < dimensions; i++)
             {
-                pointsForUse[i].points = new double[samples];
+                pointsForUse[i] = new FinalSamplePoints {points = new double[samples]};
             }
             
             for (int j = samples - 1; j >= 0; j--)
             {
                 for (int i = 0; i < dimensions; i++)
                 {
-                    int index = RNG.nextint(0, j);
-                    double val = sampleset[j].points[i];
+                    // We're pulling from the samples for each dimension as we shuffle, so need to recount each time.
+                    int ptCount = sampleset[j].points.Count;
+                    int index = RNG.nextint(0, ptCount);
+                    double val = sampleset[index].points[i];
+                    
+                    // Remove our sample for this dimension
                     sampleset[j].points.RemoveAt(i);
-                    pointsForUse[i].points[samples - 1 - j] = val;
+                    pointsForUse[i].points[(samples - 1) - j] = val;
                 }
             }
 

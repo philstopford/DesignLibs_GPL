@@ -6,6 +6,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\entropyRNG\entropyRNG.csproj" />
+      <ProjectReference Include="..\utility\utility.csproj" />
     </ItemGroup>
 
 </Project>

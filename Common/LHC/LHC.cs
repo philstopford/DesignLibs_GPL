@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using entropyRNG;
+using utility;
 
 namespace LHC
 {
@@ -85,9 +86,9 @@ namespace LHC
             }
         }
 
-        public FinalSamplePoints[]  getPoints()
+        public FinalSamplePoints[]  getPoints(bool useShuffle = false)
         {
-            List<TempSamplePointsForDimension> sampleset = new();
+            List<TempSamplePointsForDimension> sampleset = new List<TempSamplePointsForDimension>();
             for (int dim = 0; dim < dimensions; dim++)
             {
                 sampleset.Add(divider(dim));
@@ -98,19 +99,38 @@ namespace LHC
             {
                 pointsForUse[i] = new FinalSamplePoints {points = new double[samples]};
             }
-            
-            for (int j = samples - 1; j >= 0; j--)
+
+            if (useShuffle)
             {
-                for (int i = 0; i < dimensions; i++)
+                int[] indices = new int[samples];
+                for (int i = 0; i < samples; i++)
                 {
-                    // We're pulling from the samples for each dimension as we shuffle, so need to recount each time.
-                    int ptCount = sampleset[j].points.Count;
-                    int index = RNG.nextint(0, ptCount);
-                    double val = sampleset[index].points[i];
-                    
-                    // Remove our sample for this dimension
-                    sampleset[j].points.RemoveAt(i);
-                    pointsForUse[i].points[(samples - 1) - j] = val;
+                    indices[i] = i;
+                }
+                for (int dimension = 0; dimension < dimensions; dimension++)
+                {
+                    indices.Shuffle();
+                    for (int sample = 0; sample < samples; sample++)
+                    {
+                        pointsForUse[dimension].points[(samples - 1) - sample] = sampleset[sample].points[dimension];
+                    }
+                }
+            }
+            else
+            {
+                for (int sample = samples - 1; sample >= 0; sample--)
+                {
+                    for (int dimension = 0; dimension < dimensions; dimension++)
+                    {
+                        // We're pulling from the samples for each dimension as we shuffle, so need to recount each time.
+                        int ptCount = sampleset[sample].points.Count;
+                        int index = RNG.nextint(0, ptCount);
+                        double val = sampleset[index].points[dimension];
+
+                        // Remove our sample for this dimension
+                        sampleset[sample].points.RemoveAt(dimension);
+                        pointsForUse[dimension].points[(samples - 1) - sample] = val;
+                    }
                 }
             }
 
@@ -122,7 +142,7 @@ namespace LHC
             init(2,10);
             setInterval(-1, 1, 0);
             setInterval(-2, 1, 1);
-            getPoints();
+            getPoints(true);
         }
     }
 }

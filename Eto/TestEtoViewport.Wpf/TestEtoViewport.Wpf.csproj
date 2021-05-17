@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="Eto.OpenTK.Wpf" Version="0.1.2" />
-    <PackageReference Include="Eto.Platform.Windows" Version="2.5.11-ci-20210422.772645364" />
+    <PackageReference Include="Eto.Platform.Windows" Version="2.6.0-ci-20210515.845877805" />
     <PackageReference Include="Eto.Platform.Wpf" Version="2.5.11-ci-20210405.719583798" />
   </ItemGroup>
 

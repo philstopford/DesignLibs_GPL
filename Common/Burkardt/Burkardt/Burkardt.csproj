@@ -2,10 +2,11 @@
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
+        <RootNamespace>IHS</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\entropyRNG\entropyRNG.csproj" />
+      <ProjectReference Include="..\..\entropyRNG\entropyRNG.csproj" />
     </ItemGroup>
 
 </Project>

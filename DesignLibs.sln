@@ -84,7 +84,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestEtoViewport.Wpf", "Eto\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartitionTestGeometrySource", "TestGeometrySource\PartitionTestGeometrySource.csproj", "{32F0FE89-722A-4660-AAF2-0106CD6757A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IHS", "Common\IHS\IHS.csproj", "{49328370-9D33-4FEF-9903-A0C38197546B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Burkardt", "Common\Burkardt\Burkardt\Burkardt.csproj", "{49328370-9D33-4FEF-9903-A0C38197546B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IHSTest", "IHSTest\IHSTest.csproj", "{491784E7-74AA-413A-BDAD-6D4C583CB355}"
 EndProject

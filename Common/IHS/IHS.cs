@@ -1,0 +1,437 @@
+﻿using System;
+using System.Security.Cryptography;
+using entropyRNG;
+
+namespace ImprovedHypercubeSampler
+{
+    public class covariance
+    {
+        public double average, std, covc;
+
+        public covariance(int dim_num, int n, int[] x)
+        {
+            const double r8_huge = 1.0E+30;
+            //
+            //  Find the minimum distance for each point.
+            //
+            double[] mindist = new double[n];
+
+            for (int i = 0; i < n; i++ )
+            {
+                mindist[i] = r8_huge;
+                for (int j = 0; j < n; j++ )
+                {
+                    if ( i != j )
+                    {
+                        double dist = 0.0;
+                        for (int k = 0; k < dim_num; k++ )
+                        {
+                            dist = dist + ( ( double )
+                                ( ( x[k+i*dim_num] - x[k+j*dim_num] )
+                                  * ( x[k+i*dim_num] - x[k+j*dim_num] ) ) );
+                        }
+                        dist = Math.Sqrt ( dist );
+                        if ( dist < mindist[i] )
+                        {
+                            mindist[i] = dist;
+                        }
+                    }
+                }
+            }
+            //
+            //  Find the average minimum distance.
+            //
+            average = average_( n, mindist );
+            //
+            //  Compute the standard deviation of the distances.
+            //
+            std = std_( n, mindist );
+            //
+            //  Compute the covariance.
+            //
+            covc = std / average;
+            
+        }
+
+        double average_(int n, double[] a)
+        {
+            foreach (double t in a)
+            {
+                average += t;
+            }
+
+            average /= a.Length;
+
+            return average;
+        }
+
+        double std_(int n, double[] a)
+        {
+            if ( n < 2 )
+            {
+                std = 0.0;
+            }
+            else
+            {
+                average = average_( n, a );
+
+                std = 0.0;
+                for (int i = 0; i < n; i++ )
+                {
+                    std = std + ( a[i] - average ) * ( a[i] - average );
+                }
+                std = Math.Sqrt ( std / ( ( double ) ( n - 1 ) ) );
+
+            }
+            return std;
+        }
+    }
+
+
+    public static class IHS
+    {
+        //****************************************************************************80
+
+        public static void i4mat_transpose_print ( int m, int n, int[] a, string title )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    I4MAT_TRANSPOSE_PRINT prints an I4MAT, transposed.
+        //
+        //  Discussion:
+        //
+        //    An I4MAT is an MxN array of I4's, stored by (I,J) -> [I+J*M].
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    31 January 2005
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int M, the number of rows in A.
+        //
+        //    Input, int N, the number of columns in A.
+        //
+        //    Input, int A[M*N], the M by N matrix.
+        //
+        //    Input, string TITLE, a title.
+        //
+        {
+            i4mat_transpose_print_some ( m, n, a, 1, 1, m, n, title );
+        }
+        //****************************************************************************80
+
+        static void i4mat_transpose_print_some ( int m, int n, int[] a, int ilo, int jlo,
+        int ihi, int jhi, string title )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    I4MAT_TRANSPOSE_PRINT_SOME prints some of an I4MAT, transposed.
+        //
+        //  Discussion:
+        //
+        //    An I4MAT is an MxN array of I4's, stored by (I,J) -> [I+J*M].
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    15 October 2014
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int M, the number of rows of the matrix.
+        //    M must be positive.
+        //
+        //    Input, int N, the number of columns of the matrix.
+        //    N must be positive.
+        //
+        //    Input, int A[M*N], the matrix.
+        //
+        //    Input, int ILO, JLO, IHI, JHI, designate the first row and
+        //    column, and the last row and column to be printed.
+        //
+        //    Input, string TITLE, a title.
+        //
+        {
+            int INCX = 10;
+
+            Console.WriteLine();
+            Console.WriteLine(title);
+
+            if ( m <= 0 || n <= 0 )
+            {
+                Console.WriteLine();
+                Console.WriteLine("  (None)");
+                return;
+            }
+            //
+            //  Print the columns of the matrix, in strips of INCX.
+            //
+            for (int i2lo = ilo; i2lo <= ihi; i2lo = i2lo + INCX )
+            {
+                int i2hi = i2lo + INCX - 1;
+                if ( m < i2hi )
+                {
+                    i2hi = m;
+                }
+                if ( ihi < i2hi )
+                {
+                    i2hi = ihi;
+                }
+                Console.WriteLine();
+                //
+                //  For each row I in the current range...
+                //
+                //  Write the header.
+                //
+                string cout = "  Row: ";
+                string line = "";
+                for (int  i = i2lo; i <= i2hi; i++ )
+                {
+                    string t = (i - 1) + "  ";
+                    line += t.PadLeft(6);
+                }
+                Console.WriteLine(line);
+                Console.WriteLine();
+                Console.WriteLine("  Col");
+                Console.WriteLine();
+                //
+                //  Determine the range of the rows in this strip.
+                //
+                int j2lo = jlo;
+                if ( j2lo < 1 )
+                {
+                    j2lo = 1;
+                }
+                int j2hi = jhi;
+                if ( n < j2hi )
+                {
+                    j2hi = n;
+                }
+                for (int  j = j2lo; j <= j2hi; j++ )
+                {
+                    //
+                    //  Print out (up to INCX) entries in column J, that lie in the current strip.
+                    //
+                    string t = (j - 1) + ":";
+                    line = "";
+                    line += t.PadLeft(5);
+
+                    for (int  i = i2lo; i <= i2hi; i++ )
+                    {
+                        t = a[i-1+(j-1)*m] + "  ";
+                        line += t.PadLeft(6);
+                    }
+                    Console.WriteLine(line);
+
+                    Console.WriteLine();
+                }
+            }
+        }        
+        
+        
+        static int get_seed()
+        {
+            return RNG.nextint(1, Int32.MaxValue);
+        }
+        
+        public static int[] ihs ( int dim_num, int n, int d, int seed )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    IHS implements the improved distributed hypercube sampling algorithm.
+        //
+        //  Discussion:
+        //
+        //    N Points in a DIM_NUM dimensional Latin hypercube are to be selected.
+        //
+        //    Each of the DIM_NUM coordinate dimensions is discretized to the values
+        //    1 through N.  The points are to be chosen in such a way that
+        //    no two points have any coordinate value in common.  This is
+        //    a standard Latin hypercube requirement, and there are many
+        //    solutions.
+        //
+        //    This algorithm differs in that it tries to pick a solution
+        //    which has the property that the points are "spread out"
+        //    as evenly as possible.  It does this by determining an optimal
+        //    even spacing, and using the duplication factor D to allow it
+        //    to choose the best of the various options available to it.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    10 April 2003
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Brian Beachkofski, Ramana Grandhi,
+        //    Improved Distributed Hypercube Sampling,
+        //    American Institute of Aeronautics and Astronautics Paper 2002-1274.
+        //
+        //  Parameters:
+        //
+        //    Input, int DIM_NUM, the spatial dimension.
+        //
+        //    Input, int N, the number of points to be generated.
+        //
+        //    Input, int D, the duplication factor.  This must
+        //    be at least 1.  A value of 5 is reasonable.
+        //
+        //    Input/output, int &SEED, a seed for the random number generator.
+        //
+        //    Output, int IHS[DIM_NUM*N], the points.
+        //
+        {
+            const double r8_huge = 1.0E+30;
+            
+            int[] avail = new int [ dim_num * n ];
+            int[] list = new int [ d * n ];
+            int[] point = new int [ dim_num * d * n ];
+            int[] x = new int[dim_num*n];
+
+            double opt = ( ( double ) n ) /
+                         Math.Pow ( ( double ) n, ( double ) ( 1.0 / ( double ) dim_num ) );
+            //
+            //  Pick the first point.
+            //
+            for (int i = 0; i < dim_num; i++ )
+            {
+                x[i+(n-1)*dim_num] = RNG.nextint( 1, n, seed );
+            }
+            //
+            //  Initialize AVAIL,
+            //  and set an entry in a random row of each column of AVAIL to N.
+            //
+            for (int j = 0; j < n; j++ )
+            {
+                for (int i = 0; i < dim_num; i++ )
+                {
+                    avail[i+j*dim_num] = j + 1;
+                }
+            }
+
+            for (int i = 0; i < dim_num; i++ )
+            {
+                avail[i+(x[i+(n-1)*dim_num]-1)*dim_num] = n;
+            }
+            //
+            //  Main loop:
+            //  Assign a value to X(1:M,COUNT) for COUNT = N-1 down to 2.
+            //
+            for (int count = n - 1; 2 <= count; count-- )
+            {
+                //
+                //  Generate valid points.
+                //
+                for (int i = 0; i < dim_num; i++ )
+                {
+                    for (int k = 0; k < d; k++ )
+                    {
+                        for (int j = 0; j < count; j++ )
+                        {
+                            list[j+k*count] = avail[i+j*dim_num];
+                        }
+                    }
+
+                    for (int k = count*d - 1; 0 <= k; k-- )
+                    {
+                        int point_index = RNG.nextint( 0, k, seed );
+                        point[i+k*dim_num] = list[point_index];
+                        list[point_index] = list[k];
+                    }
+                }
+                //
+                //  For each candidate, determine the distance to all the
+                //  points that have already been selected, and save the minimum value.
+                //
+                double min_all = r8_huge;
+                int best = 0;
+
+                for (int k = 0; k < d * count; k++ )
+                {
+                    double min_can = r8_huge;
+
+                    for (int j = count; j < n; j++ )
+                    {
+
+                        double dist = 0.0;
+                        for (int i = 0; i < dim_num; i++ )
+                        {
+                            dist = dist + ( point[i+k*dim_num] - x[i+j*dim_num] )
+                                      * ( point[i+k*dim_num] - x[i+j*dim_num] );
+                        }
+                        dist = Math.Sqrt ( dist );
+
+                        if ( dist < min_can )
+                        {
+                            min_can = dist;
+                        }
+                    }
+
+                    if ( Math.Abs ( min_can - opt ) < min_all )
+                    {
+                        min_all = Math.Abs ( min_can - opt );
+                        best = k;
+                    }
+
+                }
+
+                for (int i = 0; i < dim_num; i++ )
+                {
+                    x[i+(count-1)*dim_num] = point[i+best*dim_num];
+                }
+                //
+                //  Having chosen X(*,COUNT), update AVAIL.
+                //
+                for (int i = 0; i < dim_num; i++ )
+                {
+                    for (int j = 0; j < n; j++ )
+                    {
+                        if ( avail[i+j*dim_num] == x[i+(count-1)*dim_num] )
+                        {
+                            avail[i+j*dim_num] = avail[i+(count-1)*dim_num];
+                        }
+                    }
+                }
+            }
+            //
+            //  For the last point, there's only one choice.
+            //
+            for (int i = 0; i < dim_num; i++ )
+            {
+                x[i+0*dim_num] = avail[i+0*dim_num];
+            }
+
+            return x;
+        }        
+        
+    }
+}

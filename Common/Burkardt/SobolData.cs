@@ -1,6 +1,6 @@
 ﻿namespace Sobol
 {
-    public static partial class Sobol
+    public static partial class SobolSampler
     {
         private static readonly int[] poly =
         {

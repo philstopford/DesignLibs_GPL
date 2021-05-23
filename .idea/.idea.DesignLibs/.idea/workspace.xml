@@ -55,8 +55,8 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/LatinizeTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Latinize.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/SobolData.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Sobol.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/SobolTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Sobol.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />

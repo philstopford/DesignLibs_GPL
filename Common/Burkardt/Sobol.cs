@@ -23,8 +23,6 @@ namespace Sobol
         private const int DIM_MAX2 = 1111;
         private const int LOG_MAX = 30;
         private static bool[] includ = new bool[LOG_MAX];
-        private static float recipd;
-        private static int seed_save = - 1;
         private static int[,] v = new int[DIM_MAX2,LOG_MAX];
 
         public static SobolVector i4_sobol ( int dim_num, int seed )
@@ -121,6 +119,8 @@ namespace Sobol
             int[] lastq = new int[DIM_MAX2];
             int maxcol = 1;
             int seed_temp;
+            float recipd = 1.0f;
+            int seed_save = - 1;
         
             if ( !initialized || dim_num != dim_num_save )
             {
@@ -557,25 +557,21 @@ namespace Sobol
             //
             int dim_num_save = 0;
             long i;
-            bool[] includ = new bool[LOG_MAX];
+            includ = new bool[LOG_MAX];
             bool initialized = false;
-            long j;
-            long j2;
-            long k;
             long l = 1;
             long[] lastq = new long[DIM_MAX2];
-            long  m;
             long maxcol = 62;
-            long newv;
 
             double recipd = 1.0E+00 / ( ( double ) ( 2 * l ) );
-            long seed_save = - 1;
             long seed_temp;
+            long seed_save = -1;
             long[,] v = new long[DIM_MAX2,LOG_MAX];
 
             if ( !initialized || dim_num != dim_num_save )
             {
                 initialized = true;
+                long j;
                 for ( i = 0; i < DIM_MAX2; i++ )
                 {
                     for ( j = 0; j < LOG_MAX; j++ )
@@ -634,7 +630,7 @@ namespace Sobol
                     //  Find the degree of polynomial I from binary encoding.
                     //
                     j = poly[i];
-                    m = 0;
+                    long  m = 0;
 
                     while ( true )
                     {
@@ -650,9 +646,10 @@ namespace Sobol
                     //  of the logical array INCLUD.
                     //
                     j = poly[i];
+                    long k;
                     for ( k = m-1; 0 <= k; k-- )
                     {
-                        j2 = j / 2;
+                        long j2 = j / 2;
                         includ[k] = ( j != ( 2 * j2 ) );
                         j = j2;
                     }
@@ -662,7 +659,7 @@ namespace Sobol
                     //
                     for ( j = m; j < maxcol; j++ )
                     {
-                        newv = v[i,j-m];
+                        long newv = v[i,j-m];
                         l = 1;
 
                         for ( k = 0; k < m; k++ )

@@ -202,8 +202,7 @@ namespace ImprovedHypercubeSampler
                 //
                 //  Write the header.
                 //
-                string cout = "  Row: ";
-                string line = "";
+                string line = "  Row: ";
                 for (int  i = i2lo; i <= i2hi; i++ )
                 {
                     string t = (i - 1) + "  ";

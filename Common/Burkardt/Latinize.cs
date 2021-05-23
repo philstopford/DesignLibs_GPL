@@ -43,23 +43,19 @@ namespace Latinizer
 		//    be "latinized".  On output, the latinized dataset.
 		//
 		{
-			int i;
-			int[] indx;
-			int j;
-
 			double[] v = new double[n];
 
-			for ( i = 0; i < m; i++ )
+			for (int i = 0; i < m; i++ )
 			{
-				for ( j = 0; j < n; j++ )
+				for (int j = 0; j < n; j++ )
 				{
 					v[j] = table[i+j*m];
 				}
 				double v_min = v.Min();
 				double v_max = v.Max();
-				indx = r8vec_sort_heap_index_a_new ( n, v );
+				int[] indx = r8vec_sort_heap_index_a_new ( n, v );
 
-				for ( j = 0; j < n; j++ )
+				for (int j = 0; j < n; j++ )
 				{
 					table[i+indx[j]*m] =  ( ( double ) ( n - j - 1 ) * v_min   
 											+ ( double ) (     j     ) * v_max ) 
@@ -115,11 +111,9 @@ namespace Latinizer
 		//    I-th element of the sorted array is A(INDX(I)).
 		//
 		{
-			int i;
-
 			int[] indx = new int[n];
 
-			for (i = 1; i <= n; i++ )
+			for (int i = 1; i <= n; i++ )
 			{
 				indx[i-1] = i;
 			}
@@ -147,7 +141,7 @@ namespace Latinizer
 					if ( ir == 1 )
 					{
 						indx[0] = indxt;
-						for ( i = 0; i < n; i++ )
+						for (int  i = 0; i < n; i++ )
 						{
 							indx[i] = indx[i] - 1;
 						}
@@ -155,7 +149,7 @@ namespace Latinizer
 					}
 				}
 
-				i = l;
+				int i2 = l;
 				int j = l + l;
 
 				while ( j <= ir )
@@ -170,8 +164,8 @@ namespace Latinizer
 
 					if ( aval < a[indx[j-1]-1] )
 					{
-						indx[i-1] = indx[j-1];
-						i = j;
+						indx[i2-1] = indx[j-1];
+						i2 = j;
 						j = j + j;
 					}
 					else
@@ -179,7 +173,7 @@ namespace Latinizer
 						j = ir + 1;
 					}
 				}
-				indx[i-1] = indxt;
+				indx[i2-1] = indxt;
 			}
 			return indx;
 		}

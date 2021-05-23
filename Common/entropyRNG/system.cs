@@ -62,6 +62,20 @@ namespace entropyRNG
             return new [] { myReturn[0] / 3.0f, myReturn[1] / 3.0f };
         }
 
+        public static double nextdouble(int seed)
+        {
+            Random random = _local;
+
+            if (random == null)
+            {
+                byte[] buffer = new byte[4];
+                _global.GetBytes(buffer);
+                _local = random = new Random(seed);
+            }
+
+            return random.NextDouble();
+        }
+
         public static double nextdouble()
         {
             Random random = _local;
@@ -93,6 +107,20 @@ namespace entropyRNG
         static Int32 nextint(Random random)
         {
             return random.Next();
+        }
+
+        public static Int32 nextint(int min, int max, int seed)
+        {
+            Random random = _local;
+
+            if (random == null)
+            {
+                byte[] buffer = new byte[4];
+                _global.GetBytes(buffer);
+                _local = random = new Random(seed);
+            }
+
+            return nextint(random, min, max);
         }
 
         public static Int32 nextint(int min, int max)

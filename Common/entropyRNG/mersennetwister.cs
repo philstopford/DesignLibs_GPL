@@ -62,6 +62,20 @@ namespace entropyRNG
             return myReturn;
         }
 
+        public static double nextdouble(int seed)
+        {
+            MersenneTwister random = _local;
+
+            if (random == null)
+            {
+                byte[] buffer = new byte[4];
+                _global.GetBytes(buffer);
+                _local = random = new MersenneTwister(seed);
+            }
+
+            return random.NextDouble();
+        }
+
         public static double nextdouble()
         {
             MersenneTwister random = _local;
@@ -95,6 +109,20 @@ namespace entropyRNG
             return random.Next();
         }
         
+        public static Int32 nextint(int min, int max, int seed)
+        {
+            MersenneTwister random = _local;
+
+            if (random == null)
+            {
+                byte[] buffer = new byte[4];
+                _global.GetBytes(buffer);
+                _local = random = new MersenneTwister(seed);
+            }
+
+            return nextint(random, min, max);
+        }
+
         public static Int32 nextint(int min, int max)
         {
             MersenneTwister random = _local;

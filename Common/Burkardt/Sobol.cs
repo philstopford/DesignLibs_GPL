@@ -4,6 +4,54 @@ namespace Burkardt.Sobol
 {
     public static partial class SobolSampler
     {
+        public static float[] i4_sobol_generate ( int m, int n, int skip )
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    I4_SOBOL_GENERATE generates a Sobol dataset.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    12 December 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int M, the spatial dimension.
+        //
+        //    Input, int N, the number of points to generate.
+        //
+        //    Input, int SKIP, the number of initial points to skip.
+        //
+        //    Output, float I4_SOBOL_GENERATE[M*N], the points.
+        //
+        {
+            float[] r = new float[m*n];
+
+            int seed = skip;
+
+            SobolConfig config = new SobolConfig(m) {seed = seed};
+
+            for (int j = 0; j < n; j++ )
+            {
+                int res = i4_sobol ( m, ref config );
+                for (int i = 0; i < config.quasi.Length; i++)
+                {
+                    r[(j * m) + i] = config.quasi[i];
+                }
+            }
+
+            return r;
+        }
+        
         public static int i4_sobol ( int dim_num, ref SobolConfig config )
         //****************************************************************************80
         //

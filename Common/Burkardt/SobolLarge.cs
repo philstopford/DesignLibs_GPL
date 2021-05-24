@@ -4,19 +4,18 @@ namespace Sobol
 {
     public static partial class SobolSampler
     {
-        public static int i4_sobol ( int dim_num, ref SobolConfig config )
-        
+        public static int i8_sobol ( int dim_num, ref SobolConfigLarge config )
         //****************************************************************************80
         //
         //  Purpose:
         //
-        //    I4_SOBOL generates a new quasirandom Sobol vector with each call.
+        //    I8_SOBOL generates a new quasirandom Sobol vector with each call.
         //
         //  Discussion:
         //
         //    The routine adapts the ideas of Antonov and Saleev.
         //
-        //    This routine uses INT for integers and FLOAT for real values.
+        //    This routine uses LONG LONG INT for integers and DOUBLE for real values.
         //
         //    Thanks to Steffan Berridge for supplying (twice) the properly
         //    formatted V data needed to extend the original routine's dimension
@@ -35,7 +34,7 @@ namespace Sobol
         //
         //  Author:
         //
-        //    Original FORTRAN77 version by Bennett Fox.
+        //    FORTRAN77 original version by Bennett Fox.
         //    C++ version by John Burkardt
         //
         //  Reference:
@@ -79,65 +78,86 @@ namespace Sobol
         //    Input, int DIM_NUM, the number of spatial dimensions.
         //    DIM_NUM must satisfy 1 <= DIM_NUM <= 1111.
         //
-        //    Input/output, int *SEED, the "seed" for the sequence.
+        //    Input/output, long long int *SEED, the "seed" for the sequence.
         //    This is essentially the index in the sequence of the quasirandom
         //    value to be generated.  On output, SEED has been set to the
         //    appropriate next value, usually simply SEED+1.
         //    If SEED is less than 0 on input, it is treated as though it were 0.
         //    An input value of 0 requests the first (0-th) element of the sequence.
         //
-        //    Output, float QUASI[DIM_NUM], the next quasirandom vector.
+        //    Output, double QUASI[DIM_NUM], the next quasirandom vector.
         //
         {
-            int i;
-            int l = 1;
-            int seed_temp;
-            bool[] includ = new bool[SobolConfig.LOG_MAX];
-        
+            //
+            //  Here, we have commented out the definition of ATMOST, because
+            //  in some cases, a compiler was complaining that the value of ATMOST could not
+            //  seem to be properly stored.  We only need ATMOST in order to specify MAXCOL,
+            //  so as long as we set MAXCOL (below) to what we expect it should be, we
+            //  may be able to get around this difficulty.
+            //  JVB, 24 January 2006.
+            //
+            //static long long int atmost = 4611686018427387903;
+            //
+            long i;
+            bool[] includ = new bool[SobolConfigLarge.LOG_MAX];
+            long l = 1;
+
+            config.recipd = 1.0E+00 / ( ( double ) ( 2 * l ) );
+            long seed_temp;
+
             if ( !config.initialized || dim_num != config.dim_num_save )
             {
                 config.initialized = true;
-
+                long j;
+                for ( i = 0; i < SobolConfigLarge.DIM_MAX2; i++ )
+                {
+                    for ( j = 0; j < SobolConfigLarge.LOG_MAX; j++ )
+                    {
+                        config.v[i,j] = 0;
+                    }
+                }
+                //
+                //  Initialize (part of) V.
+                //
                 config.initv();
 
                 //
                 //  Check parameters.
                 //
-                if ( dim_num < 1 || SobolConfig.DIM_MAX2 < dim_num )
+                if ( dim_num < 1 || SobolConfigLarge.DIM_MAX2 < dim_num )
                 {
-                    Console.WriteLine();
-                    Console.WriteLine("I4_SOBOL - Fatal error!");
+                    Console.WriteLine();;
+                    Console.WriteLine("I8_SOBOL - Fatal error!");
                     Console.WriteLine("  The spatial dimension DIM_NUM should satisfy:");
-                    Console.WriteLine("    1 <= DIM_NUM <= " + SobolConfig.DIM_MAX2);
+                    Console.WriteLine("    1 <= DIM_NUM <= " + SobolConfigLarge.DIM_MAX2);
                     Console.WriteLine("  But this input value is DIM_NUM = " + dim_num);
                     return 1;
                 }
-        
+
                 config.dim_num_save = dim_num;
                 //
-                //  Set ATMOST = 2^LOG_MAX - 1.
+                //  Find the number of bits in ATMOST.
                 //
-                config.atmost = 0;
-                for (i = 1; i <= SobolConfig.LOG_MAX; i++ )
-                {
-                    config.atmost = 2 * config.atmost + 1;
-                }
+                //  Here, we have short-circuited the computation of MAXCOL from ATMOST, because
+                //  in some cases, a compiler was complaining that the value of ATMOST could not
+                //  seem to be properly stored.  We only need ATMOST in order to specify MAXCOL,
+                //  so if we know what the answer should be we can try to get it this way!
+                //  JVB, 24 January 2006.
                 //
-                //  Find the highest 1 bit in ATMOST (should be LOG_MAX).
+                //  maxcol = i8_bit_hi1 ( atmost );
                 //
-                config.maxcol = i4_bit_hi1 ( config.atmost );
+                config.maxcol = 62;
                 //
                 //  Initialize row 1 of V.
                 //
-                int j;
-                for (j = 0; j < config.maxcol; j++ )
+                for ( j = 0; j < config.maxcol; j++ )
                 {
                     config.v[0,j] = 1;
                 }
                 //
                 //  Initialize the remaining rows of V.
                 //
-                for (i = 1; i < dim_num; i++ )
+                for ( i = 1; i < dim_num; i++ )
                 {
                     //
                     //  The bit pattern of the integer POLY(I) gives the form
@@ -146,8 +166,8 @@ namespace Sobol
                     //  Find the degree of polynomial I from binary encoding.
                     //
                     j = config.poly[i];
-                    int m = 0;
-        
+                    long  m = 0;
+
                     while ( true )
                     {
                         j = j / 2;
@@ -162,10 +182,10 @@ namespace Sobol
                     //  of the logical array INCLUD.
                     //
                     j = config.poly[i];
-                    int k;
-                    for (k = m-1; 0 <= k; k-- )
+                    long k;
+                    for ( k = m-1; 0 <= k; k-- )
                     {
-                        int j2 = j / 2;
+                        long j2 = j / 2;
                         includ[k] = ( j != ( 2 * j2 ) );
                         j = j2;
                     }
@@ -173,12 +193,12 @@ namespace Sobol
                     //  Calculate the remaining elements of row I as explained
                     //  in Bratley and Fox, section 2.
                     //
-                    for (j = m; j < config.maxcol; j++ )
+                    for ( j = m; j < config.maxcol; j++ )
                     {
-                        int newv = config.v[i,j-m];
+                        long newv = config.v[i,j-m];
                         l = 1;
 
-                        for (k = 0; k < m; k++ )
+                        for ( k = 0; k < m; k++ )
                         {
                             l = 2 * l;
 
@@ -194,10 +214,10 @@ namespace Sobol
                 //  Multiply columns of V by appropriate power of 2.
                 //
                 l = 1;
-                for (j = config.maxcol-2; 0 <= j; j-- )
+                for ( j = config.maxcol - 2; 0 <= j; j-- )
                 {
                     l = 2 * l;
-                    for (i = 0; i < dim_num; i++ )
+                    for ( i = 0; i < dim_num; i++ )
                     {
                         config.v[i,j] = config.v[i,j] * l;
                     }
@@ -205,57 +225,60 @@ namespace Sobol
                 //
                 //  RECIPD is 1/(common denominator of the elements in V).
                 //
-                config.recipd = 1.0f / ( 2 * l );
+                config.recipd = 1.0E+00 / ( ( double ) ( 2 * l ) );
             }
-        
+
             if ( config.seed < 0 )
             {
                 config.seed = 0;
             }
-        
+
             if ( config.seed == 0 )
             {
                 l = 1;
-                for (i = 0; i < dim_num; i++ )
+                for ( i = 0; i < dim_num; i++ )
                 {
                     config.lastq[i] = 0;
                 }
             }
             else if ( config.seed == config.seed_save + 1 )
             {
-                l = i4_bit_lo0 ( config.seed );
+                l = i8_bit_lo0 ( config.seed );
             }
             else if ( config.seed <= config.seed_save )
             {
                 config.seed_save = 0;
                 l = 1;
-                for (i = 0; i < dim_num; i++ )
+                for ( i = 0; i < dim_num; i++ )
                 {
                     config.lastq[i] = 0;
                 }
-        
-                for (seed_temp = config.seed_save; seed_temp <= (config.seed)-1; seed_temp++ )
-                {
-                    l = i4_bit_lo0 ( seed_temp );
 
-                    for (i = 0; i < dim_num; i++ )
+                for ( seed_temp = config.seed_save; seed_temp <= (config.seed)-1; seed_temp++ )
+                {
+
+                    l = i8_bit_lo0 ( seed_temp );
+
+                    for ( i = 0; i < dim_num; i++ )
                     {
                         config.lastq[i] = ( config.lastq[i] ^ config.v[i,l-1] );
                     }
                 }
-                l = i4_bit_lo0 ( config.seed );
+                l = i8_bit_lo0 ( config.seed );
             }
             else if ( config.seed_save+1 < config.seed )
             {
-                for (seed_temp = config.seed_save+1; seed_temp <= (config.seed)-1; seed_temp++ )
+                for ( seed_temp = config.seed_save+1; seed_temp <= (config.seed)-1; seed_temp++ )
                 {
-                    l = i4_bit_lo0 ( seed_temp );
-                    for (i = 0; i < dim_num; i++ )
+
+                    l = i8_bit_lo0 ( seed_temp );
+
+                    for ( i = 0; i < dim_num; i++ )
                     {
                         config.lastq[i] = ( config.lastq[i] ^ config.v[i,l-1] );
                     }
                 }
-                l = i4_bit_lo0 ( config.seed );
+                l = i8_bit_lo0 ( config.seed );
             }
             //
             //  Check that the user is not calling too many times!
@@ -263,10 +286,10 @@ namespace Sobol
             if ( config.maxcol < l )
             {
                 Console.WriteLine();
-                Console.WriteLine("I4_SOBOL - Fatal error!");
+                Console.WriteLine("I8_SOBOL - Fatal error!");
                 Console.WriteLine("  The value of SEED seems to be too large!");
                 Console.WriteLine("  SEED =   " + config.seed);
-                Console.WriteLine("  MAXCOL = " +config. maxcol);
+                Console.WriteLine("  MAXCOL = " + config.maxcol);
                 Console.WriteLine("  L =      " + l);
                 return 2;
             }
@@ -274,25 +297,26 @@ namespace Sobol
             //  Calculate the new components of QUASI.
             //  The caret indicates the bitwise exclusive OR.
             //
-            for (i = 0; i < dim_num; i++ )
+            for ( i = 0; i < dim_num; i++ )
             {
-                config.quasi[i] = ( ( float ) config.lastq[i] ) * config.recipd;
+                config.quasi[i] = ( ( double ) config.lastq[i] ) * config.recipd;
+
                 config.lastq[i] = ( config.lastq[i] ^ config.v[i,l-1] );
             }
 
             config.seed_save = config.seed;
             config.seed = config.seed + 1;
-            
+
             return 0;
         }
 
-        public static int i4_bit_hi1 ( int n )
-
+        
+        public static int i8_bit_hi1 ( long n )
         //****************************************************************************80
         //
         //  Purpose:
         //
-        //    I4_BIT_HI1 returns the position of the high 1 bit base 2 in an integer.
+        //    I8_BIT_HI1 returns the position of the high 1 bit base 2 in an integer.
         //
         //  Example:
         //
@@ -326,7 +350,7 @@ namespace Sobol
         //
         //  Modified:
         //
-        //    13 March 2003
+        //    12 May 2007
         //
         //  Author:
         //
@@ -334,11 +358,11 @@ namespace Sobol
         //
         //  Parameters:
         //
-        //    Input, int N, the integer to be measured.
-        //    N should be nonnegative.  If N is nonpositive, I4_BIT_HI1
+        //    Input, long long int N, the integer to be measured.
+        //    N should be nonnegative.  If N is nonpositive, I8_BIT_HI1
         //    will always be 0.
         //
-        //    Output, int I4_BIT_HI1, the location of the high order bit.
+        //    Output, int I8_BIT_HI1, the number of bits base 2.
         //
         {
             int bit = 0;
@@ -352,12 +376,13 @@ namespace Sobol
             return bit;
         }
 
-        public static int i4_bit_lo0 ( int n )
+        
+        public static int i8_bit_lo0 ( long n )
         //****************************************************************************80
         //
         //  Purpose:
         //
-        //    I4_BIT_LO0 returns the position of the low 0 bit base 2 in an integer.
+        //    I8_BIT_LO0 returns the position of the low 0 bit base 2 in an integer.
         //
         //  Example:
         //
@@ -391,7 +416,7 @@ namespace Sobol
         //
         //  Modified:
         //
-        //    08 February 2018
+        //    12 May 2007
         //
         //  Author:
         //
@@ -399,19 +424,18 @@ namespace Sobol
         //
         //  Parameters:
         //
-        //    Input, int N, the integer to be measured.
+        //    Input, long long int N, the integer to be measured.
         //    N should be nonnegative.
         //
-        //    Output, int I4_BIT_LO0, the position of the low 1 bit.
+        //    Output, int I8_BIT_LO0, the position of the low 1 bit.
         //
         {
-            int bit;
-            int n2;
-            bit = 0;
+            int bit = 0;
+
             while ( true )
             {
                 bit = bit + 1;
-                n2 = n / 2;
+                long n2 = n / 2;
 
                 if ( n == 2 * n2 )
                 {
@@ -419,7 +443,9 @@ namespace Sobol
                 }
                 n = n2;
             }
+
             return bit;
         }
+
     }
 }

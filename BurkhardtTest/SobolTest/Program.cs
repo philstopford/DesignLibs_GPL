@@ -466,7 +466,6 @@ namespace SobolTest
 
                 string cout = "  ";
                 string t = i.ToString().PadLeft(6) + "  ";
-                cout += t;
                 t += j.ToString().PadLeft(6);
                 cout += t;
                 Console.WriteLine(cout);
@@ -511,8 +510,7 @@ namespace SobolTest
 
                 string cout = "  ";
                 string t = i.ToString().PadLeft(6) + "  ";
-                cout += t;
-                t = j.ToString().PadLeft(6);
+                t += j.ToString().PadLeft(6);
                 cout += t;
                 Console.WriteLine(cout);
             }
@@ -539,8 +537,8 @@ namespace SobolTest
         //    John Burkardt
         //
         {
-            int DIM_NUM = 4;
-            SobolSampler.SobolConfigLarge config = new SobolSampler.SobolConfigLarge(DIM_NUM);
+            int DIM_MAX = 4;
+            SobolSampler.SobolConfigLarge config = new SobolSampler.SobolConfigLarge(DIM_MAX);
             
             Console.WriteLine();
             Console.WriteLine("TEST08");
@@ -548,9 +546,8 @@ namespace SobolTest
             Console.WriteLine();
             Console.WriteLine("  In this test, we call I8_SOBOL repeatedly.");
 
-            for (int dim_num = 2; dim_num <= DIM_NUM; dim_num++ )
+            for (int dim_num = 2; dim_num <= DIM_MAX; dim_num++ )
             {
-
                 config.seed = 0;
 
                 Console.WriteLine();

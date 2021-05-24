@@ -5,7 +5,6 @@ namespace Sobol
     public static partial class SobolSampler
     {
         public static int i4_sobol ( int dim_num, ref SobolConfig config )
-        
         //****************************************************************************80
         //
         //  Purpose:

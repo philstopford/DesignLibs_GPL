@@ -99,26 +99,16 @@ namespace Sobol
             //static long long int atmost = 4611686018427387903;
             //
             long i;
-            bool[] includ = new bool[SobolConfigLarge.LOG_MAX];
             long l = 1;
-
-            config.recipd = 1.0E+00 / ( ( double ) ( 2 * l ) );
             long seed_temp;
+            bool[] includ = new bool[SobolConfigLarge.LOG_MAX];
+
+            config.recipd = (double)1 / ( 2 * l ) ;
 
             if ( !config.initialized || dim_num != config.dim_num_save )
             {
                 config.initialized = true;
-                long j;
-                for ( i = 0; i < SobolConfigLarge.DIM_MAX2; i++ )
-                {
-                    for ( j = 0; j < SobolConfigLarge.LOG_MAX; j++ )
-                    {
-                        config.v[i,j] = 0;
-                    }
-                }
-                //
-                //  Initialize (part of) V.
-                //
+
                 config.initv();
 
                 //
@@ -150,6 +140,7 @@ namespace Sobol
                 //
                 //  Initialize row 1 of V.
                 //
+                long j;
                 for ( j = 0; j < config.maxcol; j++ )
                 {
                     config.v[0,j] = 1;
@@ -225,7 +216,7 @@ namespace Sobol
                 //
                 //  RECIPD is 1/(common denominator of the elements in V).
                 //
-                config.recipd = 1.0E+00 / ( ( double ) ( 2 * l ) );
+                config.recipd = ((double)1) / ( 2 * l );
             }
 
             if ( config.seed < 0 )
@@ -270,7 +261,6 @@ namespace Sobol
             {
                 for ( seed_temp = config.seed_save+1; seed_temp <= (config.seed)-1; seed_temp++ )
                 {
-
                     l = i8_bit_lo0 ( seed_temp );
 
                     for ( i = 0; i < dim_num; i++ )
@@ -300,7 +290,6 @@ namespace Sobol
             for ( i = 0; i < dim_num; i++ )
             {
                 config.quasi[i] = ( ( double ) config.lastq[i] ) * config.recipd;
-
                 config.lastq[i] = ( config.lastq[i] ^ config.v[i,l-1] );
             }
 

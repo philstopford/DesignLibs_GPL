@@ -9,7 +9,6 @@
             public static int LOG_MAX = 62;
             
             public long seed { get; set; }
-
             public long atmost { get; set; }
             public bool initialized { get; set; }
             public long dim_num_save { get; set; }

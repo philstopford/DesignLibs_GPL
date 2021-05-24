@@ -1,5 +1,5 @@
 ﻿using System;
-using entropyRNG;
+using Burkardt.Types;
 
 namespace Burkardt.IHS
 {
@@ -89,11 +89,6 @@ namespace Burkardt.IHS
 
     public static class IHS
     {
-        static int get_seed()
-        {
-            return RNG.nextint(1, Int32.MaxValue);
-        }
-        
         public static int[] ihs ( int dim_num, int n, int d, int seed )
 
         //****************************************************************************80
@@ -164,7 +159,7 @@ namespace Burkardt.IHS
             //
             for (int i = 0; i < dim_num; i++ )
             {
-                x[i+(n-1)*dim_num] = RNG.nextint( 1, n, seed );
+                x[i+(n-1)*dim_num] = Uniform.UniformRNG.i4_uniform_ab( 1, n, ref seed );
             }
             //
             //  Initialize AVAIL,
@@ -203,7 +198,7 @@ namespace Burkardt.IHS
 
                     for (int k = count*d - 1; 0 <= k; k-- )
                     {
-                        int point_index = RNG.nextint( 0, k, seed );
+                        int point_index = Uniform.UniformRNG.i4_uniform_ab( 0, k, ref seed );
                         point[i+k*dim_num] = list[point_index];
                         list[point_index] = list[k];
                     }

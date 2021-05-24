@@ -1,5 +1,4 @@
-﻿using entropyRNG;
-using Burkardt.Uniform;
+﻿using Burkardt.Uniform;
 
 namespace Burkardt.Latin.Center
 {

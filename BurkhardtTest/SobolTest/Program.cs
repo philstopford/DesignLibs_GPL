@@ -1,6 +1,6 @@
 ﻿using System;
 using Burkardt.Sobol;
-using entropyRNG;
+using Burkardt.Uniform;
 
 namespace Burkardt.SobolTest
 {
@@ -61,8 +61,8 @@ namespace Burkardt.SobolTest
 
             for (int test = 1; test <= 10; test++ )
             {
-                int i = RNG.nextint( 0, 100, seed );
-                int j = RNG.nextint( 0, 100, seed );
+                int i = UniformRNG.i4_uniform( 0, 100, ref seed );
+                int j = UniformRNG.i4_uniform( 0, 100, ref seed );
                 int k = i ^ j;
 
                 string cout = "  ";
@@ -108,7 +108,7 @@ namespace Burkardt.SobolTest
 
             for (int test = 1; test <= 10; test++ )
             {
-                int i = RNG.nextint( 0, 100, seed );
+                int i = UniformRNG.i4_uniform( 0, 100, ref seed );
                 int j = SobolSampler.i4_bit_hi1 ( i );
 
                 string cout = "  ";
@@ -152,7 +152,7 @@ namespace Burkardt.SobolTest
 
             for (int test = 1; test <= 10; test++ )
             {
-                int i = RNG.nextint( 0, 100, seed );
+                int i = UniformRNG.i4_uniform( 0, 100, ref seed );
                 int j = SobolSampler.i4_bit_lo0 ( i );
 
                 string cout = "  ";
@@ -414,8 +414,8 @@ namespace Burkardt.SobolTest
 
             for (int  test = 1; test <= 10; test++ )
             {
-                long i = ( long ) RNG.nextint( 0, 100, seed );
-                long j = ( long ) RNG.nextint( 0, 100, seed );
+                long i = ( long ) UniformRNG.i4_uniform( 0, 100, ref seed );
+                long j = ( long ) UniformRNG.i4_uniform( 0, 100, ref seed );
                 long k = i ^ j;
 
                 string cout = "  ";
@@ -461,7 +461,7 @@ namespace Burkardt.SobolTest
 
             for (int test = 1; test <= 10; test++ )
             {
-                long i = ( long ) RNG.nextint( 0, 100, seed );
+                long i = ( long ) UniformRNG.i4_uniform( 0, 100, ref seed );
                 int j = SobolSampler.i8_bit_hi1 ( i );
 
                 string cout = "  ";
@@ -505,7 +505,7 @@ namespace Burkardt.SobolTest
 
             for (int test = 1; test <= 10; test++ )
             {
-                long i = ( long ) RNG.nextint( 0, 100, seed );
+                long i = ( long ) UniformRNG.i4_uniform( 0, 100, ref seed );
                 int j = SobolSampler.i8_bit_lo0 ( i );
 
                 string cout = "  ";

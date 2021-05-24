@@ -925,7 +925,7 @@ namespace Burkardt.Table
                 string line = "";
                 for (int i = 0; i < m; i++ )
                 {
-                    line += "  " + table[i+j*m];
+                    line += "  " + table[i+j*m].ToString("0.################").PadLeft(24);
                     //    output << "  " << setw(24) << setprecision(16) << table[i+j*m];
                 }
 
@@ -1001,21 +1001,18 @@ namespace Burkardt.Table
                     string cout = "      ";
                     for (int j = jlo; j <= jhi; j++ )
                     {
-                        string t = j + "       ";
-                        cout += t.PadLeft(7);
+                        cout += j.ToString().PadLeft(7) + "       ";
                     }
                     Console.WriteLine(cout);
                     Console.WriteLine();
                     cout = "";
                     for (int i = 1; i <= l; i++ )
                     {
-                        string t = i.ToString();
-                        t = t.PadLeft(4);
+                        string t = i.ToString().PadLeft(4);
                         cout += "  " + t;
                         for (int j = jlo; j <= jhi; j++ )
                         {
-                            t = a[i-1+(j-1)*l+(k-1)*l*m].ToString();
-                            t = t.PadLeft(12);
+                            t = a[i-1+(j-1)*l+(k-1)*l*m].ToString().PadLeft(12);
                             cout += "  " +t;
                         }
                         Console.WriteLine(cout);
@@ -1132,8 +1129,8 @@ namespace Burkardt.Table
                 string cout = "  Col:    ";
                 for (int  j = j2lo; j <= j2hi; j++ )
                 {
-                    string t = j + "       ";
-                    cout += t.PadLeft(7);
+                    string t = j.ToString().PadLeft(7) + "       ";
+                    cout += t;
                 }
                 Console.WriteLine(cout);
                 Console.WriteLine("  Row");
@@ -1150,12 +1147,10 @@ namespace Burkardt.Table
                     //
                     //  Print out (up to) 5 entries in row I, that lie in the current strip.
                     //
-                    string t = i + "  ";
-                    cout += t.PadLeft(5);
+                    cout += i.ToString().PadLeft(5) + "  ";
                     for (int  j = j2lo; j <= j2hi; j++ )
                     {
-                        t = a[i - 1 + (j - 1) * m] + "  ";
-                        cout += t.PadLeft(12);
+                        cout += a[i - 1 + (j - 1) * m].ToString().PadLeft(12) + "  ";
                     }
                     Console.WriteLine(cout);
                 }
@@ -1203,11 +1198,9 @@ namespace Burkardt.Table
             {
                 string cout = "  ";
                 
-                string t = i.ToString();
-                t = t.PadLeft(8);
+                string t = i.ToString().PadLeft(8);
 
-                string t2 = a[i].ToString();
-                t2 = t2.PadLeft(14);
+                string t2 = a[i].ToString().PadLeft(14);
                 
                 cout += t + ": " + t2;  
                 

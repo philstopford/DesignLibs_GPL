@@ -1,8 +1,8 @@
 ﻿using System;
-using Latinizer;
-using TableIO;
+using Burkardt.Latinizer;
+using Burkardt.Table;
 
-namespace LatinizeTest
+namespace Burkardt.LatinizeTest
 {
     class Program
     {
@@ -110,17 +110,17 @@ namespace LatinizeTest
             TableReader.r8mat_transpose_print_some ( header.m, header.n, table, 1, 1, 5, 5, 
                 "  Small portion of data read from file:" );
 
-            Latinize.r8mat_latinize ( header.m, header.n, table );
+            double[] latTable = Latinize.r8mat_latinize ( header.m, header.n, table );
 
             Console.WriteLine();
             Console.WriteLine("  Latinized the data.\n");
 
-            TableReader.r8mat_transpose_print_some ( header.m, header.n, table, 1, 1, 5, 5, 
+            TableReader.r8mat_transpose_print_some ( header.m, header.n, latTable, 1, 1, 5, 5, 
                 "  Small portion of Latinized data:" );
             //
             //  Write the data to a file.
             //
-            TableWriter.r8mat_write ( output_filename, header.m, header.n, table );
+            TableWriter.r8mat_write ( output_filename, header.m, header.n, latTable );
 
             Console.WriteLine();
             Console.WriteLine("  Wrote the latinized data to \"" + output_filename + "\".");

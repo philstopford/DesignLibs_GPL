@@ -1,7 +1,7 @@
 ﻿using System;
-using TableIO;
+using Burkardt.Table;
 
-namespace Smooth
+namespace Burkardt.Blend
 {
     public static class Blend
     {

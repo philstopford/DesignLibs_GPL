@@ -1,8 +1,8 @@
 ﻿using System;
-using Sobol;
+using Burkardt.Sobol;
 using entropyRNG;
 
-namespace SobolTest
+namespace Burkardt.SobolTest
 {
     class Program
     {

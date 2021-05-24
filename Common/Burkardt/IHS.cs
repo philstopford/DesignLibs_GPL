@@ -1,7 +1,7 @@
 ﻿using System;
 using entropyRNG;
 
-namespace ImprovedHypercubeSampler
+namespace Burkardt.IHS
 {
     public class covariance
     {

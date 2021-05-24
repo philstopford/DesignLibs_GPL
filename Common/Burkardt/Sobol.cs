@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sobol
+namespace Burkardt.Sobol
 {
     public static partial class SobolSampler
     {

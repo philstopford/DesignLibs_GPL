@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BlendTest
+namespace Burkardt.BlendTest
 {
     partial class Program
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Latinizer
+namespace Burkardt.Latinizer
 {
 	public static class Latinize
 	{

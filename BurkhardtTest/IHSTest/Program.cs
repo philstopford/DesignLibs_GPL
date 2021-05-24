@@ -1,7 +1,7 @@
 ﻿using System;
-using ImprovedHypercubeSampler;
+using Burkardt.IHS;
 
-namespace IHSTest
+namespace Burkardt.IHSTest
 {
     class Program
     {
@@ -75,7 +75,7 @@ namespace IHSTest
                 //
                 //  Get the points.
                 //
-                int[] x = IHS.ihs( dim_num, point_num, duplication, seed );
+                int[] x = IHS.IHS.ihs( dim_num, point_num, duplication, seed );
                 //
                 //  Compute the covariance.
                 //
@@ -86,7 +86,7 @@ namespace IHSTest
                 Console.WriteLine("  Standard deviation:      " + c.std);
                 Console.WriteLine("  Covariance:              " + c.covc);
 
-                IHS.i4mat_transpose_print ( dim_num, point_num, x, "  X:" );
+                IHS.IHS.i4mat_transpose_print ( dim_num, point_num, x, "  X:" );
             }
 
         }
@@ -144,7 +144,7 @@ namespace IHSTest
                 //
                 //  Get the points.
                 //
-                int[] x = IHS.ihs( dim_num, point_num, duplication, seed );
+                int[] x = IHS.IHS.ihs( dim_num, point_num, duplication, seed );
                 //
                 //  Compute the covariance.
                 //
@@ -155,7 +155,7 @@ namespace IHSTest
                 Console.WriteLine("  Standard deviation:      " + c.std);
                 Console.WriteLine("  Covariance:              " + c.covc);
 
-                IHS.i4mat_transpose_print ( dim_num, point_num, x, "  X:" );
+                IHS.IHS.i4mat_transpose_print ( dim_num, point_num, x, "  X:" );
             }
         }
 
@@ -214,7 +214,7 @@ namespace IHSTest
                 //
                 //  Get the points.
                 //
-                int[] x = IHS.ihs( dim_num, point_num, duplication, seed );
+                int[] x = IHS.IHS.ihs( dim_num, point_num, duplication, seed );
                 //
                 //  Compute the covariance.
                 //
@@ -303,7 +303,7 @@ namespace IHSTest
                 //
                 //  Get the points.
                 //
-                int[] x = IHS.ihs( dim_num, point_num, duplication, seed );
+                int[] x = IHS.IHS.ihs( dim_num, point_num, duplication, seed );
                 //
                 //  Compute the covariance.
                 //
@@ -314,7 +314,7 @@ namespace IHSTest
                 Console.WriteLine("  Standard deviation:      " + c.std);
                 Console.WriteLine("  Covariance:              " + c.covc);
 
-                IHS.i4mat_transpose_print ( dim_num, point_num, x, "  X:" );
+                IHS.IHS.i4mat_transpose_print ( dim_num, point_num, x, "  X:" );
             }
         }
     }

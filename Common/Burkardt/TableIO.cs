@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace TableIO
+namespace Burkardt.Table
 {
     public class TableHeader
     {
@@ -51,12 +51,17 @@ namespace TableIO
                 return 0;
             }
 
+            string tmp = line.TrimEnd();
+
+            int index = tmp.Length;
+            
+            /*
             int index = line.Length - 1;
             while ((index >= 0) && (line[index] == ' '))
             {
                 index--;
             }
-
+            */
             return index;
         }
 
@@ -132,6 +137,11 @@ namespace TableIO
                         found = true;
                         tmp += t;
                     }
+                }
+
+                if (tmp != "")
+                {
+                    fields.Add(tmp);
                 }
 
                 if (fields.Count > 0)
@@ -254,33 +264,31 @@ namespace TableIO
             double[] table = new double[m*n];
             
             int j = 0;
+            int l = 0;
 
             while ( j < n )
             {
-                string line = lines[j];
-                
-                if ( line[0] == '#' || s_len_trim ( line ) == 0 )
+                string line = lines[l];
+                l++;
+                if (line[0] == '#' || s_len_trim(line) == 0)
                 {
                     continue;
                 }
 
-                r8vec res = s_to_r8vec ( line, m );
+                r8vec res = s_to_r8vec(line, m);
 
                 bool error = res.error;
                 double[] x = res.rvec;
 
-                if ( error )
+                if (!error)
                 {
-                    continue;
-                }
-
-                int i;
-                for ( i = 0; i < m; i++ )
-                {
-                    table[i+j*m] = x[i];
+                    int i;
+                    for (i = 0; i < m; i++)
+                    {
+                        table[i + (j * m)] = x[i];
+                    }
                 }
                 j = j + 1;
-
             }
             
             return table;            
@@ -752,6 +760,8 @@ namespace TableIO
         {
             int INCX = 5;
 
+            int i;
+            int i2;
             int i2hi;
             int i2lo;
             int i2lo_hi;
@@ -806,11 +816,9 @@ namespace TableIO
 
                 Console.WriteLine();
                 string cout = "  Row: ";
-                int i;
                 for ( i = i2lo; i <= i2hi; i++ )
                 {
-                    string t = i - 1 + "       ";
-                    cout += t.PadLeft(7) ;
+                    cout += (i - 1).ToString().PadLeft(7) + "       ";
                 }
                 Console.WriteLine(cout);
                 Console.WriteLine("  Col");
@@ -824,6 +832,7 @@ namespace TableIO
                 {
                     j2lo = jlo;
                 }
+
                 if ( n < jhi )
                 {
                     j2hi = n;
@@ -835,22 +844,17 @@ namespace TableIO
 
                 for ( j = j2lo; j <= j2hi; j++ )
                 {
-                    string t = j - 1 + ":";
-                    cout = t.PadLeft(5);
-                    int i2;
+                    cout = (j - 1).ToString().PadLeft(5) + ":";
                     for ( i2 = 1; i2 <= inc; i2++ )
                     {
                         i = i2lo - 1 + i2;
-                        t = a[(i - 1) + (j - 1) * m].ToString();
-                        cout = t.PadLeft(14);
+                        string t = a[(i - 1) + (j - 1) * m].ToString("0.######");
+                        cout += t.PadLeft(14);
                     }
                     Console.WriteLine(cout);
                 }
             }
-
-            return;
         }
-        
     }
 
 

@@ -61,12 +61,9 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/SobolDataLarge.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/SobolConfigLarge.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Blend.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/IHS.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Latinize.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/BlendTest/Program.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/IHSTest/Program.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/SobolTest/Program.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/LatinizeTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Sobol.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/SobolLarge.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/SobolRNG.cs" />
@@ -83,6 +80,11 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/TableMisc_i4.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/TableMiscr4.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/TableMisc_i8.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/IHS.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Table/TableMisc_i4.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Table/TableMisc_i8.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/IHSTest/Program.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/LatinizeTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />

@@ -66,12 +66,12 @@ namespace SobolTest
                 int k = i ^ j;
 
                 string cout = "  ";
-                string t = i + "  ";
-                cout += t.PadLeft(6); 
-                t = j + "  ";
-                cout += t.PadLeft(6); 
-                t = k + "  ";
-                cout += t.PadLeft(6); 
+                string t = i.ToString().PadLeft(6) + "  ";
+                cout += t; 
+                t = j.ToString().PadLeft(6) + "  ";
+                cout += t; 
+                t = k.ToString().PadLeft(6) + "  ";
+                cout += t; 
                 Console.WriteLine(cout);
             }
         }
@@ -112,10 +112,10 @@ namespace SobolTest
                 int j = SobolSampler.i4_bit_hi1 ( i );
 
                 string cout = "  ";
-                string t = i + "  ";
-                cout += t.PadLeft(6);
-                t = j.ToString();
-                cout += t.PadLeft(6);
+                string t = i.ToString().PadLeft(6) + "  ";
+                cout += t;
+                t = j.ToString().PadLeft(6);
+                cout += t;
                 Console.WriteLine(cout);
             }
         }
@@ -156,14 +156,12 @@ namespace SobolTest
                 int j = SobolSampler.i4_bit_lo0 ( i );
 
                 string cout = "  ";
-                string t = i + "  ";
-                cout += t.PadLeft(6);
-                t = j.ToString();
-                cout += t.PadLeft(6);
+                string t = i.ToString().PadLeft(6) + "  ";
+                cout += t;
+                t = j.ToString().PadLeft(6);
+                cout += t;
                 Console.WriteLine(cout);
             }
-
-            return;
         }
 
         
@@ -188,17 +186,19 @@ namespace SobolTest
         //    John Burkardt
         //
         {
-            int DIM_MAX = 4;
+            int DIM_NUM = 4;
             
+            SobolSampler.SobolConfig config = new SobolSampler.SobolConfig(DIM_NUM);
+
             Console.WriteLine();
             Console.WriteLine("TEST04");
             Console.WriteLine("  I4_SOBOL computes the next element of a Sobol sequence.");
             Console.WriteLine();
             Console.WriteLine("  In this test, we call I4_SOBOL repeatedly.");
 
-            for (int dim_num = 2; dim_num <= DIM_MAX; dim_num++ )
+            for (int dim_num = 2; dim_num <= DIM_NUM; dim_num++ )
             {
-                int seed = 0;
+                config.seed = 0;
 
                 Console.WriteLine();
                 Console.WriteLine("  Using dimension DIM_NUM =   " + dim_num);
@@ -209,22 +209,21 @@ namespace SobolTest
 
                 for (int i = 0; i <= 110; i++ )
                 {
-                    int seed_in = seed;
-                    SobolSampler.SobolVector vec = SobolSampler.i4_sobol ( dim_num, seed);
-                    float[] r = vec.quasi;
-                    int seed_out = vec.seed;
+                    int seed_in = config.seed;
+                    int res = SobolSampler.i4_sobol ( dim_num, ref config);
+                    int seed_out = config.seed;
 
                     if ( i <= 11 || 95 <= i )
                     {
                         string cout = "";
-                        string t = seed_in + "  ";
-                        cout += t.PadLeft(6);
-                        t = seed_out + "  ";
-                        cout += t.PadLeft(6);
+                        string t = seed_in.ToString().PadLeft(6) + "  ";
+                        cout += t;
+                        t = seed_out.ToString().PadLeft(6) + "  ";
+                        cout += t;
                         for (int j = 0; j < dim_num; j++ )
                         {
-                            t = r[j] + "  ";
-                            cout += t.PadLeft(14);
+                            t = config.quasi[j].ToString().PadLeft(14) + "  ";
+                            cout += t;
                         }
                         Console.WriteLine(cout);
                     }
@@ -259,6 +258,8 @@ namespace SobolTest
         //
         {
             int DIM_NUM = 3;
+
+            SobolSampler.SobolConfig config = new SobolSampler.SobolConfig(DIM_NUM);
             
             Console.WriteLine();
             Console.WriteLine("TEST05");
@@ -270,7 +271,7 @@ namespace SobolTest
             Console.WriteLine();
             Console.WriteLine("  Using dimension DIM_NUM =   " + DIM_NUM);
 
-            int seed = 0;
+            config.seed = 0;
 
             Console.WriteLine();
             Console.WriteLine("  Seed  Seed   I4_SOBOL");
@@ -279,19 +280,18 @@ namespace SobolTest
 
             for (int i = 1; i <= 11; i++ )
             {
-                int seed_in = seed;
-                SobolSampler.SobolVector vec = SobolSampler.i4_sobol ( DIM_NUM, seed);
-                float[] r = vec.quasi;
-                int seed_out = vec.seed;
+                int seed_in = config.seed;
+                int res = SobolSampler.i4_sobol ( DIM_NUM, ref config);
+                int seed_out = config.seed;
                 string cout = "";
-                string t = seed_in + "  ";
-                cout += t.PadLeft(6);
-                t = seed_out + "  ";
-                cout += t.PadLeft(6);
+                string t = seed_in.ToString().PadLeft(6) + "  ";
+                cout += t;
+                t = seed_out.ToString().PadLeft(6) + "  ";
+                cout += t;
                 for (int j = 0; j < DIM_NUM; j++ )
                 {
-                    t = r[j] + "  ";
-                    cout += t.PadLeft(14);
+                    t = config.quasi[j].ToString().PadLeft(14) + "  ";
+                    cout += t;
                 }
                 Console.WriteLine(cout);
             }
@@ -299,7 +299,7 @@ namespace SobolTest
             Console.WriteLine();
             Console.WriteLine("  Jump ahead by increasing SEED:");
 
-            seed = 100;
+            config.seed = 100;
 
             Console.WriteLine();
             Console.WriteLine("  Seed  Seed   I4_SOBOL");
@@ -308,19 +308,18 @@ namespace SobolTest
 
             for (int i = 1; i <= 5; i++ )
             {
-                int seed_in = seed;
-                SobolSampler.SobolVector vec = SobolSampler.i4_sobol ( DIM_NUM, seed);
-                float[] r = vec.quasi;
-                int seed_out = vec.seed;
+                int seed_in = config.seed;
+                int res = SobolSampler.i4_sobol ( DIM_NUM, ref config);
+                int seed_out = config.seed;
                 string cout = "";
-                string t = seed_in + "  ";
-                cout += t.PadLeft(6);
-                t = seed_out + "  ";
-                cout += t.PadLeft(6);
+                string t = seed_in.ToString().PadLeft(6) + "  ";
+                cout += t;
+                t = seed_out.ToString().PadLeft(6) + "  ";
+                cout += t;
                 for (int j = 0; j < DIM_NUM; j++ )
                 {
-                    t = r[j] + "  ";
-                    cout += t.PadLeft(14);
+                    t = config.quasi[j].ToString().PadLeft(14) + "  ";
+                    cout += t;
                 }
                 Console.WriteLine(cout);
             }
@@ -328,28 +327,27 @@ namespace SobolTest
             Console.WriteLine();
             Console.WriteLine("  Jump back by decreasing SEED:");
 
-            seed = 3;
+            config.seed = 3;
 
             Console.WriteLine();
             Console.WriteLine("  Seed  Seed   I4_SOBOL");
             Console.WriteLine("  In    Out");
             Console.WriteLine();
-
+            
             for (int i = 1; i <= 11; i++ )
             {
-                int seed_in = seed;
-                SobolSampler.SobolVector vec = SobolSampler.i4_sobol ( DIM_NUM, seed);
-                float[] r = vec.quasi;
-                int seed_out = vec.seed;
+                int seed_in = config.seed;
+                int res = SobolSampler.i4_sobol ( DIM_NUM, ref config);
+                int seed_out = config.seed;
                 string cout = "";
-                string t = seed_in + "  ";
-                cout += t.PadLeft(6);
-                t = seed_out + "  ";
-                cout += t.PadLeft(6);
+                string t = seed_in.ToString().PadLeft(6) + "  ";
+                cout += t;
+                t = seed_out.ToString().PadLeft(6) + "  ";
+                cout += t;
                 for (int j = 0; j < DIM_NUM; j++ )
                 {
-                    t = r[j] + "  ";
-                    cout += t.PadLeft(14);
+                    t = config.quasi[j].ToString().PadLeft(14) + "  ";
+                    cout += t;
                 }
                 Console.WriteLine(cout);
             }
@@ -357,7 +355,7 @@ namespace SobolTest
             Console.WriteLine();
             Console.WriteLine("  Jump ahead by increasing SEED:");
 
-            seed = 98;
+            config.seed = 98;
 
             Console.WriteLine();
             Console.WriteLine("  Seed  Seed   I4_SOBOL");
@@ -366,19 +364,18 @@ namespace SobolTest
 
             for (int i = 1; i <= 5; i++ )
             {
-                int seed_in = seed;
-                SobolSampler.SobolVector vec = SobolSampler.i4_sobol ( DIM_NUM, seed);
-                float[] r = vec.quasi;
-                int seed_out = vec.seed;
+                int seed_in = config.seed;
+                int res = SobolSampler.i4_sobol ( DIM_NUM, ref config);
+                int seed_out = config.seed;
                 string cout = "";
-                string t = seed_in + "  ";
-                cout += t.PadLeft(6);
-                t = seed_out + "  ";
-                cout += t.PadLeft(6);
+                string t = seed_in.ToString().PadLeft(6) + "  ";
+                cout += t;
+                t = seed_out.ToString().PadLeft(6) + "  ";
+                cout += t;
                 for (int j = 0; j < DIM_NUM; j++ )
                 {
-                    t = r[j] + "  ";
-                    cout += t.PadLeft(14);
+                    t = config.quasi[j].ToString().PadLeft(14) + "  ";
+                    cout += t;
                 }
                 Console.WriteLine(cout);
             }
@@ -422,12 +419,12 @@ namespace SobolTest
                 long k = i ^ j;
 
                 string cout = "  ";
-                string t = i + "  ";
-                cout += t.PadLeft(6);
-                t = j + "  ";
-                cout += t.PadLeft(6);
-                t = k.ToString();
-                cout += t.PadLeft(6);
+                string t = i.ToString().PadLeft(6) + "  ";
+                cout += t;
+                t = j.ToString().PadLeft(6) + "  ";
+                cout += t;
+                t = k.ToString().PadLeft(6);
+                cout += t;
                 Console.WriteLine(cout);
             }
         }
@@ -468,10 +465,10 @@ namespace SobolTest
                 int j = SobolSampler.i8_bit_hi1 ( i );
 
                 string cout = "  ";
-                string t = i + "  ";
-                cout += t.PadLeft(6);
-                t += j.ToString();
-                cout += t.PadLeft(6);
+                string t = i.ToString().PadLeft(6) + "  ";
+                cout += t;
+                t += j.ToString().PadLeft(6);
+                cout += t;
                 Console.WriteLine(cout);
             }
         }
@@ -513,10 +510,10 @@ namespace SobolTest
                 int j = SobolSampler.i8_bit_lo0 ( i );
 
                 string cout = "  ";
-                string t = i + "  ";
-                cout += t.PadLeft(6);
-                t = j.ToString();
-                cout += t.PadLeft(6);
+                string t = i.ToString().PadLeft(6) + "  ";
+                cout += t;
+                t = j.ToString().PadLeft(6);
+                cout += t;
                 Console.WriteLine(cout);
             }
         }
@@ -542,7 +539,8 @@ namespace SobolTest
         //    John Burkardt
         //
         {
-            int DIM_MAX = 4;
+            int DIM_NUM = 4;
+            SobolSampler.SobolConfigLarge config = new SobolSampler.SobolConfigLarge(DIM_NUM);
             
             Console.WriteLine();
             Console.WriteLine("TEST08");
@@ -550,10 +548,10 @@ namespace SobolTest
             Console.WriteLine();
             Console.WriteLine("  In this test, we call I8_SOBOL repeatedly.");
 
-            for (int dim_num = 2; dim_num <= DIM_MAX; dim_num++ )
+            for (int dim_num = 2; dim_num <= DIM_NUM; dim_num++ )
             {
 
-                long seed = 0;
+                config.seed = 0;
 
                 Console.WriteLine();
                 Console.WriteLine("  Using dimension DIM_NUM =   " + dim_num);
@@ -564,21 +562,19 @@ namespace SobolTest
 
                 for (int i = 0; i <= 110; i++ )
                 {
-                    long seed_in = seed;
-                    SobolSampler.SobolVectorLarge res = SobolSampler.i8_sobol ( dim_num, seed );
-                    double[] r = res.quasi;
-                    long seed_out = res.seed;
+                    long seed_in = config.seed;
+                    int res = SobolSampler.i8_sobol ( dim_num, ref config );
+                    long seed_out = config.seed;
 
                     if (i <= 11 || 95 <= i )
                     {
-                        string cout = seed_in + "  ";
-                        cout = cout.PadLeft(6);
-                        string t = seed_out + "  ";
-                        cout += t.PadLeft(6);
+                        string cout = seed_in.ToString().PadLeft(6) + "  ";
+                        string t = seed_out.ToString().PadLeft(6) + "  ";
+                        cout += t;
                         for (int j = 0; j < dim_num; j++ )
                         {
-                            t = r[j] + "  ";
-                            cout += t.PadLeft(14);
+                            t = config.quasi[j].ToString().PadLeft(14) + "  ";
+                            cout += t;
                         }
                         Console.WriteLine(cout);
                     }
@@ -612,6 +608,7 @@ namespace SobolTest
         //
         {
             int DIM_NUM = 3;
+            SobolSampler.SobolConfigLarge config = new SobolSampler.SobolConfigLarge(DIM_NUM);
 
             Console.WriteLine();
             Console.WriteLine("TEST09");
@@ -623,27 +620,25 @@ namespace SobolTest
             Console.WriteLine();
             Console.WriteLine("  Using dimension DIM_NUM =   " + DIM_NUM);
 
-            long seed = 0;
+            config.seed = 0;
 
             Console.WriteLine();
             Console.WriteLine("  Seed  Seed   I8_SOBOL");
             Console.WriteLine("  In    Out");
             Console.WriteLine();
-
+            
             for (int i = 1; i <= 11; i++ )
             {
-                long seed_in = seed;
-                SobolSampler.SobolVectorLarge res = SobolSampler.i8_sobol ( DIM_NUM, seed );
-                double[] r = res.quasi;
-                long seed_out = res.seed;
-                string cout = seed_in + "  ";
-                cout = cout.PadLeft(6);
-                string t = seed_out + "  ";
-                cout += t.PadLeft(6);
+                long seed_in = config.seed;
+                int res = SobolSampler.i8_sobol ( DIM_NUM, ref config );
+                long seed_out = config.seed;
+                string cout = seed_in.ToString().PadLeft(6) + "  ";
+                string t = seed_out.ToString().PadLeft(6) + "  ";
+                cout += t;
                 for (int j = 0; j < DIM_NUM; j++ )
                 {
-                    t = r[j] + "  ";
-                    cout += t.PadLeft(14);
+                    t = config.quasi[j].ToString().PadLeft(14) + "  ";
+                    cout += t;
                 }
                 Console.WriteLine(cout);
             }
@@ -651,7 +646,7 @@ namespace SobolTest
             Console.WriteLine();
             Console.WriteLine("  Jump ahead by increasing SEED:");
 
-            seed = 100;
+            config.seed = 100;
 
             Console.WriteLine();
             Console.WriteLine("  Seed  Seed   I8_SOBOL");
@@ -660,18 +655,16 @@ namespace SobolTest
 
             for (int i = 1; i <= 5; i++ )
             {
-                long seed_in = seed;
-                SobolSampler.SobolVectorLarge res = SobolSampler.i8_sobol ( DIM_NUM, seed );
-                double[] r = res.quasi;
-                long seed_out = res.seed;
-                string cout = seed_in + "  ";
-                cout = cout.PadLeft(6);
-                string t = seed_out + "  ";
-                cout += t.PadLeft(6);
+                long seed_in = config.seed;
+                int res = SobolSampler.i8_sobol ( DIM_NUM, ref config );
+                long seed_out = config.seed;
+                string cout = seed_in.ToString().PadLeft(6) + "  ";
+                string t = seed_out.ToString().PadLeft(6) + "  ";
+                cout += t;
                 for (int j = 0; j < DIM_NUM; j++ )
                 {
-                    t = r[j] + "  ";
-                    cout += t.PadLeft(14);
+                    t = config.quasi[j].ToString().PadLeft(14) + "  ";
+                    cout += t;
                 }
                 Console.WriteLine(cout);
             }
@@ -679,7 +672,7 @@ namespace SobolTest
             Console.WriteLine();
             Console.WriteLine("  Jump back by decreasing SEED:");
 
-            seed = 3;
+            config.seed = 3;
 
             Console.WriteLine();
             Console.WriteLine("  Seed  Seed   I8_SOBOL");
@@ -688,18 +681,16 @@ namespace SobolTest
 
             for (int i = 1; i <= 11; i++ )
             {
-                long seed_in = seed;
-                SobolSampler.SobolVectorLarge res = SobolSampler.i8_sobol ( DIM_NUM, seed );
-                double[] r = res.quasi;
-                long seed_out = res.seed;
-                string cout = seed_in + "  ";
-                cout = cout.PadLeft(6);
-                string t = seed_out + "  ";
-                cout += t.PadLeft(6);
+                long seed_in = config.seed;
+                int res = SobolSampler.i8_sobol ( DIM_NUM, ref config );
+                long seed_out = config.seed;
+                string cout = seed_in.ToString().PadLeft(6) + "  ";
+                string t = seed_out.ToString().PadLeft(6) + "  ";
+                cout += t;
                 for (int j = 0; j < DIM_NUM; j++ )
                 {
-                    t = r[j] + "  ";
-                    cout += t.PadLeft(14);
+                    t = config.quasi[j].ToString().PadLeft(14) + "  ";
+                    cout += t;
                 }
                 Console.WriteLine(cout);
             }
@@ -707,7 +698,7 @@ namespace SobolTest
             Console.WriteLine();
             Console.WriteLine("  Jump ahead by increasing SEED:");
 
-            seed = 98;
+            config.seed = 98;
 
             Console.WriteLine();
             Console.WriteLine("  Seed  Seed   I8_SOBOL");
@@ -716,18 +707,16 @@ namespace SobolTest
 
             for (int i = 1; i <= 5; i++ )
             {
-                long seed_in = seed;
-                SobolSampler.SobolVectorLarge res = SobolSampler.i8_sobol ( DIM_NUM, seed );
-                double[] r = res.quasi;
-                long seed_out = res.seed;
-                string cout = seed_in + "  ";
-                cout = cout.PadLeft(6);
-                string t = seed_out + "  ";
-                cout += t.PadLeft(6);
+                long seed_in = config.seed;
+                int res = SobolSampler.i8_sobol ( DIM_NUM, ref config );
+                long seed_out = config.seed;
+                string cout = seed_in.ToString().PadLeft(6) + "  ";
+                string t = seed_out.ToString().PadLeft(6) + "  ";
+                cout += t;
                 for (int j = 0; j < DIM_NUM; j++ )
                 {
-                    t = r[j] + "  ";
-                    cout += t.PadLeft(14);
+                    t = config.quasi[j].ToString().PadLeft(14) + "  ";
+                    cout += t;
                 }
                 Console.WriteLine(cout);
             }

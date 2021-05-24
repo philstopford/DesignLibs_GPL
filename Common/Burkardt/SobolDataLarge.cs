@@ -2,9 +2,9 @@
 {
     public static partial class SobolSampler
     {
-        public partial class SobolConfig
+        public partial class SobolConfigLarge
         {
-            public int[] poly =
+            public long[] poly =
             {
                 1, 3, 7, 11, 13, 19, 25, 37, 59, 47,
                 61, 55, 41, 67, 97, 91, 109, 103, 115, 131,

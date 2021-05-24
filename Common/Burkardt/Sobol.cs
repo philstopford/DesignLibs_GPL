@@ -4,28 +4,7 @@ namespace Sobol
 {
     public static partial class SobolSampler
     {
-        public class SobolVector
-        {
-            public int seed { get; set; }
-            public float[] quasi { get; set; }
-            
-            public int resultCode { get; set; }
-        }
-
-        public class SobolVectorLarge
-        {
-            public long seed { get; set; }
-            public double[] quasi { get; set; }
-            
-            public int resultCode { get; set; }
-        }
-
-        private const int DIM_MAX2 = 1111;
-        private const int LOG_MAX = 30;
-        private static bool[] includ = new bool[LOG_MAX];
-        private static int[,] v = new int[DIM_MAX2,LOG_MAX];
-
-        public static SobolVector i4_sobol ( int dim_num, int seed )
+        public static int i4_sobol ( int dim_num, ref SobolConfig config )
         
         //****************************************************************************80
         //
@@ -110,58 +89,50 @@ namespace Sobol
         //    Output, float QUASI[DIM_NUM], the next quasirandom vector.
         //
         {
-            SobolVector ret = new SobolVector() {seed = seed, quasi = new float[dim_num]};
-
-            int dim_num_save = 0;
-            bool initialized = false;
             int i;
             int l = 1;
-            int[] lastq = new int[DIM_MAX2];
-            int maxcol = 1;
             int seed_temp;
-            float recipd = 1.0f;
-            int seed_save = - 1;
+            bool[] includ = new bool[SobolConfig.LOG_MAX];
         
-            if ( !initialized || dim_num != dim_num_save )
+            if ( !config.initialized || dim_num != config.dim_num_save )
             {
-                initialized = true;
+                config.initialized = true;
 
-                initv();
+                config.initv();
 
                 //
                 //  Check parameters.
                 //
-                if ( dim_num < 1 || DIM_MAX2 < dim_num )
+                if ( dim_num < 1 || SobolConfig.DIM_MAX2 < dim_num )
                 {
                     Console.WriteLine();
                     Console.WriteLine("I4_SOBOL - Fatal error!");
                     Console.WriteLine("  The spatial dimension DIM_NUM should satisfy:");
-                    Console.WriteLine("    1 <= DIM_NUM <= " + DIM_MAX2);
+                    Console.WriteLine("    1 <= DIM_NUM <= " + SobolConfig.DIM_MAX2);
                     Console.WriteLine("  But this input value is DIM_NUM = " + dim_num);
-                    ret.resultCode = 1;
-                    return ret;
+                    return 1;
                 }
         
-                dim_num_save = dim_num;
+                config.dim_num_save = dim_num;
                 //
                 //  Set ATMOST = 2^LOG_MAX - 1.
                 //
-                int atmost = 0;
-                for (i = 1; i <= LOG_MAX; i++ )
+                config.atmost = 0;
+                for (i = 1; i <= SobolConfig.LOG_MAX; i++ )
                 {
-                    atmost = 2 * atmost + 1;
+                    config.atmost = 2 * config.atmost + 1;
                 }
                 //
                 //  Find the highest 1 bit in ATMOST (should be LOG_MAX).
                 //
-                maxcol = i4_bit_hi1 ( atmost );
+                config.maxcol = i4_bit_hi1 ( config.atmost );
                 //
                 //  Initialize row 1 of V.
                 //
                 int j;
-                for (j = 0; j < maxcol; j++ )
+                for (j = 0; j < config.maxcol; j++ )
                 {
-                    v[0,j] = 1;
+                    config.v[0,j] = 1;
                 }
                 //
                 //  Initialize the remaining rows of V.
@@ -174,7 +145,7 @@ namespace Sobol
                     //
                     //  Find the degree of polynomial I from binary encoding.
                     //
-                    j = poly[i];
+                    j = config.poly[i];
                     int m = 0;
         
                     while ( true )
@@ -190,7 +161,7 @@ namespace Sobol
                     //  We expand this bit pattern to separate components
                     //  of the logical array INCLUD.
                     //
-                    j = poly[i];
+                    j = config.poly[i];
                     int k;
                     for (k = m-1; 0 <= k; k-- )
                     {
@@ -202,9 +173,9 @@ namespace Sobol
                     //  Calculate the remaining elements of row I as explained
                     //  in Bratley and Fox, section 2.
                     //
-                    for (j = m; j < maxcol; j++ )
+                    for (j = m; j < config.maxcol; j++ )
                     {
-                        int newv = v[i,j-m];
+                        int newv = config.v[i,j-m];
                         l = 1;
 
                         for (k = 0; k < m; k++ )
@@ -213,92 +184,91 @@ namespace Sobol
 
                             if ( includ[k] )
                             {
-                                newv = ( newv ^ ( l * v[i,j-k-1] ) );
+                                newv = ( newv ^ ( l * config.v[i,j-k-1] ) );
                             }
                         }
-                        v[i,j] = newv;
+                        config.v[i,j] = newv;
                     }
                 }
                 //
                 //  Multiply columns of V by appropriate power of 2.
                 //
                 l = 1;
-                for (j = maxcol-2; 0 <= j; j-- )
+                for (j = config.maxcol-2; 0 <= j; j-- )
                 {
                     l = 2 * l;
                     for (i = 0; i < dim_num; i++ )
                     {
-                        v[i,j] = v[i,j] * l;
+                        config.v[i,j] = config.v[i,j] * l;
                     }
                 }
                 //
                 //  RECIPD is 1/(common denominator of the elements in V).
                 //
-                recipd = 1.0f / ( 2 * l );
+                config.recipd = 1.0f / ( 2 * l );
             }
         
-            if ( seed < 0 )
+            if ( config.seed < 0 )
             {
-                seed = 0;
+                config.seed = 0;
             }
         
-            if ( seed == 0 )
+            if ( config.seed == 0 )
             {
                 l = 1;
                 for (i = 0; i < dim_num; i++ )
                 {
-                    lastq[i] = 0;
+                    config.lastq[i] = 0;
                 }
             }
-            else if ( seed == seed_save + 1 )
+            else if ( config.seed == config.seed_save + 1 )
             {
-                l = i4_bit_lo0 ( seed );
+                l = i4_bit_lo0 ( config.seed );
             }
-            else if ( seed <= seed_save )
+            else if ( config.seed <= config.seed_save )
             {
-                seed_save = 0;
+                config.seed_save = 0;
                 l = 1;
                 for (i = 0; i < dim_num; i++ )
                 {
-                    lastq[i] = 0;
+                    config.lastq[i] = 0;
                 }
         
-                for (seed_temp = seed_save; seed_temp <= (seed)-1; seed_temp++ )
+                for (seed_temp = config.seed_save; seed_temp <= (config.seed)-1; seed_temp++ )
                 {
                     l = i4_bit_lo0 ( seed_temp );
 
                     for (i = 0; i < dim_num; i++ )
                     {
-                        lastq[i] = ( lastq[i] ^ v[i,l-1] );
+                        config.lastq[i] = ( config.lastq[i] ^ config.v[i,l-1] );
                     }
                 }
-                l = i4_bit_lo0 ( seed );
+                l = i4_bit_lo0 ( config.seed );
             }
-            else if ( seed_save+1 < seed )
+            else if ( config.seed_save+1 < config.seed )
             {
-                for (seed_temp = seed_save+1; seed_temp <= (seed)-1; seed_temp++ )
+                for (seed_temp = config.seed_save+1; seed_temp <= (config.seed)-1; seed_temp++ )
                 {
                     l = i4_bit_lo0 ( seed_temp );
                     for (i = 0; i < dim_num; i++ )
                     {
-                        lastq[i] = ( lastq[i] ^ v[i,l-1] );
+                        config.lastq[i] = ( config.lastq[i] ^ config.v[i,l-1] );
                     }
                 }
-                l = i4_bit_lo0 ( seed );
+                l = i4_bit_lo0 ( config.seed );
             }
             //
             //  Check that the user is not calling too many times!
             //
-            if ( maxcol < l )
+            if ( config.maxcol < l )
             {
                 Console.WriteLine();
                 Console.WriteLine("I4_SOBOL - Fatal error!");
                 Console.WriteLine("  The value of SEED seems to be too large!");
-                Console.WriteLine("  SEED =   " + seed);
-                Console.WriteLine("  MAXCOL = " + maxcol);
+                Console.WriteLine("  SEED =   " + config.seed);
+                Console.WriteLine("  MAXCOL = " +config. maxcol);
                 Console.WriteLine("  L =      " + l);
-                ret.resultCode = 2;
-                return ret;
+                return 2;
             }
             //
             //  Calculate the new components of QUASI.
@@ -306,16 +276,14 @@ namespace Sobol
             //
             for (i = 0; i < dim_num; i++ )
             {
-                ret.quasi[i] = ( ( float ) lastq[i] ) * recipd;
-                lastq[i] = ( lastq[i] ^ v[i,l-1] );
+                config.quasi[i] = ( ( float ) config.lastq[i] ) * config.recipd;
+                config.lastq[i] = ( config.lastq[i] ^ config.v[i,l-1] );
             }
 
-            seed_save = seed;
-            seed = seed + 1;
-
-            ret.seed = seed;
-
-            return ret;
+            config.seed_save = config.seed;
+            config.seed = config.seed + 1;
+            
+            return 0;
         }
 
         public static int i4_bit_hi1 ( int n )
@@ -373,9 +341,7 @@ namespace Sobol
         //    Output, int I4_BIT_HI1, the location of the high order bit.
         //
         {
-            int bit;
-
-            bit = 0;
+            int bit = 0;
 
             while ( 0 < n )
             {
@@ -456,7 +422,7 @@ namespace Sobol
             return bit;
         }
         
-        public static SobolVectorLarge i8_sobol ( int dim_num, long seed )
+        public static int i8_sobol ( int dim_num, ref SobolConfigLarge config )
         //****************************************************************************80
         //
         //  Purpose:
@@ -540,11 +506,6 @@ namespace Sobol
         //    Output, double QUASI[DIM_NUM], the next quasirandom vector.
         //
         {
-            SobolVectorLarge ret = new SobolVectorLarge() {seed = seed, quasi = new double[dim_num]};
-
-            int DIM_MAX = 40;
-            int DIM_MAX2 = 1111;
-            int LOG_MAX = 62;
             //
             //  Here, we have commented out the definition of ATMOST, because
             //  in some cases, a compiler was complaining that the value of ATMOST could not
@@ -555,50 +516,43 @@ namespace Sobol
             //
             //static long long int atmost = 4611686018427387903;
             //
-            int dim_num_save = 0;
             long i;
-            includ = new bool[LOG_MAX];
-            bool initialized = false;
+            bool[] includ = new bool[SobolConfigLarge.LOG_MAX];
             long l = 1;
-            long[] lastq = new long[DIM_MAX2];
-            long maxcol = 62;
 
-            double recipd = 1.0E+00 / ( ( double ) ( 2 * l ) );
+            config.recipd = 1.0E+00 / ( ( double ) ( 2 * l ) );
             long seed_temp;
-            long seed_save = -1;
-            long[,] v = new long[DIM_MAX2,LOG_MAX];
 
-            if ( !initialized || dim_num != dim_num_save )
+            if ( !config.initialized || dim_num != config.dim_num_save )
             {
-                initialized = true;
+                config.initialized = true;
                 long j;
-                for ( i = 0; i < DIM_MAX2; i++ )
+                for ( i = 0; i < SobolConfigLarge.DIM_MAX2; i++ )
                 {
-                    for ( j = 0; j < LOG_MAX; j++ )
+                    for ( j = 0; j < SobolConfigLarge.LOG_MAX; j++ )
                     {
-                        v[i,j] = 0;
+                        config.v[i,j] = 0;
                     }
                 }
                 //
                 //  Initialize (part of) V.
                 //
-                initv();
+                config.initv();
 
                 //
                 //  Check parameters.
                 //
-                if ( dim_num < 1 || DIM_MAX2 < dim_num )
+                if ( dim_num < 1 || SobolConfigLarge.DIM_MAX2 < dim_num )
                 {
                     Console.WriteLine();;
                     Console.WriteLine("I8_SOBOL - Fatal error!");
                     Console.WriteLine("  The spatial dimension DIM_NUM should satisfy:");
-                    Console.WriteLine("    1 <= DIM_NUM <= " + DIM_MAX2);
+                    Console.WriteLine("    1 <= DIM_NUM <= " + SobolConfigLarge.DIM_MAX2);
                     Console.WriteLine("  But this input value is DIM_NUM = " + dim_num);
-                    ret.resultCode = 1;
-                    return ret;
+                    return 1;
                 }
 
-                dim_num_save = dim_num;
+                config.dim_num_save = dim_num;
                 //
                 //  Find the number of bits in ATMOST.
                 //
@@ -610,13 +564,13 @@ namespace Sobol
                 //
                 //  maxcol = i8_bit_hi1 ( atmost );
                 //
-                // maxcol = 62;
+                config.maxcol = 62;
                 //
                 //  Initialize row 1 of V.
                 //
-                for ( j = 0; j < maxcol; j++ )
+                for ( j = 0; j < config.maxcol; j++ )
                 {
-                    v[0,j] = 1;
+                    config.v[0,j] = 1;
                 }
                 //
                 //  Initialize the remaining rows of V.
@@ -629,7 +583,7 @@ namespace Sobol
                     //
                     //  Find the degree of polynomial I from binary encoding.
                     //
-                    j = poly[i];
+                    j = config.poly[i];
                     long  m = 0;
 
                     while ( true )
@@ -645,7 +599,7 @@ namespace Sobol
                     //  We expand this bit pattern to separate components
                     //  of the logical array INCLUD.
                     //
-                    j = poly[i];
+                    j = config.poly[i];
                     long k;
                     for ( k = m-1; 0 <= k; k-- )
                     {
@@ -657,9 +611,9 @@ namespace Sobol
                     //  Calculate the remaining elements of row I as explained
                     //  in Bratley and Fox, section 2.
                     //
-                    for ( j = m; j < maxcol; j++ )
+                    for ( j = m; j < config.maxcol; j++ )
                     {
-                        long newv = v[i,j-m];
+                        long newv = config.v[i,j-m];
                         l = 1;
 
                         for ( k = 0; k < m; k++ )
@@ -668,95 +622,94 @@ namespace Sobol
 
                             if ( includ[k] )
                             {
-                                newv = ( newv ^ ( l * v[i,j-k-1] ) );
+                                newv = ( newv ^ ( l * config.v[i,j-k-1] ) );
                             }
                         }
-                        v[i,j] = newv;
+                        config.v[i,j] = newv;
                     }
                 }
                 //
                 //  Multiply columns of V by appropriate power of 2.
                 //
                 l = 1;
-                for ( j = maxcol - 2; 0 <= j; j-- )
+                for ( j = config.maxcol - 2; 0 <= j; j-- )
                 {
                     l = 2 * l;
                     for ( i = 0; i < dim_num; i++ )
                     {
-                        v[i,j] = v[i,j] * l;
+                        config.v[i,j] = config.v[i,j] * l;
                     }
                 }
                 //
                 //  RECIPD is 1/(common denominator of the elements in V).
                 //
-                recipd = 1.0E+00 / ( ( double ) ( 2 * l ) );
+                config.recipd = 1.0E+00 / ( ( double ) ( 2 * l ) );
             }
 
-            if ( seed < 0 )
+            if ( config.seed < 0 )
             {
-                seed = 0;
+                config.seed = 0;
             }
 
-            if ( seed == 0 )
+            if ( config.seed == 0 )
             {
                 l = 1;
                 for ( i = 0; i < dim_num; i++ )
                 {
-                    lastq[i] = 0;
+                    config.lastq[i] = 0;
                 }
             }
-            else if ( seed == seed_save + 1 )
+            else if ( config.seed == config.seed_save + 1 )
             {
-                l = i8_bit_lo0 ( seed );
+                l = i8_bit_lo0 ( config.seed );
             }
-            else if ( seed <= seed_save )
+            else if ( config.seed <= config.seed_save )
             {
-                seed_save = 0;
+                config.seed_save = 0;
                 l = 1;
                 for ( i = 0; i < dim_num; i++ )
                 {
-                    lastq[i] = 0;
+                    config.lastq[i] = 0;
                 }
 
-                for ( seed_temp = seed_save; seed_temp <= (seed)-1; seed_temp++ )
+                for ( seed_temp = config.seed_save; seed_temp <= (config.seed)-1; seed_temp++ )
                 {
 
                     l = i8_bit_lo0 ( seed_temp );
 
                     for ( i = 0; i < dim_num; i++ )
                     {
-                        lastq[i] = ( lastq[i] ^ v[i,l-1] );
+                        config.lastq[i] = ( config.lastq[i] ^ config.v[i,l-1] );
                     }
                 }
-                l = i8_bit_lo0 ( seed );
+                l = i8_bit_lo0 ( config.seed );
             }
-            else if ( seed_save+1 < seed )
+            else if ( config.seed_save+1 < config.seed )
             {
-                for ( seed_temp = seed_save+1; seed_temp <= (seed)-1; seed_temp++ )
+                for ( seed_temp = config.seed_save+1; seed_temp <= (config.seed)-1; seed_temp++ )
                 {
 
                     l = i8_bit_lo0 ( seed_temp );
 
                     for ( i = 0; i < dim_num; i++ )
                     {
-                        lastq[i] = ( lastq[i] ^ v[i,l-1] );
+                        config.lastq[i] = ( config.lastq[i] ^ config.v[i,l-1] );
                     }
                 }
-                l = i8_bit_lo0 ( seed );
+                l = i8_bit_lo0 ( config.seed );
             }
             //
             //  Check that the user is not calling too many times!
             //
-            if ( maxcol < l )
+            if ( config.maxcol < l )
             {
                 Console.WriteLine();
                 Console.WriteLine("I8_SOBOL - Fatal error!");
                 Console.WriteLine("  The value of SEED seems to be too large!");
-                Console.WriteLine("  SEED =   " + seed);
-                Console.WriteLine("  MAXCOL = " + maxcol);
+                Console.WriteLine("  SEED =   " + config.seed);
+                Console.WriteLine("  MAXCOL = " + config.maxcol);
                 Console.WriteLine("  L =      " + l);
-                ret.resultCode = 2 ;
-                return ret;
+                return 2;
             }
             //
             //  Calculate the new components of QUASI.
@@ -764,16 +717,15 @@ namespace Sobol
             //
             for ( i = 0; i < dim_num; i++ )
             {
-                ret.quasi[i] = ( ( double ) lastq[i] ) * recipd;
+                config.quasi[i] = ( ( double ) config.lastq[i] ) * config.recipd;
 
-                lastq[i] = ( lastq[i] ^ v[i,l-1] );
+                config.lastq[i] = ( config.lastq[i] ^ config.v[i,l-1] );
             }
 
-            seed_save = seed;
-            seed = seed + 1;
+            config.seed_save = config.seed;
+            config.seed = config.seed + 1;
 
-            ret.seed = seed;
-            return ret;
+            return 0;
         }
 
         

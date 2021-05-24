@@ -1,29 +1,29 @@
 ﻿using System;
 
-namespace Burkardt.Sobol
+namespace Burkardt.Uniform
 {
-    public static partial class SobolUniformRNG
+    public static partial class UniformRNG
     {
-        static float r4_uniform_01 ( int seed )
+        public static double r8_uniform_01 ( ref int seed )
         //****************************************************************************80
         //
         //  Purpose:
         //
-        //    R4_UNIFORM_01 returns a unit pseudorandom R4.
+        //    R8_UNIFORM_01 returns a unit pseudorandom R8.
         //
         //  Discussion:
         //
         //    This routine implements the recursion
         //
         //      seed = 16807 * seed mod ( 2**31 - 1 )
-        //      r4_uniform_01 = seed / ( 2**31 - 1 )
+        //      r8_uniform_01 = seed / ( 2**31 - 1 )
         //
         //    The integer arithmetic never requires more than 32 bits,
         //    including a sign bit.
         //
         //    If the initial seed is 12345, then the first three computations are
         //
-        //      Input     Output      R4_UNIFORM_01
+        //      Input     Output      R8_UNIFORM_01
         //      SEED      SEED
         //
         //         12345   207482415  0.096616
@@ -36,7 +36,7 @@ namespace Burkardt.Sobol
         //
         //  Modified:
         //
-        //    16 November 2004
+        //    11 August 2004
         //
         //  Author:
         //
@@ -71,14 +71,14 @@ namespace Burkardt.Sobol
         //    Input/output, int *SEED, the "seed" value.  Normally, this
         //    value should not be 0.  On output, SEED has been updated.
         //
-        //    Output, float R4_UNIFORM_01, a new pseudorandom variate, strictly between
-        //    0 and 1.
+        //    Output, double R8_UNIFORM_01, a new pseudorandom variate, 
+        //    strictly between 0 and 1.
         //
         {
             if ( seed == 0 )
             {
                 Console.WriteLine();
-                Console.WriteLine("R4_UNIFORM_01 - Fatal error!");
+                Console.WriteLine("R8_UNIFORM_01 - Fatal error!");
                 Console.WriteLine("  Input value of SEED = 0.");
                 return 1;
             }
@@ -95,18 +95,18 @@ namespace Burkardt.Sobol
             //  Although SEED can be represented exactly as a 32 bit integer,
             //  it generally cannot be represented exactly as a 32 bit real number!
             //
-            float r = seed * (float)4.656612875E-10;
+            double r = seed * (double)4.656612875E-10;
 
             return r;
         }
         
         
-        static int i4_uniform(int a, int b, int seed)
+        public static long i8_uniform ( long a, long b, ref long seed )
         //****************************************************************************80
         //
         //  Purpose:
         //
-        //    I4_UNIFORM returns a scaled pseudorandom I4.
+        //    I8_UNIFORM returns a scaled pseudorandom I8.
         //
         //  Discussion:
         //
@@ -119,7 +119,7 @@ namespace Burkardt.Sobol
         //
         //  Modified:
         //
-        //    12 November 2006
+        //    12 May 2007
         //
         //  Author:
         //
@@ -151,58 +151,59 @@ namespace Burkardt.Sobol
         //
         //  Parameters:
         //
-        //    Input, int A, B, the limits of the interval.
+        //    Input, long long int A, B, the limits of the interval.
         //
         //    Input/output, int *SEED, the "seed" value, which should NOT be 0.
         //    On output, SEED has been updated.
         //
-        //    Output, int I4_UNIFORM, a number between A and B.
+        //    Output, long long int I8_UNIFORM, a number between A and B.
         //
         {
-            if (seed == 0)
+            if ( seed == 0 )
             {
                 Console.WriteLine();
-                Console.WriteLine("I4_UNIFORM - Fatal error!");
+                Console.WriteLine("I8_UNIFORM - Fatal error!");
                 Console.WriteLine("  Input value of SEED = 0.");
                 return 1;
             }
 
-            int k = seed / 127773;
+            long k = seed / 127773;
 
-            seed = 16807 * (seed - k * 127773) - k * 2836;
+            seed = 16807 * ( seed - k * 127773 ) - k * 2836;
 
-            if (seed < 0)
+            if ( seed < 0 )
             {
                 seed = seed + 2147483647;
             }
 
-            float r = seed * (float)4.656612875E-10;
+            double r = seed * 4.656612875E-10;
             //
             //  Scale R to lie between A-0.5 and B+0.5.
             //
-            r = (1.0f - r) * (Math.Min(a, b) - 0.5f)
-                + r * (Math.Max(a, b) + 0.5f);
+            r = ( 1.0 - r ) * ( Math.Min ( a, b ) - 0.5 ) 
+            +         r   * ( Math.Max ( a, b ) + 0.5 );
             //
             //  Use rounding to convert R to an integer between A and B.
             //
-            int value = r4_nint(r);
+            long value = r8_nint( r );
 
-            value = Math.Max(value, Math.Min(a, b));
-            value = Math.Min(value, Math.Max(a, b));
+            value = Math.Max ( value, Math.Min ( a, b ) );
+            value = Math.Min ( value, Math.Max ( a, b ) );
 
             return value;
         }
-
-        static int r4_nint ( float x )
+        
+        
+        public static long r8_nint ( double x )
         //****************************************************************************80
         //
         //  Purpose:
         //
-        //    R4_NINT returns the nearest integer to an R4.
+        //    R8_NINT returns the nearest integer to an R8.
         //
-        //  Example:
+        //  Examples:
         //
-        //        X         R4_NINT
+        //        X         R8_NINT
         //
         //      1.3         1
         //      1.4         1
@@ -227,12 +228,12 @@ namespace Burkardt.Sobol
         //
         //  Parameters:
         //
-        //    Input, float X, the value.
+        //    Input, double X, the value.
         //
-        //    Output, int R4_NINT, the nearest integer to X.
+        //    Output, int R8_NINT, the nearest integer to X.
         //
         {
-            int value = ( int ) ( Math.Abs( x ) + 0.5 );
+            long value =  (long) ( Math.Abs ( x ) + 0.5 );
 
             if ( x < 0.0 )
             {

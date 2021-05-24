@@ -88,8 +88,13 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/LatinizeTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Table/TableMisc_r8.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Latinize.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Latin.Center.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/LatinCenter/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Uniform.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/SobolUniformRNGLarge.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/SobolUniformRNG.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/UniformRNG.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Latin.Center.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/UniformRNGLarge.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/LatinCenterTest/Program.cs" />
     </changedPaths>
   </component>

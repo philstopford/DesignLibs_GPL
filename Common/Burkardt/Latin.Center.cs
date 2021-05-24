@@ -1,10 +1,11 @@
 ﻿using entropyRNG;
+using Burkardt.Uniform;
 
 namespace Burkardt.Latin.Center
 {
     public static class LatinCenter
     {
-        static int[] perm_uniform ( int n, int base_, int seed )
+        static int[] perm_uniform ( int n, int base_, ref int seed )
         //****************************************************************************80
         //
         //  Purpose:
@@ -42,22 +43,17 @@ namespace Burkardt.Latin.Center
         //    Output, int PERM_UNIFORM[N], a permutation of (BASE, BASE+1, ..., BASE+N-1).
         //
         {
-            int i;
-            int j;
-            int k;
-            int[] p;
-
-            p = new int[n];
+            int[] p = new int[n];
  
-            for ( i = 0; i < n; i++ )
+            for (int i = 0; i < n; i++ )
             {
                 p[i] = i + base_;
             }
 
-            for ( i = 0; i < n; i++ )
+            for (int i = 0; i < n; i++ )
             {
-                j = RNG.nextint( i, n - 1, seed );
-                k    = p[i];
+                int j = UniformRNG.i4_uniform( i, n - 1, ref seed );
+                int k    = p[i];
                 p[i] = p[j];
                 p[j] = k;
             }
@@ -66,7 +62,7 @@ namespace Burkardt.Latin.Center
         }
 
         
-        public static double[] latin_center ( int dim_num, int point_num, int seed )
+        public static double[] latin_center ( int dim_num, int point_num, ref int seed )
         //****************************************************************************80
         //
         //  Purpose:
@@ -114,12 +110,12 @@ namespace Burkardt.Latin.Center
             int k = 0;
             for (int i = 0; i < dim_num; i++ )
             {
-                int[] perm = perm_uniform ( point_num, base_, seed );
+                int[] perm = perm_uniform ( point_num, base_, ref seed );
 
                 for (int j = 0; j < point_num; j++ )
                 {
                     double r = 0.5;
-                    x[k] = ( ( ( double ) perm[j] ) + r ) / ( ( double ) point_num );
+                    x[k] = ( perm[j] + r ) / point_num;
                     k = k + 1;
                 }
             }

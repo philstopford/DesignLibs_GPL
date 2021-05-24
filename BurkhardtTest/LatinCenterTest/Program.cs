@@ -10,26 +10,27 @@ namespace Burkardt.LatinCenterTest
         {
             int seed = RNG.nextint(0, Int32.MaxValue);
             int seed_save = seed;
+
             Console.WriteLine();
             Console.WriteLine("LATIN_CENTER_TEST:");
             Console.WriteLine("  Test the LATIN_CENTER library.");
 
-            test01 ( seed );
+            test01 ( ref seed );
 
             Console.WriteLine();
             Console.WriteLine("LATIN_CENTER_TEST:");
             Console.WriteLine("  Repeat TEST01, but with different seed from first run.");
-
+            
             seed = RNG.nextint(0, Int32.MaxValue);
             
-            test01 ( seed );
+            test01 ( ref seed );
 
             Console.WriteLine();
             Console.WriteLine("LATIN_CENTER_TEST:");
             Console.WriteLine("  Repeat TEST01 with same seed as first run.");
 
             seed = seed_save;
-            test01 ( seed );
+            test01 ( ref seed );
 
             Console.WriteLine();
             Console.WriteLine("LATIN_CENTER_TEST:");
@@ -39,7 +40,7 @@ namespace Burkardt.LatinCenterTest
         }
         
         
-        static void test01 ( int seed )
+        static void test01 ( ref int seed )
         //****************************************************************************80
         //
         //  Purpose:
@@ -71,7 +72,7 @@ namespace Burkardt.LatinCenterTest
             Console.WriteLine("  Number of points =  " + POINT_NUM);
             Console.WriteLine("  Initial seed for UNIFORM = " + seed);
 
-            double[] x = LatinCenter.latin_center( DIM_NUM, POINT_NUM, seed );
+            double[] x = LatinCenter.latin_center( DIM_NUM, POINT_NUM, ref seed );
 
             Console.WriteLine();
             Console.WriteLine("  The Latin centers:");

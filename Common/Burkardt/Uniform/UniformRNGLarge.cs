@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Types;
 
 namespace Burkardt.Uniform
 {
@@ -185,60 +186,10 @@ namespace Burkardt.Uniform
             //
             //  Use rounding to convert R to an integer between A and B.
             //
-            long value = r8_nint( r );
+            long value = typeMethods.r8_nint( r );
 
             value = Math.Max ( value, Math.Min ( a, b ) );
             value = Math.Min ( value, Math.Max ( a, b ) );
-
-            return value;
-        }
-        
-        
-        public static long r8_nint ( double x )
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    R8_NINT returns the nearest integer to an R8.
-        //
-        //  Examples:
-        //
-        //        X         R8_NINT
-        //
-        //      1.3         1
-        //      1.4         1
-        //      1.5         1 or 2
-        //      1.6         2
-        //      0.0         0
-        //     -0.7        -1
-        //     -1.1        -1
-        //     -1.6        -2
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license. 
-        //
-        //  Modified:
-        //
-        //    14 November 2006
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, double X, the value.
-        //
-        //    Output, int R8_NINT, the nearest integer to X.
-        //
-        {
-            long value =  (long) ( Math.Abs ( x ) + 0.5 );
-
-            if ( x < 0.0 )
-            {
-                value = -value;
-            }
 
             return value;
         }

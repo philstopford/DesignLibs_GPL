@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Burkardt.Types;
 
 namespace Burkardt.Table
 {
@@ -49,7 +50,7 @@ namespace Burkardt.Table
         //    TITLE may be blank.
         //
         {
-            if ( 0 < TableMisc.s_len_trim ( title ) )
+            if ( 0 < typeMethods.s_len_trim ( title ) )
             {
                 Console.WriteLine();
                 Console.WriteLine(title);
@@ -172,7 +173,7 @@ namespace Burkardt.Table
         {
             int INCX = 5;
             
-            if ( 0 < TableMisc.s_len_trim ( title ) )
+            if ( 0 < typeMethods.s_len_trim ( title ) )
             {
                 Console.WriteLine();
                 Console.WriteLine(title);

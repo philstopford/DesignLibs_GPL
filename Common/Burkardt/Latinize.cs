@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Burkardt.Table;
+using Burkardt.Types;
 
 namespace Burkardt.Latinizer
 {
@@ -54,7 +55,7 @@ namespace Burkardt.Latinizer
 				}
 				double v_min = v.Min();
 				double v_max = v.Max();
-				int[] indx = TableMisc.r8vec_sort_heap_index_a_new ( n, v );
+				int[] indx = typeMethods.r8vec_sort_heap_index_a_new ( n, v );
 
 				for (int j = 0; j < n; j++ )
 				{

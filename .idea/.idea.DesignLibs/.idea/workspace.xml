@@ -48,12 +48,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Eto/TestEtoViewport/MainForm.cs" />
-      <option value="$PROJECT_DIR$/Eto/TestEtoViewport.Mac/Program.cs" />
-      <option value="$PROJECT_DIR$/Eto/TestEtoViewport.Gtk/Program.cs" />
-      <option value="$PROJECT_DIR$/Eto/TestEtoViewport.WinForms/Program.cs" />
-      <option value="$PROJECT_DIR$/Eto/TestEtoViewport.Wpf/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Burkardt/Sobol.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Burkardt/SobolData.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/BlendTest/ComponentFunctions.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/BlendTest/ResponseSurfaces.cs" />
@@ -82,12 +76,8 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/TableMiscr4.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/TableMisc_i8.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/IHS.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Table/TableMisc_i4.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Table/TableMisc_i8.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/IHSTest/Program.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/LatinizeTest/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Table/TableMisc_r8.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Latinize.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/LatinCenter/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Uniform.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/SobolUniformRNGLarge.cs" />
@@ -96,6 +86,19 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Latin.Center.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/UniformRNGLarge.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/LatinCenterTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/s.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/i8.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Table/TableMisc_r8.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Table/TableHeaderAndSummmary.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Table/TableMisc_i8.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/strings.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Table/TableMisc.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Latinize.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/i4.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Table/TableMisc_i4.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Table/TableMisc_r4.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r4.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />

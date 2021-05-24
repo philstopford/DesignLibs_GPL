@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Types;
 
 namespace Burkardt.Uniform
 {
@@ -185,59 +186,10 @@ namespace Burkardt.Uniform
             //
             //  Use rounding to convert R to an integer between A and B.
             //
-            int value = r4_nint(r);
+            int value = typeMethods.r4_nint(r);
 
             value = Math.Max(value, Math.Min(a, b));
             value = Math.Min(value, Math.Max(a, b));
-
-            return value;
-        }
-
-        public static int r4_nint ( float x )
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    R4_NINT returns the nearest integer to an R4.
-        //
-        //  Example:
-        //
-        //        X         R4_NINT
-        //
-        //      1.3         1
-        //      1.4         1
-        //      1.5         1 or 2
-        //      1.6         2
-        //      0.0         0
-        //     -0.7        -1
-        //     -1.1        -1
-        //     -1.6        -2
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license. 
-        //
-        //  Modified:
-        //
-        //    14 November 2006
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, float X, the value.
-        //
-        //    Output, int R4_NINT, the nearest integer to X.
-        //
-        {
-            int value = ( int ) ( Math.Abs( x ) + 0.5 );
-
-            if ( x < 0.0 )
-            {
-                value = -value;
-            }
 
             return value;
         }

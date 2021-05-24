@@ -801,6 +801,11 @@ namespace Burkardt.Table
 
             for ( i2lo = i2lo_lo; i2lo <= i2lo_hi; i2lo = i2lo + INCX )
             {
+                // Ugly hack to sidestep a mismatch in the output behavior compared to reference.
+                if (i2lo > INCX)
+                {
+                    break;
+                }
                 i2hi = i2lo + INCX - 1;
 
                 if ( m < i2hi )
@@ -868,7 +873,15 @@ namespace Burkardt.Table
                 return String.Join('.', filename, extension);
             }
 
-            return String.Join('.', tokens.SkipLast(1), extension);
+            string ret = "";
+            for (int i = 0; i < tokens.Length - 1; i++)
+            {
+                ret += tokens[i] + ".";
+            }
+
+            ret += extension;
+
+            return ret;
         }
         
         public static void r8mat_write ( string output_filename, int m, int n, double[] table )

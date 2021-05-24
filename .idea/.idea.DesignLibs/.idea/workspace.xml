@@ -79,7 +79,6 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Uniform.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/SobolUniformRNGLarge.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/SobolUniformRNG.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/LatinCenterTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/s.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/i8.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Table/TableMisc_r8.cs" />
@@ -99,6 +98,7 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/IHS.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/SobolTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/misc.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/LatinCenterTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />

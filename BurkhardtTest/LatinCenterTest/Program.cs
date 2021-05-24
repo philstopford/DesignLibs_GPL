@@ -1,6 +1,6 @@
 ﻿using System;
 using Burkardt.Latin.Center;
-using entropyRNG;
+using Burkardt.Types;
 
 namespace Burkardt.LatinCenterTest
 {
@@ -8,7 +8,7 @@ namespace Burkardt.LatinCenterTest
     {
         static void Main(string[] args)
         {
-            int seed = RNG.nextint(0, Int32.MaxValue);
+            int seed = typeMethods.get_seed();
             int seed_save = seed;
 
             Console.WriteLine();
@@ -21,7 +21,7 @@ namespace Burkardt.LatinCenterTest
             Console.WriteLine("LATIN_CENTER_TEST:");
             Console.WriteLine("  Repeat TEST01, but with different seed from first run.");
             
-            seed = RNG.nextint(0, Int32.MaxValue);
+            seed = typeMethods.get_seed();
             
             test01 ( ref seed );
 
@@ -36,7 +36,6 @@ namespace Burkardt.LatinCenterTest
             Console.WriteLine("LATIN_CENTER_TEST:");
             Console.WriteLine("  Normal end of execution.");
             Console.WriteLine();
-            
         }
         
         

@@ -97,8 +97,8 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/UniformRNG.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/IHS.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/SobolTest/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/misc.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/LatinCenterTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/misc.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />

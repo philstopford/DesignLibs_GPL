@@ -120,7 +120,7 @@ namespace Burkardt.HyperCubeMonteCarloNS
         //    Output, double X[M*N], the points.
         //
         {
-            double[] x = UniformRNG.r8mat_uniform_01_new ( m, n, ref seed );
+            double[] x = UniformRNG.r8mat_uniform_01 ( m, n, ref seed );
 
             return x;
         }

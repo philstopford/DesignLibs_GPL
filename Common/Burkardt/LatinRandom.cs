@@ -43,7 +43,7 @@ namespace Burkardt.Latin
         //    Output, double LATIN_RANDOM_NEW[DIM_NUM,POINT_NUM], the points.
         //
         {
-            double[] x = UniformRNG.r8mat_uniform_01_new ( dim_num, point_num, ref seed );
+            double[] x = UniformRNG.r8mat_uniform_01 ( dim_num, point_num, ref seed );
             //
             //  For spatial dimension I, 
             //    pick a random permutation of 1 to POINT_NUM,

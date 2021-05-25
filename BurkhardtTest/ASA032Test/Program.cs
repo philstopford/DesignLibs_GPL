@@ -31,7 +31,6 @@ namespace ASA032Test
         {
             Console.WriteLine("");
             Console.WriteLine("ASA032_TEST:");
-            Console.WriteLine("  C++ version");
             Console.WriteLine("  Test the ASA032 library.");
 
             test01 ( );

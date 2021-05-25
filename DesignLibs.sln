@@ -108,6 +108,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TableTest", "BurkhardtTest\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoxBehnkenTest", "BurkhardtTest\BoxBehnkenTest\BoxBehnkenTest.csproj", "{89DD0A74-85EA-4260-AC6B-77F02BB5F7BB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HyperCubeMonteCarloTest", "BurkhardtTest\HyperCubeMonteCarloTest\HyperCubeMonteCarloTest.csproj", "{57E87C4C-2F8E-42CE-B4A6-0B8AB64A79DF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -670,6 +672,18 @@ Global
 		{89DD0A74-85EA-4260-AC6B-77F02BB5F7BB}.Release|x64.Build.0 = Release|Any CPU
 		{89DD0A74-85EA-4260-AC6B-77F02BB5F7BB}.Release|x86.ActiveCfg = Release|Any CPU
 		{89DD0A74-85EA-4260-AC6B-77F02BB5F7BB}.Release|x86.Build.0 = Release|Any CPU
+		{57E87C4C-2F8E-42CE-B4A6-0B8AB64A79DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57E87C4C-2F8E-42CE-B4A6-0B8AB64A79DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57E87C4C-2F8E-42CE-B4A6-0B8AB64A79DF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{57E87C4C-2F8E-42CE-B4A6-0B8AB64A79DF}.Debug|x64.Build.0 = Debug|Any CPU
+		{57E87C4C-2F8E-42CE-B4A6-0B8AB64A79DF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{57E87C4C-2F8E-42CE-B4A6-0B8AB64A79DF}.Debug|x86.Build.0 = Debug|Any CPU
+		{57E87C4C-2F8E-42CE-B4A6-0B8AB64A79DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57E87C4C-2F8E-42CE-B4A6-0B8AB64A79DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57E87C4C-2F8E-42CE-B4A6-0B8AB64A79DF}.Release|x64.ActiveCfg = Release|Any CPU
+		{57E87C4C-2F8E-42CE-B4A6-0B8AB64A79DF}.Release|x64.Build.0 = Release|Any CPU
+		{57E87C4C-2F8E-42CE-B4A6-0B8AB64A79DF}.Release|x86.ActiveCfg = Release|Any CPU
+		{57E87C4C-2F8E-42CE-B4A6-0B8AB64A79DF}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -722,6 +736,7 @@ Global
 		{4E393D3F-B440-4F62-B694-3C7237C06997} = {B14C0D74-30A0-4540-8100-2FFA1C84CA6D}
 		{90CC8255-0F2C-4AEE-9E03-D36ACF9DFFEE} = {B14C0D74-30A0-4540-8100-2FFA1C84CA6D}
 		{89DD0A74-85EA-4260-AC6B-77F02BB5F7BB} = {B14C0D74-30A0-4540-8100-2FFA1C84CA6D}
+		{57E87C4C-2F8E-42CE-B4A6-0B8AB64A79DF} = {B14C0D74-30A0-4540-8100-2FFA1C84CA6D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B449416C-C504-4FA8-9E10-10857263A64A}

@@ -114,7 +114,7 @@ namespace Burkardt.Types
 
             for (int i = 0; i < n; i++ )
             {
-                int j = UniformRNG.i4_uniform ( i, n - 1, ref seed );
+                int j = UniformRNG.i4_uniform_ab ( i, n - 1, ref seed );
                 int k = p[i];
                 p[i] = p[j];
                 p[j] = k;

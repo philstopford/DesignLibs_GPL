@@ -102,10 +102,10 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/HyperCubeMonteCarloTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Latin.Random.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/LatinRandom.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/LatinRandomTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/misc.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/UniformRNG_i4.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/LatinRandom.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -641,36 +641,6 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Common/Burkardt/LatinRandom.cs</url>
-          <line>54</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\Common\Burkardt\LatinRandom.cs" initialLine="54" containingFunctionPresentation="method 'latin_random_new'">
-            <startOffsets>
-              <option value="1740" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1806" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Common/Burkardt/LatinRandom.cs</url>
-          <line>56</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\Common\Burkardt\LatinRandom.cs" initialLine="56" containingFunctionPresentation="method 'latin_random_new'">
-            <startOffsets>
-              <option value="1824" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1860" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="DotNetProject">
         <watch expression="x" />

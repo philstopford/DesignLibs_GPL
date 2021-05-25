@@ -28,6 +28,8 @@
     <projectFile>BurkhardtTest/HyperCubeMonteCarloTest/HyperCubeMonteCarloTest.csproj</projectFile>
     <projectFile>BurkhardtTest/LatinRandomTest/LatinRandomTest.csproj</projectFile>
     <projectFile>BurkhardtTest/MonteCarloTest/MonteCarloTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/AppliedStatisticsAlgorithms/ASA005Test/ASA005Test.csproj</projectFile>
+    <projectFile>BurkhardtTest/AppliedStatisticsAlgorithms/ASA006Test/ASA006Test.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="" />
@@ -56,13 +58,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/TableMisc_r8.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/TableMisc_i4.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/TableMiscr4.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/TableMisc_i8.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/IHSTest/Program.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/LatinizeTest/Program.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/LatinCenter/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Uniform.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/SobolUniformRNGLarge.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/SobolUniformRNG.cs" />
@@ -105,8 +100,15 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/LatinRandom.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/UniformRNG_i4.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Burkardt.MonteCarlo.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/MonteCarlo.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/MonteCarloTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/MonteCarlo.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Helpers.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/ASA005.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/General.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA005Test/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/CCC.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/ASA006.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA006Test/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -115,7 +117,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.27659574" />
+    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.27645203" />
     <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.0" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
@@ -123,6 +125,42 @@
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager" selected=".NET Project.MonteCarloTest">
+    <configuration name="ASA005Test" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA005Test/ASA005Test.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="ASA006Test" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA006Test/ASA006Test.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="BlendTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -637,6 +675,8 @@
       <item itemvalue=".NET Project.HyperCubeMonteCarloTest" />
       <item itemvalue=".NET Project.LatinRandomTest" />
       <item itemvalue=".NET Project.MonteCarloTest" />
+      <item itemvalue=".NET Project.ASA005Test" />
+      <item itemvalue=".NET Project.ASA006Test" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -661,23 +701,6 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/BurkhardtTest/MonteCarloTest/Program.cs</url>
-          <line>28</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\BurkhardtTest\MonteCarloTest\Program.cs" initialLine="28" containingFunctionPresentation="method 'Main'">
-            <startOffsets>
-              <option value="1259" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1280" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="DotNetProject">
         <watch expression="x" />

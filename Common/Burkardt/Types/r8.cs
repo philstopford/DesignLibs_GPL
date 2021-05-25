@@ -571,5 +571,285 @@ namespace Burkardt.Types
 
 			return value;
 		}
+		
+		public static void r8pp_print ( int n, double[] a, string title )
+		//****************************************************************************80
+		//
+		//  Purpose:
+		//
+		//    R8PP_PRINT prints a R8PP matrix.
+		//
+		//  Discussion:
+		//
+		//    The R8PP storage format is appropriate for a symmetric positive
+		//    definite matrix.  Only the upper triangle of the matrix is stored,
+		//    by successive partial columns, in an array of length (N*(N+1))/2,
+		//    which contains (A11,A12,A22,A13,A23,A33,A14,...,ANN)  
+		//
+		//  Licensing:
+		//
+		//    This code is distributed under the GNU LGPL license. 
+		//
+		//  Modified:
+		//
+		//    06 April 2006
+		//
+		//  Author:
+		//
+		//    John Burkardt
+		//
+		//  Parameters:
+		//
+		//    Input, int N, the order of the matrix.
+		//    N must be positive.
+		//
+		//    Input, double A[(N*(N+1))/2], the R8PP matrix.
+		//
+		//    Input, string TITLE, a title.
+		//
+		{
+			r8pp_print_some ( n, a, 1, 1, n, n, title );
+		}
+
+		public static void r8pp_print_some(int n, double[] a, int ilo, int jlo, int ihi,
+				int jhi, string title)
+		//****************************************************************************80
+		//
+		//  Purpose:
+		//
+		//    R8PP_PRINT_SOME prints some of a R8PP matrix.
+		//
+		//  Discussion:
+		//
+		//    The R8PP storage format is appropriate for a symmetric positive
+		//    definite matrix.  Only the upper triangle of the matrix is stored,
+		//    by successive partial columns, in an array of length (N*(N+1))/2,
+		//    which contains (A11,A12,A22,A13,A23,A33,A14,...,ANN)  
+		//
+		//  Licensing:
+		//
+		//    This code is distributed under the GNU LGPL license. 
+		//
+		//  Modified:
+		//
+		//    06 April 2006
+		//
+		//  Author:
+		//
+		//    John Burkardt
+		//
+		//  Parameters:
+		//
+		//    Input, int N, the order of the matrix.
+		//    N must be positive.
+		//
+		//    Input, double A[(N*(N+1))/2], the R8PP matrix.
+		//
+		//    Input, int ILO, JLO, IHI, JHI, designate the first row and
+		//    column, and the last row and column to be printed.
+		//
+		//    Input, string TITLE, a title.
+		//
+		{
+			int INCX = 5;
+			
+			Console.WriteLine("");
+			Console.WriteLine(title + "");
+			//
+			//  Print the columns of the matrix, in strips of 5.
+			//
+			for (int j2lo = jlo; j2lo <= jhi; j2lo = j2lo + INCX)
+			{
+				int j2hi = j2lo + INCX - 1;
+				j2hi = Math.Min(j2hi, n);
+				j2hi = Math.Min(j2hi, jhi);
+
+				Console.WriteLine("");
+				string cout = "  Col: ";
+				int j;
+				for (j = j2lo; j <= j2hi; j++)
+				{
+					cout += j.ToString().PadLeft(7) + "       ";
+				}
+
+				Console.WriteLine(cout);
+				Console.WriteLine("  Row");
+				Console.WriteLine("  ---");
+				//
+				//  Determine the range of the rows in this strip.
+				//
+				int i2lo = Math.Max(ilo, 1);
+				int i2hi = Math.Min(ihi, n);
+
+				for (int i = i2lo; i <= i2hi; i++)
+				{
+					cout = i.ToString().PadLeft(6) + "  ";
+					//
+					//  Print out (up to) 5 entries in row I, that lie in the current strip.
+					//
+					for (j = j2lo; j <= j2hi; j++)
+					{
+						double aij;
+						if (i <= j)
+						{
+							aij = a[i - 1 + (j * (j - 1)) / 2];
+						}
+						else
+						{
+							aij = a[j - 1 + (i * (i - 1)) / 2];
+						}
+
+						cout += aij.ToString().PadLeft(12) + "  ";
+					}
+
+					Console.WriteLine(cout);
+				}
+			}
+		}
+		
+		public static void r8utp_print ( int n, double[] a, string title )
+		//****************************************************************************80
+		//
+		//  Purpose:
+		//
+		//    R8UTP_PRINT prints a R8UTP matrix.
+		//
+		//  Discussion:
+		//
+		//    The R8UTP storage format is appropriate for an upper triangular
+		//    matrix.  Only the upper triangle of the matrix is stored,
+		//    by successive partial columns, in an array of length (N*(N+1))/2,
+		//    which contains (A11,A12,A22,A13,A23,A33,A14,...,ANN)  
+		//
+		//  Licensing:
+		//
+		//    This code is distributed under the GNU LGPL license. 
+		//
+		//  Modified:
+		//
+		//    16 April 2014
+		//
+		//  Author:
+		//
+		//    John Burkardt
+		//
+		//  Parameters:
+		//
+		//    Input, int N, the order of the matrix.
+		//    N must be positive.
+		//
+		//    Input, double A[(N*(N+1))/2], the matrix.
+		//
+		//    Input, string TITLE, a title.
+		//
+	    {
+		    r8utp_print_some(n, a, 1, 1, n, n, title);
+
+		    return;
+	    }
+
+		public static void r8utp_print_some ( int n, double[] a, int ilo, int jlo, int ihi, 
+		  int jhi, string title )
+		//****************************************************************************80
+		//
+		//  Purpose:
+		//
+		//    R8UTP_PRINT_SOME prints some of an R8UTP matrix.
+		//
+		//  Discussion:
+		//
+		//    The R8UTP storage format is appropriate for an upper triangular
+		//    matrix.  Only the upper triangle of the matrix is stored,
+		//    by successive partial columns, in an array of length (N*(N+1))/2,
+		//    which contains (A11,A12,A22,A13,A23,A33,A14,...,ANN)  
+		//
+		//  Licensing:
+		//
+		//    This code is distributed under the GNU LGPL license. 
+		//
+		//  Modified:
+		//
+		//    16 April 2014
+		//
+		//  Author:
+		//
+		//    John Burkardt
+		//
+		//  Parameters:
+		//
+		//    Input, int N, the order of the matrix.
+		//    N must be positive.
+		//
+		//    Input, double A[(N*(N+1))/2], the matrix.
+		//
+		//    Input, int ILO, JLO, IHI, JHI, designate the first row and
+		//    column, and the last row and column to be printed.
+		//
+		//    Input, string TITLE, a title.
+		//
+		{
+			int INCX = 5;
+
+		    double aij;
+		    int i;
+		    int i2hi;
+		    int i2lo;
+		    int j;
+		    int j2hi;
+		    int j2lo;
+
+		    Console.WriteLine("");
+		    Console.WriteLine(title + "");
+			//
+			//  Print the columns of the matrix, in strips of 5.
+			//
+		    for (j2lo = jlo; j2lo <= jhi; j2lo = j2lo + INCX)
+		    {
+			    j2hi = j2lo + INCX - 1;
+			    j2hi = Math.Min(j2hi, n);
+			    j2hi = Math.Min(j2hi, jhi);
+
+			    Console.WriteLine("");
+			   string cout = "  Col: ";
+			    for (j = j2lo; j <= j2hi; j++)
+			    {
+				    cout += j.ToString().PadLeft(7) + "       ";
+			    }
+
+			    Console.WriteLine(cout);
+			    Console.WriteLine("  Row");
+			    Console.WriteLine("  ---");
+				//
+				//  Determine the range of the rows in this strip.
+				//
+			    i2lo = Math.Max(ilo, 1);
+			    i2hi = Math.Min(ihi, n);
+
+			    for (i = i2lo; i <= i2hi; i++)
+			    {
+				    cout = i.ToString().PadLeft(6) + "  ";
+					//
+					//  Print out (up to) 5 entries in row I, that lie in the current strip.
+					//
+				    for (j = j2lo; j <= j2hi; j++)
+				    {
+					    if (i <= j)
+					    {
+						    aij = a[i - 1 + (j * (j - 1)) / 2];
+					    }
+					    else
+					    {
+						    aij = 0.0;
+					    }
+
+					    cout += aij.ToString().PadLeft(12) + "  ";
+				    }
+
+				    Console.WriteLine(cout);
+			    }
+		    }
+	    }
+
+
     }
 }

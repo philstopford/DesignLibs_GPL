@@ -175,6 +175,43 @@ namespace Burkardt.Table
 
     public static partial class TableMisc
     {
+        
+        public static void r8mat_transpose_print ( int m, int n, double[] a, string title )
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8MAT_TRANSPOSE_PRINT prints an R8MAT, transposed.
+        //
+        //  Discussion:
+        //
+        //    An R8MAT is a doubly dimensioned array of R8 values, stored as a vector
+        //    in column-major order.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    10 September 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int M, N, the number of rows and columns.
+        //
+        //    Input, double A[M*N], an M by N matrix to be printed.
+        //
+        //    Input, string TITLE, a title.
+        //
+        {
+            r8mat_transpose_print_some ( m, n, a, 1, 1, m, n, title );
+        }
+        
         public static void r8mat_transpose_print_some ( int m, int n, double[] a, int ilo, int jlo,
         int ihi, int jhi, string title )
 

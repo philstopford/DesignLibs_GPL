@@ -22,6 +22,7 @@
     <projectFile>BurkhardtTest/BlendTest/BlendTest.csproj</projectFile>
     <projectFile>BurkhardtTest/LatinCenter/LatinCenter.csproj</projectFile>
     <projectFile>BurkhardtTest/LatinEdgeTest/LatinEdgeTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/LatinCoverTest/LatinCoverTest.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="" />
@@ -48,8 +49,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/SobolConfig.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/SobolDataLarge.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/SobolConfigLarge.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Blend.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/BlendTest/Program.cs" />
@@ -83,7 +82,6 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/strings.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Table/TableMisc.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Latinize.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/i4.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Table/TableMisc_i4.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Table/TableMisc_r4.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r4.cs" />
@@ -92,13 +90,16 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/UniformRNG.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/IHS.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/SobolTest/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/misc.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Latin.Center.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/LatinCenter.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/LatinEdge.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/LatinCenterTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/LatinVariants/LatinEdge.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/LatinEdgeTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/i4.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/misc.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/LatinVariants/LatinCover.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/LatinCoverTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -107,14 +108,14 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.27651006" />
+    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.2767066" />
     <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.0" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunManager" selected=".NET Project.LatinEdgeTest">
+  <component name="RunManager" selected=".NET Project.LatinCoverTest">
     <configuration name="BlendTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -219,6 +220,24 @@
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
       <option name="PROJECT_TFM" value="net5.0" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="LatinCoverTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/LatinCoverTest/LatinCoverTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
       <method v="2">
         <option name="Build" />
       </method>
@@ -515,6 +534,7 @@
       <item itemvalue=".NET Project.TestEtoViewport.WinForms" />
       <item itemvalue=".NET Project.TestEtoViewport.Wpf" />
       <item itemvalue=".NET Project.LatinEdgeTest" />
+      <item itemvalue=".NET Project.LatinCoverTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -526,7 +546,7 @@
       <option name="presentableId" value="Default" />
       <updated>1621736685910</updated>
       <workItem from="1621736700444" duration="3642000" />
-      <workItem from="1621900695362" duration="1028000" />
+      <workItem from="1621900695362" duration="4048000" />
     </task>
     <servers />
   </component>

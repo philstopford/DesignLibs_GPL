@@ -52,7 +52,7 @@
             long isgn = 1;
             int i = 0;
 
-            for ( ; ; )
+            while ( i < s.Length )
             {
                 char c = s[i];
                 i = i + 1;

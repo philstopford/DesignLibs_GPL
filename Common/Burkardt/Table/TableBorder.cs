@@ -2,7 +2,7 @@
 {
     public class TableBorder
     {
-        static int[] i4mat_border_add ( int m, int n, int[] table )
+        public static int[] i4mat_border_add ( int m, int n, int[] table )
 
         //****************************************************************************80
         //
@@ -74,7 +74,7 @@
         }
 
         
-       static  int[] i4mat_border_cut ( int m, int n, int[] table )
+        public static  int[] i4mat_border_cut ( int m, int n, int[] table )
         //****************************************************************************80
         //
         //  Purpose:

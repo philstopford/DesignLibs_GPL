@@ -58,7 +58,7 @@ namespace Burkardt.Types
             isgn = 1;
             i = 0;
 
-            for ( ; ; )
+            while  ( i < s.Length )
             {
                 c = s[i];
                 i = i + 1;

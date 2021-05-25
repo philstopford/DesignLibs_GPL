@@ -69,7 +69,7 @@ namespace Burkardt.Table
     
     public static partial class TableReader
     {
-        public static TableHeader i4mat_header_read ( string input_filename, int m, int n )
+        public static TableHeader i4mat_header_read ( string input_filename )
             //****************************************************************************80
             //
             //  Purpose:
@@ -412,7 +412,7 @@ namespace Burkardt.Table
             i4mat_print_some ( m, n, a, 1, 1, m, n, title );
         }
 
-        static void i4mat_print_some ( int m, int n, int[] a, int ilo, int jlo, int ihi,
+        public static void i4mat_print_some ( int m, int n, int[] a, int ilo, int jlo, int ihi,
         int jhi, string title )
         //****************************************************************************80
         //
@@ -453,21 +453,15 @@ namespace Burkardt.Table
         {
             int INCX = 10;
 
-            int i;
-            int i2hi;
-            int i2lo;
-            int j;
-            int j2hi;
-            int j2lo;
 
             Console.WriteLine();
             Console.WriteLine(title);
             //
             //  Print the columns of the matrix, in strips of INCX.
             //
-            for ( j2lo = jlo; j2lo <= jhi; j2lo = j2lo + INCX )
+            for (int j2lo = jlo; j2lo <= jhi; j2lo = j2lo + INCX )
             {
-                j2hi = j2lo + INCX - 1;
+                int j2hi = j2lo + INCX - 1;
                 if ( n < j2hi )
                 {
                     j2hi = n;
@@ -484,7 +478,7 @@ namespace Burkardt.Table
                 //  Write the header.
                 //
                 string cout = "  Col: ";
-                for ( j = j2lo; j <= j2hi; j++ )
+                for (int j = j2lo; j <= j2hi; j++ )
                 {
                     cout += j.ToString().PadLeft(6) + "  ";
                 }
@@ -494,6 +488,7 @@ namespace Burkardt.Table
                 //
                 //  Determine the range of the rows in this strip.
                 //
+                int i2lo;
                 if ( 1 < ilo )
                 {
                     i2lo = 1;
@@ -502,6 +497,8 @@ namespace Burkardt.Table
                 {
                     i2lo = ilo;
                 }
+
+                int i2hi;
                 if ( ihi < m )
                 {
                     i2hi = ihi;
@@ -511,20 +508,75 @@ namespace Burkardt.Table
                     i2hi = m;
                 }
 
-                cout = "";
-                for ( i = i2lo; i <= i2hi; i++ )
+                for (int i = i2lo; i <= i2hi; i++ )
                 {
                     //
                     //  Print out (up to INCX) entries in row I, that lie in the current strip.
                     //
-                    cout += i.ToString().PadLeft(5) + "  ";
-                    for ( j = j2lo; j <= j2hi; j++ )
+                    cout = i.ToString().PadLeft(5) + "  ";
+                    for (int j = j2lo; j <= j2hi; j++ )
                     {
                         cout += a[i-1+(j-1)*m].ToString().PadLeft(6) + "  ";
                     }
                     Console.WriteLine(cout);
                 }
             }
+        }
+        
+        
+        public static int[] i4mat_indicator_new ( int m, int n )
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    I4MAT_INDICATOR_NEW sets up an "indicator" I4MAT.
+        //
+        //  Discussion:
+        //
+        //    An I4MAT is an array of I4's.
+        //
+        //    The value of each entry suggests its location, as in:
+        //
+        //      11  12  13  14
+        //      21  22  23  24
+        //      31  32  33  34
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    25 January 2005
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int M, the number of rows of the matrix.
+        //    M must be positive.
+        //
+        //    Input, int N, the number of columns of the matrix.
+        //    N must be positive.
+        //
+        //    Output, int I4MAT_INDICATOR_NEW[M*N], the indicator matrix.
+        //
+        {
+            int[] table = new int[m*n];
+
+            int fac = ( int ) Math.Pow ( 10.0, Math.Floor( Math.Log10 ( n ) + 1 ) );
+
+            for (int i = 1; i <= m; i++ )
+            {
+                for (int j = 1; j <= n; j++ )
+                {
+                    table[i-1+(j-1)*m] = fac * i + j;
+                }
+            }
+
+            return table;
         }
     }
 }

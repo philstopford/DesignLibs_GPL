@@ -2,7 +2,7 @@
 using Burkardt.AppliedStatistics;
 using Burkardt.Table;
 
-namespace ASA082Test
+namespace Burkardt.ASA082Test
 {
     class Program
     {

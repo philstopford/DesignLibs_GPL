@@ -375,5 +375,58 @@ namespace Burkardt.Types
             }
         }
         
+        public static int i4vec_sum ( int n, int[] a )
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    I4VEC_SUM sums the entries of an I4VEC.
+        //
+        //  Discussion:
+        //
+        //    An I4VEC is a vector of I4's.
+        //
+        //  Example:
+        //
+        //    Input:
+        //
+        //      A = ( 1, 2, 3, 4 )
+        //
+        //    Output:
+        //
+        //      I4VEC_SUM = 10
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    26 May 1999
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number of entries in the vector.
+        //
+        //    Input, int A[N], the vector to be summed.
+        //
+        //    Output, int I4VEC_SUM, the sum of the entries of A.
+        //
+        {
+            int i;
+
+            int sum = 0;
+            for ( i = 0; i < n; i++ )
+            {
+                sum = sum + a[i];
+            }
+
+            return sum;
+        }
+        
     }
 }

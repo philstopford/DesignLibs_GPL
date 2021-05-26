@@ -31,7 +31,6 @@ namespace Burkardt.ASA091Test
         {
             Console.WriteLine("");
             Console.WriteLine("ASA091_TEST:");
-            Console.WriteLine("  C++ version");
             Console.WriteLine("  Test the ASA091 library.");
 
             test01();

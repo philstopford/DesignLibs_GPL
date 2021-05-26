@@ -333,7 +333,47 @@ namespace Burkardt.Types
             }
         }
         
-        
+        public static void i4vec_print ( int n, int[] a, string title )
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    I4VEC_PRINT prints an I4VEC.
+        //
+        //  Discussion:
+        //
+        //    An I4VEC is a vector of I4's.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    14 November 2003
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number of components of the vector.
+        //
+        //    Input, int A[N], the vector to be printed.
+        //
+        //    Input, string TITLE, a title.
+        //
+        {
+            Console.WriteLine("");
+            Console.WriteLine(title);
+            Console.WriteLine("");
+            for (int i = 0; i < n; i++ )
+            {
+                Console.WriteLine("  " + i.ToString().PadLeft(8)
+                    + ": " + a[i].ToString().PadLeft(8)  + "");
+            }
+        }
         
     }
 }

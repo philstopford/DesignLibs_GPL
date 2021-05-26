@@ -5,6 +5,35 @@ namespace Burkardt.AppliedStatistics
 {
     public static partial class Algorithms
     {
+        public static double alnfac ( int n )
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    ALNFAC computes the logarithm of the factorial of N.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    27 January 2008
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the argument of the factorial.
+        //
+        //    Output, double ALNFAC, the logarithm of the factorial of N.
+        //
+        {
+            return Helpers.LogGamma ( ( double ) ( n + 1 ) );
+        }
+        
         public static double alnorm ( double x, bool upper )
         //****************************************************************************80
         //

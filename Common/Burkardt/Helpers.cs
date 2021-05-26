@@ -1,9 +1,41 @@
 ﻿using System;
+using System.IO;
+using Burkardt.Types;
 
 namespace Burkardt
 {
     public static class Helpers
     {
+        public static double[] getExampleDoubleData()
+        {
+            string[] lines;
+
+            int n = 2;
+            int m = 100;
+            double[] a = new double [m*n];
+            
+            try
+            {
+                lines = File.ReadAllLines("points_100.txt");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Could not open points_100.txt");
+                throw;
+            }
+            
+            for (int i = 1; i <= m; i++)
+            {
+                r8vec values = typeMethods.s_to_r8vec(lines[i - 1], n);
+                for (int j = 1; j <= n; j++)
+                {
+                    a[i - 1 + (j - 1) * m] = values.rvec[j - 1];
+                }
+            }
+
+            return a;
+        }
+        
         public static double Gamma
         (
             double x    // We require x > 0

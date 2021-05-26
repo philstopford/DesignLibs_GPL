@@ -78,31 +78,13 @@ namespace Burkardt.ASA113Test
             Console.WriteLine("");
             Console.WriteLine("TEST01");
             Console.WriteLine("  Test the ASA113 classification algorithm.");
+            
+            /*
             //
             //  Read the data.
-            //
-
-            string[] lines;
-
-            try
-            {
-                lines = File.ReadAllLines("points_100.txt");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Could not open points_100.txt");
-                throw;
-            }
+            */
+            a = Helpers.getExampleDoubleData();
             
-            for (int i = 1; i <= m; i++)
-            {
-                r8vec values = typeMethods.s_to_r8vec(lines[i - 1], n);
-                for (int j = 1; j <= n; j++)
-                {
-                    a[i - 1 + (j - 1) * m] = values.rvec[j - 1];
-                }
-            }
-
             //
             //  Print a few data values.
             //

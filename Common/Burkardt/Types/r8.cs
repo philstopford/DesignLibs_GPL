@@ -850,6 +850,43 @@ namespace Burkardt.Types
 		    }
 	    }
 
+		public static double r8_huge ( )
+		//****************************************************************************80
+		//
+		//  Purpose:
+		//
+		//    R8_HUGE returns a "huge" R8.
+		//
+		//  Discussion:
+		//
+		//    The value returned by this function is NOT required to be the
+		//    maximum representable R8.  This value varies from machine to machine,
+		//    from compiler to compiler, and may cause problems when being printed.
+		//    We simply want a "very large" but non-infinite number.
+		//
+		//  Licensing:
+		//
+		//    This code is distributed under the GNU LGPL license. 
+		//
+		//  Modified:
+		//
+		//    06 October 2007
+		//
+		//  Author:
+		//
+		//    John Burkardt
+		//
+		//  Parameters:
+		//
+		//    Output, double R8_HUGE, a "huge" R8 value.
+		//
+		{
+			double value;
 
+			value = 1.0E+30;
+
+			return value;
+		}
+		
     }
 }

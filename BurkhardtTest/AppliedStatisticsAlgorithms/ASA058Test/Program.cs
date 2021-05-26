@@ -85,35 +85,12 @@ namespace Burkardt.ASA058Test
             Console.WriteLine("TEST01");
             Console.WriteLine("  Test the CLUSTR algorithm.");
             Console.WriteLine("  Applied Statistics Algorithm 58");
+            /*
             //
             //  Read the data.
-            //
-            Console.WriteLine("");
-            Console.WriteLine("  Reading the data.");
+            */
+            x = Helpers.getExampleDoubleData();
 
-            string[] lines;
-
-            try
-            {
-                lines = File.ReadAllLines(input_filename);
-
-            }
-            catch ( Exception )
-            {
-                Console.WriteLine("");
-                Console.WriteLine("TEST01 - Fatal error!");
-                Console.WriteLine("  Could not open the input file: \"" + input_filename + "\"");
-                throw;
-            }
-            
-            for (i = 1; i <= N; i++)
-            {
-                float[] tmp = typeMethods.s_to_r4vec(lines[i - 1], 2).rvec;
-                for (j = 1; j <= M; j++)
-                {
-                    x[i - 1 + (j - 1) * N] = tmp[j - 1];
-                }
-            }
             //
             //  Print a few data values.
             //

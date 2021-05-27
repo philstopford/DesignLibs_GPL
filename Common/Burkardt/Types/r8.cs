@@ -1039,115 +1039,116 @@ namespace Burkardt.Types
 		}
 
 
-		public static double[] r8mat_mv_new ( int m, int n, double[] a, double[] x )
-		//****************************************************************************80
-		//
-		//  Purpose:
-		//
-		//    R8MAT_MV_NEW multiplies a matrix times a vector.
-		//
-		//  Discussion:
-		//
-		//    An R8MAT is a doubly dimensioned array of R8 values, stored as a vector
-		//    in column-major order.
-		//
-		//    For this routine, the result is returned as the function value.
-		//
-		//  Licensing:
-		//
-		//    This code is distributed under the GNU LGPL license.
-		//
-		//  Modified:
-		//
-		//    11 April 2007
-		//
-		//  Author:
-		//
-		//    John Burkardt
-		//
-		//  Parameters:
-		//
-		//    Input, int M, N, the number of rows and columns of the matrix.
-		//
-		//    Input, double A[M,N], the M by N matrix.
-		//
-		//    Input, double X[N], the vector to be multiplied by A.
-		//
-		//    Output, double R8MAT_MV_NEW[M], the product A*X.
-		//
+		public static double[] r8mat_mv_new(int m, int n, double[] a, double[] x)
+			//****************************************************************************80
+			//
+			//  Purpose:
+			//
+			//    R8MAT_MV_NEW multiplies a matrix times a vector.
+			//
+			//  Discussion:
+			//
+			//    An R8MAT is a doubly dimensioned array of R8 values, stored as a vector
+			//    in column-major order.
+			//
+			//    For this routine, the result is returned as the function value.
+			//
+			//  Licensing:
+			//
+			//    This code is distributed under the GNU LGPL license.
+			//
+			//  Modified:
+			//
+			//    11 April 2007
+			//
+			//  Author:
+			//
+			//    John Burkardt
+			//
+			//  Parameters:
+			//
+			//    Input, int M, N, the number of rows and columns of the matrix.
+			//
+			//    Input, double A[M,N], the M by N matrix.
+			//
+			//    Input, double X[N], the vector to be multiplied by A.
+			//
+			//    Output, double R8MAT_MV_NEW[M], the product A*X.
+			//
 		{
 			int i;
 			int j;
 			double[] y = new double[m];
 
-			for ( i = 0; i < m; i++ )
+			for (i = 0; i < m; i++)
 			{
 				y[i] = 0.0;
-				for ( j = 0; j < n; j++ )
+				for (j = 0; j < n; j++)
 				{
-					y[i] = y[i] + a[i+j*m] * x[j];
+					y[i] = y[i] + a[i + j * m] * x[j];
 				}
 			}
 
 			return y;
 		}
 
-		public static double[] r8col_variance ( int m, int n, double[] a )
-		//****************************************************************************80
-		//
-		//  Purpose:
-		//
-		//    R8COL_VARIANCE returns the variances of an R8COL.
-		//
-		//  Discussion:
-		//
-		//    An R8COL is an M by N array of R8's, regarded as an array of N columns,
-		//    each of length M.
-		//
-		//  Licensing:
-		//
-		//    This code is distributed under the GNU LGPL license.
-		//
-		//  Modified:
-		//
-		//    13 September 2005
-		//
-		//  Author:
-		//
-		//    John Burkardt
-		//
-		//  Parameters:
-		//
-		//    Input, int M, N, the number of rows and columns in the array.
-		//
-		//    Input, double A[M*N], the array whose variances are desired.
-		//
-		//    Output, double R8COL_VARIANCE[N], the variances of the rows.
-		//
+		public static double[] r8col_variance(int m, int n, double[] a)
+			//****************************************************************************80
+			//
+			//  Purpose:
+			//
+			//    R8COL_VARIANCE returns the variances of an R8COL.
+			//
+			//  Discussion:
+			//
+			//    An R8COL is an M by N array of R8's, regarded as an array of N columns,
+			//    each of length M.
+			//
+			//  Licensing:
+			//
+			//    This code is distributed under the GNU LGPL license.
+			//
+			//  Modified:
+			//
+			//    13 September 2005
+			//
+			//  Author:
+			//
+			//    John Burkardt
+			//
+			//  Parameters:
+			//
+			//    Input, int M, N, the number of rows and columns in the array.
+			//
+			//    Input, double A[M*N], the array whose variances are desired.
+			//
+			//    Output, double R8COL_VARIANCE[N], the variances of the rows.
+			//
 		{
 			int i;
 			int j;
 			double mean;
 			double[] variance = new double[n];
 
-			for ( j = 0; j < n; j++ )
+			for (j = 0; j < n; j++)
 			{
 				mean = 0.0;
-				for ( i = 0; i < m; i++ )
+				for (i = 0; i < m; i++)
 				{
-					mean = mean + a[i+j*m];
+					mean = mean + a[i + j * m];
 				}
-				mean = mean / ( double ) ( m );
+
+				mean = mean / (double) (m);
 
 				variance[j] = 0.0;
-				for ( i = 0; i < m; i++ )
+				for (i = 0; i < m; i++)
 				{
-					variance[j] = variance[j] + Math.Pow ( a[i+j*m] - mean, 2 );
+					variance[j] = variance[j] + Math.Pow(a[i + j * m] - mean, 2);
 				}
 
-				if ( 1 < m )
+				if (1 < m)
 				{
-					variance[j] = variance[j] / ( double ) ( m - 1 );
+					variance[j] = variance[j] / (double) (m - 1);
 				}
 				else
 				{
@@ -1158,65 +1159,216 @@ namespace Burkardt.Types
 			return variance;
 		}
 
-		public static double[] r8col_mean ( int m, int n, double[] a )
-		//****************************************************************************80
-		//
-		//  Purpose:
-		//
-		//    R8COL_MEAN returns the column means of an R8COL.
-		//
-		//  Discussion:
-		//
-		//    An R8COL is an M by N array of R8's, regarded as an array of N columns,
-		//    each of length M.
-		//
-		//  Example:
-		//
-		//    A =
-		//      1  2  3
-		//      2  6  7
-		//
-		//    R8COL_MEAN =
-		//      1.5  4.0  5.0
-		//
-		//  Licensing:
-		//
-		//    This code is distributed under the GNU LGPL license.
-		//
-		//  Modified:
-		//
-		//    13 September 2005
-		//
-		//  Author:
-		//
-		//    John Burkardt
-		//
-		//  Parameters:
-		//
-		//    Input, int M, N, the number of rows and columns.
-		//
-		//    Input, double A[M*N], the array to be examined.
-		//
-		//    Output, double R8COL_MEAN[N], the means, or averages, of the columns.
-		//
+		public static double[] r8col_mean(int m, int n, double[] a)
+			//****************************************************************************80
+			//
+			//  Purpose:
+			//
+			//    R8COL_MEAN returns the column means of an R8COL.
+			//
+			//  Discussion:
+			//
+			//    An R8COL is an M by N array of R8's, regarded as an array of N columns,
+			//    each of length M.
+			//
+			//  Example:
+			//
+			//    A =
+			//      1  2  3
+			//      2  6  7
+			//
+			//    R8COL_MEAN =
+			//      1.5  4.0  5.0
+			//
+			//  Licensing:
+			//
+			//    This code is distributed under the GNU LGPL license.
+			//
+			//  Modified:
+			//
+			//    13 September 2005
+			//
+			//  Author:
+			//
+			//    John Burkardt
+			//
+			//  Parameters:
+			//
+			//    Input, int M, N, the number of rows and columns.
+			//
+			//    Input, double A[M*N], the array to be examined.
+			//
+			//    Output, double R8COL_MEAN[N], the means, or averages, of the columns.
+			//
 		{
 			int i;
 			int j;
 			double[] mean = new double[n];
 
-			for ( j = 0; j < n; j++ )
+			for (j = 0; j < n; j++)
 			{
 				mean[j] = 0.0;
-				for ( i = 0; i < m; i++ )
+				for (i = 0; i < m; i++)
 				{
-					mean[j] = mean[j] + a[i+j*m];
+					mean[j] = mean[j] + a[i + j * m];
 				}
-				mean[j] = mean[j] / ( double ) ( m );
+
+				mean[j] = mean[j] / (double) (m);
 			}
 
 			return mean;
 		}
 
-		
+		public static double r8_zeta(double p)
+//****************************************************************************80
+//
+//  Purpose:
+//
+//    R8_ZETA estimates the Riemann Zeta function.
+//
+//  Discussion:
+//
+//    For 1 < P, the Riemann Zeta function is defined as:
+//
+//      ZETA ( P ) = Sum ( 1 <= N < oo ) 1 / N^P
+//
+//  Licensing:
+//
+//    This code is distributed under the GNU LGPL license.
+//
+//  Modified:
+//
+//    14 October 2004
+//
+//  Author:
+//
+//    John Burkardt
+//
+//  Reference:
+//
+//    Daniel Zwillinger, editor,
+//    CRC Standard Mathematical Tables and Formulae,
+//    30th Edition,
+//    CRC Press, 1996.
+//
+//  Parameters:
+//
+//    Input, double P, the power to which the integers are raised.
+//    P must be greater than 1.  For integral P up to 20, a
+//    precomputed value is returned; otherwise the infinite
+//    sum is approximated.
+//
+//    Output, double R8_ZETA, an approximation to the Riemann
+//    Zeta function.
+//
+		{
+			int n;
+			const double r8_huge = 1.0E+30;
+			const double r8_pi = 3.14159265358979323;
+			double value;
+			double zsum;
+			double zsum_old;
+
+			if (p <= 1.0)
+			{
+				value = r8_huge;
+			}
+			else if (p == 2.0)
+			{
+				value = Math.Pow(r8_pi, 2) / 6.0;
+			}
+			else if (p == 3.0)
+			{
+				value = 1.2020569032;
+			}
+			else if (p == 4.0)
+			{
+				value = Math.Pow(r8_pi, 4) / 90.0;
+			}
+			else if (p == 5.0)
+			{
+				value = 1.0369277551;
+			}
+			else if (p == 6.0)
+			{
+				value = Math.Pow(r8_pi, 6) / 945.0;
+			}
+			else if (p == 7.0)
+			{
+				value = 1.0083492774;
+			}
+			else if (p == 8.0)
+			{
+				value = Math.Pow(r8_pi, 8) / 9450.0;
+			}
+			else if (p == 9.0)
+			{
+				value = 1.0020083928;
+			}
+			else if (p == 10.0)
+			{
+				value = Math.Pow(r8_pi, 10) / 93555.0;
+			}
+			else if (p == 11.0)
+			{
+				value = 1.0004941886;
+			}
+			else if (p == 12.0)
+			{
+				value = 1.0002460866;
+			}
+			else if (p == 13.0)
+			{
+				value = 1.0001227133;
+			}
+			else if (p == 14.0)
+			{
+				value = 1.0000612482;
+			}
+			else if (p == 15.0)
+			{
+				value = 1.0000305882;
+			}
+			else if (p == 16.0)
+			{
+				value = 1.0000152823;
+			}
+			else if (p == 17.0)
+			{
+				value = 1.0000076372;
+			}
+			else if (p == 18.0)
+			{
+				value = 1.0000038173;
+			}
+			else if (p == 19.0)
+			{
+				value = 1.0000019082;
+			}
+			else if (p == 20.0)
+			{
+				value = 1.0000009540;
+			}
+			else
+			{
+				zsum = 0.0;
+				n = 0;
+
+				for (;;)
+				{
+					n = n + 1;
+					zsum_old = zsum;
+					zsum = zsum + 1.0 / Math.Pow((double) n, p);
+					if (zsum <= zsum_old)
+					{
+						break;
+					}
+				}
+
+				value = zsum;
+			}
+
+			return value;
+		}
 	}
 }

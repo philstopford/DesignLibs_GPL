@@ -59,6 +59,7 @@
     <projectFile>BurkhardtTest/AppliedStatisticsAlgorithms/ASA299Test/ASA299Test.csproj</projectFile>
     <projectFile>BurkhardtTest/AppliedStatisticsAlgorithms/ASA310Test/ASA310Test.csproj</projectFile>
     <projectFile>BurkhardtTest/AppliedStatisticsAlgorithms/ASA314Test/ASA314Test.csproj</projectFile>
+    <projectFile>BurkhardtTest/ProbabilityTest/ProbabilityTest.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="" />
@@ -87,14 +88,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA109Test/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/ASA111.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA111Test/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/ASA113.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/AS121.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA121Test/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Helpers.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA113Test/Program.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA058Test/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/ASA136.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA136Test/Program.cs" />
@@ -103,7 +96,6 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA147Test/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/ASA152.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA152Test/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/i4.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA159Test/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/ASA159.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/ASA172.cs" />
@@ -129,7 +121,6 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/ASA121.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/General.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/UniformRNG_r8.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/ASA266.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA266Test/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/ASA299.cs" />
@@ -138,6 +129,16 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA310Test/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/ASA314.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA314Test/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Zipf.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Misc.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Angle.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Anglit.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Arcsin.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/i4.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Benford.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Bernoulli.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -982,6 +983,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="ProbabilityTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/ProbabilityTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="SobolTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -1295,6 +1314,7 @@
       <item itemvalue=".NET Project.ASA299Test" />
       <item itemvalue=".NET Project.ASA310Test" />
       <item itemvalue=".NET Project.ASA314Test" />
+      <item itemvalue=".NET Project.ProbabilityTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

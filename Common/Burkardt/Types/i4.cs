@@ -428,5 +428,58 @@ namespace Burkardt.Types
             return sum;
         }
         
+        public static bool i4_is_power_of_10 ( int n )
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    I4_IS_POWER_OF_10 reports whether an I4 is a power of 10.
+        //
+        //  Discussion:
+        //
+        //    The powers of 10 are 1, 10, 100, 1000, 10000, and so on.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    03 March 2016
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the integer to be tested.
+        //
+        //    Output, bool I4_IS_POWER_OF_10, is TRUE if N is a power of 10.
+        //
+        {
+            bool value;
+
+            if ( n <= 0 )
+            {
+                value = false;
+                return value;
+            }
+
+            while ( 1 < n )
+            {
+                if ( ( n % 10 ) != 0 )
+                {
+                    value = false;
+                    return value;
+                }
+                n = n / 10;
+            }
+
+            value = true;
+
+            return value;
+        }
+        
     }
 }

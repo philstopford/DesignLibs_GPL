@@ -419,6 +419,39 @@ namespace Burkardt.Types
 
             return value;
         }
-        
+ 
+        public static float r4_huge ( )
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R4_HUGE returns a "huge" R4.
+        //
+        //  Discussion:
+        //
+        //    The value returned by this function is NOT required to be the
+        //    maximum representable R4.  This value varies from machine to machine,
+        //    from compiler to compiler, and may cause problems when being printed.
+        //    We simply want a "very large" but non-infinite number.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    14 February 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Output, float R4_HUGE, a "huge" R4 value.
+        //
+        {
+            return 1.0E+30f;
+        }
     }
 }

@@ -453,5 +453,58 @@ namespace Burkardt.Types
         {
             return 1.0E+30f;
         }
+        
+        public static float r4poly_value(int n, float[] a, float x )
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R4POLY_VALUE evaluates a real polynomial.
+        //
+        //  Discussion:
+        //
+        //    For sanity's sake, the value of N indicates the NUMBER of 
+        //    coefficients, or more precisely, the ORDER of the polynomial,
+        //    rather than the DEGREE of the polynomial.  The two quantities
+        //    differ by 1, but cause a great deal of confusion.
+        //
+        //    Given N and A, the form of the polynomial is:
+        //
+        //      p(x) = a[0] + a[1] * x + ... + a[n-2] * x^(n-2) + a[n-1] * x^(n-1)
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    13 August 2004
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order of the polynomial.
+        //
+        //    Input, float A[N], the coefficients of the polynomial.
+        //    A[0] is the constant term.
+        //
+        //    Input, float X, the point at which the polynomial is to be evaluated.
+        //
+        //    Output, float R4POLY_VALUE, the value of the polynomial at X.
+        //
+        {
+            float value = 0.0f;
+
+            for (int i = n - 1; 0 <= i; i--)
+            {
+                value = value * x + a[i];
+            }
+
+            return value;
+        }
+
     }
 }

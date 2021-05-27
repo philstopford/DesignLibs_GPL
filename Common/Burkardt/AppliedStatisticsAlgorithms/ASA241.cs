@@ -115,7 +115,7 @@ namespace Burkardt.AppliedStatistics
             if (Math.Abs(q) <= split1)
             {
                 r = const1 - q * q;
-                value = q * r8poly_value(8, a, r) / r8poly_value(8, b, r);
+                value = q * typeMethods.r8poly_value(8, a, r) / typeMethods.r8poly_value(8, b, r);
             }
             else
             {
@@ -139,12 +139,12 @@ namespace Burkardt.AppliedStatistics
                 if (r <= split2)
                 {
                     r = r - const2;
-                    value = r8poly_value(8, c, r) / r8poly_value(8, d, r);
+                    value = typeMethods.r8poly_value(8, c, r) / typeMethods.r8poly_value(8, d, r);
                 }
                 else
                 {
                     r = r - split2;
-                    value = r8poly_value(8, e, r) / r8poly_value(8, f, r);
+                    value = typeMethods.r8poly_value(8, e, r) / typeMethods.r8poly_value(8, f, r);
                 }
 
                 if (q < 0.0)
@@ -157,60 +157,6 @@ namespace Burkardt.AppliedStatistics
             return value;
         }
 
-        public static double r8poly_value ( int n, double[] a, double x )
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    R8POLY_VALUE evaluates a double precision polynomial.
-        //
-        //  Discussion:
-        //
-        //    For sanity's sake, the value of N indicates the NUMBER of 
-        //    coefficients, or more precisely, the ORDER of the polynomial,
-        //    rather than the DEGREE of the polynomial.  The two quantities
-        //    differ by 1, but cause a great deal of confusion.
-        //
-        //    Given N and A, the form of the polynomial is:
-        //
-        //      p(x) = a[0] + a[1] * x + ... + a[n-2] * x^(n-2) + a[n-1] * x^(n-1)
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license. 
-        //
-        //  Modified:
-        //
-        //    13 August 2004
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int N, the order of the polynomial.
-        //
-        //    Input, double A[N], the coefficients of the polynomial.
-        //    A[0] is the constant term.
-        //
-        //    Input, double X, the point at which the polynomial is to be evaluated.
-        //
-        //    Output, double R8POLY_VALUE, the value of the polynomial at X.
-        //
-        {
-            int i;
-            double value;
-
-            value = 0.0;
-
-            for (i = n - 1; 0 <= i; i--)
-            {
-                value = value * x + a[i];
-            }
-
-            return value;
-        }
 
 
         public static float r4_normal_01_cdf_inverse(float p)
@@ -298,7 +244,7 @@ namespace Burkardt.AppliedStatistics
             if (Math.Abs(q) <= split1)
             {
                 r = const1 - q * q;
-                value = q * r4poly_value(4, a, r) / r4poly_value(4, b, r);
+                value = q * typeMethods.r4poly_value(4, a, r) / typeMethods.r4poly_value(4, b, r);
             }
             else
             {
@@ -322,12 +268,12 @@ namespace Burkardt.AppliedStatistics
                 if (r <= split2)
                 {
                     r = r - const2;
-                    value = r4poly_value(4, c, r) / r4poly_value(3, d, r);
+                    value = typeMethods.r4poly_value(4, c, r) / typeMethods.r4poly_value(3, d, r);
                 }
                 else
                 {
                     r = r - split2;
-                    value = r4poly_value(4, e, r) / r4poly_value(3, f, r);
+                    value = typeMethods.r4poly_value(4, e, r) / typeMethods.r4poly_value(3, f, r);
                 }
 
                 if (q < 0.0)
@@ -340,56 +286,5 @@ namespace Burkardt.AppliedStatistics
             return value;
         }
 
-        static float r4poly_value(int n, float[] a, float x )
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    R4POLY_VALUE evaluates a real polynomial.
-        //
-        //  Discussion:
-        //
-        //    For sanity's sake, the value of N indicates the NUMBER of 
-        //    coefficients, or more precisely, the ORDER of the polynomial,
-        //    rather than the DEGREE of the polynomial.  The two quantities
-        //    differ by 1, but cause a great deal of confusion.
-        //
-        //    Given N and A, the form of the polynomial is:
-        //
-        //      p(x) = a[0] + a[1] * x + ... + a[n-2] * x^(n-2) + a[n-1] * x^(n-1)
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license. 
-        //
-        //  Modified:
-        //
-        //    13 August 2004
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int N, the order of the polynomial.
-        //
-        //    Input, float A[N], the coefficients of the polynomial.
-        //    A[0] is the constant term.
-        //
-        //    Input, float X, the point at which the polynomial is to be evaluated.
-        //
-        //    Output, float R4POLY_VALUE, the value of the polynomial at X.
-        //
-        {
-            float value = 0.0f;
-
-            for (int i = n - 1; 0 <= i; i--)
-            {
-                value = value * x + a[i];
-            }
-
-            return value;
-        }
     }
 }

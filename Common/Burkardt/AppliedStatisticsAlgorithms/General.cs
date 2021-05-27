@@ -762,6 +762,159 @@ namespace Burkardt.AppliedStatistics
 
         }
 
+        public static double betain(double x, double p, double q, double beta, ref int ifault)
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    BETAIN computes the incomplete Beta function ratio.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    23 January 2008
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by KL Majumder, GP Bhattacharjee.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    KL Majumder, GP Bhattacharjee,
+        //    Algorithm AS 63:
+        //    The incomplete Beta Integral,
+        //    Applied Statistics,
+        //    Volume 22, Number 3, 1973, pages 409-411.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument, between 0 and 1.
+        //
+        //    Input, double P, Q, the parameters, which
+        //    must be positive.
+        //
+        //    Input, double BETA, the logarithm of the complete
+        //    beta function.
+        //
+        //    Output, int &IFAULT, error flag.
+        //    0, no error.
+        //    nonzero, an error occurred.
+        //
+        //    Output, double BETAIN, the value of the incomplete
+        //    Beta function ratio.
+        //
+        {
+            double acu = 0.1E-14;
+            bool indx;
+            double pp;
+            double qq;
+            double xx;
+
+            double value = x;
+            ifault = 0;
+            //
+            //  Check the input arguments.
+            //
+            if (p <= 0.0 || q <= 0.0)
+            {
+                ifault = 1;
+                return value;
+            }
+
+            if (x < 0.0 || 1.0 < x)
+            {
+                ifault = 2;
+                return value;
+            }
+
+            //
+            //  Special cases.
+            //
+            if (x == 0.0 || x == 1.0)
+            {
+                return value;
+            }
+
+            //
+            //  Change tail if necessary and determine S.
+            //
+            double psq = p + q;
+            double cx = 1.0 - x;
+
+            if (p < psq * x)
+            {
+                xx = cx;
+                cx = x;
+                pp = q;
+                qq = p;
+                indx = true;
+            }
+            else
+            {
+                xx = x;
+                pp = p;
+                qq = q;
+                indx = false;
+            }
+
+            double term = 1.0;
+            double ai = 1.0;
+            value = 1.0;
+            int ns = (int) (qq + cx * psq);
+            //
+            //  Use the Soper reduction formula.
+            //
+            double rx = xx / cx;
+            double temp = qq - ai;
+            if (ns == 0)
+            {
+                rx = xx;
+            }
+
+            for (;;)
+            {
+                term = term * temp * rx / (pp + ai);
+                value = value + term;
+                ;
+                temp = Math.Abs(term);
+
+                if (temp <= acu && temp <= acu * value)
+                {
+                    value = value * Math.Exp(pp * Math.Log(xx)
+                        + (qq - 1.0) * Math.Log(cx) - beta) / pp;
+
+                    if (indx)
+                    {
+                        value = 1.0 - value;
+                    }
+
+                    break;
+                }
+
+                ai = ai + 1.0;
+                ns = ns - 1;
+
+                if (0 <= ns)
+                {
+                    temp = qq - ai;
+                    if (ns == 0)
+                    {
+                        rx = xx;
+                    }
+                }
+                else
+                {
+                    temp = psq;
+                    psq = psq + 1.0;
+                }
+            }
+
+            return value;
+        }
         
     }
 }

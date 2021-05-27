@@ -3,6 +3,8 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFramework>net5.0</TargetFramework>
+        <AssemblyName>Burkardt.ASA063Test</AssemblyName>
+        <RootNamespace>Burkardt.ASA063Test</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

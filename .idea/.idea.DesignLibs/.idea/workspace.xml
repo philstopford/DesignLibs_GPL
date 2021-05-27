@@ -51,6 +51,7 @@
     <projectFile>BurkhardtTest/AppliedStatisticsAlgorithms/ASA172Test/ASA172Test.csproj</projectFile>
     <projectFile>BurkhardtTest/AppliedStatisticsAlgorithms/ASA183Test/ASA183Test.csproj</projectFile>
     <projectFile>BurkhardtTest/AppliedStatisticsAlgorithms/ASA226Test/ASA226Test.csproj</projectFile>
+    <projectFile>BurkhardtTest/AppliedStatisticsAlgorithms/ASA239Test/ASA239Test.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="" />
@@ -79,9 +80,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA032Test/ASA032Test.csproj" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA005Test/Program.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA006Test/Program.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA007Test/Program.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA047Test/Program.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA032Test/Program.cs" />
@@ -99,7 +97,6 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA091Test/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/ASA109.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA109Test/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/ASA091.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/ASA066.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/ASA111.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA111Test/Program.cs" />
@@ -126,10 +123,14 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA172Test/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/ASA183.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/ASA063.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/General.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA183Test/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/ASA226.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA226Test/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/ASA091.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/ASA032.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/ASA239.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/General.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA239Test/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -587,6 +588,24 @@
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
       <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA226Test/ASA226Test.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="ASA239Test" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA239Test/ASA239Test.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
@@ -1135,6 +1154,7 @@
       <item itemvalue=".NET Project.ASA172Test" />
       <item itemvalue=".NET Project.ASA183Test" />
       <item itemvalue=".NET Project.ASA226Test" />
+      <item itemvalue=".NET Project.ASA239Test" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

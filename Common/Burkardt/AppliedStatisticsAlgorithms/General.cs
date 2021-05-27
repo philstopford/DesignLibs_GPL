@@ -916,5 +916,367 @@ namespace Burkardt.AppliedStatistics
             return value;
         }
         
+        public static double gammad(double x, double p, ref int ifault)
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    GAMMAD computes the Incomplete Gamma Integral
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    20 January 2008
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by B Shea.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    B Shea,
+        //    Algorithm AS 239:
+        //    Chi-squared and Incomplete Gamma Integral,
+        //    Applied Statistics,
+        //    Volume 37, Number 3, 1988, pages 466-473.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, P, the parameters of the incomplete 
+        //    gamma ratio.  0 <= X, and 0 < P.
+        //
+        //    Output, int IFAULT, error flag.
+        //    0, no error.
+        //    1, X < 0 or P <= 0.
+        //
+        //    Output, double GAMMAD, the value of the incomplete 
+        //    Gamma integral.
+        //
+        {
+            double a;
+            double arg;
+            double c;
+            double elimit = -88.0;
+            double oflo = 1.0E+37;
+            double plimit = 1000.0;
+            double pn1;
+            double tol = 1.0E-14;
+            double xbig = 1.0E+08;
+
+            double value = 0.0;
+            //
+            //  Check the input.
+            //
+            if (x < 0.0)
+            {
+                ifault = 1;
+                return value;
+            }
+
+            if (p <= 0.0)
+            {
+                ifault = 1;
+                return value;
+            }
+
+            ifault = 0;
+
+            if (x == 0.0)
+            {
+                value = 0.0;
+                return value;
+            }
+
+            //
+            //  If P is large, use a normal approximation.
+            //
+            if (plimit < p)
+            {
+                pn1 = 3.0 * Math.Sqrt(p) * (Math.Pow(x / p, 1.0 / 3.0)
+                    + 1.0 / (9.0 * p) - 1.0);
+
+                bool upper = false;
+                value = alnorm(pn1, upper);
+                return value;
+            }
+
+            //
+            //  If X is large set value = 1.
+            //
+            if (xbig < x)
+            {
+                value = 1.0;
+                return value;
+            }
+
+            //
+            //  Use Pearson's series expansion.
+            //  (Note that P is not large enough to force overflow in ALOGAM).
+            //  No need to test IFAULT on exit since P > 0.
+            //
+            if (x <= 1.0 || x < p)
+            {
+                arg = p * Math.Log(x) - x - Helpers.LogGamma(p + 1.0);
+                c = 1.0;
+                value = 1.0;
+                a = p;
+
+                for (;;)
+                {
+                    a = a + 1.0;
+                    c = c * x / a;
+                    value = value + c;
+
+                    if (c <= tol)
+                    {
+                        break;
+                    }
+                }
+
+                arg = arg + Math.Log(value);
+
+                if (elimit <= arg)
+                {
+                    value = Math.Exp(arg);
+                }
+                else
+                {
+                    value = 0.0;
+                }
+            }
+            //
+            //  Use a continued fraction expansion.
+            //
+            else
+            {
+                arg = p * Math.Log(x) - x - Helpers.LogGamma(p);
+                a = 1.0 - p;
+                double b = a + x + 1.0;
+                c = 0.0;
+                pn1 = 1.0;
+                double pn2 = x;
+                double pn3 = x + 1.0;
+                double pn4 = x * b;
+                value = pn3 / pn4;
+
+                for (;;)
+                {
+                    a = a + 1.0;
+                    b = b + 2.0;
+                    c = c + 1.0;
+                    double an = a * c;
+                    double pn5 = b * pn3 - an * pn1;
+                    double pn6 = b * pn4 - an * pn2;
+
+                    if (pn6 != 0.0)
+                    {
+                        double rn = pn5 / pn6;
+
+                        if (Math.Abs(value - rn) <= Math.Min(tol, tol * rn))
+                        {
+                            break;
+                        }
+
+                        value = rn;
+                    }
+
+                    pn1 = pn3;
+                    pn2 = pn4;
+                    pn3 = pn5;
+                    pn4 = pn6;
+                    //
+                    //  Re-scale terms in continued fraction if terms are large.
+                    //
+                    if (oflo <= Math.Abs(pn5))
+                    {
+                        pn1 = pn1 / oflo;
+                        pn2 = pn2 / oflo;
+                        pn3 = pn3 / oflo;
+                        pn4 = pn4 / oflo;
+                    }
+                }
+
+                arg = arg + Math.Log(value);
+
+                if (elimit <= arg)
+                {
+                    value = 1.0 - Math.Exp(arg);
+                }
+                else
+                {
+                    value = 1.0;
+                }
+            }
+
+            return value;
+        }
+
+        public static void gamma_inc_values(ref int n_data, ref double a, ref double x, ref double fx)
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    GAMMA_INC_VALUES returns some values of the incomplete Gamma function.
+        //
+        //  Discussion:
+        //
+        //    The (normalized) incomplete Gamma function P(A,X) is defined as:
+        //
+        //      PN(A,X) = 1/Gamma(A) * Integral ( 0 <= T <= X ) T**(A-1) * exp(-T) dT.
+        //
+        //    With this definition, for all A and X,
+        //
+        //      0 <= PN(A,X) <= 1
+        //
+        //    and
+        //
+        //      PN(A,INFINITY) = 1.0
+        //
+        //    In Mathematica, the function can be evaluated by:
+        //
+        //      1 - GammaRegularized[A,X]
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    20 November 2004
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Milton Abramowitz, Irene Stegun,
+        //    Handbook of Mathematical Functions,
+        //    National Bureau of Standards, 1964,
+        //    ISBN: 0-486-61272-4,
+        //    LC: QA47.A34.
+        //
+        //    Stephen Wolfram,
+        //    The Mathematica Book,
+        //    Fourth Edition,
+        //    Cambridge University Press, 1999,
+        //    ISBN: 0-521-64314-7,
+        //    LC: QA76.95.W65.
+        //
+        //  Parameters:
+        //
+        //    Input/output, int *N_DATA.  The user sets N_DATA to 0 before the
+        //    first call.  On each call, the routine increments N_DATA by 1, and
+        //    returns the corresponding data; when there is no more data, the
+        //    output value of N_DATA will be 0 again.
+        //
+        //    Output, double *A, the parameter of the function.
+        //
+        //    Output, double *X, the argument of the function.
+        //
+        //    Output, double *FX, the value of the function.
+        //
+        {
+            int N_MAX = 20;
+
+            double[] a_vec =  {
+                0.10E+00,
+                0.10E+00,
+                0.10E+00,
+                0.50E+00,
+                0.50E+00,
+                0.50E+00,
+                0.10E+01,
+                0.10E+01,
+                0.10E+01,
+                0.11E+01,
+                0.11E+01,
+                0.11E+01,
+                0.20E+01,
+                0.20E+01,
+                0.20E+01,
+                0.60E+01,
+                0.60E+01,
+                0.11E+02,
+                0.26E+02,
+                0.41E+02
+            }
+            ;
+
+            double[] fx_vec =  {
+                0.7382350532339351E+00,
+                0.9083579897300343E+00,
+                0.9886559833621947E+00,
+                0.3014646416966613E+00,
+                0.7793286380801532E+00,
+                0.9918490284064973E+00,
+                0.9516258196404043E-01,
+                0.6321205588285577E+00,
+                0.9932620530009145E+00,
+                0.7205974576054322E-01,
+                0.5891809618706485E+00,
+                0.9915368159845525E+00,
+                0.1018582711118352E-01,
+                0.4421745996289254E+00,
+                0.9927049442755639E+00,
+                0.4202103819530612E-01,
+                0.9796589705830716E+00,
+                0.9226039842296429E+00,
+                0.4470785799755852E+00,
+                0.7444549220718699E+00
+            }
+            ;
+
+            double[] x_vec =  {
+                0.30E-01,
+                0.30E+00,
+                0.15E+01,
+                0.75E-01,
+                0.75E+00,
+                0.35E+01,
+                0.10E+00,
+                0.10E+01,
+                0.50E+01,
+                0.10E+00,
+                0.10E+01,
+                0.50E+01,
+                0.15E+00,
+                0.15E+01,
+                0.70E+01,
+                0.25E+01,
+                0.12E+02,
+                0.16E+02,
+                0.25E+02,
+                0.45E+02
+            }
+            ;
+
+            if (n_data < 0)
+            {
+                n_data = 0;
+            }
+
+            n_data = n_data + 1;
+
+            if (N_MAX < n_data)
+            {
+                n_data = 0;
+                a = 0.0;
+                x = 0.0;
+                fx = 0.0;
+            }
+            else
+            {
+                a = a_vec[n_data - 1];
+                x = x_vec[n_data - 1];
+                fx = fx_vec[n_data - 1];
+            }
+        }
+
+        
     }
 }

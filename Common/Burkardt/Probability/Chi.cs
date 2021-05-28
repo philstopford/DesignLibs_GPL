@@ -416,7 +416,7 @@ namespace Burkardt.Probability
             double b2 = 1.0;
             double c2 = 0.5 * a;
 
-            double cdf = gamma_cdf(x2, a2, b2, c2);
+            double cdf = Gamma.gamma_cdf(x2, a2, b2, c2);
 
             return cdf;
         }
@@ -978,7 +978,7 @@ namespace Burkardt.Probability
                 double b2 = 1.0;
                 double c2 = a / 2.0;
 
-                x = gamma_sample(a2, b2, c2, seed);
+                x = Gamma.gamma_sample(a2, b2, c2, ref seed);
 
                 x = 2.0 * x;
             }

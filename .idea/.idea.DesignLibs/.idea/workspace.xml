@@ -88,11 +88,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Dipole.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Discrete.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Disk.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/EmpiricalDiscrete.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/EnglishLetter.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Erlang.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Exponential.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Extreme.cs" />
@@ -100,14 +95,12 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Zipf.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/FProb.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/FermiDirac.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Fisher.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Fisk.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Folded.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Frechet.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Gamma.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Dirichlet.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Geologistic.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Genlogistic.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Geometric.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Gompertz.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Gumbel.cs" />
@@ -134,11 +127,18 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Pearson.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Planck.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/PointDistance.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Poisson.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Power.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Psi.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Quasigeometric.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Coupon.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Misc.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Genlogistic.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Ribesl.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Fisher.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/Uni.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Uniform.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Poisson.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />

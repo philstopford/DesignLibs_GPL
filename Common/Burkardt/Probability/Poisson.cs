@@ -529,13 +529,7 @@ namespace Burkardt.Probability
         //    Output, int POISSON_SAMPLE, a sample of the PDF.
         //
         {
-            double cdf;
-            int i;
             int KMAX = 100;
-            double last;
-            double next;
-            double sum;
-            double sumold;
             //
             //  Check.
             //
@@ -550,16 +544,17 @@ namespace Burkardt.Probability
             //
             //  Pick a random value of CDF.
             //
-            cdf = UniformRNG.uniform_01_sample(ref seed);
+            double cdf = Uniform.uniform_01_sample(ref seed);
             //
             //  Now simply start at K = 0, and find the first value for which
             //  CDF(K-1) <= CDF <= CDF(K).
             //
-            sum = 0.0;
+            double sum = 0.0;
+            double next = 0;
 
-            for (i = 0; i <= KMAX; i++)
+            for (int i = 0; i <= KMAX; i++)
             {
-                sumold = sum;
+                double sumold = sum;
 
                 if (i == 0)
                 {
@@ -568,7 +563,7 @@ namespace Burkardt.Probability
                 }
                 else
                 {
-                    last = next;
+                    double last = next;
                     next = last * a / (double) i;
                     sum = sum + next;
                 }

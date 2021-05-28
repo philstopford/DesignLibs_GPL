@@ -207,33 +207,26 @@ namespace Burkardt.Probability
         //    crossed at least one line of the grid of cells.
         //
         {
-            double angle;
-            int hits;
             const double r8_pi = 3.141592653589793238462643;
-            int trial;
-            double x1;
-            double x2;
-            double y1;
-            double y2;
 
-            hits = 0;
+            int hits = 0;
 
             int seed = 12345678;
 
-            for (trial = 1; trial <= trial_num; trial++)
+            for (int trial = 1; trial <= trial_num; trial++)
             {
                 //
                 //  Randomly choose the location of the eye of the needle in [0,0]x[A,B],
                 //  and the angle the needle makes.
                 //
-                x1 = a * UniformRNG.r8_uniform_01(ref seed); // (double) rand() / (double) RAND_MAX;
-                y1 = b * UniformRNG.r8_uniform_01(ref seed); // (double) rand() / (double) RAND_MAX;
-                angle = 2.0 * r8_pi * UniformRNG.r8_uniform_01(ref seed); // (double) rand() / (double) RAND_MAX;
+                double x1 = a * UniformRNG.r8_uniform_01(ref seed);
+                double y1 = b * UniformRNG.r8_uniform_01(ref seed);
+                double angle = 2.0 * r8_pi * UniformRNG.r8_uniform_01(ref seed);
                 //
                 //  Compute the location of the point of the needle.
                 //
-                x2 = x1 + l * Math.Cos(angle);
-                y2 = y1 + l * Math.Sin(angle);
+                double x2 = x1 + l * Math.Cos(angle);
+                double y2 = y1 + l * Math.Sin(angle);
                 //
                 //  Count the end locations that lie outside the cell.
                 //

@@ -107,8 +107,6 @@ namespace Burkardt.Probability
         //    density function is greater than or equal to CDF.
         //
         {
-            double cum;
-            double pdf;
             int x;
             int y;
 
@@ -120,11 +118,11 @@ namespace Burkardt.Probability
                 return 1;
             }
 
-            cum = 0.0;
+            double cum = 0.0;
 
             for (y = 0; y <= c; y++)
             {
-                pdf = typeMethods.r8_beta(a + (double) (y),
+                double pdf = typeMethods.r8_beta(a + (double) (y),
                     b + (double) (c - y)) / ((double) (c + 1)
                                              * typeMethods.r8_beta((double) (y + 1),
                                                  (double) (c - y + 1)) * typeMethods.r8_beta(a, b));
@@ -506,30 +504,16 @@ namespace Burkardt.Probability
         //
         {
             double a;
-            double acu;
-            double adj;
             double beta_log = 0.0;
-            double fpu;
             double g;
-            double h;
-            int iex;
             bool indx;
             double pp;
-            double prev;
             double qq;
-            double r;
-            double s;
             double sae = -37.0;
-            double sq;
             double t;
-            double tx;
             double value;
-            double w;
-            double xin;
-            double y;
-            double yprev;
 
-            fpu = Math.Pow(10.0, sae);
+            double fpu = Math.Pow(10.0, sae);
             //
             //  Test for admissibility of parameters.
             //
@@ -596,18 +580,18 @@ namespace Burkardt.Probability
             //
             //  Calculate the initial approximation.
             //
-            r = Math.Sqrt(-Math.Log(a * a));
+            double r = Math.Sqrt(-Math.Log(a * a));
 
-            y = r - (2.30753 + 0.27061 * r)
+            double y = r - (2.30753 + 0.27061 * r)
                 / (1.0 + (0.99229 + 0.04481 * r) * r);
 
             if (1.0 < pp && 1.0 < qq)
             {
                 r = (y * y - 3.0) / 6.0;
-                s = 1.0 / (pp + pp - 1.0);
+                double s = 1.0 / (pp + pp - 1.0);
                 t = 1.0 / (qq + qq - 1.0);
-                h = 2.0 / (s + t);
-                w = y * Math.Sqrt(h + r) / h - (t - s)
+                double h = 2.0 / (s + t);
+                double w = y * Math.Sqrt(h + r) / h - (t - s)
                     * (r + 5.0 / 6.0 - 2.0 / (3.0 * h));
                 value = pp / (pp + qq * Math.Exp(w + w));
             }
@@ -641,9 +625,9 @@ namespace Burkardt.Probability
             //
             r = 1.0 - pp;
             t = 1.0 - qq;
-            yprev = 0.0;
-            sq = 1.0;
-            prev = 1.0;
+            double yprev = 0.0;
+            double sq = 1.0;
+            double prev = 1.0;
 
             if (value < 0.0001)
             {
@@ -655,15 +639,15 @@ namespace Burkardt.Probability
                 value = 0.9999;
             }
 
-            iex = (int)Math.Max(-5.0 / pp / pp - 1.0 / Math.Pow(a, 0.2) - 13.0, sae);
+            int iex = (int)Math.Max(-5.0 / pp / pp - 1.0 / Math.Pow(a, 0.2) - 13.0, sae);
 
-            acu = Math.Pow(10.0, iex);
+            double acu = Math.Pow(10.0, iex);
 
             for (;;)
             {
                 y = beta_inc(pp, qq, value);
 
-                xin = value;
+                double xin = value;
                 y = (y - a) * Math.Exp(beta_log + r * Math.Log(xin) + t * Math.Log(1.0 - xin));
 
                 if (y * yprev <= 0.0)
@@ -673,11 +657,12 @@ namespace Burkardt.Probability
 
                 g = 1.0;
 
+                double tx;
                 for (;;)
                 {
                     for (;;)
                     {
-                        adj = g * y;
+                        double adj = g * y;
                         sq = adj * adj;
 
                         if (sq < prev)

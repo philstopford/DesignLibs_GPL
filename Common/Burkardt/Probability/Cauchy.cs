@@ -34,13 +34,11 @@ namespace Burkardt.Probability
         //    Output, double CDF, the value of the CDF.
         //
         {
-            double cdf;
             const double r8_pi = 3.14159265358979323;
-            double y;
 
-            y = (x - a) / b;
+            double y = (x - a) / b;
 
-            cdf = 0.5 + Math.Atan(y) / r8_pi;
+            double cdf = 0.5 + Math.Atan(y) / r8_pi;
 
             return cdf;
         }
@@ -76,7 +74,6 @@ namespace Burkardt.Probability
         //
         {
             const double r8_pi = 3.14159265358979323;
-            double x;
 
             if (cdf < 0.0 || 1.0 < cdf)
             {
@@ -86,7 +83,7 @@ namespace Burkardt.Probability
                 return 1;
             }
 
-            x = a + b * Math.Tan(r8_pi * (cdf - 0.5));
+            double x = a + b * Math.Tan(r8_pi * (cdf - 0.5));
 
             return x;
         }

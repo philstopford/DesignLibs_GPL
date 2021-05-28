@@ -47,9 +47,7 @@ namespace Burkardt.Probability
         //    Output, double CDF, the value of the CDF.
         //
         {
-            int cnk;
             double cdf;
-            double pr;
 
             if (x < 0)
             {
@@ -73,9 +71,9 @@ namespace Burkardt.Probability
 
                 for (int j = 0; j <= x; j++)
                 {
-                    cnk = typeMethods.i4_choose(a, j);
+                    int cnk = typeMethods.i4_choose(a, j);
 
-                    pr = (double) (cnk) * Math.Pow(b, j) * Math.Pow((1.0 - b), (a - j));
+                    double pr = (double) (cnk) * Math.Pow(b, j) * Math.Pow((1.0 - b), (a - j));
 
                     cdf = cdf + pr;
 
@@ -276,7 +274,6 @@ namespace Burkardt.Probability
         //    Output, double BINOMIAL_PDF, the value of the PDF.
         //
         {
-            int cnk;
             double pdf;
 
             if (a < 1)
@@ -311,7 +308,7 @@ namespace Burkardt.Probability
             }
             else
             {
-                cnk = typeMethods.i4_choose(a, x);
+                int cnk = typeMethods.i4_choose(a, x);
 
                 pdf = (double) (cnk) * Math.Pow(b, x) * Math.Pow((1.0 - b), (a - x));
             }
@@ -358,21 +355,16 @@ namespace Burkardt.Probability
         //    Output, int BINOMIAL_SAMPLE, a sample of the PDF.
         //
         {
-            int i;
-            double u;
-            int x;
+            int x = 0;
 
-            x = 0;
-
-            for (i = 1; i <= a; i++)
+            for (int i = 1; i <= a; i++)
             {
-                u = UniformRNG.r8_uniform_01(ref seed);
+                double u = UniformRNG.r8_uniform_01(ref seed);
 
                 if (u <= b)
                 {
                     x = x + 1;
                 }
-
             }
 
             return x;

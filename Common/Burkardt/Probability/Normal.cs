@@ -6,7 +6,7 @@ namespace Burkardt.Probability
 {
     public static class Normal
     {
-        static double normal_01_cdf(double x)
+        public static double normal_01_cdf(double x)
         //****************************************************************************80
         //
         //  Purpose:
@@ -109,7 +109,7 @@ namespace Burkardt.Probability
             return cdf;
         }
 
-        static double normal_01_cdf_inv(double p)
+        public static double normal_01_cdf_inv(double p)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1039,7 +1039,7 @@ namespace Burkardt.Probability
             return pdf;
         }
 
-        static double normal_sample(double mu, double sigma, ref int seed)
+        public static double normal_sample(double mu, double sigma, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:

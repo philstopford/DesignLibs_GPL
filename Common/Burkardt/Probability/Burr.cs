@@ -37,7 +37,6 @@ namespace Burkardt.Probability
         //
         {
             double cdf;
-            double y;
 
             if (x <= a)
             {
@@ -45,7 +44,7 @@ namespace Burkardt.Probability
             }
             else
             {
-                y = (x - a) / b;
+                double y = (x - a) / b;
 
                 cdf = 1.0 - 1.0 / Math.Pow(1.0 + Math.Pow(y, c), d);
             }
@@ -84,9 +83,6 @@ namespace Burkardt.Probability
         //    Output, double BURR_CDF_INV, the corresponding argument.
         //
         {
-            double x;
-            double y;
-
             if (cdf < 0.0 || 1.0 < cdf)
             {
                 Console.WriteLine(" ");
@@ -95,9 +91,9 @@ namespace Burkardt.Probability
                 return 1;
             }
 
-            y = Math.Pow(Math.Pow(1.0 / (1.0 - cdf), 1.0 / d) - 1.0, 1.0 / c);
+            double y = Math.Pow(Math.Pow(1.0 / (1.0 - cdf), 1.0 / d) - 1.0, 1.0 / c);
 
-            x = a + b * y;
+            double x = a + b * y;
 
             return x;
         }

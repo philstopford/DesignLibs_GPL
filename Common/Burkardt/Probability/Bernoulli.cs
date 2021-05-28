@@ -3,7 +3,7 @@ using Burkardt.Uniform;
 
 namespace Burkardt.Probability
 {
-    public class Bernoulli
+    public static class Bernoulli
     {
         static double bernoulli_cdf(int x, double a)
         //****************************************************************************80
@@ -250,7 +250,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        double bernoulli_variance(double a)
+        static double bernoulli_variance(double a)
         //****************************************************************************80
         //
         //  Purpose:

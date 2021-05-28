@@ -767,5 +767,60 @@ namespace Burkardt.Types
 
             return value;
         }
+        
+        public static int i4vec_run_count ( int n, int[] a )
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    I4VEC_RUN_COUNT counts runs of equal values in an I4VEC.
+        //
+        //  Discussion:
+        //
+        //    An I4VEC is a vector of integer values.
+        //
+        //    A run is a sequence of equal values.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    26 January 2007
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number of entries in the vector.
+        //
+        //    Input, int A[N], the vector to be examined.
+        //
+        //    Output, int I4VEC_RUN_COUNT, the number of runs.
+        //
+        {
+            int run_count = 0;
+
+            if ( n < 1 )
+            {
+                return run_count;
+            }
+
+            int test = 0;
+
+            for (int i = 0; i < n; i++ )
+            {
+                if ( i == 0 || a[i] != test )
+                {
+                    run_count = run_count + 1;
+                    test = a[i];
+                }
+            }
+
+            return run_count;
+        }
     }
 }

@@ -88,11 +88,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Erlang.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Exponential.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Extreme.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Normal.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Zipf.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/FProb.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/FermiDirac.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Fisk.cs" />
@@ -139,6 +134,11 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/Uni.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Uniform.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Poisson.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Semicircular.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Rayleigh.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Reciprocal.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Runs.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Sech.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />

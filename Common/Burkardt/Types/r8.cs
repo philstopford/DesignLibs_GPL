@@ -2452,5 +2452,261 @@ namespace Burkardt.Types
             }
         }
 
+        public static double r8_error_f(double x)
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_ERROR_F evaluates the error function ERF.
+        //
+        //  Discussion:
+        //
+        //    Since some compilers already supply a routine named ERF which evaluates
+        //    the error function, this routine has been given a distinct, if
+        //    somewhat unnatural, name.
+        //
+        //    The function is defined by:
+        //
+        //      ERF(X) = ( 2 / sqrt ( PI ) ) * Integral ( 0 <= T <= X ) EXP ( - T^2 ) dT.
+        //
+        //    Properties of the function include:
+        //
+        //      Limit ( X -> -Infinity ) ERF(X) =          -1.0;
+        //                               ERF(0) =           0.0;
+        //                               ERF(0.476936...) = 0.5;
+        //      Limit ( X -> +Infinity ) ERF(X) =          +1.0.
+        //
+        //      0.5 * ( ERF(X/sqrt(2)) + 1 ) = Normal_01_CDF(X)
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    17 November 2006
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 versino by William Cody.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    William Cody,
+        //    "Rational Chebyshev Approximations for the Error Function",
+        //    Mathematics of Computation,
+        //    1969, pages 631-638.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument of the error function.
+        //
+        //    Output, double R8_ERROR_F, the value of the error function.
+        //
+        {
+            double[] a =  {
+                3.16112374387056560,
+                1.13864154151050156E+02,
+                3.77485237685302021E+02,
+                3.20937758913846947E+03,
+                1.85777706184603153E-01
+            }
+            ;
+            double[] b =  {
+                2.36012909523441209E+01,
+                2.44024637934444173E+02,
+                1.28261652607737228E+03,
+                2.84423683343917062E+03
+            }
+            ;
+            double[] c =  {
+                5.64188496988670089E-01,
+                8.88314979438837594,
+                6.61191906371416295E+01,
+                2.98635138197400131E+02,
+                8.81952221241769090E+02,
+                1.71204761263407058E+03,
+                2.05107837782607147E+03,
+                1.23033935479799725E+03,
+                2.15311535474403846E-08
+            }
+            ;
+            double[] d =  {
+                1.57449261107098347E+01,
+                1.17693950891312499E+02,
+                5.37181101862009858E+02,
+                1.62138957456669019E+03,
+                3.29079923573345963E+03,
+                4.36261909014324716E+03,
+                3.43936767414372164E+03,
+                1.23033935480374942E+03
+            }
+            ;
+            double del;
+            double erfxd;
+            int i;
+            double[] p =  {
+                3.05326634961232344E-01,
+                3.60344899949804439E-01,
+                1.25781726111229246E-01,
+                1.60837851487422766E-02,
+                6.58749161529837803E-04,
+                1.63153871373020978E-02
+            }
+            ;
+            double[] q =  {
+                2.56852019228982242,
+                1.87295284992346047,
+                5.27905102951428412E-01,
+                6.05183413124413191E-02,
+                2.33520497626869185E-03
+            }
+            ;
+            double sqrpi = 0.56418958354775628695;
+            double thresh = 0.46875;
+            double xabs;
+            double xbig = 26.543;
+            double xden;
+            double xnum;
+            double xsmall = 1.11E-16;
+            double xsq;
+
+            xabs = Math.Abs((x));
+            //
+            //  Evaluate ERF(X) for |X| <= 0.46875.
+            //
+            if (xabs <= thresh)
+            {
+                if (xsmall < xabs)
+                {
+                    xsq = xabs * xabs;
+                }
+                else
+                {
+                    xsq = 0.0;
+                }
+
+                xnum = a[4] * xsq;
+                xden = xsq;
+
+                for (i = 0; i < 3; i++)
+                {
+                    xnum = (xnum + a[i]) * xsq;
+                    xden = (xden + b[i]) * xsq;
+                }
+
+                erfxd = x * (xnum + a[3]) / (xden + b[3]);
+            }
+            //
+            //  Evaluate ERFC(X) for 0.46875 <= |X| <= 4.0.
+            //
+            else if (xabs <= 4.0)
+            {
+                xnum = c[8] * xabs;
+                xden = xabs;
+                for (i = 0; i < 7; i++)
+                {
+                    xnum = (xnum + c[i]) * xabs;
+                    xden = (xden + d[i]) * xabs;
+                }
+
+                erfxd = (xnum + c[7]) / (xden + d[7]);
+                xsq = ((double) ((int) (xabs * 16.0))) / 16.0;
+                del = (xabs - xsq) * (xabs + xsq);
+                erfxd = Math.Exp(-xsq * xsq) * Math.Exp(-del) * erfxd;
+
+                erfxd = (0.5 - erfxd) + 0.5;
+
+                if (x < 0.0)
+                {
+                    erfxd = -erfxd;
+                }
+            }
+            //
+            //  Evaluate ERFC(X) for 4.0 < |X|.
+            //
+            else
+            {
+                if (xbig <= xabs)
+                {
+                    if (0.0 < x)
+                    {
+                        erfxd = 1.0;
+                    }
+                    else
+                    {
+                        erfxd = -1.0;
+                    }
+                }
+                else
+                {
+                    xsq = 1.0 / (xabs * xabs);
+
+                    xnum = p[5] * xsq;
+                    xden = xsq;
+
+                    for (i = 0; i < 4; i++)
+                    {
+                        xnum = (xnum + p[i]) * xsq;
+                        xden = (xden + q[i]) * xsq;
+                    }
+
+                    erfxd = xsq * (xnum + p[4]) / (xden + q[4]);
+                    erfxd = (sqrpi - erfxd) / xabs;
+                    xsq = ((double) ((int) (xabs * 16.0))) / 16.0;
+                    del = (xabs - xsq) * (xabs + xsq);
+                    erfxd = Math.Exp(-xsq * xsq) * Math.Exp(-del) * erfxd;
+
+                    erfxd = (0.5 - erfxd) + 0.5;
+
+                    if (x < 0.0)
+                    {
+                        erfxd = -erfxd;
+                    }
+                }
+            }
+
+            return erfxd;
+        }
+
+        public static double r8_error_f_inverse(double y)
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_ERROR_F_INVERSE inverts the error function ERF.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    05 August 2010
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double Y, the value of the error function.
+        //
+        //    Output, double R8_ERROR_F_INVERSE, the value X such that
+        //    ERF(X) = Y.
+        //
+        {
+            double z = (y + 1.0) / 2.0;
+
+            double x = Normal.normal_01_cdf_inv(z);
+
+            double value = x / Math.Sqrt(2.0);
+
+            return value;
+        }
+
+
+
     }
 }

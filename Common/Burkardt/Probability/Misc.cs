@@ -322,6 +322,102 @@ namespace Burkardt.Probability
             
             return value;
         }
+        
+        public static double trigamma ( double x )
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    TRIGAMMA calculates the TriGamma function.
+        //
+        //  Discussion:
+        //
+        //    TriGamma(x) = d^2 log ( Gamma ( x ) ) / dx^2.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    03 January 2000
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by B Schneider
+        //    C++ version by John Burkardt
+        //
+        //  Reference:
+        //
+        //    B Schneider,
+        //    Trigamma Function,
+        //    Algorithm AS 121,
+        //    Applied Statistics,
+        //    Volume 27, Number 1, page 97-99, 1978.
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument of the trigamma function.
+        //    0 < X.
+        //
+        //    Output, double TRIGAMMA, the value of the
+        //    trigamma function at X.
+        //
+        {
+            double a = 0.0001;
+            double b = 5.0;
+            double b2 =   1.0 / 6.0;
+            double b4 = - 1.0 / 30.0;
+            double b6 =   1.0 / 42.0;
+            double b8 = - 1.0 / 30.0;
+            double value = 0;
+            double y;
+            double z;
+            //
+            //  1): If X is not positive, fail.
+            //
+            if ( x <= 0.0 )
+            {
+                Console.WriteLine(" ");
+                Console.WriteLine("TRIGAMMA - Fatal error!");
+                Console.WriteLine("  X <= 0.");
+                return ( 1 );
+            }
+            //
+            //  2): If X is smaller than A, use a small value approximation.
+            //
+            else if ( x <= a )
+            {
+                value = 1.0 / x / x;
+            }
+            //
+            //  3): Otherwise, increase the argument to B <= ( X + I ).
+            //
+            else
+            {
+                z = x;
+                value = 0.0;
+
+                while ( z < b )
+                {
+                    value = value + 1.0 / z / z;
+                    z = z + 1.0;
+                }
+                //
+                //  ...and then apply an asymptotic formula.
+                //
+                y = 1.0 / z / z;
+
+                value = value + 0.5 *
+                    y + ( 1.0
+                          + y * ( b2
+                                  + y * ( b4
+                                          + y * ( b6
+                                                  + y *   b8 )))) / z;
+            }
+
+            return value;
+        }
 
     }
 }

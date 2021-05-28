@@ -101,7 +101,7 @@ namespace Burkardt.Probability
             double alpha = 0.5;
             int ize = 1;
 
-            ribesl(kappa, alpha, NB, ize, b);
+            Ribesl.ribesl(kappa, alpha, NB, ize, b);
 
             double cf = Math.Sqrt(kappa) / (Math.Sqrt(Math.Pow(2.0 * r8_pi, 3)) * b[0]);
 

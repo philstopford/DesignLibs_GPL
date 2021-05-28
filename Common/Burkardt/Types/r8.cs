@@ -1370,5 +1370,109 @@ namespace Burkardt.Types
 
 			return value;
 		}
+		
+		public static double r8_beta ( double x, double y )
+		//****************************************************************************80
+		//
+		//  Purpose:
+		//
+		//    R8_BETA returns the value of the Beta function.
+		//
+		//  Discussion:
+		//
+		//    BETA(X,Y) = ( GAMMA(X) * GAMMA(Y) ) / GAMMA(X+Y)
+		//
+		//    BETA(X,Y) = BETA(Y,X).
+		//    BETA(X,Y) = Integral ( 0 <= T <= 1 ) T^(X-1) (1-T)^(Y-1) dT.
+		//    BETA(X,Y) = GAMMA(X) * GAMMA(Y) / GAMMA(X+Y)
+		//
+		//    Both X and Y must be greater than 0.
+		//
+		//  Licensing:
+		//
+		//    This code is distributed under the GNU LGPL license.
+		//
+		//  Modified:
+		//
+		//    09 May 2003
+		//
+		//  Author:
+		//
+		//    John Burkardt
+		//
+		//  Parameters:
+		//
+		//    Input, double X, Y, the two parameters that define the Beta function.
+		//    X and Y must be greater than 0.
+		//
+		//    Output, double R8_BETA, the value of the Beta function.
+		//
+		{
+			double value;
+
+			if ( x <= 0.0 || y <= 0.0 )
+			{
+				Console.WriteLine("");
+				Console.WriteLine("R8_BETA - Fatal error!");
+				Console.WriteLine("  Both X and Y must be greater than 0.");
+				return 1.0;
+			}
+
+			value = Math.Exp ( 
+				Helpers.LogGamma ( x ) 
+				+ Helpers.LogGamma ( y ) 
+				- Helpers.LogGamma ( x + y ) );
+
+			return value;
+		}
+		
+		public static double r8poly_value_horner ( int m, double[] c, double x )
+		//****************************************************************************80
+		//
+		//  Purpose:
+		//
+		//    R8POLY_VALUE_HORNER evaluates a polynomial using Horner's method.
+		//
+		//  Discussion:
+		//
+		//    The polynomial 
+		//
+		//      p(x) = c0 + c1 * x + c2 * x^2 + ... + cm * x^m
+		//
+		//    is to be evaluated at the value X.
+		//
+		//  Licensing:
+		//
+		//    This code is distributed under the GNU LGPL license. 
+		//
+		//  Modified:
+		//
+		//    02 January 2015
+		//
+		//  Author:
+		//
+		//    John Burkardt
+		//
+		//  Parameters:
+		//
+		//    Input, int M, the degree of the polynomial.
+		//
+		//    Input, double C[M+1], the coefficients of the polynomial.
+		//    A[0] is the constant term.
+		//
+		//    Input, double X, the point at which the polynomial is to be evaluated.
+		//
+		//    Output, double R8POLY_VALUE_HORNER, the value of the polynomial at X.
+		//
+		{
+			double value = c[m];
+
+			for (int i = m - 1; 0 <= i; i-- )
+			{
+				value = value * x + c[i];
+			}
+
+			return value;
+		}
 	}
 }

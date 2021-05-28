@@ -155,6 +155,74 @@ namespace Burkardt.Uniform
             return value;
         }
 
-        
+        public static double[] r8vec_uniform_01_new ( int n, ref int seed )
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8VEC_UNIFORM_01_NEW returns a unit pseudorandom R8VEC
+        //
+        //  Discussion:
+        //
+        //    This routine implements the recursion
+        //
+        //      seed = 16807 * seed mod ( 2^31 - 1 )
+        //      unif = seed / ( 2^31 - 1 )
+        //
+        //    The integer arithmetic never requires more than 32 bits,
+        //    including a sign bit.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    19 August 2004
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Paul Bratley, Bennett Fox, Linus Schrage,
+        //    A Guide to Simulation,
+        //    Springer Verlag, pages 201-202, 1983.
+        //
+        //    Bennett Fox,
+        //    Algorithm 647:
+        //    Implementation and Relative Efficiency of Quasirandom
+        //    Sequence Generators,
+        //    ACM Transactions on Mathematical Software,
+        //    Volume 12, Number 4, pages 362-376, 1986.
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number of entries in the vector.
+        //
+        //    Input/output, int &SEED, a seed for the random number generator.
+        //
+        //    Output, double R8VEC_UNIFORM_01_NEW[N], the vector of pseudorandom values.
+        //
+        {
+            double[] r = new double[n];
+
+            for (int i = 0; i < n; i++ )
+            {
+                int k = seed / 127773;
+
+                seed = 16807 * ( seed - k * 127773 ) - k * 2836;
+
+                if ( seed < 0 )
+                {
+                    seed = seed + 2147483647;
+                }
+
+                r[i] = ( double ) ( seed ) * 4.656612875E-10;
+            }
+
+            return r;
+        }
     }
 }

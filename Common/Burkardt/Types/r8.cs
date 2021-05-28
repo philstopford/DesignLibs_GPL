@@ -2294,6 +2294,127 @@ namespace Burkardt.Types
 
             return value;
         }
+        
+        public static double r8vec_dot ( int n, double[] a1, double[] a2 )
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8VEC_DOT computes the dot product of a pair of R8VEC's.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    03 July 2005
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number of entries in the vectors.
+        //
+        //    Input, double A1[N], A2[N], the two vectors to be considered.
+        //
+        //    Output, double R8VEC_DOT, the dot product of the vectors.
+        //
+        {
+            double value = 0.0;
+            for (int i = 0; i < n; i++ )
+            {
+                value = value + a1[i] * a2[i];
+            }
+
+            return value;
+        }
+        
+        public static double r8vec_length ( int dim_num, double[] x )
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8VEC_LENGTH returns the Euclidean length of an R8VEC
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    08 August 2005
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int DIM_NUM, the spatial dimension.
+        //
+        //    Input, double X[DIM_NUM], the vector.
+        //
+        //    Output, double R8VEC_LENGTH, the Euclidean length of the vector.
+        //
+        {
+            double value = 0.0;
+            for (int i = 0; i < dim_num; i++ )
+            {
+                value = value + Math.Pow ( x[i], 2 );
+            }
+            value = Math.Sqrt ( value );
+
+            return value;
+        }
+        
+        public static double r8_csc ( double theta )
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_CSC returns the cosecant of X.
+        //
+        //  Discussion:
+        //
+        //    R8_CSC ( THETA ) = 1.0 / SIN ( THETA )
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    05 March 2012
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double THETA, the angle, in radians, whose cosecant is desired.
+        //    It must be the case that SIN ( THETA ) is not zero.
+        //
+        //    Output, double R8_CSC, the cosecant of THETA.
+        //
+        {
+            double value = Math.Sin ( theta );
+
+            if ( value == 0.0 )
+            {
+                Console.WriteLine(" ");
+                Console.WriteLine("R8_CSC - Fatal error!");
+                Console.WriteLine("  Cosecant undefined for THETA = " + theta + "");
+                return ( 1 );
+            }
+
+            value = 1.0 / value;
+
+            return value;
+        }
 
     }
 }

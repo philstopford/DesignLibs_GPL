@@ -4,7 +4,7 @@ namespace Burkardt.Probability
 {
     public static class Digamma
     {
-        static double digamma ( double x )
+        public static double digamma ( double x )
         //****************************************************************************80
         //
         //  Purpose:

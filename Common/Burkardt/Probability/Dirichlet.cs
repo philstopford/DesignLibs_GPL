@@ -5,7 +5,7 @@ namespace Burkardt.Probability
 {
     public static class Dirichlet
     {
-        static bool dirichlet_check(int n, double[] a)
+        public static bool dirichlet_check(int n, double[] a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -65,7 +65,7 @@ namespace Burkardt.Probability
             return true;
         }
 
-        static double[] dirichlet_mean(int n, double[] a)
+        public static double[] dirichlet_mean(int n, double[] a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -106,7 +106,7 @@ namespace Burkardt.Probability
             return mean;
         }
 
-        static double[] dirichlet_moment2(int n, double[] a)
+        public static double[] dirichlet_moment2(int n, double[] a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -157,7 +157,7 @@ namespace Burkardt.Probability
             return m2;
         }
 
-        static double dirichlet_pdf(double[] x, int n, double[] a )
+        public static double dirichlet_pdf(double[] x, int n, double[] a )
         //****************************************************************************80
         //
         //  Purpose:
@@ -248,7 +248,7 @@ namespace Burkardt.Probability
             return pdf;
         }
 
-        static double[] dirichlet_sample(int n, double[] a, ref int seed )
+        public static double[] dirichlet_sample(int n, double[] a, ref int seed )
         //****************************************************************************80
         //
         //  Purpose:
@@ -305,7 +305,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double[] dirichlet_variance(int n, double[] a)
+        public static double[] dirichlet_variance(int n, double[] a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -346,7 +346,7 @@ namespace Burkardt.Probability
             return variance;
         }
 
-        static bool dirichlet_mix_check(int comp_num, int elem_num, double[] a,
+        public static bool dirichlet_mix_check(int comp_num, int elem_num, double[] a,
         double[] comp_weight )
         //****************************************************************************80
         //
@@ -433,7 +433,7 @@ namespace Burkardt.Probability
             return true;
         }
 
-        static double[] dirichlet_mix_mean(int comp_num, int elem_num, double[] a,
+        public static double[] dirichlet_mix_mean(int comp_num, int elem_num, double[] a,
         double[] comp_weight )
         //****************************************************************************80
         //
@@ -508,7 +508,7 @@ namespace Burkardt.Probability
             return mean;
         }
 
-        static double dirichlet_mix_pdf(double[] x, int comp_num, int elem_num, double[] a,
+        public static double dirichlet_mix_pdf(double[] x, int comp_num, int elem_num, double[] a,
         double[] comp_weight )
         //****************************************************************************80
         //
@@ -578,7 +578,7 @@ namespace Burkardt.Probability
             return pdf;
         }
 
-        static double[] dirichlet_mix_sample(int comp_num, int elem_num, double[] a,
+        public static double[] dirichlet_mix_sample(int comp_num, int elem_num, double[] a,
         double[] comp_weight, ref int seed, ref int comp )
         //****************************************************************************80
         //
@@ -641,7 +641,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double dirichlet_multinomial_pdf(int[] x, int a, int b, double[] c )
+        public static double dirichlet_multinomial_pdf(int[] x, int a, int b, double[] c )
         //****************************************************************************80
         //
         //  Purpose:

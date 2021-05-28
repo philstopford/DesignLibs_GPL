@@ -6,7 +6,7 @@ namespace Burkardt.Probability
 {
     public static class Zipf
     {
-        static double zipf_cdf(int x, double a)
+        public static double zipf_cdf(int x, double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -65,7 +65,7 @@ namespace Burkardt.Probability
             return cdf;
         }
 
-        static int zipf_cdf_inv(double a, double cdf)
+        public static int zipf_cdf_inv(double a, double cdf)
         //****************************************************************************80
         //
         //  Purpose:
@@ -132,7 +132,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static bool zipf_check(double a)
+        public static bool zipf_check(double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -170,7 +170,7 @@ namespace Burkardt.Probability
             return true;
         }
 
-        static double zipf_mean(double a)
+        public static double zipf_mean(double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -213,7 +213,7 @@ namespace Burkardt.Probability
             return mean;
         }
 
-        static double zipf_pdf(int x, double a)
+        public static double zipf_pdf(int x, double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -282,7 +282,7 @@ namespace Burkardt.Probability
             return pdf;
         }
 
-        static int zipf_sample(double a, ref int seed)
+        public static int zipf_sample(double a, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -346,7 +346,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double zipf_variance(double a)
+        public static double zipf_variance(double a)
         //****************************************************************************80
         //
         //  Purpose:

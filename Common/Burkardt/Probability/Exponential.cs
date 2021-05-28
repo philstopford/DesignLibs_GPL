@@ -5,7 +5,7 @@ namespace Burkardt.Probability
 {
     public static class Exponential
     {
-        static double exponential_01_cdf(double x)
+        public static double exponential_01_cdf(double x)
         //****************************************************************************80
         //
         //  Purpose:
@@ -45,7 +45,7 @@ namespace Burkardt.Probability
             return cdf;
         }
 
-        static double exponential_01_cdf_inv(double cdf)
+        public static double exponential_01_cdf_inv(double cdf)
         //****************************************************************************80
         //
         //  Purpose:
@@ -87,7 +87,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double exponential_01_mean()
+        public static double exponential_01_mean()
         //****************************************************************************80
         //
         //  Purpose:
@@ -116,7 +116,7 @@ namespace Burkardt.Probability
             return mean;
         }
 
-        static double exponential_01_pdf(double x)
+        public static double exponential_01_pdf(double x)
         //****************************************************************************80
         //
         //  Purpose:
@@ -161,7 +161,7 @@ namespace Burkardt.Probability
             return pdf;
         }
 
-        static double exponential_01_sample(ref int seed)
+        public static double exponential_01_sample(ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -194,7 +194,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double exponential_01_variance()
+        public static double exponential_01_variance()
         //****************************************************************************80
         //
         //  Purpose:
@@ -223,7 +223,7 @@ namespace Burkardt.Probability
             return variance;
         }
 
-        static double exponential_cdf(double x, double a, double b)
+        public static double exponential_cdf(double x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -266,7 +266,7 @@ namespace Burkardt.Probability
             return cdf;
         }
 
-        static double exponential_cdf_inv(double cdf, double a, double b)
+        public static double exponential_cdf_inv(double cdf, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -309,7 +309,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static void exponential_cdf_values(ref int n_data, ref double lambda, ref double x,
+        public static void exponential_cdf_values(ref int n_data, ref double lambda, ref double x,
             ref double fx )
         //****************************************************************************80
         //
@@ -429,7 +429,7 @@ namespace Burkardt.Probability
             }
         }
 
-        static bool exponential_check(double a, double b)
+        public static bool exponential_check(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -467,7 +467,7 @@ namespace Burkardt.Probability
             return true;
         }
 
-        static double exponential_mean(double a, double b)
+        public static double exponential_mean(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -499,7 +499,7 @@ namespace Burkardt.Probability
             return mean;
         }
 
-        static double exponential_pdf(double x, double a, double b)
+        public static double exponential_pdf(double x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -602,7 +602,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double exponential_variance(double a, double b)
+        public static double exponential_variance(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:

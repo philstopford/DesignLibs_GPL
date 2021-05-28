@@ -6,7 +6,7 @@ namespace Burkardt.Probability
 {
     public static class EmpiricalDiscrete
     {
-        static double empirical_discrete_cdf(double x, int a, double[] b, double[] c )
+        public static double empirical_discrete_cdf(double x, int a, double[] b, double[] c )
         //****************************************************************************80
         //
         //  Purpose:
@@ -58,7 +58,7 @@ namespace Burkardt.Probability
             return cdf;
         }
 
-        static double empirical_discrete_cdf_inv(double cdf, int a, double[] b, double[] c )
+        public static double empirical_discrete_cdf_inv(double cdf, int a, double[] b, double[] c )
         //****************************************************************************80
         //
         //  Purpose:
@@ -122,7 +122,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static bool empirical_discrete_check(int a, double[] b, double[] c )
+        public static bool empirical_discrete_check(int a, double[] b, double[] c )
         //****************************************************************************80
         //
         //  Purpose:
@@ -227,7 +227,7 @@ namespace Burkardt.Probability
             return true;
         }
 
-        static double empirical_discrete_mean(int a, double[] b, double[] c )
+        public static double empirical_discrete_mean(int a, double[] b, double[] c )
         //****************************************************************************80
         //
         //  Purpose:
@@ -274,7 +274,7 @@ namespace Burkardt.Probability
             return mean;
         }
 
-        static double empirical_discrete_pdf(double x, int a, double[] b, double[] c )
+        public static double empirical_discrete_pdf(double x, int a, double[] b, double[] c )
         //****************************************************************************80
         //
         //  Purpose:
@@ -333,7 +333,7 @@ namespace Burkardt.Probability
             return pdf;
         }
 
-        static double empirical_discrete_sample(int a, double[] b, double[] c, ref int seed )
+        public static double empirical_discrete_sample(int a, double[] b, double[] c, ref int seed )
         //****************************************************************************80
         //
         //  Purpose:
@@ -375,7 +375,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double empirical_discrete_variance(int a, double[] b, double[] c )
+        public static double empirical_discrete_variance(int a, double[] b, double[] c )
         //****************************************************************************80
         //
         //  Purpose:

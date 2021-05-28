@@ -6,7 +6,7 @@ namespace Burkardt.Probability
 {
     public static class Beta
     {
-        static double beta_binomial_cdf(int x, double a, double b, int c)
+        public static double beta_binomial_cdf(int x, double a, double b, int c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -69,7 +69,7 @@ namespace Burkardt.Probability
             return cdf;
         }
 
-        static int beta_binomial_cdf_inv(double cdf, double a, double b, int c)
+        public static int beta_binomial_cdf_inv(double cdf, double a, double b, int c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -142,7 +142,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static bool beta_binomial_check(double a, double b, int c)
+        public static bool beta_binomial_check(double a, double b, int c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -200,7 +200,7 @@ namespace Burkardt.Probability
             return true;
         }
 
-        static double beta_binomial_mean(double a, double b, int c)
+        public static double beta_binomial_mean(double a, double b, int c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -236,7 +236,7 @@ namespace Burkardt.Probability
             return mean;
         }
 
-        static double beta_binomial_pdf(int x, double a, double b, int c)
+        public static double beta_binomial_pdf(int x, double a, double b, int c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -331,7 +331,7 @@ namespace Burkardt.Probability
             return pdf;
         }
 
-        static int beta_binomial_sample(double a, double b, int c, ref int seed)
+        public static int beta_binomial_sample(double a, double b, int c, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -371,7 +371,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double beta_binomial_variance(double a, double b, int c)
+        public static double beta_binomial_variance(double a, double b, int c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -409,7 +409,7 @@ namespace Burkardt.Probability
             return variance;
         }
 
-        static double beta_cdf(double x, double a, double b)
+        public static double beta_cdf(double x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -457,7 +457,7 @@ namespace Burkardt.Probability
             return cdf;
         }
 
-        static double beta_cdf_inv(double cdf, double p, double q)
+        public static double beta_cdf_inv(double cdf, double p, double q)
         //****************************************************************************80
         //
         //  Purpose:
@@ -723,7 +723,7 @@ namespace Burkardt.Probability
             return value;
         }
 
-        static double beta_cdf_inv_old(double cdf, double a, double b)
+        public static double beta_cdf_inv_old(double cdf, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -876,7 +876,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static bool beta_check(double a, double b)
+        public static bool beta_check(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -923,7 +923,7 @@ namespace Burkardt.Probability
             return true;
         }
 
-        static void beta_cdf_values(ref int n_data, ref double a, ref double b, ref double x,
+        public static void beta_cdf_values(ref int n_data, ref double a, ref double b, ref double x,
             ref double fx )
         //****************************************************************************80
         //
@@ -1224,7 +1224,7 @@ namespace Burkardt.Probability
             }
         }
 
-        static double beta_inc(double a, double b, double x)
+        public static double beta_inc(double a, double b, double x)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1413,7 +1413,7 @@ namespace Burkardt.Probability
             return value;
         }
 
-        static void beta_inc_values(ref int n_data, ref double a, ref double b, ref double x,
+        public static void beta_inc_values(ref int n_data, ref double a, ref double b, ref double x,
         ref double fx )
         //****************************************************************************80
         //
@@ -1714,7 +1714,7 @@ namespace Burkardt.Probability
             }
         }
 
-        static double beta_mean(double a, double b)
+        public static double beta_mean(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1747,7 +1747,7 @@ namespace Burkardt.Probability
             return mean;
         }
 
-        static double beta_pdf(double x, double a, double b)
+        public static double beta_pdf(double x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1802,7 +1802,7 @@ namespace Burkardt.Probability
             return pdf;
         }
 
-        static double beta_sample(double a, double b, ref int seed)
+        public static double beta_sample(double a, double b, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1876,7 +1876,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static void beta_values(ref int n_data, ref double x, ref double y, ref double fxy )
+        public static void beta_values(ref int n_data, ref double x, ref double y, ref double fxy )
         //****************************************************************************80
         //
         //  Purpose:
@@ -2025,7 +2025,7 @@ namespace Burkardt.Probability
             }
         }
 
-        static double beta_variance(double a, double b)
+        public static double beta_variance(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:

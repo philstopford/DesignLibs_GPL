@@ -4,7 +4,7 @@ namespace Burkardt.Probability
 {
     public static class Dipole
     {
-        static double dipole_cdf(double x, double a, double b)
+        public static double dipole_cdf(double x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -43,7 +43,7 @@ namespace Burkardt.Probability
             return cdf;
         }
 
-        static double dipole_cdf_inv(double cdf, double a, double b)
+        public static double dipole_cdf_inv(double cdf, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -175,7 +175,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static bool dipole_check(double a, double b)
+        public static bool dipole_check(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -215,7 +215,7 @@ namespace Burkardt.Probability
             return true;
         }
 
-        static double dipole_pdf(double x, double a, double b)
+        public static double dipole_pdf(double x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -276,7 +276,7 @@ namespace Burkardt.Probability
             return pdf;
         }
 
-        static double dipole_sample(double a, double b, ref int seed)
+        public static double dipole_sample(double a, double b, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:

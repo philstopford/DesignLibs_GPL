@@ -5,7 +5,7 @@ namespace Burkardt.Probability
 {
     public static class Disk
     {
-        static double[] disk_mean(double a, double b, double c)
+        public static double[] disk_mean(double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -85,7 +85,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double disk_variance(double a, double b, double c)
+        public static double disk_variance(double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:

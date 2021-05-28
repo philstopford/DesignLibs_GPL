@@ -5,7 +5,7 @@ namespace Burkardt.Probability
 {
     public static class Cauchy
     {
-        static double cauchy_cdf(double x, double a, double b)
+        public static double cauchy_cdf(double x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -43,7 +43,7 @@ namespace Burkardt.Probability
             return cdf;
         }
 
-        static double cauchy_cdf_inv(double cdf, double a, double b)
+        public static double cauchy_cdf_inv(double cdf, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -88,7 +88,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static void cauchy_cdf_values(ref int n_data, ref double mu, ref double sigma, ref double x,
+        public static void cauchy_cdf_values(ref int n_data, ref double mu, ref double sigma, ref double x,
                                         ref double fx )
         //****************************************************************************80
         //
@@ -239,7 +239,7 @@ namespace Burkardt.Probability
             return;
         }
 
-        static bool cauchy_check(double a, double b)
+        public static bool cauchy_check(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -277,7 +277,7 @@ namespace Burkardt.Probability
             return true;
         }
 
-        static double cauchy_mean(double a, double b)
+        public static double cauchy_mean(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -309,7 +309,7 @@ namespace Burkardt.Probability
             return mean;
         }
 
-        static double cauchy_pdf(double x, double a, double b)
+        public static double cauchy_pdf(double x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -359,7 +359,7 @@ namespace Burkardt.Probability
             return pdf;
         }
 
-        static double cauchy_sample(double a, double b, ref int seed)
+        public static double cauchy_sample(double a, double b, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -395,7 +395,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double cauchy_variance(double a, double b)
+        public static double cauchy_variance(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:

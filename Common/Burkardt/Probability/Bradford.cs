@@ -5,7 +5,7 @@ namespace Burkardt.Probability
 {
     public static class Bradford
     {
-        static double bradford_cdf(double x, double a, double b, double c)
+        public static double bradford_cdf(double x, double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -53,7 +53,7 @@ namespace Burkardt.Probability
             return cdf;
         }
 
-        static double bradford_cdf_inv(double cdf, double a, double b, double c)
+        public static double bradford_cdf_inv(double cdf, double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -110,7 +110,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static bool bradford_check(double a, double b, double c)
+        public static bool bradford_check(double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -157,7 +157,7 @@ namespace Burkardt.Probability
             return true;
         }
 
-        static double bradford_mean(double a, double b, double c)
+        public static double bradford_mean(double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -191,7 +191,7 @@ namespace Burkardt.Probability
             return mean;
         }
 
-        static double bradford_pdf(double x, double a, double b, double c)
+        public static double bradford_pdf(double x, double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -244,7 +244,7 @@ namespace Burkardt.Probability
             return pdf;
         }
 
-        static double bradford_sample(double a, double b, double c, ref int seed)
+        public static double bradford_sample(double a, double b, double c, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -281,7 +281,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double bradford_variance(double a, double b, double c)
+        public static double bradford_variance(double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:

@@ -4,7 +4,7 @@ namespace Burkardt.Probability
 {
     public static class Bessel
     {
-        static double bessel_i0(double arg)
+        public static double bessel_i0(double arg)
         //****************************************************************************80
         //
         //  Purpose:
@@ -220,7 +220,7 @@ namespace Burkardt.Probability
             return value;
         }
 
-        static void bessel_i0_values(ref int n_data, ref double x, ref double fx )
+        public static void bessel_i0_values(ref int n_data, ref double x, ref double fx )
         //****************************************************************************80
         //
         //  Purpose:
@@ -349,7 +349,7 @@ namespace Burkardt.Probability
             }
         }
 
-        static double bessel_i1(double arg)
+        public static double bessel_i1(double arg)
         //****************************************************************************80
         //
         //  Purpose:
@@ -566,7 +566,7 @@ namespace Burkardt.Probability
             return value;
         }
 
-        static void bessel_i1_values(ref int n_data, ref double x, ref double fx )
+        public static void bessel_i1_values(ref int n_data, ref double x, ref double fx )
         //****************************************************************************80
         //
         //  Purpose:
@@ -693,7 +693,7 @@ namespace Burkardt.Probability
             }
         }
 
-        static void bessel_ix_values(ref int n_data, ref double nu, ref double x, ref double fx )
+        public static void bessel_ix_values(ref int n_data, ref double nu, ref double x, ref double fx )
         //****************************************************************************80
         //
         //  Purpose:

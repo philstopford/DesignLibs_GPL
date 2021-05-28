@@ -5,7 +5,7 @@ namespace Burkardt.Probability
 {
     public static class Buffon
     {
-        static double buffon_box_pdf(double a, double b, double l)
+        public static double buffon_box_pdf(double a, double b, double l)
         //****************************************************************************80
         //
         //  Purpose:
@@ -126,7 +126,7 @@ namespace Burkardt.Probability
             return pdf;
         }
 
-        static int buffon_box_sample(double a, double b, double l, int trial_num)
+        public static int buffon_box_sample(double a, double b, double l, int trial_num)
         //****************************************************************************80
         //
         //  Purpose:
@@ -239,7 +239,7 @@ namespace Burkardt.Probability
             return hits;
         }
 
-        static double buffon_pdf(double a, double l)
+        public static double buffon_pdf(double a, double l)
         //****************************************************************************80
         //
         //  Purpose:
@@ -330,7 +330,7 @@ namespace Burkardt.Probability
             return pdf;
         }
 
-        static int buffon_sample(double a, double l, int trial_num)
+        public static int buffon_sample(double a, double l, int trial_num)
         //****************************************************************************80
         //
         //  Purpose:

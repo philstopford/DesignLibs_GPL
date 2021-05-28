@@ -5,7 +5,7 @@ namespace Burkardt.Probability
 {
     public static class Extreme
     {
-        static double extreme_values_cdf(double x, double a, double b)
+        public static double extreme_values_cdf(double x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -44,7 +44,7 @@ namespace Burkardt.Probability
             return cdf;
         }
 
-        static double extreme_values_cdf_inv(double cdf, double a, double b)
+        public static double extreme_values_cdf_inv(double cdf, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -87,7 +87,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static void extreme_values_cdf_values(ref int n_data, ref double alpha, ref double beta,
+        public static void extreme_values_cdf_values(ref int n_data, ref double alpha, ref double beta,
             ref double x, ref double fx )
         //****************************************************************************80
         //
@@ -240,7 +240,7 @@ namespace Burkardt.Probability
             }
         }
 
-        static bool extreme_values_check(double a, double b)
+        public static bool extreme_values_check(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -278,7 +278,7 @@ namespace Burkardt.Probability
             return true;
         }
 
-        static double extreme_values_mean(double a, double b)
+        public static double extreme_values_mean(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -312,7 +312,7 @@ namespace Burkardt.Probability
             return mean;
         }
 
-        static double extreme_values_pdf(double x, double a, double b)
+        public static double extreme_values_pdf(double x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -366,7 +366,7 @@ namespace Burkardt.Probability
             return pdf;
         }
 
-        static double extreme_values_sample(double a, double b, ref int seed)
+        public static double extreme_values_sample(double a, double b, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -402,7 +402,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double extreme_values_variance(double a, double b)
+        public static double extreme_values_variance(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:

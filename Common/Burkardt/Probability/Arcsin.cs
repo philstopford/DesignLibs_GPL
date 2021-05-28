@@ -5,7 +5,7 @@ namespace Burkardt.Probability
 {
     public static class Arcsin
     {
-        static double arcsin_cdf(double x, double a)
+        public static double arcsin_cdf(double x, double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -49,7 +49,7 @@ namespace Burkardt.Probability
             return cdf;
         }
 
-        static double arcsin_cdf_inv(double cdf, double a)
+        public static double arcsin_cdf_inv(double cdf, double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -91,7 +91,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static bool arcsin_check(double a)
+        public static bool arcsin_check(double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -123,7 +123,7 @@ namespace Burkardt.Probability
             }
         }
 
-        static double arcsin_mean(double a)
+        public static double arcsin_mean(double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -152,7 +152,7 @@ namespace Burkardt.Probability
             return mean;
         }
 
-        static double arcsin_pdf(double x, double a)
+        public static double arcsin_pdf(double x, double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -234,7 +234,7 @@ namespace Burkardt.Probability
             return pdf;
         }
 
-        static double arcsin_sample(double a, ref int seed)
+        public static double arcsin_sample(double a, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -269,7 +269,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double arcsin_variance(double a)
+        public static double arcsin_variance(double a)
         //****************************************************************************80
         //
         //  Purpose:

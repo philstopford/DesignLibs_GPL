@@ -263,7 +263,7 @@ namespace Burkardt.Probability
             return value;
         }
 
-        static void normal_01_cdf_values(ref int n_data, ref double x, ref double fx )
+        public static void normal_01_cdf_values(ref int n_data, ref double x, ref double fx )
         //****************************************************************************80
         //
         //  Purpose:
@@ -383,7 +383,7 @@ namespace Burkardt.Probability
             }
         }
 
-        static double normal_01_mean()
+        public static double normal_01_mean()
         //****************************************************************************80
         //
         //  Purpose:
@@ -412,7 +412,7 @@ namespace Burkardt.Probability
             return mean;
         }
 
-        static double normal_01_pdf(double x)
+        public static double normal_01_pdf(double x)
         //****************************************************************************80
         //
         //  Purpose:
@@ -495,7 +495,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double[] normal_01_samples(int n, ref int seed)
+        public static double[] normal_01_samples(int n, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -545,7 +545,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double normal_01_variance()
+        public static double normal_01_variance()
         //****************************************************************************80
         //
         //  Purpose:
@@ -574,7 +574,7 @@ namespace Burkardt.Probability
             return variance;
         }
 
-        static double[] normal_01_vector(int n, ref int seed)
+        public static double[] normal_01_vector(int n, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -689,7 +689,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double normal_cdf(double x, double mu, double sigma)
+        public static double normal_cdf(double x, double mu, double sigma)
         //****************************************************************************80
         //
         //  Purpose:
@@ -725,7 +725,7 @@ namespace Burkardt.Probability
             return cdf;
         }
 
-        static double normal_cdf_inv(double cdf, double mu, double sigma)
+        public static double normal_cdf_inv(double cdf, double mu, double sigma)
         //****************************************************************************80
         //
         //  Purpose:
@@ -776,7 +776,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static void normal_cdf_values(ref int n_data, ref double mu, ref double sigma, ref double x,
+        public static void normal_cdf_values(ref int n_data, ref double mu, ref double sigma, ref double x,
             ref double fx )
         //****************************************************************************80
         //
@@ -925,7 +925,7 @@ namespace Burkardt.Probability
             }
         }
 
-        static bool normal_check(double mu, double sigma)
+        public static bool normal_check(double mu, double sigma)
         //****************************************************************************80
         //
         //  Purpose:
@@ -963,7 +963,7 @@ namespace Burkardt.Probability
             return true;
         }
 
-        static double normal_mean(double mu, double sigma)
+        public static double normal_mean(double mu, double sigma)
         //****************************************************************************80
         //
         //  Purpose:
@@ -993,7 +993,7 @@ namespace Burkardt.Probability
             return mu;
         }
 
-        static double normal_pdf(double x, double mu, double sigma)
+        public static double normal_pdf(double x, double mu, double sigma)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1075,7 +1075,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double[] normal_samples(int n, double mu, double sigma, ref int seed)
+        public static double[] normal_samples(int n, double mu, double sigma, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1116,7 +1116,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double normal_variance(double mu, double sigma)
+        public static double normal_variance(double mu, double sigma)
 
         //****************************************************************************80
         //
@@ -1149,7 +1149,7 @@ namespace Burkardt.Probability
             return variance;
         }
 
-        static double[] normal_vector(int n, double mu, double sigma, ref int seed)
+        public static double[] normal_vector(int n, double mu, double sigma, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1207,7 +1207,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double normal_truncated_ab_cdf(double x, double mu, double s, double a,
+        public static double normal_truncated_ab_cdf(double x, double mu, double s, double a,
             double b)
         //****************************************************************************80
         //
@@ -1252,7 +1252,7 @@ namespace Burkardt.Probability
             return cdf;
         }
 
-        static double normal_truncated_ab_cdf_inv(double cdf, double mu, double s, double a,
+        public static double normal_truncated_ab_cdf_inv(double cdf, double mu, double s, double a,
             double b)
         //****************************************************************************80
         //
@@ -1307,7 +1307,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double normal_truncated_ab_mean(double mu, double s, double a, double b)
+        public static double normal_truncated_ab_mean(double mu, double s, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1350,7 +1350,7 @@ namespace Burkardt.Probability
             return mean;
         }
 
-        static double normal_truncated_ab_pdf(double x, double mu, double s, double a,
+        public static double normal_truncated_ab_pdf(double x, double mu, double s, double a,
             double b)
         //****************************************************************************80
         //
@@ -1395,7 +1395,7 @@ namespace Burkardt.Probability
             return pdf;
         }
 
-        static double normal_truncated_ab_sample(double mu, double s, double a, double b,
+        public static double normal_truncated_ab_sample(double mu, double s, double a, double b,
             ref int seed)
         //****************************************************************************80
         //
@@ -1443,7 +1443,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double normal_truncated_ab_variance(double mu, double s, double a, double b)
+        public static double normal_truncated_ab_variance(double mu, double s, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1488,7 +1488,7 @@ namespace Burkardt.Probability
             return variance;
         }
 
-        static double normal_truncated_a_cdf(double x, double mu, double s, double a)
+        public static double normal_truncated_a_cdf(double x, double mu, double s, double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1530,7 +1530,7 @@ namespace Burkardt.Probability
             return cdf;
         }
 
-        static double normal_truncated_a_cdf_inv(double cdf, double mu, double s, double a)
+        public static double normal_truncated_a_cdf_inv(double cdf, double mu, double s, double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1582,7 +1582,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double normal_truncated_a_mean(double mu, double s, double a)
+        public static double normal_truncated_a_mean(double mu, double s, double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1622,7 +1622,7 @@ namespace Burkardt.Probability
             return mean;
         }
 
-        static double normal_truncated_a_pdf(double x, double mu, double s, double a)
+        public static double normal_truncated_a_pdf(double x, double mu, double s, double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1664,7 +1664,7 @@ namespace Burkardt.Probability
             return pdf;
         }
 
-        static double normal_truncated_a_sample(double mu, double s, double a, ref int seed)
+        public static double normal_truncated_a_sample(double mu, double s, double a, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1716,7 +1716,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double normal_truncated_a_variance(double mu, double s, double a)
+        public static double normal_truncated_a_variance(double mu, double s, double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1758,7 +1758,7 @@ namespace Burkardt.Probability
             return variance;
         }
 
-        static double normal_truncated_b_cdf(double x, double mu, double s, double b)
+        public static double normal_truncated_b_cdf(double x, double mu, double s, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1800,7 +1800,7 @@ namespace Burkardt.Probability
             return cdf;
         }
 
-        static double normal_truncated_b_cdf_inv(double cdf, double mu, double s, double b)
+        public static double normal_truncated_b_cdf_inv(double cdf, double mu, double s, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1852,7 +1852,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double normal_truncated_b_mean(double mu, double s, double b)
+        public static double normal_truncated_b_mean(double mu, double s, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1892,7 +1892,7 @@ namespace Burkardt.Probability
             return mean;
         }
 
-        static double normal_truncated_b_pdf(double x, double mu, double s, double b)
+        public static double normal_truncated_b_pdf(double x, double mu, double s, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1934,7 +1934,7 @@ namespace Burkardt.Probability
             return pdf;
         }
 
-        static double normal_truncated_b_sample(double mu, double s, double b, ref int seed)
+        public static double normal_truncated_b_sample(double mu, double s, double b, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1979,7 +1979,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double normal_truncated_b_variance(double mu, double s, double b)
+        public static double normal_truncated_b_variance(double mu, double s, double b)
         //****************************************************************************80
         //
         //  Purpose:

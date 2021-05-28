@@ -5,7 +5,7 @@ namespace Burkardt.Probability
 {
     public static class Coupon
     {
-        static double coupon_complete_pdf(int type_num, int box_num)
+        public static double coupon_complete_pdf(int type_num, int box_num)
         //****************************************************************************80
         //
         //  Purpose:
@@ -106,7 +106,7 @@ namespace Burkardt.Probability
             return pdf;
         }
 
-        static double coupon_mean(int j, int type_num)
+        public static double coupon_mean(int j, int type_num)
         //****************************************************************************80
         //
         //  Purpose:
@@ -165,7 +165,7 @@ namespace Burkardt.Probability
             return mean;
         }
 
-        static void coupon_sample(int type_num, ref int seed, int[] coupon, ref int box_num )
+        public static void coupon_sample(int type_num, ref int seed, int[] coupon, ref int box_num )
         //****************************************************************************80
         //
         //  Purpose:
@@ -278,7 +278,7 @@ namespace Burkardt.Probability
             Console.WriteLine("  Maximum number of coupons drawn without success.");
         }
 
-        static double coupon_variance(int j, int type_num)
+        public static double coupon_variance(int j, int type_num)
         //****************************************************************************80
         //
         //  Purpose:

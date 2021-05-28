@@ -5,7 +5,7 @@ namespace Burkardt.Probability
 {
     public static class Chi
     {
-        static double chi_cdf(double x, double a, double b, double c)
+        public static double chi_cdf(double x, double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -53,7 +53,7 @@ namespace Burkardt.Probability
             return cdf;
         }
 
-        static double chi_cdf_inv(double cdf, double a, double b, double c)
+        public static double chi_cdf_inv(double cdf, double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -172,7 +172,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static bool chi_check(double a, double b, double c)
+        public static bool chi_check(double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -219,7 +219,7 @@ namespace Burkardt.Probability
             return true;
         }
 
-        static double chi_mean(double a, double b, double c)
+        public static double chi_mean(double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -253,7 +253,7 @@ namespace Burkardt.Probability
             return mean;
         }
 
-        static double chi_pdf(double x, double a, double b, double c)
+        public static double chi_pdf(double x, double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -311,7 +311,7 @@ namespace Burkardt.Probability
             return pdf;
         }
 
-        static double chi_sample(double a, double b, double c, ref int seed)
+        public static double chi_sample(double a, double b, double c, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -348,7 +348,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double chi_variance(double a, double b, double c)
+        public static double chi_variance(double a, double b, double c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -382,7 +382,7 @@ namespace Burkardt.Probability
             return variance;
         }
 
-        static double chi_square_cdf(double x, double a)
+        public static double chi_square_cdf(double x, double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -421,7 +421,7 @@ namespace Burkardt.Probability
             return cdf;
         }
 
-        static double chi_square_cdf_inv(double cdf, double a)
+        public static double chi_square_cdf_inv(double cdf, double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -664,7 +664,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static void chi_square_cdf_values(ref int n_data, ref int a, ref double x, ref double fx )
+        public static void chi_square_cdf_values(ref int n_data, ref int a, ref double x, ref double fx )
         //****************************************************************************80
         //
         //  Purpose:
@@ -807,7 +807,7 @@ namespace Burkardt.Probability
             }
         }
 
-        static bool chi_square_check(double a)
+        public static bool chi_square_check(double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -845,7 +845,7 @@ namespace Burkardt.Probability
             return true;
         }
 
-        static double chi_square_mean(double a)
+        public static double chi_square_mean(double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -877,7 +877,7 @@ namespace Burkardt.Probability
             return mean;
         }
 
-        static double chi_square_pdf(double x, double a)
+        public static double chi_square_pdf(double x, double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -928,7 +928,7 @@ namespace Burkardt.Probability
             return pdf;
         }
 
-        static double chi_square_sample(double a, ref int seed)
+        public static double chi_square_sample(double a, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -986,7 +986,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double chi_square_variance(double a)
+        public static double chi_square_variance(double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1018,7 +1018,7 @@ namespace Burkardt.Probability
             return variance;
         }
 
-        static void chi_square_noncentral_cdf_values(ref int n_data, ref int df, ref double lambda,
+        public static void chi_square_noncentral_cdf_values(ref int n_data, ref int df, ref double lambda,
             ref double x, ref double cdf )
         //****************************************************************************80
         //
@@ -1211,7 +1211,7 @@ namespace Burkardt.Probability
             }
         }
 
-        static bool chi_square_noncentral_check(double a, double b)
+        public static bool chi_square_noncentral_check(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1261,7 +1261,7 @@ namespace Burkardt.Probability
             return true;
         }
 
-        static double chi_square_noncentral_mean(double a, double b)
+        public static double chi_square_noncentral_mean(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1296,7 +1296,7 @@ namespace Burkardt.Probability
             return mean;
         }
 
-        static double chi_square_noncentral_sample(double a, double b, ref int seed)
+        public static double chi_square_noncentral_sample(double a, double b, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1341,7 +1341,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double chi_square_noncentral_variance(double a, double b)
+        public static double chi_square_noncentral_variance(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:

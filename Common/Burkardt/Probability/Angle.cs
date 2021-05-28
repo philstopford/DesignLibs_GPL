@@ -4,7 +4,7 @@ namespace Burkardt.Probability
 {
     public static class Angle
     {
-        static double angle_cdf(double x, int n)
+        public static double angle_cdf(double x, int n)
         //****************************************************************************80
         //
         //  Purpose:
@@ -70,7 +70,7 @@ namespace Burkardt.Probability
             return cdf;
         }
 
-        static double angle_mean(int n)
+        public static double angle_mean(int n)
         //****************************************************************************80
         //
         //  Purpose:
@@ -101,7 +101,7 @@ namespace Burkardt.Probability
             return mean;
         }
 
-        static double angle_pdf(double x, int n)
+        public static double angle_pdf(double x, int n)
         //****************************************************************************80
         //
         //  Purpose:

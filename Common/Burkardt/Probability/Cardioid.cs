@@ -5,7 +5,7 @@ namespace Burkardt.Probability
 {
     public static class Cardioid
     {
-        static double cardioid_cdf(double x, double a, double b)
+        public static double cardioid_cdf(double x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -57,7 +57,7 @@ namespace Burkardt.Probability
             return cdf;
         }
 
-        static double cardioid_cdf_inv(double cdf, double a, double b)
+        public static double cardioid_cdf_inv(double cdf, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -136,7 +136,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static bool cardioid_check(double a, double b)
+        public static bool cardioid_check(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -176,7 +176,7 @@ namespace Burkardt.Probability
             return value;
         }
 
-        static double cardioid_mean(double a, double b)
+        public static double cardioid_mean(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -208,7 +208,7 @@ namespace Burkardt.Probability
             return mean;
         }
 
-        static double cardioid_pdf(double x, double a, double b)
+        public static double cardioid_pdf(double x, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -258,7 +258,7 @@ namespace Burkardt.Probability
             return pdf;
         }
 
-        static double cardioid_sample(double a, double b, ref int seed)
+        public static double cardioid_sample(double a, double b, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -295,7 +295,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double cardioid_variance(double a, double b)
+        public static double cardioid_variance(double a, double b)
         //****************************************************************************80
         //
         //  Purpose:

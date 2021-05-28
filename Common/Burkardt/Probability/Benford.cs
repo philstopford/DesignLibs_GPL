@@ -5,7 +5,7 @@ namespace Burkardt.Probability
 {
     public static class Benford
     {
-        static double benford_cdf(int x)
+        public static double benford_cdf(int x)
         //****************************************************************************80
         //
         //  Purpose:
@@ -54,7 +54,7 @@ namespace Burkardt.Probability
             return value;
         }
 
-        static double benford_pdf(int x)
+        public static double benford_pdf(int x)
         //****************************************************************************80
         //
         //  Purpose:

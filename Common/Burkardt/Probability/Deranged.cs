@@ -6,7 +6,7 @@ namespace Burkardt.Probability
 {
     public static class Deranged
     {
-        static double deranged_cdf(int x, int a)
+        public static double deranged_cdf(int x, int a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -59,7 +59,7 @@ namespace Burkardt.Probability
             return cdf;
         }
 
-        static int deranged_cdf_inv(double cdf, int a)
+        public static int deranged_cdf_inv(double cdf, int a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -120,7 +120,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static bool deranged_check(int a)
+        public static bool deranged_check(int a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -158,7 +158,7 @@ namespace Burkardt.Probability
             return true;
         }
 
-        static int deranged_enum(int n)
+        public static int deranged_enum(int n)
         //****************************************************************************80
         //
         //  Purpose:
@@ -265,7 +265,7 @@ namespace Burkardt.Probability
             return dn;
         }
 
-        static double deranged_mean(int a)
+        public static double deranged_mean(int a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -306,7 +306,7 @@ namespace Burkardt.Probability
             return mean;
         }
 
-        static double deranged_pdf(int x, int a)
+        public static double deranged_pdf(int x, int a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -357,7 +357,7 @@ namespace Burkardt.Probability
             return pdf;
         }
 
-        static int deranged_sample(int a, ref int seed)
+        public static int deranged_sample(int a, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -393,7 +393,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double deranged_variance(int a)
+        public static double deranged_variance(int a)
         //****************************************************************************80
         //
         //  Purpose:

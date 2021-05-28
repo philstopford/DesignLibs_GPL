@@ -5,7 +5,7 @@ namespace Burkardt.Probability
 {
     public static class Birthday
     {
-        static double birthday_cdf(int n)
+        public static double birthday_cdf(int n)
         //****************************************************************************80
         //
         //  Purpose:
@@ -66,7 +66,7 @@ namespace Burkardt.Probability
             return cdf;
         }
 
-        static int birthday_cdf_inv(double cdf)
+        public static int birthday_cdf_inv(double cdf)
         //****************************************************************************80
         //
         //  Purpose:
@@ -126,7 +126,7 @@ namespace Burkardt.Probability
             return n;
         }
 
-        static double birthday_pdf(int n)
+        public static double birthday_pdf(int n)
         //****************************************************************************80
         //
         //  Purpose:
@@ -184,7 +184,7 @@ namespace Burkardt.Probability
             return pdf;
         }
 
-        static int birthday_sample(int n, ref int seed)
+        public static int birthday_sample(int n, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:

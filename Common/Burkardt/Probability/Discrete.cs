@@ -6,7 +6,7 @@ namespace Burkardt.Probability
 {
     public static class Discrete
     {
-        static double discrete_cdf(int x, int a, double[] b)
+        public static double discrete_cdf(int x, int a, double[] b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -55,7 +55,7 @@ namespace Burkardt.Probability
             return cdf;
         }
 
-        static int discrete_cdf_inv(double cdf, int a, double[] b)
+        public static int discrete_cdf_inv(double cdf, int a, double[] b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -118,7 +118,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static bool discrete_check(int a, double[] b)
+        public static bool discrete_check(int a, double[] b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -171,7 +171,7 @@ namespace Burkardt.Probability
             return true;
         }
 
-        static double discrete_mean(int a, double[] b)
+        public static double discrete_mean(int a, double[] b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -213,7 +213,7 @@ namespace Burkardt.Probability
             return mean;
         }
 
-        static double discrete_pdf(int x, int a, double[] b)
+        public static double discrete_pdf(int x, int a, double[] b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -303,7 +303,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double discrete_variance(int a, double[] b)
+        public static double discrete_variance(int a, double[] b)
         //****************************************************************************80
         //
         //  Purpose:

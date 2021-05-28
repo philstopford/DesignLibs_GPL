@@ -5,7 +5,7 @@ namespace Burkardt.Probability
 {
     public static class Chebyshevi
     {
-        static double chebyshev1_cdf(double x)
+        public static double chebyshev1_cdf(double x)
         //****************************************************************************80
         //
         //  Purpose:
@@ -50,7 +50,7 @@ namespace Burkardt.Probability
             return cdf;
         }
 
-        static double chebyshev1_cdf_inv(double cdf)
+        public static double chebyshev1_cdf_inv(double cdf)
         //****************************************************************************80
         //
         //  Purpose:
@@ -92,7 +92,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double chebyshev1_mean()
+        public static double chebyshev1_mean()
         //****************************************************************************80
         //
         //  Purpose:
@@ -121,7 +121,7 @@ namespace Burkardt.Probability
             return mean;
         }
 
-        static double chebyshev1_pdf(double x)
+        public static double chebyshev1_pdf(double x)
         //****************************************************************************80
         //
         //  Purpose:
@@ -162,7 +162,7 @@ namespace Burkardt.Probability
             return pdf;
         }
 
-        static double chebyshev1_sample(ref int seed)
+        public static double chebyshev1_sample(ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -195,7 +195,7 @@ namespace Burkardt.Probability
             return value;
         }
 
-        static double chebyshev1_variance()
+        public static double chebyshev1_variance()
         //****************************************************************************80
         //
         //  Purpose:

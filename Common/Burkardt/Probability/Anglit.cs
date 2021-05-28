@@ -5,7 +5,7 @@ namespace Burkardt.Probability
 {
     public static class Anglit
     {
-        static double anglit_cdf(double x)
+        public static double anglit_cdf(double x)
         //****************************************************************************80
         //
         //  Purpose:
@@ -46,7 +46,7 @@ namespace Burkardt.Probability
             return cdf;
         }
 
-        static double anglit_cdf_inv(double cdf)
+        public static double anglit_cdf_inv(double cdf)
         //****************************************************************************80
         //
         //  Purpose:
@@ -85,7 +85,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double anglit_mean()
+        public static double anglit_mean()
         //****************************************************************************80
         //
         //  Purpose:
@@ -108,7 +108,7 @@ namespace Burkardt.Probability
             return 0.0;
         }
 
-        static double anglit_pdf(double x)
+        public static double anglit_pdf(double x)
         //****************************************************************************80
         //
         //  Purpose:
@@ -149,7 +149,7 @@ namespace Burkardt.Probability
             return pdf;
         }
 
-        static double anglit_sample(ref int seed)
+        public static double anglit_sample(ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -181,7 +181,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double anglit_variance()
+        public static double anglit_variance()
         //****************************************************************************80
         //
         //  Purpose:

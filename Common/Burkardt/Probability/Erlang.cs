@@ -5,7 +5,7 @@ namespace Burkardt.Probability
 {
     public static class Erlang
     {
-        static double erlang_cdf(double x, double a, double b, int c)
+        public static double erlang_cdf(double x, double a, double b, int c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -52,7 +52,7 @@ namespace Burkardt.Probability
             return cdf;
         }
 
-        static double erlang_cdf_inv(double cdf, double a, double b, int c)
+        public static double erlang_cdf_inv(double cdf, double a, double b, int c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -170,7 +170,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static bool erlang_check(double a, double b, int c)
+        public static bool erlang_check(double a, double b, int c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -217,7 +217,7 @@ namespace Burkardt.Probability
             return true;
         }
 
-        static double erlang_mean(double a, double b, int c)
+        public static double erlang_mean(double a, double b, int c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -250,7 +250,7 @@ namespace Burkardt.Probability
             return mean;
         }
 
-        static double erlang_pdf(double x, double a, double b, int c)
+        public static double erlang_pdf(double x, double a, double b, int c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -303,7 +303,7 @@ namespace Burkardt.Probability
             return pdf;
         }
 
-        static double erlang_sample(double a, double b, int c, ref int seed)
+        public static double erlang_sample(double a, double b, int c, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -346,7 +346,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double erlang_variance(double a, double b, int c)
+        public static double erlang_variance(double a, double b, int c)
         //****************************************************************************80
         //
         //  Purpose:

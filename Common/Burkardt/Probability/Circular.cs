@@ -5,7 +5,7 @@ namespace Burkardt.Probability
 {
     public static class Circular
     {
-        static double[] circular_normal_01_mean()
+        public static double[] circular_normal_01_mean()
         //****************************************************************************80
         //
         //  Purpose:
@@ -37,7 +37,7 @@ namespace Burkardt.Probability
             return mean;
         }
 
-        static double circular_normal_01_pdf(double[] x )
+        public static double circular_normal_01_pdf(double[] x )
         //****************************************************************************80
         //
         //  Purpose:
@@ -74,7 +74,7 @@ namespace Burkardt.Probability
             return pdf;
         }
 
-        static double[] circular_normal_01_sample(ref int seed)
+        public static double[] circular_normal_01_sample(ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -113,7 +113,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double[] circular_normal_01_variance()
+        public static double[] circular_normal_01_variance()
         //****************************************************************************80
         //
         //  Purpose:
@@ -145,7 +145,7 @@ namespace Burkardt.Probability
             return variance;
         }
 
-        static double[] circular_normal_mean(double[] a, double b )
+        public static double[] circular_normal_mean(double[] a, double b )
         //****************************************************************************80
         //
         //  Purpose:
@@ -181,7 +181,7 @@ namespace Burkardt.Probability
             return mean;
         }
 
-        static double circular_normal_pdf(double[] x, double[] a, double b )
+        public static double circular_normal_pdf(double[] x, double[] a, double b )
         //****************************************************************************80
         //
         //  Purpose:
@@ -228,7 +228,7 @@ namespace Burkardt.Probability
             return pdf;
         }
 
-        static double[] circular_normal_sample(double[] a, double b, ref int seed )
+        public static double[] circular_normal_sample(double[] a, double b, ref int seed )
         //****************************************************************************80
         //
         //  Purpose:
@@ -273,7 +273,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double[] circular_normal_variance(double[] a, double b )
+        public static double[] circular_normal_variance(double[] a, double b )
         //****************************************************************************80
         //
         //  Purpose:

@@ -5,7 +5,7 @@ namespace Burkardt.Probability
 {
     public static class Bernoulli
     {
-        static double bernoulli_cdf(int x, double a)
+        public static double bernoulli_cdf(int x, double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -50,7 +50,7 @@ namespace Burkardt.Probability
             return cdf;
         }
 
-        static int bernoulli_cdf_inv(double cdf, double a)
+        public static int bernoulli_cdf_inv(double cdf, double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -98,7 +98,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static bool bernoulli_check(double a)
+        public static bool bernoulli_check(double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -130,7 +130,7 @@ namespace Burkardt.Probability
             }
         }
 
-        static double bernoulli_mean(double a)
+        public static double bernoulli_mean(double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -158,7 +158,7 @@ namespace Burkardt.Probability
             return mean;
         }
 
-        static double bernoulli_pdf(int x, double a)
+        public static double bernoulli_pdf(int x, double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -218,7 +218,7 @@ namespace Burkardt.Probability
             return pdf;
         }
 
-        static int bernoulli_sample(double a, ref int seed)
+        public static int bernoulli_sample(double a, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -250,7 +250,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double bernoulli_variance(double a)
+        public static double bernoulli_variance(double a)
         //****************************************************************************80
         //
         //  Purpose:

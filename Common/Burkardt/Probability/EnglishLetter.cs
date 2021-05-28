@@ -5,7 +5,7 @@ namespace Burkardt.Probability
 {
     public static class EnglishLetter
     {
-        static double english_letter_cdf(char c)
+        public static double english_letter_cdf(char c)
         //*****************************************************************************/
         //
         //  Purpose:
@@ -75,7 +75,7 @@ namespace Burkardt.Probability
             return cdf;
         }
 
-        static char english_letter_cdf_inv(double cdf)
+        public static char english_letter_cdf_inv(double cdf)
         //****************************************************************************80
         //
         //  Purpose:
@@ -132,7 +132,7 @@ namespace Burkardt.Probability
             return c;
         }
 
-        static double english_letter_pdf(char c)
+        public static double english_letter_pdf(char c)
         //****************************************************************************80
         //
         //  Purpose:
@@ -200,7 +200,7 @@ namespace Burkardt.Probability
             return pdf;
         }
 
-        static char english_letter_sample(ref int seed)
+        public static char english_letter_sample(ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -233,7 +233,7 @@ namespace Burkardt.Probability
             return c;
         }
 
-        static double english_sentence_length_cdf(int x)
+        public static double english_sentence_length_cdf(int x)
         //****************************************************************************80
         //
         //  Purpose:
@@ -374,7 +374,7 @@ namespace Burkardt.Probability
             return cdf;
         }
 
-        static int english_sentence_length_cdf_inv(double cdf)
+        public static int english_sentence_length_cdf_inv(double cdf)
         //****************************************************************************80
         //
         //  Purpose:
@@ -520,7 +520,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double english_sentence_length_mean()
+        public static double english_sentence_length_mean()
         //****************************************************************************80
         //
         //  Purpose:
@@ -646,7 +646,7 @@ namespace Burkardt.Probability
             return mean;
         }
 
-        static double english_sentence_length_pdf(int x)
+        public static double english_sentence_length_pdf(int x)
         //****************************************************************************80
         //
         //  Purpose:
@@ -781,7 +781,7 @@ namespace Burkardt.Probability
             return pdf;
         }
 
-        static int english_sentence_length_sample(ref int seed)
+        public static int english_sentence_length_sample(ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -820,7 +820,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double english_sentence_length_variance()
+        public static double english_sentence_length_variance()
         //****************************************************************************80
         //
         //  Purpose:
@@ -954,7 +954,7 @@ namespace Burkardt.Probability
             return variance;
         }
 
-        static double english_word_length_cdf(int x)
+        public static double english_word_length_cdf(int x)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1043,7 +1043,7 @@ namespace Burkardt.Probability
             return cdf;
         }
 
-        static int english_word_length_cdf_inv(double cdf)
+        public static int english_word_length_cdf_inv(double cdf)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1138,7 +1138,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double english_word_length_mean()
+        public static double english_word_length_mean()
         //****************************************************************************80
         //
         //  Purpose:
@@ -1213,7 +1213,7 @@ namespace Burkardt.Probability
             return mean;
         }
 
-        static double english_word_length_pdf(int x)
+        public static double english_word_length_pdf(int x)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1297,7 +1297,7 @@ namespace Burkardt.Probability
             return pdf;
         }
 
-        static int english_word_length_sample(ref int seed)
+        public static int english_word_length_sample(ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1336,7 +1336,7 @@ namespace Burkardt.Probability
             return x;
         }
 
-        static double english_word_length_variance()
+        public static double english_word_length_variance()
         //****************************************************************************80
         //
         //  Purpose:

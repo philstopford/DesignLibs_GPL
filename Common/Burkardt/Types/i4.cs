@@ -560,6 +560,43 @@ namespace Burkardt.Types
 
             return value;
         }
+        
+        public static double i4_choose_log ( int n, int k )
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    I4_CHOOSE_LOG computes the logarithm of the Binomial coefficient.
+        //
+        //  Discussion:
+        //
+        //    LOG ( C(N,K) ) = LOG ( N! / ( K! * (N-K)! ) ).
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    05 March 2016
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, K, are the values of N and K.
+        //
+        //    Output, double I4_CHOOSE_LOG, the logarithm of C(N,K).
+        //
+        {
+            double value = Helpers.LogGamma ( ( double ) ( n + 1 ) ) 
+                           - Helpers.LogGamma ( ( double ) ( k + 1 ) ) 
+                           - Helpers.LogGamma ( ( double ) ( n - k + 1 ) );
+
+            return value;
+        }
 
         public static int i4vec_unique_count(int n, int[] a)
         //****************************************************************************80

@@ -88,7 +88,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/UniformRNG_r8.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/UniformRNG_i4.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Misc.cs" />
@@ -139,6 +138,7 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Gompertz.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Gumbel.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Half.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Hypergeometric.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />

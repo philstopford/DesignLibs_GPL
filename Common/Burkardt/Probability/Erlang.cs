@@ -339,7 +339,7 @@ namespace Burkardt.Probability
 
             for (int i = 1; i <= c; i++)
             {
-                double x2 = exponential_sample(a2, b2, seed);
+                double x2 = Exponential.exponential_sample(a2, b2, ref seed);
                 x = x + x2;
             }
 

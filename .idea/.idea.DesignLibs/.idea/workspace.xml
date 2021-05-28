@@ -88,8 +88,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/ASA147.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/ASA245.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/ASA066.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/ASA091.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r4.cs" />
@@ -106,7 +104,6 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA314Test/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Zipf.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Misc.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Angle.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Anglit.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Benford.cs" />
@@ -139,6 +136,9 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Dipole.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/EmpiricalDiscrete.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/EnglishLetter.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Misc.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Exponential.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Erlang.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />

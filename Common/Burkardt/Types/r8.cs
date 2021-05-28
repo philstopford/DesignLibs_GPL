@@ -2415,6 +2415,42 @@ namespace Burkardt.Types
 
             return value;
         }
+        
+        public static double r8_sign ( double x )
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_SIGN returns the sign of an R8.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    18 October 2004
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the number whose sign is desired.
+        //
+        //    Output, double R8_SIGN, the sign of X.
+        //
+        {
+            if ( x < 0.0 )
+            {
+                return ( -1.0 );
+            }
+            else
+            {
+                return ( 1.0 );
+            }
+        }
 
     }
 }

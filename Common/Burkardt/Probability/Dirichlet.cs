@@ -294,7 +294,7 @@ namespace Burkardt.Probability
             for (int i = 0; i < n; i++)
             {
                 double c2 = a[i];
-                x[i] = gamma_sample(a2, b2, c2, seed);
+                x[i] = Gamma.gamma_sample(a2, b2, c2, ref seed);
             }
 
             //

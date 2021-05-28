@@ -88,8 +88,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/UniformRNG_r8.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/UniformRNG_i4.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Misc.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Angle.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Anglit.cs" />
@@ -134,11 +132,13 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Geologistic.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Genlogistic.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Geometric.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/i4.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Gompertz.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Gumbel.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Half.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Hypergeometric.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/i4.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/InverseGaussian.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Laplace.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />

@@ -88,8 +88,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/ASA159.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/ASA172.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA172Test/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/ASA183.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/ASA063.cs" />
@@ -139,6 +137,8 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Bradford.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Buffon.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Burr.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Cardioid.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Cauchy.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />

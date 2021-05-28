@@ -79,7 +79,7 @@ namespace Burkardt.Probability
             return value;
         }
         
-        static double euler_constant ( )
+        public static double euler_constant ( )
         //****************************************************************************80
         //
         //  Purpose:

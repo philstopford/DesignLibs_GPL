@@ -100,7 +100,7 @@ namespace Burkardt.Probability
                     factor = factor / (double) (type_num);
                 }
 
-                pdf = factor * (double) (stirling2_value(box_num - 1, type_num - 1));
+                pdf = factor * (double) (Misc.stirling2_value(box_num - 1, type_num - 1));
             }
 
             return pdf;

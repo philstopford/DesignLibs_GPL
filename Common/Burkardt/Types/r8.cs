@@ -2705,8 +2705,53 @@ namespace Burkardt.Types
 
             return value;
         }
+        
+        public static double r8vec_diff_norm ( int n, double[] a, double[] b )
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8VEC_DIFF_NORM returns the L2 norm of the difference of R8VEC's.
+        //
+        //  Discussion:
+        //
+        //    An R8VEC is a vector of R8's.
+        //
+        //    The vector L2 norm is defined as:
+        //
+        //      R8VEC_NORM_L2 = sqrt ( sum ( 1 <= I <= N ) A(I)^2 ).
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    24 June 2011
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number of entries in A.
+        //
+        //    Input, double A[N], B[N], the vectors.
+        //
+        //    Output, double R8VEC_DIFF_NORM, the L2 norm of A - B.
+        //
+        {
+            double value = 0.0;
 
+            for (int i = 0; i < n; i++ )
+            {
+                value = value + ( a[i] - b[i] ) * ( a[i] - b[i] );
+            }
+            value = Math.Sqrt ( value );
 
+            return value;
+        }
 
     }
 }

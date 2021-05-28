@@ -393,7 +393,7 @@ namespace Burkardt.Probability
 
             xc_diff_norm = typeMethods.r8vec_diff_norm(n, x, c);
             xy_diff_norm = typeMethods.r8vec_diff_norm(n, x, y);
-            area = sphere_unit_area_nd(n);
+            area = Misc.sphere_unit_area_nd(n);
 
             t = (r + xc_diff_norm) * (r - xc_diff_norm);
             b = r * area * Math.Pow(xy_diff_norm, n);

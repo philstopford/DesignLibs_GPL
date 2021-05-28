@@ -120,7 +120,6 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/LogSeries.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/LogUniform.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Lerch.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Logistic.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Lorentz.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Maxwell.cs" />
@@ -139,6 +138,7 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Power.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Psi.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Quasigeometric.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />

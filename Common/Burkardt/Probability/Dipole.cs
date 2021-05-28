@@ -325,7 +325,7 @@ namespace Burkardt.Probability
             b2 = b * Math.Cos(a);
             c2 = 1.0;
 
-            xc = disk_sample(a2, b2, c2, seed);
+            xc = Disk.disk_sample(a2, b2, c2, ref seed);
             //
             //  The dipole variate is the ratio X1 / X2.
             //

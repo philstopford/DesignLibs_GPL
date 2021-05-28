@@ -1033,6 +1033,52 @@ namespace Burkardt.Types
             }
         }
 
+        public static void r8vec_unit_sum ( int n, ref double[] a )
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8VEC_UNIT_SUM normalizes an R8VEC to have unit sum.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    10 October 2004
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number of entries in the vector.
+        //
+        //    Input/output, double A[N], the vector to be normalized.
+        //    On output, the entries of A should have unit sum.  However, if
+        //    the input vector has zero sum, the routine halts.
+        //
+        {
+            double a_sum = 0.0;
+            for (int i = 0; i < n; i++ )
+            {
+                a_sum = a_sum + a[i];
+            }
+
+            if ( a_sum == 0.0 )
+            {
+                Console.WriteLine("");
+                Console.WriteLine("R8VEC_UNIT_SUM - Fatal error!");
+                Console.WriteLine("  The vector entries sum to 0.");
+            }
+
+            for (int i = 0; i < n; i++ )
+            {
+                a[i] = a[i] / a_sum;
+            }
+        }
 
         public static double[] r8mat_mv_new(int m, int n, double[] a, double[] x)
         //****************************************************************************80

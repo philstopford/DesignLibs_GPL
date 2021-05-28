@@ -701,5 +701,34 @@ namespace Burkardt.Types
 
             return mean;
         }
+        
+        public static int i4_huge ( )
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    I4_HUGE returns a "huge" I4
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    16 May 2003
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Output, int I4_HUGE, a "huge" integer.
+        //
+        {
+            const int value = 2147483647;
+
+            return value;
+        }
     }
 }

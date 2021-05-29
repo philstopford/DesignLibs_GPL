@@ -3,7 +3,7 @@ using Burkardt.Uniform;
 
 namespace Burkardt.Probability
 {
-    public static class EnglishLetter
+    public static class English
     {
         public static double english_letter_cdf(char c)
         //*****************************************************************************/

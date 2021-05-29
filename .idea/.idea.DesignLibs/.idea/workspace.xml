@@ -88,7 +88,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Power.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Psi.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Quasigeometric.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Coupon.cs" />
@@ -117,7 +116,6 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r4.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Anglit.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Bessel.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/aa.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Beta.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Discrete.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Angle.cs" />
@@ -137,8 +135,10 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Dipole.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Dirichlet.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/a.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/English.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/aa.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Program.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/a.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />

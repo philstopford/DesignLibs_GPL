@@ -109,7 +109,6 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Benford.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Arcsin.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Bernoulli.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/i4.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/i8.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r4.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Anglit.cs" />
@@ -138,6 +137,7 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Folded.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/a.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/i4.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/a.cs" />
     </changedPaths>
   </component>

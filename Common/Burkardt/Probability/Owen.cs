@@ -1,4 +1,6 @@
-﻿namespace Burkardt.Probability
+﻿using System;
+
+namespace Burkardt.Probability
 {
     public static class Owen
     {
@@ -182,6 +184,168 @@
                 a = a_vec[n_data - 1];
                 t = t_vec[n_data - 1];
             }
+        }
+
+        public static double tfn(double h, double a)
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    TFN calculates the T function of Owen.
+        //
+        //  Discussion:
+        //
+        //    Owen's T function is useful for computation of the bivariate normal
+        //    distribution and the distribution of a skewed normal distribution.
+        //
+        //    Although it was originally formulated in terms of the bivariate
+        //    normal function, the function can be defined more directly as
+        //
+        //      T(H,A) = 1 / ( 2 * PI ) *
+        //        Integral ( 0 <= X <= A ) e^( -H^2 * (1+X^2) / 2 ) / (1+X^2) dX
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    10 December 2004
+        //
+        //  Author:
+        //
+        //    FORTRAN77 original version by J C Young, C E Minder.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    D B Owen,
+        //    Tables for computing the bivariate normal distribution,
+        //    Annals of Mathematical Statistics,
+        //    Volume 27, pages 1075-1090, 1956.
+        //
+        //    J C Young, C E Minder,
+        //    Algorithm AS 76,
+        //    An Algorithm Useful in Calculating Non-Central T and
+        //      Bivariate Normal Distributions,
+        //    Applied Statistics,
+        //    Volume 23, Number 3, 1974, pages 455-457.
+        //
+        //  Parameters:
+        //
+        //    Input, double H, A, the arguments of the T function.
+        //
+        //    Output, double TFN, the value of the T function.
+        //
+        {
+            int NGAUSS = 10;
+
+            double as_;
+            double h1;
+            double h2;
+            double hs;
+            int i;
+            double rt;
+            double two_pi_inverse = 0.1591549430918953;
+            double tv1 = 1.0E-35;
+            double tv2 = 15.0;
+            double tv3 = 15.0;
+            double tv4 = 1.0E-05;
+            double value;
+            double[] weight =  {
+                0.666713443086881375935688098933E-01,
+                0.149451349150580593145776339658,
+                0.219086362515982043995534934228,
+                0.269266719309996355091226921569,
+                0.295524224714752870173892994651,
+                0.295524224714752870173892994651,
+                0.269266719309996355091226921569,
+                0.219086362515982043995534934228,
+                0.149451349150580593145776339658,
+                0.666713443086881375935688098933E-01
+            };
+            double x;
+            double[] xtab =  {
+                -0.973906528517171720077964012084,
+                -0.865063366688984510732096688423,
+                -0.679409568299024406234327365115,
+                -0.433395394129247190799265943166,
+                -0.148874338981631210884826001130,
+                0.148874338981631210884826001130,
+                0.433395394129247190799265943166,
+                0.679409568299024406234327365115,
+                0.865063366688984510732096688423,
+                0.973906528517171720077964012084
+            };
+            //
+            //  Test for H near zero.
+            //
+            if (Math.Abs(h) < tv1)
+            {
+                value = Math.Atan(a) * two_pi_inverse;
+            }
+            //
+            //  Test for large values of abs(H).
+            //
+            else if (tv2 < Math.Abs(h))
+            {
+                value = 0.0;
+            }
+            //
+            //  Test for A near zero.
+            //
+            else if (Math.Abs(a) < tv1)
+            {
+                value = 0.0;
+            }
+            //
+            //  Test whether abs(A) is so large that it must be truncated.
+            //  If so, the truncated value is H2.
+            //
+            else
+            {
+                hs = -0.5 * h * h;
+                h2 = a;
+                as_ = a * a;
+                //
+                //  Computation of truncation point by Newton iteration.
+                //
+                if (tv3 <= Math.Log(1.0 + as_) - hs * as_)
+                {
+                    h1 = 0.5 * a;
+                        as_ = 0.25 * as_;
+
+                    for (;;)
+                    {
+                        rt =  as_ +1.0;
+                        h2 = h1 + (hs * as_ +tv3 - Math.Log(rt) )
+                            / (2.0 * h1 * (1.0 / rt - hs));
+                            as_ = h2* h2;
+
+                        if (Math.Abs(h2 - h1) < tv4)
+                        {
+                            break;
+                        }
+
+                        h1 = h2;
+                    }
+                }
+
+                //
+                //  Gaussian quadrature on the interval [0,H2].
+                //
+                rt = 0.0;
+                for (i = 0; i < NGAUSS; i++)
+                {
+                    x = 0.5 * h2 * (xtab[i] + 1.0);
+                    rt = rt + weight[i] * Math.Exp(hs * (1.0 + x * x)) / (1.0 + x * x);
+                }
+
+                value = rt * 0.5 * h2 * two_pi_inverse;
+            }
+
+            return value;
+
         }
 
     }

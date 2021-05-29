@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Burkardt.Types
 {
@@ -701,42 +702,21 @@ namespace Burkardt.Types
         }
         
         public static double i4vec_mean ( int n, int[] x )
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    I4VEC_MEAN returns the mean of an I4VEC.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    01 May 1999
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int N, the number of entries in the vector.
-        //
-        //    Input, int X[N], the vector whose mean is desired.
-        //
-        //    Output, double I4VEC_MEAN, the mean, or average, of the vector entries.
-        //
         {
-            double mean = 0.0;
-            for (int i = 0; i < n; i++ )
+            if (x.Length <= 0)
             {
-                mean = mean + ( double ) x[i];
+                return 0;
             }
 
-            mean = mean / ( double ) n;
+            // Limit to the number of items in the array as a maximum
+            n = Math.Min(n, x.Length);
 
-            return mean;
+            if (n == x.Length)
+            {
+                return x.Average();
+            }
+                    
+            return x.Take(n).Average();
         }
         
         public static int i4_huge ( )
@@ -822,5 +802,42 @@ namespace Burkardt.Types
 
             return run_count;
         }
+        
+        public static int i4vec_max(int n, int[] ivec)
+        {
+            if (ivec.Length <= 0)
+            {
+                return 0;
+            }
+
+            // Limit to the number of items in the array as a maximum
+            n = Math.Min(n, ivec.Length);
+
+            if (n == ivec.Length)
+            {
+                return ivec.Max();
+            }
+            
+            return ivec.Take(n).Max();
+        }
+        
+        public static int i4vec_min ( int n, int[] ivec )
+        {
+            if (ivec.Length <= 0)
+            {
+                return 0;
+            }
+
+            // Limit to the number of items in the array as a maximum
+            n = Math.Min(n, ivec.Length);
+
+            if (n == ivec.Length)
+            {
+                return ivec.Min();
+            }
+                    
+            return ivec.Take(n).Min();
+        }        
+        
     }
 }

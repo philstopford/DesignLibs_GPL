@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel.Design;
+using System.Linq;
 using Burkardt.Probability;
 
 namespace Burkardt.Types
@@ -2753,5 +2755,259 @@ namespace Burkardt.Types
             return value;
         }
 
+        public static double r8vec_max(int n, double[] dvec)
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8VEC_MAX returns the value of the maximum element in an R8VEC.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    15 October 1998
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number of entries in the array.
+        //
+        //    Input, double *RVEC, a pointer to the first entry of the array.
+        //
+        //    Output, double R8VEC_MAX, the value of the maximum element.  This
+        //    is set to 0.0 if N <= 0.
+        //
+        {
+            if (dvec.Length <= 0)
+            {
+                return 0;
+            }
+
+            // Limit to the number of items in the array as a maximum
+            n = Math.Min(n, dvec.Length);
+
+            if (n == dvec.Length)
+            {
+                return dvec.Max();
+            }
+            
+            return dvec.Take(n).Max();
+        }
+
+        public static double r8vec_mean ( int n, double[] x )
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8VEC_MEAN returns the mean of an R8VEC.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    01 May 1999
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number of entries in the vector.
+        //
+        //    Input, double X[N], the vector whose mean is desired.
+        //
+        //    Output, double R8VEC_MEAN, the mean, or average, of the vector entries.
+        //
+        {
+            if (x.Length <= 0)
+            {
+                return 0;
+            }
+
+            // Limit to the number of items in the array as a maximum
+            n = Math.Min(n, x.Length);
+
+            if (n == x.Length)
+            {
+                return x.Average();
+            }
+                    
+            return x.Take(n).Average();
+        }
+
+        public static double r8vec_min ( int n, double[] dvec )
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8VEC_MIN returns the value of the minimum element in an R8VEC.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    15 October 1998
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number of entries in the array.
+        //
+        //    Input, double *RVEC, a pointer to the first entry of the array.
+        //
+        //    Output, double R8VEC_MIN, the value of the minimum element.  This
+        //    is set to 0.0 if N <= 0.
+        //
+        {
+            if (dvec.Length <= 0)
+            {
+                return 0;
+            }
+
+            // Limit to the number of items in the array as a maximum
+            n = Math.Min(n, dvec.Length);
+
+            if (n == dvec.Length)
+            {
+                return dvec.Min();
+            }
+                    
+            return dvec.Take(n).Min();
+        }
+
+        public static double r8vec_variance ( int n, double[] x )
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8VEC_VARIANCE returns the variance of an R8VEC.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    01 May 1999
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number of entries in the vector.
+        //
+        //    Input, double X[N], the vector whose variance is desired.
+        //
+        //    Output, double R8VEC_VARIANCE, the variance of the vector entries.
+        //
+        {
+            double mean = r8vec_mean ( n, x );
+
+            double variance = 0.0;
+            for (int i = 0; i < n; i++ )
+            {
+                variance = variance + ( x[i] - mean ) * ( x[i] - mean );
+            }
+
+            if ( 1 < n )
+            {
+                variance = variance / ( double ) ( n - 1 );
+            }
+            else
+            {
+                variance = 0.0;
+            }
+
+            return variance;
+        }
+        
+        public static double r8_modp ( double x, double y )
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_MODP returns the nonnegative remainder of R8 division.
+        //
+        //  Discussion:
+        //
+        //    If
+        //      REM = R8_MODP ( X, Y )
+        //      RMULT = ( X - REM ) / Y
+        //    then
+        //      X = Y * RMULT + REM
+        //    where REM is always nonnegative.
+        //
+        //    The MOD function computes a result with the same sign as the
+        //    quantity being divided.  Thus, suppose you had an angle A,
+        //    and you wanted to ensure that it was between 0 and 360.
+        //    Then mod(A,360.0) would do, if A was positive, but if A
+        //    was negative, your result would be between -360 and 0.
+        //
+        //    On the other hand, R8_MODP(A,360.0) is between 0 and 360, always.
+        //
+        //  Example:
+        //
+        //        I         J     MOD R8_MODP  R8_MODP Factorization
+        //
+        //      107        50       7       7    107 =  2 *  50 + 7
+        //      107       -50       7       7    107 = -2 * -50 + 7
+        //     -107        50      -7      43   -107 = -3 *  50 + 43
+        //     -107       -50      -7      43   -107 =  3 * -50 + 43
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    18 October 2004
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the number to be divided.
+        //
+        //    Input, double Y, the number that divides X.
+        //
+        //    Output, double R8_MODP, the nonnegative remainder when X is divided by Y.
+        //
+        {
+            if ( y == 0.0 )
+            {
+                Console.WriteLine("");
+                Console.WriteLine("R8_MODP - Fatal error!");
+                Console.WriteLine("  R8_MODP ( X, Y ) called with Y = " + y + "");
+                return ( 1 );
+            }
+
+            double value = x - ( ( double ) ( ( int ) ( x / y ) ) ) * y;
+
+            if ( value < 0.0 )
+            {
+                value = value + Math.Abs ( y );
+            }
+
+            return value;
+        }
+        
     }
 }

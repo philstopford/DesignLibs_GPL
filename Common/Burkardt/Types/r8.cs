@@ -2708,6 +2708,56 @@ namespace Burkardt.Types
             return value;
         }
         
+        public static double r8vec_circular_variance ( int n, double[] x )
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8VEC_CIRCULAR_VARIANCE returns the circular variance of an R8VEC
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    02 December 2004
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number of entries in the vector.
+        //
+        //    Input, double X(N), the vector whose variance is desired.
+        //
+        //    Output, double R8VEC_CIRCULAR VARIANCE, the circular variance
+        //    of the vector entries.
+        //
+        {
+            double mean = r8vec_mean ( n, x );
+
+            double sum_c = 0.0;
+            for (int i = 0; i < n; i++ )
+            {
+                sum_c = sum_c + Math.Cos ( x[i] - mean );
+            }
+
+            double sum_s = 0.0;
+            for (int i = 0; i < n; i++ )
+            {
+                sum_s = sum_s + Math.Sin ( x[i] - mean );
+            }
+
+            double value = Math.Sqrt ( sum_c * sum_c + sum_s * sum_s ) / ( double ) n;
+
+            value = 1.0 - value;
+
+            return value;
+        }
+        
         public static double r8vec_diff_norm ( int n, double[] a, double[] b )
         //****************************************************************************80
         //

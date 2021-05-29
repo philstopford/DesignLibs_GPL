@@ -1,17 +1,18 @@
 ﻿using System;
+using Burkardt.Probability;
 using Burkardt.Types;
 
 namespace Burkardt.ProbabilityTest
 {
     partial class Program
     {
-        static void power_cdf_test()
+        static void von_mises_cdf_test()
 
 //****************************************************************************80
 //
 //  Purpose:
 //
-//    POWER_CDF_TEST tests POWER_CDF.
+//    VON_MISES_CDF_TEST tests VON_MISES_CDF.
 //
 //  Licensing:
 //
@@ -19,7 +20,7 @@ namespace Burkardt.ProbabilityTest
 //
 //  Modified:
 //
-//    28 March 2016
+//    04 April 2016
 //
 //  Author:
 //
@@ -36,22 +37,22 @@ namespace Burkardt.ProbabilityTest
             double x2;
 
             Console.WriteLine("");
-            Console.WriteLine("POWER_CDF_TEST");
-            Console.WriteLine("  POWER_CDF evaluates the Power CDF;");
-            Console.WriteLine("  POWER_CDF_INV inverts the Power CDF.");
-            Console.WriteLine("  POWER_PDF evaluates the Power PDF;");
+            Console.WriteLine("VON_MISES_CDF_TEST");
+            Console.WriteLine("  VON_MISES_CDF evaluates the Von Mises CDF;");
+            Console.WriteLine("  VON_MISES_CDF_INV inverts the Von Mises CDF.");
+            Console.WriteLine("  VON_MISES_PDF evaluates the Von Mises PDF;");
 
-            a = 2.0;
-            b = 3.0;
+            a = 1.0;
+            b = 2.0;
 
             Console.WriteLine("");
             Console.WriteLine("  PDF parameter A =      " + a + "");
             Console.WriteLine("  PDF parameter B =      " + b + "");
 
-            if (!Probability.Power.power_check(a, b))
+            if (!VonMises.von_mises_check(a, b))
             {
                 Console.WriteLine("");
-                Console.WriteLine("POWER_CDF_TEST - Fatal error!");
+                Console.WriteLine("VON_MISES_CDF_TEST - Fatal error!");
                 Console.WriteLine("  The parameters are not legal.");
                 return;
             }
@@ -62,10 +63,10 @@ namespace Burkardt.ProbabilityTest
 
             for (i = 1; i <= 10; i++)
             {
-                x = Probability.Power.power_sample(a, b, ref seed);
-                pdf = Probability.Power.power_pdf(x, a, b);
-                cdf = Probability.Power.power_cdf(x, a, b);
-                x2 = Probability.Power.power_cdf_inv(cdf, a, b);
+                x = VonMises.von_mises_sample(a, b, ref seed);
+                pdf = VonMises.von_mises_pdf(x, a, b);
+                cdf = VonMises.von_mises_cdf(x, a, b);
+                x2 = VonMises.von_mises_cdf_inv(cdf, a, b);
 
                 Console.WriteLine("  "
                                   + x.ToString().PadLeft(12) + "  "
@@ -77,13 +78,13 @@ namespace Burkardt.ProbabilityTest
             return;
         }
 
-        static void power_sample_test()
+        static void von_mises_sample_test()
 
 //****************************************************************************80
 //
 //  Purpose:
 //
-//    POWER_SAMPLE_TEST tests POWER_SAMPLE.
+//    VON_MISES_SAMPLE_TEST tests VON_MISES_SAMPLE.
 //
 //  Licensing:
 //
@@ -91,7 +92,7 @@ namespace Burkardt.ProbabilityTest
 //
 //  Modified:
 //
-//    28 March 2016
+//    04 April 2016
 //
 //  Author:
 //
@@ -111,49 +112,49 @@ namespace Burkardt.ProbabilityTest
             double xmin;
 
             Console.WriteLine("");
-            Console.WriteLine("POWER_SAMPLE_TEST");
-            Console.WriteLine("  POWER_MEAN computes the Power mean;");
-            Console.WriteLine("  POWER_SAMPLE samples the Power distribution;");
-            Console.WriteLine("  POWER_VARIANCE computes the Power variance;");
+            Console.WriteLine("VON_MISES_SAMPLE_TEST");
+            Console.WriteLine("  VON_MISES_MEAN computes the Von Mises mean;");
+            Console.WriteLine("  VON_MISES_SAMPLE samples the Von Mises distribution;");
+            Console.WriteLine("  VON_MISES_CIRCULAR_VARIANCE computes the Von Mises circular variance;");
 
-            a = 2.0;
-            b = 3.0;
+            a = 1.0;
+            b = 2.0;
 
             Console.WriteLine("");
             Console.WriteLine("  PDF parameter A =      " + a + "");
             Console.WriteLine("  PDF parameter B =      " + b + "");
 
-            if (!Probability.Power.power_check(a, b))
+            if (!VonMises.von_mises_check(a, b))
             {
                 Console.WriteLine("");
-                Console.WriteLine("POWER_SAMPLE_TEST - Fatal error!");
+                Console.WriteLine("VON_MISES_SAMPLE_TEST - Fatal error!");
                 Console.WriteLine("  The parameters are not legal.");
                 return;
             }
 
-            mean = Probability.Power.power_mean(a, b);
-            variance = Probability.Power.power_variance(a, b);
+            mean = VonMises.von_mises_mean(a, b);
+            variance = VonMises.von_mises_circular_variance(a, b);
 
             Console.WriteLine("");
-            Console.WriteLine("  PDF mean =     " + mean + "");
-            Console.WriteLine("  PDF variance = " + variance + "");
+            Console.WriteLine("  PDF mean =              " + mean + "");
+            Console.WriteLine("  PDF circular variance = " + variance + "");
 
             for (i = 0; i < SAMPLE_NUM; i++)
             {
-                x[i] = Probability.Power.power_sample(a, b, ref seed);
+                x[i] = VonMises.von_mises_sample(a, b, ref seed);
             }
 
             mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
-            variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
+            variance = typeMethods.r8vec_circular_variance(SAMPLE_NUM, x);
             xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
             xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
             Console.WriteLine("");
-            Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
-            Console.WriteLine("  Sample mean =     " + mean + "");
-            Console.WriteLine("  Sample variance = " + variance + "");
-            Console.WriteLine("  Sample maximum =  " + xmax + "");
-            Console.WriteLine("  Sample minimum =  " + xmin + "");
+            Console.WriteLine("  Sample size =              " + SAMPLE_NUM + "");
+            Console.WriteLine("  Sample mean =              " + mean + "");
+            Console.WriteLine("  Sample circular variance = " + variance + "");
+            Console.WriteLine("  Sample maximum =           " + xmax + "");
+            Console.WriteLine("  Sample minimum =           " + xmin + "");
 
         }
 

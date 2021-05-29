@@ -6,13 +6,13 @@ namespace Burkardt.ProbabilityTest
 {
     partial class Program
     {
-        static void exponential_01_cdf_test()
+        static void weibull_cdf_test()
 
 //****************************************************************************80
 //
 //  Purpose:
 //
-//    EXPONENTIAL_01_CDF_TEST tests EXPONENTIAL_01_CDF.
+//    WEIBULL_CDF_TEST tests WEIBULL_CDF.
 //
 //  Licensing:
 //
@@ -20,13 +20,16 @@ namespace Burkardt.ProbabilityTest
 //
 //  Modified:
 //
-//    27 February 2007
+//    06 April 2016
 //
 //  Author:
 //
 //    John Burkardt
 //
         {
+            double a;
+            double b;
+            double c;
             double cdf;
             int i;
             double pdf;
@@ -35,10 +38,27 @@ namespace Burkardt.ProbabilityTest
             double x2;
 
             Console.WriteLine("");
-            Console.WriteLine("EXPONENTIAL_01_CDF_TEST");
-            Console.WriteLine("  EXPONENTIAL_01_CDF evaluates the Exponential 01 CDF;");
-            Console.WriteLine("  EXPONENTIAL_01_CDF_INV inverts the Exponential 01 CDF.");
-            Console.WriteLine("  EXPONENTIAL_01_PDF evaluates the Exponential 01 PDF;");
+            Console.WriteLine("WEIBULL_CDF_TEST");
+            Console.WriteLine("  WEIBULL_CDF evaluates the Weibull CDF;");
+            Console.WriteLine("  WEIBULL_CDF_INV inverts the Weibull CDF.");
+            Console.WriteLine("  WEIBULL_PDF evaluates the Weibull PDF;");
+
+            a = 2.0;
+            b = 3.0;
+            c = 4.0;
+
+            Console.WriteLine("");
+            Console.WriteLine("  PDF parameter A =      " + a + "");
+            Console.WriteLine("  PDF parameter B =      " + b + "");
+            Console.WriteLine("  PDF parameter C =      " + c + "");
+
+            if (!Weibull.weibull_check(a, b, c))
+            {
+                Console.WriteLine("");
+                Console.WriteLine("WEIBULL_CDF_TEST - Fatal error!");
+                Console.WriteLine("  The parameters are not legal.");
+                return;
+            }
 
             Console.WriteLine("");
             Console.WriteLine("       X            PDF           CDF            CDF_INV");
@@ -46,10 +66,10 @@ namespace Burkardt.ProbabilityTest
 
             for (i = 1; i <= 10; i++)
             {
-                x = Exponential.exponential_01_sample(ref seed);
-                pdf = Exponential.exponential_01_pdf(x);
-                cdf = Exponential.exponential_01_cdf(x);
-                x2 = Exponential.exponential_01_cdf_inv(cdf);
+                x = Weibull.weibull_sample(a, b, c, ref seed);
+                pdf = Weibull.weibull_pdf(x, a, b, c);
+                cdf = Weibull.weibull_cdf(x, a, b, c);
+                x2 = Weibull.weibull_cdf_inv(cdf, a, b, c);
 
                 Console.WriteLine("  "
                                   + x.ToString().PadLeft(12) + "  "
@@ -61,13 +81,13 @@ namespace Burkardt.ProbabilityTest
             return;
         }
 
-        static void exponential_01_sample_test()
+        static void weibull_sample_test()
 
 //****************************************************************************80
 //
 //  Purpose:
 //
-//    EXPONENTIAL_01_SAMPLE_TEST tests EXPONENTIAL_01_SAMPLE.
+//    WEIBULL_SAMPLE_TEST tests WEIBULL_SAMPLE.
 //
 //  Licensing:
 //
@@ -75,7 +95,7 @@ namespace Burkardt.ProbabilityTest
 //
 //  Modified:
 //
-//    25 March 2016
+//    06 April 2016
 //
 //  Author:
 //
@@ -84,6 +104,9 @@ namespace Burkardt.ProbabilityTest
         {
             int SAMPLE_NUM = 1000;
 
+            double a;
+            double b;
+            double c;
             int i;
             double mean;
             int seed = 123456789;
@@ -93,13 +116,30 @@ namespace Burkardt.ProbabilityTest
             double xmin;
 
             Console.WriteLine("");
-            Console.WriteLine("EXPONENTIAL_01_SAMPLE_TEST");
-            Console.WriteLine("  EXPONENTIAL_01_MEAN computes the Exponential 01 mean;");
-            Console.WriteLine("  EXPONENTIAL_01_SAMPLE samples the Exponential 01 distribution;");
-            Console.WriteLine("  EXPONENTIAL_01_VARIANCE computes the Exponential 01 variance.");
+            Console.WriteLine("WEIBULL_SAMPLE_TEST");
+            Console.WriteLine("  WEIBULL_MEAN computes the Weibull mean;");
+            Console.WriteLine("  WEIBULL_SAMPLE samples the Weibull distribution;");
+            Console.WriteLine("  WEIBULL_VARIANCE computes the Weibull variance.");
 
-            mean = Exponential.exponential_01_mean();
-            variance = Exponential.exponential_01_variance();
+            a = 2.0;
+            b = 3.0;
+            c = 4.0;
+
+            Console.WriteLine("");
+            Console.WriteLine("  PDF parameter A =      " + a + "");
+            Console.WriteLine("  PDF parameter B =      " + b + "");
+            Console.WriteLine("  PDF parameter C =      " + c + "");
+
+            if (!Weibull.weibull_check(a, b, c))
+            {
+                Console.WriteLine("");
+                Console.WriteLine("WEIBULL_SAMPLE_TEST - Fatal error!");
+                Console.WriteLine("  The parameters are not legal.");
+                return;
+            }
+
+            mean = Weibull.weibull_mean(a, b, c);
+            variance = Weibull.weibull_variance(a, b, c);
 
             Console.WriteLine("");
             Console.WriteLine("  PDF mean =     " + mean + "");
@@ -107,7 +147,7 @@ namespace Burkardt.ProbabilityTest
 
             for (i = 0; i < SAMPLE_NUM; i++)
             {
-                x[i] = Exponential.exponential_01_sample(ref seed);
+                x[i] = Weibull.weibull_sample(a, b, c, ref seed);
             }
 
             mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
@@ -121,16 +161,15 @@ namespace Burkardt.ProbabilityTest
             Console.WriteLine("  Sample variance = " + variance + "");
             Console.WriteLine("  Sample maximum =  " + xmax + "");
             Console.WriteLine("  Sample minimum =  " + xmin + "");
-
         }
 
-        static void exponential_cdf_test()
+        static void weibull_discrete_cdf_test()
 
 //****************************************************************************80
 //
 //  Purpose:
 //
-//    EXPONENTIAL_CDF_TEST tests EXPONENTIAL_CDF.
+//    WEIBULL_DISCRETE_CDF_TEST tests WEIBULL_DISCRETE_CDF.
 //
 //  Licensing:
 //
@@ -138,7 +177,7 @@ namespace Burkardt.ProbabilityTest
 //
 //  Modified:
 //
-//    27 February 2007
+//    08 April 2016
 //
 //  Author:
 //
@@ -151,26 +190,26 @@ namespace Burkardt.ProbabilityTest
             int i;
             double pdf;
             int seed = 123456789;
-            double x;
-            double x2;
+            int x;
+            int x2;
 
             Console.WriteLine("");
-            Console.WriteLine("EXPONENTIAL_CDF_TEST");
-            Console.WriteLine("  EXPONENTIAL_CDF evaluates the Exponential CDF;");
-            Console.WriteLine("  EXPONENTIAL_CDF_INV inverts the Exponential CDF.");
-            Console.WriteLine("  EXPONENTIAL_PDF evaluates the Exponential PDF;");
+            Console.WriteLine("WEIBULL_DISCRETE_CDF_TEST");
+            Console.WriteLine("  WEIBULL_DISCRETE_CDF evaluates the Weibull Discrete CDF;");
+            Console.WriteLine("  WEIBULL_DISCRETE_CDF_INV inverts the Weibull Discrete CDF.");
+            Console.WriteLine("  WEIBULL_DISCRETE_PDF evaluates the Weibull Discrete PDF;");
 
-            a = 1.0;
-            b = 2.0;
+            a = 0.5;
+            b = 1.5;
 
             Console.WriteLine("");
             Console.WriteLine("  PDF parameter A =      " + a + "");
             Console.WriteLine("  PDF parameter B =      " + b + "");
 
-            if (!Exponential.exponential_check(a, b))
+            if (!Weibull.weibull_discrete_check(a, b))
             {
                 Console.WriteLine("");
-                Console.WriteLine("EXPONENTIAL_CDF_TEST - Fatal error!");
+                Console.WriteLine("WEIBULL_DISCRETE_CDF_TEST - Fatal error!");
                 Console.WriteLine("  The parameters are not legal.");
                 return;
             }
@@ -181,10 +220,10 @@ namespace Burkardt.ProbabilityTest
 
             for (i = 1; i <= 10; i++)
             {
-                x = Exponential.exponential_sample(a, b, ref seed);
-                pdf = Exponential.exponential_pdf(x, a, b);
-                cdf = Exponential.exponential_cdf(x, a, b);
-                x2 = Exponential.exponential_cdf_inv(cdf, a, b);
+                x = Weibull.weibull_discrete_sample(a, b, ref seed);
+                pdf = Weibull.weibull_discrete_pdf(x, a, b);
+                cdf = Weibull.weibull_discrete_cdf(x, a, b);
+                x2 = Weibull.weibull_discrete_cdf_inv(cdf, a, b);
 
                 Console.WriteLine("  "
                                   + x.ToString().PadLeft(12) + "  "
@@ -196,13 +235,13 @@ namespace Burkardt.ProbabilityTest
             return;
         }
 
-        static void exponential_sample_test()
+        static void weibull_discrete_sample_test()
 
 //****************************************************************************80
 //
 //  Purpose:
 //
-//    EXPONENTIAL_SAMPLE_TEST tests EXPONENTIAL_SAMPLE.
+//    WEIBULL_DISCRETE_SAMPLE_TEST tests WEIBULL_DISCRETE_SAMPLE.
 //
 //  Licensing:
 //
@@ -210,7 +249,7 @@ namespace Burkardt.ProbabilityTest
 //
 //  Modified:
 //
-//    27 February 2007
+//    08 April 2016
 //
 //  Author:
 //
@@ -230,36 +269,27 @@ namespace Burkardt.ProbabilityTest
             double xmin;
 
             Console.WriteLine("");
-            Console.WriteLine("EXPONENTIAL_SAMPLE_TEST");
-            Console.WriteLine("  EXPONENTIAL_MEAN computes the Exponential mean;");
-            Console.WriteLine("  EXPONENTIAL_SAMPLE samples the Exponential distribution;");
-            Console.WriteLine("  EXPONENTIAL_VARIANCE computes the Exponential variance;");
+            Console.WriteLine("WEIBULL_DISCRETE_SAMPLE_TEST");
+            Console.WriteLine("  WEIBULL_DISCRETE_SAMPLE samples the Weibull Discrete distribution;");
 
-            a = 1.0;
-            b = 10.0;
+            a = 0.5;
+            b = 1.5;
 
             Console.WriteLine("");
             Console.WriteLine("  PDF parameter A =      " + a + "");
             Console.WriteLine("  PDF parameter B =      " + b + "");
 
-            if (!Exponential.exponential_check(a, b))
+            if (!Weibull.weibull_discrete_check(a, b))
             {
                 Console.WriteLine("");
-                Console.WriteLine("EXPONENTIAL_SAMPLE_TEST - Fatal error!");
+                Console.WriteLine("WEIBULL_DISCRETE_SAMPLE_TEST - Fatal error!");
                 Console.WriteLine("  The parameters are not legal.");
                 return;
             }
 
-            mean = Exponential.exponential_mean(a, b);
-            variance = Exponential.exponential_variance(a, b);
-
-            Console.WriteLine("");
-            Console.WriteLine("  PDF mean =     " + mean + "");
-            Console.WriteLine("  PDF variance = " + variance + "");
-
             for (i = 0; i < SAMPLE_NUM; i++)
             {
-                x[i] = Exponential.exponential_sample(a, b, ref seed);
+                x[i] = Weibull.weibull_discrete_sample(a, b, ref seed);
             }
 
             mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);

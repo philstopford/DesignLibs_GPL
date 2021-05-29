@@ -4,7 +4,7 @@ using Burkardt.Types;
 
 namespace Burkardt.ProbabilityTest
 {
-    partial class Programs
+    partial class Program
     {
         static void runs_pdf_test()
 

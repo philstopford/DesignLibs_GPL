@@ -159,8 +159,6 @@ namespace Burkardt.ProbabilityTest
             Console.WriteLine("  Sample maximum =  " + xmax + "");
             Console.WriteLine("  Sample minimum =  " + xmin + "");
 
-            return;
-# undef SAMPLE_NUM
         }
 
     }

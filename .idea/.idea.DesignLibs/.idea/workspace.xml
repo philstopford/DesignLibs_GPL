@@ -80,15 +80,12 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Common/Burkardt/Sobol/SobolData.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/E6E6B40B-308C-4FE1-9C93-7C26C144C865/94/Int32.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Common/Burkardt/Sobol/SobolDataLarge.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/E6E6B40B-308C-4FE1-9C93-7C26C144C865/C9/Random.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/LatinCenterTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Common/Burkardt/Sobol/SobolData.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Misc.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Genlogistic.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Ribesl.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Fisher.cs" />
@@ -137,8 +134,9 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/a.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/i4.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Nakagami.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Program.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/a.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Program.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/r8.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -1327,6 +1325,7 @@
       <updated>1621736685910</updated>
       <workItem from="1621736700444" duration="3642000" />
       <workItem from="1621900695362" duration="4048000" />
+      <workItem from="1622310656797" duration="1497000" />
     </task>
     <servers />
   </component>

@@ -360,19 +360,19 @@ static void disk_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 double a;
 double b;
 double c;
 int j;
-double* mean;
+double[] mean;
 int seed = 123456789;
 double variance;
-double x[2 * SAMPLE_NUM];
-double* xmax;
-double* xmin;
-double* y;
+double[] x = new double [2 * SAMPLE_NUM];
+double[] xmax;
+double[] xmin;
+double[] y;
 
 Console.WriteLine("");
 Console.WriteLine("DISK_SAMPLE");
@@ -389,8 +389,8 @@ Console.WriteLine("  PDF parameter A =      " + a + "");
 Console.WriteLine("  PDF parameter B =      " + b + "");
 Console.WriteLine("  PDF parameter C =      " + c + "");
 
-mean = disk_mean(a, b, c);
-variance = disk_variance(a, b, c);
+mean = Disk.disk_mean(a, b, c);
+variance = Disk.disk_variance(a, b, c);
 
 Console.WriteLine("");
 Console.WriteLine("  Disk mean ="
@@ -398,28 +398,26 @@ Console.WriteLine("  Disk mean ="
 + "  " + setw(12) + mean[1] + "");
 Console.WriteLine("  Disk variance = " + setw(12) + variance + "");
 
-delete[] mean;
 
 for (j = 0; j < SAMPLE_NUM; j++)
 {
-y = disk_sample(a, b, c, seed);
+y = Disk.disk_sample(a, b, c, seed);
 x[0 + j * 2] = y[0];
 x[1 + j * 2] = y[1];
-delete[] y;
 }
 
 variance = 0.0;
 for (j = 0; j < SAMPLE_NUM; j++)
 {
-variance = variance + pow(x[0 + j * 2] - a, 2) + pow(x[1 + j * 2] - b, 2);
+variance = variance + Math.Pow(x[0 + j * 2] - a, 2) + Math.Pow(x[1 + j * 2] - b, 2);
 }
 
 variance = variance / (double) (SAMPLE_NUM);
 
 
-mean = r8row_mean(2, SAMPLE_NUM, x);
-xmax = r8row_max(2, SAMPLE_NUM, x);
-xmin = r8row_min(2, SAMPLE_NUM, x);
+mean = typeMethods.r8row_mean(2, SAMPLE_NUM, x);
+xmax = typeMethods.r8row_max(2, SAMPLE_NUM, x);
+xmin = typeMethods.r8row_min(2, SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -435,12 +433,6 @@ Console.WriteLine("  Sample minimum =  "
 + setw(12) + xmin[0] + "  "
 + setw(12) + xmin[1] + "");
 
-delete[] mean;
-delete[] xmax;
-delete[] xmin;
-
-return;
-# undef SAMPLE_NUM
 }
 
 static void empirical_discrete_cdf_test()
@@ -489,8 +481,8 @@ Console.WriteLine("  EMPIRICAL_DISCRETE_PDF evaluates the Empirical Discrete PDF
 
 Console.WriteLine("");
 Console.WriteLine("  PDF parameter A = " + A + "");
-r8vec_print(A, b, "  PDF parameter B = ");
-r8vec_print(A, c, "  PDF parameter C = ");
+typeMethods.r8vec_print(A, b, "  PDF parameter B = ");
+typeMethods.r8vec_print(A, c, "  PDF parameter C = ");
 
 if (!empirical_discrete_check(A, b, c))
 {
@@ -544,7 +536,7 @@ static void empirical_discrete_sample_test()
 //
 {
 # define A 6
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 double b[A] =  {
 1.0, 1.0, 3.0, 2.0, 1.0, 2.0
@@ -558,7 +550,7 @@ int i;
 double mean;
 int seed = 123456789;
 double variance;
-double x[SAMPLE_NUM];
+double[] x = new double [SAMPLE_NUM];
 double xmax;
 double xmin;
 
@@ -570,8 +562,8 @@ Console.WriteLine("  EMPIRICAL_DISCRETE_VARIANCE computes the Empirical Discrete
 
 Console.WriteLine("");
 Console.WriteLine("  PDF parameter A = " + A + "");
-r8vec_print(A, b, "  PDF parameter B = ");
-r8vec_print(A, c, "  PDF parameter C = ");
+typeMethods.r8vec_print(A, b, "  PDF parameter B = ");
+typeMethods.r8vec_print(A, c, "  PDF parameter C = ");
 
 if (!empirical_discrete_check(A, b, c))
 {
@@ -593,10 +585,10 @@ for (i = 0; i < SAMPLE_NUM; i++)
 x[i] = empirical_discrete_sample(A, b, c, seed);
 }
 
-mean = r8vec_mean(SAMPLE_NUM, x);
-variance = r8vec_variance(SAMPLE_NUM, x);
-xmax = r8vec_max(SAMPLE_NUM, x);
-xmin = r8vec_min(SAMPLE_NUM, x);
+mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -662,8 +654,6 @@ Console.WriteLine("  '" + c + "'"
 + "  " + setw(14) + cdf
 + "  '" + c2 + "'");
 }
-
-return;
 }
 
 static void english_sentence_length_cdf_test()
@@ -744,7 +734,7 @@ static void english_sentence_length_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 int i;
 double mean;
@@ -772,10 +762,10 @@ for (i = 0; i < SAMPLE_NUM; i++)
 x[i] = english_sentence_length_sample(seed);
 }
 
-mean = i4vec_mean(SAMPLE_NUM, x);
-variance = i4vec_variance(SAMPLE_NUM, x);
-xmax = i4vec_max(SAMPLE_NUM, x);
-xmin = i4vec_min(SAMPLE_NUM, x);
+mean = typeMethods.i4vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.i4vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.i4vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.i4vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -866,7 +856,7 @@ static void english_word_length_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 int i;
 double mean;
@@ -894,10 +884,10 @@ for (i = 0; i < SAMPLE_NUM; i++)
 x[i] = english_word_length_sample(seed);
 }
 
-mean = i4vec_mean(SAMPLE_NUM, x);
-variance = i4vec_variance(SAMPLE_NUM, x);
-xmax = i4vec_max(SAMPLE_NUM, x);
-xmin = i4vec_min(SAMPLE_NUM, x);
+mean = typeMethods.i4vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.i4vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.i4vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.i4vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -1006,7 +996,7 @@ static void erlang_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 double a;
 double b;
@@ -1015,7 +1005,7 @@ int i;
 double mean;
 int seed = 123456789;
 double variance;
-double x[SAMPLE_NUM];
+double[] x = new double [SAMPLE_NUM];
 double xmax;
 double xmin;
 
@@ -1054,10 +1044,10 @@ for (i = 0; i < SAMPLE_NUM; i++)
 x[i] = erlang_sample(a, b, c, seed);
 }
 
-mean = r8vec_mean(SAMPLE_NUM, x);
-variance = r8vec_variance(SAMPLE_NUM, x);
-xmax = r8vec_max(SAMPLE_NUM, x);
-xmin = r8vec_min(SAMPLE_NUM, x);
+mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -1146,13 +1136,13 @@ static void exponential_01_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 int i;
 double mean;
 int seed = 123456789;
 double variance;
-double x[SAMPLE_NUM];
+double[] x = new double [SAMPLE_NUM];
 double xmax;
 double xmin;
 
@@ -1174,10 +1164,10 @@ for (i = 0; i < SAMPLE_NUM; i++)
 x[i] = exponential_01_sample(seed);
 }
 
-mean = r8vec_mean(SAMPLE_NUM, x);
-variance = r8vec_variance(SAMPLE_NUM, x);
-xmax = r8vec_max(SAMPLE_NUM, x);
-xmin = r8vec_min(SAMPLE_NUM, x);
+mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -1283,7 +1273,7 @@ static void exponential_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 double a;
 double b;
@@ -1291,7 +1281,7 @@ int i;
 double mean;
 int seed = 123456789;
 double variance;
-double x[SAMPLE_NUM];
+double[] x = new double [SAMPLE_NUM];
 double xmax;
 double xmin;
 
@@ -1328,10 +1318,10 @@ for (i = 0; i < SAMPLE_NUM; i++)
 x[i] = exponential_sample(a, b, seed);
 }
 
-mean = r8vec_mean(SAMPLE_NUM, x);
-variance = r8vec_variance(SAMPLE_NUM, x);
-xmax = r8vec_max(SAMPLE_NUM, x);
-xmin = r8vec_min(SAMPLE_NUM, x);
+mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -1437,7 +1427,7 @@ static void extreme_values_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 double a;
 double b;
@@ -1445,7 +1435,7 @@ int i;
 double mean;
 int seed = 123456789;
 double variance;
-double x[SAMPLE_NUM];
+double[] x = new double [SAMPLE_NUM];
 double xmax;
 double xmin;
 
@@ -1482,10 +1472,10 @@ for (i = 0; i < SAMPLE_NUM; i++)
 x[i] = extreme_values_sample(a, b, seed);
 }
 
-mean = r8vec_mean(SAMPLE_NUM, x);
-variance = r8vec_variance(SAMPLE_NUM, x);
-xmax = r8vec_max(SAMPLE_NUM, x);
-xmin = r8vec_min(SAMPLE_NUM, x);
+mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -1588,7 +1578,7 @@ static void f_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 int i;
 int m;
@@ -1596,7 +1586,7 @@ double mean;
 int n;
 int seed = 123456789;
 double variance;
-double x[SAMPLE_NUM];
+double[] x = new double [SAMPLE_NUM];
 double xmax;
 double xmin;
 
@@ -1633,10 +1623,10 @@ for (i = 0; i < SAMPLE_NUM; i++)
 x[i] = f_sample(m, n, seed);
 }
 
-mean = r8vec_mean(SAMPLE_NUM, x);
-variance = r8vec_variance(SAMPLE_NUM, x);
-xmax = r8vec_max(SAMPLE_NUM, x);
-xmin = r8vec_min(SAMPLE_NUM, x);
+mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -1711,10 +1701,10 @@ for (i = 0; i < sample_num; i++)
 x[i] = fermi_dirac_sample(u, v, seed);
 }
 
-mean = r8vec_mean(sample_num, x);
-variance = r8vec_variance(sample_num, x);
-xmax = r8vec_max(sample_num, x);
-xmin = r8vec_min(sample_num, x);
+mean = typeMethods.r8vec_mean(sample_num, x);
+variance = typeMethods.r8vec_variance(sample_num, x);
+xmax = typeMethods.r8vec_max(sample_num, x);
+xmin = typeMethods.r8vec_min(sample_num, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + mean + "");
@@ -1756,7 +1746,7 @@ double pdf;
 int seed;
 int test;
 int test_num = 3;
-double* x;
+double[] x;
 
 Console.WriteLine("");
 Console.WriteLine("FISHER_SAMPLE_TEST");
@@ -1915,7 +1905,7 @@ static void fisk_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 double a;
 double b;
@@ -1924,7 +1914,7 @@ int i;
 double mean;
 int seed = 123456789;
 double variance;
-double x[SAMPLE_NUM];
+double[] x = new double [SAMPLE_NUM];
 double xmax;
 double xmin;
 
@@ -1963,10 +1953,10 @@ for (i = 0; i < SAMPLE_NUM; i++)
 x[i] = fisk_sample(a, b, c, seed);
 }
 
-mean = r8vec_mean(SAMPLE_NUM, x);
-variance = r8vec_variance(SAMPLE_NUM, x);
-xmax = r8vec_max(SAMPLE_NUM, x);
-xmin = r8vec_min(SAMPLE_NUM, x);
+mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -2072,7 +2062,7 @@ static void folded_normal_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 double a;
 double b;
@@ -2080,7 +2070,7 @@ int i;
 double mean;
 int seed = 123456789;
 double variance;
-double x[SAMPLE_NUM];
+double[] x = new double [SAMPLE_NUM];
 double xmax;
 double xmin;
 
@@ -2117,10 +2107,10 @@ for (i = 0; i < SAMPLE_NUM; i++)
 x[i] = folded_normal_sample(a, b, seed);
 }
 
-mean = r8vec_mean(SAMPLE_NUM, x);
-variance = r8vec_variance(SAMPLE_NUM, x);
-xmax = r8vec_max(SAMPLE_NUM, x);
-xmin = r8vec_min(SAMPLE_NUM, x);
+mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -2215,14 +2205,14 @@ static void frechet_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 double alpha;
 int i;
 double mean;
 int seed = 123456789;
 double variance;
-double x[SAMPLE_NUM];
+double[] x = new double [SAMPLE_NUM];
 double xmax;
 double xmin;
 
@@ -2249,10 +2239,10 @@ for (i = 0; i < SAMPLE_NUM; i++)
 x[i] = frechet_sample(alpha, seed);
 }
 
-mean = r8vec_mean(SAMPLE_NUM, x);
-variance = r8vec_variance(SAMPLE_NUM, x);
-xmax = r8vec_max(SAMPLE_NUM, x);
-xmin = r8vec_min(SAMPLE_NUM, x);
+mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -2358,7 +2348,7 @@ static void gamma_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 double a;
 double b;
@@ -2367,7 +2357,7 @@ int i;
 double mean;
 int seed = 123456789;
 double variance;
-double x[SAMPLE_NUM];
+double[] x = new double [SAMPLE_NUM];
 double xmax;
 double xmin;
 
@@ -2406,10 +2396,10 @@ for (i = 0; i < SAMPLE_NUM; i++)
 x[i] = gamma_sample(a, b, c, seed);
 }
 
-mean = r8vec_mean(SAMPLE_NUM, x);
-variance = r8vec_variance(SAMPLE_NUM, x);
-xmax = r8vec_max(SAMPLE_NUM, x);
-xmin = r8vec_min(SAMPLE_NUM, x);
+mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -2518,7 +2508,7 @@ static void genlogistic_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 double a;
 double b;
@@ -2527,7 +2517,7 @@ int i;
 double mean;
 int seed = 123456789;
 double variance;
-double x[SAMPLE_NUM];
+double[] x = new double [SAMPLE_NUM];
 double xmax;
 double xmin;
 
@@ -2566,10 +2556,10 @@ for (i = 0; i < SAMPLE_NUM; i++)
 x[i] = genlogistic_sample(a, b, c, seed);
 }
 
-mean = r8vec_mean(SAMPLE_NUM, x);
-variance = r8vec_variance(SAMPLE_NUM, x);
-xmax = r8vec_max(SAMPLE_NUM, x);
-xmin = r8vec_min(SAMPLE_NUM, x);
+mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -2672,7 +2662,7 @@ static void geometric_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 double a;
 int j;
@@ -2713,10 +2703,10 @@ for (j = 0; j < SAMPLE_NUM; j++)
 x[j] = geometric_sample(a, seed);
 }
 
-mean = i4vec_mean(SAMPLE_NUM, x);
-variance = i4vec_variance(SAMPLE_NUM, x);
-xmax = i4vec_max(SAMPLE_NUM, x);
-xmin = i4vec_min(SAMPLE_NUM, x);
+mean = typeMethods.i4vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.i4vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.i4vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.i4vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -2822,7 +2812,7 @@ static void gompertz_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 double a;
 double b;
@@ -2830,7 +2820,7 @@ int i;
 double mean;
 int seed = 123456789;
 double variance;
-double x[SAMPLE_NUM];
+double[] x = new double [SAMPLE_NUM];
 double xmax;
 double xmin;
 
@@ -2860,10 +2850,10 @@ for (i = 0; i < SAMPLE_NUM; i++)
 x[i] = gompertz_sample(a, b, seed);
 }
 
-mean = r8vec_mean(SAMPLE_NUM, x);
-variance = r8vec_variance(SAMPLE_NUM, x);
-xmax = r8vec_max(SAMPLE_NUM, x);
-xmin = r8vec_min(SAMPLE_NUM, x);
+mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -2952,13 +2942,13 @@ static void gumbel_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 int i;
 double mean;
 int seed = 123456789;
 double variance;
-double x[SAMPLE_NUM];
+double[] x = new double [SAMPLE_NUM];
 double xmax;
 double xmin;
 
@@ -2980,10 +2970,10 @@ for (i = 0; i < SAMPLE_NUM; i++)
 x[i] = gumbel_sample(seed);
 }
 
-mean = r8vec_mean(SAMPLE_NUM, x);
-variance = r8vec_variance(SAMPLE_NUM, x);
-xmax = r8vec_max(SAMPLE_NUM, x);
-xmin = r8vec_min(SAMPLE_NUM, x);
+mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -3089,7 +3079,7 @@ static void half_normal_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 double a;
 double b;
@@ -3097,7 +3087,7 @@ int i;
 double mean;
 int seed = 123456789;
 double variance;
-double x[SAMPLE_NUM];
+double[] x = new double [SAMPLE_NUM];
 double xmax;
 double xmin;
 
@@ -3134,10 +3124,10 @@ for (i = 0; i < SAMPLE_NUM; i++)
 x[i] = half_normal_sample(a, b, seed);
 }
 
-mean = r8vec_mean(SAMPLE_NUM, x);
-variance = r8vec_variance(SAMPLE_NUM, x);
-xmax = r8vec_max(SAMPLE_NUM, x);
-xmin = r8vec_min(SAMPLE_NUM, x);
+mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -3234,7 +3224,7 @@ static void hypergeometric_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 int j;
 int l;
@@ -3281,10 +3271,10 @@ for (j = 0; j < SAMPLE_NUM; j++)
 x[j] = hypergeometric_sample(n, m, l, seed);
 }
 
-mean = i4vec_mean(SAMPLE_NUM, x);
-variance = i4vec_variance(SAMPLE_NUM, x);
-xmax = i4vec_max(SAMPLE_NUM, x);
-xmin = i4vec_min(SAMPLE_NUM, x);
+mean = typeMethods.i4vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.i4vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.i4vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.i4vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -3673,7 +3663,7 @@ static void inverse_gaussian_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 double a;
 double b;
@@ -3681,7 +3671,7 @@ int i;
 double mean;
 int seed = 123456789;
 double variance;
-double x[SAMPLE_NUM];
+double[] x = new double [SAMPLE_NUM];
 double xmax;
 double xmin;
 
@@ -3718,10 +3708,10 @@ for (i = 0; i < SAMPLE_NUM; i++)
 x[i] = inverse_gaussian_sample(a, b, seed);
 }
 
-mean = r8vec_mean(SAMPLE_NUM, x);
-variance = r8vec_variance(SAMPLE_NUM, x);
-xmax = r8vec_max(SAMPLE_NUM, x);
-xmin = r8vec_min(SAMPLE_NUM, x);
+mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -3827,7 +3817,7 @@ static void laplace_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 double a;
 double b;
@@ -3835,7 +3825,7 @@ int i;
 double mean;
 int seed = 123456789;
 double variance;
-double x[SAMPLE_NUM];
+double[] x = new double [SAMPLE_NUM];
 double xmax;
 double xmin;
 
@@ -3872,10 +3862,10 @@ for (i = 0; i < SAMPLE_NUM; i++)
 x[i] = laplace_sample(a, b, seed);
 }
 
-mean = r8vec_mean(SAMPLE_NUM, x);
-variance = r8vec_variance(SAMPLE_NUM, x);
-xmax = r8vec_max(SAMPLE_NUM, x);
-xmin = r8vec_min(SAMPLE_NUM, x);
+mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -4045,7 +4035,7 @@ static void logistic_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 double a;
 double b;
@@ -4053,7 +4043,7 @@ int i;
 double mean;
 int seed = 123456789;
 double variance;
-double x[SAMPLE_NUM];
+double[] x = new double [SAMPLE_NUM];
 double xmax;
 double xmin;
 
@@ -4090,10 +4080,10 @@ for (i = 0; i < SAMPLE_NUM; i++)
 x[i] = logistic_sample(a, b, seed);
 }
 
-mean = r8vec_mean(SAMPLE_NUM, x);
-variance = r8vec_variance(SAMPLE_NUM, x);
-xmax = r8vec_max(SAMPLE_NUM, x);
-xmin = r8vec_min(SAMPLE_NUM, x);
+mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -4199,7 +4189,7 @@ static void log_normal_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 double a;
 double b;
@@ -4207,7 +4197,7 @@ int i;
 double mean;
 int seed = 123456789;
 double variance;
-double x[SAMPLE_NUM];
+double[] x = new double [SAMPLE_NUM];
 double xmax;
 double xmin;
 
@@ -4244,10 +4234,10 @@ for (i = 0; i < SAMPLE_NUM; i++)
 x[i] = log_normal_sample(a, b, seed);
 }
 
-mean = r8vec_mean(SAMPLE_NUM, x);
-variance = r8vec_variance(SAMPLE_NUM, x);
-xmax = r8vec_max(SAMPLE_NUM, x);
-xmin = r8vec_min(SAMPLE_NUM, x);
+mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -4350,7 +4340,7 @@ static void log_series_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 double a;
 int j;
@@ -4391,10 +4381,10 @@ for (j = 0; j < SAMPLE_NUM; j++)
 x[j] = log_series_sample(a, seed);
 }
 
-mean = i4vec_mean(SAMPLE_NUM, x);
-variance = i4vec_variance(SAMPLE_NUM, x);
-xmax = i4vec_max(SAMPLE_NUM, x);
-xmin = i4vec_min(SAMPLE_NUM, x);
+mean = typeMethods.i4vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.i4vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.i4vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.i4vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -4500,7 +4490,7 @@ static void log_uniform_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 double a;
 double b;
@@ -4508,7 +4498,7 @@ int i;
 double mean;
 int seed = 123456789;
 double variance;
-double x[SAMPLE_NUM];
+double[] x = new double [SAMPLE_NUM];
 double xmax;
 double xmin;
 
@@ -4542,10 +4532,10 @@ for (i = 0; i < SAMPLE_NUM; i++)
 x[i] = log_uniform_sample(a, b, seed);
 }
 
-mean = r8vec_mean(SAMPLE_NUM, x);
-variance = r8vec_variance(SAMPLE_NUM, x);
-xmax = r8vec_max(SAMPLE_NUM, x);
-xmin = r8vec_min(SAMPLE_NUM, x);
+mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -4635,13 +4625,13 @@ static void lorentz_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 int i;
 double mean;
 int seed = 123456789;
 double variance;
-double x[SAMPLE_NUM];
+double[] x = new double [SAMPLE_NUM];
 double xmax;
 double xmin;
 
@@ -4663,10 +4653,10 @@ for (i = 0; i < SAMPLE_NUM; i++)
 x[i] = lorentz_sample(seed);
 }
 
-mean = r8vec_mean(SAMPLE_NUM, x);
-variance = r8vec_variance(SAMPLE_NUM, x);
-xmax = r8vec_max(SAMPLE_NUM, x);
-xmin = r8vec_min(SAMPLE_NUM, x);
+mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -4769,14 +4759,14 @@ static void maxwell_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 double a;
 int j;
 double mean;
 int seed = 123456789;
 double variance;
-double x[SAMPLE_NUM];
+double[] x = new double [SAMPLE_NUM];
 double xmax;
 double xmin;
 
@@ -4810,10 +4800,10 @@ for (j = 0; j < SAMPLE_NUM; j++)
 x[j] = maxwell_sample(a, seed);
 }
 
-mean = r8vec_mean(SAMPLE_NUM, x);
-variance = r8vec_variance(SAMPLE_NUM, x);
-xmax = r8vec_max(SAMPLE_NUM, x);
-xmin = r8vec_min(SAMPLE_NUM, x);
+mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -4943,7 +4933,7 @@ static void multinomial_sample_test()
 //
 {
 # define B 3
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 int a;
 double c[B] =  {
@@ -4952,9 +4942,9 @@ double c[B] =  {
 ;
 int i;
 int j;
-double* mean;
+double[] mean;
 int seed = 123456789;
-double* variance;
+double[] variance;
 int x[B * SAMPLE_NUM];
 int* xmax;
 int* xmin;
@@ -4971,7 +4961,7 @@ a = 5;
 Console.WriteLine("");
 Console.WriteLine("  PDF parameter A =      " + a + "");
 Console.WriteLine("  PDF parameter B =      " + B + "");
-r8vec_print(B, c, "  PDF parameter C:");
+typeMethods.r8vec_print(B, c, "  PDF parameter C:");
 
 if (!multinomial_check(a, B, c))
 {
@@ -4983,8 +4973,8 @@ return;
 
 mean = multinomial_mean(a, B, c);
 variance = multinomial_variance(a, B, c);
-r8vec_print(B, mean, "  PDF mean:");
-r8vec_print(B, variance, "  PDF variance:");
+typeMethods.r8vec_print(B, mean, "  PDF mean:");
+typeMethods.r8vec_print(B, variance, "  PDF variance:");
 
 delete[] mean;
 delete[] variance;
@@ -5074,7 +5064,7 @@ a = 5;
 Console.WriteLine("");
 Console.WriteLine("  PDF parameter A =      " + a + "");
 Console.WriteLine("  PDF parameter B =      " + B + "");
-r8vec_print(B, c, "  PDF parameter C:");
+typeMethods.r8vec_print(B, c, "  PDF parameter C:");
 
 if (!multinomial_check(a, B, c))
 {
@@ -5120,7 +5110,7 @@ static void multinoulli_pdf_test()
 int n = 5;
 double pdf;
 int seed;
-double* theta;
+double[] theta;
 double theta_sum;
 int x;
 
@@ -5129,7 +5119,7 @@ Console.WriteLine("MULTINOULLI_PDF_TEST");
 Console.WriteLine("  MULTINOULLI_PDF evaluates the Multinoulli PDF.");
 
 seed = 123456789;
-theta = r8vec_uniform_01_new(n, seed);
+theta = typeMethods.r8vec_uniform_01_new(n, seed);
 theta_sum = 0.0;
 for (x = 0; x < n; x++)
 {
@@ -5381,7 +5371,7 @@ static void negative_binomial_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 int a;
 double b;
@@ -5426,10 +5416,10 @@ for (i = 0; i < SAMPLE_NUM; i++)
 x[i] = negative_binomial_sample(a, b, seed);
 }
 
-mean = i4vec_mean(SAMPLE_NUM, x);
-variance = i4vec_variance(SAMPLE_NUM, x);
-xmax = i4vec_max(SAMPLE_NUM, x);
-xmin = i4vec_min(SAMPLE_NUM, x);
+mean = typeMethods.i4vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.i4vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.i4vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.i4vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -5520,12 +5510,12 @@ static void normal_01_samples_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 double mean;
 int seed = 123456789;
 double variance;
-double* x;
+double[] x;
 double xmax;
 double xmin;
 
@@ -5544,10 +5534,10 @@ Console.WriteLine("  PDF variance = " + variance + "");
 
 x = normal_01_samples(SAMPLE_NUM, seed);
 
-mean = r8vec_mean(SAMPLE_NUM, x);
-variance = r8vec_variance(SAMPLE_NUM, x);
-xmax = r8vec_max(SAMPLE_NUM, x);
-xmin = r8vec_min(SAMPLE_NUM, x);
+mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -5655,14 +5645,14 @@ static void normal_samples_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 double mean;
 double mu;
 int seed = 123456789;
 double sigma;
 double variance;
-double* x;
+double[] x;
 double xmax;
 double xmin;
 
@@ -5696,10 +5686,10 @@ Console.WriteLine("  PDF variance = " + variance + "");
 
 x = normal_samples(SAMPLE_NUM, mu, sigma, seed);
 
-mean = r8vec_mean(SAMPLE_NUM, x);
-variance = r8vec_variance(SAMPLE_NUM, x);
-xmax = r8vec_max(SAMPLE_NUM, x);
-xmin = r8vec_min(SAMPLE_NUM, x);
+mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -5817,7 +5807,7 @@ double s;
 int sample_num = 1000;
 int seed;
 double variance;
-double* x;
+double[] x;
 double xmax;
 double xmin;
 
@@ -5854,10 +5844,10 @@ for (i = 0; i < sample_num; i++)
 x[i] = normal_truncated_ab_sample(mu, s, a, b, seed);
 }
 
-mean = r8vec_mean(sample_num, x);
-variance = r8vec_variance(sample_num, x);
-xmax = r8vec_max(sample_num, x);
-xmin = r8vec_min(sample_num, x);
+mean = typeMethods.r8vec_mean(sample_num, x);
+variance = typeMethods.r8vec_variance(sample_num, x);
+xmax = typeMethods.r8vec_max(sample_num, x);
+xmin = typeMethods.r8vec_min(sample_num, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + sample_num + "");
@@ -5971,7 +5961,7 @@ double s;
 int sample_num = 1000;
 int seed;
 double variance;
-double* x;
+double[] x;
 double xmax;
 double xmin;
 
@@ -6007,10 +5997,10 @@ for (i = 0; i < sample_num; i++)
 x[i] = normal_truncated_a_sample(mu, s, a, seed);
 }
 
-mean = r8vec_mean(sample_num, x);
-variance = r8vec_variance(sample_num, x);
-xmax = r8vec_max(sample_num, x);
-xmin = r8vec_min(sample_num, x);
+mean = typeMethods.r8vec_mean(sample_num, x);
+variance = typeMethods.r8vec_variance(sample_num, x);
+xmax = typeMethods.r8vec_max(sample_num, x);
+xmin = typeMethods.r8vec_min(sample_num, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + sample_num + "");
@@ -6124,7 +6114,7 @@ double s;
 int sample_num = 1000;
 int seed;
 double variance;
-double* x;
+double[] x;
 double xmax;
 double xmin;
 
@@ -6160,10 +6150,10 @@ for (i = 0; i < sample_num; i++)
 x[i] = normal_truncated_b_sample(mu, s, b, seed);
 }
 
-mean = r8vec_mean(sample_num, x);
-variance = r8vec_variance(sample_num, x);
-xmax = r8vec_max(sample_num, x);
-xmin = r8vec_min(sample_num, x);
+mean = typeMethods.r8vec_mean(sample_num, x);
+variance = typeMethods.r8vec_variance(sample_num, x);
+xmax = typeMethods.r8vec_max(sample_num, x);
+xmin = typeMethods.r8vec_min(sample_num, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + sample_num + "");
@@ -6270,7 +6260,7 @@ static void pareto_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 double a;
 double b;
@@ -6278,7 +6268,7 @@ int i;
 double mean;
 int seed = 123456789;
 double variance;
-double x[SAMPLE_NUM];
+double[] x = new double [SAMPLE_NUM];
 double xmax;
 double xmin;
 
@@ -6315,10 +6305,10 @@ for (i = 0; i < SAMPLE_NUM; i++)
 x[i] = pareto_sample(a, b, seed);
 }
 
-mean = r8vec_mean(SAMPLE_NUM, x);
-variance = r8vec_variance(SAMPLE_NUM, x);
-xmax = r8vec_max(SAMPLE_NUM, x);
-xmin = r8vec_min(SAMPLE_NUM, x);
+mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -6477,7 +6467,7 @@ static void planck_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 double a;
 double b;
@@ -6485,7 +6475,7 @@ int i;
 double mean;
 int seed = 123456789;
 double variance;
-double x[SAMPLE_NUM];
+double[] x = new double [SAMPLE_NUM];
 double xmax;
 double xmin;
 
@@ -6521,10 +6511,10 @@ for (i = 0; i < SAMPLE_NUM; i++)
 x[i] = planck_sample(a, b, seed);
 }
 
-mean = r8vec_mean(SAMPLE_NUM, x);
-variance = r8vec_variance(SAMPLE_NUM, x);
-xmax = r8vec_max(SAMPLE_NUM, x);
-xmin = r8vec_min(SAMPLE_NUM, x);
+mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -6627,7 +6617,7 @@ static void poisson_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 double a;
 int i;
@@ -6669,10 +6659,10 @@ for (i = 0; i < SAMPLE_NUM; i++)
 x[i] = poisson_sample(a, seed);
 }
 
-mean = i4vec_mean(SAMPLE_NUM, x);
-variance = i4vec_variance(SAMPLE_NUM, x);
-xmax = i4vec_max(SAMPLE_NUM, x);
-xmin = i4vec_min(SAMPLE_NUM, x);
+mean = typeMethods.i4vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.i4vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.i4vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.i4vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -6778,7 +6768,7 @@ static void power_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 double a;
 double b;
@@ -6786,7 +6776,7 @@ int i;
 double mean;
 int seed = 123456789;
 double variance;
-double x[SAMPLE_NUM];
+double[] x = new double [SAMPLE_NUM];
 double xmax;
 double xmin;
 
@@ -6823,10 +6813,10 @@ for (i = 0; i < SAMPLE_NUM; i++)
 x[i] = power_sample(a, b, seed);
 }
 
-mean = r8vec_mean(SAMPLE_NUM, x);
-variance = r8vec_variance(SAMPLE_NUM, x);
-xmax = r8vec_max(SAMPLE_NUM, x);
-xmin = r8vec_min(SAMPLE_NUM, x);
+mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -6977,10 +6967,10 @@ for (j = 0; j < sample_num; j++)
 x[j] = quasigeometric_sample(a, b, seed);
 }
 
-mean = i4vec_mean(sample_num, x);
-variance = i4vec_variance(sample_num, x);
-xmax = i4vec_max(sample_num, x);
-xmin = i4vec_min(sample_num, x);
+mean = typeMethods.i4vec_mean(sample_num, x);
+variance = typeMethods.i4vec_variance(sample_num, x);
+xmax = typeMethods.i4vec_max(sample_num, x);
+xmin = typeMethods.i4vec_min(sample_num, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + sample_num + "");
@@ -7353,10 +7343,10 @@ Console.WriteLine("  " + setw(6) + i
 + "  " + setw(14) + x[i] + "");
 }
 
-min = r8vec_min(N, x);
-max = r8vec_max(N, x);
-mean = r8vec_mean(N, x);
-variance = r8vec_variance(N, x);
+min = typeMethods.r8vec_min(N, x);
+max = typeMethods.r8vec_max(N, x);
+mean = typeMethods.r8vec_mean(N, x);
+variance = typeMethods.r8vec_variance(N, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Number of samples was " + N + "");
@@ -7511,14 +7501,14 @@ static void rayleigh_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 double a;
 int j;
 double mean;
 int seed = 123456789;
 double variance;
-double x[SAMPLE_NUM];
+double[] x = new double [SAMPLE_NUM];
 double xmax;
 double xmin;
 
@@ -7552,10 +7542,10 @@ for (j = 0; j < SAMPLE_NUM; j++)
 x[j] = rayleigh_sample(a, seed);
 }
 
-mean = r8vec_mean(SAMPLE_NUM, x);
-variance = r8vec_variance(SAMPLE_NUM, x);
-xmax = r8vec_max(SAMPLE_NUM, x);
-xmin = r8vec_min(SAMPLE_NUM, x);
+mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -7661,7 +7651,7 @@ static void reciprocal_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 double a;
 double b;
@@ -7669,7 +7659,7 @@ int i;
 double mean;
 int seed = 123456789;
 double variance;
-double x[SAMPLE_NUM];
+double[] x = new double [SAMPLE_NUM];
 double xmax;
 double xmin;
 
@@ -7706,10 +7696,10 @@ for (i = 0; i < SAMPLE_NUM; i++)
 x[i] = reciprocal_sample(a, b, seed);
 }
 
-mean = r8vec_mean(SAMPLE_NUM, x);
-variance = r8vec_variance(SAMPLE_NUM, x);
-xmax = r8vec_max(SAMPLE_NUM, x);
-xmin = r8vec_min(SAMPLE_NUM, x);
+mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -7810,7 +7800,7 @@ static void runs_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 int i;
 int m;
@@ -7846,10 +7836,10 @@ for (i = 0; i < SAMPLE_NUM; i++)
 x[i] = runs_sample(m, n, seed);
 }
 
-mean = i4vec_mean(SAMPLE_NUM, x);
-variance = i4vec_variance(SAMPLE_NUM, x);
-xmax = i4vec_max(SAMPLE_NUM, x);
-xmin = i4vec_min(SAMPLE_NUM, x);
+mean = typeMethods.i4vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.i4vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.i4vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.i4vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -7955,7 +7945,7 @@ static void sech_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 double a;
 double b;
@@ -7963,7 +7953,7 @@ int i;
 double mean;
 int seed = 123456789;
 double variance;
-double x[SAMPLE_NUM];
+double[] x = new double [SAMPLE_NUM];
 double xmax;
 double xmin;
 
@@ -8000,10 +7990,10 @@ for (i = 0; i < SAMPLE_NUM; i++)
 x[i] = sech_sample(a, b, seed);
 }
 
-mean = r8vec_mean(SAMPLE_NUM, x);
-variance = r8vec_variance(SAMPLE_NUM, x);
-xmax = r8vec_max(SAMPLE_NUM, x);
-xmin = r8vec_min(SAMPLE_NUM, x);
+mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -8109,7 +8099,7 @@ static void semicircular_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 double a;
 double b;
@@ -8117,7 +8107,7 @@ int i;
 double mean;
 int seed = 123456789;
 double variance;
-double x[SAMPLE_NUM];
+double[] x = new double [SAMPLE_NUM];
 double xmax;
 double xmin;
 
@@ -8154,10 +8144,10 @@ for (i = 0; i < SAMPLE_NUM; i++)
 x[i] = semicircular_sample(a, b, seed);
 }
 
-mean = r8vec_mean(SAMPLE_NUM, x);
-variance = r8vec_variance(SAMPLE_NUM, x);
-xmax = r8vec_max(SAMPLE_NUM, x);
-xmin = r8vec_min(SAMPLE_NUM, x);
+mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -8263,7 +8253,7 @@ static void student_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 double a;
 double b;
@@ -8272,7 +8262,7 @@ int i;
 double mean;
 int seed = 123456789;
 double variance;
-double x[SAMPLE_NUM];
+double[] x = new double [SAMPLE_NUM];
 double xmax;
 double xmin;
 
@@ -8311,10 +8301,10 @@ for (i = 0; i < SAMPLE_NUM; i++)
 x[i] = student_sample(a, b, c, seed);
 }
 
-mean = r8vec_mean(SAMPLE_NUM, x);
-variance = r8vec_variance(SAMPLE_NUM, x);
-xmax = r8vec_max(SAMPLE_NUM, x);
-xmin = r8vec_min(SAMPLE_NUM, x);
+mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -8526,7 +8516,7 @@ static void triangle_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 double a;
 double b;
@@ -8535,7 +8525,7 @@ int i;
 double mean;
 int seed = 123456789;
 double variance;
-double x[SAMPLE_NUM];
+double[] x = new double [SAMPLE_NUM];
 double xmax;
 double xmin;
 
@@ -8574,10 +8564,10 @@ for (i = 0; i < SAMPLE_NUM; i++)
 x[i] = triangle_sample(a, b, c, seed);
 }
 
-mean = r8vec_mean(SAMPLE_NUM, x);
-variance = r8vec_variance(SAMPLE_NUM, x);
-xmax = r8vec_max(SAMPLE_NUM, x);
-xmin = r8vec_min(SAMPLE_NUM, x);
+mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -8683,7 +8673,7 @@ static void triangular_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 double a;
 double b;
@@ -8691,7 +8681,7 @@ int i;
 double mean;
 int seed = 123456789;
 double variance;
-double x[SAMPLE_NUM];
+double[] x = new double [SAMPLE_NUM];
 double xmax;
 double xmin;
 
@@ -8728,10 +8718,10 @@ for (i = 0; i < SAMPLE_NUM; i++)
 x[i] = triangular_sample(a, b, seed);
 }
 
-mean = r8vec_mean(SAMPLE_NUM, x);
-variance = r8vec_variance(SAMPLE_NUM, x);
-xmax = r8vec_max(SAMPLE_NUM, x);
-xmin = r8vec_min(SAMPLE_NUM, x);
+mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -8767,7 +8757,7 @@ static void uniform_01_order_sample_test()
 {
 int n;
 int seed = 123456789;
-double* x;
+double[] x;
 
 Console.WriteLine("");
 Console.WriteLine("UNIFORM_01_ORDER_SAMPLE_TEST");
@@ -8777,7 +8767,7 @@ Console.WriteLine("  UNIFORM_ORDER_SAMPLE samples.");
 n = 10;
 x = uniform_01_order_sample(n, seed);
 
-r8vec_print(n, x, "  Ordered sample:");
+typeMethods.r8vec_print(n, x, "  Ordered sample:");
 
 delete[] x;
 
@@ -8809,7 +8799,7 @@ int i;
 int j;
 int n;
 int seed = 123456789;
-double* x;
+double[] x;
 
 n = 3;
 
@@ -8916,13 +8906,13 @@ static void uniform_01_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 int i;
 double mean;
 int seed = 123456789;
 double variance;
-double x[SAMPLE_NUM];
+double[] x = new double [SAMPLE_NUM];
 double xmax;
 double xmin;
 
@@ -8944,10 +8934,10 @@ for (i = 0; i < SAMPLE_NUM; i++)
 x[i] = uniform_01_sample(seed);
 }
 
-mean = r8vec_mean(SAMPLE_NUM, x);
-variance = r8vec_variance(SAMPLE_NUM, x);
-xmax = r8vec_max(SAMPLE_NUM, x);
-xmin = r8vec_min(SAMPLE_NUM, x);
+mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -9053,7 +9043,7 @@ static void uniform_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 double a;
 double b;
@@ -9061,7 +9051,7 @@ int i;
 double mean;
 int seed = 123456789;
 double variance;
-double x[SAMPLE_NUM];
+double[] x = new double [SAMPLE_NUM];
 double xmax;
 double xmin;
 
@@ -9098,10 +9088,10 @@ for (i = 0; i < SAMPLE_NUM; i++)
 x[i] = uniform_sample(a, b, seed);
 }
 
-mean = r8vec_mean(SAMPLE_NUM, x);
-variance = r8vec_variance(SAMPLE_NUM, x);
-xmax = r8vec_max(SAMPLE_NUM, x);
-xmin = r8vec_min(SAMPLE_NUM, x);
+mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -9207,7 +9197,7 @@ static void uniform_discrete_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 int a;
 int b;
@@ -9252,10 +9242,10 @@ for (i = 0; i < SAMPLE_NUM; i++)
 x[i] = uniform_discrete_sample(a, b, seed);
 }
 
-mean = i4vec_mean(SAMPLE_NUM, x);
-variance = i4vec_variance(SAMPLE_NUM, x);
-xmax = i4vec_max(SAMPLE_NUM, x);
-xmin = i4vec_min(SAMPLE_NUM, x);
+mean = typeMethods.i4vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.i4vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.i4vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.i4vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -9361,7 +9351,7 @@ static void von_mises_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 double a;
 double b;
@@ -9369,7 +9359,7 @@ int i;
 double mean;
 int seed = 123456789;
 double variance;
-double x[SAMPLE_NUM];
+double[] x = new double [SAMPLE_NUM];
 double xmax;
 double xmin;
 
@@ -9406,10 +9396,10 @@ for (i = 0; i < SAMPLE_NUM; i++)
 x[i] = von_mises_sample(a, b, seed);
 }
 
-mean = r8vec_mean(SAMPLE_NUM, x);
-variance = r8vec_circular_variance(SAMPLE_NUM, x);
-xmax = r8vec_max(SAMPLE_NUM, x);
-xmin = r8vec_min(SAMPLE_NUM, x);
+mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.r8vec_circular_variance(SAMPLE_NUM, x);
+xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =              " + SAMPLE_NUM + "");
@@ -9482,10 +9472,10 @@ Console.WriteLine("");
 
 for (i = 1; i <= 10; i++)
 {
-x = weibull_sample(a, b, c, seed);
-pdf = weibull_pdf(x, a, b, c);
-cdf = weibull_cdf(x, a, b, c);
-x2 = weibull_cdf_inv(cdf, a, b, c);
+x = Weibull.weibull_sample(a, b, c, seed);
+pdf = Weibull.weibull_pdf(x, a, b, c);
+cdf = Weibull.weibull_cdf(x, a, b, c);
+x2 = Weibull.weibull_cdf_inv(cdf, a, b, c);
 
 Console.WriteLine("  "
 + setw(12) + x + "  "
@@ -9518,7 +9508,7 @@ static void weibull_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 double a;
 double b;
@@ -9527,7 +9517,7 @@ int i;
 double mean;
 int seed = 123456789;
 double variance;
-double x[SAMPLE_NUM];
+double[] x = new double [SAMPLE_NUM];
 double xmax;
 double xmin;
 
@@ -9554,8 +9544,8 @@ Console.WriteLine("  The parameters are not legal.");
 return;
 }
 
-mean = weibull_mean(a, b, c);
-variance = weibull_variance(a, b, c);
+mean = Weibull.weibull_mean(a, b, c);
+variance = Weibull.weibull_variance(a, b, c);
 
 Console.WriteLine("");
 Console.WriteLine("  PDF mean =     " + mean + "");
@@ -9563,13 +9553,13 @@ Console.WriteLine("  PDF variance = " + variance + "");
 
 for (i = 0; i < SAMPLE_NUM; i++)
 {
-x[i] = weibull_sample(a, b, c, seed);
+x[i] = Weibull.weibull_sample(a, b, c, seed);
 }
 
-mean = r8vec_mean(SAMPLE_NUM, x);
-variance = r8vec_variance(SAMPLE_NUM, x);
-xmax = r8vec_max(SAMPLE_NUM, x);
-xmin = r8vec_min(SAMPLE_NUM, x);
+mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -9640,10 +9630,10 @@ Console.WriteLine("");
 
 for (i = 1; i <= 10; i++)
 {
-x = weibull_discrete_sample(a, b, seed);
-pdf = weibull_discrete_pdf(x, a, b);
-cdf = weibull_discrete_cdf(x, a, b);
-x2 = weibull_discrete_cdf_inv(cdf, a, b);
+x = Weibull.weibull_discrete_sample(a, b, seed);
+pdf = Weibull.weibull_discrete_pdf(x, a, b);
+cdf = Weibull.weibull_discrete_cdf(x, a, b);
+x2 = Weibull.weibull_discrete_cdf_inv(cdf, a, b);
 
 Console.WriteLine("  "
 + setw(12) + x + "  "
@@ -9676,7 +9666,7 @@ static void weibull_discrete_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 double a;
 double b;
@@ -9684,7 +9674,7 @@ int i;
 double mean;
 int seed = 123456789;
 double variance;
-double x[SAMPLE_NUM];
+double[] x = new double [SAMPLE_NUM];
 double xmax;
 double xmin;
 
@@ -9709,13 +9699,13 @@ return;
 
 for (i = 0; i < SAMPLE_NUM; i++)
 {
-x[i] = weibull_discrete_sample(a, b, seed);
+x[i] = Weibull.weibull_discrete_sample(a, b, seed);
 }
 
-mean = r8vec_mean(SAMPLE_NUM, x);
-variance = r8vec_variance(SAMPLE_NUM, x);
-xmax = r8vec_max(SAMPLE_NUM, x);
-xmin = r8vec_min(SAMPLE_NUM, x);
+mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -9815,7 +9805,7 @@ static void zipf_sample_test()
 //    John Burkardt
 //
 {
-# define SAMPLE_NUM 1000
+int SAMPLE_NUM = 1000;
 
 double a;
 int j;
@@ -9856,10 +9846,10 @@ for (j = 0; j < SAMPLE_NUM; j++)
 x[j] = zipf_sample(a, seed);
 }
 
-mean = i4vec_mean(SAMPLE_NUM, x);
-variance = i4vec_variance(SAMPLE_NUM, x);
-xmax = i4vec_max(SAMPLE_NUM, x);
-xmin = i4vec_min(SAMPLE_NUM, x);
+mean = typeMethods.i4vec_mean(SAMPLE_NUM, x);
+variance = typeMethods.i4vec_variance(SAMPLE_NUM, x);
+xmax = typeMethods.i4vec_max(SAMPLE_NUM, x);
+xmin = typeMethods.i4vec_min(SAMPLE_NUM, x);
 
 Console.WriteLine("");
 Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");

@@ -88,7 +88,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Psi.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Quasigeometric.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Coupon.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Misc.cs" />
@@ -137,6 +136,7 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Dirichlet.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/English.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/aa.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Folded.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Program.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/a.cs" />
     </changedPaths>

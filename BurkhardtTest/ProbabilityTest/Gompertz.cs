@@ -6,13 +6,13 @@ namespace Burkardt.ProbabilityTest
 {
     partial class Program
     {
-        static void folded_normal_cdf_test()
+        static void gompertz_cdf_test()
 
 //****************************************************************************80
 //
 //  Purpose:
 //
-//    FOLDED_NORMAL_CDF_TEST tests FOLDED_NORMAL_CDF.
+//    GOMPERTZ_CDF_TEST tests GOMPERTZ_CDF
 //
 //  Licensing:
 //
@@ -20,7 +20,7 @@ namespace Burkardt.ProbabilityTest
 //
 //  Modified:
 //
-//    05 April 2016
+//    03 April 2016
 //
 //  Author:
 //
@@ -37,10 +37,10 @@ namespace Burkardt.ProbabilityTest
             double x2;
 
             Console.WriteLine("");
-            Console.WriteLine("FOLDED_NORMAL_CDF_TEST");
-            Console.WriteLine("  FOLDED_NORMAL_CDF evaluates the Folded Normal CDF;");
-            Console.WriteLine("  FOLDED_NORMAL_CDF_INV inverts the Folded Normal CDF.");
-            Console.WriteLine("  FOLDED_NORMAL_PDF evaluates the Folded Normal PDF;");
+            Console.WriteLine("GOMPERTZ_CDF_TEST");
+            Console.WriteLine("  GOMPERTZ_CDF evaluates the Gompertz CDF;");
+            Console.WriteLine("  GOMPERTZ_CDF_INV inverts the Gompertz CDF.");
+            Console.WriteLine("  GOMPERTZ_PDF evaluates the Gompertz PDF;");
 
             a = 2.0;
             b = 3.0;
@@ -49,10 +49,10 @@ namespace Burkardt.ProbabilityTest
             Console.WriteLine("  PDF parameter A =      " + a + "");
             Console.WriteLine("  PDF parameter B =      " + b + "");
 
-            if (!Folded.folded_normal_check(a, b))
+            if (!Gompertz.gompertz_check(a, b))
             {
                 Console.WriteLine("");
-                Console.WriteLine("FOLDED_NORMAL_CDF_TEST - Fatal error!");
+                Console.WriteLine("GOMPERTZ_CDF_TEST - Fatal error!");
                 Console.WriteLine("  The parameters are not legal.");
                 return;
             }
@@ -63,10 +63,10 @@ namespace Burkardt.ProbabilityTest
 
             for (i = 1; i <= 10; i++)
             {
-                x = Folded.folded_normal_sample(a, b, ref seed);
-                pdf = Folded.folded_normal_pdf(x, a, b);
-                cdf = Folded.folded_normal_cdf(x, a, b);
-                x2 = Folded.folded_normal_cdf_inv(cdf, a, b);
+                x = Gompertz.gompertz_sample(a, b, ref seed);
+                pdf = Gompertz.gompertz_pdf(x, a, b);
+                cdf = Gompertz.gompertz_cdf(x, a, b);
+                x2 = Gompertz.gompertz_cdf_inv(cdf, a, b);
 
                 Console.WriteLine("  "
                                   + x.ToString().PadLeft(12) + "  "
@@ -77,13 +77,13 @@ namespace Burkardt.ProbabilityTest
 
         }
 
-        static void folded_normal_sample_test()
+        static void gompertz_sample_test()
 
 //****************************************************************************80
 //
 //  Purpose:
 //
-//    FOLDED_NORMAL_SAMPLE_TEST tests FOLDED_NORMAL_SAMPLE.
+//    GOMPERTZ_SAMPLE_TEST tests GOMPERTZ_SAMPLE.
 //
 //  Licensing:
 //
@@ -91,7 +91,7 @@ namespace Burkardt.ProbabilityTest
 //
 //  Modified:
 //
-//    05 April 2016
+//    03 April 2016
 //
 //  Author:
 //
@@ -111,10 +111,10 @@ namespace Burkardt.ProbabilityTest
             double xmin;
 
             Console.WriteLine("");
-            Console.WriteLine("FOLDED_NORMAL_SAMPLE_TEST");
-            Console.WriteLine("  FOLDED_NORMAL_MEAN computes the Folded Normal mean;");
-            Console.WriteLine("  FOLDED_NORMAL_SAMPLE samples the Folded Normal distribution;");
-            Console.WriteLine("  FOLDED_NORMAL_VARIANCE computes the Folded Normal variance;");
+            Console.WriteLine("GOMPERTZ_SAMPLE_TEST");
+            Console.WriteLine("  GOMPERTZ_MEAN computes the Gompertz mean;");
+            Console.WriteLine("  GOMPERTZ_SAMPLE samples the Gompertz distribution;");
+            Console.WriteLine("  GOMPERTZ_VARIANCE computes the Gompertz variance;");
 
             a = 2.0;
             b = 3.0;
@@ -123,24 +123,17 @@ namespace Burkardt.ProbabilityTest
             Console.WriteLine("  PDF parameter A =      " + a + "");
             Console.WriteLine("  PDF parameter B =      " + b + "");
 
-            if (!Folded.folded_normal_check(a, b))
+            if (!Gompertz.gompertz_check(a, b))
             {
                 Console.WriteLine("");
-                Console.WriteLine("FOLDED_NORMAL_SAMPLE_TEST - Fatal error!");
+                Console.WriteLine("GOMPERTZ_SAMPLE_TEST - Fatal error!");
                 Console.WriteLine("  The parameters are not legal.");
                 return;
             }
 
-            mean = Folded.folded_normal_mean(a, b);
-            variance = Folded.folded_normal_variance(a, b);
-
-            Console.WriteLine("");
-            Console.WriteLine("  PDF mean =     " + mean + "");
-            Console.WriteLine("  PDF variance = " + variance + "");
-
             for (i = 0; i < SAMPLE_NUM; i++)
             {
-                x[i] = Folded.folded_normal_sample(a, b, ref seed);
+                x[i] = Gompertz.gompertz_sample(a, b, ref seed);
             }
 
             mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
@@ -155,6 +148,8 @@ namespace Burkardt.ProbabilityTest
             Console.WriteLine("  Sample maximum =  " + xmax + "");
             Console.WriteLine("  Sample minimum =  " + xmin + "");
 
+            return;
+# undef SAMPLE_NUM
         }
 
     }

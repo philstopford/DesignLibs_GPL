@@ -6,13 +6,13 @@ namespace Burkardt.ProbabilityTest
 {
     partial class Program
     {
-        static void folded_normal_cdf_test()
+        static void gumbel_cdf_test()
 
 //****************************************************************************80
 //
 //  Purpose:
 //
-//    FOLDED_NORMAL_CDF_TEST tests FOLDED_NORMAL_CDF.
+//    GUMBEL_CDF_TEST tests GUMBEL_CDF.
 //
 //  Licensing:
 //
@@ -20,15 +20,13 @@ namespace Burkardt.ProbabilityTest
 //
 //  Modified:
 //
-//    05 April 2016
+//    03 April 2016
 //
 //  Author:
 //
 //    John Burkardt
 //
         {
-            double a;
-            double b;
             double cdf;
             int i;
             double pdf;
@@ -37,25 +35,10 @@ namespace Burkardt.ProbabilityTest
             double x2;
 
             Console.WriteLine("");
-            Console.WriteLine("FOLDED_NORMAL_CDF_TEST");
-            Console.WriteLine("  FOLDED_NORMAL_CDF evaluates the Folded Normal CDF;");
-            Console.WriteLine("  FOLDED_NORMAL_CDF_INV inverts the Folded Normal CDF.");
-            Console.WriteLine("  FOLDED_NORMAL_PDF evaluates the Folded Normal PDF;");
-
-            a = 2.0;
-            b = 3.0;
-
-            Console.WriteLine("");
-            Console.WriteLine("  PDF parameter A =      " + a + "");
-            Console.WriteLine("  PDF parameter B =      " + b + "");
-
-            if (!Folded.folded_normal_check(a, b))
-            {
-                Console.WriteLine("");
-                Console.WriteLine("FOLDED_NORMAL_CDF_TEST - Fatal error!");
-                Console.WriteLine("  The parameters are not legal.");
-                return;
-            }
+            Console.WriteLine("GUMBEL_CDF_TEST");
+            Console.WriteLine("  GUMBEL_CDF evaluates the Gumbel CDF;");
+            Console.WriteLine("  GUMBEL_CDF_INV inverts the Gumbel CDF.");
+            Console.WriteLine("  GUMBEL_PDF evaluates the Gumbel PDF;");
 
             Console.WriteLine("");
             Console.WriteLine("       X            PDF           CDF            CDF_INV");
@@ -63,10 +46,10 @@ namespace Burkardt.ProbabilityTest
 
             for (i = 1; i <= 10; i++)
             {
-                x = Folded.folded_normal_sample(a, b, ref seed);
-                pdf = Folded.folded_normal_pdf(x, a, b);
-                cdf = Folded.folded_normal_cdf(x, a, b);
-                x2 = Folded.folded_normal_cdf_inv(cdf, a, b);
+                x = Gumbel.gumbel_sample(ref seed);
+                pdf = Gumbel.gumbel_pdf(x);
+                cdf = Gumbel.gumbel_cdf(x);
+                x2 = Gumbel.gumbel_cdf_inv(cdf);
 
                 Console.WriteLine("  "
                                   + x.ToString().PadLeft(12) + "  "
@@ -77,13 +60,13 @@ namespace Burkardt.ProbabilityTest
 
         }
 
-        static void folded_normal_sample_test()
+        static void gumbel_sample_test()
 
 //****************************************************************************80
 //
 //  Purpose:
 //
-//    FOLDED_NORMAL_SAMPLE_TEST tests FOLDED_NORMAL_SAMPLE.
+//    GUMBEL_SAMPLE_TEST tests GUMBEL_SAMPLE.
 //
 //  Licensing:
 //
@@ -91,7 +74,7 @@ namespace Burkardt.ProbabilityTest
 //
 //  Modified:
 //
-//    05 April 2016
+//    03 April 2016
 //
 //  Author:
 //
@@ -100,8 +83,6 @@ namespace Burkardt.ProbabilityTest
         {
             int SAMPLE_NUM = 1000;
 
-            double a;
-            double b;
             int i;
             double mean;
             int seed = 123456789;
@@ -111,28 +92,13 @@ namespace Burkardt.ProbabilityTest
             double xmin;
 
             Console.WriteLine("");
-            Console.WriteLine("FOLDED_NORMAL_SAMPLE_TEST");
-            Console.WriteLine("  FOLDED_NORMAL_MEAN computes the Folded Normal mean;");
-            Console.WriteLine("  FOLDED_NORMAL_SAMPLE samples the Folded Normal distribution;");
-            Console.WriteLine("  FOLDED_NORMAL_VARIANCE computes the Folded Normal variance;");
+            Console.WriteLine("GUMBEL_SAMPLE_TEST");
+            Console.WriteLine("  GUMBEL_MEAN computes the Gumbel mean;");
+            Console.WriteLine("  GUMBEL_SAMPLE samples the Gumbel distribution;");
+            Console.WriteLine("  GUMBEL_VARIANCE computes the Gumbel variance.");
 
-            a = 2.0;
-            b = 3.0;
-
-            Console.WriteLine("");
-            Console.WriteLine("  PDF parameter A =      " + a + "");
-            Console.WriteLine("  PDF parameter B =      " + b + "");
-
-            if (!Folded.folded_normal_check(a, b))
-            {
-                Console.WriteLine("");
-                Console.WriteLine("FOLDED_NORMAL_SAMPLE_TEST - Fatal error!");
-                Console.WriteLine("  The parameters are not legal.");
-                return;
-            }
-
-            mean = Folded.folded_normal_mean(a, b);
-            variance = Folded.folded_normal_variance(a, b);
+            mean = Gumbel.gumbel_mean();
+            variance = Gumbel.gumbel_variance();
 
             Console.WriteLine("");
             Console.WriteLine("  PDF mean =     " + mean + "");
@@ -140,7 +106,7 @@ namespace Burkardt.ProbabilityTest
 
             for (i = 0; i < SAMPLE_NUM; i++)
             {
-                x[i] = Folded.folded_normal_sample(a, b, ref seed);
+                x[i] = Gumbel.gumbel_sample(ref seed);
             }
 
             mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);

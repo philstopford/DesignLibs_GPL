@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Burkardt.Types
 {
@@ -505,6 +506,83 @@ namespace Burkardt.Types
 
             return value;
         }
+        
+        public static float r4vec_max(int n, float[] dvec)
+        {
+            if (dvec.Length <= 0)
+            {
+                return 0;
+            }
+
+            // Limit to the number of items in the array as a maximum
+            n = Math.Min(n, dvec.Length);
+
+            if (n == dvec.Length)
+            {
+                return dvec.Max();
+            }
+            
+            return dvec.Take(n).Max();
+        }
+
+        public static float r4vec_mean ( int n, float[] x )
+        {
+            if (x.Length <= 0)
+            {
+                return 0;
+            }
+
+            // Limit to the number of items in the array as a maximum
+            n = Math.Min(n, x.Length);
+
+            if (n == x.Length)
+            {
+                return x.Average();
+            }
+                    
+            return x.Take(n).Average();
+        }
+
+        public static float r4vec_min ( int n, float[] dvec )
+        {
+            if (dvec.Length <= 0)
+            {
+                return 0;
+            }
+
+            // Limit to the number of items in the array as a maximum
+            n = Math.Min(n, dvec.Length);
+
+            if (n == dvec.Length)
+            {
+                return dvec.Min();
+            }
+                    
+            return dvec.Take(n).Min();
+        }
+
+        public static float r4vec_variance ( int n, float[] x )
+        {
+            float mean = r4vec_mean ( n, x );
+
+            float variance = 0.0f;
+            for (int i = 0; i < n; i++ )
+            {
+                variance = variance + ( x[i] - mean ) * ( x[i] - mean );
+            }
+
+            if ( 1 < n )
+            {
+                variance = variance / ( float ) ( n - 1 );
+            }
+            else
+            {
+                variance = 0.0f;
+            }
+
+            return variance;
+        }
+
 
     }
 }

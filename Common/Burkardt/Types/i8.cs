@@ -1,4 +1,7 @@
-﻿namespace Burkardt.Types
+﻿using System;
+using System.Linq;
+
+namespace Burkardt.Types
 {
     public class i8
     {
@@ -192,6 +195,108 @@
             return ret;
         }
         
+        public static long i8vec_max(int n, long[] ivec)
+        {
+            if (ivec.Length <= 0)
+            {
+                return 0;
+            }
+
+            // Limit to the number of items in the array as a maximum
+            n = Math.Min(n, ivec.Length);
+
+            if (n == ivec.Length)
+            {
+                return ivec.Max();
+            }
+            
+            return ivec.Take(n).Max();
+        }
+        
+        public static long i8vec_min ( int n, long[] ivec )
+        {
+            if (ivec.Length <= 0)
+            {
+                return 0;
+            }
+
+            // Limit to the number of items in the array as a maximum
+            n = Math.Min(n, ivec.Length);
+
+            if (n == ivec.Length)
+            {
+                return ivec.Min();
+            }
+                    
+            return ivec.Take(n).Min();
+        }        
+
+        public static double i8vec_variance(int n, long[] x)
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_VARIANCE returns the variance of an I4VEC.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    01 May 1999
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in the vector.
+            //
+            //    Input, int X[N], the vector whose variance is desired.
+            //
+            //    Output, double I4VEC_VARIANCE, the variance of the vector entries.
+            //
+        {
+            double mean = i8vec_mean(n, x);
+
+            double variance = 0.0;
+            for (int i = 0; i < n; i++)
+            {
+                variance = variance + ((double) x[i] - mean) * ((double) x[i] - mean);
+            }
+
+            if (1 < n)
+            {
+                variance = variance / (double) (n - 1);
+            }
+            else
+            {
+                variance = 0.0;
+            }
+
+            return variance;
+        }
+        
+        public static double i8vec_mean ( int n, long[] x )
+        {
+            if (x.Length <= 0)
+            {
+                return 0;
+            }
+
+            // Limit to the number of items in the array as a maximum
+            n = Math.Min(n, x.Length);
+
+            if (n == x.Length)
+            {
+                return x.Average();
+            }
+                    
+            return x.Take(n).Average();
+        }
+
     }
     
 }

@@ -330,111 +330,6 @@ static void Main(string[] args)
 
 
 
-
-
-
-
-
-
-
-
-
-static void disk_sample_test()
-
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    DISK_SAMPLE_TEST tests DISK_SAMPLE.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    19 March 2016
-//
-//  Author:
-//
-//    John Burkardt
-//
-{
-int SAMPLE_NUM = 1000;
-
-double a;
-double b;
-double c;
-int j;
-double[] mean;
-int seed = 123456789;
-double variance;
-double[] x = new double [2 * SAMPLE_NUM];
-double[] xmax;
-double[] xmin;
-double[] y;
-
-Console.WriteLine("");
-Console.WriteLine("DISK_SAMPLE");
-Console.WriteLine("  DISK_MEAN returns the Disk mean;");
-Console.WriteLine("  DISK_SAMPLE samples the Disk distribution;");
-Console.WriteLine("  DISK_VARIANCE returns the Disk variance;");
-
-a = 10.0;
-b = 4.0;
-c = 3.0;
-
-Console.WriteLine("");
-Console.WriteLine("  PDF parameter A =      " + a + "");
-Console.WriteLine("  PDF parameter B =      " + b + "");
-Console.WriteLine("  PDF parameter C =      " + c + "");
-
-mean = Disk.disk_mean(a, b, c);
-variance = Disk.disk_variance(a, b, c);
-
-Console.WriteLine("");
-Console.WriteLine("  Disk mean ="
-+ "  " + setw(12) + mean[0]
-+ "  " + setw(12) + mean[1] + "");
-Console.WriteLine("  Disk variance = " + setw(12) + variance + "");
-
-
-for (j = 0; j < SAMPLE_NUM; j++)
-{
-y = Disk.disk_sample(a, b, c, seed);
-x[0 + j * 2] = y[0];
-x[1 + j * 2] = y[1];
-}
-
-variance = 0.0;
-for (j = 0; j < SAMPLE_NUM; j++)
-{
-variance = variance + Math.Pow(x[0 + j * 2] - a, 2) + Math.Pow(x[1 + j * 2] - b, 2);
-}
-
-variance = variance / (double) (SAMPLE_NUM);
-
-
-mean = typeMethods.r8row_mean(2, SAMPLE_NUM, x);
-xmax = typeMethods.r8row_max(2, SAMPLE_NUM, x);
-xmin = typeMethods.r8row_min(2, SAMPLE_NUM, x);
-
-Console.WriteLine("");
-Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
-Console.WriteLine("  Sample mean =     "
-+ setw(12) + mean[0] + "  "
-+ setw(12) + mean[1] + "");
-Console.WriteLine("  Sample variance = "
-+ setw(12) + variance + "");
-Console.WriteLine("  Sample maximum =  "
-+ setw(12) + xmax[0] + "  "
-+ setw(12) + xmax[1] + "");
-Console.WriteLine("  Sample minimum =  "
-+ setw(12) + xmin[0] + "  "
-+ setw(12) + xmin[1] + "");
-
-}
-
 static void empirical_discrete_cdf_test()
 
 //****************************************************************************80
@@ -456,13 +351,13 @@ static void empirical_discrete_cdf_test()
 //    John Burkardt
 //
 {
-# define A 6
+int A = 6;
 
-double b[A] =  {
+double[] b =  {
 1.0, 1.0, 3.0, 2.0, 1.0, 2.0
 }
 ;
-double c[A] =  {
+double[] c =  {
 0.0, 1.0, 2.0, 4.5, 6.0, 10.0
 }
 ;
@@ -498,20 +393,18 @@ Console.WriteLine("");
 
 for (i = 1; i <= 10; i++)
 {
-x = empirical_discrete_sample(A, b, c, seed);
-pdf = empirical_discrete_pdf(x, A, b, c);
-cdf = empirical_discrete_cdf(x, A, b, c);
-x2 = empirical_discrete_cdf_inv(cdf, A, b, c);
+x = EmpiricalDiscrete.empirical_discrete_sample(A, b, c, seed);
+pdf = EmpiricalDiscrete.empirical_discrete_pdf(x, A, b, c);
+cdf = EmpiricalDiscrete.empirical_discrete_cdf(x, A, b, c);
+x2 = EmpiricalDiscrete.empirical_discrete_cdf_inv(cdf, A, b, c);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "  "
-+ setw(12) + x2 + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "  "
++ x2.ToString().PadLeft(12) + "");
 }
 
-return;
-# undef A
 }
 
 static void empirical_discrete_sample_test()
@@ -535,14 +428,14 @@ static void empirical_discrete_sample_test()
 //    John Burkardt
 //
 {
-# define A 6
+int A = 6;
 int SAMPLE_NUM = 1000;
 
-double b[A] =  {
+double[] b =  {
 1.0, 1.0, 3.0, 2.0, 1.0, 2.0
 }
 ;
-double c[A] =  {
+double[] c =  {
 0.0, 1.0, 2.0, 4.5, 6.0, 10.0
 }
 ;
@@ -573,8 +466,8 @@ Console.WriteLine("  The parameters are not legal.");
 return;
 }
 
-mean = empirical_discrete_mean(A, b, c);
-variance = empirical_discrete_variance(A, b, c);
+mean = EmpiricalDiscrete.empirical_discrete_mean(A, b, c);
+variance = EmpiricalDiscrete.empirical_discrete_variance(A, b, c);
 
 Console.WriteLine("");
 Console.WriteLine("  PDF mean =     " + mean + "");
@@ -582,7 +475,7 @@ Console.WriteLine("  PDF variance = " + variance + "");
 
 for (i = 0; i < SAMPLE_NUM; i++)
 {
-x[i] = empirical_discrete_sample(A, b, c, seed);
+x[i] = EmpiricalDiscrete.empirical_discrete_sample(A, b, c, seed);
 }
 
 mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
@@ -597,8 +490,6 @@ Console.WriteLine("  Sample variance = " + variance + "");
 Console.WriteLine("  Sample maximum =  " + xmax + "");
 Console.WriteLine("  Sample minimum =  " + xmin + "");
 
-return;
-# undef A
 # undef SAMPLE_NUM
 }
 
@@ -644,14 +535,14 @@ Console.WriteLine("");
 
 for (i = 1; i <= 10; i++)
 {
-c = english_letter_sample(seed);
-pdf = english_letter_pdf(c);
-cdf = english_letter_cdf(c);
-c2 = english_letter_cdf_inv(cdf);
+c = English.english_letter_sample(seed);
+pdf = English.english_letter_pdf(c);
+cdf = English.english_letter_cdf(c);
+c2 = English.english_letter_cdf_inv(cdf);
 
 Console.WriteLine("  '" + c + "'"
-+ "  " + setw(14) + pdf
-+ "  " + setw(14) + cdf
++ "  " + pdf.ToString().PadLeft(14)
++ "  " + cdf.ToString().PadLeft(14)
 + "  '" + c2 + "'");
 }
 }
@@ -696,18 +587,18 @@ Console.WriteLine("");
 
 for (i = 1; i <= 10; i++)
 {
-x = english_sentence_length_sample(seed);
+x = English.english_sentence_length_sample(seed);
 
-pdf = english_sentence_length_pdf(x);
+pdf = English.english_sentence_length_pdf(x);
 
-cdf = english_sentence_length_cdf(x);
+cdf = English.english_sentence_length_cdf(x);
 
-x2 = english_sentence_length_cdf_inv(cdf);
+x2 = English.english_sentence_length_cdf_inv(cdf);
 
-Console.WriteLine("  " + setw(12) + x
-+ "  " + setw(12) + pdf
-+ "  " + setw(12) + cdf
-+ "  " + setw(12) + x2 + "");
+Console.WriteLine("  " + x.ToString().PadLeft(12)
++ "  " + pdf.ToString().PadLeft(12)
++ "  " + cdf.ToString().PadLeft(12)
++ "  " + x2.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -750,8 +641,8 @@ Console.WriteLine("  ENGLISH_SENTENCE_LENGTH_MEAN computes the English Sentence 
 Console.WriteLine("  ENGLISH_SENTENCE_LENGTH_SAMPLE samples the English Sentence Length distribution;");
 Console.WriteLine("  ENGLISH_SENTENCE_LENGTH_VARIANCE computes the English Sentence Length variance.");
 
-mean = english_sentence_length_mean();
-variance = english_sentence_length_variance();
+mean = English.english_sentence_length_mean();
+variance = English.english_sentence_length_variance();
 
 Console.WriteLine("");
 Console.WriteLine("  PDF mean =                    " + mean + "");
@@ -759,7 +650,7 @@ Console.WriteLine("  PDF variance =                " + variance + "");
 
 for (i = 0; i < SAMPLE_NUM; i++)
 {
-x[i] = english_sentence_length_sample(seed);
+x[i] = English.english_sentence_length_sample(seed);
 }
 
 mean = typeMethods.i4vec_mean(SAMPLE_NUM, x);
@@ -818,18 +709,18 @@ Console.WriteLine("");
 
 for (i = 1; i <= 10; i++)
 {
-x = english_word_length_sample(seed);
+x = English.english_word_length_sample(seed);
 
-pdf = english_word_length_pdf(x);
+pdf = English.english_word_length_pdf(x);
 
-cdf = english_word_length_cdf(x);
+cdf = English.english_word_length_cdf(x);
 
-x2 = english_word_length_cdf_inv(cdf);
+x2 = English.english_word_length_cdf_inv(cdf);
 
-Console.WriteLine("  " + setw(12) + x
-+ "  " + setw(12) + pdf
-+ "  " + setw(12) + cdf
-+ "  " + setw(12) + x2 + "");
+Console.WriteLine("  " + x.ToString().PadLeft(12)
++ "  " + pdf.ToString().PadLeft(12)
++ "  " + cdf.ToString().PadLeft(12)
++ "  " + x2.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -872,8 +763,8 @@ Console.WriteLine("  ENGLISH_WORD_LENGTH_MEAN computes the English Word Lengthme
 Console.WriteLine("  ENGLISH_WORD_LENGTH_SAMPLE samples the English Word Lengthdistribution;");
 Console.WriteLine("  ENGLISH_WORD_LENGTH_VARIANCE computes the English Word Lengthvariance.");
 
-mean = english_word_length_mean();
-variance = english_word_length_variance();
+mean = English.english_word_length_mean();
+variance = English.english_word_length_variance();
 
 Console.WriteLine("");
 Console.WriteLine("  PDF mean =                    " + mean + "");
@@ -881,7 +772,7 @@ Console.WriteLine("  PDF variance =                " + variance + "");
 
 for (i = 0; i < SAMPLE_NUM; i++)
 {
-x[i] = english_word_length_sample(seed);
+x[i] = English.english_word_length_sample(seed);
 }
 
 mean = typeMethods.i4vec_mean(SAMPLE_NUM, x);
@@ -966,10 +857,10 @@ cdf = erlang_cdf(x, a, b, c);
 x2 = erlang_cdf_inv(cdf, a, b, c);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "  "
-+ setw(12) + x2 + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "  "
++ x2.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -1106,10 +997,10 @@ cdf = exponential_01_cdf(x);
 x2 = exponential_01_cdf_inv(cdf);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "  "
-+ setw(12) + x2 + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "  "
++ x2.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -1243,10 +1134,10 @@ cdf = exponential_cdf(x, a, b);
 x2 = exponential_cdf_inv(cdf, a, b);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "  "
-+ setw(12) + x2 + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "  "
++ x2.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -1397,10 +1288,10 @@ cdf = extreme_values_cdf(x, a, b);
 x2 = extreme_values_cdf_inv(cdf, a, b);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "  "
-+ setw(12) + x2 + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "  "
++ x2.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -1549,9 +1440,9 @@ pdf = f_pdf(x, m, n);
 cdf = f_cdf(x, m, n);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -1799,9 +1690,9 @@ pdf = fisher_pdf(x, kappa, mu);
 Console.WriteLine("  " + setw(10) + x[0]
   + "  " + setw(10) + x[1]
   + "  " + setw(10) + x[2]
-  + "  " + setw(14) + pdf + "");
+  + "  " + pdf.ToString().PadLeft(14) + "");
 
-delete[] x;
+
 }
 
 }
@@ -1875,10 +1766,10 @@ cdf = fisk_cdf(x, a, b, c);
 x2 = fisk_cdf_inv(cdf, a, b, c);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "  "
-+ setw(12) + x2 + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "  "
++ x2.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -2032,10 +1923,10 @@ cdf = folded_normal_cdf(x, a, b);
 x2 = folded_normal_cdf_inv(cdf, a, b);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "  "
-+ setw(12) + x2 + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "  "
++ x2.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -2175,10 +2066,10 @@ cdf = frechet_cdf(x, alpha);
 x2 = frechet_cdf_inv(cdf, alpha);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "  "
-+ setw(12) + x2 + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "  "
++ x2.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -2319,9 +2210,9 @@ pdf = gamma_pdf(x, a, b, c);
 cdf = gamma_cdf(x, a, b, c);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -2478,10 +2369,10 @@ cdf = genlogistic_cdf(x, a, b, c);
 x2 = genlogistic_cdf_inv(cdf, a, b, c);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "  "
-+ setw(12) + x2 + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "  "
++ x2.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -2632,10 +2523,10 @@ cdf = geometric_cdf(x, a);
 x2 = geometric_cdf_inv(cdf, a);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "  "
-+ setw(12) + x2 + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "  "
++ x2.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -2782,10 +2673,10 @@ cdf = gompertz_cdf(x, a, b);
 x2 = gompertz_cdf_inv(cdf, a, b);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "  "
-+ setw(12) + x2 + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "  "
++ x2.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -2912,10 +2803,10 @@ cdf = gumbel_cdf(x);
 x2 = gumbel_cdf_inv(cdf);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "  "
-+ setw(12) + x2 + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "  "
++ x2.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -3049,10 +2940,10 @@ cdf = half_normal_cdf(x, a, b);
 x2 = half_normal_cdf_inv(cdf, a, b);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "  "
-+ setw(12) + x2 + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "  "
++ x2.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -3634,9 +3525,9 @@ pdf = inverse_gaussian_pdf(x, a, b);
 cdf = inverse_gaussian_cdf(x, a, b);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -3787,10 +3678,10 @@ cdf = laplace_cdf(x, a, b);
 x2 = laplace_cdf_inv(cdf, a, b);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "  "
-+ setw(12) + x2 + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "  "
++ x2.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -3933,10 +3824,10 @@ cdf = levy_cdf(x, a, b);
 x2 = levy_cdf_inv(cdf, a, b);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "  "
-+ setw(12) + x2 + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "  "
++ x2.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -4005,10 +3896,10 @@ cdf = logistic_cdf(x, a, b);
 x2 = logistic_cdf_inv(cdf, a, b);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "  "
-+ setw(12) + x2 + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "  "
++ x2.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -4159,10 +4050,10 @@ cdf = log_normal_cdf(x, a, b);
 x2 = log_normal_cdf_inv(cdf, a, b);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "  "
-+ setw(12) + x2 + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "  "
++ x2.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -4310,10 +4201,10 @@ cdf = log_series_cdf(x, a);
 x2 = log_series_cdf_inv(cdf, a);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "  "
-+ setw(12) + x2 + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "  "
++ x2.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -4460,10 +4351,10 @@ cdf = log_uniform_cdf(x, a, b);
 x2 = log_uniform_cdf_inv(cdf, a, b);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "  "
-+ setw(12) + x2 + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "  "
++ x2.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -4595,10 +4486,10 @@ cdf = lorentz_cdf(x);
 x2 = lorentz_cdf_inv(cdf);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "  "
-+ setw(12) + x2 + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "  "
++ x2.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -4729,10 +4620,10 @@ cdf = maxwell_cdf(x, a);
 x2 = maxwell_cdf_inv(cdf, a);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "  "
-+ setw(12) + x2 + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "  "
++ x2.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -5007,8 +4898,8 @@ Console.WriteLine("  "
 + setw(6) + i + 1 + "  "
 + setw(12) + mean[i] + "  "
 + setw(12) + variance[i] + "  "
-+ setw(12) + xmin[i] + "  "
-+ setw(12) + xmax[i] + "");
++ x.ToString().PadLeft(12)min[i] + "  "
++ x.ToString().PadLeft(12)max[i] + "");
 }
 
 delete[] mean;
@@ -5138,7 +5029,7 @@ for (x = -1; x <= n; x++)
 {
 pdf = multinoulli_pdf(x, n, theta);
 Console.WriteLine("  " + setw(2) + x
-+ "  " + setw(14) + pdf + "");
++ "  " + pdf.ToString().PadLeft(14) + "");
 }
 
 delete[] theta;
@@ -5210,10 +5101,10 @@ pdf = nakagami_pdf(x, a, b, c);
 cdf = nakagami_cdf(x, a, b, c);
 x2 = nakagami_cdf_inv(cdf, a, b, c);
 
-Console.WriteLine("  " + setw(12) + x
-+ "  " + setw(12) + pdf
-+ "  " + setw(12) + cdf
-+ "  " + setw(12) + x2 + "");
+Console.WriteLine("  " + x.ToString().PadLeft(12)
++ "  " + pdf.ToString().PadLeft(12)
++ "  " + cdf.ToString().PadLeft(12)
++ "  " + x2.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -5341,10 +5232,10 @@ cdf = negative_binomial_cdf(x, a, b);
 x2 = negative_binomial_cdf_inv(cdf, a, b);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "  "
-+ setw(12) + x2 + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "  "
++ x2.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -5546,7 +5437,7 @@ Console.WriteLine("  Sample variance = " + variance + "");
 Console.WriteLine("  Sample maximum =  " + xmax + "");
 Console.WriteLine("  Sample minimum =  " + xmin + "");
 
-delete[] x;
+
 
 return;
 # undef SAMPLE_NUM
@@ -5615,10 +5506,10 @@ cdf = normal_cdf(x, mu, sigma);
 x2 = normal_cdf_inv(cdf, mu, sigma);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "  "
-+ setw(12) + x2 + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "  "
++ x2.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -5698,7 +5589,7 @@ Console.WriteLine("  Sample variance = " + variance + "");
 Console.WriteLine("  Sample maximum =  " + xmax + "");
 Console.WriteLine("  Sample minimum =  " + xmin + "");
 
-delete[] x;
+
 
 return;
 # undef SAMPLE_NUM
@@ -5769,8 +5660,8 @@ cdf = normal_truncated_ab_cdf(x, mu, s, a, b);
 x2 = normal_truncated_ab_cdf_inv(cdf, mu, s, a, b);
 
 Console.WriteLine("  " + setw(14) + x
-+ "  " + setw(14) + pdf
-+ "  " + setw(14) + cdf
++ "  " + pdf.ToString().PadLeft(14)
++ "  " + cdf.ToString().PadLeft(14)
 + "  " + setw(14) + x2 + "");
 }
 
@@ -5856,7 +5747,7 @@ Console.WriteLine("  Sample variance = " + variance + "");
 Console.WriteLine("  Sample maximum =  " + xmax + "");
 Console.WriteLine("  Sample minimum =  " + xmin + "");
 
-delete[] x;
+
 
 return;
 }
@@ -5924,8 +5815,8 @@ cdf = normal_truncated_a_cdf(x, mu, s, a);
 x2 = normal_truncated_a_cdf_inv(cdf, mu, s, a);
 
 Console.WriteLine("  " + setw(14) + x
-+ "  " + setw(14) + pdf
-+ "  " + setw(14) + cdf
++ "  " + pdf.ToString().PadLeft(14)
++ "  " + cdf.ToString().PadLeft(14)
 + "  " + setw(14) + x2 + "");
 }
 
@@ -6009,7 +5900,7 @@ Console.WriteLine("  Sample variance = " + variance + "");
 Console.WriteLine("  Sample maximum =  " + xmax + "");
 Console.WriteLine("  Sample minimum =  " + xmin + "");
 
-delete[] x;
+
 
 return;
 }
@@ -6077,8 +5968,8 @@ cdf = normal_truncated_b_cdf(x, mu, s, b);
 x2 = normal_truncated_b_cdf_inv(cdf, mu, s, b);
 
 Console.WriteLine("  " + setw(14) + x
-+ "  " + setw(14) + pdf
-+ "  " + setw(14) + cdf
++ "  " + pdf.ToString().PadLeft(14)
++ "  " + cdf.ToString().PadLeft(14)
 + "  " + setw(14) + x2 + "");
 }
 
@@ -6162,7 +6053,7 @@ Console.WriteLine("  Sample variance = " + variance + "");
 Console.WriteLine("  Sample maximum =  " + xmax + "");
 Console.WriteLine("  Sample minimum =  " + xmin + "");
 
-delete[] x;
+
 
 return;
 }
@@ -6230,10 +6121,10 @@ cdf = pareto_cdf(x, a, b);
 x2 = pareto_cdf_inv(cdf, a, b);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "  "
-+ setw(12) + x2 + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "  "
++ x2.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -6439,8 +6330,8 @@ x = planck_sample(a, b, seed);
 pdf = planck_pdf(x, a, b);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -6587,10 +6478,10 @@ cdf = poisson_cdf(x, a);
 x2 = poisson_cdf_inv(cdf, a);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "  "
-+ setw(12) + x2 + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "  "
++ x2.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -6738,10 +6629,10 @@ cdf = power_cdf(x, a, b);
 x2 = power_cdf_inv(cdf, a, b);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "  "
-+ setw(12) + x2 + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "  "
++ x2.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -6892,10 +6783,10 @@ cdf = quasigeometric_cdf(x, a, b);
 x2 = quasigeometric_cdf_inv(cdf, a, b);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "  "
-+ setw(12) + x2 + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "  "
++ x2.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -6979,7 +6870,7 @@ Console.WriteLine("  Sample variance = " + variance + "");
 Console.WriteLine("  Sample maximum =  " + xmax + "");
 Console.WriteLine("  Sample minimum =  " + xmin + "");
 
-delete[] x;
+
 
 return;
 }
@@ -7037,8 +6928,8 @@ break;
 
 fxy2 = r8_beta(x, y);
 
-Console.WriteLine("  " + setw(12) + x
-+ "  " + setw(12) + y
+Console.WriteLine("  " + x.ToString().PadLeft(12)
++ "  " + y.ToString().PadLeft(12)
 + "  " + setw(24) + setprecision(16) + fxy1
 + "  " + setw(24) + setprecision(16) + fxy2 + "");
 }
@@ -7471,10 +7362,10 @@ cdf = rayleigh_cdf(x, a);
 x2 = rayleigh_cdf_inv(cdf, a);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "  "
-+ setw(12) + x2 + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "  "
++ x2.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -7621,10 +7512,10 @@ cdf = reciprocal_cdf(x, a, b);
 x2 = reciprocal_cdf_inv(cdf, a, b);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "  "
-+ setw(12) + x2 + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "  "
++ x2.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -7764,7 +7655,7 @@ pdf = runs_pdf(m, n, r);
 Console.WriteLine("  " + setw(8) + m
   + "  " + setw(8) + n
   + "  " + setw(8) + r
-  + "  " + setw(14) + pdf + "");
+  + "  " + pdf.ToString().PadLeft(14) + "");
 
 pdf_total = pdf_total + pdf;
 }
@@ -7772,7 +7663,7 @@ pdf_total = pdf_total + pdf;
 Console.WriteLine("  " + setw(8) + m
 + "  " + "        "
 + "  " + "        "
-+ "  " + setw(14) + pdf_total + "");
++ "  " + pdf.ToString().PadLeft(14)_total + "");
 
 }
 
@@ -7915,10 +7806,10 @@ cdf = sech_cdf(x, a, b);
 x2 = sech_cdf_inv(cdf, a, b);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "  "
-+ setw(12) + x2 + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "  "
++ x2.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -8069,10 +7960,10 @@ cdf = semicircular_cdf(x, a, b);
 x2 = semicircular_cdf_inv(cdf, a, b);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "  "
-+ setw(12) + x2 + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "  "
++ x2.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -8224,9 +8115,9 @@ pdf = student_pdf(x, a, b, c);
 cdf = student_cdf(x, a, b, c);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -8486,10 +8377,10 @@ cdf = triangle_cdf(x, a, b, c);
 x2 = triangle_cdf_inv(cdf, a, b, c);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "  "
-+ setw(12) + x2 + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "  "
++ x2.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -8643,10 +8534,10 @@ cdf = triangular_cdf(x, a, b);
 x2 = triangular_cdf_inv(cdf, a, b);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "  "
-+ setw(12) + x2 + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "  "
++ x2.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -8769,7 +8660,7 @@ x = uniform_01_order_sample(n, seed);
 
 typeMethods.r8vec_print(n, x, "  Ordered sample:");
 
-delete[] x;
+
 
 return;
 }
@@ -8819,11 +8710,11 @@ x = uniform_nsphere_sample(n, seed);
 Console.WriteLine("  " + setw(6) + i + "  ";
 for (j = 0; j < n; j++)
 {
-Console.WriteLine(setw(12) + x[j] + "  ";
+Console.WriteLine(x.ToString().PadLeft(12)[j] + "  ";
 }
 
 Console.WriteLine("");
-delete[] x;
+
 }
 
 return;
@@ -8876,10 +8767,10 @@ cdf = uniform_01_cdf(x);
 x2 = uniform_01_cdf_inv(cdf);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "  "
-+ setw(12) + x2 + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "  "
++ x2.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -9013,10 +8904,10 @@ cdf = uniform_cdf(x, a, b);
 x2 = uniform_cdf_inv(cdf, a, b);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "  "
-+ setw(12) + x2 + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "  "
++ x2.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -9167,10 +9058,10 @@ cdf = uniform_discrete_cdf(x, a, b);
 x2 = uniform_discrete_cdf_inv(cdf, a, b);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "  "
-+ setw(12) + x2 + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "  "
++ x2.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -9321,10 +9212,10 @@ cdf = von_mises_cdf(x, a, b);
 x2 = von_mises_cdf_inv(cdf, a, b);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "  "
-+ setw(12) + x2 + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "  "
++ x2.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -9478,10 +9369,10 @@ cdf = Weibull.weibull_cdf(x, a, b, c);
 x2 = Weibull.weibull_cdf_inv(cdf, a, b, c);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "  "
-+ setw(12) + x2 + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "  "
++ x2.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -9636,10 +9527,10 @@ cdf = Weibull.weibull_discrete_cdf(x, a, b);
 x2 = Weibull.weibull_discrete_cdf_inv(cdf, a, b);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "  "
-+ setw(12) + x2 + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "  "
++ x2.ToString().PadLeft(12) + "");
 }
 
 return;
@@ -9775,10 +9666,10 @@ cdf = zipf_cdf(x, a);
 x2 = zipf_cdf_inv(a, cdf);
 
 Console.WriteLine("  "
-+ setw(12) + x + "  "
-+ setw(12) + pdf + "  "
-+ setw(12) + cdf + "  "
-+ setw(12) + x2 + "");
++ x.ToString().PadLeft(12) + "  "
++ pdf.ToString().PadLeft(12) + "  "
++ cdf.ToString().PadLeft(12) + "  "
++ x2.ToString().PadLeft(12) + "");
 }
 
 return;

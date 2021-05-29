@@ -110,24 +110,15 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Program1.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/b.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Benford.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/a.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Arcsin.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Bernoulli.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/i4.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/i8.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r4.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Anglit.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Bessel.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/aa.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Beta.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Circular.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Cosine.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Coupon.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Deranged.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Dipole.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Dirichlet.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Program.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Discrete.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Angle.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Binomial.cs" />
@@ -139,6 +130,15 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Cauchy.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Chebyshev.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Chi.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Circular.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Cosine.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Coupon.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Deranged.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Dipole.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Dirichlet.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/a.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />

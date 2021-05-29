@@ -68,15 +68,14 @@ namespace Burkardt.ProbabilityTest
                 cdf = Beta.beta_cdf(x, a, b);
                 x2 = Beta.beta_cdf_inv(cdf, a, b);
 
-                Console.WriteLine("  " + setw(12) + a
-                                  + "  " + setw(12) + b
-                                  + "  " + setw(12) + x
-                                  + "  " + setw(12) + pdf
-                                  + "  " + setw(12) + cdf
-                                  + "  " + setw(12) + x2 + "");
+                Console.WriteLine("  " + a.ToString().PadLeft(12)
+                                  + "  " + b.ToString().PadLeft(12)
+                                  + "  " + x.ToString().PadLeft(12)
+                                  + "  " + pdf.ToString().PadLeft(12)
+                                  + "  " + cdf.ToString().PadLeft(12)
+                                  + "  " + x2.ToString().PadLeft(12) + "");
             }
 
-            return;
         }
 
         static void beta_inc_test()
@@ -100,12 +99,10 @@ namespace Burkardt.ProbabilityTest
 //    John Burkardt
 //
         {
-            double a;
-            double b;
-            double fx;
-            double fx2;
-            int n_data;
-            double x;
+            double a = 0;
+            double b = 0;
+            double fx = 0;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("BETA_INC_TEST:");
@@ -115,7 +112,7 @@ namespace Burkardt.ProbabilityTest
             Console.WriteLine("         A         B         X       Exact F       BETA_INC(A,B,X)");
             Console.WriteLine("");
 
-            n_data = 0;
+            int n_data = 0;
 
             for (;;)
             {
@@ -126,17 +123,16 @@ namespace Burkardt.ProbabilityTest
                     break;
                 }
 
-                fx2 = Beta.beta_inc(a, b, x);
+                double fx2 = Beta.beta_inc(a, b, x);
 
                 Console.WriteLine("  "
-                                  + setw(8) + a + "  "
-                                  + setw(8) + b + "  "
-                                  + setw(8) + x + "  "
-                                  + setw(16) + fx + "  "
-                                  + setw(16) + fx2 + "");
+                                  + a.ToString().PadLeft(8) + "  "
+                                  + b.ToString().PadLeft(8) + "  "
+                                  + x.ToString().PadLeft(8) + "  "
+                                  + fx.ToString().PadLeft(16) + "  "
+                                  + fx2.ToString().PadLeft(16) + "");
             }
 
-            return;
         }
 
         static void beta_sample_test()
@@ -217,8 +213,6 @@ namespace Burkardt.ProbabilityTest
             Console.WriteLine("  Sample maximum =  " + xmax + "");
             Console.WriteLine("  Sample minimum =  " + xmin + "");
 
-            return;
-# undef SAMPLE_NUM
         }
 
         static void beta_binomial_cdf_test()
@@ -267,7 +261,7 @@ namespace Burkardt.ProbabilityTest
             Console.WriteLine("  PDF parameter B =      " + b + "");
             Console.WriteLine("  PDF parameter C =      " + c + "");
 
-            if (!beta_binomial_check(a, b, c))
+            if (!Beta.beta_binomial_check(a, b, c))
             {
                 Console.WriteLine("");
                 Console.WriteLine("BETA_BINOMIAL_CDF_TEST - Fatal error!");
@@ -281,16 +275,16 @@ namespace Burkardt.ProbabilityTest
 
             for (i = 1; i <= 10; i++)
             {
-                x = beta_binomial_sample(a, b, c, seed);
-                pdf = beta_binomial_pdf(x, a, b, c);
-                cdf = beta_binomial_cdf(x, a, b, c);
-                x2 = beta_binomial_cdf_inv(cdf, a, b, c);
+                x = Beta.beta_binomial_sample(a, b, c, ref seed);
+                pdf = Beta.beta_binomial_pdf(x, a, b, c);
+                cdf = Beta.beta_binomial_cdf(x, a, b, c);
+                x2 = Beta.beta_binomial_cdf_inv(cdf, a, b, c);
 
                 Console.WriteLine("  "
-                                  + setw(12) + x + "  "
-                                  + setw(12) + pdf + "  "
-                                  + setw(12) + cdf + "  "
-                                  + setw(12) + x2 + "");
+                                  + x.ToString().PadLeft(12) + "  "
+                                  + pdf.ToString().PadLeft(12) + "  "
+                                  + cdf.ToString().PadLeft(12) + "  "
+                                  + x2.ToString().PadLeft(12) + "");
             }
 
             return;
@@ -317,7 +311,7 @@ namespace Burkardt.ProbabilityTest
 //    John Burkardt
 //
         {
-# define SAMPLE_NUM 1000
+            int SAMPLE_NUM = 1000;
 
             double a;
             double b;
@@ -326,7 +320,7 @@ namespace Burkardt.ProbabilityTest
             double mean;
             int seed = 123456789;
             double variance;
-            int x[SAMPLE_NUM];
+            int[] x = new int[SAMPLE_NUM];
             int xmax;
             int xmin;
 
@@ -345,7 +339,7 @@ namespace Burkardt.ProbabilityTest
             Console.WriteLine("  PDF parameter B =      " + b + "");
             Console.WriteLine("  PDF parameter C =      " + c + "");
 
-            if (!beta_binomial_check(a, b, c))
+            if (!Beta.beta_binomial_check(a, b, c))
             {
                 Console.WriteLine("");
                 Console.WriteLine("BETA_BINOMIAL_SAMPLE_TEST - Fatal error!");
@@ -353,8 +347,8 @@ namespace Burkardt.ProbabilityTest
                 return;
             }
 
-            mean = beta_binomial_mean(a, b, c);
-            variance = beta_binomial_variance(a, b, c);
+            mean = Beta.beta_binomial_mean(a, b, c);
+            variance = Beta.beta_binomial_variance(a, b, c);
 
             Console.WriteLine("");
             Console.WriteLine("  PDF mean =     " + mean + "");
@@ -362,13 +356,13 @@ namespace Burkardt.ProbabilityTest
 
             for (i = 0; i < SAMPLE_NUM; i++)
             {
-                x[i] = beta_binomial_sample(a, b, c, seed);
+                x[i] = Beta.beta_binomial_sample(a, b, c, ref seed);
             }
 
-            mean = i4vec_mean(SAMPLE_NUM, x);
-            variance = i4vec_variance(SAMPLE_NUM, x);
-            xmax = i4vec_max(SAMPLE_NUM, x);
-            xmin = i4vec_min(SAMPLE_NUM, x);
+            mean = typeMethods.i4vec_mean(SAMPLE_NUM, x);
+            variance = typeMethods.i4vec_variance(SAMPLE_NUM, x);
+            xmax = typeMethods.i4vec_max(SAMPLE_NUM, x);
+            xmin = typeMethods.i4vec_min(SAMPLE_NUM, x);
 
             Console.WriteLine("");
             Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -376,9 +370,6 @@ namespace Burkardt.ProbabilityTest
             Console.WriteLine("  Sample variance = " + variance + "");
             Console.WriteLine("  Sample maximum =  " + xmax + "");
             Console.WriteLine("  Sample minimum =  " + xmin + "");
-
-            return;
-# undef SAMPLE_NUM
         }
 
     }

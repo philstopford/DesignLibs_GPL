@@ -3,7 +3,7 @@ using Burkardt.Probability;
 
 namespace Burkardt.ProbabilityTest
 {
-    partial class MainForm
+    partial class Program
     {
     static void angle_cdf_test()
 

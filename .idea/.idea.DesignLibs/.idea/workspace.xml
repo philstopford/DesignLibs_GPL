@@ -65,6 +65,7 @@
     <projectFile>BurkhardtTest/FEM/FEMGMeshTest/FEMGMeshTest.csproj</projectFile>
     <projectFile>BurkhardtTest/FEM/FEMToTriangleTest/FEMToTriangleTest.csproj</projectFile>
     <projectFile>BurkhardtTest/FEM/FEMXMLTest/FEMXMLTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/FEM/FEM1DTest/FEM1DTest.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="" />
@@ -93,8 +94,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Chebyshev.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Circular.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Cosine.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Coupon.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Deranged.cs" />
@@ -144,6 +143,8 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/FEM/FEM_IO.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/FEM/FEM_XML.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/FEM/FEMXMLTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/FEM/FEM_1D.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/FEM/FEM1DTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -159,7 +160,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunManager" selected=".NET Project.FEMIOTest">
+  <component name="RunManager" selected=".NET Project.FEM1DTest">
     <configuration name="ASA005Test" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -781,6 +782,24 @@
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
       <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/BoxBehnkenTest/BoxBehnkenTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="FEM1DTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/FEM/FEM1DTest/FEM1DTest.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
@@ -1415,6 +1434,7 @@
       <item itemvalue=".NET Project.FEMGMeshTest" />
       <item itemvalue=".NET Project.FEMToTriangleTest" />
       <item itemvalue=".NET Project.FEMXMLTest" />
+      <item itemvalue=".NET Project.FEM1DTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

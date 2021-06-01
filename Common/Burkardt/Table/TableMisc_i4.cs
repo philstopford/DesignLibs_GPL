@@ -258,7 +258,7 @@ namespace Burkardt.Table
         }
         //****************************************************************************80
 
-        static void i4mat_transpose_print_some ( int m, int n, int[] a, int ilo, int jlo,
+        public static void i4mat_transpose_print_some ( int m, int n, int[] a, int ilo, int jlo,
         int ihi, int jhi, string title )
 
         //****************************************************************************80

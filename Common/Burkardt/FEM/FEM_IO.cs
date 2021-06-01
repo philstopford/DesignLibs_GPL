@@ -248,7 +248,9 @@ namespace Burkardt.FEM
             //
             //  Read the node coordinate file.
             //
-            TableReader.r8mat_header_read(node_coord_file_name);
+            TableHeader h = TableReader.r8mat_header_read(node_coord_file_name);
+            element_order = h.m;
+            element_num = h.n;
 
             if (0 < typeMethods.s_len_trim(element_file_name))
             {
@@ -262,7 +264,9 @@ namespace Burkardt.FEM
 
             if (0 < typeMethods.s_len_trim(node_data_file_name))
             {
-                TableReader.r8mat_header_read(node_data_file_name);
+                h = TableReader.r8mat_header_read(node_data_file_name);
+                node_data_num = h.m;
+                node_num2 = h.n;
 
                 if (node_num2 != node_num)
                 {
@@ -374,7 +378,94 @@ namespace Burkardt.FEM
                      + node_data_file_name + "\".");
             }
         }
-        
+
+        public static void mesh_base_zero(int node_num, int element_order, int element_num,
+            ref int[] element_node)
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    MESH_BASE_ZERO ensures that the element definition is zero-based.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    15 October 2014
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int NODE_NUM, the number of nodes.
+        //
+        //    Input, int ELEMENT_ORDER, the order of the elements.
+        //
+        //    Input, int ELEMENT_NUM, the number of elements.
+        //
+        //    Input/output, int ELEMENT_NODE[ELEMENT_ORDER*ELEMENT_NUM], the element
+        //    definitions.
+        //
+        {
+            const int i4_huge = 2147483647;
+
+            int node_min = +i4_huge;
+            int node_max = -i4_huge;
+
+            for (int j = 0; j < element_num; j++)
+            {
+                for (int i = 0; i < element_order; i++)
+                {
+                    int t = element_node[i + j * element_order];
+                    if (t < node_min)
+                    {
+                        node_min = t;
+                    }
+
+                    if (node_max < t)
+                    {
+                        node_max = t;
+                    }
+                }
+            }
+
+            if (node_min == 0 && node_max == node_num - 1)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("MESH_BASE_ZERO:");
+                Console.WriteLine("  The element indexing appears to be 0-based!");
+                Console.WriteLine("  No conversion is necessary.");
+
+            }
+            else if (node_min == 1 && node_max == node_num)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("MESH_BASE_ZERO:");
+                Console.WriteLine("  The element indexing appears to be 1-based!");
+                Console.WriteLine("  This will be converted to 0-based.");
+                for (int j = 0; j < element_num; j++)
+                {
+                    for (int i = 0; i < element_order; i++)
+                    {
+                        element_node[i + j * element_order] = element_node[i + j * element_order] - 1;
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("");
+                Console.WriteLine("MESH_BASE_ZERO - Warning!");
+                Console.WriteLine("  The element indexing is not of a recognized type.");
+                Console.WriteLine("  NODE_MIN = " + node_min + "");
+                Console.WriteLine("  NODE_MAX = " + node_max + "");
+                Console.WriteLine("  NODE_NUM = " + node_num + "");
+            }
+        }
+
         public static void mesh_base_one(int node_num, int element_order, int element_num,
             ref int[] element_node)
         //****************************************************************************80

@@ -124,7 +124,7 @@ namespace Burkardt.FEM
             double phiix = 0;
             double phij = 0;
             double phijx = 0;
-            //
+//
 //  Zero out the entries.
 //
             for (int i = 0; i < nu; i++)
@@ -165,7 +165,7 @@ namespace Burkardt.FEM
 //
 //  Take care of boundary conditions specifying the value of U'.
 //
-                            double x = 0;
+                            double x;
                             if (ig == 0)
                             {
                                 x = 0.0;
@@ -221,6 +221,8 @@ namespace Burkardt.FEM
                     }
                 }
             }
+
+            return;
         }
 
         public static double ff(double x)
@@ -256,15 +258,11 @@ namespace Burkardt.FEM
 //    Output, double FF, the value of F(X).
 //
         {
-            double alpha;
-            double beta;
-            int problem;
-            double pi = 3.141592653589793;
             double value = 0;
 //
 //  Find out which problem we're working on.
 //
-            problem = get_problem();
+            int problem = get_problem();
 
             if (problem == 1)
             {
@@ -276,22 +274,22 @@ namespace Burkardt.FEM
             }
             else if (problem == 3)
             {
-                value = 0.25 * pi * pi * Math.Sin(0.5 * pi * x);
+                value = 0.25 * Math.PI * Math.PI * Math.Sin(0.5 * Math.PI * x);
             }
             else if (problem == 4)
             {
-                value = 0.25 * pi * pi * Math.Cos(0.5 * pi * x);
+                value = 0.25 * Math.PI * Math.PI * Math.Cos(0.5 * Math.PI * x);
             }
             else if (problem == 5)
             {
-                beta = get_beta();
+                double beta = get_beta();
 
                 value = -Math.Pow(x, beta) + (Math.Pow(x, beta + 2.0))
                     / ((beta + 2.0) * (beta + 1.0));
             }
             else if (problem == 6)
             {
-                alpha = get_alpha();
+                double alpha = get_alpha();
 
                 value = 2.0 * alpha * (x - 0.5)
                         / Math.Pow(alpha * alpha + (x - 0.5) * (x - 0.5), 2);
@@ -301,7 +299,7 @@ namespace Burkardt.FEM
         }
 
         public static void geometry(ref double[] h, int ibc, ref int[] indx, int n, int nl, int nmax,
-            ref int[] node, int nquad, ref int nu, ref double[] wquad, double[] xn, ref double[] xquad )
+            ref int[] node, int nquad, ref int nu, ref double[] wquad, double[] xn, ref double[] xquad)
 //****************************************************************************80
 //
 //  Purpose:
@@ -395,11 +393,6 @@ namespace Burkardt.FEM
 //    in interval J.
 //
         {
-            double alfa;
-            int igl;
-            int igr;
-            double xl;
-            double xr;
 //
 //  Store in NODE the fact that interval I has node I-1
 //  as its left endpoint, and node I as its right endpoint.
@@ -437,8 +430,8 @@ namespace Burkardt.FEM
 //
             for (int i = 0; i < n; i++)
             {
-                igl = node[0 + i * 2];
-                igr = node[1 + i * 2];
+                int igl = node[0 + i * 2];
+                int igr = node[1 + i * 2];
                 h[i] = xn[igr] - xn[igl];
             }
 
@@ -448,35 +441,39 @@ namespace Burkardt.FEM
 //
             for (int i = 0; i < n; i++)
             {
-                xl = xn[node[0 + i * 2]];
-                xr = xn[node[1 + i * 2]];
+                double xl = xn[node[0 + i * 2]];
+                double xr = xn[node[1 + i * 2]];
 
                 if (nquad == 1)
                 {
                     xquad[0 + i * nquad] = 0.5 * (xl + xr);
                 }
-                else if (nquad == 2)
+                else
                 {
-                    alfa = -0.577350;
-                    xquad[0 + i * nquad] = ((1.0 - alfa) * xl
-                                            + (1.0 + alfa) * xr)
-                                           / 2.0;
-                    alfa = +0.577350;
-                    xquad[1 + i * nquad] = ((1.0 - alfa) * xl
-                                            + (1.0 + alfa) * xr)
-                                           / 2.0;
-                }
-                else if (nquad == 3)
-                {
-                    alfa = -0.774597;
-                    xquad[0 + i * nquad] = ((1.0 - alfa) * xl
-                                            + (1.0 + alfa) * xr)
-                                           / 2.0;
-                    xquad[1 + i * nquad] = 0.5 * (xl + xr);
-                    alfa = +0.774597;
-                    xquad[2 + i * nquad] = ((1.0 - alfa) * xl
-                                            + (1.0 + alfa) * xr)
-                                           / 2.0;
+                    double alfa;
+                    if (nquad == 2)
+                    {
+                        alfa = -0.577350;
+                        xquad[0 + i * nquad] = ((1.0 - alfa) * xl
+                                                + (1.0 + alfa) * xr)
+                                               / 2.0;
+                        alfa = +0.577350;
+                        xquad[1 + i * nquad] = ((1.0 - alfa) * xl
+                                                + (1.0 + alfa) * xr)
+                                               / 2.0;
+                    }
+                    else if (nquad == 3)
+                    {
+                        alfa = -0.774597;
+                        xquad[0 + i * nquad] = ((1.0 - alfa) * xl
+                                                + (1.0 + alfa) * xr)
+                                               / 2.0;
+                        xquad[1 + i * nquad] = 0.5 * (xl + xr);
+                        alfa = +0.774597;
+                        xquad[2 + i * nquad] = ((1.0 - alfa) * xl
+                                                + (1.0 + alfa) * xr)
+                                               / 2.0;
+                    }
                 }
             }
 
@@ -498,6 +495,8 @@ namespace Burkardt.FEM
                 wquad[1] = 5.0 / 18.0;
                 wquad[2] = 4.0 / 9.0;
             }
+
+            return;
         }
 
         public static double get_alpha()
@@ -588,7 +587,7 @@ namespace Burkardt.FEM
         }
 
         public static void init(ref int ibc, int n, ref double tol, ref double ul, ref double ur, ref double xl,
-            ref double[] xn, ref double xr )
+            ref double[] xn, ref double xr)
 //****************************************************************************80
 //
 //  Purpose:
@@ -654,15 +653,11 @@ namespace Burkardt.FEM
 //    differential equation is being solved.
 //
         {
-            double beta;
-            int i;
-            int problem;
-
             tol = 0.01;
 //
 //  Find out which problem we're working on.
 //
-            problem = get_problem();
+            int problem = get_problem();
 //
 //  Set the boundary conditions for the problem, and
 //  print out its title.
@@ -710,7 +705,7 @@ namespace Burkardt.FEM
             else if (problem == 5)
             {
                 ibc = 3;
-                beta = get_beta();
+                double beta = get_beta();
                 ul = 0.0;
                 ur = 1.0 / ((beta + 2.0) * (beta + 1.0));
                 xl = 0.0;
@@ -734,7 +729,7 @@ namespace Burkardt.FEM
 //  This is because each new iteration chooses the location
 //  of the new nodes in a special way.
 //
-            for (i = 0; i <= n; i++)
+            for (int i = 0; i <= n; i++)
             {
                 xn[i] = ((double) (n - i) * (xl)
                          + (double) (i) * (xr))
@@ -768,7 +763,7 @@ namespace Burkardt.FEM
         }
 
         public static void output(double[] f, int ibc, int[] indx, int n, int nu, double ul,
-        double ur, double[] xn )
+            double ur, double[] xn)
 //****************************************************************************80
 //
 //  Purpose:
@@ -885,10 +880,10 @@ namespace Burkardt.FEM
                 double error = u - uex;
 
                 Console.WriteLine("  " + i.ToString().PadLeft(4)
-                    + "  " + xn[i].ToString().PadLeft(12)
-                    + "  " + u.ToString().PadLeft(12)
-                    + "  " + uex.ToString().PadLeft(12)
-                    + "  " + error.ToString().PadLeft(12) + "");
+                                       + "  " + xn[i].ToString().PadLeft(12)
+                                       + "  " + u.ToString().PadLeft(12)
+                                       + "  " + uex.ToString().PadLeft(12)
+                                       + "  " + error.ToString().PadLeft(12) + "");
             }
         }
 
@@ -957,6 +952,7 @@ namespace Burkardt.FEM
         }
 
         public static double pp(double x)
+
 //****************************************************************************80
 //
 //  Purpose:
@@ -1023,7 +1019,7 @@ namespace Burkardt.FEM
         }
 
         public static void prsys(double[] adiag, double[] aleft, double[] arite, double[] f,
-        int nu )
+            int nu)
 //****************************************************************************80
 //
 //  Purpose:
@@ -1076,15 +1072,13 @@ namespace Burkardt.FEM
 //    of basis functions.
 //
         {
-            int i;
-
             Console.WriteLine("");
             Console.WriteLine("Printout of tridiagonal linear system:");
             Console.WriteLine("");
             Console.WriteLine("Equation  A-Left  A-Diag  A-Rite  RHS");
             Console.WriteLine("");
 
-            for (i = 0; i < nu; i++)
+            for (int i = 0; i < nu; i++)
             {
                 string cout = (i + 1).ToString().PadLeft(4);
                 if (i == 0)
@@ -1106,7 +1100,9 @@ namespace Burkardt.FEM
                     cout += "              ";
                 }
 
-                Console.WriteLine(cout + "  " + f[i].ToString().PadLeft(12) + "");
+                cout += "  " + f[i].ToString().PadLeft(12) + "";
+
+                Console.WriteLine(cout);
             }
         }
 
@@ -1177,7 +1173,7 @@ namespace Burkardt.FEM
         }
 
         public static void solve(ref double[] adiag, ref double[] aleft, ref double[] arite, ref double[] f,
-        int nu )
+            int nu)
 //****************************************************************************80
 //
 //  Purpose:
@@ -1248,12 +1244,14 @@ namespace Burkardt.FEM
                     f[i - 1] = f[i - 1] - arite[i - 1] * f[i];
                 }
             }
+
+            return;
         }
 
         public static void solvex(double[] adiag, double[] aleft, double[] arite, ref double[] f,
-        ref double[] h, int ibc, int[] indx, int kount, int n, int nl, int nmax,
-        int[] node, int nquad, ref int nu, double ul, double ur, double[] wquad,
-        double[] xn, double[] xquad )
+            ref double[] h, int ibc, int[] indx, int kount, int n, int nl, int nmax,
+            int[] node, int nquad, ref int nu, double ul, double ur, double[] wquad,
+            double[] xn, double[] xquad)
 //****************************************************************************80
 //
 //  Purpose:
@@ -1412,7 +1410,7 @@ namespace Burkardt.FEM
         }
 
         public static void solvey(ref double[] eta, double[] f, double[] h, int n, int nu, double ul,
-        double ur, double[] xn )
+            double ur, double[] xn)
 //****************************************************************************80
 //
 //  Purpose:
@@ -1492,41 +1490,19 @@ namespace Burkardt.FEM
             int NL = 2;
             int NY = 2;
             int NQUAD = 2;
-            int NMAY = ( 2 * NY );
+            int NMAY = (2 * NY);
 
             double[] adiag = new double[NMAY];
             double[] aleft = new double[NMAY];
             double[] arite = new double[NMAY];
             double[] fy = new double[NMAY];
             double[] hy = new double[NMAY];
-            int ibcy;
             int[] indy = new int[NMAY + 1];
-            int jhi;
-            int jlo;
-            int jmid;
-            int m;
             int[] nodey = new int[NL * NMAY];
             int nuy = 0;
-            double total;
-            double uleft;
-            double ulval;
-            double uly;
-            double uprime;
-            double urite;
-            double urval;
-            double ury;
-            double uval;
-            double vlval;
-            double vprime;
-            double vrval;
-            double vval;
             double[] wquad = new double[NQUAD];
             double[] xquady = new double[NQUAD * NMAY];
-            double y;
-            double yl;
-            double ym;
             double[] yn = new double[NMAY + 1];
-            double yr;
 //
 //  Initialize the error estimators to zero.
 //
@@ -1548,10 +1524,14 @@ namespace Burkardt.FEM
 //
 //  The 0-th and N-th nodes are special cases.
 //
-            ibcy = 3;
+            int ibcy = 3;
 
             for (int j = 0; j <= n; j++)
             {
+                int jhi;
+                int jlo;
+                int jmid;
+                int m;
                 if (j == 0)
                 {
                     m = NY;
@@ -1577,9 +1557,9 @@ namespace Burkardt.FEM
 //
 //  Set the location of the nodes in the subintervals.
 //
-                yl = xn[jlo];
-                ym = xn[jmid];
-                yr = xn[jhi];
+                double yl = xn[jlo];
+                double ym = xn[jmid];
+                double yr = xn[jhi];
 
                 for (int i = 0; i <= NY; i++)
                 {
@@ -1603,6 +1583,7 @@ namespace Burkardt.FEM
 //
 //  Set the boundary values for the sub-problem.
 //
+                double uly;
                 if (j <= 1)
                 {
                     uly = ul;
@@ -1612,6 +1593,7 @@ namespace Burkardt.FEM
                     uly = f[j - 2];
                 }
 
+                double ury;
                 if (n - 1 <= j)
                 {
                     ury = ur;
@@ -1636,6 +1618,18 @@ namespace Burkardt.FEM
 //
 //  Calculation for left interval.
 //
+                double total;
+                double uleft;
+                double ulval;
+                double uprime;
+                double vrval;
+                double uval;
+                double vprime;
+                double y;
+                double vval;
+                double urite;
+                double urval;
+                double vlval;
                 if (1 <= j)
                 {
                     if (j <= 1)
@@ -1806,11 +1800,10 @@ namespace Burkardt.FEM
             {
                 Console.WriteLine(eta[j].ToString().PadLeft(12) + "");
             }
-
         }
 
         public static int subdiv(double[] eta, int kount, ref int n, int nmax, double tol,
-        ref double[] xn )
+            ref double[] xn)
 //****************************************************************************80
 //
 //  Purpose:
@@ -1865,18 +1858,11 @@ namespace Burkardt.FEM
 //    should be subdivided.
 //
         {
-            double ave;
-            int[] jadd;
-            int k;
-            int status;
-            double temp;
-            double[] xt;
-
-            status = 0;
+            int status = 0;
 //
 //  Add up the ETA's, and get their average.
 //
-            ave = 0.0;
+            double ave = 0.0;
             for (int j = 0; j < n; j++)
             {
                 ave = ave + eta[j];
@@ -1887,14 +1873,14 @@ namespace Burkardt.FEM
 //  Look for intervals whose ETA value is relatively large,
 //  and note in JADD that these intervals should be subdivided.
 //
-            k = 0;
-            temp = Math.Max(1.2 * ave + 0.00001, tol * tol / (double) (n));
+            int k = 0;
+            double temp = Math.Max(1.2 * ave + 0.00001, tol * tol / (double) (n));
 
             Console.WriteLine("");
             Console.WriteLine("Tolerance = " + temp + "");
             Console.WriteLine("");
 
-            jadd = new int[n];
+            int[] jadd = new int[n];
 
             for (int j = 0; j < n; j++)
             {
@@ -1936,7 +1922,7 @@ namespace Burkardt.FEM
 //
 //  Insert new nodes where needed.
 //
-            xt = new double[nmax + 1];
+            double[] xt = new double[nmax + 1];
 
             k = 0;
             xt[0] = xn[0];
@@ -1960,10 +1946,12 @@ namespace Burkardt.FEM
             {
                 xn[j] = xt[j];
             }
+
             return status;
         }
 
         public static double uexact(double x)
+
 //****************************************************************************80
 //
 //  Purpose:
@@ -1989,14 +1977,11 @@ namespace Burkardt.FEM
 //    Output, double UEXACT, the value of the exact solution at X.
 //
         {
-            double alpha;
-            double beta;
-            int problem;
             double value;
 //
 //  Find out which problem we're working on.
 //
-            problem = get_problem();
+            int problem = get_problem();
 
             if (problem == 1)
             {
@@ -2016,13 +2001,13 @@ namespace Burkardt.FEM
             }
             else if (problem == 5)
             {
-                beta = get_beta();
+                double beta = get_beta();
 
                 value = (Math.Pow(x, beta + 2.0)) / ((beta + 2.0) * (beta + 1.0));
             }
             else if (problem == 6)
             {
-                alpha = get_alpha();
+                double alpha = get_alpha();
                 value = Math.Atan((x - 0.5) / alpha);
             }
             else

@@ -374,5 +374,94 @@ namespace Burkardt.FEM
                      + node_data_file_name + "\".");
             }
         }
+        
+        public static void mesh_base_one(int node_num, int element_order, int element_num,
+            ref int[] element_node)
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    MESH_BASE_ONE ensures that the element definition is one-based.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    19 October 2014
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int NODE_NUM, the number of nodes.
+        //
+        //    Input, int ELEMENT_ORDER, the order of the elements.
+        //
+        //    Input, int ELEMENT_NUM, the number of elements.
+        //
+        //    Input/output, int ELEMENT_NODE[ELEMENT_ORDER*ELEMENT_NUM], the element
+        //    definitions.
+        //
+        {
+            const int i4_huge = 2147483647;
+
+            int node_min = +i4_huge;
+            int node_max = -i4_huge;
+            for (int element = 0; element < element_num; element++)
+            {
+                for (int order = 0; order < element_order; order++)
+                {
+                    int node = element_node[order + element * element_order];
+                    if (node < node_min)
+                    {
+                        node_min = node;
+                    }
+
+                    if (node_max < node)
+                    {
+                        node_max = node;
+                    }
+                }
+            }
+
+            if (node_min == 0 && node_max == node_num - 1)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("MESH_BASE_ONE:");
+                Console.WriteLine("  The element indexing appears to be 0-based!");
+                Console.WriteLine("  This will be converted to 1-based.");
+                for (int element = 0; element < element_num; element++)
+                {
+                    for (int order = 0; order < element_order; order++)
+                    {
+                        element_node[order + element * element_order] =
+                            element_node[order + element * element_order] + 1;
+                    }
+                }
+            }
+            else if (node_min == 1 && node_max == node_num)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("MESH_BASE_ONE:");
+                Console.WriteLine("  The element indexing appears to be 1-based!");
+                Console.WriteLine("  No conversion is necessary.");
+            }
+            else
+            {
+                Console.WriteLine("");
+                Console.WriteLine("MESH_BASE_ONE - Warning!");
+                Console.WriteLine("  The element indexing is not of a recognized type.");
+                Console.WriteLine("  NODE_MIN = " + node_min + "");
+                Console.WriteLine("  NODE_MAX = " + node_max + "");
+                Console.WriteLine("  NODE_NUM = " + node_num + "");
+            }
+
+            return;
+        }
+        
     }
 }

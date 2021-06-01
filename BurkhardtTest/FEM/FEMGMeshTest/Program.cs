@@ -55,7 +55,6 @@ namespace Burkardt.FEMGMeshTest
 
             Console.WriteLine("");
             Console.WriteLine("FEM_TO_GMSH");
-            Console.WriteLine("  C++ version:");
             Console.WriteLine("  Convert a 1D, 2D or 3D mesh from FEM to GMSH format.");
             Console.WriteLine("");
             Console.WriteLine("  Read \"prefix\"_nodes.txt, node coordinates.");
@@ -85,7 +84,9 @@ namespace Burkardt.FEMGMeshTest
             //
             //  Read the node data.
             //
-            TableReader.r8mat_header_read(node_filename);
+            TableHeader h = TableReader.r8mat_header_read(node_filename);
+            node_num = h.n;
+            m = h.m;
 
             Console.WriteLine("");
             Console.WriteLine("  Read the header of \"" + node_filename + "\".");
@@ -103,7 +104,9 @@ namespace Burkardt.FEMGMeshTest
             //
             //  Read the element data.
             //
-            TableReader.i4mat_header_read(element_filename);
+            h = TableReader.i4mat_header_read(element_filename);
+            element_order = h.m;
+            element_num = h.n;
 
             if (m == 1)
             {

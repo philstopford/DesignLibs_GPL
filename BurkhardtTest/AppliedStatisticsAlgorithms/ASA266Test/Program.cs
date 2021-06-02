@@ -484,7 +484,7 @@ namespace Burkardt.ASA266Test
             Console.WriteLine("  DIRICHLET_MEAN finds the means;");
             Console.WriteLine("  DIRICHLET_VARIANCE finds the variances;");
 
-            TableMisc.r8mat_print(sample_num, elem_num, x, "  Sampled data:");
+            typeMethods.r8mat_print(sample_num, elem_num, x, "  Sampled data:");
             //
             //  Compute the observed averages.
             //

@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt.Table;
+using Burkardt.Types;
 using Random = Burkardt.Latin.Random;
 
 namespace Burkardt.LatinRandomTest
@@ -85,7 +86,7 @@ namespace Burkardt.LatinRandomTest
 
             double[] x = Random.latin_random_new(m, n, ref seed);
 
-            TableMisc.r8mat_transpose_print(m, n, x, "  Latin Random Square:");
+            typeMethods.r8mat_transpose_print(m, n, x, "  Latin Random Square:");
         }
     }
 }

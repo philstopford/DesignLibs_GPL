@@ -1,6 +1,7 @@
 ﻿using System;
 using Burkardt.IHS;
 using Burkardt.Table;
+using Burkardt.Types;
 
 namespace Burkardt.IHSTest
 {
@@ -87,7 +88,7 @@ namespace Burkardt.IHSTest
                 Console.WriteLine("  Standard deviation:      " + c.std);
                 Console.WriteLine("  Covariance:              " + c.covc);
 
-                TableMisc.i4mat_transpose_print ( dim_num, point_num, x, "  X:" );
+                typeMethods.i4mat_transpose_print ( dim_num, point_num, x, "  X:" );
             }
 
         }
@@ -156,7 +157,7 @@ namespace Burkardt.IHSTest
                 Console.WriteLine("  Standard deviation:      " + c.std);
                 Console.WriteLine("  Covariance:              " + c.covc);
 
-                TableMisc.i4mat_transpose_print ( dim_num, point_num, x, "  X:" );
+                typeMethods.i4mat_transpose_print ( dim_num, point_num, x, "  X:" );
             }
         }
 
@@ -315,7 +316,7 @@ namespace Burkardt.IHSTest
                 Console.WriteLine("  Standard deviation:      " + c.std);
                 Console.WriteLine("  Covariance:              " + c.covc);
 
-                TableMisc.i4mat_transpose_print ( dim_num, point_num, x, "  X:" );
+                typeMethods.i4mat_transpose_print ( dim_num, point_num, x, "  X:" );
             }
         }
     }

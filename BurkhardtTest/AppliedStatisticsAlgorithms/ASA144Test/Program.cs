@@ -100,7 +100,7 @@ namespace Burkardt.ASA144Test
                     return;
                 }
 
-                TableMisc.i4mat_print(NROW, NCOL, matrix, "  The rowcolsum matrix:");
+                typeMethods.i4mat_print(NROW, NCOL, matrix, "  The rowcolsum matrix:");
             }
         }
     }

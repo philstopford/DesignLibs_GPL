@@ -60,7 +60,7 @@ namespace Burkardt.LatinCoverTest
 
                     int[] a = LatinVariants.latin_cover ( n, p );
 
-                    TableMisc.i4mat_print ( n, n, a, "  Latin cover" );
+                    typeMethods.i4mat_print ( n, n, a, "  Latin cover" );
                 }
             }
         }
@@ -101,7 +101,7 @@ namespace Burkardt.LatinCoverTest
                     typeMethods.perm_print ( n, p2, "  Permutation 2" );
 
                     int[] a = LatinVariants.latin_cover_2d ( n, p1, p2 );
-                    TableMisc.i4mat_print ( n, n, a, "  Latin cover" );
+                    typeMethods.i4mat_print ( n, n, a, "  Latin cover" );
                 }
             }
         }

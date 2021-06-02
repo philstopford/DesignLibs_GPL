@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt.Table;
+using Burkardt.Types;
 using Burkardt.Uniform;
 
 namespace Burkardt.TableTest
@@ -94,10 +95,10 @@ namespace Burkardt.TableTest
             Console.WriteLine("  Spatial dimension M = " + M);
             Console.WriteLine("  Number of points N  = " + N);
 
-            TableMisc.r8mat_print_some(M, N, table, 1, 1, 5, 5,
+            typeMethods.r8mat_print_some(M, N, table, 1, 1, 5, 5,
                 "  5x5 portion of the data written to file:");
 
-            TableMisc.r8mat_transpose_print_some(M, N, table, 1, 1, 5, 5,
+            typeMethods.r8mat_transpose_print_some(M, N, table, 1, 1, 5, 5,
                 "  5x5 portion of the TRANSPOSED data:");
 
             TableWriter.r8mat_write(output_filename, M, N, table);
@@ -150,7 +151,7 @@ namespace Burkardt.TableTest
             Console.WriteLine();
             Console.WriteLine("  Read the data in \"" + input_filename + "\".");
 
-            TableMisc.r8mat_print_some ( h.m, h.n, table, 1, 1, 5, 5, 
+            typeMethods.r8mat_print_some ( h.m, h.n, table, 1, 1, 5, 5, 
                 "  5x5 portion of data read from file:" );
         }
         
@@ -197,7 +198,7 @@ namespace Burkardt.TableTest
             Console.WriteLine("  Spatial dimension M = " + M);
             Console.WriteLine("  Number of points N  = " + N);
 
-            TableMisc.i4mat_print_some ( M, N, table, 1, 1, 5, 5, 
+            typeMethods.i4mat_print_some ( M, N, table, 1, 1, 5, 5, 
                 "  5 x 5 portion of data written to file:" );
 
             TableWriter.i4mat_write ( output_filename, M, N, table );
@@ -250,7 +251,7 @@ namespace Burkardt.TableTest
             Console.WriteLine();
             Console.WriteLine("  Read the data in \"" + input_filename + "\".");
             
-            TableMisc.i4mat_print_some ( h.m, h.n, table, 1, 1, 5, 5, 
+            typeMethods.i4mat_print_some ( h.m, h.n, table, 1, 1, 5, 5, 
                 "  5x5 portion of data read from file:" );
         }
 
@@ -289,7 +290,7 @@ namespace Burkardt.TableTest
 
             double[] table = UniformRNG.r8mat_uniform_01 ( M, N, ref seed );
 
-            TableMisc.r8mat_print_some ( M, N, table, 1, 1, 5, 10, 
+            typeMethods.r8mat_print_some ( M, N, table, 1, 1, 5, 10, 
                 "  5x10 portion of random real table dataset:" );
 
         }
@@ -326,17 +327,17 @@ namespace Burkardt.TableTest
             Console.WriteLine("  Spatial dimension M = " + m);
             Console.WriteLine("  Number of points N  = " + n);
 
-            int[] table = TableMisc.i4mat_indicator_new ( m, n );
+            int[] table = typeMethods.i4mat_indicator_new ( m, n );
 
-            TableMisc.i4mat_print ( m, n, table, "  Initial dataset:" );
+            typeMethods.i4mat_print ( m, n, table, "  Initial dataset:" );
 
             int[] table2 = TableBorder.i4mat_border_cut ( m, n, table );
 
-            TableMisc.i4mat_print ( m-2, n-2, table2, "  'Cut' dataset:" );
+            typeMethods.i4mat_print ( m-2, n-2, table2, "  'Cut' dataset:" );
 
             int[] table3 = TableBorder.i4mat_border_add ( m - 2, n - 2, table2 );
 
-            TableMisc.i4mat_print ( m, n, table3, "  'Added' dataset:" );
+            typeMethods.i4mat_print ( m, n, table3, "  'Added' dataset:" );
         }
     }
 }

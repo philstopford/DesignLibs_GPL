@@ -1,6 +1,7 @@
 ﻿using System;
 using Burkardt.Latinizer;
 using Burkardt.Table;
+using Burkardt.Types;
 
 namespace Burkardt.LatinizeTest
 {
@@ -107,7 +108,7 @@ namespace Burkardt.LatinizeTest
             Console.WriteLine();
             Console.WriteLine("  Read the data in \"" + input_filename + "\".");
 
-            TableMisc.r8mat_transpose_print_some ( header.m, header.n, table, 1, 1, 5, 5, 
+            typeMethods.r8mat_transpose_print_some ( header.m, header.n, table, 1, 1, 5, 5, 
                 "  Small portion of data read from file:" );
 
             double[] latTable = Latinize.r8mat_latinize ( header.m, header.n, table );
@@ -115,7 +116,7 @@ namespace Burkardt.LatinizeTest
             Console.WriteLine();
             Console.WriteLine("  Latinized the data.\n");
 
-            TableMisc.r8mat_transpose_print_some ( header.m, header.n, latTable, 1, 1, 5, 5, 
+            typeMethods.r8mat_transpose_print_some ( header.m, header.n, latTable, 1, 1, 5, 5, 
                 "  Small portion of Latinized data:" );
             //
             //  Write the data to a file.

@@ -1,6 +1,7 @@
 ﻿using System;
 using Burkardt.AppliedStatistics;
 using Burkardt.Table;
+using Burkardt.Types;
 
 namespace Burkardt.ASA082Test
 {
@@ -73,7 +74,7 @@ namespace Burkardt.ASA082Test
                 Console.WriteLine("  Helmert matrix of order " + n + "");
                 if (false)
                 {
-                    TableMisc.r8mat_print(n, n, a, "  Helmert matrix:");
+                    typeMethods.r8mat_print(n, n, a, "  Helmert matrix:");
                 }
 
                 double d1 = helmert_determinant(n);

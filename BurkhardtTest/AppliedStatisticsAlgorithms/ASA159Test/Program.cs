@@ -98,7 +98,7 @@ namespace ASA159Test
                     return;
                 }
 
-                TableMisc.i4mat_print ( m, n, a, "  The rowcolsum matrix:" );
+                typeMethods.i4mat_print ( m, n, a, "  The rowcolsum matrix:" );
             }
         }
         

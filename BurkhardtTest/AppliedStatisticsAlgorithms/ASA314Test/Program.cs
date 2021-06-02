@@ -1,6 +1,7 @@
 ﻿using System;
 using Burkardt.AppliedStatistics;
 using Burkardt.Table;
+using Burkardt.Types;
 
 namespace Burkardt.ASA314Test
 {
@@ -97,13 +98,13 @@ namespace Burkardt.ASA314Test
             Console.WriteLine("  INVMOD computes the inverse of a matrix");
             Console.WriteLine("  whose elements are subject to modulo arithmetic.");
 
-            TableMisc.i4mat_print ( nrow, nrow, mat, "  The matrix to be inverted:" );
+            typeMethods.i4mat_print ( nrow, nrow, mat, "  The matrix to be inverted:" );
 
             Algorithms.invmod ( mat, imat, rmod, cmod, nrow, ref ifault );
 
-            TableMisc.i4mat_print ( nrow, nrow, imat, "  The computed inverse:" );
+            typeMethods.i4mat_print ( nrow, nrow, imat, "  The computed inverse:" );
 
-            TableMisc.i4mat_print ( nrow, nrow, jmat, "  The correct inverse:" );
+            typeMethods.i4mat_print ( nrow, nrow, jmat, "  The correct inverse:" );
         }
         
     }

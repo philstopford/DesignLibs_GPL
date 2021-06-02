@@ -1,6 +1,7 @@
 ﻿using System;
 using Burkardt.Table;
 using Burkardt.FEM;
+using Burkardt.Types;
 
 namespace Burkardt.FEMGMeshTest
 {
@@ -99,7 +100,7 @@ namespace Burkardt.FEMGMeshTest
             Console.WriteLine("");
             Console.WriteLine("  Read the data in \"" + node_filename + "\".");
 
-            TableMisc.r8mat_transpose_print_some(m, node_num, node_x, 1, 1, m, 5,
+            typeMethods.r8mat_transpose_print_some(m, node_num, node_x, 1, 1, m, 5,
                 "  Portion of node coordinate data:");
             //
             //  Read the element data.
@@ -165,7 +166,7 @@ namespace Burkardt.FEMGMeshTest
             Console.WriteLine("");
             Console.WriteLine("  Read the data in \"" + element_filename + "\".");
 
-            TableMisc.i4mat_transpose_print_some(element_order, element_num, element_node,
+            typeMethods.i4mat_transpose_print_some(element_order, element_num, element_node,
                 1, 1, element_order, 10, "  Initial portion of element data:");
             //
             //  Write out the Gmsh version of the data.

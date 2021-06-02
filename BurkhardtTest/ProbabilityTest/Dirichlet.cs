@@ -72,7 +72,7 @@ namespace Burkardt.ProbabilityTest
 
             m2 = Dirichlet.dirichlet_moment2(N, a);
 
-            TableMisc.r8mat_print(N, N, m2, "  Second moment matrix:");
+            typeMethods.r8mat_print(N, N, m2, "  Second moment matrix:");
 
             for (j = 0; j < SAMPLE_NUM; j++)
             {
@@ -216,7 +216,7 @@ namespace Burkardt.ProbabilityTest
             Console.WriteLine("");
             Console.WriteLine("  Number of elements ELEM_NUM =   " + ELEM_NUM + "");
             Console.WriteLine("  Number of components COMP_NUM = " + COMP_NUM + "");
-            TableMisc.r8mat_print(ELEM_NUM, COMP_NUM, a, "  PDF parameters A(ELEM,COMP):");
+            typeMethods.r8mat_print(ELEM_NUM, COMP_NUM, a, "  PDF parameters A(ELEM,COMP):");
             typeMethods.r8vec_print(COMP_NUM, comp_weight, "  Component weights");
 
             if (!Dirichlet.dirichlet_mix_check(COMP_NUM, ELEM_NUM, a, comp_weight))
@@ -311,7 +311,7 @@ namespace Burkardt.ProbabilityTest
             Console.WriteLine("");
             Console.WriteLine("  Number of elements ELEM_NUM =   " + ELEM_NUM + "");
             Console.WriteLine("  Number of components COMP_NUM = " + COMP_NUM + "");
-            TableMisc.r8mat_print(ELEM_NUM, COMP_NUM, a, "  PDF parameters A(ELEM,COMP):");
+            typeMethods.r8mat_print(ELEM_NUM, COMP_NUM, a, "  PDF parameters A(ELEM,COMP):");
             typeMethods.r8vec_print(COMP_NUM, comp_weight, "  Component weights");
 
             Console.WriteLine();

@@ -1,6 +1,7 @@
 ﻿using System;
 using Burkardt.BoxBehnkenNS;
 using Burkardt.Table;
+using Burkardt.Types;
 
 namespace Burkardt.BoxBehnkenTest
 {
@@ -74,7 +75,7 @@ namespace Burkardt.BoxBehnkenTest
                 Console.WriteLine("TEST01");
                 Console.WriteLine("  BOX_BEHNKEN computes a Box-Behnken dataset.");
 
-                TableMisc.r8mat_transpose_print ( dim_num, 2, range, "  The ranges:" );
+                typeMethods.r8mat_transpose_print ( dim_num, 2, range, "  The ranges:" );
 
                 int x_num = BoxBehnken.box_behnken_size ( dim_num );
 
@@ -84,7 +85,7 @@ namespace Burkardt.BoxBehnkenTest
 
                 double[] x = BoxBehnken.box_behnken ( dim_num, x_num, range );
 
-                TableMisc.r8mat_transpose_print ( dim_num, x_num, x, "  The Box-Behnken design:" );
+                typeMethods.r8mat_transpose_print ( dim_num, x_num, x, "  The Box-Behnken design:" );
             }
             
             
@@ -119,7 +120,7 @@ namespace Burkardt.BoxBehnkenTest
                 Console.WriteLine("  R8MAT_WRITE writes a Box-Behnken dataset");
                 Console.WriteLine("  to a file.");
 
-                TableMisc.r8mat_transpose_print ( dim_num, 2, range, "  The ranges:" );
+                typeMethods.r8mat_transpose_print ( dim_num, 2, range, "  The ranges:" );
 
                 int x_num = BoxBehnken.box_behnken_size ( dim_num );
 

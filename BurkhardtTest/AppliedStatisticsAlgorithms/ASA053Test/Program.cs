@@ -178,7 +178,7 @@ namespace Burkardt.ASA053Test
                 }
             }
 
-            TableMisc.r8mat_print(np, np, sigma, "  Expected result:");
+            typeMethods.r8mat_print(np, np, sigma, "  Expected result:");
 
         }
 

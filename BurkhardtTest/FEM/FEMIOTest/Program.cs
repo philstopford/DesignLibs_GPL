@@ -1,6 +1,7 @@
 ﻿using System;
 using Burkardt.FEM;
 using Burkardt.Table;
+using Burkardt.Types;
 
 namespace Burkardt.FEMIOTest
 {
@@ -99,13 +100,13 @@ namespace Burkardt.FEMIOTest
                     node_data_file_name, dim_num, node_num, element_num,
                     element_order, node_data_num, ref node_coord, ref element_node, ref node_data);
 
-                TableMisc.r8mat_transpose_print_some(dim_num, node_num, node_coord, 1, 1,
+                typeMethods.r8mat_transpose_print_some(dim_num, node_num, node_coord, 1, 1,
                     dim_num, 10, "  First 10 node coordindates:");
 
-                TableMisc.i4mat_transpose_print_some(element_order, element_num,
+                typeMethods.i4mat_transpose_print_some(element_order, element_num,
                     element_node, 1, 1, element_order, 10, "  First 10 elements");
 
-                TableMisc.r8mat_transpose_print_some(node_data_num, node_num, node_data,
+                typeMethods.r8mat_transpose_print_some(node_data_num, node_num, node_data,
                     1, 1, node_data_num, 10, "  First 10 node data sets:");
 
             }
@@ -178,13 +179,13 @@ namespace Burkardt.FEMIOTest
                 IO.fem_header_print(DIM_NUM, NODE_NUM, ELEMENT_ORDER, ELEMENT_NUM,
                     NODE_DATA_NUM);
 
-                TableMisc.r8mat_transpose_print(DIM_NUM, NODE_NUM, node_coord,
+                typeMethods.r8mat_transpose_print(DIM_NUM, NODE_NUM, node_coord,
                     "  Node coordindates:");
 
-                TableMisc.i4mat_transpose_print(ELEMENT_ORDER, ELEMENT_NUM,
+                typeMethods.i4mat_transpose_print(ELEMENT_ORDER, ELEMENT_NUM,
                     element_node, "  Elements");
 
-                TableMisc.r8mat_transpose_print(NODE_DATA_NUM, NODE_NUM, node_data,
+                typeMethods.r8mat_transpose_print(NODE_DATA_NUM, NODE_NUM, node_data,
                     "  Node data sets:");
 
                 IO.fem_write(node_coord_file_name, element_file_name,

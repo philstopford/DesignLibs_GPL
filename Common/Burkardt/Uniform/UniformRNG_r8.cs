@@ -224,5 +224,67 @@ namespace Burkardt.Uniform
 
             return r;
         }
+        
+        public static double r8_uniform ( double a, double b, ref int seed )
+//****************************************************************************80
+//
+//  Purpose:
+//
+//    R8_UNIFORM returns a scaled pseudorandom R8.
+//
+//  Discussion:
+//
+//    The pseudorandom number should be uniformly distributed
+//    between A and B.
+//
+//  Licensing:
+//
+//    This code is distributed under the GNU LGPL license. 
+//
+//  Modified:
+//
+//    21 November 2004
+//
+//  Author:
+//
+//    John Burkardt
+//
+//  Parameters:
+//
+//    Input, double A, B, the limits of the interval.
+//
+//    Input/output, int *SEED, the "seed" value, which should NOT be 0.
+//    On output, SEED has been updated.
+//
+//    Output, double R8_UNIFORM, a number strictly between A and B.
+//
+        {
+            int i4_huge = 2147483647;
+            int k;
+            double value;
+
+            if ( seed == 0 )
+            {
+                Console.WriteLine("");
+                Console.WriteLine("R8_UNIFORM - Fatal error!");
+                Console.WriteLine("  Input value of SEED = 0.");
+                return ( 1 );
+            }
+
+            k = seed / 127773;
+
+            seed = 16807 * ( seed - k * 127773 ) - k * 2836;
+
+            if ( seed < 0 )
+            {
+                seed = seed + i4_huge;
+            }
+
+            value = ( double ) ( seed ) * 4.656612875E-10;
+
+            value = a + ( b - a ) * value;
+
+            return value;
+        }
     }
 }

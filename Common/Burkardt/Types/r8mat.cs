@@ -342,5 +342,174 @@ namespace Burkardt.Types
             }
         }
         
+        public static double[] r8mat_solve2(int n, ref double[] a, ref double[] b, ref int ierror)
+//****************************************************************************80
+//
+//  Purpose:
+//
+//    R8MAT_SOLVE2 computes the solution of an N by N linear system.
+//
+//  Discussion: 							    
+//
+//    An R8MAT is a doubly dimensioned array of R8 values, stored as a vector 
+//    in column-major order.
+//
+//    The linear system may be represented as
+//
+//      A*X = B
+//
+//    If the linear system is singular, but consistent, then the routine will
+//    still produce a solution.
+//
+//  Licensing:
+//
+//    This code is distributed under the GNU LGPL license. 
+//
+//  Modified:
+//
+//    29 October 2005
+//
+//  Author:
+//
+//    John Burkardt
+//
+//  Parameters:
+//
+//    Input, int N, the number of equations.
+//
+//    Input/output, double A[N*N].
+//    On input, A is the coefficient matrix to be inverted.
+//    On output, A has been overwritten.
+//
+//    Input/output, double B[N].
+//    On input, B is the right hand side of the system.
+//    On output, B has been overwritten.
+//
+//    Output, int *IERROR.
+//    0, no error detected.
+//    1, consistent singularity.
+//    2, inconsistent singularity.
+//
+//    Output, double R8MAT_SOLVE2[N], the solution of the linear system.
+//
+        {
+            double amax;
+            int imax;
+            int[] piv;
+            double[] x;
+
+            ierror = 0;
+
+            piv = typeMethods.i4vec_zero_new(n);
+            x = typeMethods.r8vec_zero_new(n);
+//
+//  Process the matrix.
+//
+            for (int k = 1; k <= n; k++)
+            {
+//
+//  In column K:
+//    Seek the row IMAX with the properties that:
+//      IMAX has not already been used as a pivot;
+//      A(IMAX,K) is larger in magnitude than any other candidate.
+//
+                amax = 0.0;
+                imax = 0;
+                for (int i = 1; i <= n; i++)
+                {
+                    if (piv[i - 1] == 0)
+                    {
+                        if (amax < Math.Abs(a[i - 1 + (k - 1) * n]))
+                        {
+                            imax = i;
+                            amax = Math.Abs(a[i - 1 + (k - 1) * n]);
+                        }
+                    }
+                }
+
+//
+//  If you found a pivot row IMAX, then,
+//    eliminate the K-th entry in all rows that have not been used for pivoting.
+//
+                if (imax != 0)
+                {
+                    piv[imax - 1] = k;
+                    for (int j = k + 1; j <= n; j++)
+                    {
+                        a[imax - 1 + (j - 1) * n] = a[imax - 1 + (j - 1) * n] / a[imax - 1 + (k - 1) * n];
+                    }
+
+                    b[imax - 1] = b[imax - 1] / a[imax - 1 + (k - 1) * n];
+                    a[imax - 1 + (k - 1) * n] = 1.0;
+
+                    for (int i = 1; i <= n; i++)
+                    {
+                        if (piv[i - 1] == 0)
+                        {
+                            for (int j = k + 1; j <= n; j++)
+                            {
+                                a[i - 1 + (j - 1) * n] = a[i - 1 + (j - 1) * n] -
+                                                         a[i - 1 + (k - 1) * n] * a[imax - 1 + (j - 1) * n];
+                            }
+
+                            b[i - 1] = b[i - 1] - a[i - 1 + (k - 1) * n] * b[imax - 1];
+                            a[i - 1 + (k - 1) * n] = 0.0;
+                        }
+                    }
+                }
+            }
+
+//
+//  Now, every row with nonzero IPIV begins with a 1, and
+//  all other rows are all zero.  Begin solution.
+//
+            for (int j = n; 1 <= j; j--)
+            {
+                imax = 0;
+                for (int k = 1; k <= n; k++)
+                {
+                    if (piv[k - 1] == j)
+                    {
+                        imax = k;
+                    }
+                }
+
+                if (imax == 0)
+                {
+                    x[j - 1] = 0.0;
+
+                    if (b[j - 1] == 0.0)
+                    {
+                        ierror = 1;
+                        Console.WriteLine("");
+                        Console.WriteLine("R8MAT_SOLVE2 - Warning:");
+                        Console.WriteLine("  Consistent singularity, equation = " + j + "");
+                    }
+                    else
+                    {
+                        ierror = 2;
+                        Console.WriteLine("");
+                        Console.WriteLine("R8MAT_SOLVE2 - Warning:");
+                        Console.WriteLine("  Inconsistent singularity, equation = " + j + "");
+                    }
+                }
+                else
+                {
+                    x[j - 1] = b[imax - 1];
+
+                    for (int i = 1; i <= n; i++)
+                    {
+                        if (i != imax)
+                        {
+                            b[i - 1] = b[i - 1] - a[i - 1 + (j - 1) * n] * x[j - 1];
+                        }
+                    }
+                }
+            }
+
+            return x;
+        }
+
+        
     }
 }

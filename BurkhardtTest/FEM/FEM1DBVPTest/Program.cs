@@ -125,7 +125,7 @@ namespace Burkardt.FEM1DBVPTest
                 x_last = 1.0;
                 x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
 
-                u = FEM_1D_BVP.fem1d_bvp_linear(n, a00, c00, f00, x);
+                u = FEM_1D_BVP.fem1d_bvp_linear(n, FEM_Test_Methods.a00, FEM_Test_Methods.c00, FEM_Test_Methods.f00, x);
 
                 Console.WriteLine("");
                 Console.WriteLine("     I    X         U         Uexact    Error");
@@ -133,7 +133,7 @@ namespace Burkardt.FEM1DBVPTest
 
                 for (i = 0; i < n; i++)
                 {
-                    uexact = exact00(x[i]);
+                    uexact = FEM_Test_Methods.exact00(x[i]);
                     Console.WriteLine("  " + i.ToString().PadLeft(4)
                                            + "  " + x[i].ToString().PadLeft(8)
                                            + "  " + u[i].ToString().PadLeft(14)
@@ -141,10 +141,10 @@ namespace Burkardt.FEM1DBVPTest
                                            + "  " + Math.Abs(u[i] - uexact).ToString().PadLeft(14) + "");
                 }
 
-                e1 = FEM_1D_BVP.l1_error(n, x, u, exact00);
-                e2 = FEM_1D_BVP.l2_error_linear(n, x, u, exact00);
-                h1s = FEM_1D_BVP.h1s_error_linear(n, x, u, exact_ux00);
-                mx = FEM_1D_BVP.max_error_linear(n, x, u, exact00);
+                e1 = FEM_Error.l1_error(n, x, u, FEM_Test_Methods.exact00);
+                e2 = FEM_Error.l2_error_linear(n, x, u, FEM_Test_Methods.exact00);
+                h1s = FEM_Error.h1s_error_linear(n, x, u, FEM_Test_Methods.exact_ux00);
+                mx = FEM_Error.max_error_linear(n, x, u, FEM_Test_Methods.exact00);
                 Console.WriteLine("");
                 Console.WriteLine("  l1 norm of error  = " + e1 + "");
                 Console.WriteLine("  L2 norm of error  = " + e2 + "");
@@ -153,160 +153,6 @@ namespace Burkardt.FEM1DBVPTest
 
             }
 
-            static double a00(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    A00 evaluates A function #0.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    10 July 2015
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double A00, the value of A(X).
-//
-            {
-                double value = 1.0;
-
-                return value;
-            }
-
-            static double c00(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    C00 evaluates C function #0.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    10 July 2015
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double C00, the value of C(X).
-//
-            {
-                double value = 1.0;
-
-                return value;
-            }
-
-            static double exact00(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    EXACT00 evaluates exact solution #00.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    10 July 2015
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double EXACT00, the value of U(X).
-//
-            {
-                double value = x - Math.Sinh(x) / Math.Sinh(1.0);
-
-                return value;
-            }
-
-            static double exact_ux00(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    EXACT_UX00 evaluates the derivative of exact solution #00.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    10 July 2015
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double EXACT_UX00, the value of dUdX(X).
-//
-            {
-                double value = 1.0 - Math.Cosh(x) / Math.Sinh(1.0);
-
-                return value;
-            }
-
-            static double f00(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    F00 evaluates right hand side function #00.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    10 July 2015
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double F00, the value of F(X).
-//
-            {
-                double value = x;
-
-                return value;
-            }
 
             static void test01()
 //****************************************************************************80
@@ -369,7 +215,7 @@ namespace Burkardt.FEM1DBVPTest
                 x_last = 1.0;
                 x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
 
-                u = FEM_1D_BVP.fem1d_bvp_linear(n, a1, c1, f1, x);
+                u = FEM_1D_BVP.fem1d_bvp_linear(n, FEM_Test_Methods.a1, FEM_Test_Methods.c1, FEM_Test_Methods.f1, x);
 
                 Console.WriteLine("");
                 Console.WriteLine("     I    X         U         Uexact    Error");
@@ -377,7 +223,7 @@ namespace Burkardt.FEM1DBVPTest
 
                 for (i = 0; i < n; i++)
                 {
-                    uexact = exact1(x[i]);
+                    uexact = FEM_Test_Methods.exact1(x[i]);
                     Console.WriteLine("  " + i.ToString().PadLeft(4)
                                            + "  " + x[i].ToString().PadLeft(8)
                                            + "  " + u[i].ToString().PadLeft(14)
@@ -385,10 +231,10 @@ namespace Burkardt.FEM1DBVPTest
                                            + "  " + Math.Abs(u[i] - uexact).ToString().PadLeft(14) + "");
                 }
 
-                e1 = FEM_1D_BVP.l1_error(n, x, u, exact1);
-                e2 = FEM_1D_BVP.l2_error_linear(n, x, u, exact1);
-                h1s = FEM_1D_BVP.h1s_error_linear(n, x, u, exact_ux1);
-                mx = FEM_1D_BVP.max_error_linear(n, x, u, exact1);
+                e1 = FEM_Error.l1_error(n, x, u, FEM_Test_Methods.exact1);
+                e2 = FEM_Error.l2_error_linear(n, x, u, FEM_Test_Methods.exact1);
+                h1s = FEM_Error.h1s_error_linear(n, x, u, FEM_Test_Methods.exact_ux1);
+                mx = FEM_Error.max_error_linear(n, x, u, FEM_Test_Methods.exact1);
                 Console.WriteLine("");
                 Console.WriteLine("  l1 norm of error  = " + e1 + "");
                 Console.WriteLine("  L2 norm of error  = " + e2 + "");
@@ -397,160 +243,6 @@ namespace Burkardt.FEM1DBVPTest
 
             }
 
-            static double a1(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    A1 evaluates A function #1.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    14 June 2014
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double A1, the value of A(X).
-//
-            {
-                double value = 1.0;
-
-                return value;
-            }
-
-            static double c1(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    C1 evaluates C function #1.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    20 August 2010
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double C1, the value of C(X).
-//
-            {
-                double value = 0.0;
-
-                return value;
-            }
-
-            static double exact1(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    EXACT1 evaluates exact solution #1.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    14 June 2014
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double EXACT1, the value of U(X).
-//
-            {
-                double value = x * (1.0 - x) * Math.Exp(x);
-
-                return value;
-            }
-
-            static double exact_ux1(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    EXACT_UX1 evaluates the derivative of exact solution #1.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    14 June 2014
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double EXACT_UX1, the value of dUdX(X).
-//
-            {
-                double value = (1.0 - x - x * x) * Math.Exp(x);
-
-                return value;
-            }
-
-            static double f1(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    F1 evaluates right hand side function #1.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    20 August 2010
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double F1, the value of F(X).
-//
-            {
-                double value = x * (x + 3.0) * Math.Exp(x);
-
-                return value;
-            }
 
             static void test02()
 //****************************************************************************80
@@ -613,7 +305,7 @@ namespace Burkardt.FEM1DBVPTest
                 x_last = 1.0;
                 x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
 
-                u = FEM_1D_BVP.fem1d_bvp_linear(n, a2, c2, f2, x);
+                u = FEM_1D_BVP.fem1d_bvp_linear(n, FEM_Test_Methods.a2, FEM_Test_Methods.c2, FEM_Test_Methods.f2, x);
 
                 Console.WriteLine("");
                 Console.WriteLine("     I    X         U         Uexact    Error");
@@ -621,7 +313,7 @@ namespace Burkardt.FEM1DBVPTest
 
                 for (i = 0; i < n; i++)
                 {
-                    uexact = exact2(x[i]);
+                    uexact = FEM_Test_Methods.exact2(x[i]);
                     Console.WriteLine("  " + i.ToString().PadLeft(4)
                                            + "  " + x[i].ToString().PadLeft(8)
                                            + "  " + u[i].ToString().PadLeft(14)
@@ -629,10 +321,10 @@ namespace Burkardt.FEM1DBVPTest
                                            + "  " + Math.Abs(u[i] - uexact).ToString().PadLeft(14) + "");
                 }
 
-                e1 = FEM_1D_BVP.l1_error(n, x, u, exact2);
-                e2 = FEM_1D_BVP.l2_error_linear(n, x, u, exact2);
-                h1s = FEM_1D_BVP.h1s_error_linear(n, x, u, exact_ux2);
-                mx = FEM_1D_BVP.max_error_linear(n, x, u, exact2);
+                e1 = FEM_Error.l1_error(n, x, u, FEM_Test_Methods.exact2);
+                e2 = FEM_Error.l2_error_linear(n, x, u, FEM_Test_Methods.exact2);
+                h1s = FEM_Error.h1s_error_linear(n, x, u, FEM_Test_Methods.exact_ux2);
+                mx = FEM_Error.max_error_linear(n, x, u, FEM_Test_Methods.exact2);
                 Console.WriteLine("");
                 Console.WriteLine("  l1 norm of error  = " + e1 + "");
                 Console.WriteLine("  L2 norm of error  = " + e2 + "");
@@ -640,160 +332,6 @@ namespace Burkardt.FEM1DBVPTest
                 Console.WriteLine("  Max norm of error = " + mx + "");
             }
 
-            static double a2(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    A2 evaluates A function #2.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    14 June 2014
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double A2, the value of A(X).
-//
-            {
-                double value = 1.0;
-
-                return value;
-            }
-
-            static double c2(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    C2 evaluates C function #2.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    20 August 2010
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double C2, the value of C(X).
-//
-            {
-                double value = 2.0;
-
-                return value;
-            }
-
-            static double exact2(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    EXACT2 evaluates exact solution #2.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    14 June 2014
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double EXACT2, the value of U(X).
-//
-            {
-                double value = x * (1.0 - x) * Math.Exp(x);
-
-                return value;
-            }
-
-            static double exact_ux2(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    EXACT_UX2 evaluates the derivative of exact solution #2.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    14 June 2014
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double EXACT_UX2, the value of dUdX(X).
-//
-            {
-                double value = (1.0 - x - x * x) * Math.Exp(x);
-
-                return value;
-            }
-
-            static double f2(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    F2 evaluates right hand side function #2.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    20 August 2010
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double F2, the value of F(X).
-//
-            {
-                double value = x * (5.0 - x) * Math.Exp(x);
-
-                return value;
-            }
 
             static void test03()
 //****************************************************************************80
@@ -856,7 +394,7 @@ namespace Burkardt.FEM1DBVPTest
                 x_last = 1.0;
                 x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
 
-                u = FEM_1D_BVP.fem1d_bvp_linear(n, a3, c3, f3, x);
+                u = FEM_1D_BVP.fem1d_bvp_linear(n, FEM_Test_Methods.a3, FEM_Test_Methods.c3, FEM_Test_Methods.f3, x);
 
                 Console.WriteLine("");
                 Console.WriteLine("     I    X         U         Uexact    Error");
@@ -864,7 +402,7 @@ namespace Burkardt.FEM1DBVPTest
 
                 for (i = 0; i < n; i++)
                 {
-                    uexact = exact3(x[i]);
+                    uexact = FEM_Test_Methods.exact3(x[i]);
                     Console.WriteLine("  " + i.ToString().PadLeft(4)
                                            + "  " + x[i].ToString().PadLeft(8)
                                            + "  " + u[i].ToString().PadLeft(14)
@@ -872,170 +410,15 @@ namespace Burkardt.FEM1DBVPTest
                                            + "  " + Math.Abs(u[i] - uexact).ToString().PadLeft(14) + "");
                 }
 
-                e1 = FEM_1D_BVP.l1_error(n, x, u, exact3);
-                e2 = FEM_1D_BVP.l2_error_linear(n, x, u, exact3);
-                h1s = FEM_1D_BVP.h1s_error_linear(n, x, u, exact_ux3);
-                mx = FEM_1D_BVP.max_error_linear(n, x, u, exact3);
+                e1 = FEM_Error.l1_error(n, x, u, FEM_Test_Methods.exact3);
+                e2 = FEM_Error.l2_error_linear(n, x, u, FEM_Test_Methods.exact3);
+                h1s = FEM_Error.h1s_error_linear(n, x, u, FEM_Test_Methods.exact_ux3);
+                mx = FEM_Error.max_error_linear(n, x, u, FEM_Test_Methods.exact3);
                 Console.WriteLine("");
                 Console.WriteLine("  l1 norm of error  = " + e1 + "");
                 Console.WriteLine("  L2 norm of error  = " + e2 + "");
                 Console.WriteLine("  Seminorm of error = " + h1s + "");
                 Console.WriteLine("  Max norm of error = " + mx + "");
-            }
-
-            static double a3(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    A3 evaluates A function #3.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    14 June 2014
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double A3, the value of A(X).
-//
-            {
-                double value = 1.0;
-
-                return value;
-            }
-
-            static double c3(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    C3 evaluates C function #3.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    20 August 2010
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double C3, the value of C(X).
-//
-            {
-                double value = 2.0 * x;
-
-                return value;
-            }
-
-            static double exact3(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    EXACT3 evaluates exact solution #3.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    14 June 2014
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double EXACT3, the value of U(X).
-//
-            {
-                double value = x * (1.0 - x) * Math.Exp(x);
-
-                return value;
-            }
-
-            static double exact_ux3(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    EXACT_UX3 evaluates the derivative of exact solution #3.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    14 June 2014
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double EXACT_UX3, the value of dUdX(X).
-//
-            {
-                double value = (1.0 - x - x * x) * Math.Exp(x);
-
-                return value;
-            }
-
-            static double f3(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    F3 evaluates right hand side function #3.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    20 August 2010
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double F3, the value of F(X).
-//
-            {
-                double value = -x * (2.0 * x * x - 3.0 * x - 3.0) * Math.Exp(x);
-
-                return value;
             }
 
             static void test04()
@@ -1099,7 +482,7 @@ namespace Burkardt.FEM1DBVPTest
                 x_last = 1.0;
                 x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
 
-                u = FEM_1D_BVP.fem1d_bvp_linear(n, a4, c4, f4, x);
+                u = FEM_1D_BVP.fem1d_bvp_linear(n, FEM_Test_Methods.a4, FEM_Test_Methods.c4, FEM_Test_Methods.f4, x);
 
                 Console.WriteLine("");
                 Console.WriteLine("     I    X         U         Uexact    Error");
@@ -1107,7 +490,7 @@ namespace Burkardt.FEM1DBVPTest
 
                 for (i = 0; i < n; i++)
                 {
-                    uexact = exact4(x[i]);
+                    uexact = FEM_Test_Methods.exact4(x[i]);
                     Console.WriteLine("  " + i.ToString().PadLeft(4)
                                            + "  " + x[i].ToString().PadLeft(8)
                                            + "  " + u[i].ToString().PadLeft(14)
@@ -1115,10 +498,10 @@ namespace Burkardt.FEM1DBVPTest
                                            + "  " + Math.Abs(u[i] - uexact).ToString().PadLeft(14) + "");
                 }
 
-                e1 = FEM_1D_BVP.l1_error(n, x, u, exact4);
-                e2 = FEM_1D_BVP.l2_error_linear(n, x, u, exact4);
-                h1s = FEM_1D_BVP.h1s_error_linear(n, x, u, exact_ux4);
-                mx = FEM_1D_BVP.max_error_linear(n, x, u, exact4);
+                e1 = FEM_Error.l1_error(n, x, u, FEM_Test_Methods.exact4);
+                e2 = FEM_Error.l2_error_linear(n, x, u, FEM_Test_Methods.exact4);
+                h1s = FEM_Error.h1s_error_linear(n, x, u, FEM_Test_Methods.exact_ux4);
+                mx = FEM_Error.max_error_linear(n, x, u, FEM_Test_Methods.exact4);
                 Console.WriteLine("");
                 Console.WriteLine("  l1 norm of error  = " + e1 + "");
                 Console.WriteLine("  L2 norm of error  = " + e2 + "");
@@ -1126,160 +509,6 @@ namespace Burkardt.FEM1DBVPTest
                 Console.WriteLine("  Max norm of error = " + mx + "");
             }
 
-            static double a4(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    A4 evaluates A function #4.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    14 June 2014
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double A4, the value of A(X).
-//
-            {
-                double value = 1.0 + x * x;
-
-                return value;
-            }
-
-            static double c4(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    C4 evaluates C function #4.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    14 June 2014
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double C4, the value of C(X).
-//
-            {
-                double value = 0.0;
-
-                return value;
-            }
-
-            static double exact4(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    EXACT4 evaluates exact solution #4.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    14 June 2014
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double EXACT4, the value of U(X).
-//
-            {
-                double value = x * (1.0 - x) * Math.Exp(x);
-
-                return value;
-            }
-
-            static double exact_ux4(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    EXACT_UX4 evaluates the derivative of exact solution #4.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    14 June 2014
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double EXACT_UX4, the value of dUdX(X).
-//
-            {
-                double value = (1.0 - x - x * x) * Math.Exp(x);
-
-                return value;
-            }
-
-            static double f4(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    F4 evaluates right hand side function #4.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    20 August 2010
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double F4, the value of F(X).
-//
-            {
-                double value = (x + 3.0 * x * x + 5.0 * x * x * x + x * x * x * x) * Math.Exp(x);
-
-                return value;
-            }
 
             static void test05()
 //****************************************************************************80
@@ -1346,7 +575,7 @@ namespace Burkardt.FEM1DBVPTest
                 x_last = 1.0;
                 x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
 
-                u = FEM_1D_BVP.fem1d_bvp_linear(n, a5, c5, f5, x);
+                u = FEM_1D_BVP.fem1d_bvp_linear(n, FEM_Test_Methods.a5, FEM_Test_Methods.c5, FEM_Test_Methods.f5, x);
 
                 Console.WriteLine("");
                 Console.WriteLine("     I    X         U         Uexact    Error");
@@ -1354,7 +583,7 @@ namespace Burkardt.FEM1DBVPTest
 
                 for (i = 0; i < n; i++)
                 {
-                    uexact = exact5(x[i]);
+                    uexact = FEM_Test_Methods.exact5(x[i]);
                     Console.WriteLine("  " + i.ToString().PadLeft(4)
                                            + "  " + x[i].ToString().PadLeft(8)
                                            + "  " + u[i].ToString().PadLeft(14)
@@ -1362,189 +591,15 @@ namespace Burkardt.FEM1DBVPTest
                                            + "  " + Math.Abs(u[i] - uexact).ToString().PadLeft(14) + "");
                 }
 
-                e1 = FEM_1D_BVP.l1_error(n, x, u, exact5);
-                e2 = FEM_1D_BVP.l2_error_linear(n, x, u, exact5);
-                h1s = FEM_1D_BVP.h1s_error_linear(n, x, u, exact_ux5);
-                mx = FEM_1D_BVP.max_error_linear(n, x, u, exact5);
+                e1 = FEM_Error.l1_error(n, x, u, FEM_Test_Methods.exact5);
+                e2 = FEM_Error.l2_error_linear(n, x, u, FEM_Test_Methods.exact5);
+                h1s = FEM_Error.h1s_error_linear(n, x, u, FEM_Test_Methods.exact_ux5);
+                mx = FEM_Error.max_error_linear(n, x, u, FEM_Test_Methods.exact5);
                 Console.WriteLine("");
                 Console.WriteLine("  l1 norm of error  = " + e1 + "");
                 Console.WriteLine("  L2 norm of error  = " + e2 + "");
                 Console.WriteLine("  Seminorm of error = " + h1s + "");
                 Console.WriteLine("  Max norm of error = " + mx + "");
-            }
-
-            static double a5(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    A5 evaluates A function #5.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    14 June 2014
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double A5, the value of A(X).
-//
-            {
-                double value;
-
-                if (x <= 1.0 / 3.0)
-                {
-                    value = 1.0 + x * x;
-                }
-                else
-                {
-                    value = x + 7.0 / 9.0;
-                }
-
-                return value;
-            }
-
-            static double c5(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    C5 evaluates C function #5.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    14 June 2014
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double C5, the value of C(X).
-//
-            {
-                double value = 0.0;
-
-                return value;
-            }
-
-            static double exact5(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    EXACT5 evaluates exact solution #5.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    14 June 2014
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double EXACT5, the value of U(X).
-//
-            {
-                double value = x * (1.0 - x) * Math.Exp(x);
-
-                return value;
-            }
-
-            static double exact_ux5(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    EXACT_UX5 evaluates the derivative of exact solution #5.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    14 June 2014
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double EXACT_UX5, the value of dUdX(X).
-//
-            {
-                double value = (1.0 - x - x * x) * Math.Exp(x);
-
-                return value;
-            }
-
-            static double f5(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    F5 evaluates right hand side function #5.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    20 August 2010
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double F5, the value of F(X).
-//
-            {
-                double value;
-
-                if (x <= 1.0 / 3.0)
-                {
-                    value = (x + 3.0 * x * x + 5.0 * x * x * x + x * x * x * x) * Math.Exp(x);
-                }
-                else
-                {
-                    value = (-1.0 + (10.0 / 3.0) * x
-                                  + (43.0 / 9.0) * x * x + x * x * x) * Math.Exp(x);
-                }
-
-                return value;
             }
 
             static void test06()
@@ -1614,12 +669,13 @@ namespace Burkardt.FEM1DBVPTest
                     x_last = 1.0;
                     x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
 
-                    u = FEM_1D_BVP.fem1d_bvp_linear(n, a6, c6, f6, x);
+                    u = FEM_1D_BVP.fem1d_bvp_linear(n, FEM_Test_Methods.a6, FEM_Test_Methods.c6, FEM_Test_Methods.f6,
+                        x);
 
-                    e1 = FEM_1D_BVP.l1_error(n, x, u, exact6);
-                    e2 = FEM_1D_BVP.l2_error_linear(n, x, u, exact6);
-                    h1s = FEM_1D_BVP.h1s_error_linear(n, x, u, exact_ux6);
-                    mx = FEM_1D_BVP.max_error_linear(n, x, u, exact6);
+                    e1 = FEM_Error.l1_error(n, x, u, FEM_Test_Methods.exact6);
+                    e2 = FEM_Error.l2_error_linear(n, x, u, FEM_Test_Methods.exact6);
+                    h1s = FEM_Error.h1s_error_linear(n, x, u, FEM_Test_Methods.exact_ux6);
+                    mx = FEM_Error.max_error_linear(n, x, u, FEM_Test_Methods.exact6);
 
                     Console.WriteLine("  " + n.ToString().PadLeft(4)
                                            + "  " + e1.ToString().PadLeft(14)
@@ -1632,160 +688,6 @@ namespace Burkardt.FEM1DBVPTest
                 }
             }
 
-            static double a6(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    A6 evaluates A function #6.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    14 June 2014
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double A6, the value of A(X).
-//
-            {
-                double value = 1.0;
-
-                return value;
-            }
-
-            static double c6(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    C6 evaluates C function #6.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    14 June 2014
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double C6, the value of C(X).
-//
-            {
-                double value = 0.0;
-
-                return value;
-            }
-
-            static double exact6(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    EXACT6 returns exact solution #6.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    19 February 2012
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double EXACT6, the value of U(X).
-//
-            {
-                double value = Math.Sin(Math.PI * x);
-
-                return value;
-            }
-
-            static double exact_ux6(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    EXACT_UX6 returns the derivative of exact solution #6.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    14 June 2014
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double EXACT_UX6, the value of U(X).
-//
-            {
-                double value = Math.PI * Math.Cos(Math.PI * x);
-
-                return value;
-            }
-
-            static double f6(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    F6 evaluates right hand side function #6.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    19 February 2012
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double F6, the value of F(X).
-//
-            {
-                double value = Math.PI * Math.PI * Math.Sin(Math.PI * x);
-
-                return value;
-            }
 
             static void test07()
 
@@ -1852,12 +754,13 @@ namespace Burkardt.FEM1DBVPTest
                     x_last = 1.0;
                     x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
 
-                    u = FEM_1D_BVP.fem1d_bvp_linear(n, a7, c7, f7, x);
+                    u = FEM_1D_BVP.fem1d_bvp_linear(n, FEM_Test_Methods.a7, FEM_Test_Methods.c7, FEM_Test_Methods.f7,
+                        x);
 
-                    e1 = FEM_1D_BVP.l1_error(n, x, u, exact7);
-                    e2 = FEM_1D_BVP.l2_error_linear(n, x, u, exact7);
-                    h1s = FEM_1D_BVP.h1s_error_linear(n, x, u, exact_ux7);
-                    mx = FEM_1D_BVP.max_error_linear(n, x, u, exact7);
+                    e1 = FEM_Error.l1_error(n, x, u, FEM_Test_Methods.exact7);
+                    e2 = FEM_Error.l2_error_linear(n, x, u, FEM_Test_Methods.exact7);
+                    h1s = FEM_Error.h1s_error_linear(n, x, u, FEM_Test_Methods.exact_ux7);
+                    mx = FEM_Error.max_error_linear(n, x, u, FEM_Test_Methods.exact7);
 
                     Console.WriteLine("  " + n.ToString().PadLeft(4)
                                            + "  " + e1.ToString().PadLeft(14)
@@ -1868,173 +771,6 @@ namespace Burkardt.FEM1DBVPTest
                     n = 2 * (n - 1) + 1;
 
                 }
-            }
-
-            static double a7(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    A7 evaluates A function #7.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    09 June 2014
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double A7, the value of A(X).
-//
-            {
-                double alpha = 30.0;
-                double x0 = 1.0 / 3.0;
-                double value = 1.0 / alpha + alpha * Math.Pow(x - x0, 2);
-
-                return value;
-            }
-
-            static double c7(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    C7 evaluates C function #7.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    09 June 2014
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double C7, the value of C(X).
-//
-            {
-                double value = 0.0;
-
-                return value;
-            }
-
-            static double exact7(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    EXACT7 returns exact solution #7.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    09 June 2014
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double EXACT7, the value of U(X).
-//
-            {
-                double alpha = 30.0;
-                double x0 = 1.0 / 3.0;
-                double value = (1.0 - x)
-                               * (Math.Atan(alpha * (x - x0)) + Math.Atan(alpha * x0));
-
-                return value;
-            }
-
-            static double exact_ux7(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    EXACT_UX7 returns the derivative of exact solution #7.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    09 June 2014
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double EXACT_UX7, the value of U(X).
-//
-            {
-                double alpha = 30.0;
-                double x0 = 1.0 / 3.0;
-                double value = -Math.Atan(alpha * (x - x0)) - Math.Atan(alpha * x0)
-                               + (1.0 - x) * alpha / (1.0 + alpha * alpha * Math.Pow(x - x0, 2));
-
-
-                return value;
-            }
-
-            static double f7(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    F7 evaluates right hand side function #7.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    09 June 2014
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double F7, the value of F(X).
-//
-            {
-                double alpha = 30.0;
-                double x0 = 1.0 / 3.0;
-                double value = 2.0 * (1.0 + alpha * (x - x0) *
-                    (Math.Atan(alpha * (x - x0)) + Math.Atan(alpha * x0)));
-
-                return value;
             }
 
             static void test08()
@@ -2100,7 +836,7 @@ namespace Burkardt.FEM1DBVPTest
                 x_last = 1.0;
                 x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
 
-                u = FEM_1D_BVP.fem1d_bvp_linear(n, a8, c8, f8, x);
+                u = FEM_1D_BVP.fem1d_bvp_linear(n, FEM_Test_Methods.a8, FEM_Test_Methods.c8, FEM_Test_Methods.f8, x);
 
                 Console.WriteLine("");
                 Console.WriteLine("     I    X         U         Uexact    Error");
@@ -2108,7 +844,7 @@ namespace Burkardt.FEM1DBVPTest
 
                 for (i = 0; i < n; i++)
                 {
-                    uexact = exact8(x[i]);
+                    uexact = FEM_Test_Methods.exact8(x[i]);
                     Console.WriteLine("  " + i.ToString().PadLeft(4)
                                            + "  " + x[i].ToString().PadLeft(8)
                                            + "  " + u[i].ToString().PadLeft(14)
@@ -2116,197 +852,15 @@ namespace Burkardt.FEM1DBVPTest
                                            + "  " + Math.Abs(u[i] - uexact).ToString().PadLeft(14) + "");
                 }
 
-                e1 = FEM_1D_BVP.l1_error(n, x, u, exact8);
-                e2 = FEM_1D_BVP.l2_error_linear(n, x, u, exact8);
-                h1s = FEM_1D_BVP.h1s_error_linear(n, x, u, exact_ux8);
-                mx = FEM_1D_BVP.max_error_linear(n, x, u, exact8);
+                e1 = FEM_Error.l1_error(n, x, u, FEM_Test_Methods.exact8);
+                e2 = FEM_Error.l2_error_linear(n, x, u, FEM_Test_Methods.exact8);
+                h1s = FEM_Error.h1s_error_linear(n, x, u, FEM_Test_Methods.exact_ux8);
+                mx = FEM_Error.max_error_linear(n, x, u, FEM_Test_Methods.exact8);
                 Console.WriteLine("");
                 Console.WriteLine("  l1 norm of error  = " + e1 + "");
                 Console.WriteLine("  L2 norm of error  = " + e2 + "");
                 Console.WriteLine("  Seminorm of error = " + h1s + "");
                 Console.WriteLine("  Max norm of error = " + mx + "");
-            }
-
-            static double a8(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    A8 evaluates A function #8.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    16 June 2014
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double A8, the value of A(X).
-//
-            {
-                double value = 1.0;
-
-                return value;
-            }
-
-            static double c8(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    C8 evaluates C function #8.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    16 June 2014
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double C8, the value of C(X).
-//
-            {
-                double value = 0.0;
-
-                return value;
-            }
-
-            static double exact8(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    EXACT8 evaluates exact solution #8.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    16 June 2014
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double EXACT8, the value of U(X).
-//
-            {
-                double value;
-
-                if (x <= 2.0 / 3.0)
-                {
-                    value = x * (1.0 - x) * Math.Exp(x);
-                }
-                else
-                {
-                    value = x * (1.0 - x) * Math.Exp(2.0 / 3.0);
-                }
-
-                return value;
-            }
-
-            static double exact_ux8(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    EXACT_UX8 evaluates the derivative of exact solution #8.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    16 June 2014
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double EXACT_UX8, the value of dUdX(X).
-//
-            {
-                double value;
-
-                if (x <= 2.0 / 3.0)
-                {
-                    value = (1.0 - x - x * x) * Math.Exp(x);
-                }
-                else
-                {
-                    value = (1.0 - 2.0 * x) * Math.Exp(2.0 / 3.0);
-                }
-
-                return value;
-            }
-
-            static double f8(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    F8 evaluates right hand side function #8.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    16 June 2014
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double F8, the value of F(X).
-//
-            {
-                double value;
-
-                if (x <= 2.0 / 3.0)
-                {
-                    value = x * (x + 3.0) * Math.Exp(x);
-                }
-                else
-                {
-                    value = 2.0 * Math.Exp(2.0 / 3.0);
-                }
-
-                return value;
             }
 
             static void test09()
@@ -2372,7 +926,7 @@ namespace Burkardt.FEM1DBVPTest
                 x_last = 1.0;
                 x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
 
-                u = FEM_1D_BVP.fem1d_bvp_linear(n, a9, c9, f9, x);
+                u = FEM_1D_BVP.fem1d_bvp_linear(n, FEM_Test_Methods.a9, FEM_Test_Methods.c9, FEM_Test_Methods.f9, x);
 
                 Console.WriteLine("");
                 Console.WriteLine("     I    X         U         Uexact    Error");
@@ -2380,7 +934,7 @@ namespace Burkardt.FEM1DBVPTest
 
                 for (i = 0; i < n; i++)
                 {
-                    uexact = exact9(x[i]);
+                    uexact = FEM_Test_Methods.exact9(x[i]);
                     Console.WriteLine("  " + i.ToString().PadLeft(4)
                                            + "  " + x[i].ToString().PadLeft(8)
                                            + "  " + u[i].ToString().PadLeft(14)
@@ -2388,197 +942,15 @@ namespace Burkardt.FEM1DBVPTest
                                            + "  " + Math.Abs(u[i] - uexact).ToString().PadLeft(14) + "");
                 }
 
-                e1 = FEM_1D_BVP.l1_error(n, x, u, exact9);
-                e2 = FEM_1D_BVP.l2_error_linear(n, x, u, exact9);
-                h1s = FEM_1D_BVP.h1s_error_linear(n, x, u, exact_ux9);
-                mx = FEM_1D_BVP.max_error_linear(n, x, u, exact9);
+                e1 = FEM_Error.l1_error(n, x, u, FEM_Test_Methods.exact9);
+                e2 = FEM_Error.l2_error_linear(n, x, u, FEM_Test_Methods.exact9);
+                h1s = FEM_Error.h1s_error_linear(n, x, u, FEM_Test_Methods.exact_ux9);
+                mx = FEM_Error.max_error_linear(n, x, u, FEM_Test_Methods.exact9);
                 Console.WriteLine("");
                 Console.WriteLine("  l1 norm of error  = " + e1 + "");
                 Console.WriteLine("  L2 norm of error  = " + e2 + "");
                 Console.WriteLine("  Seminorm of error = " + h1s + "");
                 Console.WriteLine("  Max norm of error = " + mx + "");
-            }
-
-            static double a9(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    A9 evaluates A function #9.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    16 June 2014
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double A8, the value of A(X).
-//
-            {
-                double value = 1.0;
-
-                return value;
-            }
-
-            static double c9(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    C9 evaluates C function #9.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    16 June 2014
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double C9, the value of C(X).
-//
-            {
-                double value = 0.0;
-
-                return value;
-            }
-
-            static double exact9(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    EXACT9 evaluates exact solution #9.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    16 June 2014
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double EXACT9, the value of U(X).
-//
-            {
-                double value;
-
-                if (x <= 2.0 / 3.0)
-                {
-                    value = x * (1.0 - x) * Math.Exp(x);
-                }
-                else
-                {
-                    value = x * (1.0 - x);
-                }
-
-                return value;
-            }
-
-            static double exact_ux9(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    EXACT_UX9 evaluates the derivative of exact solution #9.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    16 June 2014
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double EXACT_UX9, the value of dUdX(X).
-//
-            {
-                double value;
-
-                if (x <= 2.0 / 3.0)
-                {
-                    value = (1.0 - x - x * x) * Math.Exp(x);
-                }
-                else
-                {
-                    value = (1.0 - 2.0 * x);
-                }
-
-                return value;
-            }
-
-            static double f9(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    F9 evaluates right hand side function #9.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    16 June 2014
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double F9, the value of F(X).
-//
-            {
-                double value;
-
-                if (x <= 2.0 / 3.0)
-                {
-                    value = x * (x + 3.0) * Math.Exp(x);
-                }
-                else
-                {
-                    value = 2.0;
-                }
-
-                return value;
             }
 
             static void test10()
@@ -2672,19 +1044,20 @@ namespace Burkardt.FEM1DBVPTest
                     x_hi = 1.0;
                     x = typeMethods.r8vec_linspace_new(n, x_lo, x_hi);
 
-                    u = FEM_1D_BVP.fem1d_bvp_linear(n, a10, c10, f10, x);
+                    u = FEM_1D_BVP.fem1d_bvp_linear(n, FEM_Test_Methods.a10, FEM_Test_Methods.c10, FEM_Test_Methods.f10,
+                        x);
 
                     ne_plot[e_log] = ne;
 
                     h_plot[e_log] = (x_hi - x_lo) / (double) (ne);
 
-                    l2 = FEM_1D_BVP.l2_error_linear(n, x, u, exact10);
+                    l2 = FEM_Error.l2_error_linear(n, x, u, FEM_Test_Methods.exact10);
                     l2_plot[e_log] = l2;
 
-                    h1 = FEM_1D_BVP.h1s_error_linear(n, x, u, exact_ux10);
+                    h1 = FEM_Error.h1s_error_linear(n, x, u, FEM_Test_Methods.exact_ux10);
                     h1_plot[e_log] = h1;
 
-                    mx = FEM_1D_BVP.max_error_linear(n, x, u, exact10);
+                    mx = FEM_Error.max_error_linear(n, x, u, FEM_Test_Methods.exact10);
                     mx_plot[e_log] = mx;
 
                     Console.WriteLine("  " + e_log.ToString().PadLeft(4)
@@ -2822,160 +1195,6 @@ namespace Burkardt.FEM1DBVPTest
                 Console.WriteLine("  Created graphics command file \"" + command_filename + "\".");
             }
 
-            static double a10(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    A10 evaluates A function #10.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    10 July 2015
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double A10, the value of A(X).
-//
-            {
-                double value = 1.0;
-
-                return value;
-            }
-
-            static double c10(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    C10 evaluates C function #10.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    10 July 2015
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double C10, the value of C(X).
-//
-            {
-                double value = 1.0;
-
-                return value;
-            }
-
-            static double exact10(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    EXACT10 evaluates exact solution #10.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    10 July 2015
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double EXACT10, the value of U(X).
-//
-            {
-                double value = x - Math.Sinh(x) / Math.Sinh(1.0);
-
-                return value;
-            }
-
-            static double exact_ux10(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    EXACT_UX10 evaluates the derivative of exact solution #10.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    10 July 2015
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double EXACT_UX10, the value of dUdX(X).
-//
-            {
-                double value = 1.0 - Math.Cosh(x) / Math.Sinh(1.0);
-
-                return value;
-            }
-
-            static double f10(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    F10 evaluates right hand side function #10.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    10 July 2015
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double F10, the value of F(X).
-//
-            {
-                double value = x;
-
-                return value;
-            }
         }
     }
 }

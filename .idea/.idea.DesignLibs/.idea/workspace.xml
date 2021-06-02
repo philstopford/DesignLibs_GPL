@@ -73,6 +73,8 @@
     <projectFile>BurkhardtTest/FEM/FEM1DLagrangeTest/FEM1DLagrangeTest.csproj</projectFile>
     <projectFile>BurkhardtTest/FEM/FEM1DNonlinearTest/FEM1DNonlinearTest.csproj</projectFile>
     <projectFile>BurkhardtTest/FEM/FEM1DPackTest/FEM1DPackTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/FEM/FEM1DPMethodTest/FEM1DPMethodTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/FEM/FEM1DProjectTest/FEM1DProjectTest.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="" />
@@ -102,10 +104,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/FEM/FEM_IO.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/FEM/FEM_XML.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/FEM/FEM_1D.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/FEM/FEM1DTest/Program.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/FEM/FEM1DAdaptiveTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/FEM/FEM_1D_Adaptive.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8.cs" />
@@ -140,7 +138,6 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/FEM/FEM1DBVPTest/Program.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/FEM/FEM1DBVPQuadraticTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/FEM/FEM_1D_Heat_Steady.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/FEM/FEM1DHeatSteadyTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Euler.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8mat.cs" />
@@ -153,6 +150,11 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/UniformRNG_r8.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/FEM/FEM1DPackTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/FEM/FEM_1D_PMethod.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/FEM/FEM1DPMethodTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r83.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/FEM/FEM_1D_Project.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/FEM/FEM1DProjectTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -943,6 +945,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="FEM1DProjectTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/FEM/FEM1DProjectTest/FEM1DProjectTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="FEM1DTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -1595,6 +1615,7 @@
       <item itemvalue=".NET Project.FEM1DNonlinearTest" />
       <item itemvalue=".NET Project.FEM1DPackTest" />
       <item itemvalue=".NET Project.FEM1DPMethodTest" />
+      <item itemvalue=".NET Project.FEM1DProjectTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

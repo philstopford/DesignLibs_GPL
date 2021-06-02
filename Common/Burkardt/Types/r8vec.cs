@@ -795,6 +795,201 @@ namespace Burkardt.Types
 
             return a;
         }        
-        
+ 
+        public static void r8vec_bracket3 ( int n, double[] t, double tval, ref int left )
+//****************************************************************************80
+//
+//  Purpose:
+//
+//    R8VEC_BRACKET3 finds the interval containing or nearest a given value.
+//
+//  Discussion:
+//
+//    An R8VEC is a vector of R8's.
+//
+//    The routine always returns the index LEFT of the sorted array
+//    T with the property that either
+//    *  T is contained in the interval [ T[LEFT], T[LEFT+1] ], or
+//    *  T < T[LEFT] = T[0], or
+//    *  T > T[LEFT+1] = T[N-1].
+//
+//    The routine is useful for interpolation problems, where
+//    the abscissa must be located within an interval of data
+//    abscissas for interpolation, or the "nearest" interval
+//    to the (extreme) abscissa must be found so that extrapolation
+//    can be carried out.
+//
+//    This version of the function has been revised so that the value of
+//    LEFT that is returned uses the 0-based indexing natural to C++.
+//
+//  Licensing:
+//
+//    This code is distributed under the GNU LGPL license. 
+//
+//  Modified:
+//
+//    30 April 2009
+//
+//  Author:
+//
+//    John Burkardt
+//
+//  Parameters:
+//
+//    Input, int N, length of the input array.
+//
+//    Input, double T[N], an array that has been sorted into ascending order.
+//
+//    Input, double TVAL, a value to be bracketed by entries of T.
+//
+//    Input/output, int *LEFT.
+//    On input, if 0 <= LEFT <= N-2, LEFT is taken as a suggestion for the
+//    interval [ T[LEFT-1] T[LEFT] ] in which TVAL lies.  This interval
+//    is searched first, followed by the appropriate interval to the left
+//    or right.  After that, a binary search is used.
+//    On output, LEFT is set so that the interval [ T[LEFT], T[LEFT+1] ]
+//    is the closest to TVAL; it either contains TVAL, or else TVAL
+//    lies outside the interval [ T[0], T[N-1] ].
+//
+        {
+            int high;
+            int low;
+            int mid;
+//  
+//  Check the input data.
+//
+            if (n < 2)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("R8VEC_BRACKET3 - Fatal error//");
+                Console.WriteLine("  N must be at least 2.");
+                return;
+            }
+
+//
+//  If *LEFT is not between 0 and N-2, set it to the middle value.
+//
+            if (left < 0 || n - 2 < left)
+            {
+                left = (n - 1) / 2;
+            }
+
+//
+//  CASE 1: TVAL < T[*LEFT]:
+//  Search for TVAL in (T[I],T[I+1]), for I = 0 to *LEFT-1.
+//
+            if (tval < t[left])
+            {
+                if (left == 0)
+                {
+                    return;
+                }
+                else if (left == 1)
+                {
+                    left = 0;
+                    return;
+                }
+                else if (t[left - 1] <= tval)
+                {
+                    left = left - 1;
+                    return;
+                }
+                else if (tval <= t[1])
+                {
+                    left = 0;
+                    return;
+                }
+
+// 
+//  ...Binary search for TVAL in (T[I],T[I+1]), for I = 1 to *LEFT-2.
+//
+                low = 1;
+                high = left - 2;
+
+                for (;;)
+                {
+                    if (low == high)
+                    {
+                        left = low;
+                        return;
+                    }
+
+                    mid = (low + high + 1) / 2;
+
+                    if (t[mid] <= tval)
+                    {
+                        low = mid;
+                    }
+                    else
+                    {
+                        high = mid - 1;
+                    }
+                }
+            }
+// 
+//  CASE 2: T[*LEFT+1] < TVAL:
+//  Search for TVAL in (T[I],T[I+1]) for intervals I = *LEFT+1 to N-2.
+//
+            else if (t[left + 1] < tval)
+            {
+                if (left == n - 2)
+                {
+                    return;
+                }
+                else if (left == n - 3)
+                {
+                    left = left + 1;
+                    return;
+                }
+                else if (tval <= t[left + 2])
+                {
+                    left = left + 1;
+                    return;
+                }
+                else if (t[n - 2] <= tval)
+                {
+                    left = n - 2;
+                    return;
+                }
+
+// 
+//  ...Binary search for TVAL in (T[I],T[I+1]) for intervals I = *LEFT+2 to N-3.
+//
+                low = left + 2;
+                high = n - 3;
+
+                for (;;)
+                {
+
+                    if (low == high)
+                    {
+                        left = low;
+                        return;
+                    }
+
+                    mid = (low + high + 1) / 2;
+
+                    if (t[mid] <= tval)
+                    {
+                        low = mid;
+                    }
+                    else
+                    {
+                        high = mid - 1;
+                    }
+                }
+            }
+//
+//  CASE 3: T[*LEFT] <= TVAL <= T[*LEFT+1]:
+//  T is just where the user said it might be.
+//
+            else
+            {
+            }
+
+            return;
+        }
+
+
     }
 }

@@ -1795,5 +1795,38 @@ namespace Burkardt.FEM
 
             return value;
         }
+        
+        public static double k1 ( double x )
+//****************************************************************************80
+//
+//  Purpose:
+//
+//    K1 evaluates K function #1.
+//
+//  Licensing:
+//
+//    This code is distributed under the GNU LGPL license.
+//
+//  Modified:
+//
+//    20 August 2010
+//
+//  Author:
+//
+//    John Burkardt
+//
+//  Parameters:
+//
+//    Input, double X, the evaluation point.
+//
+//    Output, double K1, the value of K(X).
+//
+        {
+            double value = 1.0;
+
+            return value;
+        }
+
+        
     }
 }

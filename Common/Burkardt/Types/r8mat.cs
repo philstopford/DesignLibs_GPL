@@ -4,81 +4,81 @@ namespace Burkardt.Types
 {
     public static partial class typeMethods
     {
-        
-        public static void r8mat_transpose_print ( int m, int n, double[] a, string title )
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    R8MAT_TRANSPOSE_PRINT prints an R8MAT, transposed.
-        //
-        //  Discussion:
-        //
-        //    An R8MAT is a doubly dimensioned array of R8 values, stored as a vector
-        //    in column-major order.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    10 September 2009
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int M, N, the number of rows and columns.
-        //
-        //    Input, double A[M*N], an M by N matrix to be printed.
-        //
-        //    Input, string TITLE, a title.
-        //
-        {
-            r8mat_transpose_print_some ( m, n, a, 1, 1, m, n, title );
-        }
-        
-        public static void r8mat_transpose_print_some ( int m, int n, double[] a, int ilo, int jlo,
-        int ihi, int jhi, string title )
 
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    R8MAT_TRANSPOSE_PRINT_SOME prints some of an R8MAT, transposed.
-        //
-        //  Discussion:
-        //
-        //    An R8MAT is a doubly dimensioned array of R8 values, stored as a vector
-        //    in column-major order.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    07 April 2014
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int M, N, the number of rows and columns.
-        //
-        //    Input, double A[M*N], an M by N matrix to be printed.
-        //
-        //    Input, int ILO, JLO, the first row and column to print.
-        //
-        //    Input, int IHI, JHI, the last row and column to print.
-        //
-        //    Input, string TITLE, a title.
-        //
+        public static void r8mat_transpose_print(int m, int n, double[] a, string title)
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8MAT_TRANSPOSE_PRINT prints an R8MAT, transposed.
+            //
+            //  Discussion:
+            //
+            //    An R8MAT is a doubly dimensioned array of R8 values, stored as a vector
+            //    in column-major order.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    10 September 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns.
+            //
+            //    Input, double A[M*N], an M by N matrix to be printed.
+            //
+            //    Input, string TITLE, a title.
+            //
+        {
+            r8mat_transpose_print_some(m, n, a, 1, 1, m, n, title);
+        }
+
+        public static void r8mat_transpose_print_some(int m, int n, double[] a, int ilo, int jlo,
+                int ihi, int jhi, string title)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8MAT_TRANSPOSE_PRINT_SOME prints some of an R8MAT, transposed.
+            //
+            //  Discussion:
+            //
+            //    An R8MAT is a doubly dimensioned array of R8 values, stored as a vector
+            //    in column-major order.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    07 April 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns.
+            //
+            //    Input, double A[M*N], an M by N matrix to be printed.
+            //
+            //    Input, int ILO, JLO, the first row and column to print.
+            //
+            //    Input, int IHI, JHI, the last row and column to print.
+            //
+            //    Input, string TITLE, a title.
+            //
         {
             int INCX = 5;
 
@@ -96,14 +96,14 @@ namespace Burkardt.Types
             Console.WriteLine();
             Console.WriteLine(title);
 
-            if ( m <= 0 || n <= 0 )
+            if (m <= 0 || n <= 0)
             {
                 Console.WriteLine();
                 Console.WriteLine("  (None)");
                 return;
             }
 
-            if ( ilo < 1 )
+            if (ilo < 1)
             {
                 i2lo_lo = 1;
             }
@@ -112,7 +112,7 @@ namespace Burkardt.Types
                 i2lo_lo = ilo;
             }
 
-            if ( ihi < m )
+            if (ihi < m)
             {
                 i2lo_hi = m;
             }
@@ -121,20 +121,22 @@ namespace Burkardt.Types
                 i2lo_hi = ihi;
             }
 
-            for ( i2lo = i2lo_lo; i2lo <= i2lo_hi; i2lo = i2lo + INCX )
+            for (i2lo = i2lo_lo; i2lo <= i2lo_hi; i2lo = i2lo + INCX)
             {
                 // Ugly hack to sidestep a mismatch in the output behavior compared to reference.
                 if (i2lo > INCX)
                 {
                     break;
                 }
+
                 i2hi = i2lo + INCX - 1;
 
-                if ( m < i2hi )
+                if (m < i2hi)
                 {
                     i2hi = m;
                 }
-                if ( ihi < i2hi )
+
+                if (ihi < i2hi)
                 {
                     i2hi = ihi;
                 }
@@ -143,15 +145,16 @@ namespace Burkardt.Types
 
                 Console.WriteLine();
                 string cout = "  Row: ";
-                for ( i = i2lo; i <= i2hi; i++ )
+                for (i = i2lo; i <= i2hi; i++)
                 {
                     cout += (i - 1).ToString().PadLeft(7) + "       ";
                 }
+
                 Console.WriteLine(cout);
                 Console.WriteLine("  Col");
                 Console.WriteLine();
 
-                if ( jlo < 1 )
+                if (jlo < 1)
                 {
                     j2lo = 1;
                 }
@@ -160,7 +163,7 @@ namespace Burkardt.Types
                     j2lo = jlo;
                 }
 
-                if ( n < jhi )
+                if (n < jhi)
                 {
                     j2hi = n;
                 }
@@ -169,125 +172,129 @@ namespace Burkardt.Types
                     j2hi = jhi;
                 }
 
-                for ( j = j2lo; j <= j2hi; j++ )
+                for (j = j2lo; j <= j2hi; j++)
                 {
                     cout = (j - 1).ToString().PadLeft(5) + ":";
-                    for ( i2 = 1; i2 <= inc; i2++ )
+                    for (i2 = 1; i2 <= inc; i2++)
                     {
                         i = i2lo - 1 + i2;
                         string t = a[(i - 1) + (j - 1) * m].ToString("0.######");
                         cout += t.PadLeft(14);
                     }
+
                     Console.WriteLine(cout);
                 }
             }
         }
-        
-        public static void r8mat_print ( int m, int n, double[] a, string title )
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    R8MAT_PRINT prints an R8MAT, with an optional title.
-        //
-        //  Discussion:
-        //
-        //    An R8MAT is an array of R8's.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    29 August 2003
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int M, the number of rows in A.
-        //
-        //    Input, int N, the number of columns in A.
-        //
-        //    Input, double A[M*N], the M by N matrix.
-        //
-        //    Input, string TITLE, a title.
-        //
+
+        public static void r8mat_print(int m, int n, double[] a, string title)
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8MAT_PRINT prints an R8MAT, with an optional title.
+            //
+            //  Discussion:
+            //
+            //    An R8MAT is an array of R8's.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    29 August 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, the number of rows in A.
+            //
+            //    Input, int N, the number of columns in A.
+            //
+            //    Input, double A[M*N], the M by N matrix.
+            //
+            //    Input, string TITLE, a title.
+            //
         {
-            r8mat_print_some ( m, n, a, 1, 1, m, n, title );
+            r8mat_print_some(m, n, a, 1, 1, m, n, title);
         }
         //****************************************************************************80
 
-        public static void r8mat_print_some ( int m, int n, double[] a, int ilo, int jlo, int ihi,
-        int jhi, string title )
+        public static void r8mat_print_some(int m, int n, double[] a, int ilo, int jlo, int ihi,
+                int jhi, string title)
 
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    R8MAT_PRINT_SOME prints some of an R8MAT.
-        //
-        //  Discussion:
-        //
-        //    An R8MAT is a doubly dimensioned array of R8 values, stored as a vector
-        //    in column-major order.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    26 June 2013
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int M, the number of rows of the matrix.
-        //    M must be positive.
-        //
-        //    Input, int N, the number of columns of the matrix.
-        //    N must be positive.
-        //
-        //    Input, double A[M*N], the matrix.
-        //
-        //    Input, int ILO, JLO, IHI, JHI, designate the first row and
-        //    column, and the last row and column to be printed.
-        //
-        //    Input, string TITLE, a title.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8MAT_PRINT_SOME prints some of an R8MAT.
+            //
+            //  Discussion:
+            //
+            //    An R8MAT is a doubly dimensioned array of R8 values, stored as a vector
+            //    in column-major order.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    26 June 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, the number of rows of the matrix.
+            //    M must be positive.
+            //
+            //    Input, int N, the number of columns of the matrix.
+            //    N must be positive.
+            //
+            //    Input, double A[M*N], the matrix.
+            //
+            //    Input, int ILO, JLO, IHI, JHI, designate the first row and
+            //    column, and the last row and column to be printed.
+            //
+            //    Input, string TITLE, a title.
+            //
         {
             int INCX = 5;
 
             Console.WriteLine();
             Console.WriteLine(title);
 
-            if ( m <= 0 || n <= 0 )
+            if (m <= 0 || n <= 0)
             {
                 Console.WriteLine();
                 Console.WriteLine("  (None)");
                 return;
             }
+
             //
             //  Print the columns of the matrix, in strips of 5.
             //
-            for (int j2lo = jlo; j2lo <= jhi; j2lo = j2lo + INCX )
+            for (int j2lo = jlo; j2lo <= jhi; j2lo = j2lo + INCX)
             {
                 int j2hi = j2lo + INCX - 1;
-                if ( n < j2hi )
+                if (n < j2hi)
                 {
                     j2hi = n;
                 }
-                if ( jhi < j2hi )
+
+                if (jhi < j2hi)
                 {
                     j2hi = jhi;
                 }
+
                 Console.WriteLine();
                 //
                 //  For each column J in the current range...
@@ -295,10 +302,11 @@ namespace Burkardt.Types
                 //  Write the header.
                 //
                 string cout = "  Col:    ";
-                for (int j = j2lo; j <= j2hi; j++ )
+                for (int j = j2lo; j <= j2hi; j++)
                 {
-                    cout += (j-1).ToString().PadLeft(7) +  "       ";
+                    cout += (j - 1).ToString().PadLeft(7) + "       ";
                 }
+
                 Console.WriteLine(cout);
                 Console.WriteLine();
                 Console.WriteLine("  Row");
@@ -309,8 +317,8 @@ namespace Burkardt.Types
 
                 int i2lo;
                 int i2hi;
-                
-                if ( 1 < ilo )
+
+                if (1 < ilo)
                 {
                     i2lo = ilo;
                 }
@@ -318,7 +326,8 @@ namespace Burkardt.Types
                 {
                     i2lo = 1;
                 }
-                if ( ihi < m )
+
+                if (ihi < m)
                 {
                     i2hi = ihi;
                 }
@@ -327,21 +336,22 @@ namespace Burkardt.Types
                     i2hi = m;
                 }
 
-                for (int i = i2lo; i <= i2hi; i++ )
+                for (int i = i2lo; i <= i2hi; i++)
                 {
                     //
                     //  Print out (up to) 5 entries in row I, that lie in the current strip.
                     //
                     cout = (i - 1).ToString().PadLeft(5) + ": ";
-                    for (int j = j2lo; j <= j2hi; j++ )
+                    for (int j = j2lo; j <= j2hi; j++)
                     {
-                        cout += a[i-1+(j-1)*m].ToString().PadLeft(12) + "  ";
+                        cout += a[i - 1 + (j - 1) * m].ToString().PadLeft(12) + "  ";
                     }
+
                     Console.WriteLine(cout);
                 }
             }
         }
-        
+
         public static double[] r8mat_solve2(int n, ref double[] a, ref double[] b, ref int ierror)
 //****************************************************************************80
 //
@@ -510,6 +520,157 @@ namespace Burkardt.Types
             return x;
         }
 
-        
+        public static double[] r8mat_fs_new(int n, double[] a, double[] b)
+//****************************************************************************80
+//
+//  Purpose:
+//
+//    R8MAT_FS_NEW factors and solves a system with one right hand side.
+//
+//  Discussion:
+//
+//    This routine differs from R8MAT_FSS_NEW in two ways:
+//    * only one right hand side is allowed;
+//    * the input matrix A is not modified.
+//
+//    This routine uses partial pivoting, but no pivot vector is required.
+//
+//  Licensing:
+//
+//    This code is distributed under the GNU LGPL license. 
+//
+//  Modified:
+//
+//    21 January 2013
+//
+//  Author:
+//
+//    John Burkardt
+//
+//  Parameters:
+//
+//    Input, int N, the order of the matrix.
+//    N must be positive.
+//
+//    Input, double A[N*N], the coefficient matrix of the linear system.
+//    On output, A is in unit upper triangular form, and
+//    represents the U factor of an LU factorization of the
+//    original coefficient matrix.
+//
+//    Input, double B[N], the right hand side of the linear system.
+//
+//    Output, double X[N], the solution of the linear system.
+//
+        {
+            double[] a2;
+            int i;
+            int ipiv;
+            int j;
+            int jcol;
+            double piv;
+            double t;
+            double[] x;
+
+            a2 = new double[n * n];
+
+            for (j = 0; j < n; j++)
+            {
+                for (i = 0; i < n; i++)
+                {
+                    a2[i + j * n] = a[i + j * n];
+                }
+            }
+
+            x = new double[n];
+            for (i = 0; i < n; i++)
+            {
+                x[i] = b[i];
+            }
+
+            for (jcol = 1; jcol <= n; jcol++)
+            {
+//
+//  Find the maximum element in column I.
+//
+                piv = Math.Abs(a2[jcol - 1 + (jcol - 1) * n]);
+                ipiv = jcol;
+                for (i = jcol + 1; i <= n; i++)
+                {
+                    if (piv < Math.Abs(a2[i - 1 + (jcol - 1) * n]))
+                    {
+                        piv = Math.Abs(a2[i - 1 + (jcol - 1) * n]);
+                        ipiv = i;
+                    }
+                }
+
+                if (piv == 0.0)
+                {
+                    Console.WriteLine("\n");
+                    Console.WriteLine("R8MAT_FS_NEW - Fatal error!");
+                    Console.WriteLine("  Zero pivot on step " + jcol);
+                    return new double[1];
+                }
+
+//
+//  Switch rows JCOL and IPIV, and X.
+//
+                if (jcol != ipiv)
+                {
+                    for (j = 1; j <= n; j++)
+                    {
+                        t = a2[jcol - 1 + (j - 1) * n];
+                        a2[jcol - 1 + (j - 1) * n] = a2[ipiv - 1 + (j - 1) * n];
+                        a2[ipiv - 1 + (j - 1) * n] = t;
+                    }
+
+                    t = x[jcol - 1];
+                    x[jcol - 1] = x[ipiv - 1];
+                    x[ipiv - 1] = t;
+                }
+
+//
+//  Scale the pivot row.
+//
+                t = a2[jcol - 1 + (jcol - 1) * n];
+                a2[jcol - 1 + (jcol - 1) * n] = 1.0;
+                for (j = jcol + 1; j <= n; j++)
+                {
+                    a2[jcol - 1 + (j - 1) * n] = a2[jcol - 1 + (j - 1) * n] / t;
+                }
+
+                x[jcol - 1] = x[jcol - 1] / t;
+//
+//  Use the pivot row to eliminate lower entries in that column.
+//
+                for (i = jcol + 1; i <= n; i++)
+                {
+                    if (a2[i - 1 + (jcol - 1) * n] != 0.0)
+                    {
+                        t = -a2[i - 1 + (jcol - 1) * n];
+                        a2[i - 1 + (jcol - 1) * n] = 0.0;
+                        for (j = jcol + 1; j <= n; j++)
+                        {
+                            a2[i - 1 + (j - 1) * n] = a2[i - 1 + (j - 1) * n] + t * a2[jcol - 1 + (j - 1) * n];
+                        }
+
+                        x[i - 1] = x[i - 1] + t * x[jcol - 1];
+                    }
+                }
+            }
+
+//
+//  Back solve.
+//
+            for (jcol = n; 2 <= jcol; jcol--)
+            {
+                for (i = 1; i < jcol; i++)
+                {
+                    x[i - 1] = x[i - 1] - a2[i - 1 + (jcol - 1) * n] * x[jcol - 1];
+                }
+            }
+
+            return x;
+        }
+
     }
 }

@@ -1827,6 +1827,74 @@ namespace Burkardt.FEM
             return value;
         }
 
-        
+        public static double f ( double x )
+//****************************************************************************80
+//
+//  Purpose:
+//
+//    F evaluates the right hand side function.
+//
+//  Licensing:
+//
+//    This code is distributed under the GNU LGPL license.
+//
+//  Modified:
+//
+//    17 November 2014
+//
+//  Author:
+//
+//    John Burkardt
+//
+//  Parameters:
+//
+//    Input, double X, the evaluation point.
+//
+//    Output, double F, the value of the right hand side at X.
+//
+        {
+            double value = x;
+
+            return value;
+        }
+
+        public static double[] exact ( int x_num, double[] x )
+//****************************************************************************80
+//
+//  Purpose:
+//
+//    EXACT returns the exact solution.
+//
+//  Licensing:
+//
+//    This code is distributed under the GNU LGPL license.
+//
+//  Modified:
+//
+//    17 November 2014
+//
+//  Author:
+//
+//    John Burkardt
+//
+//  Parameters:
+//
+//    Input, int X_NUM, the number of nodes.
+//
+//    Input, double X[X_NUM], the nodes.
+//
+//    Output, double UE[X_NUM], the exact solution at the nodes.
+//
+        {
+            int x_i;
+
+            double[] ue = new double[x_num];
+
+            for ( x_i = 0; x_i < x_num; x_i++ )
+            {
+                ue[x_i] = x[x_i] - Math.Sinh ( x[x_i] ) / Math.Sinh ( 1.0 );
+            }
+            return ue;
+        }        
     }
 }

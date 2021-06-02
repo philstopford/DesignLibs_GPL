@@ -2,7 +2,7 @@
 using Burkardt.FEM;
 using Burkardt.Types;
 
-namespace FEM1DHeatSteadyTest
+namespace Burkardt.FEM1DHeatSteadyTest
 {
     class Program
     {

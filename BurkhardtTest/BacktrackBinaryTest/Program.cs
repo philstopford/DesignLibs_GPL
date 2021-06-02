@@ -1,7 +1,7 @@
 ﻿using System;
 using Burkardt;
 
-namespace BacktrackBinaryTest
+namespace Burkardt.BacktrackBinaryTest
 {
     class Program
     {

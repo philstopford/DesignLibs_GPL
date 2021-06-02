@@ -8,8 +8,4 @@
       <ProjectReference Include="..\entropyRNG\entropyRNG.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Sparse" />
-    </ItemGroup>
-
 </Project>

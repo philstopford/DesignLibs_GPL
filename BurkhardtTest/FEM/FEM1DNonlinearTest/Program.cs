@@ -1,7 +1,7 @@
 ﻿using System;
 using Burkardt.FEM;
 
-namespace FEM1DNonlinearTest
+namespace Burkardt.FEM1DNonlinearTest
 {
     class Program
     {

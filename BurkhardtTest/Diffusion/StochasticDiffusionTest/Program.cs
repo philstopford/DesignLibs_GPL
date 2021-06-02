@@ -5,7 +5,7 @@ using Burkardt.Diffusion;
 using Burkardt.Types;
 using Burkardt.Uniform;
 
-namespace StochasticDiffusionTest
+namespace Burkardt.StochasticDiffusionTest
 {
     class Program
     {

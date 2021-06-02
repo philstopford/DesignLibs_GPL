@@ -3,7 +3,7 @@ using Burkardt.FEM;
 using Burkardt.Types;
 using Burkardt.Uniform;
 
-namespace FEM1DPackTest
+namespace Burkardt.FEM1DPackTest
 {
     class Program
     {

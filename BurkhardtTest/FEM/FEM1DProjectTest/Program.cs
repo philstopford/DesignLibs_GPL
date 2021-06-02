@@ -2,7 +2,7 @@
 using Burkardt.FEM;
 using Burkardt.Table;
 
-namespace FEM1DProjectTest
+namespace Burkardt.FEM1DProjectTest
 {
     class Program
     {

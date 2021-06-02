@@ -3,7 +3,7 @@ using Burkardt.FEM;
 using Burkardt.Table;
 using Burkardt.Types;
 
-namespace FEMToTriangleTest
+namespace Burkardt.FEMToTriangleTest
 {
     class Program
     {

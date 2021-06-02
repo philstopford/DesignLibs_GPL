@@ -1071,6 +1071,45 @@ namespace Burkardt.Types
 
             return variance;
         }
+        
+        public static int[] i4vec_zero_new ( int n )
+//****************************************************************************80
+//
+//  Purpose:
+//
+//    I4VEC_ZERO_NEW creates and zeroes an I4VEC.
+//
+//  Discussion:
+//
+//    An I4VEC is a vector of I4's.
+//
+//  Licensing:
+//
+//    This code is distributed under the GNU LGPL license. 
+//
+//  Modified:
+//
+//    11 July 2008
+//
+//  Author:
+//
+//    John Burkardt
+//
+//  Parameters:
+//
+//    Input, int N, the number of entries in the vector.
+//
+//    Output, int I4VEC_ZERO_NEW[N], a vector of zeroes.
+//
+        {
+            int[] a = new int[n];
+
+            for (int  i = 0; i < n; i++ )
+            {
+                a[i] = 0;
+            }
+            return a;
+        }
 
     }
 }

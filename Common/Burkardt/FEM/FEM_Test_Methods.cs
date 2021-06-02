@@ -1896,5 +1896,58 @@ namespace Burkardt.FEM
             }
             return ue;
         }        
+        
+        public static double u_exact ( double x, int problem )
+//****************************************************************************80
+//
+//  Purpose:
+//
+//    U_EXACT returns the value of the exact solution at a point X.
+//
+//  Licensing:
+//
+//    This code is distributed under the GNU LGPL license. 
+//
+//  Modified:
+//
+//    02 November 2006
+//
+//  Author:
+//
+//    C++ version by John Burkardt
+//
+//  Parameters:
+//
+//    Input, double X, the evaluation point.
+//
+//    Input, int PROBLEM, indicates which problem to be solved.
+//    * 1, u = x, p=1, q=0, f=x, u(0)=0, u'(1)=1.
+//    * 2, u = 2*(1-cos(0.5*pi*x))/pi, p=1, q=0,
+//    f = -0.5*pi*cos(0.5*pi*x) + 2*sin(0.5*pi*x)*(1-cos(0.5*pi*x)/pi
+//    u(0) = 0, u'(1)=1.
+//
+//    Output, double U_EXACT, the value of the exact solution at X.
+//
+        {
+            double value = 0;
+//
+//  Test problem 1
+//
+            if ( problem == 1 )
+            {
+                value = x;
+            }
+//
+//  Test problem 2
+//
+            else if ( problem == 2 )
+            {
+                value = 2.0 * ( 1.0 - Math.Cos ( 0.5 * Math.PI * x ) ) / Math.PI;
+            }
+
+            return value;
+        }
+        
+        
     }
 }

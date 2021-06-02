@@ -671,6 +671,56 @@ namespace Burkardt.Types
 
             return x;
         }
+        
+        public static double[][] r8rmat_new ( int m, int n )
+//****************************************************************************80
+//
+//  Purpose:
+//
+//    R8RMAT_NEW allocates a new R8RMAT.
+//
+//  Discussion:
+//
+//    An R8RMAT is a row-major array that was created by a 
+//    command like:
+//
+//      double **a;
+//      a = r8rmat_new ( m, n );
+//
+//    The user assigns entries to the matrix using typical
+//    2D array notation:
+//      a[2][3] = 17.0;
+//      y = a[1][0];
+//    and so on.
+//
+//  Licensing:
+//
+//    This code is distributed under the GNU LGPL license. 
+//
+//  Modified:
+//
+//    09 September 2013
+//
+//  Author:
+//
+//    John Burkardt
+//
+//  Parameters:
+//
+//    Input, int M, N, the number of rows and columns in the matrix.
+//
+//    Output, double **R8RMAT_NEW, a new matrix.
+//
+        {
+            double[][] a = new double[m][];
+
+            for ( int i = 0; i < m; i++ )
+            {
+                a[i] = new double[n];
+            }
+
+            return a;
+        }
 
     }
 }

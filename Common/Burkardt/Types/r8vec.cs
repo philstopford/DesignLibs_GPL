@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Burkardt.Uniform;
 
 namespace Burkardt.Types
 {
@@ -1181,6 +1182,178 @@ namespace Burkardt.Types
             }
 
             return;
+        }
+
+        public static double[] r8vec_normal_01_new(int n, ref int seed)
+//****************************************************************************80
+//
+//  Purpose:
+//
+//    R8VEC_NORMAL_01_NEW returns a unit pseudonormal R8VEC.
+//
+//  Discussion:
+//
+//    An R8VEC is a vector of R8's.
+//
+//    The standard normal probability distribution function (PDF) has
+//    mean 0 and standard deviation 1.
+//
+//  Licensing:
+//
+//    This code is distributed under the GNU LGPL license.
+//
+//  Modified:
+//
+//    06 August 2013
+//
+//  Author:
+//
+//    John Burkardt
+//
+//  Parameters:
+//
+//    Input, int N, the number of values desired.
+//
+//    Input/output, int &SEED, a seed for the random number generator.
+//
+//    Output, double R8VEC_NORMAL_01_NEW[N], a sample of the standard normal PDF.
+//
+//  Local parameters:
+//
+//    Local, double R[N+1], is used to store some uniform random values.
+//    Its dimension is N+1, but really it is only needed to be the
+//    smallest even number greater than or equal to N.
+//
+//    Local, int X_LO, X_HI, records the range of entries of
+//    X that we need to compute.
+//
+        {
+            int i;
+            int m;
+            double[] r;
+            double[] x;
+            int x_hi;
+            int x_lo;
+
+            x = new double[n];
+//
+//  Record the range of X we need to fill in.
+//
+            x_lo = 1;
+            x_hi = n;
+//
+//  If we need just one new value, do that here to avoid null arrays.
+//
+            if (x_hi - x_lo + 1 == 1)
+            {
+                r = UniformRNG.r8vec_uniform_01_new(2, ref seed);
+
+                x[x_hi - 1] = Math.Sqrt(-2.0 * Math.Log(r[0])) * Math.Cos(2.0 * Math.PI * r[1]);
+
+            }
+//
+//  If we require an even number of values, that's easy.
+//
+            else if ((x_hi - x_lo + 1) % 2 == 0)
+            {
+                m = (x_hi - x_lo + 1) / 2;
+
+                r = UniformRNG.r8vec_uniform_01_new(2 * m, ref seed);
+
+                for (i = 0; i <= 2 * m - 2; i = i + 2)
+                {
+                    x[x_lo + i - 1] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Cos(2.0 * Math.PI * r[i + 1]);
+                    x[x_lo + i] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Sin(2.0 * Math.PI * r[i + 1]);
+                }
+
+            }
+//
+//  If we require an odd number of values, we generate an even number,
+//  and handle the last pair specially, storing one in X(N), and
+//  saving the other for later.
+//
+            else
+            {
+                x_hi = x_hi - 1;
+
+                m = (x_hi - x_lo + 1) / 2 + 1;
+
+                r = UniformRNG.r8vec_uniform_01_new(2 * m, ref seed);
+
+                for (i = 0; i <= 2 * m - 4; i = i + 2)
+                {
+                    x[x_lo + i - 1] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Cos(2.0 * Math.PI * r[i + 1]);
+                    x[x_lo + i] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Sin(2.0 * Math.PI * r[i + 1]);
+                }
+
+                i = 2 * m - 2;
+
+                x[x_lo + i - 1] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Cos(2.0 * Math.PI * r[i + 1]);
+
+            }
+
+            return x;
+        }
+
+        public static void r8vec_mesh_2d ( int nx, int ny, double[] xvec, double[] yvec, 
+        double[] xmat, double[] ymat )
+//****************************************************************************80
+//
+//  Purpose:
+//
+//    R8VEC_MESH_2D creates a 2D mesh from X and Y vectors.
+//
+//  Discussion:
+//
+//    An R8VEC is a vector of R8's.
+//
+//    NX = 2
+//    XVEC = ( 1, 2, 3 )
+//    NY = 3
+//    YVEC = ( 4, 5 )
+//
+//    XMAT = (
+//      1, 2, 3
+//      1, 2, 3 )
+//
+//    YMAT = (
+//      4, 4, 4
+//      5, 5, 5 ) 
+// 
+//  Licensing:
+//
+//    This code is distributed under the GNU LGPL license.
+//
+//  Modified:
+//
+//    26 July 2013
+//
+//  Parameters:
+//
+//    Input, int NX, NY, the number of X and Y values.
+//
+//    Input, double XVEC[NX], YVEC[NY], the X and Y coordinate
+//    values.
+//
+//    Output, double XMAT[NX*NY], YMAT[NX*NY], the coordinate
+//    values of points on an NX by NY mesh.
+//
+        {
+            for (int j = 0; j < ny; j++ )
+            {
+                for (int i = 0; i < nx; i++ )
+                {
+                    xmat[i+j*nx] = xvec[i];
+                }
+            }
+
+            for (int j = 0; j < ny; j++ )
+            {
+                for (int i = 0; i < nx; i++ )
+                {
+                    ymat[i+j*nx] = yvec[j];
+                }
+            }
         }
 
     }

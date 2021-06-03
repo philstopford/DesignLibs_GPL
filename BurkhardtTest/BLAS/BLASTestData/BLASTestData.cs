@@ -2,7 +2,7 @@
 using Burkardt.BLAS;
 using Burkardt.Types;
 
-namespace BLASTestData
+namespace Burkardt.BLASTestData
 {
     public static class BLASData
     {

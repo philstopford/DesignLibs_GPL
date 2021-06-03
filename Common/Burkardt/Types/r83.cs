@@ -90,7 +90,7 @@ namespace Burkardt.Types
             return 0;
         }
 
-        public static double[] r83_np_sl(int n, double[] a_lu, double[] b, int job )
+        public static double[] r83_np_sl(int n, double[] a_lu, double[] b, int job)
 //****************************************************************************80
 //
 //  Purpose:
@@ -195,5 +195,100 @@ namespace Burkardt.Types
 
             return x;
         }
+
+        public static double[] r83np_fs(int n, double[] a, double[] b)
+
+//****************************************************************************80
+//
+//  Purpose:
+//
+//    R83NP_FS factors and solves an R83NP system.
+//
+//  Discussion:
+//
+//    The R83NP storage format is used for a tridiagonal matrix.
+//    The subdiagonal   is in entries (0,1:N-1),
+//    the diagonal      is in entries (1,0:N-1),
+//    the superdiagonal is in entries (2,0:N-2).
+//
+//    This algorithm requires that each diagonal entry be nonzero.
+//    It does not use pivoting, and so can fail on systems that
+//    are actually nonsingular.
+//
+//    The "R83NP" format used for this routine is different from the R83 format.
+//    Here, we insist that the nonzero entries
+//    for a given row now appear in the corresponding column of the
+//    packed array.
+//
+//  Example:
+//
+//    Here is how a R83 matrix of order 5 would be stored:
+//
+//       *  A21 A32 A43 A54
+//      A11 A22 A33 A44 A55
+//      A12 A23 A34 A45  *
+//
+//  Licensing:
+//
+//    This code is distributed under the GNU LGPL license.
+//
+//  Modified:
+//
+//    17 May 2009
+//
+//  Author:
+//
+//    John Burkardt
+//
+//  Parameters:
+//
+//    Input, int N, the order of the linear system.
+//
+//    Input/output, double A[3*N].
+//    On input, the nonzero diagonals of the linear system.
+//    On output, the data in these vectors has been overwritten
+//    by factorization information.
+//
+//    Input, double B[N], the right hand side.
+//
+//    Output, double R83NP_FS[N], the solution of the linear system.
+//
+        {
+            //
+//  Check.
+//
+            for (int i = 0; i < n; i++)
+            {
+                if (a[1 + i * 3] == 0.0)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("R83NP_FS - Fatal error!");
+                    Console.WriteLine("  A[1+" + i + "*3] = 0.");
+                    return new double[1];
+                }
+            }
+
+            double[] x = new double[n];
+
+            for (int i = 0; i < n; i++)
+            {
+                x[i] = b[i];
+            }
+
+            for (int i = 1; i < n; i++)
+            {
+                a[1 + i * 3] = a[1 + i * 3] - a[2 + (i - 1) * 3] * a[0 + i * 3] / a[1 + (i - 1) * 3];
+                x[i] = x[i] - x[i - 1] * a[0 + i * 3] / a[1 + (i - 1) * 3];
+            }
+
+            x[n - 1] = x[n - 1] / a[1 + (n - 1) * 3];
+            for (int i = n - 2; 0 <= i; i--)
+            {
+                x[i] = (x[i] - a[2 + i * 3] * x[i + 1]) / a[1 + i * 3];
+            }
+
+            return x;
+        }
+
     }
 }

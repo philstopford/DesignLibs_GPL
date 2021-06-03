@@ -1663,6 +1663,59 @@ namespace Burkardt.Types
 
             return product;
         }
+        
+        public static double[] r8vec_even ( int n, double alo, double ahi )
+//****************************************************************************80
+//
+//  Purpose:
+//
+//    R8VEC_EVEN returns N real values, evenly spaced between ALO and AHI.
+//
+//  Discussion:
+//
+//    An R8VEC is a vector of R8's.
+//
+//  Licensing:
+//
+//    This code is distributed under the GNU LGPL license.
+//
+//  Modified:
+//
+//    17 February 2004
+//
+//  Author:
+//
+//    John Burkardt
+//
+//  Parameters:
+//
+//    Input, int N, the number of values.
+//
+//    Input, double ALO, AHI, the low and high values.
+//
+//    Output, double R8VEC_EVEN[N], N evenly spaced values.
+//    Normally, A(1) = ALO and A(N) = AHI.
+//    However, if N = 1, then A(1) = 0.5*(ALO+AHI).
+//
+        {
+            double[] a = new double[n];
+
+            if ( n == 1 )
+            {
+                a[0] = 0.5 * ( alo + ahi );
+            }
+            else
+            {
+                for (int i = 1; i <= n; i++ )
+                {
+                    a[i-1] = ( ( double ) ( n - i     ) * alo
+                               + ( double ) (     i - 1 ) * ahi )
+                             / ( double ) ( n     - 1 );
+                }
+            }
+
+            return a;
+        }
 
     }
 }

@@ -1356,5 +1356,313 @@ namespace Burkardt.Types
             }
         }
 
+        public static void r8vec2_print(int n, double[] a1, double[] a2, string title)
+//****************************************************************************80
+//
+//  Purpose:
+//
+//    R8VEC2_PRINT prints an R8VEC2.
+//
+//  Discussion:
+//
+//    An R8VEC2 is a dataset consisting of N pairs of real values, stored
+//    as two separate vectors A1 and A2.
+//
+//  Licensing:
+//
+//    This code is distributed under the GNU LGPL license.
+//
+//  Modified:
+//
+//    19 November 2002
+//
+//  Author:
+//
+//    John Burkardt
+//
+//  Parameters:
+//
+//    Input, int N, the number of components of the vector.
+//
+//    Input, double A1[N], double A2[N], the vectors to be printed.
+//
+//    Input, string TITLE, a title.
+//
+        {
+            Console.WriteLine();
+            Console.WriteLine(title);
+            Console.WriteLine();
+            for (int i = 0; i <= n - 1; i++)
+            {
+                Console.WriteLine(i.ToString().PadLeft(6)
+                                  + ": " + a1[i].ToString().PadLeft(14)
+                                  + "  " + a2[i].ToString().PadLeft(14));
+            }
+        }
+        
+        public static double r8vec_norm_affine ( int n, double[] v0, double[] v1 )
+//****************************************************************************80
+//
+//  Purpose:
+//
+//    R8VEC_NORM_AFFINE returns the affine L2 norm of an R8VEC.
+//
+//  Discussion:
+//
+//    The affine vector L2 norm is defined as:
+//
+//      R8VEC_NORM_AFFINE(V0,V1)
+//        = sqrt ( sum ( 1 <= I <= N ) ( V1(I) - V0(I) )^2 )
+//
+//  Licensing:
+//
+//    This code is distributed under the GNU LGPL license.
+//
+//  Modified:
+//
+//    27 October 2010
+//
+//  Author:
+//
+//    John Burkardt
+//
+//  Parameters:
+//
+//    Input, int N, the dimension of the vectors.
+//
+//    Input, double V0[N], the base vector.
+//
+//    Input, double V1[N], the vector.
+//
+//    Output, double R8VEC_NORM_AFFINE, the affine L2 norm.
+//
+        {
+            double value = 0.0;
+
+            for (int i = 0; i < n; i++ )
+            {
+                value = value + ( v1[i] - v0[i] ) * ( v1[i] - v0[i] );
+            }
+            value = Math.Sqrt ( value );
+
+            return value;
+        }
+        
+        public static void r8vec_copy ( int n, double[] a1, ref double[] a2 )
+//****************************************************************************80
+//
+//  Purpose:
+//
+//    R8VEC_COPY copies an R8VEC.
+//
+//  Discussion:
+//
+//    An R8VEC is a vector of R8's.
+//
+//  Licensing:
+//
+//    This code is distributed under the GNU LGPL license.
+//
+//  Modified:
+//
+//    03 July 2005
+//
+//  Author:
+//
+//    John Burkardt
+//
+//  Parameters:
+//
+//    Input, int N, the number of entries in the vectors.
+//
+//    Input, double A1[N], the vector to be copied.
+//
+//    Output, double A2[N], the copy of A1.
+//
+        {
+            int i;
+
+            for ( i = 0; i < n; i++ )
+            {
+                a2[i] = a1[i];
+            }
+        }
+        
+        public static void r8vec3_print ( int n, double[] a1, double[] a2, double[] a3, string title )
+
+//****************************************************************************80
+//
+//  Purpose:
+//
+//    R8VEC3_PRINT prints a triple of real vectors.
+//
+//  Licensing:
+//
+//    This code is distributed under the GNU LGPL license.
+//
+//  Modified:
+//
+//    10 September 2009
+//
+//  Author:
+//
+//    John Burkardt
+//
+//  Parameters:
+//
+//    Input, int N, the number of components of the vector.
+//
+//    Input, double A1[N], double A2[N], double A3[N], the vectors
+//    to be printed.
+//
+//    Input, string TITLE, a title.
+//
+        {
+            Console.WriteLine();
+            Console.WriteLine(title);
+            Console.WriteLine();
+            for (int i = 0; i <= n - 1; i++ )
+            {
+                Console.WriteLine( i.ToString().PadLeft(4)     + ": "
+                                  + a1[i].ToString().PadLeft(10) + "  "
+                                  + a2[i].ToString().PadLeft(10) + "  "
+                                  + a3[i].ToString().PadLeft(10) );
+            }
+        }
+        
+        public static double[]  r8vec_copy_new ( int n, double[] a1 )
+
+//****************************************************************************80
+//
+//  Purpose:
+//
+//    R8VEC_COPY_NEW copies an R8VEC to a new R8VEC.
+//
+//  Discussion:
+//
+//    An R8VEC is a vector of R8's.
+//
+//  Licensing:
+//
+//    This code is distributed under the GNU LGPL license.
+//
+//  Modified:
+//
+//    03 July 2008
+//
+//  Author:
+//
+//    John Burkardt
+//
+//  Parameters:
+//
+//    Input, int N, the number of entries in the vectors.
+//
+//    Input, double A1[N], the vector to be copied.
+//
+//    Output, double R8VEC_COPY_NEW[N], the copy of A1.
+//
+        {
+            int i;
+
+            double[] a2 = new double[n];
+
+            for ( i = 0; i < n; i++ )
+            {
+                a2[i] = a1[i];
+            }
+            return a2;
+        }
+        
+        public static double r8vec_i4vec_dot_product ( int n, double[] r8vec, int[] i4vec )
+//****************************************************************************80
+//
+//  Purpose:
+//
+//    R8VEC_I4VEC_DOT_PRODUCT computes the dot product of an R8VEC and an I4VEC.
+//
+//  Discussion:
+//
+//    An R8VEC is a vector of R8's.
+//
+//    An I4VEC is a vector of I4's.
+//
+//  Licensing:
+//
+//    This code is distributed under the GNU LGPL license.
+//
+//  Modified:
+//
+//    30 June 2009
+//
+//  Author:
+//
+//    John Burkardt
+//
+//  Parameters:
+//
+//    Input, int N, the number of entries in the vectors.
+//
+//    Input, double R8VEC[N], the first vector.
+//
+//    Input, int I4VEC[N], the second vector.
+//
+//    Output, double R8VEC_I4VEC_DOT_PRODUCT, the dot product of the vectors.
+//
+        {
+            int i;
+
+            double value = 0.0;
+            for ( i = 0; i < n; i++ )
+            {
+                value = value + r8vec[i] * ( double ) ( i4vec[i] );
+            }
+            return value;
+        }
+        
+        public static double r8vec_product ( int n, double[] a )
+//****************************************************************************80
+//
+//  Purpose:
+//
+//    R8VEC_PRODUCT returns the product of the entries of an R8VEC.
+//
+//  Discussion:
+//
+//    An R8VEC is a vector of R8's.
+//
+//  Licensing:
+//
+//    This code is distributed under the GNU LGPL license.
+//
+//  Modified:
+//
+//    17 September 2003
+//
+//  Author:
+//
+//    John Burkardt
+//
+//  Parameters:
+//
+//    Input, int N, the number of entries in the vector.
+//
+//    Input, double A[N], the vector.
+//
+//    Output, double R8VEC_PRODUCT, the product of the vector.
+//
+        {
+            int i;
+            double product;
+
+            product = 1.0;
+            for ( i = 0; i < n; i++ )
+            {
+                product = product * a[i];
+            }
+
+            return product;
+        }
+
     }
 }

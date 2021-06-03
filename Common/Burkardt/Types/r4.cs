@@ -583,6 +583,45 @@ namespace Burkardt.Types
             return variance;
         }
 
+        public static float r4_sign ( float x )
+
+//****************************************************************************80
+//
+//  Purpose:
+//
+//    R4_SIGN returns the sign of an R4.
+//
+//  Licensing:
+//
+//    This code is distributed under the GNU LGPL license.
+//
+//  Modified:
+//
+//    18 October 2004
+//
+//  Author:
+//
+//    John Burkardt
+//
+//  Parameters:
+//
+//    Input, float X, the number whose sign is desired.
+//
+//    Output, float R4_SIGN, the sign of X.
+//
+        {
+            float value;
+
+            if ( x < 0.0 )
+            {
+                value = -1.0f;
+            }
+            else
+            {
+                value = 1.0f;
+            }
+            return value;
+        }
 
     }
 }

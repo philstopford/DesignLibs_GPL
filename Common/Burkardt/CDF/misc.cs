@@ -172,9 +172,6 @@ namespace Burkardt.CDFLib
                 x = x_vec[n_data - 1];
                 fx = fx_vec[n_data - 1];
             }
-
-            return;
-# undef N_MAX
         }
 
         public static double error_f(double x)

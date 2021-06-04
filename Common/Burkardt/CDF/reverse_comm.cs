@@ -544,7 +544,6 @@ namespace Burkardt.CDFLib
                 case 3: goto S200;
                 default: break;
             }
-# undef ftol
         }
     }
 }

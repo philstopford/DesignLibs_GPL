@@ -5,51 +5,51 @@ namespace Burkardt.BLAS
 {
     public static partial class BLAS1D
     {
-        public static double dasum(int n, double[] x, int incx )
+        public static double dasum(int n, double[] x, int incx)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    DASUM takes the sum of the absolute values of a vector.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    02 May 2005
-//
-//  Author:
-//
-//    C++ version by John Burkardt
-//
-//  Reference:
-//
-//    Jack Dongarra, Jim Bunch, Cleve Moler, Pete Stewart,
-//    LINPACK User's Guide,
-//    SIAM, 1979,
-//    ISBN13: 978-0-898711-72-1,
-//    LC: QA214.L56.
-//
-//    Charles Lawson, Richard Hanson, David Kincaid, Fred Krogh,
-//    Basic Linear Algebra Subprograms for Fortran Usage,
-//    Algorithm 539,
-//    ACM Transactions on Mathematical Software,
-//    Volume 5, Number 3, September 1979, pages 308-323.
-//
-//  Parameters:
-//
-//    Input, int N, the number of entries in the vector.
-//
-//    Input, double X[*], the vector to be examined.
-//
-//    Input, int INCX, the increment between successive entries of X.
-//    INCX must not be negative.
-//
-//    Output, double DASUM, the sum of the absolute values of X.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    DASUM takes the sum of the absolute values of a vector.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 May 2005
+            //
+            //  Author:
+            //
+            //    C++ version by John Burkardt
+            //
+            //  Reference:
+            //
+            //    Jack Dongarra, Jim Bunch, Cleve Moler, Pete Stewart,
+            //    LINPACK User's Guide,
+            //    SIAM, 1979,
+            //    ISBN13: 978-0-898711-72-1,
+            //    LC: QA214.L56.
+            //
+            //    Charles Lawson, Richard Hanson, David Kincaid, Fred Krogh,
+            //    Basic Linear Algebra Subprograms for Fortran Usage,
+            //    Algorithm 539,
+            //    ACM Transactions on Mathematical Software,
+            //    Volume 5, Number 3, September 1979, pages 308-323.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in the vector.
+            //
+            //    Input, double X[*], the vector to be examined.
+            //
+            //    Input, int INCX, the increment between successive entries of X.
+            //    INCX must not be negative.
+            //
+            //    Output, double DASUM, the sum of the absolute values of X.
+            //
         {
             int i;
             int j;
@@ -67,61 +67,61 @@ namespace Burkardt.BLAS
             return value;
         }
 
-        public static void daxpy(int n, double da, double[] dx, int incx, double[] dy, int incy )
+        public static void daxpy(int n, double da, double[] dx, int incx, double[] dy, int incy)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    DAXPY computes constant times a vector plus a vector.
-//
-//  Discussion:
-//
-//    This routine uses unrolled loops for increments equal to one.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    02 May 2005
-//
-//  Author:
-//
-//    Original FORTRAN77 version by Charles Lawson, Richard Hanson, 
-//    David Kincaid, Fred Krogh.
-//    C++ version by John Burkardt.
-//
-//  Reference:
-//
-//    Jack Dongarra, Jim Bunch, Cleve Moler, Pete Stewart,
-//    LINPACK User's Guide,
-//    SIAM, 1979,
-//    ISBN13: 978-0-898711-72-1,
-//    LC: QA214.L56.
-//
-//    Charles Lawson, Richard Hanson, David Kincaid, Fred Krogh,
-//    Basic Linear Algebra Subprograms for Fortran Usage,
-//    Algorithm 539,
-//    ACM Transactions on Mathematical Software,
-//    Volume 5, Number 3, September 1979, pages 308-323.
-//
-//  Parameters:
-//
-//    Input, int N, the number of elements in DX and DY.
-//
-//    Input, double DA, the multiplier of DX.
-//
-//    Input, double DX[*], the first vector.
-//
-//    Input, int INCX, the increment between successive entries of DX.
-//
-//    Input/output, double DY[*], the second vector.
-//    On output, DY[*] has been replaced by DY[*] + DA * DX[*].
-//
-//    Input, int INCY, the increment between successive entries of DY.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    DAXPY computes constant times a vector plus a vector.
+            //
+            //  Discussion:
+            //
+            //    This routine uses unrolled loops for increments equal to one.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 May 2005
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Charles Lawson, Richard Hanson, 
+            //    David Kincaid, Fred Krogh.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Jack Dongarra, Jim Bunch, Cleve Moler, Pete Stewart,
+            //    LINPACK User's Guide,
+            //    SIAM, 1979,
+            //    ISBN13: 978-0-898711-72-1,
+            //    LC: QA214.L56.
+            //
+            //    Charles Lawson, Richard Hanson, David Kincaid, Fred Krogh,
+            //    Basic Linear Algebra Subprograms for Fortran Usage,
+            //    Algorithm 539,
+            //    ACM Transactions on Mathematical Software,
+            //    Volume 5, Number 3, September 1979, pages 308-323.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of elements in DX and DY.
+            //
+            //    Input, double DA, the multiplier of DX.
+            //
+            //    Input, double DX[*], the first vector.
+            //
+            //    Input, int INCX, the increment between successive entries of DX.
+            //
+            //    Input/output, double DY[*], the second vector.
+            //    On output, DY[*] has been replaced by DY[*] + DA * DX[*].
+            //
+            //    Input, int INCY, the increment between successive entries of DY.
+            //
         {
             int i;
             int ix;
@@ -138,10 +138,10 @@ namespace Burkardt.BLAS
                 return;
             }
 
-//
-//  Code for unequal increments or equal increments
-//  not equal to 1.
-//
+            //
+            //  Code for unequal increments or equal increments
+            //  not equal to 1.
+            //
             if (incx != 1 || incy != 1)
             {
                 if (0 <= incx)
@@ -169,9 +169,9 @@ namespace Burkardt.BLAS
                     iy = iy + incy;
                 }
             }
-//
-//  Code for both increments equal to 1.
-//
+            //
+            //  Code for both increments equal to 1.
+            //
             else
             {
                 m = n % 4;
@@ -194,58 +194,58 @@ namespace Burkardt.BLAS
             return;
         }
 
-        public static void dcopy(int n, double[] dx, int incx, double[] dy, int incy )
+        public static void dcopy(int n, double[] dx, int incx, double[] dy, int incy)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    DCOPY copies a vector X to a vector Y.
-//
-//  Discussion:
-//
-//    The routine uses unrolled loops for increments equal to one.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    02 May 2005
-//
-//  Author:
-//
-//    Original FORTRAN77 version by Charles Lawson, Richard Hanson, 
-//    David Kincaid, Fred Krogh.
-//    C++ version by John Burkardt.
-//
-//  Reference:
-//
-//    Jack Dongarra, Jim Bunch, Cleve Moler, Pete Stewart,
-//    LINPACK User's Guide,
-//    SIAM, 1979,
-//    ISBN13: 978-0-898711-72-1,
-//    LC: QA214.L56.
-//
-//    Charles Lawson, Richard Hanson, David Kincaid, Fred Krogh,
-//    Basic Linear Algebra Subprograms for Fortran Usage,
-//    Algorithm 539,
-//    ACM Transactions on Mathematical Software,
-//    Volume 5, Number 3, September 1979, pages 308-323.
-//
-//  Parameters:
-//
-//    Input, int N, the number of elements in DX and DY.
-//
-//    Input, double DX[*], the first vector.
-//
-//    Input, int INCX, the increment between successive entries of DX.
-//
-//    Output, double DY[*], the second vector.
-//
-//    Input, int INCY, the increment between successive entries of DY.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    DCOPY copies a vector X to a vector Y.
+            //
+            //  Discussion:
+            //
+            //    The routine uses unrolled loops for increments equal to one.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 May 2005
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Charles Lawson, Richard Hanson, 
+            //    David Kincaid, Fred Krogh.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Jack Dongarra, Jim Bunch, Cleve Moler, Pete Stewart,
+            //    LINPACK User's Guide,
+            //    SIAM, 1979,
+            //    ISBN13: 978-0-898711-72-1,
+            //    LC: QA214.L56.
+            //
+            //    Charles Lawson, Richard Hanson, David Kincaid, Fred Krogh,
+            //    Basic Linear Algebra Subprograms for Fortran Usage,
+            //    Algorithm 539,
+            //    ACM Transactions on Mathematical Software,
+            //    Volume 5, Number 3, September 1979, pages 308-323.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of elements in DX and DY.
+            //
+            //    Input, double DX[*], the first vector.
+            //
+            //    Input, int INCX, the increment between successive entries of DX.
+            //
+            //    Output, double DY[*], the second vector.
+            //
+            //    Input, int INCY, the increment between successive entries of DY.
+            //
         {
             int i;
             int ix;
@@ -312,61 +312,61 @@ namespace Burkardt.BLAS
             return;
         }
 
-        public static double ddot(int n, double[] dx, int incx, double[] dy, int incy )
+        public static double ddot(int n, double[] dx, int incx, double[] dy, int incy)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    DDOT forms the dot product of two vectors.
-//
-//  Discussion:
-//
-//    This routine uses unrolled loops for increments equal to one.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    02 May 2005
-//
-//  Author:
-//
-//    Original FORTRAN77 version by Charles Lawson, Richard Hanson, 
-//    David Kincaid, Fred Krogh.
-//    C++ version by John Burkardt.
-//
-//  Reference:
-//
-//    Jack Dongarra, Jim Bunch, Cleve Moler, Pete Stewart,
-//    LINPACK User's Guide,
-//    SIAM, 1979,
-//    ISBN13: 978-0-898711-72-1,
-//    LC: QA214.L56.
-//
-//    Charles Lawson, Richard Hanson, David Kincaid, Fred Krogh,
-//    Basic Linear Algebra Subprograms for Fortran Usage,
-//    Algorithm 539,
-//    ACM Transactions on Mathematical Software,
-//    Volume 5, Number 3, September 1979, pages 308-323.
-//
-//  Parameters:
-//
-//    Input, int N, the number of entries in the vectors.
-//
-//    Input, double DX[*], the first vector.
-//
-//    Input, int INCX, the increment between successive entries in DX.
-//
-//    Input, double DY[*], the second vector.
-//
-//    Input, int INCY, the increment between successive entries in DY.
-//
-//    Output, double DDOT, the sum of the product of the corresponding
-//    entries of DX and DY.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    DDOT forms the dot product of two vectors.
+            //
+            //  Discussion:
+            //
+            //    This routine uses unrolled loops for increments equal to one.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 May 2005
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Charles Lawson, Richard Hanson, 
+            //    David Kincaid, Fred Krogh.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Jack Dongarra, Jim Bunch, Cleve Moler, Pete Stewart,
+            //    LINPACK User's Guide,
+            //    SIAM, 1979,
+            //    ISBN13: 978-0-898711-72-1,
+            //    LC: QA214.L56.
+            //
+            //    Charles Lawson, Richard Hanson, David Kincaid, Fred Krogh,
+            //    Basic Linear Algebra Subprograms for Fortran Usage,
+            //    Algorithm 539,
+            //    ACM Transactions on Mathematical Software,
+            //    Volume 5, Number 3, September 1979, pages 308-323.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in the vectors.
+            //
+            //    Input, double DX[*], the first vector.
+            //
+            //    Input, int INCX, the increment between successive entries in DX.
+            //
+            //    Input, double DY[*], the second vector.
+            //
+            //    Input, int INCY, the increment between successive entries in DY.
+            //
+            //    Output, double DDOT, the sum of the product of the corresponding
+            //    entries of DX and DY.
+            //
         {
             double dtemp;
             int i;
@@ -381,10 +381,10 @@ namespace Burkardt.BLAS
                 return dtemp;
             }
 
-//
-//  Code for unequal increments or equal increments
-//  not equal to 1.
-//
+            //
+            //  Code for unequal increments or equal increments
+            //  not equal to 1.
+            //
             if (incx != 1 || incy != 1)
             {
                 if (0 <= incx)
@@ -412,9 +412,9 @@ namespace Burkardt.BLAS
                     iy = iy + incy;
                 }
             }
-//
-//  Code for both increments equal to 1.
-//
+            //
+            //  Code for both increments equal to 1.
+            //
             else
             {
                 m = n % 5;
@@ -438,55 +438,55 @@ namespace Burkardt.BLAS
             return dtemp;
         }
 
-        public static double dnrm2(int n, double[] x, int incx )
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    DNRM2 returns the euclidean norm of a vector.
-//
-//  Discussion:
-//
-//     DNRM2 ( X ) = sqrt ( X' * X )
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    02 May 2005
-//
-//  Author:
-//
-//    Original FORTRAN77 version by Charles Lawson, Richard Hanson, 
-//    David Kincaid, Fred Krogh.
-//    C++ version by John Burkardt.
-//
-//  Reference:
-//
-//    Jack Dongarra, Jim Bunch, Cleve Moler, Pete Stewart,
-//    LINPACK User's Guide,
-//    SIAM, 1979,
-//    ISBN13: 978-0-898711-72-1,
-//    LC: QA214.L56.
-//
-//    Charles Lawson, Richard Hanson, David Kincaid, Fred Krogh,
-//    Basic Linear Algebra Subprograms for Fortran Usage,
-//    Algorithm 539,
-//    ACM Transactions on Mathematical Software,
-//    Volume 5, Number 3, September 1979, pages 308-323.
-//
-//  Parameters:
-//
-//    Input, int N, the number of entries in the vector.
-//
-//    Input, double X[*], the vector whose norm is to be computed.
-//
-//    Input, int INCX, the increment between successive entries of X.
-//
-//    Output, double DNRM2, the Euclidean norm of X.
-//
+        public static double dnrm2(int n, double[] x, int incx)
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    DNRM2 returns the euclidean norm of a vector.
+            //
+            //  Discussion:
+            //
+            //     DNRM2 ( X ) = sqrt ( X' * X )
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 May 2005
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Charles Lawson, Richard Hanson, 
+            //    David Kincaid, Fred Krogh.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Jack Dongarra, Jim Bunch, Cleve Moler, Pete Stewart,
+            //    LINPACK User's Guide,
+            //    SIAM, 1979,
+            //    ISBN13: 978-0-898711-72-1,
+            //    LC: QA214.L56.
+            //
+            //    Charles Lawson, Richard Hanson, David Kincaid, Fred Krogh,
+            //    Basic Linear Algebra Subprograms for Fortran Usage,
+            //    Algorithm 539,
+            //    ACM Transactions on Mathematical Software,
+            //    Volume 5, Number 3, September 1979, pages 308-323.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in the vector.
+            //
+            //    Input, double X[*], the vector whose norm is to be computed.
+            //
+            //    Input, int INCX, the increment between successive entries of X.
+            //
+            //    Output, double DNRM2, the Euclidean norm of X.
+            //
         {
             double absxi;
             int i;
@@ -535,57 +535,57 @@ namespace Burkardt.BLAS
         }
 
         public static void drot(int n, double[] x, int incx, double[] y, int incy, double c,
-        double s )
+                double s)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    DROT applies a plane rotation.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    02 May 2005
-//
-//  Author:
-//
-//    Original FORTRAN77 version by Charles Lawson, Richard Hanson, 
-//    David Kincaid, Fred Krogh.
-//    C++ version by John Burkardt.
-//
-//  Reference:
-//
-//    Jack Dongarra, Jim Bunch, Cleve Moler, Pete Stewart,
-//    LINPACK User's Guide,
-//    SIAM, 1979,
-//    ISBN13: 978-0-898711-72-1,
-//    LC: QA214.L56.
-//
-//    Charles Lawson, Richard Hanson, David Kincaid, Fred Krogh,
-//    Basic Linear Algebra Subprograms for Fortran Usage,
-//    Algorithm 539,
-//    ACM Transactions on Mathematical Software,
-//    Volume 5, Number 3, September 1979, pages 308-323.
-//
-//  Parameters:
-//
-//    Input, int N, the number of entries in the vectors.
-//
-//    Input/output, double X[*], one of the vectors to be rotated.
-//
-//    Input, int INCX, the increment between successive entries of X.
-//
-//    Input/output, double Y[*], one of the vectors to be rotated.
-//
-//    Input, int INCY, the increment between successive elements of Y.
-//
-//    Input, double C, S, parameters (presumably the cosine and
-//    sine of some angle) that define a plane rotation.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    DROT applies a plane rotation.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 May 2005
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Charles Lawson, Richard Hanson, 
+            //    David Kincaid, Fred Krogh.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Jack Dongarra, Jim Bunch, Cleve Moler, Pete Stewart,
+            //    LINPACK User's Guide,
+            //    SIAM, 1979,
+            //    ISBN13: 978-0-898711-72-1,
+            //    LC: QA214.L56.
+            //
+            //    Charles Lawson, Richard Hanson, David Kincaid, Fred Krogh,
+            //    Basic Linear Algebra Subprograms for Fortran Usage,
+            //    Algorithm 539,
+            //    ACM Transactions on Mathematical Software,
+            //    Volume 5, Number 3, September 1979, pages 308-323.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in the vectors.
+            //
+            //    Input/output, double X[*], one of the vectors to be rotated.
+            //
+            //    Input, int INCX, the increment between successive entries of X.
+            //
+            //    Input/output, double Y[*], one of the vectors to be rotated.
+            //
+            //    Input, int INCY, the increment between successive elements of Y.
+            //
+            //    Input, double C, S, parameters (presumably the cosine and
+            //    sine of some angle) that define a plane rotation.
+            //
         {
             int i;
             int ix;
@@ -640,80 +640,80 @@ namespace Burkardt.BLAS
 
         public static void drotg(ref double sa, ref double sb, ref double c, ref double s)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    DROTG constructs a Givens plane rotation.
-//
-//  Discussion:
-//
-//    Given values A and B, this routine computes
-//
-//    SIGMA = sign ( A ) if abs ( A ) >  abs ( B )
-//          = sign ( B ) if abs ( A ) <= abs ( B );
-//
-//    R     = SIGMA * ( A * A + B * B );
-//
-//    C = A / R if R is not 0
-//      = 1     if R is 0;
-//
-//    S = B / R if R is not 0,
-//        0     if R is 0.
-//
-//    The computed numbers then satisfy the equation
-//
-//    (  C  S ) ( A ) = ( R )
-//    ( -S  C ) ( B ) = ( 0 )
-//
-//    The routine also computes
-//
-//    Z = S     if abs ( A ) > abs ( B ),
-//      = 1 / C if abs ( A ) <= abs ( B ) and C is not 0,
-//      = 1     if C is 0.
-//
-//    The single value Z encodes C and S, and hence the rotation:
-//
-//    If Z = 1, set C = 0 and S = 1;
-//    If abs ( Z ) < 1, set C = sqrt ( 1 - Z * Z ) and S = Z;
-//    if abs ( Z ) > 1, set C = 1/ Z and S = sqrt ( 1 - C * C );
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    15 May 2006
-//
-//  Author:
-//
-//    Original FORTRAN77 version by Charles Lawson, Richard Hanson, 
-//    David Kincaid, Fred Krogh.
-//    C++ version by John Burkardt.
-//
-//  Reference:
-//
-//    Jack Dongarra, Jim Bunch, Cleve Moler, Pete Stewart,
-//    LINPACK User's Guide,
-//    SIAM, 1979,
-//    ISBN13: 978-0-898711-72-1,
-//    LC: QA214.L56.
-//
-//    Charles Lawson, Richard Hanson, David Kincaid, Fred Krogh,
-//    Basic Linear Algebra Subprograms for Fortran Usage,
-//    Algorithm 539,
-//    ACM Transactions on Mathematical Software,
-//    Volume 5, Number 3, September 1979, pages 308-323.
-//
-//  Parameters:
-//
-//    Input/output, double *SA, *SB,  On input, SA and SB are the values
-//    A and B.  On output, SA is overwritten with R, and SB is
-//    overwritten with Z.
-//
-//    Output, double *C, *S, the cosine and sine of the Givens rotation.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    DROTG constructs a Givens plane rotation.
+            //
+            //  Discussion:
+            //
+            //    Given values A and B, this routine computes
+            //
+            //    SIGMA = sign ( A ) if abs ( A ) >  abs ( B )
+            //          = sign ( B ) if abs ( A ) <= abs ( B );
+            //
+            //    R     = SIGMA * ( A * A + B * B );
+            //
+            //    C = A / R if R is not 0
+            //      = 1     if R is 0;
+            //
+            //    S = B / R if R is not 0,
+            //        0     if R is 0.
+            //
+            //    The computed numbers then satisfy the equation
+            //
+            //    (  C  S ) ( A ) = ( R )
+            //    ( -S  C ) ( B ) = ( 0 )
+            //
+            //    The routine also computes
+            //
+            //    Z = S     if abs ( A ) > abs ( B ),
+            //      = 1 / C if abs ( A ) <= abs ( B ) and C is not 0,
+            //      = 1     if C is 0.
+            //
+            //    The single value Z encodes C and S, and hence the rotation:
+            //
+            //    If Z = 1, set C = 0 and S = 1;
+            //    If abs ( Z ) < 1, set C = sqrt ( 1 - Z * Z ) and S = Z;
+            //    if abs ( Z ) > 1, set C = 1/ Z and S = sqrt ( 1 - C * C );
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    15 May 2006
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Charles Lawson, Richard Hanson, 
+            //    David Kincaid, Fred Krogh.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Jack Dongarra, Jim Bunch, Cleve Moler, Pete Stewart,
+            //    LINPACK User's Guide,
+            //    SIAM, 1979,
+            //    ISBN13: 978-0-898711-72-1,
+            //    LC: QA214.L56.
+            //
+            //    Charles Lawson, Richard Hanson, David Kincaid, Fred Krogh,
+            //    Basic Linear Algebra Subprograms for Fortran Usage,
+            //    Algorithm 539,
+            //    ACM Transactions on Mathematical Software,
+            //    Volume 5, Number 3, September 1979, pages 308-323.
+            //
+            //  Parameters:
+            //
+            //    Input/output, double *SA, *SB,  On input, SA and SB are the values
+            //    A and B.  On output, SA is overwritten with R, and SB is
+            //    overwritten with Z.
+            //
+            //    Output, double *C, *S, the cosine and sine of the Givens rotation.
+            //
         {
             double r;
             double roe;
@@ -740,7 +740,7 @@ namespace Burkardt.BLAS
             else
             {
                 r = scale * Math.Sqrt((sa / scale) * (sa / scale)
-                                 + (sb / scale) * (sb / scale));
+                                      + (sb / scale) * (sb / scale));
                 r = typeMethods.r8_sign(roe) * r;
                 c = sa / r;
                 s = sb / r;
@@ -759,52 +759,52 @@ namespace Burkardt.BLAS
             sb = z;
         }
 
-        public static void dscal(int n, double sa, double[] x, int incx )
+        public static void dscal(int n, double sa, double[] x, int incx)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    DSCAL scales a vector by a constant.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    02 May 2005
-//
-//  Author:
-//
-//    Original FORTRAN77 version by Charles Lawson, Richard Hanson, 
-//    David Kincaid, Fred Krogh.
-//    C++ version by John Burkardt.
-//
-//  Reference:
-//
-//    Jack Dongarra, Jim Bunch, Cleve Moler, Pete Stewart,
-//    LINPACK User's Guide,
-//    SIAM, 1979,
-//    ISBN13: 978-0-898711-72-1,
-//    LC: QA214.L56.
-//
-//    Charles Lawson, Richard Hanson, David Kincaid, Fred Krogh,
-//    Basic Linear Algebra Subprograms for Fortran Usage,
-//    Algorithm 539,
-//    ACM Transactions on Mathematical Software,
-//    Volume 5, Number 3, September 1979, pages 308-323.
-//
-//  Parameters:
-//
-//    Input, int N, the number of entries in the vector.
-//
-//    Input, double SA, the multiplier.
-//
-//    Input/output, double X[*], the vector to be scaled.
-//
-//    Input, int INCX, the increment between successive entries of X.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    DSCAL scales a vector by a constant.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 May 2005
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Charles Lawson, Richard Hanson, 
+            //    David Kincaid, Fred Krogh.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Jack Dongarra, Jim Bunch, Cleve Moler, Pete Stewart,
+            //    LINPACK User's Guide,
+            //    SIAM, 1979,
+            //    ISBN13: 978-0-898711-72-1,
+            //    LC: QA214.L56.
+            //
+            //    Charles Lawson, Richard Hanson, David Kincaid, Fred Krogh,
+            //    Basic Linear Algebra Subprograms for Fortran Usage,
+            //    Algorithm 539,
+            //    ACM Transactions on Mathematical Software,
+            //    Volume 5, Number 3, September 1979, pages 308-323.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in the vector.
+            //
+            //    Input, double SA, the multiplier.
+            //
+            //    Input/output, double X[*], the vector to be scaled.
+            //
+            //    Input, int INCX, the increment between successive entries of X.
+            //
         {
             int i;
             int ix;
@@ -851,54 +851,54 @@ namespace Burkardt.BLAS
             }
         }
 
-        public static void dswap(int n, double[] x, int incx, double[] y, int incy )
+        public static void dswap(int n, double[] x, int incx, double[] y, int incy)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    DSWAP interchanges two vectors.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    02 May 2005
-//
-//  Author:
-//
-//    Original FORTRAN77 version by Charles Lawson, Richard Hanson, 
-//    David Kincaid, Fred Krogh.
-//    C++ version by John Burkardt.
-//
-//  Reference:
-//
-//    Jack Dongarra, Jim Bunch, Cleve Moler, Pete Stewart,
-//    LINPACK User's Guide,
-//    SIAM, 1979,
-//    ISBN13: 978-0-898711-72-1,
-//    LC: QA214.L56.
-//
-//    Charles Lawson, Richard Hanson, David Kincaid, Fred Krogh,
-//    Basic Linear Algebra Subprograms for Fortran Usage,
-//    Algorithm 539,
-//    ACM Transactions on Mathematical Software,
-//    Volume 5, Number 3, September 1979, pages 308-323.
-//
-//  Parameters:
-//
-//    Input, int N, the number of entries in the vectors.
-//
-//    Input/output, double X[*], one of the vectors to swap.
-//
-//    Input, int INCX, the increment between successive entries of X.
-//
-//    Input/output, double Y[*], one of the vectors to swap.
-//
-//    Input, int INCY, the increment between successive elements of Y.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    DSWAP interchanges two vectors.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 May 2005
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Charles Lawson, Richard Hanson, 
+            //    David Kincaid, Fred Krogh.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Jack Dongarra, Jim Bunch, Cleve Moler, Pete Stewart,
+            //    LINPACK User's Guide,
+            //    SIAM, 1979,
+            //    ISBN13: 978-0-898711-72-1,
+            //    LC: QA214.L56.
+            //
+            //    Charles Lawson, Richard Hanson, David Kincaid, Fred Krogh,
+            //    Basic Linear Algebra Subprograms for Fortran Usage,
+            //    Algorithm 539,
+            //    ACM Transactions on Mathematical Software,
+            //    Volume 5, Number 3, September 1979, pages 308-323.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in the vectors.
+            //
+            //    Input/output, double X[*], one of the vectors to swap.
+            //
+            //    Input, int INCX, the increment between successive entries of X.
+            //
+            //    Input/output, double Y[*], one of the vectors to swap.
+            //
+            //    Input, int INCY, the increment between successive elements of Y.
+            //
         {
             int i;
             int ix;
@@ -967,57 +967,57 @@ namespace Burkardt.BLAS
             }
         }
 
-        public static int idamax(int n, double[] dx, int incx )
+        public static int idamax(int n, double[] dx, int incx)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    IDAMAX finds the index of the vector element of maximum absolute value.
-//
-//  Discussion:
-//
-//    WARNING: This index is a 1-based index, not a 0-based index!
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    02 May 2005
-//
-//  Author:
-//
-//    Original FORTRAN77 version by Charles Lawson, Richard Hanson, 
-//    David Kincaid, Fred Krogh.
-//    C++ version by John Burkardt.
-//
-//  Reference:
-//
-//    Jack Dongarra, Jim Bunch, Cleve Moler, Pete Stewart,
-//    LINPACK User's Guide,
-//    SIAM, 1979,
-//    ISBN13: 978-0-898711-72-1,
-//    LC: QA214.L56.
-//
-//    Charles Lawson, Richard Hanson, David Kincaid, Fred Krogh,
-//    Basic Linear Algebra Subprograms for Fortran Usage,
-//    Algorithm 539,
-//    ACM Transactions on Mathematical Software,
-//    Volume 5, Number 3, September 1979, pages 308-323.
-//
-//  Parameters:
-//
-//    Input, int N, the number of entries in the vector.
-//
-//    Input, double X[*], the vector to be examined.
-//
-//    Input, int INCX, the increment between successive entries of SX.
-//
-//    Output, int IDAMAX, the index of the element of maximum
-//    absolute value.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    IDAMAX finds the index of the vector element of maximum absolute value.
+            //
+            //  Discussion:
+            //
+            //    WARNING: This index is a 1-based index, not a 0-based index!
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 May 2005
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Charles Lawson, Richard Hanson, 
+            //    David Kincaid, Fred Krogh.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Jack Dongarra, Jim Bunch, Cleve Moler, Pete Stewart,
+            //    LINPACK User's Guide,
+            //    SIAM, 1979,
+            //    ISBN13: 978-0-898711-72-1,
+            //    LC: QA214.L56.
+            //
+            //    Charles Lawson, Richard Hanson, David Kincaid, Fred Krogh,
+            //    Basic Linear Algebra Subprograms for Fortran Usage,
+            //    Algorithm 539,
+            //    ACM Transactions on Mathematical Software,
+            //    Volume 5, Number 3, September 1979, pages 308-323.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in the vector.
+            //
+            //    Input, double X[*], the vector to be examined.
+            //
+            //    Input, int INCX, the increment between successive entries of SX.
+            //
+            //    Output, int IDAMAX, the index of the element of maximum
+            //    absolute value.
+            //
         {
             double dmax;
             int i;

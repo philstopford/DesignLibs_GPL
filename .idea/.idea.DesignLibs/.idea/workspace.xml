@@ -88,6 +88,7 @@
     <projectFile>BurkhardtTest/BLAS/BLAS0Test/BLAS0Test.csproj</projectFile>
     <projectFile>BurkhardtTest/BLAS/BLAS1DTest/BLAS1DTest.csproj</projectFile>
     <projectFile>BurkhardtTest/BLAS/BLAS1ZTest/BLAS1ZTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/CDFLibTest/CDFLibTest.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="" />
@@ -118,9 +119,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/BurkhardtTest/Shepard/Shepard2DTest/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/misc.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/InterpTestData/InterpTestData_nD.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r83.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/FDM/FDM_1D_BVP.cs" />
@@ -157,18 +155,21 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/algdiv.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/alnrel.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/apser.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/F.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cumulative.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/gamma.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/psi.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/beta.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/chi.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdf.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/reverse_comm.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/T.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/misc.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/binomial.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/normal.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/poisson.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/student.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/F.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/chi.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/binomial.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdf.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/beta.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/CDFLibTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -879,6 +880,24 @@
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
       <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/BoxBehnkenTest/BoxBehnkenTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="CDFLibTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/CDFLibTest/CDFLibTest.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
@@ -1878,6 +1897,7 @@
       <item itemvalue=".NET Project.BLAS0Test" />
       <item itemvalue=".NET Project.BLAS1DTest" />
       <item itemvalue=".NET Project.BLAS1ZTest" />
+      <item itemvalue=".NET Project.CDFLibTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

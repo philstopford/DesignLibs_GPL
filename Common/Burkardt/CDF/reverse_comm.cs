@@ -40,7 +40,13 @@ namespace Burkardt.CDFLib
 
             bool qxmon(double zx, double zy, double zz)
             {
-                return ((zx) <= (zy) && (zy) <= (zz));
+                if (zx == Double.NaN)
+                    zx = 0;
+                if (zy == Double.NaN)
+                    zy = 0;
+                if (zz == Double.NaN)
+                    zz = 0;
+                return !((zx) <= (zy) && (zy) <= (zz));
             }
 
             switch (IENTRY)

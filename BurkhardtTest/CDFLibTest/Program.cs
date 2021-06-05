@@ -31,7 +31,10 @@ namespace CDFLibTest
             Console.WriteLine("  Test cdflib().");
 
             beta_inc_test();
+            /*
             cdfbet_test();
+            /*
+            /*
             cdfbin_test();
             cdfchi_test();
             cdfchn_test();
@@ -60,7 +63,7 @@ namespace CDFLibTest
             gamma_test();
             gamma_inc_test();
             psi_test();
-
+*/
             Console.WriteLine("");
             Console.WriteLine("cdflib_test():");
             Console.WriteLine("  Normal end of execution.");
@@ -124,12 +127,12 @@ namespace CDFLibTest
 
                 CDF.beta_inc(a, b, x, y, ref cdf_compute, ref ccdf_compute, ref ierror);
 
-                Console.WriteLine(x.ToString().PadLeft(10)
-                    + y.ToString().PadLeft(10)
-                    + a.ToString().PadLeft(10)
-                    + b.ToString().PadLeft(10)
-                    + cdf_lookup.ToString().PadLeft(14)
-                    + cdf_compute.ToString().PadLeft(14) + "");
+                Console.WriteLine(x.ToString("0.######").PadLeft(10)
+                    + y.ToString("0.######").PadLeft(10)
+                    + a.ToString("0.######").PadLeft(10)
+                    + b.ToString("0.######").PadLeft(10)
+                    + cdf_lookup.ToString("0.######").PadLeft(14)
+                    + cdf_compute.ToString("0.######").PadLeft(14) + "");
             }
 
             Console.WriteLine("");
@@ -155,12 +158,12 @@ namespace CDFLibTest
 
                 CDF.beta_inc(a, b, x, y, ref cdf_compute, ref ccdf_compute, ref ierror);
 
-                Console.WriteLine(x.ToString().PadLeft(10)
-                    + y.ToString().PadLeft(10)
-                    + a.ToString().PadLeft(10)
-                    + b.ToString().PadLeft(10)
-                    + ccdf_lookup.ToString().PadLeft(14)
-                    + ccdf_compute.ToString().PadLeft(14) + "");
+                Console.WriteLine(x.ToString("0.######").PadLeft(10)
+                    + y.ToString("0.######").PadLeft(10)
+                    + a.ToString("0.######").PadLeft(10)
+                    + b.ToString("0.######").PadLeft(10)
+                    + ccdf_lookup.ToString("0.######").PadLeft(14)
+                    + ccdf_compute.ToString("0.######").PadLeft(14) + "");
 
             }
         }

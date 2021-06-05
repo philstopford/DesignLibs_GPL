@@ -125,6 +125,10 @@ namespace Burkardt.CDFLib
 
             status = 0;
             bound = 0.0;
+
+            E0000Data e0000Data = new E0000Data();
+            E0001Data e0001Data = new E0001Data();
+            
             //
             //  Check arguments
             //
@@ -276,9 +280,17 @@ namespace Burkardt.CDFLib
                 s = 5.0e0;
                 T5 = atol;
                 T6 = tol;
-                dstinv(K2, xn, K3, K3, K4, T5, T6);
+                e0000Data.zsmall = K2;
+                e0000Data.zbig = xn;
+                e0000Data.zabsst = K3;
+                e0000Data.zrelst = K3;
+                e0000Data.zstpmu = K4;
+                e0000Data.zabsto = T5;
+                e0000Data.zrelto = T6;
+                dstinv(ref e0000Data);
                 status = 0;
-                dinvr(status, ref s, fx, ref qleft, ref qhi);
+                e0000Data.status = status;
+                dinvr(ref e0000Data);
                 S340:
                 if (!(status == 1)) goto S370;
                 cumbin(s, xn, pr, ompr, ref cum, ref ccum);
@@ -288,7 +300,8 @@ namespace Burkardt.CDFLib
                 S350:
                 fx = ccum - q;
                 S360:
-                dinvr(status, ref s, fx, ref qleft, ref qhi);
+                e0000Data.status = status;
+                dinvr(ref e0000Data);
                 goto S340;
                 S370:
                 if (!(status == -1)) goto S400;
@@ -312,9 +325,17 @@ namespace Burkardt.CDFLib
                 T8 = inf;
                 T9 = atol;
                 T10 = tol;
-                dstinv(T7, T8, K3, K3, K4, T9, T10);
+                e0000Data.zsmall = T7;
+                e0000Data.zbig = T8;
+                e0000Data.zabsst = K3;
+                e0000Data.zrelst = K3;
+                e0000Data.zstpmu = K4;
+                e0000Data.zabsto = T9;
+                e0000Data.zrelto = T10;
+                dstinv(ref e0000Data);
                 status = 0;
-                dinvr(status, ref xn, fx, ref qleft, ref qhi);
+                e0000Data.status = status;
+                dinvr(ref e0000Data);
                 S410:
                 if (!(status == 1)) goto S440;
                 cumbin(s, xn, pr, ompr, ref cum, ref ccum);
@@ -324,7 +345,8 @@ namespace Burkardt.CDFLib
                 S420:
                 fx = ccum - q;
                 S430:
-                dinvr(status, ref xn, fx, ref qleft, ref qhi);
+                e0000Data.status = status;
+                dinvr(ref e0000Data);
                 goto S410;
                 S440:
                 if (!(status == -1)) goto S470;
@@ -345,29 +367,33 @@ namespace Burkardt.CDFLib
                 //
                 T12 = atol;
                 T13 = tol;
-                dstzr(K2, K11, T12, T13);
+                e0001Data.zxlo = K2;
+                e0001Data.zxhi = K11;
+                e0001Data.zabstl = T12;
+                e0001Data.zreltl = T13;
+                dstzr(ref e0001Data);
                 if (!qporq) goto S500;
                 status = 0;
-                dzror(ref status, ref pr, ref fx, ref xlo, ref xhi, ref qleft, ref qhi);
+                dzror(ref e0000Data, ref e0001Data);
                 ompr = one - pr;
                 S480:
                 if (!(status == 1)) goto S490;
                 cumbin(s, xn, pr, ompr, ref cum, ref ccum);
                 fx = cum - p;
-                dzror(ref status, ref pr, ref fx, ref xlo, ref xhi, ref qleft, ref qhi);
+                dzror(ref e0000Data, ref e0001Data);
                 ompr = one - pr;
                 goto S480;
                 S490:
                 goto S530;
                 S500:
                 status = 0;
-                dzror(ref status, ref ompr, ref fx, ref xlo, ref xhi, ref qleft, ref qhi);
+                dzror(ref e0000Data, ref e0001Data);
                 pr = one - ompr;
                 S510:
                 if (!(status == 1)) goto S520;
                 cumbin(s, xn, pr, ompr, ref cum, ref ccum);
                 fx = ccum - q;
-                dzror(ref status, ref ompr, ref fx, ref xlo, ref xhi, ref qleft, ref qhi);
+                dzror(ref e0000Data, ref e0001Data);
                 pr = one - ompr;
                 goto S510;
                 S530:

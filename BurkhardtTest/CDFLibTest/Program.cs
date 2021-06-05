@@ -30,10 +30,10 @@ namespace CDFLibTest
             Console.WriteLine("cdflib_test():");
             Console.WriteLine("  Test cdflib().");
 
+            /*
             beta_inc_test();
-            /*
+            */
             cdfbet_test();
-            /*
             /*
             cdfbin_test();
             cdfchi_test();

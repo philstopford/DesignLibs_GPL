@@ -159,16 +159,16 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/gamma.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/psi.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/T.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/misc.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/normal.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/poisson.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/student.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/F.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/chi.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/binomial.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdf.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/beta.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/CDFLibTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/misc.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/beta.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdf.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/binomial.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/chi.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/F.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/reverse_comm.cs" />
     </changedPaths>
   </component>
@@ -178,7 +178,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.2758436" />
+    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.18864469" />
     <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.0" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
@@ -1924,23 +1924,6 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Common/Burkardt/CDF/reverse_comm.cs</url>
-          <line>387</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\Common\Burkardt\CDF\reverse_comm.cs" initialLine="387" containingFunctionPresentation="method 'E0001'">
-            <startOffsets>
-              <option value="12061" />
-            </startOffsets>
-            <endOffsets>
-              <option value="12076" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="DotNetProject">
         <watch expression="x" />

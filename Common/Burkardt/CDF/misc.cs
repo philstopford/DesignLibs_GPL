@@ -1335,8 +1335,7 @@ namespace Burkardt.CDFLib
             return dinvnr;
         }
 
-        public static void dinvr(int status, ref double x, double fx,
-                ref bool qleft, ref bool qhi)
+        public static void dinvr(ref E0000Data data)
 
             //****************************************************************************80
             //
@@ -1397,19 +1396,26 @@ namespace Burkardt.CDFLib
             //    if F(X) < Y.
             //
         {
-            double zabsst = 0;
-            double zabsto = 0;
-            double zbig = 0;
-            double zrelst = 0;
-            double zrelto = 0;
-            double zsmall = 0;
-            double zstpmu = 0;
-            
-            E0000(0, ref status, ref x, ref fx, ref qleft, ref qhi, ref zabsst, ref zabsto, ref zbig, ref zrelst, ref zrelto,
-                ref zsmall, ref zstpmu);
-
+            E0000 ( 0, ref data );
         }
 
+        public class E0000Data
+        {
+            public int ientry { get; set; }
+            public int status { get; set; }
+            public double x { get; set; }
+            public double fx { get; set; }
+            public bool qleft  { get; set; }
+            public bool qhi  { get; set; }
+            public double zabsst  { get; set; }
+            public double zabsto  { get; set; }
+            public double zbig  { get; set; }
+            public double zsmall  { get; set; }
+            public double zrelst { get; set; }
+            public double zrelto { get; set; }
+            public double zstpmu  { get; set; }
+        }
+        
         public static double dlanor(double x)
 
             //****************************************************************************80
@@ -1482,8 +1488,7 @@ namespace Burkardt.CDFLib
             return dlanor;
         }
 
-        public static void dstinv(double zsmall, double zbig, double zabsst,
-                double zrelst, double zstpmu, double zabsto, double zrelto)
+        public static void dstinv(ref E0000Data edata)
 
             //****************************************************************************80
             //
@@ -1563,13 +1568,7 @@ namespace Burkardt.CDFLib
             //          of the solution.  See function for a precise definition.
             //
         {
-            int status = 0;
-            double x = 0;
-            double fx = 0;
-            bool qleft = false;
-            bool qhi = false;
-            E0000(1, ref status, ref x, ref fx, ref qleft, ref qhi, ref zabsst, ref zabsto, ref zbig, ref zrelst, ref zrelto, ref zsmall,
-                ref zstpmu);
+            E0000(1,ref edata);
         }
 
         public static double dstrem(double z)
@@ -1663,7 +1662,7 @@ namespace Burkardt.CDFLib
             return dstrem;
         }
 
-        public static void dstzr(double zxlo, double zxhi, double zabstl, double zreltl)
+        public static void dstzr(ref E0001Data edata)
 
             //****************************************************************************80
             //
@@ -1727,15 +1726,96 @@ namespace Burkardt.CDFLib
             //     (Dec. '75) is employed to find the zero of F(X)-Y.
             //
         {
-            int status = 0;
-            double x = 0;
-            double fx = 0;
-            double xlo = 0;
-            double xhi = 0;
-            bool qleft = false;
-            bool qhi = false;
-            E0001(1, ref status, ref x, ref fx, ref xlo, ref xhi, ref qleft, ref qhi, ref zabstl, ref zreltl, ref zxhi,
-                ref zxlo);
+            E0001(1,ref edata);
+        }
+
+        public class E0001Data
+        {
+            public int IENTRY { get; set; }
+            public int status  { get; set; }
+            public double x { get; set; }
+            public double fx  { get; set; }
+            public double xlo { get; set; }
+            public double xhi { get; set; }
+            public bool qleft  { get; set; }
+            public bool qhi  { get; set; }
+            public double zabstl { get; set; }
+            public double zreltl  { get; set; }
+            public double zxhi  { get; set; }
+            public double zxlo  { get; set; }
+        }
+
+        public static void dzror(ref E0000Data edata, ref E0001Data e1data)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    DZROR seeks the zero of a function using reverse communication.
+            //
+            //  Discussion:
+            //
+            //    Performs the zero finding.  STZROR must have been called before
+            //    this routine in order to set its parameters.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    14 February 2021
+            //
+            //  Author:
+            //
+            //    Barry Brown, James Lovato, Kathy Russell.
+            //
+            //  Parameters:
+            //
+            //    int STATUS <--> At the beginning of a zero finding problem, STATUS
+            //                 should be set to 0 and ZROR invoked.  (The value
+            //                 of other parameters will be ignored on this call.)
+            //
+            //                 When ZROR needs the function evaluated, it will set
+            //                 STATUS to 1 and return.  The value of the function
+            //                 should be set in FX and ZROR again called without
+            //                 changing any of its other parameters.
+            //
+            //                 When ZROR has finished without error, it will return
+            //                 with STATUS 0.  In that case (XLO,XHI) bound the answe
+            //
+            //                 If ZROR finds an error (which implies that F(XLO)-Y an
+            //                 F(XHI)-Y have the same sign, it returns STATUS -1.  In
+            //                 this case, XLO and XHI are undefined.
+            //
+            //    double X <-- The value of X at which F(X) is to be evaluated.
+            //
+            //    double FX --> The value of F(X) calculated when ZROR returns with
+            //            STATUS = 1.
+            //
+            //    double XLO <-- When ZROR returns with STATUS = 0, XLO bounds the
+            //             inverval in X containing the solution below.
+            //
+            //    double XHI <-- When ZROR returns with STATUS = 0, XHI bounds the
+            //             inverval in X containing the solution above.
+            //
+            //    bool QLEFT <-- .TRUE. if the stepping search terminated unsucessfully
+            //                at XLO.  If it is .FALSE. the search terminated
+            //                unsucessfully at XHI.
+            //
+            //    bool QHI <-- .TRUE. if F(X) .GT. Y at the termination of the
+            //              search and .FALSE. if F(X) < Y at the
+            //              termination of the search.
+            //
+        {
+            e1data.status = edata.status;
+            e1data.qleft = edata.qleft;
+            e1data.qhi = edata.qhi;
+            
+            e1data.x = edata.x;
+            e1data.fx = edata.fx;
+            
+            E0001(0, ref e1data);
         }
 
         public static double rcomp(double a, double x)

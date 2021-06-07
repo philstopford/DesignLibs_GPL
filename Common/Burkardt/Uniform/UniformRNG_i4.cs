@@ -219,73 +219,73 @@ namespace Burkardt.Uniform
             return value;
         }
 
-        public static int[] i4vec_uniform_ab_new(int n, int a, int b, ref int seed)
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    I4VEC_UNIFORM_AB_NEW returns a scaled pseudorandom I4VEC.
-        //
-        //  Discussion:
-        //
-        //    An I4VEC is a vector of I4's.
-        //
-        //    The pseudorandom numbers should be uniformly distributed
-        //    between A and B.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license. 
-        //
-        //  Modified:
-        //
-        //    24 May 2012
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Reference:
-        //
-        //    Paul Bratley, Bennett Fox, Linus Schrage,
-        //    A Guide to Simulation,
-        //    Second Edition,
-        //    Springer, 1987,
-        //    ISBN: 0387964673,
-        //    LC: QA76.9.C65.B73.
-        //
-        //    Bennett Fox,
-        //    Algorithm 647:
-        //    Implementation and Relative Efficiency of Quasirandom
-        //    Sequence Generators,
-        //    ACM Transactions on Mathematical Software,
-        //    Volume 12, Number 4, December 1986, pages 362-376.
-        //
-        //    Pierre L'Ecuyer,
-        //    Random Number Generation,
-        //    in Handbook of Simulation,
-        //    edited by Jerry Banks,
-        //    Wiley, 1998,
-        //    ISBN: 0471134031,
-        //    LC: T57.62.H37.
-        //
-        //    Peter Lewis, Allen Goodman, James Miller,
-        //    A Pseudo-Random Number Generator for the System/360,
-        //    IBM Systems Journal,
-        //    Volume 8, Number 2, 1969, pages 136-143.
-        //
-        //  Parameters:
-        //
-        //    Input, int N, the dimension of the vector.
-        //
-        //    Input, int A, B, the limits of the interval.
-        //
-        //    Input/output, int &SEED, the "seed" value, which should NOT be 0.
-        //    On output, SEED has been updated.
-        //
-        //    Output, int IVEC_UNIFORM_AB_NEW[N], a vector of random values 
-        //    between A and B.
-        //
+                public static int[] i4vec_uniform_ab_new(int n, int a, int b, ref int seed)
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_UNIFORM_AB_NEW returns a scaled pseudorandom I4VEC.
+            //
+            //  Discussion:
+            //
+            //    An I4VEC is a vector of I4's.
+            //
+            //    The pseudorandom numbers should be uniformly distributed
+            //    between A and B.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    24 May 2012
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Paul Bratley, Bennett Fox, Linus Schrage,
+            //    A Guide to Simulation,
+            //    Second Edition,
+            //    Springer, 1987,
+            //    ISBN: 0387964673,
+            //    LC: QA76.9.C65.B73.
+            //
+            //    Bennett Fox,
+            //    Algorithm 647:
+            //    Implementation and Relative Efficiency of Quasirandom
+            //    Sequence Generators,
+            //    ACM Transactions on Mathematical Software,
+            //    Volume 12, Number 4, December 1986, pages 362-376.
+            //
+            //    Pierre L'Ecuyer,
+            //    Random Number Generation,
+            //    in Handbook of Simulation,
+            //    edited by Jerry Banks,
+            //    Wiley, 1998,
+            //    ISBN: 0471134031,
+            //    LC: T57.62.H37.
+            //
+            //    Peter Lewis, Allen Goodman, James Miller,
+            //    A Pseudo-Random Number Generator for the System/360,
+            //    IBM Systems Journal,
+            //    Volume 8, Number 2, 1969, pages 136-143.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the dimension of the vector.
+            //
+            //    Input, int A, B, the limits of the interval.
+            //
+            //    Input/output, int &SEED, the "seed" value, which should NOT be 0.
+            //    On output, SEED has been updated.
+            //
+            //    Output, int IVEC_UNIFORM_AB_NEW[N], a vector of random values 
+            //    between A and B.
+            //
         {
             int c;
             const int i4_huge = 2147483647;
@@ -331,7 +331,7 @@ namespace Burkardt.Uniform
                 //
                 //  Use rounding to convert R to an integer between A and B.
                 //
-                int value = (int)Math.Round(r);
+                int value = (int) Math.Round(r);
                 //
                 //  Guarantee A <= VALUE <= B.
                 //
@@ -350,5 +350,6 @@ namespace Burkardt.Uniform
 
             return x;
         }
+
     }
 }

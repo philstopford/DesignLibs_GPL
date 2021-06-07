@@ -21,84 +21,84 @@ namespace Burkardt.Types
     public static partial class typeMethods
     {
         public static r8 s_to_r8(string s)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    S_TO_R8 reads an R8 from a string.
-//
-//  Discussion:
-//
-//    This routine will read as many characters as possible until it reaches
-//    the end of the string, or encounters a character which cannot be
-//    part of the real number.
-//
-//    Legal input is:
-//
-//       1 blanks,
-//       2 '+' or '-' sign,
-//       2.5 spaces
-//       3 integer part,
-//       4 decimal point,
-//       5 fraction part,
-//       6 'E' or 'e' or 'D' or 'd', exponent marker,
-//       7 exponent sign,
-//       8 exponent integer part,
-//       9 exponent decimal point,
-//      10 exponent fraction part,
-//      11 blanks,
-//      12 final comma or semicolon.
-//
-//    with most quantities optional.
-//
-//  Example:
-//
-//    S                 R
-//
-//    '1'               1.0
-//    '     1   '       1.0
-//    '1A'              1.0
-//    '12,34,56'        12.0
-//    '  34 7'          34.0
-//    '-1E2ABCD'        -100.0
-//    '-1X2ABCD'        -1.0
-//    ' 2E-1'           0.2
-//    '23.45'           23.45
-//    '-4.2E+2'         -420.0
-//    '17d2'            1700.0
-//    '-14e-2'         -0.14
-//    'e2'              100.0
-//    '-12.73e-9.23'   -12.73 * 10.0^(-9.23)
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    05 July 2009
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, string S, the string containing the
-//    data to be read.  Reading will begin at position 1 and
-//    terminate at the end of the string, or when no more
-//    characters can be read to form a legal real.  Blanks,
-//    commas, or other nonnumeric data will, in particular,
-//    cause the conversion to halt.
-//
-//    Output, int *LCHAR, the number of characters read from
-//    the string to form the number, including any terminating
-//    characters such as a trailing comma or blanks.
-//
-//    Output, bool *ERROR, is true if an error occurred.
-//
-//    Output, double S_TO_R8, the real value that was read from the string.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    S_TO_R8 reads an R8 from a string.
+            //
+            //  Discussion:
+            //
+            //    This routine will read as many characters as possible until it reaches
+            //    the end of the string, or encounters a character which cannot be
+            //    part of the real number.
+            //
+            //    Legal input is:
+            //
+            //       1 blanks,
+            //       2 '+' or '-' sign,
+            //       2.5 spaces
+            //       3 integer part,
+            //       4 decimal point,
+            //       5 fraction part,
+            //       6 'E' or 'e' or 'D' or 'd', exponent marker,
+            //       7 exponent sign,
+            //       8 exponent integer part,
+            //       9 exponent decimal point,
+            //      10 exponent fraction part,
+            //      11 blanks,
+            //      12 final comma or semicolon.
+            //
+            //    with most quantities optional.
+            //
+            //  Example:
+            //
+            //    S                 R
+            //
+            //    '1'               1.0
+            //    '     1   '       1.0
+            //    '1A'              1.0
+            //    '12,34,56'        12.0
+            //    '  34 7'          34.0
+            //    '-1E2ABCD'        -100.0
+            //    '-1X2ABCD'        -1.0
+            //    ' 2E-1'           0.2
+            //    '23.45'           23.45
+            //    '-4.2E+2'         -420.0
+            //    '17d2'            1700.0
+            //    '-14e-2'         -0.14
+            //    'e2'              100.0
+            //    '-12.73e-9.23'   -12.73 * 10.0^(-9.23)
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    05 July 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, string S, the string containing the
+            //    data to be read.  Reading will begin at position 1 and
+            //    terminate at the end of the string, or when no more
+            //    characters can be read to form a legal real.  Blanks,
+            //    commas, or other nonnumeric data will, in particular,
+            //    cause the conversion to halt.
+            //
+            //    Output, int *LCHAR, the number of characters read from
+            //    the string to form the number, including any terminating
+            //    characters such as a trailing comma or blanks.
+            //
+            //    Output, bool *ERROR, is true if an error occurred.
+            //
+            //    Output, double S_TO_R8, the real value that was read from the string.
+            //
         {
             r8 ret = new r8 {lchar = -1};
             double rexp;
@@ -118,9 +118,9 @@ namespace Burkardt.Types
             {
                 char c = s[ret.lchar + 1];
                 ret.lchar = ret.lchar + 1;
-//
-//  Blank or TAB character.
-//
+                //
+                //  Blank or TAB character.
+                //
                 if (c == ' ' || c == TAB)
                 {
                     if (ihave == 2)
@@ -135,9 +135,9 @@ namespace Burkardt.Types
                         ihave = 11;
                     }
                 }
-//
-//  Comma.
-//
+                //
+                //  Comma.
+                //
                 else if (c == ',' || c == ';')
                 {
                     if (ihave != 1)
@@ -147,9 +147,9 @@ namespace Burkardt.Types
                         ret.lchar = ret.lchar + 1;
                     }
                 }
-//
-//  Minus sign.
-//
+                //
+                //  Minus sign.
+                //
                 else if (c == '-')
                 {
                     if (ihave == 1)
@@ -167,9 +167,9 @@ namespace Burkardt.Types
                         iterm = 1;
                     }
                 }
-//
-//  Plus sign.
-//
+                //
+                //  Plus sign.
+                //
                 else if (c == '+')
                 {
                     if (ihave == 1)
@@ -185,9 +185,9 @@ namespace Burkardt.Types
                         iterm = 1;
                     }
                 }
-//
-//  Decimal point.
-//
+                //
+                //  Decimal point.
+                //
                 else if (c == '.')
                 {
                     if (ihave < 4)
@@ -203,9 +203,9 @@ namespace Burkardt.Types
                         iterm = 1;
                     }
                 }
-//
-//  Exponent marker.
-//
+                //
+                //  Exponent marker.
+                //
                 else if ((Char.ToUpper(c) == 'E') || (Char.ToUpper(c) == 'D'))
                 {
                     if (ihave < 6)
@@ -217,9 +217,9 @@ namespace Burkardt.Types
                         iterm = 1;
                     }
                 }
-//
-//  Digit.
-//
+                //
+                //  Digit.
+                //
                 else if (ihave < 11 && '0' <= c && c <= '9')
                 {
                     if (ihave <= 2)
@@ -260,18 +260,18 @@ namespace Burkardt.Types
                         jbot = 10 * jbot;
                     }
                 }
-//
-//  Anything else is regarded as a terminator.
-//
+                //
+                //  Anything else is regarded as a terminator.
+                //
                 else
                 {
                     iterm = 1;
                 }
 
-//
-//  If we haven't seen a terminator, and we haven't examined the
-//  entire string, go get the next character.
-//
+                //
+                //  If we haven't seen a terminator, and we haven't examined the
+                //  entire string, go get the next character.
+                //
                 if (iterm == 1 || nchar <= ret.lchar + 1)
                 {
                     break;
@@ -279,28 +279,28 @@ namespace Burkardt.Types
 
             }
 
-//
-//  If we haven't seen a terminator, and we have examined the
-//  entire string, then we're done, and LCHAR is equal to NCHAR.
-//
+            //
+            //  If we haven't seen a terminator, and we have examined the
+            //  entire string, then we're done, and LCHAR is equal to NCHAR.
+            //
             if (iterm != 1 && (ret.lchar) + 1 == nchar)
             {
                 ret.lchar = nchar;
             }
 
-//
-//  Number seems to have terminated.  Have we got a legal number?
-//  Not if we terminated in states 1, 2, 6 or 7!
-//
+            //
+            //  Number seems to have terminated.  Have we got a legal number?
+            //  Not if we terminated in states 1, 2, 6 or 7!
+            //
             if (ihave == 1 || ihave == 2 || ihave == 6 || ihave == 7)
             {
                 ret.error = true;
                 return ret;
             }
 
-//
-//  Number seems OK.  Form it.
-//
+            //
+            //  Number seems OK.  Form it.
+            //
             if (jtop == 0)
             {
                 rexp = 1.0;
@@ -326,34 +326,34 @@ namespace Burkardt.Types
 
 
         public static r8vec s_to_r8vec(string s, int n)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    S_TO_R8VEC reads an R8VEC from a string.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    05 July 2009
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, string S, the string to be read.
-//
-//    Input, int N, the number of values expected.
-//
-//    Output, double RVEC[N], the values read from the string.
-//
-//    Output, bool S_TO_R8VEC, is true if an error occurred.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    S_TO_R8VEC reads an R8VEC from a string.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    05 July 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, string S, the string to be read.
+            //
+            //    Input, int N, the number of values expected.
+            //
+            //    Output, double RVEC[N], the values read from the string.
+            //
+            //    Output, bool S_TO_R8VEC, is true if an error occurred.
+            //
         {
             int begin = 0;
             int length = s.Length;
@@ -381,43 +381,43 @@ namespace Burkardt.Types
 
 
         public static long r8_nint(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8_NINT returns the nearest integer to an R8.
-//
-//  Examples:
-//
-//        X         R8_NINT
-//
-//      1.3         1
-//      1.4         1
-//      1.5         1 or 2
-//      1.6         2
-//      0.0         0
-//     -0.7        -1
-//     -1.1        -1
-//     -1.6        -2
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    14 November 2006
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the value.
-//
-//    Output, int R8_NINT, the nearest integer to X.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_NINT returns the nearest integer to an R8.
+            //
+            //  Examples:
+            //
+            //        X         R8_NINT
+            //
+            //      1.3         1
+            //      1.4         1
+            //      1.5         1 or 2
+            //      1.6         2
+            //      0.0         0
+            //     -0.7        -1
+            //     -1.1        -1
+            //     -1.6        -2
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    14 November 2006
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the value.
+            //
+            //    Output, int R8_NINT, the nearest integer to X.
+            //
         {
             long value = (long) (Math.Abs(x) + 0.5);
 
@@ -430,91 +430,91 @@ namespace Burkardt.Types
         }
 
         public static void r8pp_print(int n, double[] a, string title)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8PP_PRINT prints a R8PP matrix.
-//
-//  Discussion:
-//
-//    The R8PP storage format is appropriate for a symmetric positive
-//    definite matrix.  Only the upper triangle of the matrix is stored,
-//    by successive partial columns, in an array of length (N*(N+1))/2,
-//    which contains (A11,A12,A22,A13,A23,A33,A14,...,ANN)  
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    06 April 2006
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, int N, the order of the matrix.
-//    N must be positive.
-//
-//    Input, double A[(N*(N+1))/2], the R8PP matrix.
-//
-//    Input, string TITLE, a title.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8PP_PRINT prints a R8PP matrix.
+            //
+            //  Discussion:
+            //
+            //    The R8PP storage format is appropriate for a symmetric positive
+            //    definite matrix.  Only the upper triangle of the matrix is stored,
+            //    by successive partial columns, in an array of length (N*(N+1))/2,
+            //    which contains (A11,A12,A22,A13,A23,A33,A14,...,ANN)  
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    06 April 2006
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order of the matrix.
+            //    N must be positive.
+            //
+            //    Input, double A[(N*(N+1))/2], the R8PP matrix.
+            //
+            //    Input, string TITLE, a title.
+            //
         {
             r8pp_print_some(n, a, 1, 1, n, n, title);
         }
 
         public static void r8pp_print_some(int n, double[] a, int ilo, int jlo, int ihi,
-            int jhi, string title)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8PP_PRINT_SOME prints some of a R8PP matrix.
-//
-//  Discussion:
-//
-//    The R8PP storage format is appropriate for a symmetric positive
-//    definite matrix.  Only the upper triangle of the matrix is stored,
-//    by successive partial columns, in an array of length (N*(N+1))/2,
-//    which contains (A11,A12,A22,A13,A23,A33,A14,...,ANN)  
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    06 April 2006
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, int N, the order of the matrix.
-//    N must be positive.
-//
-//    Input, double A[(N*(N+1))/2], the R8PP matrix.
-//
-//    Input, int ILO, JLO, IHI, JHI, designate the first row and
-//    column, and the last row and column to be printed.
-//
-//    Input, string TITLE, a title.
-//
+                int jhi, string title)
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8PP_PRINT_SOME prints some of a R8PP matrix.
+            //
+            //  Discussion:
+            //
+            //    The R8PP storage format is appropriate for a symmetric positive
+            //    definite matrix.  Only the upper triangle of the matrix is stored,
+            //    by successive partial columns, in an array of length (N*(N+1))/2,
+            //    which contains (A11,A12,A22,A13,A23,A33,A14,...,ANN)  
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    06 April 2006
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order of the matrix.
+            //    N must be positive.
+            //
+            //    Input, double A[(N*(N+1))/2], the R8PP matrix.
+            //
+            //    Input, int ILO, JLO, IHI, JHI, designate the first row and
+            //    column, and the last row and column to be printed.
+            //
+            //    Input, string TITLE, a title.
+            //
         {
             int INCX = 5;
 
             Console.WriteLine("");
             Console.WriteLine(title + "");
-//
-//  Print the columns of the matrix, in strips of 5.
-//
+            //
+            //  Print the columns of the matrix, in strips of 5.
+            //
             for (int j2lo = jlo; j2lo <= jhi; j2lo = j2lo + INCX)
             {
                 int j2hi = j2lo + INCX - 1;
@@ -532,18 +532,18 @@ namespace Burkardt.Types
                 Console.WriteLine(cout);
                 Console.WriteLine("  Row");
                 Console.WriteLine("  ---");
-//
-//  Determine the range of the rows in this strip.
-//
+                //
+                //  Determine the range of the rows in this strip.
+                //
                 int i2lo = Math.Max(ilo, 1);
                 int i2hi = Math.Min(ihi, n);
 
                 for (int i = i2lo; i <= i2hi; i++)
                 {
                     cout = i.ToString().PadLeft(6) + "  ";
-//
-//  Print out (up to) 5 entries in row I, that lie in the current strip.
-//
+                    //
+                    //  Print out (up to) 5 entries in row I, that lie in the current strip.
+                    //
                     for (j = j2lo; j <= j2hi; j++)
                     {
                         double aij;
@@ -565,40 +565,40 @@ namespace Burkardt.Types
         }
 
         public static void r8utp_print(int n, double[] a, string title)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8UTP_PRINT prints a R8UTP matrix.
-//
-//  Discussion:
-//
-//    The R8UTP storage format is appropriate for an upper triangular
-//    matrix.  Only the upper triangle of the matrix is stored,
-//    by successive partial columns, in an array of length (N*(N+1))/2,
-//    which contains (A11,A12,A22,A13,A23,A33,A14,...,ANN)  
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    16 April 2014
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, int N, the order of the matrix.
-//    N must be positive.
-//
-//    Input, double A[(N*(N+1))/2], the matrix.
-//
-//    Input, string TITLE, a title.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8UTP_PRINT prints a R8UTP matrix.
+            //
+            //  Discussion:
+            //
+            //    The R8UTP storage format is appropriate for an upper triangular
+            //    matrix.  Only the upper triangle of the matrix is stored,
+            //    by successive partial columns, in an array of length (N*(N+1))/2,
+            //    which contains (A11,A12,A22,A13,A23,A33,A14,...,ANN)  
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    16 April 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order of the matrix.
+            //    N must be positive.
+            //
+            //    Input, double A[(N*(N+1))/2], the matrix.
+            //
+            //    Input, string TITLE, a title.
+            //
         {
             r8utp_print_some(n, a, 1, 1, n, n, title);
 
@@ -606,44 +606,44 @@ namespace Burkardt.Types
         }
 
         public static void r8utp_print_some(int n, double[] a, int ilo, int jlo, int ihi,
-            int jhi, string title)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8UTP_PRINT_SOME prints some of an R8UTP matrix.
-//
-//  Discussion:
-//
-//    The R8UTP storage format is appropriate for an upper triangular
-//    matrix.  Only the upper triangle of the matrix is stored,
-//    by successive partial columns, in an array of length (N*(N+1))/2,
-//    which contains (A11,A12,A22,A13,A23,A33,A14,...,ANN)  
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    16 April 2014
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, int N, the order of the matrix.
-//    N must be positive.
-//
-//    Input, double A[(N*(N+1))/2], the matrix.
-//
-//    Input, int ILO, JLO, IHI, JHI, designate the first row and
-//    column, and the last row and column to be printed.
-//
-//    Input, string TITLE, a title.
-//
+                int jhi, string title)
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8UTP_PRINT_SOME prints some of an R8UTP matrix.
+            //
+            //  Discussion:
+            //
+            //    The R8UTP storage format is appropriate for an upper triangular
+            //    matrix.  Only the upper triangle of the matrix is stored,
+            //    by successive partial columns, in an array of length (N*(N+1))/2,
+            //    which contains (A11,A12,A22,A13,A23,A33,A14,...,ANN)  
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    16 April 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order of the matrix.
+            //    N must be positive.
+            //
+            //    Input, double A[(N*(N+1))/2], the matrix.
+            //
+            //    Input, int ILO, JLO, IHI, JHI, designate the first row and
+            //    column, and the last row and column to be printed.
+            //
+            //    Input, string TITLE, a title.
+            //
         {
             int INCX = 5;
 
@@ -657,9 +657,9 @@ namespace Burkardt.Types
 
             Console.WriteLine("");
             Console.WriteLine(title + "");
-//
-//  Print the columns of the matrix, in strips of 5.
-//
+            //
+            //  Print the columns of the matrix, in strips of 5.
+            //
             for (j2lo = jlo; j2lo <= jhi; j2lo = j2lo + INCX)
             {
                 j2hi = j2lo + INCX - 1;
@@ -676,18 +676,18 @@ namespace Burkardt.Types
                 Console.WriteLine(cout);
                 Console.WriteLine("  Row");
                 Console.WriteLine("  ---");
-//
-//  Determine the range of the rows in this strip.
-//
+                //
+                //  Determine the range of the rows in this strip.
+                //
                 i2lo = Math.Max(ilo, 1);
                 i2hi = Math.Min(ihi, n);
 
                 for (i = i2lo; i <= i2hi; i++)
                 {
                     cout = i.ToString().PadLeft(6) + "  ";
-//
-//  Print out (up to) 5 entries in row I, that lie in the current strip.
-//
+                    //
+                    //  Print out (up to) 5 entries in row I, that lie in the current strip.
+                    //
                     for (j = j2lo; j <= j2hi; j++)
                     {
                         if (i <= j)
@@ -708,35 +708,35 @@ namespace Burkardt.Types
         }
 
         public static double r8_huge()
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8_HUGE returns a "huge" R8.
-//
-//  Discussion:
-//
-//    The value returned by this function is NOT required to be the
-//    maximum representable R8.  This value varies from machine to machine,
-//    from compiler to compiler, and may cause problems when being printed.
-//    We simply want a "very large" but non-infinite number.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    06 October 2007
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Output, double R8_HUGE, a "huge" R8 value.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_HUGE returns a "huge" R8.
+            //
+            //  Discussion:
+            //
+            //    The value returned by this function is NOT required to be the
+            //    maximum representable R8.  This value varies from machine to machine,
+            //    from compiler to compiler, and may cause problems when being printed.
+            //    We simply want a "very large" but non-infinite number.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    06 October 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Output, double R8_HUGE, a "huge" R8 value.
+            //
         {
             double value;
 
@@ -746,46 +746,46 @@ namespace Burkardt.Types
         }
 
         public static double r8poly_value(int n, double[] a, double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8POLY_VALUE evaluates a double precision polynomial.
-//
-//  Discussion:
-//
-//    For sanity's sake, the value of N indicates the NUMBER of 
-//    coefficients, or more precisely, the ORDER of the polynomial,
-//    rather than the DEGREE of the polynomial.  The two quantities
-//    differ by 1, but cause a great deal of confusion.
-//
-//    Given N and A, the form of the polynomial is:
-//
-//      p(x) = a[0] + a[1] * x + ... + a[n-2] * x^(n-2) + a[n-1] * x^(n-1)
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    13 August 2004
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, int N, the order of the polynomial.
-//
-//    Input, double A[N], the coefficients of the polynomial.
-//    A[0] is the constant term.
-//
-//    Input, double X, the point at which the polynomial is to be evaluated.
-//
-//    Output, double R8POLY_VALUE, the value of the polynomial at X.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8POLY_VALUE evaluates a double precision polynomial.
+            //
+            //  Discussion:
+            //
+            //    For sanity's sake, the value of N indicates the NUMBER of 
+            //    coefficients, or more precisely, the ORDER of the polynomial,
+            //    rather than the DEGREE of the polynomial.  The two quantities
+            //    differ by 1, but cause a great deal of confusion.
+            //
+            //    Given N and A, the form of the polynomial is:
+            //
+            //      p(x) = a[0] + a[1] * x + ... + a[n-2] * x^(n-2) + a[n-1] * x^(n-1)
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    13 August 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order of the polynomial.
+            //
+            //    Input, double A[N], the coefficients of the polynomial.
+            //    A[0] is the constant term.
+            //
+            //    Input, double X, the point at which the polynomial is to be evaluated.
+            //
+            //    Output, double R8POLY_VALUE, the value of the polynomial at X.
+            //
         {
             double value = 0.0;
 
@@ -799,41 +799,41 @@ namespace Burkardt.Types
 
 
         public static double[] r8mat_mv_new(int m, int n, double[] a, double[] x)
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    R8MAT_MV_NEW multiplies a matrix times a vector.
-        //
-        //  Discussion:
-        //
-        //    An R8MAT is a doubly dimensioned array of R8 values, stored as a vector
-        //    in column-major order.
-        //
-        //    For this routine, the result is returned as the function value.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    11 April 2007
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int M, N, the number of rows and columns of the matrix.
-        //
-        //    Input, double A[M,N], the M by N matrix.
-        //
-        //    Input, double X[N], the vector to be multiplied by A.
-        //
-        //    Output, double R8MAT_MV_NEW[M], the product A*X.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8MAT_MV_NEW multiplies a matrix times a vector.
+            //
+            //  Discussion:
+            //
+            //    An R8MAT is a doubly dimensioned array of R8 values, stored as a vector
+            //    in column-major order.
+            //
+            //    For this routine, the result is returned as the function value.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    11 April 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns of the matrix.
+            //
+            //    Input, double A[M,N], the M by N matrix.
+            //
+            //    Input, double X[N], the vector to be multiplied by A.
+            //
+            //    Output, double R8MAT_MV_NEW[M], the product A*X.
+            //
         {
             double[] y = new double[m];
 
@@ -850,37 +850,37 @@ namespace Burkardt.Types
         }
 
         public static double[] r8col_variance(int m, int n, double[] a)
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    R8COL_VARIANCE returns the variances of an R8COL.
-        //
-        //  Discussion:
-        //
-        //    An R8COL is an M by N array of R8's, regarded as an array of N columns,
-        //    each of length M.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    13 September 2005
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int M, N, the number of rows and columns in the array.
-        //
-        //    Input, double A[M*N], the array whose variances are desired.
-        //
-        //    Output, double R8COL_VARIANCE[N], the variances of the rows.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8COL_VARIANCE returns the variances of an R8COL.
+            //
+            //  Discussion:
+            //
+            //    An R8COL is an M by N array of R8's, regarded as an array of N columns,
+            //    each of length M.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    13 September 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns in the array.
+            //
+            //    Input, double A[M*N], the array whose variances are desired.
+            //
+            //    Output, double R8COL_VARIANCE[N], the variances of the rows.
+            //
         {
             double[] variance = new double[n];
 
@@ -914,46 +914,46 @@ namespace Burkardt.Types
         }
 
         public static double[] r8col_mean(int m, int n, double[] a)
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    R8COL_MEAN returns the column means of an R8COL.
-        //
-        //  Discussion:
-        //
-        //    An R8COL is an M by N array of R8's, regarded as an array of N columns,
-        //    each of length M.
-        //
-        //  Example:
-        //
-        //    A =
-        //      1  2  3
-        //      2  6  7
-        //
-        //    R8COL_MEAN =
-        //      1.5  4.0  5.0
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    13 September 2005
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int M, N, the number of rows and columns.
-        //
-        //    Input, double A[M*N], the array to be examined.
-        //
-        //    Output, double R8COL_MEAN[N], the means, or averages, of the columns.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8COL_MEAN returns the column means of an R8COL.
+            //
+            //  Discussion:
+            //
+            //    An R8COL is an M by N array of R8's, regarded as an array of N columns,
+            //    each of length M.
+            //
+            //  Example:
+            //
+            //    A =
+            //      1  2  3
+            //      2  6  7
+            //
+            //    R8COL_MEAN =
+            //      1.5  4.0  5.0
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    13 September 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns.
+            //
+            //    Input, double A[M*N], the array to be examined.
+            //
+            //    Output, double R8COL_MEAN[N], the means, or averages, of the columns.
+            //
         {
             double[] mean = new double[n];
 
@@ -972,47 +972,47 @@ namespace Burkardt.Types
         }
 
         public static double r8_zeta(double p)
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    R8_ZETA estimates the Riemann Zeta function.
-        //
-        //  Discussion:
-        //
-        //    For 1 < P, the Riemann Zeta function is defined as:
-        //
-        //      ZETA ( P ) = Sum ( 1 <= N < oo ) 1 / N^P
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    14 October 2004
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Reference:
-        //
-        //    Daniel Zwillinger, editor,
-        //    CRC Standard Mathematical Tables and Formulae,
-        //    30th Edition,
-        //    CRC Press, 1996.
-        //
-        //  Parameters:
-        //
-        //    Input, double P, the power to which the integers are raised.
-        //    P must be greater than 1.  For integral P up to 20, a
-        //    precomputed value is returned; otherwise the infinite
-        //    sum is approximated.
-        //
-        //    Output, double R8_ZETA, an approximation to the Riemann
-        //    Zeta function.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_ZETA estimates the Riemann Zeta function.
+            //
+            //  Discussion:
+            //
+            //    For 1 < P, the Riemann Zeta function is defined as:
+            //
+            //      ZETA ( P ) = Sum ( 1 <= N < oo ) 1 / N^P
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    14 October 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Daniel Zwillinger, editor,
+            //    CRC Standard Mathematical Tables and Formulae,
+            //    30th Edition,
+            //    CRC Press, 1996.
+            //
+            //  Parameters:
+            //
+            //    Input, double P, the power to which the integers are raised.
+            //    P must be greater than 1.  For integral P up to 20, a
+            //    precomputed value is returned; otherwise the infinite
+            //    sum is approximated.
+            //
+            //    Output, double R8_ZETA, an approximation to the Riemann
+            //    Zeta function.
+            //
         {
             int n;
             const double r8_huge = 1.0E+30;
@@ -1122,41 +1122,41 @@ namespace Burkardt.Types
         }
 
         public static double r8_beta(double x, double y)
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    R8_BETA returns the value of the Beta function.
-        //
-        //  Discussion:
-        //
-        //    BETA(X,Y) = ( GAMMA(X) * GAMMA(Y) ) / GAMMA(X+Y)
-        //
-        //    BETA(X,Y) = BETA(Y,X).
-        //    BETA(X,Y) = Integral ( 0 <= T <= 1 ) T^(X-1) (1-T)^(Y-1) dT.
-        //    BETA(X,Y) = GAMMA(X) * GAMMA(Y) / GAMMA(X+Y)
-        //
-        //    Both X and Y must be greater than 0.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    09 May 2003
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, double X, Y, the two parameters that define the Beta function.
-        //    X and Y must be greater than 0.
-        //
-        //    Output, double R8_BETA, the value of the Beta function.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_BETA returns the value of the Beta function.
+            //
+            //  Discussion:
+            //
+            //    BETA(X,Y) = ( GAMMA(X) * GAMMA(Y) ) / GAMMA(X+Y)
+            //
+            //    BETA(X,Y) = BETA(Y,X).
+            //    BETA(X,Y) = Integral ( 0 <= T <= 1 ) T^(X-1) (1-T)^(Y-1) dT.
+            //    BETA(X,Y) = GAMMA(X) * GAMMA(Y) / GAMMA(X+Y)
+            //
+            //    Both X and Y must be greater than 0.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    09 May 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double X, Y, the two parameters that define the Beta function.
+            //    X and Y must be greater than 0.
+            //
+            //    Output, double R8_BETA, the value of the Beta function.
+            //
         {
             if (x <= 0.0 || y <= 0.0)
             {
@@ -1175,43 +1175,43 @@ namespace Burkardt.Types
         }
 
         public static double r8poly_value_horner(int m, double[] c, double x)
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    R8POLY_VALUE_HORNER evaluates a polynomial using Horner's method.
-        //
-        //  Discussion:
-        //
-        //    The polynomial 
-        //
-        //      p(x) = c0 + c1 * x + c2 * x^2 + ... + cm * x^m
-        //
-        //    is to be evaluated at the value X.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license. 
-        //
-        //  Modified:
-        //
-        //    02 January 2015
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int M, the degree of the polynomial.
-        //
-        //    Input, double C[M+1], the coefficients of the polynomial.
-        //    A[0] is the constant term.
-        //
-        //    Input, double X, the point at which the polynomial is to be evaluated.
-        //
-        //    Output, double R8POLY_VALUE_HORNER, the value of the polynomial at X.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8POLY_VALUE_HORNER evaluates a polynomial using Horner's method.
+            //
+            //  Discussion:
+            //
+            //    The polynomial 
+            //
+            //      p(x) = c0 + c1 * x + c2 * x^2 + ... + cm * x^m
+            //
+            //    is to be evaluated at the value X.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    02 January 2015
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, the degree of the polynomial.
+            //
+            //    Input, double C[M+1], the coefficients of the polynomial.
+            //    A[0] is the constant term.
+            //
+            //    Input, double X, the point at which the polynomial is to be evaluated.
+            //
+            //    Output, double R8POLY_VALUE_HORNER, the value of the polynomial at X.
+            //
         {
             double value = c[m];
 
@@ -1224,35 +1224,35 @@ namespace Burkardt.Types
         }
 
         public static double r8_factorial(int n)
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    R8_FACTORIAL computes the factorial of N.
-        //
-        //  Discussion:
-        //
-        //    factorial ( N ) = product ( 1 <= I <= N ) I
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    16 January 1999
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int N, the argument of the factorial function.
-        //    If N is less than 1, the function value is returned as 1.
-        //
-        //    Output, double R8_FACTORIAL, the factorial of N.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_FACTORIAL computes the factorial of N.
+            //
+            //  Discussion:
+            //
+            //    factorial ( N ) = product ( 1 <= I <= N ) I
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    16 January 1999
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the argument of the factorial function.
+            //    If N is less than 1, the function value is returned as 1.
+            //
+            //    Output, double R8_FACTORIAL, the factorial of N.
+            //
         {
             double value = 1.0;
 
@@ -1263,100 +1263,103 @@ namespace Burkardt.Types
 
             return value;
         }
-        
+
         public static double r8_gamma(double x)
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    R8_GAMMA evaluates Gamma(X) for a real argument.
-        //
-        //  Discussion:
-        //
-        //    This routine calculates the gamma function for a real argument X.
-        //
-        //    Computation is based on an algorithm outlined in reference 1.
-        //    The program uses rational functions that approximate the gamma
-        //    function to at least 20 significant decimal digits.  Coefficients
-        //    for the approximation over the interval (1,2) are unpublished.
-        //    Those for the approximation for 12 <= X are from reference 2.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    18 January 2008
-        //
-        //  Author:
-        //
-        //    Original FORTRAN77 version by William Cody, Laura Stoltz.
-        //    C++ version by John Burkardt.
-        //
-        //  Reference:
-        //
-        //    William Cody,
-        //    An Overview of Software Development for Special Functions,
-        //    in Numerical Analysis Dundee, 1975,
-        //    edited by GA Watson,
-        //    Lecture Notes in Mathematics 506,
-        //    Springer, 1976.
-        //
-        //    John Hart, Ward Cheney, Charles Lawson, Hans Maehly,
-        //    Charles Mesztenyi, John Rice, Henry Thatcher,
-        //    Christoph Witzgall,
-        //    Computer Approximations,
-        //    Wiley, 1968,
-        //    LC: QA297.C64.
-        //
-        //  Parameters:
-        //
-        //    Input, double X, the argument of the function.
-        //
-        //    Output, double R8_GAMMA, the value of the function.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_GAMMA evaluates Gamma(X) for a real argument.
+            //
+            //  Discussion:
+            //
+            //    This routine calculates the gamma function for a real argument X.
+            //
+            //    Computation is based on an algorithm outlined in reference 1.
+            //    The program uses rational functions that approximate the gamma
+            //    function to at least 20 significant decimal digits.  Coefficients
+            //    for the approximation over the interval (1,2) are unpublished.
+            //    Those for the approximation for 12 <= X are from reference 2.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    18 January 2008
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by William Cody, Laura Stoltz.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    William Cody,
+            //    An Overview of Software Development for Special Functions,
+            //    in Numerical Analysis Dundee, 1975,
+            //    edited by GA Watson,
+            //    Lecture Notes in Mathematics 506,
+            //    Springer, 1976.
+            //
+            //    John Hart, Ward Cheney, Charles Lawson, Hans Maehly,
+            //    Charles Mesztenyi, John Rice, Henry Thatcher,
+            //    Christoph Witzgall,
+            //    Computer Approximations,
+            //    Wiley, 1968,
+            //    LC: QA297.C64.
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the argument of the function.
+            //
+            //    Output, double R8_GAMMA, the value of the function.
+            //
         {
             //
             //  Coefficients for minimax approximation over (12, INF).
             //
-            double[] c =  {
-                -1.910444077728E-03,
-                8.4171387781295E-04,
-                -5.952379913043012E-04,
-                7.93650793500350248E-04,
-                -2.777777777777681622553E-03,
-                8.333333333333333331554247E-02,
-                5.7083835261E-03
-            }
-            ;
+            double[] c =
+                {
+                    -1.910444077728E-03,
+                    8.4171387781295E-04,
+                    -5.952379913043012E-04,
+                    7.93650793500350248E-04,
+                    -2.777777777777681622553E-03,
+                    8.333333333333333331554247E-02,
+                    5.7083835261E-03
+                }
+                ;
             double eps = 2.22E-16;
             double half = 0.5;
             int i;
             double one = 1.0;
-            double[] p =  {
-                -1.71618513886549492533811E+00,
-                2.47656508055759199108314E+01,
-                -3.79804256470945635097577E+02,
-                6.29331155312818442661052E+02,
-                8.66966202790413211295064E+02,
-                -3.14512729688483675254357E+04,
-                -3.61444134186911729807069E+04,
-                6.64561438202405440627855E+04
-            }
-            ;
+            double[] p =
+                {
+                    -1.71618513886549492533811E+00,
+                    2.47656508055759199108314E+01,
+                    -3.79804256470945635097577E+02,
+                    6.29331155312818442661052E+02,
+                    8.66966202790413211295064E+02,
+                    -3.14512729688483675254357E+04,
+                    -3.61444134186911729807069E+04,
+                    6.64561438202405440627855E+04
+                }
+                ;
             const double r8_pi = 3.1415926535897932384626434;
-            double[] q =  {
-                -3.08402300119738975254353E+01,
-                3.15350626979604161529144E+02,
-                -1.01515636749021914166146E+03,
-                -3.10777167157231109440444E+03,
-                2.25381184209801510330112E+04,
-                4.75584627752788110767815E+03,
-                -1.34659959864969306392456E+05,
-                -1.15132259675553483497211E+05
-            }
-            ;
+            double[] q =
+                {
+                    -3.08402300119738975254353E+01,
+                    3.15350626979604161529144E+02,
+                    -1.01515636749021914166146E+03,
+                    -3.10777167157231109440444E+03,
+                    2.25381184209801510330112E+04,
+                    4.75584627752788110767815E+03,
+                    -1.34659959864969306392456E+05,
+                    -1.15132259675553483497211E+05
+                }
+                ;
             double res;
             double sqrtpi = 0.9189385332046727417803297;
             double twelve = 12.0;
@@ -1518,50 +1521,50 @@ namespace Burkardt.Types
         }
 
         public static double r8_gamma_inc(double p, double x)
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    R8_GAMMA_INC computes the incomplete Gamma function.
-        //
-        //  Discussion:
-        //
-        //    GAMMA_INC(P,       0) = 0,
-        //    GAMMA_INC(P,Infinity) = 1.
-        //
-        //    GAMMA_INC(P,X) = Integral ( 0 <= T <= X ) T^(P-1) EXP(-T) DT / GAMMA(P).
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    16 October 2004
-        //
-        //  Author:
-        //
-        //    Original FORTRAN77 version by B L Shea.
-        //    C++ version by John Burkardt.
-        //
-        //  Reference:
-        //
-        //    B L Shea,
-        //    Chi-squared and Incomplete Gamma Integral,
-        //    Algorithm AS239,
-        //    Applied Statistics,
-        //    Volume 37, Number 3, 1988, pages 466-473.
-        //
-        //  Parameters:
-        //
-        //    Input, double P, the exponent parameter.
-        //    0.0 < P.
-        //
-        //    Input, double X, the integral limit parameter.
-        //    If X is less than or equal to 0, the value is returned as 0.
-        //
-        //    Output, double R8_GAMMA_INC, the value of the function.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_GAMMA_INC computes the incomplete Gamma function.
+            //
+            //  Discussion:
+            //
+            //    GAMMA_INC(P,       0) = 0,
+            //    GAMMA_INC(P,Infinity) = 1.
+            //
+            //    GAMMA_INC(P,X) = Integral ( 0 <= T <= X ) T^(P-1) EXP(-T) DT / GAMMA(P).
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    16 October 2004
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by B L Shea.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    B L Shea,
+            //    Chi-squared and Incomplete Gamma Integral,
+            //    Algorithm AS239,
+            //    Applied Statistics,
+            //    Volume 37, Number 3, 1988, pages 466-473.
+            //
+            //  Parameters:
+            //
+            //    Input, double P, the exponent parameter.
+            //    0.0 < P.
+            //
+            //    Input, double X, the integral limit parameter.
+            //    If X is less than or equal to 0, the value is returned as 0.
+            //
+            //    Output, double R8_GAMMA_INC, the value of the function.
+            //
         {
             double a;
             double arg;
@@ -1710,69 +1713,69 @@ namespace Burkardt.Types
         }
 
         public static double r8_gamma_log(double x)
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    R8_GAMMA_LOG calculates the logarithm of GAMMA ( X ) for positive X.
-        //
-        //  Discussion:
-        //
-        //    The program uses rational functions that theoretically approximate
-        //    LOG(GAMMA(X)) to at least 18 significant decimal digits.  The
-        //    approximation for 12 < X is from Hart et al, while approximations
-        //    for X < 12.0 are similar to those in Cody and Hillstrom, but are
-        //    unpublished.
-        //
-        //    The accuracy achieved depends on the arithmetic system, the compiler,
-        //    intrinsic functions, and proper selection of the machine-dependent
-        //    constants.
-        //
-        //  Modified:
-        //
-        //    12 May 2003
-        //
-        //  Author:
-        //
-        //    Original FORTRAN77 version by William Cody, Laura Stoltz.
-        //    C++ version by John Burkardt.
-        //
-        //  Reference:
-        //
-        //    William Cody, Kenneth Hillstrom,
-        //    Chebyshev Approximations for the Natural Logarithm of the Gamma Function,
-        //    Mathematics of Computation,
-        //    Volume 21, 1967, pages 198-203.
-        //
-        //    Kenneth Hillstrom,
-        //    ANL/AMD Program ANLC366S, DGAMMA/DLGAMA,
-        //    May 1969.
-        //
-        //    Hart, Ward Cheney, Charles Lawson, Maehly,
-        //    Charles Mesztenyi, John Rice, Thacher, Witzgall,
-        //    Computer Approximations,
-        //    Wiley and sons, New York, 1968.
-        //
-        //  Parameters:
-        //
-        //    Input, double X, the argument of the Gamma function.  X must be positive.
-        //
-        //    Output, double R8_GAMMA_LOG, the logarithm of the Gamma function of X.
-        //    If X <= 0.0, or if overflow would occur, the program returns the
-        //    value XINF, the largest representable floating point number.
-        //
-        //  Machine-dependent constants:
-        //
-        //  BETA   - radix for the floating-point representation.
-        //
-        //  MAXEXP - the smallest positive power of BETA that overflows.
-        //
-        //  XBIG   - largest argument for which LN(GAMMA(X)) is representable
-        //           in the machine, i.e., the solution to the equation
-        //             LN(GAMMA(XBIG)) = BETA^MAXEXP.
-        //
-        //  FRTBIG - Rough estimate of the fourth root of XBIG
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_GAMMA_LOG calculates the logarithm of GAMMA ( X ) for positive X.
+            //
+            //  Discussion:
+            //
+            //    The program uses rational functions that theoretically approximate
+            //    LOG(GAMMA(X)) to at least 18 significant decimal digits.  The
+            //    approximation for 12 < X is from Hart et al, while approximations
+            //    for X < 12.0 are similar to those in Cody and Hillstrom, but are
+            //    unpublished.
+            //
+            //    The accuracy achieved depends on the arithmetic system, the compiler,
+            //    intrinsic functions, and proper selection of the machine-dependent
+            //    constants.
+            //
+            //  Modified:
+            //
+            //    12 May 2003
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by William Cody, Laura Stoltz.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    William Cody, Kenneth Hillstrom,
+            //    Chebyshev Approximations for the Natural Logarithm of the Gamma Function,
+            //    Mathematics of Computation,
+            //    Volume 21, 1967, pages 198-203.
+            //
+            //    Kenneth Hillstrom,
+            //    ANL/AMD Program ANLC366S, DGAMMA/DLGAMA,
+            //    May 1969.
+            //
+            //    Hart, Ward Cheney, Charles Lawson, Maehly,
+            //    Charles Mesztenyi, John Rice, Thacher, Witzgall,
+            //    Computer Approximations,
+            //    Wiley and sons, New York, 1968.
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the argument of the Gamma function.  X must be positive.
+            //
+            //    Output, double R8_GAMMA_LOG, the logarithm of the Gamma function of X.
+            //    If X <= 0.0, or if overflow would occur, the program returns the
+            //    value XINF, the largest representable floating point number.
+            //
+            //  Machine-dependent constants:
+            //
+            //  BETA   - radix for the floating-point representation.
+            //
+            //  MAXEXP - the smallest positive power of BETA that overflows.
+            //
+            //  XBIG   - largest argument for which LN(GAMMA(X)) is representable
+            //           in the machine, i.e., the solution to the equation
+            //             LN(GAMMA(XBIG)) = BETA^MAXEXP.
+            //
+            //  FRTBIG - Rough estimate of the fourth root of XBIG
+            //
         {
             double[] c =
             {
@@ -1972,32 +1975,32 @@ namespace Burkardt.Types
         }
 
         public static double r8_gamma_log_int(int n)
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    R8_GAMMA_LOG_INT computes the logarithm of Gamma of an integer N.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    17 October 2004
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int N, the argument of the logarithm of the Gamma function.
-        //    0 < N.
-        //
-        //    Output, double R8_GAMMA_LOG_INT, the logarithm of
-        //    the Gamma function of N.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_GAMMA_LOG_INT computes the logarithm of Gamma of an integer N.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    17 October 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the argument of the logarithm of the Gamma function.
+            //    0 < N.
+            //
+            //    Output, double R8_GAMMA_LOG_INT, the logarithm of
+            //    the Gamma function of N.
+            //
         {
             if (n <= 0)
             {
@@ -2012,201 +2015,207 @@ namespace Burkardt.Types
 
             return value;
         }
-        
-        
-        public static double r8_csc ( double theta )
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    R8_CSC returns the cosecant of X.
-        //
-        //  Discussion:
-        //
-        //    R8_CSC ( THETA ) = 1.0 / SIN ( THETA )
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    05 March 2012
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, double THETA, the angle, in radians, whose cosecant is desired.
-        //    It must be the case that SIN ( THETA ) is not zero.
-        //
-        //    Output, double R8_CSC, the cosecant of THETA.
-        //
-        {
-            double value = Math.Sin ( theta );
 
-            if ( value == 0.0 )
+
+        public static double r8_csc(double theta)
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_CSC returns the cosecant of X.
+            //
+            //  Discussion:
+            //
+            //    R8_CSC ( THETA ) = 1.0 / SIN ( THETA )
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    05 March 2012
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double THETA, the angle, in radians, whose cosecant is desired.
+            //    It must be the case that SIN ( THETA ) is not zero.
+            //
+            //    Output, double R8_CSC, the cosecant of THETA.
+            //
+        {
+            double value = Math.Sin(theta);
+
+            if (value == 0.0)
             {
                 Console.WriteLine(" ");
                 Console.WriteLine("R8_CSC - Fatal error!");
                 Console.WriteLine("  Cosecant undefined for THETA = " + theta + "");
-                return ( 1 );
+                return (1);
             }
 
             value = 1.0 / value;
 
             return value;
         }
-        
-        public static double r8_sign ( double x )
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    R8_SIGN returns the sign of an R8.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    18 October 2004
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, double X, the number whose sign is desired.
-        //
-        //    Output, double R8_SIGN, the sign of X.
-        //
+
+        public static double r8_sign(double x)
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_SIGN returns the sign of an R8.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    18 October 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the number whose sign is desired.
+            //
+            //    Output, double R8_SIGN, the sign of X.
+            //
         {
-            if ( x < 0.0 )
+            if (x < 0.0)
             {
-                return ( -1.0 );
+                return (-1.0);
             }
             else
             {
-                return ( 1.0 );
+                return (1.0);
             }
         }
 
         public static double r8_error_f(double x)
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    R8_ERROR_F evaluates the error function ERF.
-        //
-        //  Discussion:
-        //
-        //    Since some compilers already supply a routine named ERF which evaluates
-        //    the error function, this routine has been given a distinct, if
-        //    somewhat unnatural, name.
-        //
-        //    The function is defined by:
-        //
-        //      ERF(X) = ( 2 / sqrt ( PI ) ) * Integral ( 0 <= T <= X ) EXP ( - T^2 ) dT.
-        //
-        //    Properties of the function include:
-        //
-        //      Limit ( X -> -Infinity ) ERF(X) =          -1.0;
-        //                               ERF(0) =           0.0;
-        //                               ERF(0.476936...) = 0.5;
-        //      Limit ( X -> +Infinity ) ERF(X) =          +1.0.
-        //
-        //      0.5 * ( ERF(X/sqrt(2)) + 1 ) = Normal_01_CDF(X)
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    17 November 2006
-        //
-        //  Author:
-        //
-        //    Original FORTRAN77 versino by William Cody.
-        //    C++ version by John Burkardt.
-        //
-        //  Reference:
-        //
-        //    William Cody,
-        //    "Rational Chebyshev Approximations for the Error Function",
-        //    Mathematics of Computation,
-        //    1969, pages 631-638.
-        //
-        //  Parameters:
-        //
-        //    Input, double X, the argument of the error function.
-        //
-        //    Output, double R8_ERROR_F, the value of the error function.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_ERROR_F evaluates the error function ERF.
+            //
+            //  Discussion:
+            //
+            //    Since some compilers already supply a routine named ERF which evaluates
+            //    the error function, this routine has been given a distinct, if
+            //    somewhat unnatural, name.
+            //
+            //    The function is defined by:
+            //
+            //      ERF(X) = ( 2 / sqrt ( PI ) ) * Integral ( 0 <= T <= X ) EXP ( - T^2 ) dT.
+            //
+            //    Properties of the function include:
+            //
+            //      Limit ( X -> -Infinity ) ERF(X) =          -1.0;
+            //                               ERF(0) =           0.0;
+            //                               ERF(0.476936...) = 0.5;
+            //      Limit ( X -> +Infinity ) ERF(X) =          +1.0.
+            //
+            //      0.5 * ( ERF(X/sqrt(2)) + 1 ) = Normal_01_CDF(X)
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    17 November 2006
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 versino by William Cody.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    William Cody,
+            //    "Rational Chebyshev Approximations for the Error Function",
+            //    Mathematics of Computation,
+            //    1969, pages 631-638.
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the argument of the error function.
+            //
+            //    Output, double R8_ERROR_F, the value of the error function.
+            //
         {
-            double[] a =  {
-                3.16112374387056560,
-                1.13864154151050156E+02,
-                3.77485237685302021E+02,
-                3.20937758913846947E+03,
-                1.85777706184603153E-01
-            }
-            ;
-            double[] b =  {
-                2.36012909523441209E+01,
-                2.44024637934444173E+02,
-                1.28261652607737228E+03,
-                2.84423683343917062E+03
-            }
-            ;
-            double[] c =  {
-                5.64188496988670089E-01,
-                8.88314979438837594,
-                6.61191906371416295E+01,
-                2.98635138197400131E+02,
-                8.81952221241769090E+02,
-                1.71204761263407058E+03,
-                2.05107837782607147E+03,
-                1.23033935479799725E+03,
-                2.15311535474403846E-08
-            }
-            ;
-            double[] d =  {
-                1.57449261107098347E+01,
-                1.17693950891312499E+02,
-                5.37181101862009858E+02,
-                1.62138957456669019E+03,
-                3.29079923573345963E+03,
-                4.36261909014324716E+03,
-                3.43936767414372164E+03,
-                1.23033935480374942E+03
-            }
-            ;
+            double[] a =
+                {
+                    3.16112374387056560,
+                    1.13864154151050156E+02,
+                    3.77485237685302021E+02,
+                    3.20937758913846947E+03,
+                    1.85777706184603153E-01
+                }
+                ;
+            double[] b =
+                {
+                    2.36012909523441209E+01,
+                    2.44024637934444173E+02,
+                    1.28261652607737228E+03,
+                    2.84423683343917062E+03
+                }
+                ;
+            double[] c =
+                {
+                    5.64188496988670089E-01,
+                    8.88314979438837594,
+                    6.61191906371416295E+01,
+                    2.98635138197400131E+02,
+                    8.81952221241769090E+02,
+                    1.71204761263407058E+03,
+                    2.05107837782607147E+03,
+                    1.23033935479799725E+03,
+                    2.15311535474403846E-08
+                }
+                ;
+            double[] d =
+                {
+                    1.57449261107098347E+01,
+                    1.17693950891312499E+02,
+                    5.37181101862009858E+02,
+                    1.62138957456669019E+03,
+                    3.29079923573345963E+03,
+                    4.36261909014324716E+03,
+                    3.43936767414372164E+03,
+                    1.23033935480374942E+03
+                }
+                ;
             double del;
             double erfxd;
             int i;
-            double[] p =  {
-                3.05326634961232344E-01,
-                3.60344899949804439E-01,
-                1.25781726111229246E-01,
-                1.60837851487422766E-02,
-                6.58749161529837803E-04,
-                1.63153871373020978E-02
-            }
-            ;
-            double[] q =  {
-                2.56852019228982242,
-                1.87295284992346047,
-                5.27905102951428412E-01,
-                6.05183413124413191E-02,
-                2.33520497626869185E-03
-            }
-            ;
+            double[] p =
+                {
+                    3.05326634961232344E-01,
+                    3.60344899949804439E-01,
+                    1.25781726111229246E-01,
+                    1.60837851487422766E-02,
+                    6.58749161529837803E-04,
+                    1.63153871373020978E-02
+                }
+                ;
+            double[] q =
+                {
+                    2.56852019228982242,
+                    1.87295284992346047,
+                    5.27905102951428412E-01,
+                    6.05183413124413191E-02,
+                    2.33520497626869185E-03
+                }
+                ;
             double sqrpi = 0.56418958354775628695;
             double thresh = 0.46875;
             double xabs;
@@ -2315,31 +2324,31 @@ namespace Burkardt.Types
         }
 
         public static double r8_error_f_inverse(double y)
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    R8_ERROR_F_INVERSE inverts the error function ERF.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    05 August 2010
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, double Y, the value of the error function.
-        //
-        //    Output, double R8_ERROR_F_INVERSE, the value X such that
-        //    ERF(X) = Y.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_ERROR_F_INVERSE inverts the error function ERF.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    05 August 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double Y, the value of the error function.
+            //
+            //    Output, double R8_ERROR_F_INVERSE, the value X such that
+            //    ERF(X) = Y.
+            //
         {
             double z = (y + 1.0) / 2.0;
 
@@ -2349,116 +2358,116 @@ namespace Burkardt.Types
 
             return value;
         }
-        
-        public static double r8_modp ( double x, double y )
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    R8_MODP returns the nonnegative remainder of R8 division.
-        //
-        //  Discussion:
-        //
-        //    If
-        //      REM = R8_MODP ( X, Y )
-        //      RMULT = ( X - REM ) / Y
-        //    then
-        //      X = Y * RMULT + REM
-        //    where REM is always nonnegative.
-        //
-        //    The MOD function computes a result with the same sign as the
-        //    quantity being divided.  Thus, suppose you had an angle A,
-        //    and you wanted to ensure that it was between 0 and 360.
-        //    Then mod(A,360.0) would do, if A was positive, but if A
-        //    was negative, your result would be between -360 and 0.
-        //
-        //    On the other hand, R8_MODP(A,360.0) is between 0 and 360, always.
-        //
-        //  Example:
-        //
-        //        I         J     MOD R8_MODP  R8_MODP Factorization
-        //
-        //      107        50       7       7    107 =  2 *  50 + 7
-        //      107       -50       7       7    107 = -2 * -50 + 7
-        //     -107        50      -7      43   -107 = -3 *  50 + 43
-        //     -107       -50      -7      43   -107 =  3 * -50 + 43
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    18 October 2004
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, double X, the number to be divided.
-        //
-        //    Input, double Y, the number that divides X.
-        //
-        //    Output, double R8_MODP, the nonnegative remainder when X is divided by Y.
-        //
+
+        public static double r8_modp(double x, double y)
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_MODP returns the nonnegative remainder of R8 division.
+            //
+            //  Discussion:
+            //
+            //    If
+            //      REM = R8_MODP ( X, Y )
+            //      RMULT = ( X - REM ) / Y
+            //    then
+            //      X = Y * RMULT + REM
+            //    where REM is always nonnegative.
+            //
+            //    The MOD function computes a result with the same sign as the
+            //    quantity being divided.  Thus, suppose you had an angle A,
+            //    and you wanted to ensure that it was between 0 and 360.
+            //    Then mod(A,360.0) would do, if A was positive, but if A
+            //    was negative, your result would be between -360 and 0.
+            //
+            //    On the other hand, R8_MODP(A,360.0) is between 0 and 360, always.
+            //
+            //  Example:
+            //
+            //        I         J     MOD R8_MODP  R8_MODP Factorization
+            //
+            //      107        50       7       7    107 =  2 *  50 + 7
+            //      107       -50       7       7    107 = -2 * -50 + 7
+            //     -107        50      -7      43   -107 = -3 *  50 + 43
+            //     -107       -50      -7      43   -107 =  3 * -50 + 43
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    18 October 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the number to be divided.
+            //
+            //    Input, double Y, the number that divides X.
+            //
+            //    Output, double R8_MODP, the nonnegative remainder when X is divided by Y.
+            //
         {
-            if ( y == 0.0 )
+            if (y == 0.0)
             {
                 Console.WriteLine("");
                 Console.WriteLine("R8_MODP - Fatal error!");
                 Console.WriteLine("  R8_MODP ( X, Y ) called with Y = " + y + "");
-                return ( 1 );
+                return (1);
             }
 
-            double value = x - ( ( double ) ( ( int ) ( x / y ) ) ) * y;
+            double value = x - ((double) ((int) (x / y))) * y;
 
-            if ( value < 0.0 )
+            if (value < 0.0)
             {
-                value = value + Math.Abs ( y );
+                value = value + Math.Abs(y);
             }
 
             return value;
         }
 
         public static double[] r8row_max(int m, int n, double[] a)
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    R8ROW_MAX returns the maximums of an R8ROW.
-        //
-        //  Example:
-        //
-        //    A =
-        //      1  2  3
-        //      2  6  7
-        //
-        //    MAX =
-        //      3
-        //      7
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    29 October 2004
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int M, N, the number of rows and columns in the array.
-        //
-        //    Input, double A[M*N], the array to be examined.
-        //
-        //    Output, double R8ROW_MAX[M], the maximums of the rows.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8ROW_MAX returns the maximums of an R8ROW.
+            //
+            //  Example:
+            //
+            //    A =
+            //      1  2  3
+            //      2  6  7
+            //
+            //    MAX =
+            //      3
+            //      7
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    29 October 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns in the array.
+            //
+            //    Input, double A[M*N], the array to be examined.
+            //
+            //    Output, double R8ROW_MAX[M], the maximums of the rows.
+            //
         {
             int i;
             int j;
@@ -2481,42 +2490,42 @@ namespace Burkardt.Types
         }
 
         public static double[] r8row_mean(int m, int n, double[] a)
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    R8ROW_MEAN returns the means of an R8ROW.
-        //
-        //  Example:
-        //
-        //    A =
-        //      1  2  3
-        //      2  6  7
-        //
-        //    MEAN =
-        //      2
-        //      5
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    29 October 2004
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int M, N, the number of rows and columns in the array.
-        //
-        //    Input, double A[M*N], the array to be examined.
-        //
-        //    Output, double R8ROW_MEAN[M], the means, or averages, of the rows.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8ROW_MEAN returns the means of an R8ROW.
+            //
+            //  Example:
+            //
+            //    A =
+            //      1  2  3
+            //      2  6  7
+            //
+            //    MEAN =
+            //      2
+            //      5
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    29 October 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns in the array.
+            //
+            //    Input, double A[M*N], the array to be examined.
+            //
+            //    Output, double R8ROW_MEAN[M], the means, or averages, of the rows.
+            //
         {
             int i;
             int j;
@@ -2537,42 +2546,42 @@ namespace Burkardt.Types
         }
 
         public static double[] r8row_min(int m, int n, double[] a)
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    R8ROW_MIN returns the minimums of an R8ROW.
-        //
-        //  Example:
-        //
-        //    A =
-        //      1  2  3
-        //      2  6  7
-        //
-        //    MIN =
-        //      1
-        //      2
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    29 October 2004
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int M, N, the number of rows and columns in the array.
-        //
-        //    Input, double A[M*N], the array to be examined.
-        //
-        //    Output, double R8ROW_MIN[M], the minimums of the rows.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8ROW_MIN returns the minimums of an R8ROW.
+            //
+            //  Example:
+            //
+            //    A =
+            //      1  2  3
+            //      2  6  7
+            //
+            //    MIN =
+            //      1
+            //      2
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    29 October 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns in the array.
+            //
+            //    Input, double A[M*N], the array to be examined.
+            //
+            //    Output, double R8ROW_MIN[M], the minimums of the rows.
+            //
         {
             int i;
             int j;
@@ -2594,32 +2603,32 @@ namespace Burkardt.Types
         }
 
         public static double[] r8row_variance(int m, int n, double[] a)
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    R8ROW_VARIANCE returns the variances of an R8ROW.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    29 October 2004
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int M, N, the number of rows and columns in the array.
-        //
-        //    Input, double A[M*N], the array whose variances are desired.
-        //
-        //    Output, double R8ROW_VARIANCE[M], the variances of the rows.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8ROW_VARIANCE returns the variances of an R8ROW.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    29 October 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns in the array.
+            //
+            //    Input, double A[M*N], the array whose variances are desired.
+            //
+            //    Output, double R8ROW_VARIANCE[M], the variances of the rows.
+            //
         {
             int i;
             int j;
@@ -2656,161 +2665,163 @@ namespace Burkardt.Types
             return variance;
         }
 
-        
-        public static double r8_fraction ( int i, int j )
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    R8_FRACTION uses real arithmetic on an integer ratio.
-        //
-        //  Discussion:
-        //
-        //    Given integer variables I and J, both FORTRAN and C will evaluate 
-        //    an expression such as "I/J" using what is called "integer division",
-        //    with the result being an integer.  It is often convenient to express
-        //    the parts of a fraction as integers but expect the result to be computed
-        //    using real arithmetic.  This function carries out that operation.
-        //
-        //  Example:
-        //
-        //       I     J   I/J  R8_FRACTION
-        //
-        //       1     2     0  0.5
-        //       7     4     1  1.75
-        //       8     4     2  2.00
-        //       9     4     2  2.25
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license. 
-        //
-        //  Modified:
-        //
-        //    05 October 2010
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int I, J, the arguments.
-        //
-        //    Output, double R8_FRACTION, the value of the ratio.
-        //
+
+        public static double r8_fraction(int i, int j)
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_FRACTION uses real arithmetic on an integer ratio.
+            //
+            //  Discussion:
+            //
+            //    Given integer variables I and J, both FORTRAN and C will evaluate 
+            //    an expression such as "I/J" using what is called "integer division",
+            //    with the result being an integer.  It is often convenient to express
+            //    the parts of a fraction as integers but expect the result to be computed
+            //    using real arithmetic.  This function carries out that operation.
+            //
+            //  Example:
+            //
+            //       I     J   I/J  R8_FRACTION
+            //
+            //       1     2     0  0.5
+            //       7     4     1  1.75
+            //       8     4     2  2.00
+            //       9     4     2  2.25
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    05 October 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int I, J, the arguments.
+            //
+            //    Output, double R8_FRACTION, the value of the ratio.
+            //
         {
-            double value = ( double ) ( i ) / ( double ) ( j );
+            double value = (double) (i) / (double) (j);
 
             return value;
         }
 
-        public static double[] r8mat_zero_new ( int m, int n )
+        public static double[] r8mat_zero_new(int m, int n)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8MAT_ZERO_NEW returns a new zeroed R8MAT.
-//
-//  Discussion:
-//
-//    An R8MAT is a doubly dimensioned array of R8 values, stored as a vector 
-//    in column-major order.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    03 October 2005
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, int M, N, the number of rows and columns.
-//
-//    Output, double R8MAT_ZERO[M*N], the new zeroed matrix.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8MAT_ZERO_NEW returns a new zeroed R8MAT.
+            //
+            //  Discussion:
+            //
+            //    An R8MAT is a doubly dimensioned array of R8 values, stored as a vector 
+            //    in column-major order.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    03 October 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns.
+            //
+            //    Output, double R8MAT_ZERO[M*N], the new zeroed matrix.
+            //
         {
-            double[] a = new double[m*n];
+            double[] a = new double[m * n];
 
-            for (int j = 0; j < n; j++ )
+            for (int j = 0; j < n; j++)
             {
-                for (int i = 0; i < m; i++ )
+                for (int i = 0; i < m; i++)
                 {
-                    a[i+j*m] = 0.0;
+                    a[i + j * m] = 0.0;
                 }
             }
+
             return a;
         }
-        
+
         public static double r8_error(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8_ERROR evaluates the error function of an R8 argument.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    15 September 2011
-//
-//  Author:
-//
-//    Original FORTRAN77 version by Wayne Fullerton.
-//    C++ version by John Burkardt.
-//
-//  Reference:
-//
-//    Wayne Fullerton,
-//    Portable Special Function Routines,
-//    in Portability of Numerical Software,
-//    edited by Wayne Cowell,
-//    Lecture Notes in Computer Science, Volume 57,
-//    Springer 1977,
-//    ISBN: 978-3-540-08446-4,
-//    LC: QA297.W65.
-//
-//  Parameters:
-//
-//    Input, double X, the argument.
-//
-//    Output, double R8_ERROR, the error function of X.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_ERROR evaluates the error function of an R8 argument.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    15 September 2011
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Wayne Fullerton.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Wayne Fullerton,
+            //    Portable Special Function Routines,
+            //    in Portability of Numerical Software,
+            //    edited by Wayne Cowell,
+            //    Lecture Notes in Computer Science, Volume 57,
+            //    Springer 1977,
+            //    ISBN: 978-3-540-08446-4,
+            //    LC: QA297.W65.
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the argument.
+            //
+            //    Output, double R8_ERROR, the error function of X.
+            //
         {
-            double[] erfcs = {
-                -0.49046121234691808039984544033376E-01,
-                -0.14226120510371364237824741899631,
-                +0.10035582187599795575754676712933E-01,
-                -0.57687646997674847650827025509167E-03,
-                +0.27419931252196061034422160791471E-04,
-                -0.11043175507344507604135381295905E-05,
-                +0.38488755420345036949961311498174E-07,
-                -0.11808582533875466969631751801581E-08,
-                +0.32334215826050909646402930953354E-10,
-                -0.79910159470045487581607374708595E-12,
-                +0.17990725113961455611967245486634E-13,
-                -0.37186354878186926382316828209493E-15,
-                +0.71035990037142529711689908394666E-17,
-                -0.12612455119155225832495424853333E-18,
-                +0.20916406941769294369170500266666E-20,
-                -0.32539731029314072982364160000000E-22,
-                +0.47668672097976748332373333333333E-24,
-                -0.65980120782851343155199999999999E-26,
-                +0.86550114699637626197333333333333E-28,
-                -0.10788925177498064213333333333333E-29,
-                +0.12811883993017002666666666666666E-31
-            }
-            ;
+            double[] erfcs =
+                {
+                    -0.49046121234691808039984544033376E-01,
+                    -0.14226120510371364237824741899631,
+                    +0.10035582187599795575754676712933E-01,
+                    -0.57687646997674847650827025509167E-03,
+                    +0.27419931252196061034422160791471E-04,
+                    -0.11043175507344507604135381295905E-05,
+                    +0.38488755420345036949961311498174E-07,
+                    -0.11808582533875466969631751801581E-08,
+                    +0.32334215826050909646402930953354E-10,
+                    -0.79910159470045487581607374708595E-12,
+                    +0.17990725113961455611967245486634E-13,
+                    -0.37186354878186926382316828209493E-15,
+                    +0.71035990037142529711689908394666E-17,
+                    -0.12612455119155225832495424853333E-18,
+                    +0.20916406941769294369170500266666E-20,
+                    -0.32539731029314072982364160000000E-22,
+                    +0.47668672097976748332373333333333E-24,
+                    -0.65980120782851343155199999999999E-26,
+                    +0.86550114699637626197333333333333E-28,
+                    -0.10788925177498064213333333333333E-29,
+                    +0.12811883993017002666666666666666E-31
+                }
+                ;
             int nterf = 0;
             double sqeps = 0.0;
             double sqrtpi = 1.77245385090551602729816748334115;
@@ -2856,181 +2867,184 @@ namespace Burkardt.Types
         }
 
         public static double r8_errorc(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8_ERRORC evaluates the co-error function of an R8 argument.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    13 September 2011
-//
-//  Author:
-//
-//    Original FORTRAN77 version by Wayne Fullerton.
-//    C++ version by John Burkardt.
-//
-//  Reference:
-//
-//    Wayne Fullerton,
-//    Portable Special Function Routines,
-//    in Portability of Numerical Software,
-//    edited by Wayne Cowell,
-//    Lecture Notes in Computer Science, Volume 57,
-//    Springer 1977,
-//    ISBN: 978-3-540-08446-4,
-//    LC: QA297.W65.
-//
-//  Parameters:
-//
-//    Input, double X, the argument.
-//
-//    Output, double R8_ERRORC, the co-error function of X.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_ERRORC evaluates the co-error function of an R8 argument.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    13 September 2011
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Wayne Fullerton.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Wayne Fullerton,
+            //    Portable Special Function Routines,
+            //    in Portability of Numerical Software,
+            //    edited by Wayne Cowell,
+            //    Lecture Notes in Computer Science, Volume 57,
+            //    Springer 1977,
+            //    ISBN: 978-3-540-08446-4,
+            //    LC: QA297.W65.
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the argument.
+            //
+            //    Output, double R8_ERRORC, the co-error function of X.
+            //
         {
-            double[] erc2cs = {
-                -0.6960134660230950112739150826197E-01,
-                -0.4110133936262089348982212084666E-01,
-                +0.3914495866689626881561143705244E-02,
-                -0.4906395650548979161280935450774E-03,
-                +0.7157479001377036380760894141825E-04,
-                -0.1153071634131232833808232847912E-04,
-                +0.1994670590201997635052314867709E-05,
-                -0.3642666471599222873936118430711E-06,
-                +0.6944372610005012589931277214633E-07,
-                -0.1371220902104366019534605141210E-07,
-                +0.2788389661007137131963860348087E-08,
-                -0.5814164724331161551864791050316E-09,
-                +0.1238920491752753181180168817950E-09,
-                -0.2690639145306743432390424937889E-10,
-                +0.5942614350847910982444709683840E-11,
-                -0.1332386735758119579287754420570E-11,
-                +0.3028046806177132017173697243304E-12,
-                -0.6966648814941032588795867588954E-13,
-                +0.1620854541053922969812893227628E-13,
-                -0.3809934465250491999876913057729E-14,
-                +0.9040487815978831149368971012975E-15,
-                -0.2164006195089607347809812047003E-15,
-                +0.5222102233995854984607980244172E-16,
-                -0.1269729602364555336372415527780E-16,
-                +0.3109145504276197583836227412951E-17,
-                -0.7663762920320385524009566714811E-18,
-                +0.1900819251362745202536929733290E-18,
-                -0.4742207279069039545225655999965E-19,
-                +0.1189649200076528382880683078451E-19,
-                -0.3000035590325780256845271313066E-20,
-                +0.7602993453043246173019385277098E-21,
-                -0.1935909447606872881569811049130E-21,
-                +0.4951399124773337881000042386773E-22,
-                -0.1271807481336371879608621989888E-22,
-                +0.3280049600469513043315841652053E-23,
-                -0.8492320176822896568924792422399E-24,
-                +0.2206917892807560223519879987199E-24,
-                -0.5755617245696528498312819507199E-25,
-                +0.1506191533639234250354144051199E-25,
-                -0.3954502959018796953104285695999E-26,
-                +0.1041529704151500979984645051733E-26,
-                -0.2751487795278765079450178901333E-27,
-                +0.7290058205497557408997703680000E-28,
-                -0.1936939645915947804077501098666E-28,
-                +0.5160357112051487298370054826666E-29,
-                -0.1378419322193094099389644800000E-29,
-                +0.3691326793107069042251093333333E-30,
-                -0.9909389590624365420653226666666E-31,
-                +0.2666491705195388413323946666666E-31
-            }
-            ;
-            double[] erfccs = {
-                +0.715179310202924774503697709496E-01,
-                -0.265324343376067157558893386681E-01,
-                +0.171115397792085588332699194606E-02,
-                -0.163751663458517884163746404749E-03,
-                +0.198712935005520364995974806758E-04,
-                -0.284371241276655508750175183152E-05,
-                +0.460616130896313036969379968464E-06,
-                -0.822775302587920842057766536366E-07,
-                +0.159214187277090112989358340826E-07,
-                -0.329507136225284321486631665072E-08,
-                +0.722343976040055546581261153890E-09,
-                -0.166485581339872959344695966886E-09,
-                +0.401039258823766482077671768814E-10,
-                -0.100481621442573113272170176283E-10,
-                +0.260827591330033380859341009439E-11,
-                -0.699111056040402486557697812476E-12,
-                +0.192949233326170708624205749803E-12,
-                -0.547013118875433106490125085271E-13,
-                +0.158966330976269744839084032762E-13,
-                -0.472689398019755483920369584290E-14,
-                +0.143587337678498478672873997840E-14,
-                -0.444951056181735839417250062829E-15,
-                +0.140481088476823343737305537466E-15,
-                -0.451381838776421089625963281623E-16,
-                +0.147452154104513307787018713262E-16,
-                -0.489262140694577615436841552532E-17,
-                +0.164761214141064673895301522827E-17,
-                -0.562681717632940809299928521323E-18,
-                +0.194744338223207851429197867821E-18,
-                -0.682630564294842072956664144723E-19,
-                +0.242198888729864924018301125438E-19,
-                -0.869341413350307042563800861857E-20,
-                +0.315518034622808557122363401262E-20,
-                -0.115737232404960874261239486742E-20,
-                +0.428894716160565394623737097442E-21,
-                -0.160503074205761685005737770964E-21,
-                +0.606329875745380264495069923027E-22,
-                -0.231140425169795849098840801367E-22,
-                +0.888877854066188552554702955697E-23,
-                -0.344726057665137652230718495566E-23,
-                +0.134786546020696506827582774181E-23,
-                -0.531179407112502173645873201807E-24,
-                +0.210934105861978316828954734537E-24,
-                -0.843836558792378911598133256738E-25,
-                +0.339998252494520890627359576337E-25,
-                -0.137945238807324209002238377110E-25,
-                +0.563449031183325261513392634811E-26,
-                -0.231649043447706544823427752700E-26,
-                +0.958446284460181015263158381226E-27,
-                -0.399072288033010972624224850193E-27,
-                +0.167212922594447736017228709669E-27,
-                -0.704599152276601385638803782587E-28,
-                +0.297976840286420635412357989444E-28,
-                -0.126252246646061929722422632994E-28,
-                +0.539543870454248793985299653154E-29,
-                -0.238099288253145918675346190062E-29,
-                +0.109905283010276157359726683750E-29,
-                -0.486771374164496572732518677435E-30,
-                +0.152587726411035756763200828211E-30
-            }
-            ;
-            double[] erfcs = {
-                -0.49046121234691808039984544033376E-01,
-                -0.14226120510371364237824741899631,
-                +0.10035582187599795575754676712933E-01,
-                -0.57687646997674847650827025509167E-03,
-                +0.27419931252196061034422160791471E-04,
-                -0.11043175507344507604135381295905E-05,
-                +0.38488755420345036949961311498174E-07,
-                -0.11808582533875466969631751801581E-08,
-                +0.32334215826050909646402930953354E-10,
-                -0.79910159470045487581607374708595E-12,
-                +0.17990725113961455611967245486634E-13,
-                -0.37186354878186926382316828209493E-15,
-                +0.71035990037142529711689908394666E-17,
-                -0.12612455119155225832495424853333E-18,
-                +0.20916406941769294369170500266666E-20,
-                -0.32539731029314072982364160000000E-22,
-                +0.47668672097976748332373333333333E-24,
-                -0.65980120782851343155199999999999E-26,
-                +0.86550114699637626197333333333333E-28,
-                -0.10788925177498064213333333333333E-29,
-                +0.12811883993017002666666666666666E-31
-            }
-            ;
+            double[] erc2cs =
+                {
+                    -0.6960134660230950112739150826197E-01,
+                    -0.4110133936262089348982212084666E-01,
+                    +0.3914495866689626881561143705244E-02,
+                    -0.4906395650548979161280935450774E-03,
+                    +0.7157479001377036380760894141825E-04,
+                    -0.1153071634131232833808232847912E-04,
+                    +0.1994670590201997635052314867709E-05,
+                    -0.3642666471599222873936118430711E-06,
+                    +0.6944372610005012589931277214633E-07,
+                    -0.1371220902104366019534605141210E-07,
+                    +0.2788389661007137131963860348087E-08,
+                    -0.5814164724331161551864791050316E-09,
+                    +0.1238920491752753181180168817950E-09,
+                    -0.2690639145306743432390424937889E-10,
+                    +0.5942614350847910982444709683840E-11,
+                    -0.1332386735758119579287754420570E-11,
+                    +0.3028046806177132017173697243304E-12,
+                    -0.6966648814941032588795867588954E-13,
+                    +0.1620854541053922969812893227628E-13,
+                    -0.3809934465250491999876913057729E-14,
+                    +0.9040487815978831149368971012975E-15,
+                    -0.2164006195089607347809812047003E-15,
+                    +0.5222102233995854984607980244172E-16,
+                    -0.1269729602364555336372415527780E-16,
+                    +0.3109145504276197583836227412951E-17,
+                    -0.7663762920320385524009566714811E-18,
+                    +0.1900819251362745202536929733290E-18,
+                    -0.4742207279069039545225655999965E-19,
+                    +0.1189649200076528382880683078451E-19,
+                    -0.3000035590325780256845271313066E-20,
+                    +0.7602993453043246173019385277098E-21,
+                    -0.1935909447606872881569811049130E-21,
+                    +0.4951399124773337881000042386773E-22,
+                    -0.1271807481336371879608621989888E-22,
+                    +0.3280049600469513043315841652053E-23,
+                    -0.8492320176822896568924792422399E-24,
+                    +0.2206917892807560223519879987199E-24,
+                    -0.5755617245696528498312819507199E-25,
+                    +0.1506191533639234250354144051199E-25,
+                    -0.3954502959018796953104285695999E-26,
+                    +0.1041529704151500979984645051733E-26,
+                    -0.2751487795278765079450178901333E-27,
+                    +0.7290058205497557408997703680000E-28,
+                    -0.1936939645915947804077501098666E-28,
+                    +0.5160357112051487298370054826666E-29,
+                    -0.1378419322193094099389644800000E-29,
+                    +0.3691326793107069042251093333333E-30,
+                    -0.9909389590624365420653226666666E-31,
+                    +0.2666491705195388413323946666666E-31
+                }
+                ;
+            double[] erfccs =
+                {
+                    +0.715179310202924774503697709496E-01,
+                    -0.265324343376067157558893386681E-01,
+                    +0.171115397792085588332699194606E-02,
+                    -0.163751663458517884163746404749E-03,
+                    +0.198712935005520364995974806758E-04,
+                    -0.284371241276655508750175183152E-05,
+                    +0.460616130896313036969379968464E-06,
+                    -0.822775302587920842057766536366E-07,
+                    +0.159214187277090112989358340826E-07,
+                    -0.329507136225284321486631665072E-08,
+                    +0.722343976040055546581261153890E-09,
+                    -0.166485581339872959344695966886E-09,
+                    +0.401039258823766482077671768814E-10,
+                    -0.100481621442573113272170176283E-10,
+                    +0.260827591330033380859341009439E-11,
+                    -0.699111056040402486557697812476E-12,
+                    +0.192949233326170708624205749803E-12,
+                    -0.547013118875433106490125085271E-13,
+                    +0.158966330976269744839084032762E-13,
+                    -0.472689398019755483920369584290E-14,
+                    +0.143587337678498478672873997840E-14,
+                    -0.444951056181735839417250062829E-15,
+                    +0.140481088476823343737305537466E-15,
+                    -0.451381838776421089625963281623E-16,
+                    +0.147452154104513307787018713262E-16,
+                    -0.489262140694577615436841552532E-17,
+                    +0.164761214141064673895301522827E-17,
+                    -0.562681717632940809299928521323E-18,
+                    +0.194744338223207851429197867821E-18,
+                    -0.682630564294842072956664144723E-19,
+                    +0.242198888729864924018301125438E-19,
+                    -0.869341413350307042563800861857E-20,
+                    +0.315518034622808557122363401262E-20,
+                    -0.115737232404960874261239486742E-20,
+                    +0.428894716160565394623737097442E-21,
+                    -0.160503074205761685005737770964E-21,
+                    +0.606329875745380264495069923027E-22,
+                    -0.231140425169795849098840801367E-22,
+                    +0.888877854066188552554702955697E-23,
+                    -0.344726057665137652230718495566E-23,
+                    +0.134786546020696506827582774181E-23,
+                    -0.531179407112502173645873201807E-24,
+                    +0.210934105861978316828954734537E-24,
+                    -0.843836558792378911598133256738E-25,
+                    +0.339998252494520890627359576337E-25,
+                    -0.137945238807324209002238377110E-25,
+                    +0.563449031183325261513392634811E-26,
+                    -0.231649043447706544823427752700E-26,
+                    +0.958446284460181015263158381226E-27,
+                    -0.399072288033010972624224850193E-27,
+                    +0.167212922594447736017228709669E-27,
+                    -0.704599152276601385638803782587E-28,
+                    +0.297976840286420635412357989444E-28,
+                    -0.126252246646061929722422632994E-28,
+                    +0.539543870454248793985299653154E-29,
+                    -0.238099288253145918675346190062E-29,
+                    +0.109905283010276157359726683750E-29,
+                    -0.486771374164496572732518677435E-30,
+                    +0.152587726411035756763200828211E-30
+                }
+                ;
+            double[] erfcs =
+                {
+                    -0.49046121234691808039984544033376E-01,
+                    -0.14226120510371364237824741899631,
+                    +0.10035582187599795575754676712933E-01,
+                    -0.57687646997674847650827025509167E-03,
+                    +0.27419931252196061034422160791471E-04,
+                    -0.11043175507344507604135381295905E-05,
+                    +0.38488755420345036949961311498174E-07,
+                    -0.11808582533875466969631751801581E-08,
+                    +0.32334215826050909646402930953354E-10,
+                    -0.79910159470045487581607374708595E-12,
+                    +0.17990725113961455611967245486634E-13,
+                    -0.37186354878186926382316828209493E-15,
+                    +0.71035990037142529711689908394666E-17,
+                    -0.12612455119155225832495424853333E-18,
+                    +0.20916406941769294369170500266666E-20,
+                    -0.32539731029314072982364160000000E-22,
+                    +0.47668672097976748332373333333333E-24,
+                    -0.65980120782851343155199999999999E-26,
+                    +0.86550114699637626197333333333333E-28,
+                    -0.10788925177498064213333333333333E-29,
+                    +0.12811883993017002666666666666666E-31
+                }
+                ;
             double eta;
             int nterc2 = 0;
             int nterf = 0;
@@ -3089,12 +3103,12 @@ namespace Burkardt.Types
             if (y <= 4.0)
             {
                 value = Math.Exp(-y) / Math.Abs(x) * (0.5
-                                               + csevl((8.0 / y - 5.0) / 3.0, erc2cs, nterc2));
+                                                      + csevl((8.0 / y - 5.0) / 3.0, erc2cs, nterc2));
             }
             else
             {
                 value = Math.Exp(-y) / Math.Abs(x) * (0.5
-                                               + csevl(8.0 / y - 1.0, erfccs, nterfc));
+                                                      + csevl(8.0 / y - 1.0, erfccs, nterfc));
             }
 
             if (x < 0.0)
@@ -3106,53 +3120,53 @@ namespace Burkardt.Types
         }
 
         public static double r8_mach(int i)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8_MACH returns double precision real machine constants.
-//
-//  Discussion:
-//
-//    Assuming that the internal representation of a double precision real
-//    number is in base B, with T the number of base-B digits in the mantissa,
-//    and EMIN the smallest possible exponent and EMAX the largest possible 
-//    exponent, then
-//
-//      R8_MACH(1) = B^(EMIN-1), the smallest positive magnitude.
-//      R8_MACH(2) = B^EMAX*(1-B^(-T)), the largest magnitude.
-//      R8_MACH(3) = B^(-T), the smallest relative spacing.
-//      R8_MACH(4) = B^(1-T), the largest relative spacing.
-//      R8_MACH(5) = log10(B).
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    24 April 2007
-//
-//  Author:
-//
-//    Original FORTRAN77 version by Phyllis Fox, Andrew Hall, Norman Schryer.
-//    C++ version by John Burkardt.
-//
-//  Reference:
-//
-//    Phyllis Fox, Andrew Hall, Norman Schryer,
-//    Algorithm 528:
-//    Framework for a Portable Library,
-//    ACM Transactions on Mathematical Software,
-//    Volume 4, Number 2, June 1978, page 176-188.
-//
-//  Parameters:
-//
-//    Input, int I, chooses the parameter to be returned.
-//    1 <= I <= 5.
-//
-//    Output, double R8_MACH, the value of the chosen parameter.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_MACH returns double precision real machine constants.
+            //
+            //  Discussion:
+            //
+            //    Assuming that the internal representation of a double precision real
+            //    number is in base B, with T the number of base-B digits in the mantissa,
+            //    and EMIN the smallest possible exponent and EMAX the largest possible 
+            //    exponent, then
+            //
+            //      R8_MACH(1) = B^(EMIN-1), the smallest positive magnitude.
+            //      R8_MACH(2) = B^EMAX*(1-B^(-T)), the largest magnitude.
+            //      R8_MACH(3) = B^(-T), the smallest relative spacing.
+            //      R8_MACH(4) = B^(1-T), the largest relative spacing.
+            //      R8_MACH(5) = log10(B).
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    24 April 2007
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Phyllis Fox, Andrew Hall, Norman Schryer.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Phyllis Fox, Andrew Hall, Norman Schryer,
+            //    Algorithm 528:
+            //    Framework for a Portable Library,
+            //    ACM Transactions on Mathematical Software,
+            //    Volume 4, Number 2, June 1978, page 176-188.
+            //
+            //  Parameters:
+            //
+            //    Input, int I, chooses the parameter to be returned.
+            //    1 <= I <= 5.
+            //
+            //    Output, double R8_MACH, the value of the chosen parameter.
+            //
         {
             double value;
 
@@ -3188,8 +3202,8 @@ namespace Burkardt.Types
 
             return value;
         }
-        
-        public static double r8_choose ( int n, int k )
+
+        public static double r8_choose(int n, int k)
 
             //****************************************************************************80
             //
@@ -3239,7 +3253,7 @@ namespace Burkardt.Types
             int mx;
             double value;
 
-            if ( k < n - k )
+            if (k < n - k)
             {
                 mn = k;
                 mx = n - k;
@@ -3250,60 +3264,60 @@ namespace Burkardt.Types
                 mx = k;
             }
 
-            if ( mn < 0 )
+            if (mn < 0)
             {
                 value = 0.0;
             }
-            else if ( mn == 0 )
+            else if (mn == 0)
             {
                 value = 1.0;
             }
             else
             {
-                value = ( double ) ( mx + 1 );
+                value = (double) (mx + 1);
 
-                for ( i = 2; i <= mn; i++ )
+                for (i = 2; i <= mn; i++)
                 {
-                    value = ( value * ( double ) ( mx + i ) ) / ( double ) i;
+                    value = (value * (double) (mx + i)) / (double) i;
                 }
             }
 
             return value;
         }
 
-        public static double r8_mop ( int i )
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8_MOP returns the I-th power of -1 as an R8 value.
-//
-//  Discussion:
-//
-//    An R8 is an double value.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    16 November 2007
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, int I, the power of -1.
-//
-//    Output, double R8_MOP, the I-th power of -1.
-//
+        public static double r8_mop(int i)
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_MOP returns the I-th power of -1 as an R8 value.
+            //
+            //  Discussion:
+            //
+            //    An R8 is an double value.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    16 November 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int I, the power of -1.
+            //
+            //    Output, double R8_MOP, the I-th power of -1.
+            //
         {
             double value;
 
-            if ( ( i % 2 ) == 0 )
+            if ((i % 2) == 0)
             {
                 value = 1.0;
             }
@@ -3314,6 +3328,148 @@ namespace Burkardt.Types
 
             return value;
         }
+
+        public static int r8_to_bin_even(int nbin, double a, double b, double c)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_TO_BIN_EVEN determines the appropriate "bin" for C in [A,B].
+            //
+            //  Discussion:
+            //
+            //    The interval from A to B is divided into NBIN-2 equal subintervals or bins.
+            //    An initial bin takes everything less than A, and a final bin takes
+            //    everything greater than B.
+            //
+            //  Example:
+            //
+            //    NBIN = 7, A = 5, B = 15
+            //
+            //    C   BIN
+            //
+            //    1    1
+            //    3    1
+            //    4.9  1
+            //    5    2
+            //    6    2
+            //    7    3
+            //    8    3
+            //    9.5  4
+            //   13    6
+            //   14    6
+            //   15    6
+            //   15.1  7
+            //   99    7
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    28 January 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int NBIN, the number of bins.  NBIN is normally
+            //    at least 3.  If NBIN is 1 or 2, then everything is assigned to bin 1.
+            //
+            //    Input, double A, B, the lower and upper limits of the bin
+            //    interval.  While A is expected to be less than B, the code should
+            //    return useful results if A is actually greater than B.
+            //
+            //    Input, double C, a value to be placed in a bin.
+            //
+            //    Output, inte R8_TO_BIN_EVEN, the index of the bin to which C is
+            //    assigned.
+            //
+        {
+            double a2;
+            double b2;
+            int bin;
+            bool swap;
+            //
+            //  Take care of special cases.
+            //
+            if (nbin < 1)
+            {
+                bin = 0;
+                return bin;
+            }
+            else if (nbin == 1 || nbin == 2)
+            {
+                bin = 1;
+                return bin;
+            }
+
+            if (b == a)
+            {
+                bin = 0;
+                return bin;
+            }
+
+            //
+            //  If the limits are descending, then we switch them now, and
+            //  unswitch the results at the end.
+            //
+            if (a < b)
+            {
+                swap = false;
+                a2 = a;
+                b2 = b;
+            }
+            else
+            {
+                swap = true;
+                a2 = b;
+                b2 = a;
+            }
+
+            //
+            //  Compute the bin.
+            //
+            if (c < a2)
+            {
+                bin = 1;
+            }
+            else if (c == a2)
+            {
+                bin = 2;
+            }
+            else if (c == b2)
+            {
+                bin = nbin - 1;
+            }
+            else if (b2 < c)
+            {
+                bin = nbin;
+            }
+            else
+            {
+                bin = 2 + (int) ((double) (nbin - 2) * (c - a2) / (b2 - a2));
+                bin = Math.Max(bin, 2);
+                bin = Math.Min(bin, nbin - 1);
+            }
+
+            //
+            //  Reverse the switching.
+            //
+            if (swap)
+            {
+                bin = nbin + 1 - bin;
+            }
+
+            return bin;
+        }
+
+
+
 
     }
 }

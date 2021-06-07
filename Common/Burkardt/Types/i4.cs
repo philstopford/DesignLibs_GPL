@@ -338,48 +338,6 @@ namespace Burkardt.Types
             }
         }
 
-        public static void i4vec_print(int n, int[] a, string title)
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    I4VEC_PRINT prints an I4VEC.
-            //
-            //  Discussion:
-            //
-            //    An I4VEC is a vector of I4's.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    14 November 2003
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the number of components of the vector.
-            //
-            //    Input, int A[N], the vector to be printed.
-            //
-            //    Input, string TITLE, a title.
-            //
-        {
-            Console.WriteLine("");
-            Console.WriteLine(title);
-            Console.WriteLine("");
-            for (int i = 0; i < n; i++)
-            {
-                Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                       + ": " + a[i].ToString().PadLeft(8) + "");
-            }
-        }
-
         public static int i4vec_sum(int n, int[] a)
             //****************************************************************************80
             //
@@ -561,78 +519,78 @@ namespace Burkardt.Types
 
             return value;
         }
-        
-        public static double i4_choose_log ( int n, int k )
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    I4_CHOOSE_LOG computes the logarithm of the Binomial coefficient.
-        //
-        //  Discussion:
-        //
-        //    LOG ( C(N,K) ) = LOG ( N! / ( K! * (N-K)! ) ).
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    05 March 2016
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int N, K, are the values of N and K.
-        //
-        //    Output, double I4_CHOOSE_LOG, the logarithm of C(N,K).
-        //
+
+        public static double i4_choose_log(int n, int k)
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4_CHOOSE_LOG computes the logarithm of the Binomial coefficient.
+            //
+            //  Discussion:
+            //
+            //    LOG ( C(N,K) ) = LOG ( N! / ( K! * (N-K)! ) ).
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    05 March 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, K, are the values of N and K.
+            //
+            //    Output, double I4_CHOOSE_LOG, the logarithm of C(N,K).
+            //
         {
-            double value = Helpers.LogGamma ( ( double ) ( n + 1 ) ) 
-                           - Helpers.LogGamma ( ( double ) ( k + 1 ) ) 
-                           - Helpers.LogGamma ( ( double ) ( n - k + 1 ) );
+            double value = Helpers.LogGamma((double) (n + 1))
+                           - Helpers.LogGamma((double) (k + 1))
+                           - Helpers.LogGamma((double) (n - k + 1));
 
             return value;
         }
 
         public static int i4vec_unique_count(int n, int[] a)
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    I4VEC_UNIQUE_COUNT counts the unique elements in an unsorted I4VEC.
-        //
-        //  Discussion:
-        //
-        //    An I4VEC is a vector of I4's.
-        //
-        //    Because the array is unsorted, this algorithm is O(N^2).
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    29 April 2004
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int N, the number of elements of A.
-        //
-        //    Input, int A[N], the array to examine, which does NOT have to
-        //    be sorted.
-        //
-        //    Output, int I4VEC_UNIQUE_COUNT, the number of unique elements of A.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_UNIQUE_COUNT counts the unique elements in an unsorted I4VEC.
+            //
+            //  Discussion:
+            //
+            //    An I4VEC is a vector of I4's.
+            //
+            //    Because the array is unsorted, this algorithm is O(N^2).
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    29 April 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of elements of A.
+            //
+            //    Input, int A[N], the array to examine, which does NOT have to
+            //    be sorted.
+            //
+            //    Output, int I4VEC_UNIQUE_COUNT, the number of unique elements of A.
+            //
         {
             int unique_num = 0;
 
@@ -654,32 +612,32 @@ namespace Burkardt.Types
         }
 
         public static double i4vec_variance(int n, int[] x)
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    I4VEC_VARIANCE returns the variance of an I4VEC.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    01 May 1999
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int N, the number of entries in the vector.
-        //
-        //    Input, int X[N], the vector whose variance is desired.
-        //
-        //    Output, double I4VEC_VARIANCE, the variance of the vector entries.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_VARIANCE returns the variance of an I4VEC.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    01 May 1999
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in the vector.
+            //
+            //    Input, int X[N], the vector whose variance is desired.
+            //
+            //    Output, double I4VEC_VARIANCE, the variance of the vector entries.
+            //
         {
             double mean = i4vec_mean(n, x);
 
@@ -700,8 +658,8 @@ namespace Burkardt.Types
 
             return variance;
         }
-        
-        public static double i4vec_mean ( int n, int[] x )
+
+        public static double i4vec_mean(int n, int[] x)
         {
             if (x.Length <= 0)
             {
@@ -715,85 +673,85 @@ namespace Burkardt.Types
             {
                 return x.Average();
             }
-                    
+
             return x.Take(n).Average();
         }
-        
-        public static int i4_huge ( )
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    I4_HUGE returns a "huge" I4
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    16 May 2003
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Output, int I4_HUGE, a "huge" integer.
-        //
+
+        public static int i4_huge()
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4_HUGE returns a "huge" I4
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    16 May 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Output, int I4_HUGE, a "huge" integer.
+            //
         {
             const int value = 2147483647;
 
             return value;
         }
-        
-        public static int i4vec_run_count ( int n, int[] a )
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    I4VEC_RUN_COUNT counts runs of equal values in an I4VEC.
-        //
-        //  Discussion:
-        //
-        //    An I4VEC is a vector of integer values.
-        //
-        //    A run is a sequence of equal values.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    26 January 2007
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int N, the number of entries in the vector.
-        //
-        //    Input, int A[N], the vector to be examined.
-        //
-        //    Output, int I4VEC_RUN_COUNT, the number of runs.
-        //
+
+        public static int i4vec_run_count(int n, int[] a)
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_RUN_COUNT counts runs of equal values in an I4VEC.
+            //
+            //  Discussion:
+            //
+            //    An I4VEC is a vector of integer values.
+            //
+            //    A run is a sequence of equal values.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    26 January 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in the vector.
+            //
+            //    Input, int A[N], the vector to be examined.
+            //
+            //    Output, int I4VEC_RUN_COUNT, the number of runs.
+            //
         {
             int run_count = 0;
 
-            if ( n < 1 )
+            if (n < 1)
             {
                 return run_count;
             }
 
             int test = 0;
 
-            for (int i = 0; i < n; i++ )
+            for (int i = 0; i < n; i++)
             {
-                if ( i == 0 || a[i] != test )
+                if (i == 0 || a[i] != test)
                 {
                     run_count = run_count + 1;
                     test = a[i];
@@ -802,7 +760,7 @@ namespace Burkardt.Types
 
             return run_count;
         }
-        
+
         public static int i4vec_max(int n, int[] ivec)
         {
             if (ivec.Length <= 0)
@@ -817,11 +775,11 @@ namespace Burkardt.Types
             {
                 return ivec.Max();
             }
-            
+
             return ivec.Take(n).Max();
         }
-        
-        public static int i4vec_min ( int n, int[] ivec )
+
+        public static int i4vec_min(int n, int[] ivec)
         {
             if (ivec.Length <= 0)
             {
@@ -835,47 +793,47 @@ namespace Burkardt.Types
             {
                 return ivec.Min();
             }
-                    
+
             return ivec.Take(n).Min();
         }
 
         public static int[] i4row_max(int m, int n, int[] a)
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    I4ROW_MAX returns the maximums of an I4ROW.
-        //
-        //  Example:
-        //
-        //    A =
-        //      1  2  3
-        //      2  6  7
-        //
-        //    MAX =
-        //      3
-        //      7
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    10 October 2004
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int M, N, the number of rows and columns in the array.
-        //
-        //    Input, int A[M*N], the array to be examined.
-        //
-        //    Output, int I4ROW_AMAX[M], the maximums of the rows.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4ROW_MAX returns the maximums of an I4ROW.
+            //
+            //  Example:
+            //
+            //    A =
+            //      1  2  3
+            //      2  6  7
+            //
+            //    MAX =
+            //      3
+            //      7
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    10 October 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns in the array.
+            //
+            //    Input, int A[M*N], the array to be examined.
+            //
+            //    Output, int I4ROW_AMAX[M], the maximums of the rows.
+            //
         {
             int i;
             int j;
@@ -898,42 +856,42 @@ namespace Burkardt.Types
         }
 
         public static double[] i4row_mean(int m, int n, int[] a)
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    I4ROW_MEAN returns the means of an I4ROW.
-        //
-        //  Example:
-        //
-        //    A =
-        //      1  2  3
-        //      2  6  7
-        //
-        //    MEAN =
-        //      2
-        //      5
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    10 October 2004
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int M, N, the number of rows and columns in the array.
-        //
-        //    Input, int A[M*N], the array to be examined.
-        //
-        //    Output, double I4ROW_MEAN[M], the means, or averages, of the rows.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4ROW_MEAN returns the means of an I4ROW.
+            //
+            //  Example:
+            //
+            //    A =
+            //      1  2  3
+            //      2  6  7
+            //
+            //    MEAN =
+            //      2
+            //      5
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    10 October 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns in the array.
+            //
+            //    Input, int A[M*N], the array to be examined.
+            //
+            //    Output, double I4ROW_MEAN[M], the means, or averages, of the rows.
+            //
         {
             int i;
             int j;
@@ -954,42 +912,42 @@ namespace Burkardt.Types
         }
 
         public static int[] i4row_min(int m, int n, int[] a)
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    I4ROW_MIN returns the minimums of an I4ROW.
-        //
-        //  Example:
-        //
-        //    A =
-        //      1  2  3
-        //      2  6  7
-        //
-        //    MIN =
-        //      1
-        //      2
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    10 October 2004
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int M, N, the number of rows and columns in the array.
-        //
-        //    Input, int A[M*N], the array to be examined.
-        //
-        //    Output, int I4ROW_AMIN[M], the minimums of the rows.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4ROW_MIN returns the minimums of an I4ROW.
+            //
+            //  Example:
+            //
+            //    A =
+            //      1  2  3
+            //      2  6  7
+            //
+            //    MIN =
+            //      1
+            //      2
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    10 October 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns in the array.
+            //
+            //    Input, int A[M*N], the array to be examined.
+            //
+            //    Output, int I4ROW_AMIN[M], the minimums of the rows.
+            //
         {
             int i;
             int j;
@@ -1011,32 +969,32 @@ namespace Burkardt.Types
         }
 
         public static double[] i4row_variance(int m, int n, int[] a)
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    I4ROW_VARIANCE returns the variances of an I4ROW.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    10 October 2004
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int M, N, the number of rows and columns in the array.
-        //
-        //    Input, int A[M*N], the array whose variances are desired.
-        //
-        //    Output, double I4ROW_VARIANCE[M], the variances of the rows.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4ROW_VARIANCE returns the variances of an I4ROW.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    10 October 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns in the array.
+            //
+            //    Input, int A[M*N], the array whose variances are desired.
+            //
+            //    Output, double I4ROW_VARIANCE[M], the variances of the rows.
+            //
         {
             int i;
             int j;
@@ -1071,44 +1029,115 @@ namespace Burkardt.Types
 
             return variance;
         }
-        
-        public static int[] i4vec_zero_new ( int n )
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    I4VEC_ZERO_NEW creates and zeroes an I4VEC.
-//
-//  Discussion:
-//
-//    An I4VEC is a vector of I4's.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    11 July 2008
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, int N, the number of entries in the vector.
-//
-//    Output, int I4VEC_ZERO_NEW[N], a vector of zeroes.
-//
+
+        public static int[] i4vec_zero_new(int n)
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_ZERO_NEW creates and zeroes an I4VEC.
+            //
+            //  Discussion:
+            //
+            //    An I4VEC is a vector of I4's.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    11 July 2008
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in the vector.
+            //
+            //    Output, int I4VEC_ZERO_NEW[N], a vector of zeroes.
+            //
         {
             int[] a = new int[n];
 
-            for (int  i = 0; i < n; i++ )
+            for (int i = 0; i < n; i++)
             {
                 a[i] = 0;
             }
+
             return a;
+        }
+
+        public static int i4_sign(int i)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4_SIGN returns the sign of an I4.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    27 March 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int I, the integer whose sign is desired.
+            //
+            //    Output, int I4_SIGN, the sign of I.
+        {
+            if (i < 0)
+            {
+                return (-1);
+            }
+            else
+            {
+                return 1;
+            }
+
+        }
+        
+        public static void i4_swap ( ref int i, ref int j )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4_SWAP switches two I4's.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    07 January 2002
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input/output, int *I, *J.  On output, the values of I and
+            //    J have been interchanged.
+            //
+        {
+            int k;
+
+            k = i;
+            i = j;
+            j = k;
         }
 
     }

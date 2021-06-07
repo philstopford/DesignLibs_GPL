@@ -5,7 +5,7 @@ namespace Burkardt.BLAS
 {
     public static partial class BLAS1D
     {
-        public static double dasum(int n, double[] x, int incx)
+        public static double dasum(int n, double[] x, int startIndex, int incx)
 
             //****************************************************************************80
             //
@@ -60,7 +60,7 @@ namespace Burkardt.BLAS
 
             for (i = 0; i < n; i++)
             {
-                value = value + Math.Abs(x[j]);
+                value = value + Math.Abs(x[startIndex + j]);
                 j = j + incx;
             }
 
@@ -312,7 +312,7 @@ namespace Burkardt.BLAS
             return;
         }
 
-        public static double ddot(int n, double[] dx, int incx, double[] dy, int incy)
+        public static double ddot(int n, double[] dx, int startIndexDX, int incx, double[] dy, int startIndexDY, int incy)
 
             //****************************************************************************80
             //
@@ -407,7 +407,7 @@ namespace Burkardt.BLAS
 
                 for (i = 0; i < n; i++)
                 {
-                    dtemp = dtemp + dx[ix] * dy[iy];
+                    dtemp = dtemp + dx[startIndexDX + ix] * dy[startIndexDY + iy];
                     ix = ix + incx;
                     iy = iy + incy;
                 }
@@ -421,16 +421,16 @@ namespace Burkardt.BLAS
 
                 for (i = 0; i < m; i++)
                 {
-                    dtemp = dtemp + dx[i] * dy[i];
+                    dtemp = dtemp + dx[startIndexDX + i] * dy[startIndexDY + i];
                 }
 
                 for (i = m; i < n; i = i + 5)
                 {
-                    dtemp = dtemp + dx[i] * dy[i]
-                                  + dx[i + 1] * dy[i + 1]
-                                  + dx[i + 2] * dy[i + 2]
-                                  + dx[i + 3] * dy[i + 3]
-                                  + dx[i + 4] * dy[i + 4];
+                    dtemp = dtemp + dx[startIndexDX + i] * dy[startIndexDY + i]
+                                  + dx[startIndexDX + (i + 1)] * dy[startIndexDY + (i + 1)]
+                                  + dx[startIndexDX + (i + 2)] * dy[startIndexDY + (i + 2)]
+                                  + dx[startIndexDX + (i + 3)] * dy[startIndexDY + (i + 3)]
+                                  + dx[startIndexDX + (i + 4)] * dy[startIndexDY + (i + 4)];
                 }
 
             }
@@ -438,7 +438,7 @@ namespace Burkardt.BLAS
             return dtemp;
         }
 
-        public static double dnrm2(int n, double[] x, int incx)
+        public static double dnrm2(int n, double[] x, int startIndex, int incx)
             //****************************************************************************80
             //
             //  Purpose:
@@ -501,7 +501,7 @@ namespace Burkardt.BLAS
             }
             else if (n == 1)
             {
-                norm = Math.Abs(x[0]);
+                norm = Math.Abs(x[startIndex + 0]);
             }
             else
             {
@@ -511,9 +511,9 @@ namespace Burkardt.BLAS
 
                 for (i = 0; i < n; i++)
                 {
-                    if (x[ix] != 0.0)
+                    if (x[startIndex + ix] != 0.0)
                     {
-                        absxi = Math.Abs(x[ix]);
+                        absxi = Math.Abs(x[startIndex + ix]);
                         if (scale < absxi)
                         {
                             ssq = 1.0 + ssq * (scale / absxi) * (scale / absxi);

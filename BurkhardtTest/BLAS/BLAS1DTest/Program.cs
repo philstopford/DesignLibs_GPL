@@ -101,9 +101,9 @@ namespace BLAS1DTest
             }
 
             Console.WriteLine("");
-            Console.WriteLine("  DASUM ( NX,   X, 1 ) =    " + BLAS1D.dasum(NX, x, 1) + "");
-            Console.WriteLine("  DASUM ( NX/2, X, 2 ) =    " + BLAS1D.dasum(NX / 2, x, 2) + "");
-            Console.WriteLine("  DASUM ( 2,    X, NX/2 ) = " + BLAS1D.dasum(2, x, NX / 2) + "");
+            Console.WriteLine("  DASUM ( NX,   X, 1 ) =    " + BLAS1D.dasum(NX, x,0, 1) + "");
+            Console.WriteLine("  DASUM ( NX/2, X, 2 ) =    " + BLAS1D.dasum(NX / 2, x,0, 2) + "");
+            Console.WriteLine("  DASUM ( 2,    X, NX/2 ) = " + BLAS1D.dasum(2, x,0, NX / 2) + "");
 
             for (int i = 0; i < MA; i++)
             {
@@ -129,8 +129,8 @@ namespace BLAS1DTest
             }
 
             Console.WriteLine("");
-            Console.WriteLine("  DASUM(MA,A(1,2),1) =   " + BLAS1D.dasum(MA, a.Skip( 0 + 1 * LDA).ToArray(), 1) + "");
-            Console.WriteLine("  DASUM(NA,A(2,1),LDA) = " + BLAS1D.dasum(NA, a.Skip(1 + 0 * LDA).ToArray(), LDA) + "");
+            Console.WriteLine("  DASUM(MA,A(1,2),1) =   " + BLAS1D.dasum(MA, a, ( 0 + 1 * LDA), 1) + "");
+            Console.WriteLine("  DASUM(NA,A(2,1),LDA) = " + BLAS1D.dasum(NA, a, (1 + 0 * LDA), LDA) + "");
 
         }
 
@@ -482,7 +482,7 @@ namespace BLAS1DTest
                 }
             }
 
-            sum1 = BLAS1D.ddot(N, x, 1, y, 1);
+            sum1 = BLAS1D.ddot(N, x, 0, 1, y, 0, 1);
 
             Console.WriteLine("");
             Console.WriteLine("  Dot product of X and Y is " + sum1 + "");
@@ -490,14 +490,14 @@ namespace BLAS1DTest
 //  To multiply a ROW of a matrix A times a vector X, we need to
 //  specify the increment between successive entries of the row of A:
 //
-            sum1 = BLAS1D.ddot(N, a.Skip(1 + 0 * LDA).ToArray(), LDA, x, 1);
+            sum1 = BLAS1D.ddot(N, a, (1 + 0 * LDA), LDA, x, 0, 1);
 
             Console.WriteLine("");
             Console.WriteLine("  Product of row 2 of A and X is " + sum1 + "");
 //
 //  Product of a column of A and a vector is simpler:
 //
-            sum1 = BLAS1D.ddot(N, a.Skip( + 0 + 1 * LDA).ToArray(), 1, x, 1);
+            sum1 = BLAS1D.ddot(N, a, ( + 0 + 1 * LDA), 1, x,0, 1);
 
             Console.WriteLine("");
             Console.WriteLine("  Product of column 2 of A and X is " + sum1 + "");
@@ -509,7 +509,7 @@ namespace BLAS1DTest
             {
                 for (int j = 0; j < N; j++)
                 {
-                    c[i + j * LDC] = BLAS1D.ddot(N, a.Skip(+ i).ToArray(), LDA, b.Skip( + 0 + j * LDB).ToArray(), 1);
+                    c[i + j * LDC] = BLAS1D.ddot(N, a,(+ i), LDA, b, ( + 0 + j * LDB), 1);
                 }
             }
 
@@ -582,7 +582,7 @@ namespace BLAS1DTest
             }
 
             Console.WriteLine("");
-            Console.WriteLine("  The 2-norm of X is " + BLAS1D.dnrm2(N, x, 1) + "");
+            Console.WriteLine("  The 2-norm of X is " + BLAS1D.dnrm2(N, x, 0, 1) + "");
 //
 //  Compute the euclidean norm of a row or column of a matrix:
 //
@@ -596,11 +596,11 @@ namespace BLAS1DTest
 
             Console.WriteLine("");
             Console.WriteLine("  The 2-norm of row 2 of A is "
-                 + BLAS1D.dnrm2(N, a.Skip( + 1 + 0 * LDA).ToArray(), LDA) + "");
+                 + BLAS1D.dnrm2(N, a,( + 1 + 0 * LDA), LDA) + "");
 
             Console.WriteLine("");
             Console.WriteLine("  The 2-norm of column 2 of A is "
-                 + BLAS1D.dnrm2(N, a.Skip( + 0 + 1 * LDA).ToArray(), 1) + "");
+                 + BLAS1D.dnrm2(N, a, ( + 0 + 1 * LDA), 1) + "");
 
         }
 

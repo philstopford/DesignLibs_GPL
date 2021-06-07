@@ -6,7 +6,7 @@ namespace Burkardt.Types
     public static partial class typeMethods
     {
 
-        public static void r83vec_part_quick_a(int n, double[] a, ref int l, ref int r )
+        public static void r83vec_part_quick_a(int n, ref double[] a, int startIndexA, ref int l, ref int r )
 
         //****************************************************************************80
         //
@@ -71,9 +71,9 @@ namespace Burkardt.Types
                 return;
             }
 
-            key[0] = a[3 * 0 + 0];
-            key[1] = a[3 * 0 + 1];
-            key[2] = a[3 * 0 + 2];
+            key[0] = a[startIndexA + (3 * 0 + 0)];
+            key[1] = a[startIndexA + (3 * 0 + 1)];
+            key[2] = a[startIndexA + (3 * 0 + 2)];
             m = 1;
             //
             //  The elements of unknown size have indices between L+1 and R-1.
@@ -83,43 +83,19 @@ namespace Burkardt.Types
 
             for (i = 2; i <= n; i++)
             {
-                if (r8vec_gt(3, a.Skip(3 * ll).ToArray(), key))
+                if (r8vec_gt(3, a, startIndexA + (3 * ll), key))
                 {
                     rr = rr - 1;
-                    double[] tmp = a.Skip(3 * (rr - 1)).ToArray();
-                    double[] tmp2 = a.Skip(3 * ll).ToArray();
-                    r8vec_swap(3, ref tmp, ref tmp2);
-
-                    for (int t = 0; t < tmp.Length; t++)
-                    {
-                        a[(3 * (rr - 1)) + t] = tmp[t];
-                    }
-                    
-                    for (int t = 0; t < tmp2.Length; t++)
-                    {
-                        a[(3 * ll) + t] = tmp2[t];
-                    }
+                    r8vec_swap(3, ref a, startIndexA + (3 * (rr - 1)), ref a, startIndexA + (3 * ll));
                 }
-                else if (r8vec_eq(3, a.Skip(3 * ll).ToArray(), key))
+                else if (r8vec_eq(3, a, startIndexA + (3 * ll), key))
                 {
                     m = m + 1;
-                    double[] tmp = a.Skip(3 * (m - 1)).ToArray();
-                    double[] tmp2 = a.Skip(3 * ll).ToArray();
-                    r8vec_swap(3, ref tmp, ref tmp2);
-
-                    for (int t = 0; t < tmp.Length; t++)
-                    {
-                        a[(3 * (m - 1)) + t] = tmp[t];
-                    }
-
-                    for (int t = 0; t < tmp2.Length; t++)
-                    {
-                        a[(3 * ll) + t] = tmp2[t];
-                    }
+                    r8vec_swap(3, ref a, startIndexA + (3 * (m - 1)), ref a, startIndexA + (3 * ll));
                     
                     ll = ll + 1;
                 }
-                else if (r8vec_lt(3, a.Skip(3 * ll).ToArray(), key))
+                else if (r8vec_lt(3, a, startIndexA + (3 * ll), key))
                 {
                     ll = ll + 1;
                 }
@@ -133,7 +109,7 @@ namespace Burkardt.Types
             {
                 for (j = 0; j < 3; j++)
                 {
-                    a[3 * i + j] = a[3 * (i + m) + j];
+                    a[startIndexA + (3 * i + j)] = a[startIndexA + (3 * (i + m) + j)];
                 }
             }
 
@@ -143,7 +119,7 @@ namespace Burkardt.Types
             {
                 for (j = 0; j < 3; j++)
                 {
-                    a[3 * i + j] = key[j];
+                    a[startIndexA + (3 * i + j)] = key[j];
                 }
             }
 
@@ -217,7 +193,7 @@ namespace Burkardt.Types
                 //
                 //  Partition the segment.
                 //
-                r83vec_part_quick_a(n_segment, a.Skip(3 * (base_ - 1) + 0).ToArray(), ref l_segment, ref r_segment);
+                r83vec_part_quick_a(n_segment, ref a, (3 * (base_ - 1) + 0), ref l_segment, ref r_segment);
                 //
                 //  If the left segment has more than one element, we need to partition it.
                 //

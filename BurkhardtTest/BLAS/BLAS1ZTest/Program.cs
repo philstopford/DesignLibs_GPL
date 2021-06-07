@@ -138,11 +138,11 @@ namespace BLAS1ZTest
 
             Console.WriteLine("");
             Console.WriteLine("  DZASUM ( NX,   X, 1    ) = "
-                 + BLAS1Z.dzasum(NX, x, 1) + "");
+                 + BLAS1Z.dzasum(NX, x, 0, 1) + "");
             Console.WriteLine("  DZASUM ( NX/2, X, 2    ) = "
-                 + BLAS1Z.dzasum(NX / 2, x, 2) + "");
+                 + BLAS1Z.dzasum(NX / 2, x, 0, 2) + "");
             Console.WriteLine("  DZASUM ( 2,    X, NX/2 ) = "
-                 + BLAS1Z.dzasum(2, x, NX / 2) + "");
+                 + BLAS1Z.dzasum(2, x, 0, NX / 2) + "");
 
             Console.WriteLine("");
             Console.WriteLine("  Demonstrate with a matrix A:");
@@ -160,9 +160,9 @@ namespace BLAS1ZTest
 
             Console.WriteLine("");
             Console.WriteLine("  DZASUM ( MA, A[1,2], 1 )   = "
-                 + BLAS1Z.dzasum(MA, a.Skip( + 0 + 1 * MA).ToArray(), 1) + "");
+                 + BLAS1Z.dzasum(MA, a,0 + 1 * MA, 1) + "");
             Console.WriteLine("  DZASUM ( NA, A[2,1], MA ) = "
-                 + BLAS1Z.dzasum(NA, a.Skip( + 1 + 0 * MA).ToArray(), MA) + "");
+                 + BLAS1Z.dzasum(NA, a, ( + 1 + 0 * MA), MA) + "");
         }
 
         static void test02()

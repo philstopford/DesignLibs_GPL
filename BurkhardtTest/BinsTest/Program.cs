@@ -152,7 +152,7 @@ int N = 12;
 
       typeMethods.r82vec_print(N, a, "  Before rearrangment:");
 
-      typeMethods.r82vec_part_quick_a(N, a, ref l, ref r);
+      typeMethods.r82vec_part_quick_a(N, ref a,0, ref l, ref r);
 
       Console.WriteLine("");
       Console.WriteLine("  Rearranged array");

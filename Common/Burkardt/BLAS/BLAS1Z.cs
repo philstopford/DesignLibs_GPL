@@ -5,7 +5,7 @@ namespace Burkardt.BLAS
 {
     public static class BLAS1Z
     {
-        public static double dzasum(int n, Complex[] x, int incx)
+        public static double dzasum(int n, Complex[] x, int startIndexX, int incx)
 
             //****************************************************************************80
             //
@@ -66,8 +66,8 @@ namespace Burkardt.BLAS
             {
                 for (i = 0; i < n; i++)
                 {
-                    value = value + Math.Abs(x[i].Real)
-                                  + Math.Abs(x[i].Imaginary);
+                    value = value + Math.Abs(x[startIndexX + (i)].Real)
+                                  + Math.Abs(x[startIndexX + (i)].Imaginary);
                 }
             }
             else
@@ -75,8 +75,8 @@ namespace Burkardt.BLAS
                 ix = 0;
                 for (i = 0; i < n; i++)
                 {
-                    value = value + Math.Abs(x[ix].Real)
-                                  + Math.Abs(x[ix].Imaginary);
+                    value = value + Math.Abs(x[startIndexX = (ix)].Real)
+                                  + Math.Abs(x[startIndexX + (ix)].Imaginary);
                     ix = ix + incx;
                 }
             }

@@ -1966,7 +1966,7 @@ namespace Burkardt.Types
             return;
         }
 
-        public static bool r8vec_eq(int n, double[] a1, double[] a2)
+        public static bool r8vec_eq(int n, double[] a1, int startIndexA1, double[] a2)
 
             //****************************************************************************80
             //
@@ -2001,7 +2001,7 @@ namespace Burkardt.Types
 
             for (i = 0; i < n; i++)
             {
-                if (a1[i] != a2[i])
+                if (a1[startIndexA1 + i] != a2[i])
                 {
                     return false;
                 }
@@ -2010,7 +2010,7 @@ namespace Burkardt.Types
             return true;
         }
 
-        public static bool r8vec_gt(int n, double[] a1, double[] a2)
+        public static bool r8vec_gt(int n, double[] a1, int startIndexA1, double[] a2)
 
             //****************************************************************************80
             //
@@ -2052,11 +2052,11 @@ namespace Burkardt.Types
 
             for (i = 0; i < n; i++)
             {
-                if (a2[i] < a1[i])
+                if (a2[i] < a1[startIndexA1 + i])
                 {
                     return true;
                 }
-                else if (a1[i] < a2[i])
+                else if (a1[startIndexA1 + i] < a2[i])
                 {
                     return false;
                 }
@@ -2065,7 +2065,7 @@ namespace Burkardt.Types
             return false;
         }
 
-        public static bool r8vec_lt(int n, double[] a1, double[] a2)
+        public static bool r8vec_lt(int n, double[] a1, int startIndexA1, double[] a2)
 
             //****************************************************************************80
             //
@@ -2107,11 +2107,11 @@ namespace Burkardt.Types
 
             for (i = 0; i < n; i++)
             {
-                if (a1[i] < a2[i])
+                if (a1[startIndexA1 + i] < a2[i])
                 {
                     return true;
                 }
-                else if (a2[i] < a1[i])
+                else if (a2[i] < a1[startIndexA1 + i])
                 {
                     return false;
                 }
@@ -2121,7 +2121,7 @@ namespace Burkardt.Types
             return false;
         }
 
-        public static void r8vec_part_quick_a(int n, ref double[] a, ref int l, ref int r)
+        public static void r8vec_part_quick_a(int n, ref double[] a, int startIndexA, ref int l, ref int r)
 
             //****************************************************************************80
             //
@@ -2197,7 +2197,7 @@ namespace Burkardt.Types
                 return;
             }
 
-            key = a[0];
+            key = a[startIndexA + 0];
             m = 1;
             //
             //  The elements of unknown size have indices between L+1 and R-1.
@@ -2208,22 +2208,22 @@ namespace Burkardt.Types
             for (i = 2; i <= n; i++)
             {
 
-                if (key < a[l])
+                if (key < a[startIndexA + l])
                 {
                     r = r - 1;
-                    temp = a[r - 1];
-                    a[r - 1] = a[l];
-                    a[l] = temp;
+                    temp = a[startIndexA + (r - 1)];
+                    a[startIndexA + (r - 1)] = a[startIndexA + l];
+                    a[startIndexA + l] = temp;
                 }
-                else if (a[l] == key)
+                else if (a[startIndexA + (l)] == key)
                 {
                     m = m + 1;
-                    temp = a[m - 1];
-                    a[m - 1] = a[l];
-                    a[l] = temp;
+                    temp = a[startIndexA + (m - 1)];
+                    a[startIndexA + (m - 1)] = a[startIndexA + (l)];
+                    a[startIndexA + (l)] = temp;
                     l = l + 1;
                 }
-                else if (a[l] < key)
+                else if (a[startIndexA + (l)] < key)
                 {
                     l = l + 1;
                 }
@@ -2235,17 +2235,15 @@ namespace Burkardt.Types
             //
             for (i = 1; i <= l - m; i++)
             {
-                a[i - 1] = a[i + m - 1];
+                a[startIndexA + (i - 1)] = a[startIndexA + (i + m - 1)];
             }
 
             l = l - m;
 
             for (i = l + 1; i <= l + m; i++)
             {
-                a[i - 1] = key;
+                a[startIndexA + (i - 1)] = key;
             }
-
-            return;
         }
 
 public static void r8vec_sort_quick_a ( int n, ref double[] a )
@@ -2323,12 +2321,7 @@ int LEVEL_MAX = 30;
 //
 //  Partition the segment.
 //
-double[] tmp = a.Skip(base_ - 1).ToArray();
-    r8vec_part_quick_a ( n_segment, ref tmp, ref l_segment, ref r_segment );
-    for (int i = 0; i < tmp.Length; i++)
-    {
-        a[base_ - 1 + i] = tmp[i];
-    }
+    r8vec_part_quick_a ( n_segment, ref a, (base_ - 1 ), ref l_segment, ref r_segment );
 //
 //  If the left segment has more than one element, we need to partition it.
 //
@@ -2384,7 +2377,7 @@ double[] tmp = a.Skip(base_ - 1).ToArray();
 
 }
 
-public static void r8vec_swap ( int n, ref double[] a1, ref double[] a2 )
+public static void r8vec_swap ( int n, ref double[] a1, int startIndexA1, ref double[] a2, int startIndexA2 )
 
 //****************************************************************************80
 //
@@ -2411,13 +2404,11 @@ public static void r8vec_swap ( int n, ref double[] a1, ref double[] a2 )
 //    Input/output, double A1[N], A2[N], the vectors to swap.
 //
 {
-  double temp;
-
-  for ( int i = 0; i < n; i++ )
+    for ( int i = 0; i < n; i++ )
   {
-    temp  = a1[i];
-    a1[i] = a2[i];
-    a2[i] = temp;
+    double temp = a1[i + startIndexA1];
+    a1[i + startIndexA1] = a2[i + startIndexA2];
+    a2[i + startIndexA2] = temp;
   }
 }
 

@@ -446,7 +446,7 @@ namespace BLAS1ZTest
             Console.WriteLine("");
             Console.WriteLine("  The scalar multiplier is: " + s + "");
 
-            BLAS1Z.zaxpy(N, s, x, 1, y, 1);
+            BLAS1Z.zaxpy(N, s, x, 1, ref y, 1);
 
             Console.WriteLine("");
             Console.WriteLine("  A * X + Y =");
@@ -544,7 +544,7 @@ namespace BLAS1ZTest
                 Console.WriteLine("");
             }
 
-            BLAS1Z.zcopy(5, x, 1, y, 1);
+            BLAS1Z.zcopy(5, x, 1, ref y, 1);
             Console.WriteLine("");
             Console.WriteLine("  ZCOPY ( 5, X, 1, Y, 1 )");
             Console.WriteLine("");
@@ -560,7 +560,7 @@ namespace BLAS1ZTest
                 y[i] = new Complex(20 * (i + 1), 2 * (i + 1));
             }
 
-            BLAS1Z.zcopy(3, x, 2, y, 3);
+            BLAS1Z.zcopy(3, x, 2, ref y, 3);
 
             Console.WriteLine("");
             Console.WriteLine("  ZCOPY ( 3, X, 2, Y, 3 )");
@@ -572,7 +572,7 @@ namespace BLAS1ZTest
                     + "  " + y[i].Imaginary.ToString().PadLeft(6) + "");
             }
 
-            BLAS1Z.zcopy(5, x, 1, a, 1);
+            BLAS1Z.zcopy(5, x, 1, ref a, 1);
 
             Console.WriteLine("");
             Console.WriteLine("  ZCOPY ( 5, X, 1, A, 1 )");
@@ -599,7 +599,7 @@ namespace BLAS1ZTest
                 }
             }
 
-            BLAS1Z.zcopy(5, x, 2, a, 5);
+            BLAS1Z.zcopy(5, x, 2, ref a, 5);
 
             Console.WriteLine("");
             Console.WriteLine("  ZCOPY ( 5, X, 2, A, 5 )");
@@ -829,7 +829,7 @@ namespace BLAS1ZTest
 
             double c = 0.5;
             double s = Math.Sqrt(1.0 - c * c);
-            BLAS1Z.zdrot(N, x, 1, y, 1, c, s);
+            BLAS1Z.zdrot(N, ref x, 1, ref y, 1, c, s);
             Console.WriteLine("");
             Console.WriteLine("  ZDROT ( N, X, 1, Y, 1, " + c + "," + s + " )");
             Console.WriteLine("");
@@ -886,7 +886,7 @@ namespace BLAS1ZTest
             }
 
             double da = 5.0;
-            BLAS1Z.zdscal(N, da, x, 1);
+            BLAS1Z.zdscal(N, da, ref x, 1);
             Console.WriteLine("");
             Console.WriteLine("  ZDSCAL ( N, " + da + ", X, 1 )");
             Console.WriteLine("");
@@ -903,7 +903,7 @@ namespace BLAS1ZTest
             }
 
             da = -2.0;
-            BLAS1Z.zdscal(3, da, x, 2);
+            BLAS1Z.zdscal(3, da, ref x, 2);
             Console.WriteLine("");
             Console.WriteLine("  ZDSCAL ( 3, " + da + ", X, 2 )");
             Console.WriteLine("");
@@ -1050,7 +1050,7 @@ namespace BLAS1ZTest
             }
 
             da = new Complex(5.0, 0.0);
-            BLAS1Z.zscal(N, da, x, 1);
+            BLAS1Z.zscal(N, da, ref x, 1);
             Console.WriteLine("");
             Console.WriteLine("  ZSCAL ( N, (" + da + "), X, 1 )");
             Console.WriteLine("");
@@ -1067,7 +1067,7 @@ namespace BLAS1ZTest
             }
 
             da = new Complex(-2.0, 1.0);
-            BLAS1Z.zscal(3, da, x, 2);
+            BLAS1Z.zscal(3, da, ref x, 2);
             Console.WriteLine("");
             Console.WriteLine("  ZSCAL ( 3, (" + da + "), X, 2 )");
             Console.WriteLine("");
@@ -1220,7 +1220,7 @@ namespace BLAS1ZTest
                     + "  " + y[i].ToString().PadLeft(20) + "");
             }
 
-            BLAS1Z.zswap(N, x, 1, y, 1);
+            BLAS1Z.zswap(N, ref x, 1, ref y, 1);
             Console.WriteLine("");
             Console.WriteLine("  ZSWAP ( N, X, 1, Y, 1 )");
             Console.WriteLine("");
@@ -1243,7 +1243,7 @@ namespace BLAS1ZTest
                 y[i] = new Complex(20 * (i + 1), 2 * (i + 1));
             }
 
-            BLAS1Z.zswap(3, x, 2, y, 1);
+            BLAS1Z.zswap(3, ref x, 2, ref y, 1);
             Console.WriteLine("");
             Console.WriteLine("  ZSWAP ( 3, X, 2, Y, 1 )");
             Console.WriteLine("");

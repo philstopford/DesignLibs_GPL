@@ -67,7 +67,7 @@ namespace Burkardt.BLAS
             return value;
         }
 
-        public static void daxpy(int n, double da, double[] dx, int incx, double[] dy, int incy)
+        public static void daxpy(int n, double da, double[] dx, int incx, ref double[] dy, int incy)
 
             //****************************************************************************80
             //
@@ -194,7 +194,7 @@ namespace Burkardt.BLAS
             return;
         }
 
-        public static void dcopy(int n, double[] dx, int incx, double[] dy, int incy)
+        public static void dcopy(int n, double[] dx, int incx, ref double[] dy, int incy)
 
             //****************************************************************************80
             //
@@ -534,7 +534,7 @@ namespace Burkardt.BLAS
             return norm;
         }
 
-        public static void drot(int n, double[] x, int incx, double[] y, int incy, double c,
+        public static void drot(int n, ref double[] x, int incx, ref double[] y, int incy, double c,
                 double s)
 
             //****************************************************************************80
@@ -759,7 +759,7 @@ namespace Burkardt.BLAS
             sb = z;
         }
 
-        public static void dscal(int n, double sa, double[] x, int incx)
+        public static void dscal(int n, double sa, ref double[] x, int incx)
 
             //****************************************************************************80
             //
@@ -851,7 +851,7 @@ namespace Burkardt.BLAS
             }
         }
 
-        public static void dswap(int n, double[] x, int incx, double[] y, int incy)
+        public static void dswap(int n, ref double[] x, int incx, ref double[] y, int incy)
 
             //****************************************************************************80
             //

@@ -291,7 +291,7 @@ namespace Burkardt.BLAS
         }
 
         public static void zaxpy(int n, Complex ca, Complex[] cx,
-                int incx, Complex[] cy, int incy)
+                int incx, ref Complex[] cy, int incy)
 
             //****************************************************************************80
             //
@@ -396,7 +396,7 @@ namespace Burkardt.BLAS
             return;
         }
 
-        public static void zcopy(int n, Complex[] cx, int incx, Complex[] cy,
+        public static void zcopy(int n, Complex[] cx, int incx, ref Complex[] cy,
                 int incy)
 
             //****************************************************************************80
@@ -699,7 +699,7 @@ namespace Burkardt.BLAS
             return value;
         }
 
-        public static void zdrot(int n, Complex[] cx, int incx, Complex[] cy,
+        public static void zdrot(int n, ref Complex[] cx, int incx, ref Complex[] cy,
                 int incy, double c, double s)
 
             //****************************************************************************80
@@ -804,7 +804,7 @@ namespace Burkardt.BLAS
             }
         }
 
-        public static void zdscal(int n, double sa, Complex[] cx, int incx)
+        public static void zdscal(int n, double sa, ref Complex[] cx, int incx)
 
             //****************************************************************************80
             //
@@ -970,7 +970,7 @@ namespace Burkardt.BLAS
             }
         }
 
-        public static void zscal(int n, Complex ca, Complex[] cx, int incx)
+        public static void zscal(int n, Complex ca, ref Complex[] cx, int incx)
 
             //****************************************************************************80
             //
@@ -1042,7 +1042,7 @@ namespace Burkardt.BLAS
             return;
         }
 
-        public static void zswap(int n, Complex[] cx, int incx, Complex[] cy,
+        public static void zswap(int n, ref Complex[] cx, int incx, ref Complex[] cy,
                 int incy)
 
             //****************************************************************************80

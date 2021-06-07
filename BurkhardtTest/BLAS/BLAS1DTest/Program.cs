@@ -195,7 +195,7 @@ namespace BLAS1DTest
             }
 
             da = 1.0;
-            BLAS1D.daxpy(N, da, x, 1, y, 1);
+            BLAS1D.daxpy(N, da, x, 1, ref y, 1);
             Console.WriteLine("");
             Console.WriteLine("  DAXPY ( N, " + da + ", X, 1, Y, 1 )");
             Console.WriteLine("");
@@ -214,7 +214,7 @@ namespace BLAS1DTest
             }
 
             da = -2.0;
-            BLAS1D.daxpy(N, da, x, 1, y, 1);
+            BLAS1D.daxpy(N, da, x, 1, ref y, 1);
             Console.WriteLine("");
             Console.WriteLine("  DAXPY ( N, " + da + ", X, 1, Y, 1 )");
             Console.WriteLine("");
@@ -233,7 +233,7 @@ namespace BLAS1DTest
             }
 
             da = 3.0;
-            BLAS1D.daxpy(3, da, x, 2, y, 1);
+            BLAS1D.daxpy(3, da, x, 2, ref y, 1);
             Console.WriteLine("");
             Console.WriteLine("  DAXPY ( 3, " + da + ", X, 2, Y, 1 )");
             Console.WriteLine("");
@@ -252,7 +252,7 @@ namespace BLAS1DTest
             }
 
             da = -4.0;
-            BLAS1D.daxpy(3, da, x, 1, y, 2);
+            BLAS1D.daxpy(3, da, x, 1, ref y, 2);
             Console.WriteLine("");
             Console.WriteLine("  DAXPY ( 3, " + da + ", X, 1, Y, 2 )");
             Console.WriteLine("");
@@ -348,7 +348,7 @@ namespace BLAS1DTest
                 Console.WriteLine(cout);
             }
 
-            BLAS1D.dcopy(5, x, 1, y, 1);
+            BLAS1D.dcopy(5, x, 1, ref y, 1);
             Console.WriteLine("");
             Console.WriteLine("  DCOPY ( 5, X, 1, Y, 1 )");
             Console.WriteLine("");
@@ -364,7 +364,7 @@ namespace BLAS1DTest
                 y[i] = (double) (10 * (i + 1));
             }
 
-            BLAS1D.dcopy(3, x, 2, y, 3);
+            BLAS1D.dcopy(3, x, 2, ref y, 3);
             Console.WriteLine("");
             Console.WriteLine("  DCOPY ( 3, X, 2, Y, 3 )");
             Console.WriteLine("");
@@ -375,7 +375,7 @@ namespace BLAS1DTest
                      + y[i].ToString().PadLeft(14) + "");
             }
 
-            BLAS1D.dcopy(5, x, 1, a, 1);
+            BLAS1D.dcopy(5, x, 1, ref a, 1);
             Console.WriteLine("");
             Console.WriteLine("  DCOPY ( 5, X, 1, A, 1 )");
             Console.WriteLine("");
@@ -400,7 +400,7 @@ namespace BLAS1DTest
                 }
             }
 
-            BLAS1D.dcopy(5, x, 2, a, 5);
+            BLAS1D.dcopy(5, x, 2, ref a, 5);
             Console.WriteLine("");
             Console.WriteLine("  DCOPY ( 5, X, 2, A, 5 )");
             Console.WriteLine("");
@@ -658,7 +658,7 @@ namespace BLAS1DTest
 
             c = 0.5;
             s = Math.Sqrt(1.0 - c * c);
-            BLAS1D.drot(N, x, 1, y, 1, c, s);
+            BLAS1D.drot(N, ref x, 1, ref y, 1, c, s);
             Console.WriteLine("");
             Console.WriteLine("  DROT ( N, X, 1, Y, 1, " + c + "," + s + " )");
             Console.WriteLine("");
@@ -682,7 +682,7 @@ namespace BLAS1DTest
 
             c = x[0] / Math.Sqrt(x[0] * x[0] + y[0] * y[0]);
             s = y[0] / Math.Sqrt(x[0] * x[0] + y[0] * y[0]);
-            BLAS1D.drot(N, x, 1, y, 1, c, s);
+            BLAS1D.drot(N, ref x, 1, ref y, 1, c, s);
             Console.WriteLine("");
             Console.WriteLine("  DROT ( N, X, 1, Y, 1, " + c + "," + s + " )");
             Console.WriteLine("");
@@ -795,7 +795,7 @@ namespace BLAS1DTest
             }
 
             double da = 5.0;
-            BLAS1D.dscal(N, da, x, 1);
+            BLAS1D.dscal(N, da, ref x, 1);
             Console.WriteLine("");
             Console.WriteLine("  DSCAL ( N, " + da + ", X, 1 )");
             Console.WriteLine("");
@@ -812,7 +812,7 @@ namespace BLAS1DTest
             }
 
             da = -2.0;
-            BLAS1D.dscal(3, da, x, 2);
+            BLAS1D.dscal(3, da, ref x, 2);
             Console.WriteLine("");
             Console.WriteLine("  DSCAL ( 3, " + da + ", X, 2 )");
             Console.WriteLine("");
@@ -874,7 +874,7 @@ namespace BLAS1DTest
                      + y[i].ToString().PadLeft(14) + "");
             }
 
-            BLAS1D.dswap(N, x, 1, y, 1);
+            BLAS1D.dswap(N, ref x, 1, ref y, 1);
             Console.WriteLine("");
             Console.WriteLine("  DSWAP ( N, X, 1, Y, 1 )");
             Console.WriteLine("");
@@ -898,7 +898,7 @@ namespace BLAS1DTest
                 y[i] = (double) (100 * (i + 1));
             }
 
-            BLAS1D.dswap(3, x, 2, y, 1);
+            BLAS1D.dswap(3, ref x, 2, ref y, 1);
             Console.WriteLine("");
             Console.WriteLine("  DSWAP ( 3, X, 2, Y, 1 )");
 

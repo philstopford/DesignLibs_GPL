@@ -32,7 +32,6 @@ namespace BellmanFordTest
         {
             Console.WriteLine("");
             Console.WriteLine("BELLMAN_FORD_TEST");
-            Console.WriteLine("  C++ version");
             Console.WriteLine("  Test the BELLMAN_FORD library.");
 
             test01();
@@ -68,35 +67,35 @@ namespace BellmanFordTest
             //    John Burkardt
             //
         {
-            int[] e = 
-            {
-                1, 0,
-                4, 1,
-                1, 2,
-                2, 4,
-                4, 0,
-                2, 5,
-                5, 0,
-                3, 2,
-                5, 3,
-                3, 0,
-            }
-            ;
+            int[] e =
+                {
+                    1, 0,
+                    4, 1,
+                    1, 2,
+                    2, 4,
+                    4, 0,
+                    2, 5,
+                    5, 0,
+                    3, 2,
+                    5, 3,
+                    3, 0,
+                }
+                ;
             int e_num = 10;
-            double[] e_weight = 
-            {
-                -3.0,
-                6.0,
-                -4.0,
-                -1.0,
-                4.0,
-                -2.0,
-                2.0,
-                8.0,
-                -3.0,
-                3.0
-            }
-            ;
+            double[] e_weight =
+                {
+                    -3.0,
+                    6.0,
+                    -4.0,
+                    -1.0,
+                    4.0,
+                    -2.0,
+                    2.0,
+                    8.0,
+                    -3.0,
+                    3.0
+                }
+                ;
             int[] predecessor = new int[6];
             int source = 0;
             int v_num = 6;
@@ -121,3 +120,4 @@ namespace BellmanFordTest
         }
     }
 
+}

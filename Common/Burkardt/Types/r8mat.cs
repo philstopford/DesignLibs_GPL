@@ -6,79 +6,79 @@ namespace Burkardt.Types
     {
 
         public static void r8mat_transpose_print(int m, int n, double[] a, string title)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8MAT_TRANSPOSE_PRINT prints an R8MAT, transposed.
-//
-//  Discussion:
-//
-//    An R8MAT is a doubly dimensioned array of R8 values, stored as a vector
-//    in column-major order.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    10 September 2009
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, int M, N, the number of rows and columns.
-//
-//    Input, double A[M*N], an M by N matrix to be printed.
-//
-//    Input, string TITLE, a title.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8MAT_TRANSPOSE_PRINT prints an R8MAT, transposed.
+            //
+            //  Discussion:
+            //
+            //    An R8MAT is a doubly dimensioned array of R8 values, stored as a vector
+            //    in column-major order.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    10 September 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns.
+            //
+            //    Input, double A[M*N], an M by N matrix to be printed.
+            //
+            //    Input, string TITLE, a title.
+            //
         {
             r8mat_transpose_print_some(m, n, a, 1, 1, m, n, title);
         }
 
         public static void r8mat_transpose_print_some(int m, int n, double[] a, int ilo, int jlo,
-            int ihi, int jhi, string title)
+                int ihi, int jhi, string title)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8MAT_TRANSPOSE_PRINT_SOME prints some of an R8MAT, transposed.
-//
-//  Discussion:
-//
-//    An R8MAT is a doubly dimensioned array of R8 values, stored as a vector
-//    in column-major order.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    07 April 2014
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, int M, N, the number of rows and columns.
-//
-//    Input, double A[M*N], an M by N matrix to be printed.
-//
-//    Input, int ILO, JLO, the first row and column to print.
-//
-//    Input, int IHI, JHI, the last row and column to print.
-//
-//    Input, string TITLE, a title.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8MAT_TRANSPOSE_PRINT_SOME prints some of an R8MAT, transposed.
+            //
+            //  Discussion:
+            //
+            //    An R8MAT is a doubly dimensioned array of R8 values, stored as a vector
+            //    in column-major order.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    07 April 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns.
+            //
+            //    Input, double A[M*N], an M by N matrix to be printed.
+            //
+            //    Input, int ILO, JLO, the first row and column to print.
+            //
+            //    Input, int IHI, JHI, the last row and column to print.
+            //
+            //    Input, string TITLE, a title.
+            //
         {
             int INCX = 5;
 
@@ -123,7 +123,7 @@ namespace Burkardt.Types
 
             for (i2lo = i2lo_lo; i2lo <= i2lo_hi; i2lo = i2lo + INCX)
             {
-// Ugly hack to sidestep a mismatch in the output behavior compared to reference.
+                // Ugly hack to sidestep a mismatch in the output behavior compared to reference.
                 if (i2lo > INCX)
                 {
                     break;
@@ -188,84 +188,84 @@ namespace Burkardt.Types
         }
 
         public static void r8mat_print(int m, int n, double[] a, string title)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8MAT_PRINT prints an R8MAT, with an optional title.
-//
-//  Discussion:
-//
-//    An R8MAT is an array of R8's.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    29 August 2003
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, int M, the number of rows in A.
-//
-//    Input, int N, the number of columns in A.
-//
-//    Input, double A[M*N], the M by N matrix.
-//
-//    Input, string TITLE, a title.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8MAT_PRINT prints an R8MAT, with an optional title.
+            //
+            //  Discussion:
+            //
+            //    An R8MAT is an array of R8's.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    29 August 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, the number of rows in A.
+            //
+            //    Input, int N, the number of columns in A.
+            //
+            //    Input, double A[M*N], the M by N matrix.
+            //
+            //    Input, string TITLE, a title.
+            //
         {
             r8mat_print_some(m, n, a, 1, 1, m, n, title);
         }
-//****************************************************************************80
+        //****************************************************************************80
 
         public static void r8mat_print_some(int m, int n, double[] a, int ilo, int jlo, int ihi,
-            int jhi, string title)
+                int jhi, string title)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8MAT_PRINT_SOME prints some of an R8MAT.
-//
-//  Discussion:
-//
-//    An R8MAT is a doubly dimensioned array of R8 values, stored as a vector
-//    in column-major order.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    26 June 2013
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, int M, the number of rows of the matrix.
-//    M must be positive.
-//
-//    Input, int N, the number of columns of the matrix.
-//    N must be positive.
-//
-//    Input, double A[M*N], the matrix.
-//
-//    Input, int ILO, JLO, IHI, JHI, designate the first row and
-//    column, and the last row and column to be printed.
-//
-//    Input, string TITLE, a title.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8MAT_PRINT_SOME prints some of an R8MAT.
+            //
+            //  Discussion:
+            //
+            //    An R8MAT is a doubly dimensioned array of R8 values, stored as a vector
+            //    in column-major order.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    26 June 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, the number of rows of the matrix.
+            //    M must be positive.
+            //
+            //    Input, int N, the number of columns of the matrix.
+            //    N must be positive.
+            //
+            //    Input, double A[M*N], the matrix.
+            //
+            //    Input, int ILO, JLO, IHI, JHI, designate the first row and
+            //    column, and the last row and column to be printed.
+            //
+            //    Input, string TITLE, a title.
+            //
         {
             int INCX = 5;
 
@@ -279,9 +279,9 @@ namespace Burkardt.Types
                 return;
             }
 
-//
-//  Print the columns of the matrix, in strips of 5.
-//
+            //
+            //  Print the columns of the matrix, in strips of 5.
+            //
             for (int j2lo = jlo; j2lo <= jhi; j2lo = j2lo + INCX)
             {
                 int j2hi = j2lo + INCX - 1;
@@ -296,11 +296,11 @@ namespace Burkardt.Types
                 }
 
                 Console.WriteLine();
-//
-//  For each column J in the current range...
-//
-//  Write the header.
-//
+                //
+                //  For each column J in the current range...
+                //
+                //  Write the header.
+                //
                 string cout = "  Col:    ";
                 for (int j = j2lo; j <= j2hi; j++)
                 {
@@ -311,9 +311,9 @@ namespace Burkardt.Types
                 Console.WriteLine();
                 Console.WriteLine("  Row");
                 Console.WriteLine();
-//
-//  Determine the range of the rows in this strip.
-//
+                //
+                //  Determine the range of the rows in this strip.
+                //
 
                 int i2lo;
                 int i2hi;
@@ -338,9 +338,9 @@ namespace Burkardt.Types
 
                 for (int i = i2lo; i <= i2hi; i++)
                 {
-//
-//  Print out (up to) 5 entries in row I, that lie in the current strip.
-//
+                    //
+                    //  Print out (up to) 5 entries in row I, that lie in the current strip.
+                    //
                     cout = (i - 1).ToString().PadLeft(5) + ": ";
                     for (int j = j2lo; j <= j2hi; j++)
                     {
@@ -353,55 +353,55 @@ namespace Burkardt.Types
         }
 
         public static double[] r8mat_solve2(int n, ref double[] a, ref double[] b, ref int ierror)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8MAT_SOLVE2 computes the solution of an N by N linear system.
-//
-//  Discussion: 							    
-//
-//    An R8MAT is a doubly dimensioned array of R8 values, stored as a vector 
-//    in column-major order.
-//
-//    The linear system may be represented as
-//
-//      A*X = B
-//
-//    If the linear system is singular, but consistent, then the routine will
-//    still produce a solution.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    29 October 2005
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, int N, the number of equations.
-//
-//    Input/output, double A[N*N].
-//    On input, A is the coefficient matrix to be inverted.
-//    On output, A has been overwritten.
-//
-//    Input/output, double B[N].
-//    On input, B is the right hand side of the system.
-//    On output, B has been overwritten.
-//
-//    Output, int *IERROR.
-//    0, no error detected.
-//    1, consistent singularity.
-//    2, inconsistent singularity.
-//
-//    Output, double R8MAT_SOLVE2[N], the solution of the linear system.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8MAT_SOLVE2 computes the solution of an N by N linear system.
+            //
+            //  Discussion: 							    
+            //
+            //    An R8MAT is a doubly dimensioned array of R8 values, stored as a vector 
+            //    in column-major order.
+            //
+            //    The linear system may be represented as
+            //
+            //      A*X = B
+            //
+            //    If the linear system is singular, but consistent, then the routine will
+            //    still produce a solution.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    29 October 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of equations.
+            //
+            //    Input/output, double A[N*N].
+            //    On input, A is the coefficient matrix to be inverted.
+            //    On output, A has been overwritten.
+            //
+            //    Input/output, double B[N].
+            //    On input, B is the right hand side of the system.
+            //    On output, B has been overwritten.
+            //
+            //    Output, int *IERROR.
+            //    0, no error detected.
+            //    1, consistent singularity.
+            //    2, inconsistent singularity.
+            //
+            //    Output, double R8MAT_SOLVE2[N], the solution of the linear system.
+            //
         {
             double amax;
             int imax;
@@ -412,17 +412,17 @@ namespace Burkardt.Types
 
             piv = typeMethods.i4vec_zero_new(n);
             x = typeMethods.r8vec_zero_new(n);
-//
-//  Process the matrix.
-//
+            //
+            //  Process the matrix.
+            //
             for (int k = 1; k <= n; k++)
             {
-//
-//  In column K:
-//    Seek the row IMAX with the properties that:
-//      IMAX has not already been used as a pivot;
-//      A(IMAX,K) is larger in magnitude than any other candidate.
-//
+                //
+                //  In column K:
+                //    Seek the row IMAX with the properties that:
+                //      IMAX has not already been used as a pivot;
+                //      A(IMAX,K) is larger in magnitude than any other candidate.
+                //
                 amax = 0.0;
                 imax = 0;
                 for (int i = 1; i <= n; i++)
@@ -437,10 +437,10 @@ namespace Burkardt.Types
                     }
                 }
 
-//
-//  If you found a pivot row IMAX, then,
-//    eliminate the K-th entry in all rows that have not been used for pivoting.
-//
+                //
+                //  If you found a pivot row IMAX, then,
+                //    eliminate the K-th entry in all rows that have not been used for pivoting.
+                //
                 if (imax != 0)
                 {
                     piv[imax - 1] = k;
@@ -469,10 +469,10 @@ namespace Burkardt.Types
                 }
             }
 
-//
-//  Now, every row with nonzero IPIV begins with a 1, and
-//  all other rows are all zero.  Begin solution.
-//
+            //
+            //  Now, every row with nonzero IPIV begins with a 1, and
+            //  all other rows are all zero.  Begin solution.
+            //
             for (int j = n; 1 <= j; j--)
             {
                 imax = 0;
@@ -521,46 +521,46 @@ namespace Burkardt.Types
         }
 
         public static double[] r8mat_fs_new(int n, double[] a, double[] b)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8MAT_FS_NEW factors and solves a system with one right hand side.
-//
-//  Discussion:
-//
-//    This routine differs from R8MAT_FSS_NEW in two ways:
-//    * only one right hand side is allowed;
-//    * the input matrix A is not modified.
-//
-//    This routine uses partial pivoting, but no pivot vector is required.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    21 January 2013
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, int N, the order of the matrix.
-//    N must be positive.
-//
-//    Input, double A[N*N], the coefficient matrix of the linear system.
-//    On output, A is in unit upper triangular form, and
-//    represents the U factor of an LU factorization of the
-//    original coefficient matrix.
-//
-//    Input, double B[N], the right hand side of the linear system.
-//
-//    Output, double X[N], the solution of the linear system.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8MAT_FS_NEW factors and solves a system with one right hand side.
+            //
+            //  Discussion:
+            //
+            //    This routine differs from R8MAT_FSS_NEW in two ways:
+            //    * only one right hand side is allowed;
+            //    * the input matrix A is not modified.
+            //
+            //    This routine uses partial pivoting, but no pivot vector is required.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    21 January 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order of the matrix.
+            //    N must be positive.
+            //
+            //    Input, double A[N*N], the coefficient matrix of the linear system.
+            //    On output, A is in unit upper triangular form, and
+            //    represents the U factor of an LU factorization of the
+            //    original coefficient matrix.
+            //
+            //    Input, double B[N], the right hand side of the linear system.
+            //
+            //    Output, double X[N], the solution of the linear system.
+            //
         {
             double[] a2;
             int i;
@@ -589,9 +589,9 @@ namespace Burkardt.Types
 
             for (jcol = 1; jcol <= n; jcol++)
             {
-//
-//  Find the maximum element in column I.
-//
+                //
+                //  Find the maximum element in column I.
+                //
                 piv = Math.Abs(a2[jcol - 1 + (jcol - 1) * n]);
                 ipiv = jcol;
                 for (i = jcol + 1; i <= n; i++)
@@ -611,9 +611,9 @@ namespace Burkardt.Types
                     return new double[1];
                 }
 
-//
-//  Switch rows JCOL and IPIV, and X.
-//
+                //
+                //  Switch rows JCOL and IPIV, and X.
+                //
                 if (jcol != ipiv)
                 {
                     for (j = 1; j <= n; j++)
@@ -628,9 +628,9 @@ namespace Burkardt.Types
                     x[ipiv - 1] = t;
                 }
 
-//
-//  Scale the pivot row.
-//
+                //
+                //  Scale the pivot row.
+                //
                 t = a2[jcol - 1 + (jcol - 1) * n];
                 a2[jcol - 1 + (jcol - 1) * n] = 1.0;
                 for (j = jcol + 1; j <= n; j++)
@@ -639,9 +639,9 @@ namespace Burkardt.Types
                 }
 
                 x[jcol - 1] = x[jcol - 1] / t;
-//
-//  Use the pivot row to eliminate lower entries in that column.
-//
+                //
+                //  Use the pivot row to eliminate lower entries in that column.
+                //
                 for (i = jcol + 1; i <= n; i++)
                 {
                     if (a2[i - 1 + (jcol - 1) * n] != 0.0)
@@ -658,9 +658,9 @@ namespace Burkardt.Types
                 }
             }
 
-//
-//  Back solve.
-//
+            //
+            //  Back solve.
+            //
             for (jcol = n; 2 <= jcol; jcol--)
             {
                 for (i = 1; i < jcol; i++)
@@ -673,44 +673,44 @@ namespace Burkardt.Types
         }
 
         public static double[][] r8rmat_new(int m, int n)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8RMAT_NEW allocates a new R8RMAT.
-//
-//  Discussion:
-//
-//    An R8RMAT is a row-major array that was created by a 
-//    command like:
-//
-//      double **a;
-//      a = r8rmat_new ( m, n );
-//
-//    The user assigns entries to the matrix using typical
-//    2D array notation:
-//      a[2][3] = 17.0;
-//      y = a[1][0];
-//    and so on.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    09 September 2013
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, int M, N, the number of rows and columns in the matrix.
-//
-//    Output, double **R8RMAT_NEW, a new matrix.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8RMAT_NEW allocates a new R8RMAT.
+            //
+            //  Discussion:
+            //
+            //    An R8RMAT is a row-major array that was created by a 
+            //    command like:
+            //
+            //      double **a;
+            //      a = r8rmat_new ( m, n );
+            //
+            //    The user assigns entries to the matrix using typical
+            //    2D array notation:
+            //      a[2][3] = 17.0;
+            //      y = a[1][0];
+            //    and so on.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    09 September 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns in the matrix.
+            //
+            //    Output, double **R8RMAT_NEW, a new matrix.
+            //
         {
             double[][] a = new double[m][];
 
@@ -723,41 +723,41 @@ namespace Burkardt.Types
         }
 
         public static double[] r8mat_mtv_new(int m, int n, double[] a, double[] x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8MAT_MTV_NEW multiplies a transposed matrix times a vector.
-//
-//  Discussion:
-//
-//    An R8MAT is a doubly dimensioned array of R8 values, stored as a vector
-//    in column-major order.
-//
-//    For this routine, the result is returned as the function value.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    11 April 2007
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, int M, N, the number of rows and columns of the matrix.
-//
-//    Input, double A[M,N], the M by N matrix.
-//
-//    Input, double X[M], the vector to be multiplied by A.
-//
-//    Output, double R8MAT_MTV_NEW[N], the product A'*X.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8MAT_MTV_NEW multiplies a transposed matrix times a vector.
+            //
+            //  Discussion:
+            //
+            //    An R8MAT is a doubly dimensioned array of R8 values, stored as a vector
+            //    in column-major order.
+            //
+            //    For this routine, the result is returned as the function value.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    11 April 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns of the matrix.
+            //
+            //    Input, double A[M,N], the M by N matrix.
+            //
+            //    Input, double X[M], the vector to be multiplied by A.
+            //
+            //    Output, double R8MAT_MTV_NEW[N], the product A'*X.
+            //
         {
             double[] y = new double[n];
 
@@ -772,52 +772,52 @@ namespace Burkardt.Types
 
             return y;
         }
-        
+
         public static double r8mat_norm_fro_affine(int m, int n, double[] a1, double[] a2)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8MAT_NORM_FRO_AFFINE returns the Frobenius norm of an R8MAT difference.
-//
-//  Discussion:
-//
-//    An R8MAT is a doubly dimensioned array of R8 values, stored as a vector
-//    in column-major order.
-//
-//    The Frobenius norm is defined as
-//
-//      R8MAT_NORM_FRO = sqrt (
-//        sum ( 1 <= I <= M ) sum ( 1 <= j <= N ) A(I,J)^2 )
-//    The matrix Frobenius norm is not derived from a vector norm, but
-//    is compatible with the vector L2 norm, so that:
-//
-//      r8vec_norm_l2 ( A * x ) <= r8mat_norm_fro ( A ) * r8vec_norm_l2 ( x ).
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    26 September 2012
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, int M, the number of rows.
-//
-//    Input, int N, the number of columns.
-//
-//    Input, double A1[M*N], A2[M,N], the matrice for whose difference the 
-//    Frobenius norm is desired.
-//
-//    Output, double R8MAT_NORM_FRO_AFFINE, the Frobenius norm of A1 - A2.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8MAT_NORM_FRO_AFFINE returns the Frobenius norm of an R8MAT difference.
+            //
+            //  Discussion:
+            //
+            //    An R8MAT is a doubly dimensioned array of R8 values, stored as a vector
+            //    in column-major order.
+            //
+            //    The Frobenius norm is defined as
+            //
+            //      R8MAT_NORM_FRO = sqrt (
+            //        sum ( 1 <= I <= M ) sum ( 1 <= j <= N ) A(I,J)^2 )
+            //    The matrix Frobenius norm is not derived from a vector norm, but
+            //    is compatible with the vector L2 norm, so that:
+            //
+            //      r8vec_norm_l2 ( A * x ) <= r8mat_norm_fro ( A ) * r8vec_norm_l2 ( x ).
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    26 September 2012
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, the number of rows.
+            //
+            //    Input, int N, the number of columns.
+            //
+            //    Input, double A1[M*N], A2[M,N], the matrice for whose difference the 
+            //    Frobenius norm is desired.
+            //
+            //    Output, double R8MAT_NORM_FRO_AFFINE, the Frobenius norm of A1 - A2.
+            //
         {
             double value = 0.0;
             for (int j = 0; j < n; j++)
@@ -835,45 +835,45 @@ namespace Burkardt.Types
 
         public static double r8mat_podet(int n, double[] r)
 
-/******************************************************************************/
-/*
-Purpose:
-
-R8MAT_PODET computes the determinant of a factored positive definite matrix.
-
-Discussion:
-
-This routine expects to receive R, the upper triangular factor of A,
-computed by R8MAT_POFAC, with the property that A = R' * R.
-
-Licensing:
-
-This code is distributed under the GNU LGPL license.
-
-Modified:
-
-09 June 2013
-
-Author:
-
-C version by John Burkardt.
-
-Reference:
-
-Jack Dongarra, Jim Bunch, Cleve Moler, Pete Stewart,
-LINPACK User's Guide,
-SIAM, 1979,
-ISBN13: 978-0-898711-72-1,
-LC: QA214.L56.
-
-Parameters:
-
-Input, int N, the order of the matrix.
-
-Input, double R[N*N], the Cholesky factor of A.
-
-Output, double R8MAT_PODET, the determinant of A.
-*/
+            /******************************************************************************/
+            /*
+            Purpose:
+            
+            R8MAT_PODET computes the determinant of a factored positive definite matrix.
+            
+            Discussion:
+            
+            This routine expects to receive R, the upper triangular factor of A,
+            computed by R8MAT_POFAC, with the property that A = R' * R.
+            
+            Licensing:
+            
+            This code is distributed under the GNU LGPL license.
+            
+            Modified:
+            
+            09 June 2013
+            
+            Author:
+            
+            C version by John Burkardt.
+            
+            Reference:
+            
+            Jack Dongarra, Jim Bunch, Cleve Moler, Pete Stewart,
+            LINPACK User's Guide,
+            SIAM, 1979,
+            ISBN13: 978-0-898711-72-1,
+            LC: QA214.L56.
+            
+            Parameters:
+            
+            Input, int N, the order of the matrix.
+            
+            Input, double R[N*N], the Cholesky factor of A.
+            
+            Output, double R8MAT_PODET, the determinant of A.
+            */
         {
             double det = 1.0;
             for (int i = 0; i < n; i++)
@@ -886,44 +886,44 @@ Output, double R8MAT_PODET, the determinant of A.
 
         public static double[] r8mat_pofac(int n, double[] a)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8MAT_POFAC factors a real symmetric positive definite matrix.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    09 June 2013
-//
-//  Author:
-//
-//    Original FORTRAN77 version by Jack Dongarra, Cleve Moler, Jim Bunch, 
-//    Pete Stewart,
-//    C++ version by John Burkardt.
-//
-//  Reference:
-//
-//    Jack Dongarra, Cleve Moler, Jim Bunch and Pete Stewart,
-//    LINPACK User's Guide,
-//    SIAM, (Society for Industrial and Applied Mathematics),
-//    3600 University City Science Center,
-//    Philadelphia, PA, 19104-2688.
-//    ISBN 0-89871-172-X
-//
-//  Parameters:
-//
-//    Input, int N, the order of the matrix.
-//
-//    Input, double A[N*N], the matrix to be factored.
-//
-//    Output, double R8MAT_POFAC[N*N], an upper triangular matrix such that
-//    A = R'*R.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8MAT_POFAC factors a real symmetric positive definite matrix.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    09 June 2013
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Jack Dongarra, Cleve Moler, Jim Bunch, 
+            //    Pete Stewart,
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Jack Dongarra, Cleve Moler, Jim Bunch and Pete Stewart,
+            //    LINPACK User's Guide,
+            //    SIAM, (Society for Industrial and Applied Mathematics),
+            //    3600 University City Science Center,
+            //    Philadelphia, PA, 19104-2688.
+            //    ISBN 0-89871-172-X
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order of the matrix.
+            //
+            //    Input, double A[N*N], the matrix to be factored.
+            //
+            //    Output, double R8MAT_POFAC[N*N], an upper triangular matrix such that
+            //    A = R'*R.
+            //
         {
             double[] r = new double[n * n];
 
@@ -983,45 +983,45 @@ Output, double R8MAT_PODET, the determinant of A.
 
         public static double[] r8mat_poinv(int n, double[] r)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8MAT_POINV computes the inverse of a factored positive definite matrix.
-//
-//  Discussion:
-//
-//    This routine expects to receive R, the upper triangular factor of A,
-//    computed by R8MAT_POFAC, with the property that A = R' * R.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    09 June 2013
-//
-//  Author:
-//
-//    C version by John Burkardt.
-//
-//  Reference:
-//
-//    Jack Dongarra, Jim Bunch, Cleve Moler, Pete Stewart,
-//    LINPACK User's Guide,
-//    SIAM, 1979,
-//    ISBN13: 978-0-898711-72-1,
-//    LC: QA214.L56.
-//
-//  Parameters:
-//
-//    Input, int N, the order of the matrix A.
-//
-//    Input, double R[N*N], the Cholesky factor of A.
-//
-//    Input, double R8MAT_POINV[N*N], the inverse of A.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8MAT_POINV computes the inverse of a factored positive definite matrix.
+            //
+            //  Discussion:
+            //
+            //    This routine expects to receive R, the upper triangular factor of A,
+            //    computed by R8MAT_POFAC, with the property that A = R' * R.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    09 June 2013
+            //
+            //  Author:
+            //
+            //    C version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Jack Dongarra, Jim Bunch, Cleve Moler, Pete Stewart,
+            //    LINPACK User's Guide,
+            //    SIAM, 1979,
+            //    ISBN13: 978-0-898711-72-1,
+            //    LC: QA214.L56.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order of the matrix A.
+            //
+            //    Input, double R[N*N], the Cholesky factor of A.
+            //
+            //    Input, double R8MAT_POINV[N*N], the inverse of A.
+            //
         {
             double t;
 
@@ -1054,9 +1054,9 @@ Output, double R8MAT_PODET, the determinant of A.
                 }
             }
 
-/*
-Form inverse(R) * (inverse(R))'.
-*/
+            /*
+            Form inverse(R) * (inverse(R))'.
+            */
             for (int j = 0; j < n; j++)
             {
                 for (int k = 0; k < j; k++)
@@ -1080,42 +1080,42 @@ Form inverse(R) * (inverse(R))'.
 
         public static double[] r8mat_upsol(int n, double[] r, double[] b)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8MAT_UPSOL solves R * X = B, for an upper triangular matrix R.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    09 June 2013
-//
-//  Author:
-//
-//    C++ version by John Burkardt.
-//
-//  Reference:
-//
-//    Jack Dongarra, Jim Bunch, Cleve Moler, Pete Stewart,
-//    LINPACK User's Guide,
-//    SIAM, 1979,
-//    ISBN13: 978-0-898711-72-1,
-//    LC: QA214.L56.
-//
-//  Parameters:
-//
-//    Input, int N, the order of the matrix.
-//
-//    Input, double R[N*N], the upper triangular matrix.
-//
-//    Input, double B[N], the right hand side.
-//
-//    Output, double R8MAT_UPSOL[N], the solution.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8MAT_UPSOL solves R * X = B, for an upper triangular matrix R.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    09 June 2013
+            //
+            //  Author:
+            //
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Jack Dongarra, Jim Bunch, Cleve Moler, Pete Stewart,
+            //    LINPACK User's Guide,
+            //    SIAM, 1979,
+            //    ISBN13: 978-0-898711-72-1,
+            //    LC: QA214.L56.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order of the matrix.
+            //
+            //    Input, double R[N*N], the upper triangular matrix.
+            //
+            //    Input, double B[N], the right hand side.
+            //
+            //    Output, double R8MAT_UPSOL[N], the solution.
+            //
         {
 
             double[] x = new double[n];
@@ -1129,42 +1129,42 @@ Form inverse(R) * (inverse(R))'.
 
         public static double[] r8mat_utsol(int n, double[] r, double[] b)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8MAT_UTSOL solves R' * X = B for an upper triangular matrix R.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    10 June 2013
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Reference:
-//
-//    Jack Dongarra, Jim Bunch, Cleve Moler, Pete Stewart,
-//    LINPACK User's Guide,
-//    SIAM, 1979,
-//    ISBN13: 978-0-898711-72-1,
-//    LC: QA214.L56.
-//
-//  Parameters:
-//
-//    Input, int N, the order of the matrix.
-//
-//    Input, double R[N*N], the upper triangular matrix.
-//
-//    Input, double B[N], the right hand side.
-//
-//    Output, double X[N], the solution.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8MAT_UTSOL solves R' * X = B for an upper triangular matrix R.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    10 June 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Jack Dongarra, Jim Bunch, Cleve Moler, Pete Stewart,
+            //    LINPACK User's Guide,
+            //    SIAM, 1979,
+            //    ISBN13: 978-0-898711-72-1,
+            //    LC: QA214.L56.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order of the matrix.
+            //
+            //    Input, double R[N*N], the upper triangular matrix.
+            //
+            //    Input, double B[N], the right hand side.
+            //
+            //    Output, double X[N], the solution.
+            //
         {
             double[] x = new double[n];
 
@@ -1188,6 +1188,241 @@ Form inverse(R) * (inverse(R))'.
             return x;
         }
 
+        public static double r8mat_is_identity(int n, double[] a)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8MAT_IS_IDENTITY determines if an R8MAT is the identity.
+            //
+            //  Discussion:
+            //
+            //    An R8MAT is a matrix of real ( kind = 8 ) values.
+            //
+            //    The routine returns the Frobenius norm of A - I.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    29 July 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order of the matrix.
+            //
+            //    Input, double A[N*N], the matrix.
+            //
+            //    Output, double R8MAT_IS_IDENTITY, the Frobenius norm
+            //    of the difference matrix A - I, which would be exactly zero
+            //    if A were the identity matrix.
+            //
+        {
+            double error_frobenius;
+            int i;
+            int j;
+            double t;
+
+            error_frobenius = 0.0;
+
+            for (i = 0; i < n; i++)
+            {
+                for (j = 0; j < n; j++)
+                {
+                    if (i == j)
+                    {
+                        t = a[i + j * n] - 1.0;
+                    }
+                    else
+                    {
+                        t = a[i + j * n];
+                    }
+
+                    error_frobenius = error_frobenius + t * t;
+                }
+            }
+
+            error_frobenius = Math.Sqrt(error_frobenius);
+
+            return error_frobenius;
+        }
+
+        public static double[] r8mat_mm_new(int n1, int n2, int n3, double[] a, double[] b )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8MAT_MM_NEW multiplies two matrices.
+        //
+        //  Discussion:
+        //
+        //    An R8MAT is a doubly dimensioned array of R8 values, stored as a vector
+        //    in column-major order.
+        //
+        //    For this routine, the result is returned as the function value.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    18 October 2005
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N1, N2, N3, the order of the matrices.
+        //
+        //    Input, double A[N1*N2], double B[N2*N3], the matrices to multiply.
+        //
+        //    Output, double R8MAT_MM[N1*N3], the product matrix C = A * B.
+        //
+        {
+            double[] c;
+            int i;
+            int j;
+            int k;
+
+            c = new double[n1 * n3];
+
+            for (i = 0; i < n1; i++)
+            {
+                for (j = 0; j < n3; j++)
+                {
+                    c[i + j * n1] = 0.0;
+                    for (k = 0; k < n2; k++)
+                    {
+                        c[i + j * n1] = c[i + j * n1] + a[i + k * n1] * b[k + j * n2];
+                    }
+                }
+            }
+
+            return c;
+        }
+        
+        public static double r8mat_norm_fro(int m, int n, double[] a)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8MAT_NORM_FRO returns the Frobenius norm of an R8MAT.
+            //
+            //  Discussion:
+            //
+            //    An R8MAT is a doubly dimensioned array of R8 values, stored as a vector
+            //    in column-major order.
+            //
+            //    The Frobenius norm is defined as
+            //
+            //      R8MAT_NORM_FRO = sqrt (
+            //        sum ( 1 <= I <= M ) sum ( 1 <= j <= N ) A(I,J)**2 )
+            //    The matrix Frobenius norm is not derived from a vector norm, but
+            //    is compatible with the vector L2 norm, so that:
+            //
+            //      r8vec_norm_l2 ( A * x ) <= r8mat_norm_fro ( A ) * r8vec_norm_l2 ( x ).
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    10 October 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, the number of rows in A.
+            //
+            //    Input, int N, the number of columns in A.
+            //
+            //    Input, double A[M*N], the matrix whose Frobenius
+            //    norm is desired.
+            //
+            //    Output, double R8MAT_NORM_FRO, the Frobenius norm of A.
+            //
+        {
+            int i;
+            int j;
+            double value;
+
+            value = 0.0;
+            for (j = 0; j < n; j++)
+            {
+                for (i = 0; i < m; i++)
+                {
+                    value = value + Math.Pow(a[i + j * m], 2);
+                }
+            }
+
+            value = Math.Sqrt(value);
+
+            return value;
+        }
+        
+        public static double[] r8mat_zeros_new ( int m, int n )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8MAT_ZEROS_NEW returns a new zeroed R8MAT.
+            //
+            //  Discussion:
+            //
+            //    An R8MAT is a doubly dimensioned array of R8 values, stored as a vector
+            //    in column-major order.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    03 October 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns.
+            //
+            //    Output, double R8MAT_ZEROS_NEW[M*N], the new zeroed matrix.
+            //
+        {
+            double[] a;
+            int i;
+            int j;
+
+            a = new double[m*n];
+
+            for ( j = 0; j < n; j++ )
+            {
+                for ( i = 0; i < m; i++ )
+                {
+                    a[i+j*m] = 0.0;
+                }
+            }
+            return a;
+        }
 
     }
 }

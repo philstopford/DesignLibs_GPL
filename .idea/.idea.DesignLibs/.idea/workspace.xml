@@ -93,6 +93,7 @@
     <projectFile>BurkhardtTest/BLAS/BLAS3DTest/BLAS3DTest.csproj</projectFile>
     <projectFile>BurkhardtTest/BarycentricInterp1DTest/BarycentricInterp1DTest.csproj</projectFile>
     <projectFile>BurkhardtTest/BellmanFordTest/BellmanFordTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/BernsteinPolynomialTest/BernsteinPolynomialTest.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="" />
@@ -123,9 +124,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/PDF/i4.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8mat.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8po.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/PDF/r8.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/PDFLibTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/UniformRNG_c4.cs" />
@@ -173,7 +171,10 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/BarycentricInterp1DTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/BellmanFord.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/BernsteinPolynomial.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8mat.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/BellmanFordTest/Program.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/BernsteinPolynomialTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -190,7 +191,7 @@
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C#" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunManager" selected=".NET Project.BarycentricInterp1DTest">
+  <component name="RunManager" selected=".NET Project.BernsteinPolynomialTest">
     <configuration name="ASA005Test" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -920,6 +921,24 @@
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
       <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/BellmanFordTest/BellmanFordTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="BernsteinPolynomialTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/BernsteinPolynomialTest/BernsteinPolynomialTest.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
@@ -1978,6 +1997,7 @@
       <item itemvalue=".NET Project.BLAS3DTest" />
       <item itemvalue=".NET Project.BarycentricInterp1DTest" />
       <item itemvalue=".NET Project.BellmanFordTest" />
+      <item itemvalue=".NET Project.BernsteinPolynomialTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

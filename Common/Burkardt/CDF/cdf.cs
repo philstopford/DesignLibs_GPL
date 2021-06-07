@@ -4,27 +4,28 @@ namespace Burkardt.CDFLib
 {
     public static partial class CDF
     {
-        public static void cdfgam(int which, ref double p, ref double q, ref double x_, ref double shape,
-                ref double scale, ref int status_, ref double bound)
+        public static void cdfbet(int which, ref double p, ref double q, ref double x, ref double y,
+                ref double a, ref double b, ref int status, ref double bound)
 
             //****************************************************************************80
             //
             //  Purpose:
             //
-            //    CDFGAM evaluates the CDF of the Gamma Distribution.
+            //    CDFBET evaluates the CDF of the Beta Distribution.
             //
             //  Discussion:
             //
-            //    This routine calculates any one parameter of the Gamma distribution
+            //    This routine calculates any one parameter of the beta distribution
             //    given the others.
             //
-            //    The cumulative distribution function P is calculated directly.
+            //    The value P of the cumulative distribution function is calculated
+            //    directly by code associated with the reference.
             //
             //    Computation of the other parameters involves a seach for a value that
             //    produces the desired value of P.  The search relies on the
             //    monotonicity of P with respect to the other parameters.
             //
-            //    The gamma density is proportional to T^(SHAPE - 1) * EXP(- SCALE * T)
+            //    The beta density is proportional to t^(A-1) * (1-t)^(B-1).
             //
             //  Licensing:
             //
@@ -41,41 +42,43 @@ namespace Burkardt.CDFLib
             //  Reference:
             //
             //    Armido DiDinato and Alfred Morris,
-            //    Computation of the incomplete gamma function ratios and their inverse,
+            //    Algorithm 708:
+            //    Significant Digit Computation of the Incomplete Beta Function Ratios,
             //    ACM Transactions on Mathematical Software,
-            //    Volume 12, 1986, pages 377-393.
+            //    Volume 18, 1993, pages 360-373.
             //
             //  Parameters:
             //
-            //    Input, int *WHICH, indicates which argument is to be calculated
-            //    from the others.
-            //    1: Calculate P and Q from X, SHAPE and SCALE;
-            //    2: Calculate X from P, Q, SHAPE and SCALE;
-            //    3: Calculate SHAPE from P, Q, X and SCALE;
-            //    4: Calculate SCALE from P, Q, X and SHAPE.
+            //    Input, int *WHICH, indicates which of the next four argument
+            //    values is to be calculated from the others.
+            //    1: Calculate P and Q from X, Y, A and B;
+            //    2: Calculate X and Y from P, Q, A and B;
+            //    3: Calculate A from P, Q, X, Y and B;
+            //    4: Calculate B from P, Q, X, Y and A.
             //
             //    Input/output, double *P, the integral from 0 to X of the
-            //    Gamma density.  If this is an input value, it should lie in the
-            //    range: [0,1].
+            //    chi-square distribution.  Input range: [0, 1].
             //
-            //    Input/output, double *Q, equal to 1-P.  If Q is an input
-            //    value, it should lie in the range [0,1].  If Q is an output value,
-            //    it will lie in the range [0,1].
+            //    Input/output, double *Q, equals 1-P.  Input range: [0, 1].
             //
-            //    Input/output, double *X, the upper limit of integration of
-            //    the Gamma density.  If this is an input value, it should lie in the
-            //    range: [0, +infinity).  If it is an output value, it will lie in
-            //    the range: [0,1E300].
+            //    Input/output, double *X, the upper limit of integration
+            //    of the beta density.  If it is an input value, it should lie in
+            //    the range [0,1].  If it is an output value, it will be searched for
+            //    in the range [0,1].
             //
-            //    Input/output, double *SHAPE, the shape parameter of the
-            //    Gamma density.  If this is an input value, it should lie in the range:
-            //    (0, +infinity).  If it is an output value, it will be searched for
-            //    in the range: [1.0D-300,1.0D+300].
+            //    Input/output, double *Y, equal to 1-X.  If it is an input
+            //    value, it should lie in the range [0,1].  If it is an output value,
+            //    it will be searched for in the range [0,1].
             //
-            //    Input/output, double *SCALE, the scale parameter of the
-            //    Gamma density.  If this is an input value, it should lie in the range
-            //    (0, +infinity).  If it is an output value, it will be searched for
-            //    in the range: (1.0D-300,1.0D+300].
+            //    Input/output, double *A, the first parameter of the beta
+            //    density.  If it is an input value, it should lie in the range
+            //    (0, +infinity).  If it is an output value, it will be searched
+            //    for in the range [1D-300,1D300].
+            //
+            //    Input/output, double *B, the second parameter of the beta
+            //    density.  If it is an input value, it should lie in the range
+            //    (0, +infinity).  If it is an output value, it will be searched
+            //    for in the range [1D-300,1D300].
             //
             //    Output, int *STATUS, reports the status of the computation.
             //     0, if the calculation completed correctly;
@@ -83,8 +86,7 @@ namespace Burkardt.CDFLib
             //    +1, if the answer appears to be lower than lowest search bound;
             //    +2, if the answer appears to be higher than greatest search bound;
             //    +3, if P + Q /= 1;
-            //    +10, if the Gamma or inverse Gamma routine cannot compute the answer.
-            //    This usually happens only for X and SHAPE very large (more than 1.0D+10.
+            //    +4, if X + Y /= 1.
             //
             //    Output, double *BOUND, is only defined if STATUS is nonzero.
             //    If STATUS is negative, then this is the value exceeded by parameter I.
@@ -95,707 +97,31 @@ namespace Burkardt.CDFLib
             double atol = (1.0e-50);
             double zero = (1.0e-300);
             double inf = 1.0e300;
-
-            double ccum = 0;
-            double cum = 0;
-            int ierr = 0;
-            int K1 = 1;
-            double K5 = 0.5e0;
-            double K6 = 5.0e0;
-            double porq = 0;
-            double pq;
-            bool qporq = false;
-            double T2;
-            double T3;
-            double T4;
-            double T7;
-            double T8;
-            double T9;
-            double xscale;
-            double xx = 0;
-
-            E0000E0001 eData = new E0000E0001();
-            eData.x = x_;
-
-            eData.status = 0;
-            bound = 0.0;
-            //
-            //  Check arguments
-            //
-            if (!(which < 1 || which > 4)) goto S30;
-            if (!(which < 1)) goto S10;
-            bound = 1.0e0;
-            goto S20;
-            S10:
-            bound = 4.0e0;
-            S20:
-            eData.status = -1;
-            return;
-            S30:
-            if (which == 1) goto S70;
-            //
-            //     P
-            //
-            if (!(p < 0.0e0 || p > 1.0e0)) goto S60;
-            if (!(p < 0.0e0)) goto S40;
-            bound = 0.0e0;
-            goto S50;
-            S40:
-            bound = 1.0e0;
-            S50:
-            eData.status = -2;
-            return;
-            S70:
-            S60:
-            if (which == 1) goto S110;
-            //
-            //     Q
-            //
-            if (!(q <= 0.0e0 || q > 1.0e0)) goto S100;
-            if (!(q <= 0.0e0)) goto S80;
-            bound = 0.0e0;
-            goto S90;
-            S80:
-            bound = 1.0e0;
-            S90:
-            eData.status = -3;
-            return;
-            S110:
-            S100:
-            if (which == 2) goto S130;
-            //
-            //     X
-            //
-            if (!(eData.x < 0.0e0)) goto S120;
-            bound = 0.0e0;
-            eData.status = -4;
-            return;
-            S130:
-            S120:
-            if (which == 3) goto S150;
-            //
-            //  SHAPE
-            //
-            if (!(shape <= 0.0e0)) goto S140;
-            bound = 0.0e0;
-            eData.status = -5;
-            return;
-            S150:
-            S140:
-            if (which == 4) goto S170;
-            //
-            //  SCALE
-            //
-            if (!(scale <= 0.0e0)) goto S160;
-            bound = 0.0e0;
-            eData.status = -6;
-            return;
-            S170:
-            S160:
-            if (which == 1) goto S210;
-            //
-            //     P + Q
-            //
-            pq = p + q;
-            if (!(Math.Abs(pq - 0.5e0 - 0.5e0) > 3.0e0 * dpmpar(K1))) goto S200;
-            if (!(pq < 0.0e0)) goto S180;
-            bound = 0.0e0;
-            goto S190;
-            S180:
-            bound = 1.0e0;
-            S190:
-            eData.status = 3;
-            return;
-            S210:
-            S200:
-            if (which == 1) goto S240;
-            //
-            //     Select the minimum of P or Q
-            //
-            qporq = p <= q;
-            if (!qporq) goto S220;
-            porq = p;
-            goto S230;
-            S220:
-            porq = q;
-            S240:
-            S230:
-            //
-            //     Calculate ANSWERS
-            //
-            if (1 == which)
-            {
-                //
-                //     Calculating P
-                //
-                eData.status = 0;
-                xscale = eData.x * scale;
-                cumgam(xscale, shape, ref p, ref q);
-                if (porq > 1.5e0) eData.status = 10;
-            }
-            else if (2 == which)
-            {
-                //
-                //     Computing X
-                //
-                T2 = -1.0e0;
-                gamma_inc_inv(shape, ref xx, T2, p, q, ref ierr);
-                if (ierr < 0.0e0)
-                {
-                    eData.status = 10;
-                    return;
-                }
-                else
-                {
-                    eData.x = xx / scale;
-                    eData.status = 0;
-                }
-            }
-            else if (3 == which)
-            {
-                //
-                //     Computing SHAPE
-                //
-                shape = 5.0e0;
-                xscale = eData.x * scale;
-                T3 = zero;
-                T4 = inf;
-                T7 = atol;
-                T8 = tol;
-                eData.dstinv(T3, T4, K5, K5, K6, T7, T8 );
-                eData.status = 0;
-                eData.status = eData.status;
-                eData.dinvr();
-                S250:
-                if (!(eData.status == 1)) goto S290;
-                cumgam(xscale, shape, ref cum, ref ccum);
-                if (!qporq) goto S260;
-                eData.fx = cum - p;
-                goto S270;
-                S260:
-                eData.fx = ccum - q;
-                S270:
-                if (!((qporq && cum > 1.5e0) || (!qporq && ccum > 1.5e0))) goto S280;
-                eData.status = 10;
-                return;
-                S280:
-                eData.status = eData.status;
-                eData.dinvr();
-                goto S250;
-                S290:
-                if (!(eData.status == -1)) goto S320;
-                if (!eData.qleft) goto S300;
-                eData.status = 1;
-                bound = zero;
-                goto S310;
-                S300:
-                eData.status = 2;
-                bound = inf;
-                S320:
-                S310: ;
-            }
-            else if (4 == which)
-            {
-                //
-                //  Computing SCALE
-                //
-                T9 = -1.0e0;
-                gamma_inc_inv(shape, ref xx, T9, p, q, ref ierr);
-                if (ierr < 0.0e0)
-                {
-                    eData.status = 10;
-                    return;
-                }
-                else
-                {
-                    scale = xx / eData.x;
-                    eData.status = 0;
-                }
-            }
-        }
-
-        public static void cdfnbn(int which, ref double p, ref double q, ref double s, ref double xn,
-                ref double pr, ref double ompr, ref int status_, ref double bound)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    CDFNBN evaluates the CDF of the Negative Binomial distribution
-            //
-            //  Discussion:
-            //
-            //    This routine calculates any one parameter of the negative binomial
-            //    distribution given values for the others.
-            //
-            //    The cumulative negative binomial distribution returns the
-            //    probability that there will be F or fewer failures before the
-            //    S-th success in binomial trials each of which has probability of
-            //    success PR.
-            //
-            //    The individual term of the negative binomial is the probability of
-            //    F failures before S successes and is
-            //    Choose( F, S+F-1 ) * PR^(S) * (1-PR)^F
-            //
-            //    Computation of other parameters involve a seach for a value that
-            //    produces the desired value of P.  The search relies on the
-            //    monotonicity of P with respect to the other parameters.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    14 February 2021
-            //
-            //  Author:
-            //
-            //    Barry Brown, James Lovato, Kathy Russell.
-            //
-            //  Reference:
-            //
-            //    Milton Abramowitz and Irene Stegun,
-            //    Handbook of Mathematical Functions
-            //    1966, Formula 26.5.26.
-            //
-            //  Parameters:
-            //
-            //    Input, int WHICH, indicates which argument is to be calculated
-            //    from the others.
-            //    1: Calculate P and Q from F, S, PR and OMPR;
-            //    2: Calculate F from P, Q, S, PR and OMPR;
-            //    3: Calculate S from P, Q, F, PR and OMPR;
-            //    4: Calculate PR and OMPR from P, Q, F and S.
-            //
-            //    Input/output, double P, the cumulation from 0 to F of
-            //    the negative binomial distribution.  If P is an input value, it
-            //    should lie in the range [0,1].
-            //
-            //    Input/output, double Q, equal to 1-P.  If Q is an input
-            //    value, it should lie in the range [0,1].  If Q is an output value,
-            //    it will lie in the range [0,1].
-            //
-            //    Input/output, double F, the upper limit of cumulation of
-            //    the binomial distribution.  There are F or fewer failures before
-            //    the S-th success.  If this is an input value, it may lie in the
-            //    range [0,+infinity), and if it is an output value, it will be searched
-            //    for in the range [0,1.0D+300].
-            //
-            //    Input/output, double S, the number of successes.
-            //    If this is an input value, it should lie in the range: [0, +infinity).
-            //    If it is an output value, it will be searched for in the range:
-            //    [0, 1.0D+300].
-            //
-            //    Input/output, double PR, the probability of success in each
-            //    binomial trial.  Whether an input or output value, it should lie in the
-            //    range [0,1].
-            //
-            //    Input/output, double OMPR, the value of (1-PR).  Whether an
-            //    input or output value, it should lie in the range [0,1].
-            //
-            //    Output, int STATUS, reports the status of the computation.
-            //     0, if the calculation completed correctly;
-            //    -I, if the input parameter number I is out of range;
-            //    +1, if the answer appears to be lower than lowest search bound;
-            //    +2, if the answer appears to be higher than greatest search bound;
-            //    +3, if P + Q /= 1;
-            //    +4, if PR + OMPR /= 1.
-            //
-            //    Output, double BOUND, is only defined if STATUS is nonzero.
-            //    If STATUS is negative, then this is the value exceeded by parameter I.
-            //    if STATUS is 1 or 2, this is the search bound that was exceeded.
-            //
-        {
-            double tol = (1.0e-8);
-            double atol = (1.0e-50);
-            double inf = 1.0e300;
             double one = 1.0e0;
 
-            double ccum = 0;
-            double cum = 0;
+            double ccum;
+            double cum;
+            double fx;
             int K1 = 1;
             double K2 = 0.0e0;
-            double K4 = 0.5e0;
-            double K5 = 5.0e0;
-            double K11 = 1.0e0;
+            double K3 = 1.0e0;
+            double K8 = 0.5e0;
+            double K9 = 5.0e0;
             double pq;
-            double prompr = 0;
-            bool qporq = false;
-            double T3;
-            double T6;
-            double T7;
-            double T8;
-            double T9;
-            double T10;
-            double T12;
-            double T13;
+            bool qhi;
+            bool qleft;
+            bool qporq;
+            double xhi;
+            double xlo;
+            double xy;
 
-            E0000E0001 eData = new E0000E0001();
-
-            eData.status = 0;
-            bound = 0.0;
-
-            
-            //
-            //  Check arguments
-            //
-            if (!(which < 1 || which > 4)) goto S30;
-            if (!(which < 1)) goto S10;
-            bound = 1.0e0;
-            goto S20;
-            S10:
-            bound = 4.0e0;
-            S20:
-            eData.status = -1;
-            return;
-            S30:
-            if (which == 1) goto S70;
-            //
-            //     P
-            //
-            if (!(p < 0.0e0 || p > 1.0e0)) goto S60;
-            if (!(p < 0.0e0)) goto S40;
-            bound = 0.0e0;
-            goto S50;
-            S40:
-            bound = 1.0e0;
-            S50:
-            eData.status = -2;
-            return;
-            S70:
-            S60:
-            if (which == 1) goto S110;
-            //
-            //     Q
-            //
-            if (!(q <= 0.0e0 || q > 1.0e0)) goto S100;
-            if (!(q <= 0.0e0)) goto S80;
-            bound = 0.0e0;
-            goto S90;
-            S80:
-            bound = 1.0e0;
-            S90:
-            eData.status = -3;
-            return;
-            S110:
-            S100:
-            if (which == 2) goto S130;
-            //
-            //     S
-            //
-            if (!(s < 0.0e0)) goto S120;
-            bound = 0.0e0;
-            eData.status = -4;
-            return;
-            S130:
-            S120:
-            if (which == 3) goto S150;
-            //
-            //     XN
-            //
-            if (!(xn < 0.0e0)) goto S140;
-            bound = 0.0e0;
-            eData.status = -5;
-            return;
-            S150:
-            S140:
-            if (which == 4) goto S190;
-            //
-            //     PR
-            //
-            if (!(pr < 0.0e0 || pr > 1.0e0)) goto S180;
-            if (!(pr < 0.0e0)) goto S160;
-            bound = 0.0e0;
-            goto S170;
-            S160:
-            bound = 1.0e0;
-            S170:
-            eData.status = -6;
-            return;
-            S190:
-            S180:
-            if (which == 4) goto S230;
-            //
-            //     OMPR
-            //
-            if (!(ompr < 0.0e0 || ompr > 1.0e0)) goto S220;
-            if (!(ompr < 0.0e0)) goto S200;
-            bound = 0.0e0;
-            goto S210;
-            S200:
-            bound = 1.0e0;
-            S210:
-            eData.status = -7;
-            return;
-            S230:
-            S220:
-            if (which == 1) goto S270;
-            //
-            //     P + Q
-            //
-            pq = p + q;
-            if (!(Math.Abs(pq - 0.5e0 - 0.5e0) > 3.0e0 * dpmpar(K1))) goto S260;
-            if (!(pq < 0.0e0)) goto S240;
-            bound = 0.0e0;
-            goto S250;
-            S240:
-            bound = 1.0e0;
-            S250:
-            eData.status = 3;
-            return;
-            S270:
-            S260:
-            if (which == 4) goto S310;
-            //
-            //     PR + OMPR
-            //
-            prompr = pr + ompr;
-            if (!(Math.Abs(prompr - 0.5e0 - 0.5e0) > 3.0e0 * dpmpar(K1))) goto S300;
-            if (!(prompr < 0.0e0)) goto S280;
-            bound = 0.0e0;
-            goto S290;
-            S280:
-            bound = 1.0e0;
-            S290:
-            eData.status = 4;
-            return;
-            S310:
-            S300:
-            if (!(which == 1)) qporq = p <= q;
-            //
-            //     Select the minimum of P or Q
-            //     Calculate ANSWERS
-            //
-            if (1 == which)
-            {
-                //
-                //  Calculating P
-                //
-                cumnbn(s, xn, pr, ompr, ref p, ref q);
-                eData.status = 0;
-            }
-            else if (2 == which)
-            {
-                //
-                //     Calculating S
-                //
-                s = 5.0e0;
-                T3 = inf;
-                T6 = atol;
-                T7 = tol;
-                eData.dstinv(K2, T3, K4, K4, K5, T6, T7 );
-                eData.status = 0;
-                eData.dinvr();
-                S320:
-                if (!(eData.status == 1)) goto S350;
-                cumnbn(s, xn, pr, ompr, ref cum, ref ccum);
-                if (!qporq) goto S330;
-                eData.fx = cum - p;
-                goto S340;
-                S330:
-                eData.fx = ccum - q;
-                S340:
-                eData.dinvr();
-                goto S320;
-                S350:
-                if (!(eData.status == -1)) goto S380;
-                if (!eData.qleft) goto S360;
-                eData.status = 1;
-                bound = 0.0e0;
-                goto S370;
-                S360:
-                eData.status = 2;
-                bound = inf;
-                S380:
-                S370: ;
-            }
-            else if (3 == which)
-            {
-                //
-                //     Calculating XN
-                //
-                xn = 5.0e0;
-                T8 = inf;
-                T9 = atol;
-                T10 = tol;
-                eData.dstinv(K2, T8, K4, K4, K5, T9, T10);
-                eData.status = 0;
-                eData.dinvr();
-                S390:
-                if (!(eData.status == 1)) goto S420;
-                cumnbn(s, xn, pr, ompr, ref cum, ref ccum);
-                if (!qporq) goto S400;
-                eData.fx = cum - p;
-                goto S410;
-                S400:
-                eData.fx = ccum - q;
-                S410:
-                eData.dinvr();
-                goto S390;
-                S420:
-                if (!(eData.status == -1)) goto S450;
-                if (!eData.qleft) goto S430;
-                eData.status = 1;
-                bound = 0.0e0;
-                goto S440;
-                S430:
-                eData.status = 2;
-                bound = inf;
-                S450:
-                S440: ;
-            }
-            else if (4 == which)
-            {
-                //
-                //     Calculating PR and OMPR
-                //
-                T12 = atol;
-                T13 = tol;
-                eData.dstzr(K2, K11, T12, T13);
-                if (!qporq) goto S480;
-                eData.status = 0;
-                eData.dzror();
-                ompr = one - pr;
-                S460:
-                if (!(eData.status == 1)) goto S470;
-                cumnbn(s, xn, pr, ompr, ref cum, ref ccum);
-                eData.fx = cum - p;
-                eData.dzror();
-                ompr = one - pr;
-                goto S460;
-                S470:
-                goto S510;
-                S480:
-                eData.status = 0;
-                eData.dzror();
-                pr = one - ompr;
-                S490:
-                if (!(eData.status == 1)) goto S500;
-                cumnbn(s, xn, pr, ompr, ref cum, ref ccum);
-                eData.fx = ccum - q;
-                eData.dzror();
-                pr = one - ompr;
-                goto S490;
-                S510:
-                S500:
-                if (!(eData.status == -1)) goto S540;
-                if (!eData.qleft) goto S520;
-                eData.status = 1;
-                bound = 0.0e0;
-                goto S530;
-                S520:
-                eData.status = 2;
-                bound = 1.0e0;
-                S530: ;
-            }
-
-            S540:
-            return;
-        }
-
-        public static void cdfnor(int which, ref double p, ref double q, ref double x, ref double mean,
-                ref double sd, ref int status, ref double bound)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    CDFNOR evaluates the CDF of the Normal distribution.
-            //
-            //  Discussion:
-            //
-            //    A slightly modified version of ANORM from SPECFUN
-            //    is used to calculate the cumulative standard normal distribution.
-            //
-            //    The rational functions from pages 90-95 of Kennedy and Gentle
-            //    are used as starting values to Newton's Iterations which
-            //    compute the inverse standard normal.  Therefore no searches are
-            //    necessary for any parameter.
-            //
-            //    For X < -15, the asymptotic expansion for the normal is used  as
-            //    the starting value in finding the inverse standard normal.
-            //
-            //    The normal density is proportional to
-            //    exp( - 0.5 * (( X - MEAN)/SD)^2)
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    14 February 2021
-            //
-            //  Author:
-            //
-            //    Barry Brown, James Lovato, Kathy Russell.
-            //
-            //  Reference:
-            //
-            //    Milton Abramowitz and Irene Stegun,
-            //    Handbook of Mathematical Functions
-            //    1966, Formula 26.2.12.
-            //
-            //    William Cody,
-            //    Algorithm 715: SPECFUN - A Portable FORTRAN Package of
-            //      Special Function Routines and Test Drivers,
-            //    ACM Transactions on Mathematical Software,
-            //    Volume 19, pages 22-32, 1993.
-            //
-            //    Kennedy and Gentle,
-            //    Statistical Computing,
-            //    Marcel Dekker, NY, 1980,
-            //    QA276.4  K46
-            //
-            //  Parameters:
-            //
-            //    Input, int *WHICH, indicates which argument is to be calculated
-            //    from the others.
-            //    1: Calculate P and Q from X, MEAN and SD;
-            //    2: Calculate X from P, Q, MEAN and SD;
-            //    3: Calculate MEAN from P, Q, X and SD;
-            //    4: Calculate SD from P, Q, X and MEAN.
-            //
-            //    Input/output, double *P, the integral from -infinity to X
-            //    of the Normal density.  If this is an input or output value, it will
-            //    lie in the range [0,1].
-            //
-            //    Input/output, double *Q, equal to 1-P.  If Q is an input
-            //    value, it should lie in the range [0,1].  If Q is an output value,
-            //    it will lie in the range [0,1].
-            //
-            //    Input/output, double *X, the upper limit of integration of
-            //    the Normal density.
-            //
-            //    Input/output, double *MEAN, the mean of the Normal density.
-            //
-            //    Input/output, double *SD, the standard deviation of the
-            //    Normal density.  If this is an input value, it should lie in the
-            //    range (0,+infinity).
-            //
-            //    Output, int *STATUS, the status of the calculation.
-            //    0, if calculation completed correctly;
-            //    -I, if input parameter number I is out of range;
-            //    1, if answer appears to be lower than lowest search bound;
-            //    2, if answer appears to be higher than greatest search bound;
-            //    3, if P + Q /= 1.
-            //
-            //    Output, double *BOUND, is only defined if STATUS is nonzero.
-            //    If STATUS is negative, then this is the value exceeded by parameter I.
-            //    if STATUS is 1 or 2, this is the search bound that was exceeded.
-            //
-        {
-            int K1 = 1;
-            double pq;
-            double z;
+            double T4, T5, T6, T7, T10, T11, T12, T13, T14, T15;
 
             status = 0;
             bound = 0.0;
             //
             //  Check arguments
             //
-            status = 0;
             if (!(which < 1 || which > 4)) goto S30;
             if (!(which < 1)) goto S10;
             bound = 1.0e0;
@@ -808,10 +134,10 @@ namespace Burkardt.CDFLib
             S30:
             if (which == 1) goto S70;
             //
-            //     P
+            //  P
             //
-            if (!(p <= 0.0e0 || p > 1.0e0)) goto S60;
-            if (!(p <= 0.0e0)) goto S40;
+            if (!(p < 0.0e0 || p > 1.0e0)) goto S60;
+            if (!(p < 0.0e0)) goto S40;
             bound = 0.0e0;
             goto S50;
             S40:
@@ -823,10 +149,10 @@ namespace Burkardt.CDFLib
             S60:
             if (which == 1) goto S110;
             //
-            //     Q
+            //  Q
             //
-            if (!(q <= 0.0e0 || q > 1.0e0)) goto S100;
-            if (!(q <= 0.0e0)) goto S80;
+            if (!(q < 0.0e0 || q > 1.0e0)) goto S100;
+            if (!(q < 0.0e0)) goto S80;
             bound = 0.0e0;
             goto S90;
             S80:
@@ -836,601 +162,220 @@ namespace Burkardt.CDFLib
             return;
             S110:
             S100:
-            if (which == 1) goto S150;
+            if (which == 2) goto S150;
             //
-            //     P + Q
+            //  X
             //
-            pq = p + q;
-            if (!(Math.Abs(pq - 0.5e0 - 0.5e0) > 3.0e0 * dpmpar(K1))) goto S140;
-            if (!(pq < 0.0e0)) goto S120;
+            if (!(x < 0.0e0 || x > 1.0e0)) goto S140;
+            if (!(x < 0.0e0)) goto S120;
             bound = 0.0e0;
             goto S130;
             S120:
             bound = 1.0e0;
             S130:
-            status = 3;
+            status = -4;
             return;
             S150:
             S140:
-            if (which == 4) goto S170;
+            if (which == 2) goto S190;
             //
-            //     SD
+            //  Y
             //
-            if (!(sd <= 0.0e0)) goto S160;
-            bound = 0.0e0;
-            status = -6;
-            return;
-            S170:
-            S160:
-            //
-            //  Computing P
-            //
-            if (1 == which)
-            {
-                z = (x - mean) / sd;
-                cumnor(z, ref p, ref q);
-            }
-            //
-            //  Computing X
-            //
-            else if (2 == which)
-            {
-                z = dinvnr(p, q);
-                x = sd * z + mean;
-            }
-            //
-            //  Computing the MEAN
-            //
-            else if (3 == which)
-            {
-                z = dinvnr(p, q);
-                mean = x - sd * z;
-            }
-            //
-            //  Computing SD
-            //
-            else if (4 == which)
-            {
-                z = dinvnr(p, q);
-                sd = (x - mean) / z;
-            }
-
-            return;
-        }
-
-        public static void cdfpoi(int which, ref double p, ref double q, ref double s, ref double xlam,
-                ref int status_, ref double bound)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    CDFPOI evaluates the CDF of the Poisson distribution.
-            //
-            //  Discussion:
-            //
-            //    This routine calculates any one parameter of the Poisson distribution
-            //    given the others.
-            //
-            //    The value P of the cumulative distribution function is calculated
-            //    directly.
-            //
-            //    Computation of other parameters involve a seach for a value that
-            //    produces the desired value of P.  The search relies on the
-            //    monotonicity of P with respect to the other parameters.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    14 February 2021
-            //
-            //  Author:
-            //
-            //    Barry Brown, James Lovato, Kathy Russell.
-            //
-            //  Reference:
-            //
-            //    Milton Abramowitz and Irene Stegun,
-            //    Handbook of Mathematical Functions
-            //    1966, Formula 26.4.21.
-            //
-            //  Parameters:
-            //
-            //    Input, int *WHICH, indicates which argument is to be calculated
-            //    from the others.
-            //    1: Calculate P and Q from S and XLAM;
-            //    2: Calculate A from P, Q and XLAM;
-            //    3: Calculate XLAM from P, Q and S.
-            //
-            //    Input/output, double *P, the cumulation from 0 to S of the
-            //    Poisson density.  Whether this is an input or output value, it will
-            //    lie in the range [0,1].
-            //
-            //    Input/output, double *Q, equal to 1-P.  If Q is an input
-            //    value, it should lie in the range [0,1].  If Q is an output value,
-            //    it will lie in the range [0,1].
-            //
-            //    Input/output, double *S, the upper limit of cumulation of
-            //    the Poisson CDF.  If this is an input value, it should lie in
-            //    the range: [0, +infinity).  If it is an output value, it will be
-            //    searched for in the range: [0,1.0D+300].
-            //
-            //    Input/output, double *XLAM, the mean of the Poisson
-            //    distribution.  If this is an input value, it should lie in the range
-            //    [0, +infinity).  If it is an output value, it will be searched for
-            //    in the range: [0,1E300].
-            //
-            //    Output, int *STATUS, reports the status of the computation.
-            //     0, if the calculation completed correctly;
-            //    -I, if the input parameter number I is out of range;
-            //    +1, if the answer appears to be lower than lowest search bound;
-            //    +2, if the answer appears to be higher than greatest search bound;
-            //    +3, if P + Q /= 1.
-            //
-            //    Output, double *BOUND, is only defined if STATUS is nonzero.
-            //    If STATUS is negative, then this is the value exceeded by parameter I.
-            //    if STATUS is 1 or 2, this is the search bound that was exceeded.
-            //
-        {
-            double tol = (1.0e-8);
-            double atol = (1.0e-50);
-            double inf = 1.0e300;
-
-            double ccum = 0;
-            double cum = 0;
-            int K1 = 1;
-            double K2 = 0.0e0;
-            double K4 = 0.5e0;
-            double K5 = 5.0e0;
-            double pq;
-            bool qporq = false;
-            double T3;
-            double T6;
-            double T7;
-            double T8;
-            double T9;
-            double T10;
-
-            bound = 0.0;
-
-            E0000E0001 eData = new E0000E0001();
-            eData.status = status_;
-
-            //
-            //  Check arguments
-            //
-            if (!(which < 1 || which > 3)) goto S30;
-            if (!(which < 1)) goto S10;
-            bound = 1.0e0;
-            goto S20;
-            S10:
-            bound = 3.0e0;
-            S20:
-            eData.status = -1;
-            return;
-            S30:
-            if (which == 1) goto S70;
-            //
-            //     P
-            //
-            if (!(p < 0.0e0 || p > 1.0e0)) goto S60;
-            if (!(p < 0.0e0)) goto S40;
-            bound = 0.0e0;
-            goto S50;
-            S40:
-            bound = 1.0e0;
-            S50:
-            eData.status = -2;
-            return;
-            S70:
-            S60:
-            if (which == 1) goto S110;
-            //
-            //     Q
-            //
-            if (!(q <= 0.0e0 || q > 1.0e0)) goto S100;
-            if (!(q <= 0.0e0)) goto S80;
-            bound = 0.0e0;
-            goto S90;
-            S80:
-            bound = 1.0e0;
-            S90:
-            eData.status = -3;
-            return;
-            S110:
-            S100:
-            if (which == 2) goto S130;
-            //
-            //     S
-            //
-            if (!(s < 0.0e0)) goto S120;
-            bound = 0.0e0;
-            eData.status = -4;
-            return;
-            S130:
-            S120:
-            if (which == 3) goto S150;
-            //
-            //     XLAM
-            //
-            if (!(xlam < 0.0e0)) goto S140;
-            bound = 0.0e0;
-            eData.status = -5;
-            return;
-            S150:
-            S140:
-            if (which == 1) goto S190;
-            //
-            //     P + Q
-            //
-            pq = p + q;
-            if (!(Math.Abs(pq - 0.5e0 - 0.5e0) > 3.0e0 * dpmpar(K1))) goto S180;
-            if (!(pq < 0.0e0)) goto S160;
+            if (!(y < 0.0e0 || y > 1.0e0)) goto S180;
+            if (!(y < 0.0e0)) goto S160;
             bound = 0.0e0;
             goto S170;
             S160:
             bound = 1.0e0;
             S170:
-            eData.status = 3;
+            status = -5;
             return;
             S190:
             S180:
-            if (!(which == 1)) qporq = p <= q;
+            if (which == 3) goto S210;
             //
-            //  Select the minimum of P or Q
-            //  Calculate ANSWERS
+            //  A
             //
-            if (1 == which)
-            {
-                //
-                //  Calculating P
-                //
-                cumpoi(s, xlam, ref p, ref q);
-                eData.status = 0;
-            }
-            else if (2 == which)
-            {
-                //
-                //     Calculating S
-                //
-                s = 5.0e0;
-                T3 = inf;
-                T6 = atol;
-                T7 = tol;
-                eData.dstinv(K2, T3, K4, K4, K5, T6, T7);
-                eData.status = 0;
-                eData.dinvr();
-                S200:
-                if (!(eData.status == 1)) goto S230;
-                cumpoi(s, xlam, ref cum, ref ccum);
-                if (!qporq) goto S210;
-                eData.fx = cum - p;
-                goto S220;
-                S210:
-                eData.fx = ccum - q;
-                S220:
-                eData.dinvr();
-                goto S200;
-                S230:
-                if (!(eData.status == -1)) goto S260;
-                if (!eData.qleft) goto S240;
-                eData.status = 1;
-                bound = 0.0e0;
-                goto S250;
-                S240:
-                eData.status = 2;
-                bound = inf;
-                S260:
-                S250: ;
-            }
-            else if (3 == which)
-            {
-                //
-                //     Calculating XLAM
-                //
-                xlam = 5.0e0;
-                T8 = inf;
-                T9 = atol;
-                T10 = tol;
-                eData.dstinv(K2, T8, K4, K4, K5, T9, T10);
-                eData.status = 0;
-                eData.dinvr();
-                S270:
-                if (!(eData.status == 1)) goto S300;
-                cumpoi(s, xlam, ref cum, ref ccum);
-                if (!qporq) goto S280;
-                eData.fx = cum - p;
-                goto S290;
-                S280:
-                eData.fx = ccum - q;
-                S290:
-                eData.dinvr();
-                goto S270;
-                S300:
-                if (!(eData.status == -1)) goto S330;
-                if (!eData.qleft) goto S310;
-                eData.status = 1;
-                bound = 0.0e0;
-                goto S320;
-                S310:
-                eData.status = 2;
-                bound = inf;
-                S320: ;
-            }
-
-            S330:
-            return;
-        }
-
-        public static void cdft(int which, ref double p, ref double q, ref double t, ref double df,
-                ref int status_, ref double bound)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    CDFT evaluates the CDF of the T distribution.
-            //
-            //  Discussion:
-            //
-            //    This routine calculates any one parameter of the T distribution
-            //    given the others.
-            //
-            //    The value P of the cumulative distribution function is calculated
-            //    directly.
-            //
-            //    Computation of other parameters involve a seach for a value that
-            //    produces the desired value of P.   The search relies on the
-            //    monotonicity of P with respect to the other parameters.
-            //
-            //    The original version of this routine allowed the search interval
-            //    to extend from -1.0E+300 to +1.0E+300, which is fine until you
-            //    try to evaluate a function at such a point!
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    14 February 2021
-            //
-            //  Author:
-            //
-            //    Barry Brown, James Lovato, Kathy Russell.
-            //
-            //  Reference:
-            //
-            //    Milton Abramowitz and Irene Stegun,
-            //    Handbook of Mathematical Functions
-            //    1966, Formula 26.5.27.
-            //
-            //  Parameters:
-            //
-            //    Input, int *WHICH, indicates which argument is to be calculated
-            //    from the others.
-            //    1 : Calculate P and Q from T and DF;
-            //    2 : Calculate T from P, Q and DF;
-            //    3 : Calculate DF from P, Q and T.
-            //
-            //    Input/output, double *P, the integral from -infinity to T of
-            //    the T-density.  Whether an input or output value, this will lie in the
-            //    range [0,1].
-            //
-            //    Input/output, double *Q, equal to 1-P.  If Q is an input
-            //    value, it should lie in the range [0,1].  If Q is an output value,
-            //    it will lie in the range [0,1].
-            //
-            //    Input/output, double *T, the upper limit of integration of
-            //    the T-density.  If this is an input value, it may have any value.
-            //    It it is an output value, it will be searched for in the range
-            //    [ -1.0D+30, 1.0D+30 ].
-            //
-            //    Input/output, double *DF, the number of degrees of freedom
-            //    of the T distribution.  If this is an input value, it should lie
-            //    in the range: (0 , +infinity).  If it is an output value, it will be
-            //    searched for in the range: [1, 1.0D+10].
-            //
-            //    Output, int *STATUS, reports the status of the computation.
-            //     0, if the calculation completed correctly;
-            //    -I, if the input parameter number I is out of range;
-            //    +1, if the answer appears to be lower than lowest search bound;
-            //    +2, if the answer appears to be higher than greatest search bound;
-            //    +3, if P + Q /= 1.
-            //
-            //    Output, double *BOUND, is only defined if STATUS is nonzero.
-            //    If STATUS is negative, then this is the value exceeded by parameter I.
-            //    if STATUS is 1 or 2, this is the search bound that was exceeded.
-            //
-        {
-            double tol = (1.0e-8);
-            double atol = (1.0e-50);
-            double zero = (1.0e-300);
-            double inf = 1.0e30;
-            double maxdf = 1.0e10;
-
-            double ccum = 0;
-            double cum = 0;
-            int K1 = 1;
-            double K4 = 0.5e0;
-            double K5 = 5.0e0;
-            double pq;
-            bool qporq = false;
-            double T2;
-            double T3;
-            double T6;
-            double T7;
-            double T8;
-            double T9;
-            double T10;
-            double T11;
-
-            bound = 0.0;
-
-            E0000E0001 eData = new E0000E0001();
-            eData.status = 0;
-            
-            //
-            //  Check arguments
-            //
-            if (!(which < 1 || which > 3)) goto S30;
-            if (!(which < 1)) goto S10;
-            bound = 1.0e0;
-            goto S20;
-            S10:
-            bound = 3.0e0;
-            S20:
-            eData.status = -1;
-            return;
-            S30:
-            if (which == 1) goto S70;
-            //
-            //     P
-            //
-            if (!(p <= 0.0e0 || p > 1.0e0)) goto S60;
-            if (!(p <= 0.0e0)) goto S40;
+            if (!(a <= 0.0e0)) goto S200;
             bound = 0.0e0;
-            goto S50;
-            S40:
-            bound = 1.0e0;
-            S50:
-            eData.status = -2;
+            status = -6;
             return;
-            S70:
-            S60:
-            if (which == 1) goto S110;
+            S210:
+            S200:
+            if (which == 4) goto S230;
             //
-            //     Q
+            //  B
             //
-            if (!(q <= 0.0e0 || q > 1.0e0)) goto S100;
-            if (!(q <= 0.0e0)) goto S80;
+            if (!(b <= 0.0e0)) goto S220;
             bound = 0.0e0;
-            goto S90;
-            S80:
-            bound = 1.0e0;
-            S90:
-            eData.status = -3;
+            status = -7;
             return;
-            S110:
-            S100:
-            if (which == 3) goto S130;
+            S230:
+            S220:
+            if (which == 1) goto S270;
             //
-            //     DF
-            //
-            if (!(df <= 0.0e0)) goto S120;
-            bound = 0.0e0;
-            eData.status = -5;
-            return;
-            S130:
-            S120:
-            if (which == 1) goto S170;
-            //
-            //     P + Q
+            //  P + Q
             //
             pq = p + q;
-            if (!(Math.Abs(pq - 0.5e0 - 0.5e0) > 3.0e0 * dpmpar(K1))) goto S160;
-            if (!(pq < 0.0e0)) goto S140;
+            if (!(Math.Abs(pq - 0.5e0 - 0.5e0) > 3.0e0 * dpmpar(K1))) goto S260;
+            if (!(pq < 0.0e0)) goto S240;
             bound = 0.0e0;
-            goto S150;
-            S140:
+            goto S250;
+            S240:
             bound = 1.0e0;
-            S150:
-            eData.status = 3;
+            S250:
+            status = 3;
             return;
-            S170:
-            S160:
+            S270:
+            S260:
+            if (which == 2) goto S310;
+            //
+            //  X + Y
+            //
+            xy = x + y;
+            if (!(Math.Abs(xy - 0.5e0 - 0.5e0) > 3.0e0 * dpmpar(K1))) goto S300;
+            if (!(xy < 0.0e0)) goto S280;
+            bound = 0.0e0;
+            goto S290;
+            S280:
+            bound = 1.0e0;
+            S290:
+            status = 4;
+            return;
+            S310:
+            S300:
             if (!(which == 1)) qporq = p <= q;
             //
-            //  Select the minimum of P or Q.  Calculate ANSWERS
+            //     Select the minimum of P or Q
+            //     Calculate ANSWERS
             //
             if (1 == which)
             {
                 //
-                //  Computing P and Q
+                //  Calculating P and Q
                 //
-                cumt(t, df, ref p, ref q);
-                eData.status = 0;
+                cumbet(x, y, a, b, p, q);
+                status = 0;
             }
             else if (2 == which)
             {
                 //
-                //  Computing T
-                //  Get initial approximation for T
+                //  Calculating X and Y
                 //
-                t = dt1(p, q, df);
-                T2 = -inf;
-                T3 = inf;
-                T6 = atol;
-                T7 = tol;
-                eData.dstinv(T2, T3, K4, K4, K5, T6, T7);
-                eData.status = 0;
-                eData.dinvr();
-                S180:
-                if (!(eData.status == 1)) goto S210;
-                cumt(t, df, ref cum, ref ccum);
-                if (!qporq) goto S190;
-                eData.fx = cum - p;
-                goto S200;
-                S190:
-                eData.fx = ccum - q;
-                S200:
-                eData.dinvr();
-                goto S180;
-                S210:
-                if (!(eData.status == -1)) goto S240;
-                if (!eData.qleft) goto S220;
-                eData.status = 1;
-                bound = -inf;
-                goto S230;
-                S220:
-                eData.status = 2;
-                bound = inf;
-                S240:
-                S230: ;
+                T4 = atol;
+                T5 = tol;
+                dstzr(K2, K3, T4, T5);
+                if (!qporq) goto S340;
+                status = 0;
+                dzror(status, x, fx, xlo, xhi, qleft, qhi);
+                y = one - x;
+                S320:
+                if (!(status == 1)) goto S330;
+                cumbet(x, y, a, b, cum, ccum);
+                fx = cum - p;
+                dzror(status, x, fx, xlo, xhi, qleft, qhi);
+                y = one - x;
+                goto S320;
+                S330:
+                goto S370;
+                S340:
+                status = 0;
+                dzror(status, y, fx, xlo, xhi, qleft, qhi);
+                x = one - y;
+                S350:
+                if (!(status == 1)) goto S360;
+                cumbet(x, y, a, b, cum, ccum);
+                fx = ccum - q;
+                dzror(status, y, fx, xlo, xhi, qleft, qhi);
+                x = one - y;
+                goto S350;
+                S370:
+                S360:
+                if (!(status == -1)) goto S400;
+                if (!qleft) goto S380;
+                status = 1;
+                bound = 0.0e0;
+                goto S390;
+                S380:
+                status = 2;
+                bound = 1.0e0;
+                S400:
+                S390: ;
             }
-            else if (3 == which)
+            else if (3 == *which)
             {
                 //
-                //  Computing DF
+                //  Computing A
                 //
-                df = 5.0e0;
-                T8 = zero;
-                T9 = maxdf;
+                a = 5.0e0;
+                T6 = zero;
+                T7 = inf;
                 T10 = atol;
                 T11 = tol;
-                eData.dstinv(T8, T9, K4, K4, K5, T10, T11);
-                eData.status = 0;
-                eData.dinvr();
-                S250:
-                if (!(eData.status == 1)) goto S280;
-                cumt(t, df, ref cum, ref ccum);
-                if (!qporq) goto S260;
-                eData.fx = cum - p;
-                goto S270;
-                S260:
-                eData.fx = ccum - q;
-                S270:
-                eData.dinvr();
-                goto S250;
-                S280:
-                if (!(eData.status == -1)) goto S310;
-                if (!eData.qleft) goto S290;
-                eData.status = 1;
+                dstinv(T6, T7, K8, K8, K9, T10, T11);
+                status = 0;
+                dinvr(status, a, fx, qleft, qhi);
+                S410:
+                if (!(status == 1)) goto S440;
+                cumbet(x, y, a, b, cum, ccum);
+                if (!qporq) goto S420;
+                fx = cum - p;
+                goto S430;
+                S420:
+                fx = ccum - q;
+                S430:
+                dinvr(status, a, fx, qleft, qhi);
+                goto S410;
+                S440:
+                if (!(status == -1)) goto S470;
+                if (!qleft) goto S450;
+                status = 1;
                 bound = zero;
-                goto S300;
-                S290:
-                eData.status = 2;
-                bound = maxdf;
-                S300: ;
+                goto S460;
+                S450:
+                status = 2;
+                bound = inf;
+                S470:
+                S460: ;
+            }
+            else if (4 == which)
+            {
+                //
+                //  Computing B
+                //
+                b = 5.0e0;
+                T12 = zero;
+                T13 = inf;
+                T14 = atol;
+                T15 = tol;
+                dstinv(T12, T13, K8, K8, K9, T14, T15);
+                status = 0;
+                dinvr(status, b, fx, qleft, qhi);
+                S480:
+                if (!(status == 1)) goto S510;
+                cumbet(x, y, a, b, cum, ccum);
+                if (!qporq) goto S490;
+                fx = cum - p;
+                goto S500;
+                S490:
+                fx = ccum - q;
+                S500:
+                dinvr(status, b, fx, qleft, qhi);
+                goto S480;
+                S510:
+                if (!(status == -1)) goto S540;
+                if (!qleft) goto S520;
+                status = 1;
+                bound = zero;
+                goto S530;
+                S520:
+                status = 2;
+                bound = inf;
+                S530: ;
             }
 
-            S310:
+            S540:
             return;
         }
-
-
     }
 }

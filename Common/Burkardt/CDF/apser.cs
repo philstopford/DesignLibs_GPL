@@ -4,7 +4,7 @@ namespace Burkardt.CDFLib
 {
     public static partial class CDF
     {
-        public static double apser(double a, double b, double x, double eps)
+        public static double apser ( double a, double b, double x, double eps )
 
             //****************************************************************************80
             //
@@ -56,31 +56,30 @@ namespace Burkardt.CDFLib
             bx = b * x;
             t = x - bx;
 
-            if (b * eps <= 2e-2)
+            if ( b * eps <= 2e-2 )
             {
-                c = Math.Log(x) + psi(b) + g + t;
+                c = Math.Log ( x ) + psi ( b ) + g + t;
             }
             else
             {
-                c = Math.Log(bx) + g + t;
+                c = Math.Log ( bx ) + g + t;
             }
 
-            tol = 5.0e0 * eps * Math.Abs(c);
+            tol = 5.0e0 * eps * Math.Abs ( c );
             j = 1.0e0;
             s = 0.0e0;
 
-            while (true)
+            while ( true )
             {
                 j = j + 1.0e0;
-                t = t * (x - bx / j);
+                t = t * ( x - bx / j );
                 aj = t / j;
                 s = s + aj;
-                if (Math.Abs(aj) <= tol)
+                if ( Math.Abs ( aj ) <= tol )
                 {
                     break;
                 }
-
-                apser = -(a * (c + s));
+                apser = - ( a * ( c + s ) );
             }
 
             return apser;

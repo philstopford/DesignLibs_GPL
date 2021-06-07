@@ -117,7 +117,6 @@ namespace Burkardt.CDFLib
             }
 
             return algdiv;
-
         }
     }
 }

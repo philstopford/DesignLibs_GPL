@@ -30,11 +30,8 @@ namespace CDFLibTest
             Console.WriteLine("cdflib_test():");
             Console.WriteLine("  Test cdflib().");
 
-            /*
             beta_inc_test();
-            */
             cdfbet_test();
-            /*
             cdfbin_test();
             cdfchi_test();
             cdfchn_test();
@@ -63,7 +60,7 @@ namespace CDFLibTest
             gamma_test();
             gamma_inc_test();
             psi_test();
-*/
+
             Console.WriteLine("");
             Console.WriteLine("cdflib_test():");
             Console.WriteLine("  Normal end of execution.");

@@ -5,7 +5,7 @@ namespace Burkardt.CDFLib
     public static partial class CDF
     {
         public static void cdfbin(int which, ref double p, ref double q, ref double s, ref double xn,
-                ref double pr, ref double ompr, ref int status, ref double bound)
+                ref double pr, ref double ompr, ref int status_, ref double bound)
 
             //****************************************************************************80
             //
@@ -101,7 +101,6 @@ namespace Burkardt.CDFLib
 
             double ccum = 0;
             double cum = 0;
-            double fx = 0;
             int K1 = 1;
             double K2 = 0.0e0;
             double K3 = 0.5e0;
@@ -109,8 +108,6 @@ namespace Burkardt.CDFLib
             double K11 = 1.0e0;
             double pq;
             double prompr = 0;
-            bool qhi = false;
-            bool qleft = false;
             bool qporq = false;
             double T5;
             double T6;
@@ -120,14 +117,11 @@ namespace Burkardt.CDFLib
             double T10;
             double T12;
             double T13;
-            double xhi = 0;
-            double xlo = 0;
 
-            status = 0;
             bound = 0.0;
 
-            E0000Data e0000Data = new E0000Data();
-            E0001Data e0001Data = new E0001Data();
+            E0000E0001 eData = new E0000E0001();
+            eData.status = 0;
             
             //
             //  Check arguments
@@ -139,7 +133,7 @@ namespace Burkardt.CDFLib
             S10:
             bound = 4.0e0;
             S20:
-            status = -1;
+            eData.status = -1;
             return;
             S30:
             if (which == 1) goto S70;
@@ -153,7 +147,7 @@ namespace Burkardt.CDFLib
             S40:
             bound = 1.0e0;
             S50:
-            status = -2;
+            eData.status = -2;
             return;
             S70:
             S60:
@@ -168,7 +162,7 @@ namespace Burkardt.CDFLib
             S80:
             bound = 1.0e0;
             S90:
-            status = -3;
+            eData.status = -3;
             return;
             S110:
             S100:
@@ -178,7 +172,7 @@ namespace Burkardt.CDFLib
             //
             if (!(xn <= 0.0e0)) goto S120;
             bound = 0.0e0;
-            status = -5;
+            eData.status = -5;
             return;
             S130:
             S120:
@@ -193,7 +187,7 @@ namespace Burkardt.CDFLib
             S140:
             bound = xn;
             S150:
-            status = -4;
+            eData.status = -4;
             return;
             S170:
             S160:
@@ -208,7 +202,7 @@ namespace Burkardt.CDFLib
             S180:
             bound = 1.0e0;
             S190:
-            status = -6;
+            eData.status = -6;
             return;
             S210:
             S200:
@@ -223,7 +217,7 @@ namespace Burkardt.CDFLib
             S220:
             bound = 1.0e0;
             S230:
-            status = -7;
+            eData.status = -7;
             return;
             S250:
             S240:
@@ -239,7 +233,7 @@ namespace Burkardt.CDFLib
             S260:
             bound = 1.0e0;
             S270:
-            status = 3;
+            eData.status = 3;
             return;
             S290:
             S280:
@@ -255,7 +249,7 @@ namespace Burkardt.CDFLib
             S300:
             bound = 1.0e0;
             S310:
-            status = 4;
+            eData.status = 4;
             return;
             S330:
             S320:
@@ -270,7 +264,7 @@ namespace Burkardt.CDFLib
                 //  Calculating P
                 //
                 cumbin(s, xn, pr, ompr, ref p, ref q);
-                status = 0;
+                eData.status = 0;
             }
             else if (2 == which)
             {
@@ -280,37 +274,28 @@ namespace Burkardt.CDFLib
                 s = 5.0e0;
                 T5 = atol;
                 T6 = tol;
-                e0000Data.zsmall = K2;
-                e0000Data.zbig = xn;
-                e0000Data.zabsst = K3;
-                e0000Data.zrelst = K3;
-                e0000Data.zstpmu = K4;
-                e0000Data.zabsto = T5;
-                e0000Data.zrelto = T6;
-                dstinv(ref e0000Data);
-                status = 0;
-                e0000Data.status = status;
-                dinvr(ref e0000Data);
+                eData.dstinv(K2, xn, K3, K3, K4, T5, T6);
+                eData.status = 0;
+                eData.dinvr();
                 S340:
-                if (!(status == 1)) goto S370;
+                if (!(eData.status == 1)) goto S370;
                 cumbin(s, xn, pr, ompr, ref cum, ref ccum);
                 if (!qporq) goto S350;
-                fx = cum - p;
+                eData.fx = cum - p;
                 goto S360;
                 S350:
-                fx = ccum - q;
+                eData.fx = ccum - q;
                 S360:
-                e0000Data.status = status;
-                dinvr(ref e0000Data);
+                eData.dinvr();
                 goto S340;
                 S370:
-                if (!(status == -1)) goto S400;
-                if (!qleft) goto S380;
-                status = 1;
+                if (!(eData.status == -1)) goto S400;
+                if (!eData.qleft) goto S380;
+                eData.status = 1;
                 bound = 0.0e0;
                 goto S390;
                 S380:
-                status = 2;
+                eData.status = 2;
                 bound = xn;
                 S400:
                 S390: ;
@@ -325,37 +310,28 @@ namespace Burkardt.CDFLib
                 T8 = inf;
                 T9 = atol;
                 T10 = tol;
-                e0000Data.zsmall = T7;
-                e0000Data.zbig = T8;
-                e0000Data.zabsst = K3;
-                e0000Data.zrelst = K3;
-                e0000Data.zstpmu = K4;
-                e0000Data.zabsto = T9;
-                e0000Data.zrelto = T10;
-                dstinv(ref e0000Data);
-                status = 0;
-                e0000Data.status = status;
-                dinvr(ref e0000Data);
+                eData.dstinv(T7, T8, K3, K3, K4, T9, T10);
+                eData.status = 0;
+                eData.dinvr();
                 S410:
-                if (!(status == 1)) goto S440;
+                if (!(eData.status == 1)) goto S440;
                 cumbin(s, xn, pr, ompr, ref cum, ref ccum);
                 if (!qporq) goto S420;
-                fx = cum - p;
+                eData.fx = cum - p;
                 goto S430;
                 S420:
-                fx = ccum - q;
+                eData.fx = ccum - q;
                 S430:
-                e0000Data.status = status;
-                dinvr(ref e0000Data);
+                eData.dinvr();
                 goto S410;
                 S440:
-                if (!(status == -1)) goto S470;
-                if (!qleft) goto S450;
-                status = 1;
+                if (!(eData.status == -1)) goto S470;
+                if (!eData.qleft) goto S450;
+                eData.status = 1;
                 bound = zero;
                 goto S460;
                 S450:
-                status = 2;
+                eData.status = 2;
                 bound = inf;
                 S470:
                 S460: ;
@@ -367,44 +343,40 @@ namespace Burkardt.CDFLib
                 //
                 T12 = atol;
                 T13 = tol;
-                e0001Data.zxlo = K2;
-                e0001Data.zxhi = K11;
-                e0001Data.zabstl = T12;
-                e0001Data.zreltl = T13;
-                dstzr(ref e0001Data);
+                eData.dstzr(K2, K11, T12, T13);
                 if (!qporq) goto S500;
-                status = 0;
-                dzror(ref e0000Data, ref e0001Data);
+                eData.status = 0;
+                eData.dzror();
                 ompr = one - pr;
                 S480:
-                if (!(status == 1)) goto S490;
+                if (!(eData.status == 1)) goto S490;
                 cumbin(s, xn, pr, ompr, ref cum, ref ccum);
-                fx = cum - p;
-                dzror(ref e0000Data, ref e0001Data);
+                eData.fx = cum - p;
+                eData.dzror();
                 ompr = one - pr;
                 goto S480;
                 S490:
                 goto S530;
                 S500:
-                status = 0;
-                dzror(ref e0000Data, ref e0001Data);
+                eData.status = 0;
+                eData.dzror();
                 pr = one - ompr;
                 S510:
-                if (!(status == 1)) goto S520;
+                if (!(eData.status == 1)) goto S520;
                 cumbin(s, xn, pr, ompr, ref cum, ref ccum);
-                fx = ccum - q;
-                dzror(ref e0000Data, ref e0001Data);
+                eData.fx = ccum - q;
+                eData.dzror();
                 pr = one - ompr;
                 goto S510;
                 S530:
                 S520:
-                if (!(status == -1)) goto S560;
-                if (!qleft) goto S540;
-                status = 1;
+                if (!(eData.status == -1)) goto S560;
+                if (!eData.qleft) goto S540;
+                eData.status = 1;
                 bound = 0.0e0;
                 goto S550;
                 S540:
-                status = 2;
+                eData.status = 2;
                 bound = 1.0e0;
                 S550: ;
             }

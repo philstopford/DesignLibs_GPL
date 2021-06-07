@@ -162,14 +162,14 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/normal.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/poisson.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/student.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/CDFLibTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/misc.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/beta.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdf.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/binomial.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/chi.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/F.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/reverse_comm.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/F.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/CDFLibTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -178,7 +178,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.18864469" />
+    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.18857561" />
     <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.0" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />

@@ -248,5 +248,73 @@ namespace Burkardt.BLASTestData
 
             return value;
         }
+        
+        
+        public static double[] r8mat_test ( char trans, int lda, int m, int n )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8MAT_TEST sets up a test matrix.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //  
+            //  Modified:
+            //
+            //    10 February 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt.
+            //
+            //  Parameters:
+            //
+            //    Input, char TRANS, indicates whether matrix is to be transposed.
+            //    'N', no transpose.
+            //    'T', transpose the matrix.
+            //
+            //    Input, int LDA, the leading dimension of the matrix.
+            //
+            //    Input, int M, N, the number of rows and columns of the matrix.
+            //
+            //    Output, double R8MAT_TEST[?], the matrix.
+            //    if TRANS is 'N', then the matrix is stored in LDA*N entries,
+            //    as an M x N matrix;
+            //    if TRANS is 'T', then the matrix is stored in LDA*M entries,
+            //    as an N x M matrix.
+            //
+        {
+            double[] a;
+
+            if ( trans == 'N' )
+            {
+                a = new double[lda*n];
+
+                for (int j = 0; j < n; j++ )
+                {
+                    for (int i = 0; i < m; i++ )
+                    {
+                        a[i+j*lda] = ( double ) ( 10 * ( i + 1 ) + ( j + 1 ) );
+                    }
+                }
+            }
+            else
+            {
+                a = new double[lda*m];
+
+                for (int j = 0; j < n; j++ )
+                {
+                    for (int i = 0; i < m; i++ )
+                    {
+                        a[j+i*lda] = ( double ) ( 10 * ( i + 1 ) + ( j + 1 ) );
+                    }
+                }
+            }
+            return a;
+        }
+        
     }
 }

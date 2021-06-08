@@ -115,6 +115,7 @@ namespace Burkardt.CDFLib
             double T4 = 0, T5 = 0, T6 = 0, T7 = 0, T10 = 0, T11 = 0, T12 = 0, T13 = 0, T14 = 0, T15 = 0;
 
             data.status = 0;
+            data.x = x_;
             bound = 0.0;
             //
             //  Check arguments
@@ -379,6 +380,7 @@ namespace Burkardt.CDFLib
 
             S540:
             x_ = data.x;
+            y = 1 - x_;
             status_ = data.status;
             return;
         }

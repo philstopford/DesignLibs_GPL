@@ -26,7 +26,7 @@ namespace Burkardt.CDFLib
         public double e0001_zxlo;
     }
 
-    public static partial class E0000E0001
+    public static class E0000E0001
     {
         public static void dinvr(ref E0000_E0001_Data data, double x_, double fx_, bool qleft_, bool qhi_)
         {
@@ -375,12 +375,12 @@ namespace Burkardt.CDFLib
 
             double absstp = 0;
             double abstol = 0;
-            double big = data.x;
+            double big = double.MaxValue;
             double fbig = 0,
                 fsmall = 0,
                 relstp = 0,
                 reltol = 0,
-                small = data.x,
+                small = double.MinValue,
                 step = 0,
                 stpmul = 0,
                 xlb = 0,
@@ -462,7 +462,7 @@ namespace Burkardt.CDFLib
             goto S300;
             S90:
             yy = data.fx;
-            if (!(yy == 0.0e0)) goto S100;
+            if ((yy != 0.0e0)) goto S100;
             data.status = 0;
             //  qok = 1;
             return;
@@ -553,12 +553,12 @@ namespace Burkardt.CDFLib
             data.status = 0;
             goto S260;
             S250:
-            if (!(data.status == 1)) goto S290;
+            if (data.status != 1) goto S290;
             S260:
             data.qleft = qdum1;
             data.qhi = qdum2;
             dzror(ref data);
-            if (!(data.status == 1)) goto S280;
+            if (data.status != 1) goto S280;
             //
             //     GET-FUNCTION-VALUE
             //
@@ -587,7 +587,7 @@ namespace Burkardt.CDFLib
             data.status = 1;
             return;
             S310:
-            switch ((int) i99999)
+            switch (i99999)
             {
                 case 1: goto S10;
                 case 2: goto S20;

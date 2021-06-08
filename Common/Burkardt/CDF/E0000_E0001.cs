@@ -10,22 +10,63 @@ namespace Burkardt.CDFLib
         public bool qleft;
         public bool qhi;
 
-        public double e0000_zabsst;
-        public double e0000_zabsto;
-        public double e0000_zbig;
-        public double e0000_zrelst;
-        public double e0000_zrelto;
-        public double e0000_zsmall;
-        public double e0000_zstpmu;
+        public double zabsst;
+        public double zabsto;
+        public double zbig;
+        public double zrelst;
+        public double zrelto;
+        public double zsmall;
+        public double zstpmu;
 
-        public double e0001_xlo;
-        public double e0001_xhi;
-        public double e0001_zabstl;
-        public double e0001_zreltl;
-        public double e0001_zxhi;
-        public double e0001_zxlo;
+        public double xlo;
+        public double xhi;
+        public double zabstl;
+        public double zreltl;
+        
+        public class E0000Variables
+        {
+            public double absstp = 0;
+            public double abstol = 0;
+            public double big = double.MaxValue;
+            public double fbig = 0,
+                fsmall = 0,
+                relstp = 0,
+                reltol = 0,
+                small = double.MinValue,
+                step = 0,
+                stpmul = 0,
+                xlb = 0,
+                xsave = 0,
+                xub = 0,
+                yy = 0;
+            public int i99999 = 0;
+            public bool qbdd = false, qcond = false, qdum1 = false, qdum2 = false, qincr = false, qlim = false;
+            public bool qup = false;
+        
+        }
+        
+        public class E0001Variables
+        {
+            public double a = 0;
+            public double abstol = 0, b = 0, c = 0, d = 0, fa = 0, fb = 0, fc = 0, fd = 0, fda = 0;
+            public double fdb = 0, m = 0, mb = 0, p = 0, q = 0, reltol = 0, tol = 0, w = 0, xxhi = 0, xxlo = 0;
+            public int ext = 0, i99999 = 0;
+            public bool first = false, qrzero = false;        
+        }
+
+        public E0000Variables e0000vars;
+        public E0001Variables e0001vars;
+        
+        public E0000_E0001_Data()
+        {
+            e0000vars = new E0000Variables();
+            e0001vars = new E0001Variables();
+        }
+        
     }
 
+
+    
     public static class E0000E0001
     {
         public static void dinvr(ref E0000_E0001_Data data, double x_, double fx_, bool qleft_, bool qhi_)
@@ -104,13 +145,13 @@ namespace Burkardt.CDFLib
         public static void dstinv(ref E0000_E0001_Data data, double zsmall_, double zbig_, double zabsst_,
             double zrelst_, double zstpmu_, double zabsto_, double zrelto_)
         {
-            data.e0000_zsmall = zsmall_;
-            data.e0000_zbig = zbig_;
-            data.e0000_zabsst = zabsst_;
-            data.e0000_zrelst = zrelst_;
-            data.e0000_zstpmu = zstpmu_;
-            data.e0000_zabsto = zabsto_;
-            data.e0000_zrelto = zrelto_;
+            data.zsmall = zsmall_;
+            data.zbig = zbig_;
+            data.zabsst = zabsst_;
+            data.zrelst = zrelst_;
+            data.zstpmu = zstpmu_;
+            data.zabsto = zabsto_;
+            data.zrelto = zrelto_;
             
             dstinv(ref data);
         }
@@ -200,10 +241,10 @@ namespace Burkardt.CDFLib
 
         public static void dstzr(ref E0000_E0001_Data data, double zxlo, double zxhi, double zabstl, double zreltl)
         {
-            data.e0001_zxlo = zxlo;
-            data.e0001_zxhi = zxhi;
-            data.e0001_zabstl = zabstl;
-            data.e0001_zreltl = zreltl;
+            data.xlo = zxlo;
+            data.xhi = zxhi;
+            data.zabstl = zabstl;
+            data.zreltl = zreltl;
             dstzr(ref data);
         }
 
@@ -373,23 +414,6 @@ namespace Burkardt.CDFLib
             //
         {
 
-            double absstp = 0;
-            double abstol = 0;
-            double big = double.MaxValue;
-            double fbig = 0,
-                fsmall = 0,
-                relstp = 0,
-                reltol = 0,
-                small = double.MinValue,
-                step = 0,
-                stpmul = 0,
-                xlb = 0,
-                xsave = 0,
-                xub = 0,
-                yy = 0;
-            int i99999 = 0;
-            bool qbdd = false, qcond = false, qdum1 = false, qdum2 = false, qincr = false, qlim = false;
-            bool qup = false;
 
             switch (IENTRY)
             {
@@ -399,111 +423,111 @@ namespace Burkardt.CDFLib
 
             DINVR:
             if (data.status > 0) goto S310;
-            qcond = !qxmon(small, data.x, big);
-            if (qcond)
+            data.e0000vars.qcond = !qxmon(data.e0000vars.small, data.x, data.e0000vars.big);
+            if (data.e0000vars.qcond)
             {
                 throw new Exception(" SMALL, X, BIG not monotone in INVR");
             }
 
-            xsave = data.x;
+            data.e0000vars.xsave = data.x;
             //
             //     See that SMALL and BIG bound the zero and set QINCR
             //
-            data.x = small;
+            data.x = data.e0000vars.small;
             //
             //     GET-FUNCTION-VALUE
             //
-            i99999 = 1;
+            data.e0000vars.i99999 = 1;
             goto S300;
             S10:
-            fsmall = data.fx;
-            data.x = big;
+            data.e0000vars.fsmall = data.fx;
+            data.x = data.e0000vars.big;
             //
             //     GET-FUNCTION-VALUE
             //
-            i99999 = 2;
+            data.e0000vars.i99999 = 2;
             goto S300;
             S20:
-            fbig = data.fx;
-            qincr = fbig > fsmall;
-            if (!qincr) goto S50;
-            if (fsmall <= 0.0e0) goto S30;
+            data.e0000vars.fbig = data.fx;
+            data.e0000vars.qincr = data.e0000vars.fbig > data.e0000vars.fsmall;
+            if (!data.e0000vars.qincr) goto S50;
+            if (data.e0000vars.fsmall <= 0.0e0) goto S30;
             data.status = -1;
             data.qleft = data.qhi = true;
             return;
             S30:
-            if (fbig >= 0.0e0) goto S40;
+            if (data.e0000vars.fbig >= 0.0e0) goto S40;
             data.status = -1;
             data.qleft = data.qhi = false;
             return;
             S40:
             goto S80;
             S50:
-            if (fsmall >= 0.0e0) goto S60;
+            if (data.e0000vars.fsmall >= 0.0e0) goto S60;
             data.status = -1;
             data.qleft = true;
             data.qhi = false;
             return;
             S60:
-            if (fbig <= 0.0e0) goto S70;
+            if (data.e0000vars.fbig <= 0.0e0) goto S70;
             data.status = -1;
             data.qleft = false;
             data.qhi = true;
             return;
             S80:
             S70:
-            data.x = xsave;
-            step = Math.Max(absstp, relstp * Math.Abs(data.x));
+            data.x = data.e0000vars.xsave;
+            data.e0000vars.step = Math.Max(data.e0000vars.absstp, data.e0000vars.relstp * Math.Abs(data.x));
             //
             //      YY = F(X) - Y
             //     GET-FUNCTION-VALUE
             //
-            i99999 = 3;
+            data.e0000vars.i99999 = 3;
             goto S300;
             S90:
-            yy = data.fx;
-            if ((yy != 0.0e0)) goto S100;
+            data.e0000vars.yy = data.fx;
+            if ((data.e0000vars.yy != 0.0e0)) goto S100;
             data.status = 0;
             //  qok = 1;
             return;
             S100:
-            qup = (qincr && yy < 0.0e0) || (!qincr && yy > 0.0e0);
+            data.e0000vars.qup = (data.e0000vars.qincr && data.e0000vars.yy < 0.0e0) || (!data.e0000vars.qincr && data.e0000vars.yy > 0.0e0);
             //
             //     HANDLE CASE IN WHICH WE MUST STEP HIGHER
             //
-            if (!qup) goto S170;
-            xlb = xsave;
-            xub = Math.Min(xlb + step, big);
+            if (!data.e0000vars.qup) goto S170;
+            data.e0000vars.xlb = data.e0000vars.xsave;
+            data.e0000vars.xub = Math.Min(data.e0000vars.xlb + data.e0000vars.step, data.e0000vars.big);
             goto S120;
             S110:
-            if (qcond) goto S150;
+            if (data.e0000vars.qcond) goto S150;
             S120:
             //
             //      YY = F(XUB) - Y
             //
-            data.x = xub;
+            data.x = data.e0000vars.xub;
             //
             //     GET-FUNCTION-VALUE
             //
-            i99999 = 4;
+            data.e0000vars.i99999 = 4;
             goto S300;
             S130:
-            yy = data.fx;
-            qbdd = (qincr && yy >= 0.0e0) || (!qincr && yy <= 0.0e0);
-            qlim = xub >= big;
-            qcond = qbdd || qlim;
-            if (qcond) goto S140;
-            step = stpmul * step;
-            xlb = xub;
-            xub = Math.Min(xlb + step, big);
+            data.e0000vars.yy = data.fx;
+            data.e0000vars.qbdd = (data.e0000vars.qincr && data.e0000vars.yy >= 0.0e0) || (!data.e0000vars.qincr && data.e0000vars.yy <= 0.0e0);
+            data.e0000vars.qlim = data.e0000vars.xub >= data.e0000vars.big;
+            data.e0000vars.qcond = data.e0000vars.qbdd || data.e0000vars.qlim;
+            if (data.e0000vars.qcond) goto S140;
+            data.e0000vars.step = data.e0000vars.stpmul * data.e0000vars.step;
+            data.e0000vars.xlb = data.e0000vars.xub;
+            data.e0000vars.xub = Math.Min(data.e0000vars.xlb + data.e0000vars.step, data.e0000vars.big);
             S140:
             goto S110;
             S150:
-            if (!(qlim && !qbdd)) goto S160;
+            if (!(data.e0000vars.qlim && !data.e0000vars.qbdd)) goto S160;
             data.status = -1;
             data.qleft = false;
-            data.qhi = !qincr;
-            data.x = big;
+            data.qhi = !data.e0000vars.qincr;
+            data.x = data.e0000vars.big;
             return;
             S160:
             goto S240;
@@ -511,42 +535,42 @@ namespace Burkardt.CDFLib
             //
             //     HANDLE CASE IN WHICH WE MUST STEP LOWER
             //
-            xub = xsave;
-            xlb = Math.Max(xub - step, small);
+            data.e0000vars.xub = data.e0000vars.xsave;
+            data.e0000vars.xlb = Math.Max(data.e0000vars.xub - data.e0000vars.step, data.e0000vars.small);
             goto S190;
             S180:
-            if (qcond) goto S220;
+            if (data.e0000vars.qcond) goto S220;
             S190:
             //
             //      YY = F(XLB) - Y
             //
-            data.x = xlb;
+            data.x = data.e0000vars.xlb;
             //
             //     GET-FUNCTION-VALUE
             //
-            i99999 = 5;
+            data.e0000vars.i99999 = 5;
             goto S300;
             S200:
-            yy = data.fx;
-            qbdd = (qincr && yy <= 0.0e0) || (!qincr && yy >= 0.0e0);
-            qlim = xlb <= small;
-            qcond = qbdd || qlim;
-            if (qcond) goto S210;
-            step = stpmul * step;
-            xub = xlb;
-            xlb = Math.Max(xub - step, small);
+            data.e0000vars.yy = data.fx;
+            data.e0000vars.qbdd = (data.e0000vars.qincr && data.e0000vars.yy <= 0.0e0) || (!data.e0000vars.qincr && data.e0000vars.yy >= 0.0e0);
+            data.e0000vars.qlim = data.e0000vars.xlb <= data.e0000vars.small;
+            data.e0000vars.qcond = data.e0000vars.qbdd || data.e0000vars.qlim;
+            if (data.e0000vars.qcond) goto S210;
+            data.e0000vars.step = data.e0000vars.stpmul * data.e0000vars.step;
+            data.e0000vars.xub = data.e0000vars.xlb;
+            data.e0000vars.xlb = Math.Max(data.e0000vars.xub - data.e0000vars.step, data.e0000vars.small);
             S210:
             goto S180;
             S220:
-            if (!(qlim && !qbdd)) goto S230;
+            if (!(data.e0000vars.qlim && !data.e0000vars.qbdd)) goto S230;
             data.status = -1;
             data.qleft = true;
-            data.qhi = qincr;
-            data.x = small;
+            data.qhi = data.e0000vars.qincr;
+            data.x = data.e0000vars.small;
             return;
             S240:
             S230:
-            dstzr(ref data, xlb, xub, abstol, reltol);
+            dstzr(ref data, data.e0000vars.xlb, data.e0000vars.xub, data.e0000vars.abstol, data.e0000vars.reltol);
             //
             //  IF WE REACH HERE, XLB AND XUB BOUND THE ZERO OF F.
             //
@@ -555,30 +579,30 @@ namespace Burkardt.CDFLib
             S250:
             if (data.status != 1) goto S290;
             S260:
-            data.qleft = qdum1;
-            data.qhi = qdum2;
+            data.qleft = data.e0000vars.qdum1;
+            data.qhi = data.e0000vars.qdum2;
             dzror(ref data);
             if (data.status != 1) goto S280;
             //
             //     GET-FUNCTION-VALUE
             //
-            i99999 = 6;
+            data.e0000vars.i99999 = 6;
             goto S300;
             S280:
             S270:
             goto S250;
             S290:
-            data.x = data.e0001_xlo;
+            data.x = data.xlo;
             data.status = 0;
             return;
             DSTINV:
-            small = data.e0000_zsmall;
-            big = data.e0000_zbig;
-            absstp = data.e0000_zabsst;
-            relstp = data.e0000_zrelst;
-            stpmul = data.e0000_zstpmu;
-            abstol = data.e0000_zabsto;
-            reltol = data.e0000_zrelto;
+            data.e0000vars.small = data.zsmall;
+            data.e0000vars.big = data.zbig;
+            data.e0000vars.absstp = data.zabsst;
+            data.e0000vars.relstp = data.zrelst;
+            data.e0000vars.stpmul = data.zstpmu;
+            data.e0000vars.abstol = data.zabsto;
+            data.e0000vars.reltol = data.zrelto;
             return;
             S300:
             //
@@ -587,7 +611,7 @@ namespace Burkardt.CDFLib
             data.status = 1;
             return;
             S310:
-            switch (i99999)
+            switch (data.e0000vars.i99999)
             {
                 case 1: goto S10;
                 case 2: goto S20;
@@ -654,15 +678,9 @@ namespace Burkardt.CDFLib
             //
         {
 
-            double a = 0;
-            double abstol = 0, b = 0, c = 0, d = 0, fa = 0, fb = 0, fc = 0, fd = 0, fda = 0;
-            double fdb = 0, m = 0, mb = 0, p = 0, q = 0, reltol = 0, tol = 0, w = 0, xxhi = 0, xxlo = 0;
-            int ext = 0, i99999 = 0;
-            bool first = false, qrzero = false;
-
-            double ftol(double zx)
+            double ftol(double zx, ref E0000_E0001_Data data)
             {
-                return (0.5e0 * Math.Max(abstol, reltol * Math.Abs((zx))));
+                return (0.5e0 * Math.Max(data.e0001vars.abstol, data.e0001vars.reltol * Math.Abs((zx))));
             }
 
             switch (IENTRY)
@@ -675,129 +693,129 @@ namespace Burkardt.CDFLib
 
             DZROR:
             if (data.status > 0) goto S280;
-            data.e0001_xlo = xxlo;
-            data.e0001_xhi = xxhi;
-            b = data.x = data.e0001_xlo;
+            data.xlo = data.e0001vars.xxlo;
+            data.xhi = data.e0001vars.xxhi;
+            data.e0001vars.b = data.x = data.xlo;
             //
             //     GET-FUNCTION-VALUE
             //
-            i99999 = 1;
+            data.e0001vars.i99999 = 1;
             goto S270;
             S10:
-            fb = data.fx;
-            data.e0001_xlo = data.e0001_xhi;
-            a = data.x = data.e0001_xlo;
+            data.e0001vars.fb = data.fx;
+            data.xlo = data.xhi;
+            data.e0001vars.a = data.x = data.xlo;
             //
             //     GET-FUNCTION-VALUE
             //
-            i99999 = 2;
+            data.e0001vars.i99999 = 2;
             goto S270;
             S20:
             //
             //     Check that F(ZXLO) < 0 < F(ZXHI)  or
             //                F(ZXLO) > 0 > F(ZXHI)
             //
-            if (!(fb < 0.0e0)) goto S40;
+            if (!(data.e0001vars.fb < 0.0e0)) goto S40;
             if (!(data.fx < 0.0e0)) goto S30;
             data.status = -1;
-            data.qleft = data.fx < fb;
+            data.qleft = data.fx < data.e0001vars.fb;
             data.qhi = false;
             return;
             S40:
             S30:
-            if (!(fb > 0.0e0)) goto S60;
+            if (!(data.e0001vars.fb > 0.0e0)) goto S60;
             if (!(data.fx > 0.0e0)) goto S50;
             data.status = -1;
-            data.qleft = data.fx > fb;
+            data.qleft = data.fx > data.e0001vars.fb;
             data.qhi = true;
             return;
             S60:
             S50:
-            fa = data.fx;
-            first = true;
+            data.e0001vars.fa = data.fx;
+            data.e0001vars.first = true;
             S70:
-            c = a;
-            fc = fa;
-            ext = 0;
+            data.e0001vars.c = data.e0001vars.a;
+            data.e0001vars.fc = data.e0001vars.fa;
+            data.e0001vars.ext = 0;
             S80:
-            if (!(Math.Abs(fc) < Math.Abs(fb))) goto S100;
-            if (!(c != a)) goto S90;
-            d = a;
-            fd = fa;
+            if (!(Math.Abs(data.e0001vars.fc) < Math.Abs(data.e0001vars.fb))) goto S100;
+            if (!(data.e0001vars.c != data.e0001vars.a)) goto S90;
+            data.e0001vars.d = data.e0001vars.a;
+            data.e0001vars.fd = data.e0001vars.fa;
             S90:
-            a = b;
-            fa = fb;
-            data.e0001_xlo = c;
-            b = data.e0001_xlo;
-            fb = fc;
-            c = a;
-            fc = fa;
+            data.e0001vars.a = data.e0001vars.b;
+            data.e0001vars.fa = data.e0001vars.fb;
+            data.xlo = data.e0001vars.c;
+            data.e0001vars.b = data.xlo;
+            data.e0001vars.fb = data.e0001vars.fc;
+            data.e0001vars.c = data.e0001vars.a;
+            data.e0001vars.fc = data.e0001vars.fa;
             S100:
-            tol = ftol(data.e0001_xlo);
-            m = (c + b) * .5e0;
-            mb = m - b;
-            if (!(Math.Abs(mb) > tol)) goto S240;
-            if (!(ext > 3)) goto S110;
-            w = mb;
+            data.e0001vars.tol = ftol(data.xlo, ref data);
+            data.e0001vars.m = (data.e0001vars.c + data.e0001vars.b) * .5e0;
+            data.e0001vars.mb = data.e0001vars.m - data.e0001vars.b;
+            if (!(Math.Abs(data.e0001vars.mb) > data.e0001vars.tol)) goto S240;
+            if (!(data.e0001vars.ext > 3)) goto S110;
+            data.e0001vars.w = data.e0001vars.mb;
             goto S190;
             S110:
-            tol = fifdsign(tol, mb);
-            p = (b - a) * fb;
-            if (!first) goto S120;
-            q = fa - fb;
-            first = false;
+            data.e0001vars.tol = fifdsign(data.e0001vars.tol, data.e0001vars.mb);
+            data.e0001vars.p = (data.e0001vars.b - data.e0001vars.a) * data.e0001vars.fb;
+            if (!data.e0001vars.first) goto S120;
+            data.e0001vars.q = data.e0001vars.fa - data.e0001vars.fb;
+            data.e0001vars.first = false;
             goto S130;
             S120:
-            fdb = (fd - fb) / (d - b);
-            fda = (fd - fa) / (d - a);
-            p = fda * p;
-            q = fdb * fa - fda * fb;
+            data.e0001vars.fdb = (data.e0001vars.fd - data.e0001vars.fb) / (data.e0001vars.d - data.e0001vars.b);
+            data.e0001vars.fda = (data.e0001vars.fd - data.e0001vars.fa) / (data.e0001vars.d - data.e0001vars.a);
+            data.e0001vars.p = data.e0001vars.fda * data.e0001vars.p;
+            data.e0001vars.q = data.e0001vars.fdb * data.e0001vars.fa - data.e0001vars.fda * data.e0001vars.fb;
             S130:
-            if (!(p < 0.0e0)) goto S140;
-            p = -p;
-            q = -q;
+            if (!(data.e0001vars.p < 0.0e0)) goto S140;
+            data.e0001vars.p = -data.e0001vars.p;
+            data.e0001vars.q = -data.e0001vars.q;
             S140:
-            if (ext == 3) p = p * 2.0e0;
-            if (!(p * 1.0e0 == 0.0e0 || p <= q * tol)) goto S150;
-            w = tol;
+            if (data.e0001vars.ext == 3) data.e0001vars.p = data.e0001vars.p * 2.0e0;
+            if (!(data.e0001vars.p * 1.0e0 == 0.0e0 || data.e0001vars.p <= data.e0001vars.q * data.e0001vars.tol)) goto S150;
+            data.e0001vars.w = data.e0001vars.tol;
             goto S180;
             S150:
-            if (!(p < mb * q)) goto S160;
-            w = p / q;
+            if (!(data.e0001vars.p < data.e0001vars.mb * data.e0001vars.q)) goto S160;
+            data.e0001vars.w = data.e0001vars.p / data.e0001vars.q;
             goto S170;
             S160:
-            w = mb;
+            data.e0001vars.w = data.e0001vars.mb;
             S190:
             S180:
             S170:
-            d = a;
-            fd = fa;
-            a = b;
-            fa = fb;
-            b = b + w;
-            data.e0001_xlo = b;
-            data.x = data.e0001_xlo;
+            data.e0001vars.d = data.e0001vars.a;
+            data.e0001vars.fd = data.e0001vars.fa;
+            data.e0001vars.a = data.e0001vars.b;
+            data.e0001vars.fa = data.e0001vars.fb;
+            data.e0001vars.b = data.e0001vars.b + data.e0001vars.w;
+            data.xlo = data.e0001vars.b;
+            data.x = data.xlo;
             //
             //  GET-FUNCTION-VALUE
             //
-            i99999 = 3;
+            data.e0001vars.i99999 = 3;
             goto S270;
             S200:
-            fb = data.fx;
-            if (!(fc * fb >= 0.0e0)) goto S210;
+            data.e0001vars.fb = data.fx;
+            if (!(data.e0001vars.fc * data.e0001vars.fb >= 0.0e0)) goto S210;
             goto S70;
             S210:
-            if (!(w == mb)) goto S220;
-            ext = 0;
+            if (!(data.e0001vars.w == data.e0001vars.mb)) goto S220;
+            data.e0001vars.ext = 0;
             goto S230;
             S220:
-            ext = ext + 1;
+            data.e0001vars.ext = data.e0001vars.ext + 1;
             S230:
             goto S80;
             S240:
-            data.e0001_xhi = c;
-            qrzero = (fc >= 0.0e0 && fb <= 0.0e0) || (fc < 0.0e0 && fb >= 0.0e0);
-            if (!qrzero) goto S250;
+            data.xhi = data.e0001vars.c;
+            data.e0001vars.qrzero = (data.e0001vars.fc >= 0.0e0 && data.e0001vars.fb <= 0.0e0) || (data.e0001vars.fc < 0.0e0 && data.e0001vars.fb >= 0.0e0);
+            if (!data.e0001vars.qrzero) goto S250;
             data.status = 0;
             goto S260;
             S250:
@@ -805,10 +823,10 @@ namespace Burkardt.CDFLib
             S260:
             return;
             DSTZR:
-            xxlo = data.e0001_zxlo;
-            xxhi = data.e0001_zxhi;
-            abstol = data.e0001_zabstl;
-            reltol = data.e0001_zreltl;
+            data.e0001vars.xxlo = data.xlo;
+            data.e0001vars.xxhi = data.xhi;
+            data.e0001vars.abstol = data.zabstl;
+            data.e0001vars.reltol = data.zreltl;
             return;
             S270:
             //
@@ -817,7 +835,7 @@ namespace Burkardt.CDFLib
             data.status = 1;
             return;
             S280:
-            switch ((int) i99999)
+            switch ((int) data.e0001vars.i99999)
             {
                 case 1: goto S10;
                 case 2: goto S20;

@@ -127,10 +127,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/BurkhardtTest/BLAS/BLAS1ZTest/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/BLAS/BLAS1D.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/BLAS/BLAS1DTest/Program.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/BinsTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/algdiv.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/alnrel.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/apser.cs" />
@@ -168,7 +164,6 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdfpoi.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/beta.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cumt.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdft.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/dbetrm.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/dexpml.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/dt1.cs" />
@@ -178,6 +173,11 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/esum.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/exparg.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/f.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/fifdsign.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdft.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/fpser.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/gam1.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/gamma.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />

@@ -375,12 +375,12 @@ namespace Burkardt.CDFLib
 
             double absstp = 0;
             double abstol = 0;
-            double big = 0;
+            double big = data.x;
             double fbig = 0,
                 fsmall = 0,
                 relstp = 0,
                 reltol = 0,
-                small = 0,
+                small = data.x,
                 step = 0,
                 stpmul = 0,
                 xlb = 0,

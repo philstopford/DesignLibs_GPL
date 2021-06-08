@@ -180,7 +180,7 @@ namespace Burkardt.CDFLib
             if (1 == which)
             {
                 z = (x - mean) / sd;
-                cumnor(z, p, q);
+                cumnor(z, ref p, ref q);
             }
             //
             //  Computing X

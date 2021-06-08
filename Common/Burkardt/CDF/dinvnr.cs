@@ -57,15 +57,15 @@ namespace Burkardt.CDFLib
                 return (r2pi * Math.Exp(nhalf * (x) * (x)));
             }
 
-            double ccum;
-            double cum;
-            double dinvnr;
-            double dx;
-            int i;
-            double pp;
-            bool qporq;
-            double strtx;
-            double xcur;
+            double ccum = 0;
+            double cum = 0;
+            double dinvnr = 0;
+            double dx = 0;
+            int i = 0;
+            double pp = 0;
+            bool qporq = false;
+            double strtx = 0;
+            double xcur = 0;
             //
             //  FIND MINIMUM OF P AND Q
             //
@@ -86,7 +86,7 @@ namespace Burkardt.CDFLib
             //
             for (i = 1; i <= maxit; i++)
             {
-                cumnor(xcur, cum, ccum);
+                cumnor(xcur, ref cum, ref ccum);
                 dx = (cum - pp) / dennor(xcur);
                 xcur = xcur - dx;
                 if (Math.Abs(dx / xcur) < eps) goto S40;

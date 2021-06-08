@@ -260,7 +260,7 @@ namespace Burkardt.CDFLib
                 //
                 //  Calculating P
                 //
-                cumnbn(s, xn, pr, ompr, p, q);
+                cumnbn(s, xn, pr, ompr, ref p, ref q);
                 data.status = 0;
             }
             else if (2 == which)
@@ -278,7 +278,7 @@ namespace Burkardt.CDFLib
                 E0000E0001.dinvr(ref data);
                 S320:
                 if (!(data.status == 1)) goto S350;
-                cumnbn(s, xn, pr, ompr, cum, ccum);
+                cumnbn(s, xn, pr, ompr, ref cum, ref ccum);
                 if (!qporq) goto S330;
                 data.fx = cum - p;
                 goto S340;
@@ -315,7 +315,7 @@ namespace Burkardt.CDFLib
                 E0000E0001.dinvr(ref data);
                 S390:
                 if (!(data.status == 1)) goto S420;
-                cumnbn(s, xn, pr, ompr, cum, ccum);
+                cumnbn(s, xn, pr, ompr, ref cum, ref ccum);
                 if (!qporq) goto S400;
                 data.fx = cum - p;
                 goto S410;
@@ -352,7 +352,7 @@ namespace Burkardt.CDFLib
                 ompr = one - data.x;
                 S460:
                 if (!(data.status == 1)) goto S470;
-                cumnbn(s, xn, pr, ompr, cum, ccum);
+                cumnbn(s, xn, pr, ompr, ref cum, ref ccum);
                 data.fx = cum - p;
                 data.x = pr;
                 E0000E0001.dzror(ref data);
@@ -367,7 +367,7 @@ namespace Burkardt.CDFLib
                 pr = one - data.x;
                 S490:
                 if (!(data.status == 1)) goto S500;
-                cumnbn(s, xn, pr, ompr, cum, ccum);
+                cumnbn(s, xn, pr, ompr, ref cum, ref ccum);
                 data.fx = ccum - q;
                 data.x = ompr;
                 E0000E0001.dzror(ref data);

@@ -230,7 +230,7 @@ namespace Burkardt.CDFLib
                 //
                 data.status = 0;
                 xscale = data.x * scale;
-                cumgam(xscale, shape, p, q);
+                cumgam(xscale, shape, ref p, ref q);
                 if (porq > 1.5e0) data.status = 10;
             }
             else if (2 == which)
@@ -268,7 +268,7 @@ namespace Burkardt.CDFLib
                 E0000E0001.dinvr(ref data);
                 S250:
                 if (!(data.status == 1)) goto S290;
-                cumgam(xscale, shape, cum, ccum);
+                cumgam(xscale, shape, ref cum, ref ccum);
                 if (!qporq) goto S260;
                 data.fx = cum - p;
                 goto S270;

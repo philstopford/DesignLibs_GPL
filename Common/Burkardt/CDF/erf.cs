@@ -2,13 +2,17 @@
 {
     public static partial class CDF
     {
-        public static void student_cdf_values(ref int n_data, ref int a, ref double x, ref double fx)
+        public static void erf_values ( ref int n_data, ref double x, ref double fx )
 
             //****************************************************************************80
             //
             //  Purpose:
             //
-            //    STUDENT_CDF_VALUES returns some values of the Student CDF.
+            //    ERF_VALUES returns some values of the ERF or "error" function.
+            //
+            //  Definition:
+            //
+            //    ERF(X) = ( 2 / sqrt ( PI ) * integral ( 0 <= T <= X ) exp ( - T^2 ) dT
             //
             //  Licensing:
             //
@@ -35,57 +39,47 @@
             //    returns the corresponding data; when there is no more data, the
             //    output value of N_DATA will be 0 again.
             //
-            //    Output, int *A, the parameter of the function.
-            //
             //    Output, double *X, the argument of the function.
             //
             //    Output, double *FX, the value of the function.
             //
         {
-            int N_MAX = 13;
+            int N_MAX = 21;
 
-            int[] a_vec =  {
-                1, 2, 3, 4,
-                5, 2, 5, 2,
-                5, 2, 3, 4,
-                5
-            }
-            ;
-            double[] fx_vec =  {
-                0.60E+00, 0.60E+00, 0.60E+00, 0.60E+00,
-                0.60E+00, 0.75E+00, 0.75E+00, 0.95E+00,
-                0.95E+00, 0.99E+00, 0.99E+00, 0.99E+00,
-                0.99E+00
-            }
-            ;
-            double[] x_vec =  {
-                0.325E+00, 0.289E+00, 0.277E+00, 0.271E+00,
-                0.267E+00, 0.816E+00, 0.727E+00, 2.920E+00,
-                2.015E+00, 6.965E+00, 4.541E+00, 3.747E+00,
-                3.365E+00
-            }
-            ;
+            double[] fx_vec = {
+                0.0000000000E+00, 0.1124629160E+00, 0.2227025892E+00, 0.3286267595E+00,
+                0.4283923550E+00, 0.5204998778E+00, 0.6038560908E+00, 0.6778011938E+00,
+                0.7421009647E+00, 0.7969082124E+00, 0.8427007929E+00, 0.8802050696E+00,
+                0.9103139782E+00, 0.9340079449E+00, 0.9522851198E+00, 0.9661051465E+00,
+                0.9763483833E+00, 0.9837904586E+00, 0.9890905016E+00, 0.9927904292E+00,
+                0.9953222650E+00 };
+            double[] x_vec = {
+                0.0E+00, 0.1E+00, 0.2E+00, 0.3E+00,
+                0.4E+00, 0.5E+00, 0.6E+00, 0.7E+00,
+                0.8E+00, 0.9E+00, 1.0E+00, 1.1E+00,
+                1.2E+00, 1.3E+00, 1.4E+00, 1.5E+00,
+                1.6E+00, 1.7E+00, 1.8E+00, 1.9E+00,
+                2.0E+00 };
 
-            if (n_data < 0)
+            if ( n_data < 0 )
             {
                 n_data = 0;
             }
 
             n_data = n_data + 1;
 
-            if (N_MAX < n_data)
+            if ( N_MAX < n_data )
             {
                 n_data = 0;
-                a = 0;
                 x = 0.0E+00;
                 fx = 0.0E+00;
             }
             else
             {
-                a = a_vec[n_data - 1];
-                x = x_vec[n_data - 1];
-                fx = fx_vec[n_data - 1];
+                x = x_vec[n_data-1];
+                fx = fx_vec[n_data-1];
             }
         }
+
     }
 }

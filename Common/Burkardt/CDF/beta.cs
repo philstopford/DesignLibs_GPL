@@ -4,381 +4,7 @@ namespace Burkardt.CDFLib
 {
     public static partial class CDF
     {
-
-        public static void cdfbet(int which, ref double p, ref double q, ref double x_, ref double y,
-                ref double a, ref double b, ref int status_, ref double bound)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    CDFBET evaluates the CDF of the Beta Distribution.
-            //
-            //  Discussion:
-            //
-            //    This routine calculates any one parameter of the beta distribution
-            //    given the others.
-            //
-            //    The value P of the cumulative distribution function is calculated
-            //    directly by code associated with the reference.
-            //
-            //    Computation of the other parameters involves a seach for a value that
-            //    produces the desired value of P.  The search relies on the
-            //    monotonicity of P with respect to the other parameters.
-            //
-            //    The beta density is proportional to t^(A-1) * (1-t)^(B-1).
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    14 February 2021
-            //
-            //  Author:
-            //
-            //    Barry Brown, James Lovato, Kathy Russell.
-            //
-            //  Reference:
-            //
-            //    Armido DiDinato and Alfred Morris,
-            //    Algorithm 708:
-            //    Significant Digit Computation of the Incomplete Beta Function Ratios,
-            //    ACM Transactions on Mathematical Software,
-            //    Volume 18, 1993, pages 360-373.
-            //
-            //  Parameters:
-            //
-            //    Input, int *WHICH, indicates which of the next four argument
-            //    values is to be calculated from the others.
-            //    1: Calculate P and Q from X, Y, A and B;
-            //    2: Calculate X and Y from P, Q, A and B;
-            //    3: Calculate A from P, Q, X, Y and B;
-            //    4: Calculate B from P, Q, X, Y and A.
-            //
-            //    Input/output, double *P, the integral from 0 to X of the
-            //    chi-square distribution.  Input range: [0, 1].
-            //
-            //    Input/output, double *Q, equals 1-P.  Input range: [0, 1].
-            //
-            //    Input/output, double *X, the upper limit of integration
-            //    of the beta density.  If it is an input value, it should lie in
-            //    the range [0,1].  If it is an output value, it will be searched for
-            //    in the range [0,1].
-            //
-            //    Input/output, double *Y, equal to 1-X.  If it is an input
-            //    value, it should lie in the range [0,1].  If it is an output value,
-            //    it will be searched for in the range [0,1].
-            //
-            //    Input/output, double *A, the first parameter of the beta
-            //    density.  If it is an input value, it should lie in the range
-            //    (0, +infinity).  If it is an output value, it will be searched
-            //    for in the range [1D-300,1D300].
-            //
-            //    Input/output, double *B, the second parameter of the beta
-            //    density.  If it is an input value, it should lie in the range
-            //    (0, +infinity).  If it is an output value, it will be searched
-            //    for in the range [1D-300,1D300].
-            //
-            //    Output, int *STATUS, reports the status of the computation.
-            //     0, if the calculation completed correctly;
-            //    -I, if the input parameter number I is out of range;
-            //    +1, if the answer appears to be lower than lowest search bound;
-            //    +2, if the answer appears to be higher than greatest search bound;
-            //    +3, if P + Q /= 1;
-            //    +4, if X + Y /= 1.
-            //
-            //    Output, double *BOUND, is only defined if STATUS is nonzero.
-            //    If STATUS is negative, then this is the value exceeded by parameter I.
-            //    if STATUS is 1 or 2, this is the search bound that was exceeded.
-            //
-        {
-            double tol = (1.0e-8);
-            double atol = (1.0e-50);
-            double zero = (1.0e-300);
-            double inf = 1.0e300;
-            double one = 1.0e0;
-
-            double ccum = 0;
-            double cum = 0;
-            int K1 = 1;
-            double K2 = 0.0e0;
-            double K3 = 1.0e0;
-            double K8 = 0.5e0;
-            double K9 = 5.0e0;
-            double pq;
-            bool qporq = false;
-            double xy;
-
-            double T4, T5, T6, T7, T10, T11, T12, T13, T14, T15;
-
-            E0000E0001 eData = new E0000E0001();
-            eData.x = x_;
-
-            bound = 0.0;
-            //
-            //  Check arguments
-            //
-            if (!(which < 1 || which > 4)) goto S30;
-            if (!(which < 1)) goto S10;
-            bound = 1.0e0;
-            goto S20;
-            S10:
-            bound = 4.0e0;
-            S20:
-            eData.status = -1;
-            return;
-            S30:
-            if (which == 1) goto S70;
-            //
-            //  P
-            //
-            if (!(p < 0.0e0 || p > 1.0e0)) goto S60;
-            if (!(p < 0.0e0)) goto S40;
-            bound = 0.0e0;
-            goto S50;
-            S40:
-            bound = 1.0e0;
-            S50:
-            eData.status = -2;
-            return;
-            S70:
-            S60:
-            if (which == 1) goto S110;
-            //
-            //  Q
-            //
-            if (!(q < 0.0e0 || q > 1.0e0)) goto S100;
-            if (!(q < 0.0e0)) goto S80;
-            bound = 0.0e0;
-            goto S90;
-            S80:
-            bound = 1.0e0;
-            S90:
-            eData.status = -3;
-            return;
-            S110:
-            S100:
-            if (which == 2) goto S150;
-            //
-            //  X
-            //
-            if (!(eData.x < 0.0e0 || eData.x > 1.0e0)) goto S140;
-            if (!(eData.x < 0.0e0)) goto S120;
-            bound = 0.0e0;
-            goto S130;
-            S120:
-            bound = 1.0e0;
-            S130:
-            eData.status = -4;
-            return;
-            S150:
-            S140:
-            if (which == 2) goto S190;
-            //
-            //  Y
-            //
-            if (!(y < 0.0e0 || y > 1.0e0)) goto S180;
-            if (!(y < 0.0e0)) goto S160;
-            bound = 0.0e0;
-            goto S170;
-            S160:
-            bound = 1.0e0;
-            S170:
-            eData.status = -5;
-            return;
-            S190:
-            S180:
-            if (which == 3) goto S210;
-            //
-            //  A
-            //
-            if (!(a <= 0.0e0)) goto S200;
-            bound = 0.0e0;
-            eData.status = -6;
-            return;
-            S210:
-            S200:
-            if (which == 4) goto S230;
-            //
-            //  B
-            //
-            if (!(b <= 0.0e0)) goto S220;
-            bound = 0.0e0;
-            eData.status = -7;
-            return;
-            S230:
-            S220:
-            if (which == 1) goto S270;
-            //
-            //  P + Q
-            //
-            pq = p + q;
-            if (!(Math.Abs(pq - 0.5e0 - 0.5e0) > 3.0e0 * dpmpar(K1))) goto S260;
-            if (!(pq < 0.0e0)) goto S240;
-            bound = 0.0e0;
-            goto S250;
-            S240:
-            bound = 1.0e0;
-            S250:
-            eData.status = 3;
-            return;
-            S270:
-            S260:
-            if (which == 2) goto S310;
-            //
-            //  X + Y
-            //
-            xy = eData.x + y;
-            if (!(Math.Abs(xy - 0.5e0 - 0.5e0) > 3.0e0 * dpmpar(K1))) goto S300;
-            if (!(xy < 0.0e0)) goto S280;
-            bound = 0.0e0;
-            goto S290;
-            S280:
-            bound = 1.0e0;
-            S290:
-            eData.status = 4;
-            return;
-            S310:
-            S300:
-            if (!(which == 1)) qporq = p <= q;
-            //
-            //     Select the minimum of P or Q
-            //     Calculate ANSWERS
-            //
-            if (1 == which)
-            {
-                //
-                //  Calculating P and Q
-                //
-                cumbet(eData.x, y, a, b, ref p, ref q);
-                eData.status = 0;
-            }
-            else if (2 == which)
-            {
-                //
-                //  Calculating X and Y
-                //
-                T4 = atol;
-                T5 = tol;
-                eData.dstzr(K2, K3, T4, T5);
-                if (!qporq) goto S340;
-                eData.status = 0;
-                //e0001Data.status = 0;
-                eData.dzror();
-                y = one - eData.x;
-                S320:
-                if (!(eData.status == 1)) goto S330;
-                cumbet(eData.x, y, a, b, ref cum, ref ccum);
-                eData.fx = cum - p;
-                eData.dzror();
-                y = one - eData.x;
-                goto S320;
-                S330:
-                goto S370;
-                S340:
-                eData.dzror();
-                eData.x = one - y;
-                S350:
-                if (!(eData.status == 1)) goto S360;
-                cumbet(eData.x, y, a, b, ref cum, ref ccum);
-                eData.fx = ccum - q;
-                eData.dzror();
-                eData.x = one - y;
-                goto S350;
-                S370:
-                S360:
-                if (!(eData.status == -1)) goto S400;
-                if (!eData.qleft) goto S380;
-                eData.status = 1;
-                bound = 0.0e0;
-                goto S390;
-                S380:
-                eData.status = 2;
-                bound = 1.0e0;
-                S400:
-                S390: ;
-            }
-            else if (3 == which)
-            {
-                //
-                //  Computing A
-                //
-                a = 5.0e0;
-                T6 = zero;
-                T7 = inf;
-                T10 = atol;
-                T11 = tol;
-                eData.dstinv(T6, T7, K8, K8, K9, T10, T11);
-                eData.status = 0;
-                eData.dinvr();
-                S410:
-                if (!(eData.status == 1)) goto S440;
-                cumbet(eData.x, y, a, b, ref cum, ref ccum);
-                if (!qporq) goto S420;
-                eData.fx = cum - p;
-                goto S430;
-                S420:
-                eData.fx = ccum - q;
-                S430:
-                eData.dinvr();
-                goto S410;
-                S440:
-                if (!(eData.status == -1)) goto S470;
-                if (!eData.qleft) goto S450;
-                eData.status = 1;
-                bound = zero;
-                goto S460;
-                S450:
-                eData.status = 2;
-                bound = inf;
-                S470:
-                S460: ;
-            }
-            else if (4 == which)
-            {
-                //
-                //  Computing B
-                //
-                b = 5.0e0;
-                T12 = zero;
-                T13 = inf;
-                T14 = atol;
-                T15 = tol;
-                eData.dstinv(T12, T13, K8, K8, K9, T14, T15);
-                eData.status = 0;
-                // e0000Data.status = status;
-                eData.dinvr();
-                S480:
-                if (!(eData.status == 1)) goto S510;
-                cumbet(eData.x, y, a, b, ref cum, ref ccum);
-                if (!qporq) goto S490;
-                eData.fx = cum - p;
-                goto S500;
-                S490:
-                eData.fx = ccum - q;
-                S500:
-                // e0000Data.status = status;
-                eData.dinvr();
-                goto S480;
-                S510:
-                if (!(eData.status == -1)) goto S540;
-                if (!eData.qleft) goto S520;
-                eData.status = 1;
-                bound = zero;
-                goto S530;
-                S520:
-                eData.status = 2;
-                bound = inf;
-                S530: ;
-            }
-
-            S540:
-            return;
-        }
-
-        public static double beta(double a, double b)
+       public static double beta(double a, double b)
 
             //****************************************************************************80
             //
@@ -406,11 +32,11 @@ namespace Burkardt.CDFLib
             //
             //    double BETA, the value of the beta function.
             //
-        {
-            double value = Math.Exp(Math.Log(a, b));
+       {
+           double value = Math.Exp(beta_log(a, b));
 
-            return value;
-        }
+           return value;
+       }
 
         public static double beta_asym(double a, double b, double lambda, double eps)
 
@@ -418,7 +44,7 @@ namespace Burkardt.CDFLib
             //
             //  Purpose:
             //
-            //    BETA_ASYM computes an asymptotic Math.Expansion for IX(A,B), for large A and B.
+            //    BETA_ASYM computes an asymptotic expansion for IX(A,B), for large A and B.
             //
             //  Licensing:
             //
@@ -456,40 +82,40 @@ namespace Burkardt.CDFLib
         {
             double[] a0 = new double[21];
             double[] b0 = new double[21];
-            double bsum;
+            double bsum = 0;
             double[] c = new double[21];
             double[] d = new double[21];
-            double dsum;
+            double dsum = 0;
             double e0 = 1.12837916709551e0;
             double e1 = 0.353553390593274e0;
-            double f;
-            double h;
-            double h2;
-            double hn;
-            double j0;
-            double j1;
+            double f = 0;
+            double h = 0;
+            double h2 = 0;
+            double hn = 0;
+            double j0 = 0;
+            double j1 = 0;
             int K3 = 1;
             int num = 20;
-            double r;
-            double r0;
-            double r1;
-            double value;
+            double r = 0;
+            double r0 = 0;
+            double r1 = 0;
+            double value = 0;
 
-            double s,
-                sum,
-                t,
-                t0,
-                t1,
-                u,
-                w,
-                w0,
-                z,
-                z0,
-                z2,
-                zn,
-                znm1;
-            int i, im1, imj, j, m, mm1, mmj, n, np1;
-            double T1, T2;
+            double s = 0,
+                sum = 0,
+                t = 0,
+                t0 = 0,
+                t1 = 0,
+                u = 0,
+                w = 0,
+                w0 = 0,
+                z = 0,
+                z0 = 0,
+                z2 = 0,
+                zn = 0,
+                znm1 = 0;
+            int i = 0, im1 = 0, imj = 0, j = 0, m = 0, mm1 = 0, mmj = 0, n = 0, np1 = 0;
+            double T1 = 0, T2 = 0;
 
             value = 0.0e0;
             if (a >= b) goto S10;
@@ -585,7 +211,7 @@ namespace Burkardt.CDFLib
             //
             //  Purpose:
             //
-            //    BETA_FRAC evaluates a continued fraction Math.Expansion for IX(A,B).
+            //    BETA_FRAC evaluates a continued fraction expansion for IX(A,B).
             //
             //  Licensing:
             //
@@ -618,25 +244,25 @@ namespace Burkardt.CDFLib
             //    fraction approximation for IX(A,B).
             //
         {
-            double alpha;
-            double an;
-            double anp1;
-            double beta;
-            double bfrac;
-            double bn;
-            double bnp1;
-            double c;
-            double c0;
-            double c1;
-            double e;
-            double n;
-            double p;
-            double r;
-            double r0;
-            double s;
-            double t;
-            double w;
-            double yp1;
+            double alpha = 0;
+            double an = 0;
+            double anp1 = 0;
+            double beta = 0;
+            double bfrac = 0;
+            double bn = 0;
+            double bnp1 = 0;
+            double c = 0;
+            double c0 = 0;
+            double c1 = 0;
+            double e = 0;
+            double n = 0;
+            double p = 0;
+            double r = 0;
+            double r0 = 0;
+            double s = 0;
+            double t = 0;
+            double w = 0;
+            double yp1 = 0;
 
             bfrac = beta_rcomp(a, b, x, y);
 
@@ -709,7 +335,7 @@ namespace Burkardt.CDFLib
             //
             //  Purpose:
             //
-            //    BETA_GRAT evaluates an asymptotic Math.Expansion for IX(A,B).
+            //    BETA_GRAT evaluates an asymptotic expansion for IX(A,B).
             //
             //  Licensing:
             //
@@ -741,32 +367,32 @@ namespace Burkardt.CDFLib
             //    was detected.
             //
         {
-            double bm1;
-            double bp2n;
+            double bm1 = 0;
+            double bp2n = 0;
             double[] c = new double[30];
-            double cn;
-            double coef;
+            double cn = 0;
+            double coef = 0;
             double[] d = new double[30];
-            double dj;
-            int i;
-            double j;
-            double l;
-            double lnx;
-            int n;
-            double n2;
-            int nm1;
-            double nu;
+            double dj = 0;
+            int i = 0;
+            double j = 0;
+            double l = 0;
+            double lnx = 0;
+            int n = 0;
+            double n2 = 0;
+            int nm1 = 0;
+            double nu = 0;
             double p = 0;
             double q = 0;
-            double r;
-            double s;
-            double sum;
-            double t;
-            double T1;
-            double t2;
-            double u;
-            double v;
-            double z;
+            double r = 0;
+            double s = 0;
+            double sum = 0;
+            double t = 0;
+            double T1 = 0;
+            double t2 = 0;
+            double u = 0;
+            double v = 0;
+            double z = 0;
 
             bm1 = b - 0.5e0 - 0.5e0;
             nu = a + 0.5e0 * bm1;
@@ -834,7 +460,6 @@ namespace Burkardt.CDFLib
             //  THE EXPANSION CANNOT BE COMPUTED
             //
             ierr = 1;
-            return;
         }
 
         public static void beta_inc(double a, double b, double x, double y, ref double w,
@@ -880,18 +505,18 @@ namespace Burkardt.CDFLib
             //    7, Y = B = 0.
             //
         {
-            double a0;
-            double b0;
+            double a0 = 0;
+            double b0 = 0;
             int K1 = 1;
-            double eps;
-            double lambda;
-            double t;
-            double x0;
-            double y0;
-            double z;
+            double eps = 0;
+            double lambda = 0;
+            double t = 0;
+            double x0 = 0;
+            double y0 = 0;
+            double z = 0;
 
-            int ierr1 = 0, ind, n;
-            double T2, T3, T4, T5;
+            int ierr1 = 0, ind = 0, n = 0;
+            double T2 = 0, T3 = 0, T4 = 0, T5 = 0;
             //
             //  EPS IS A MACHINE DEPENDENT CONSTANT. EPS IS THE SMALLEST
             //  NUMBER FOR WHICH 1.0 + EPS .GT. 1.0
@@ -1106,7 +731,7 @@ namespace Burkardt.CDFLib
             //      BETA_INC(A,B,0.0) = 0.0
             //      BETA_INC(A,B,1.0) = 1.0
             //
-            //    Note that in Mathematica, the Math.Expressions:
+            //    Note that in Mathematica, the expressions:
             //
             //      BETA[A,B]   = Integral (0 to 1) T^(A-1) * (1-T)^(B-1) dT
             //      BETA[X,A,B] = Integral (0 to X) T^(A-1) * (1-T)^(B-1) dT
@@ -1153,54 +778,50 @@ namespace Burkardt.CDFLib
         {
             int N_MAX = 30;
 
-            double[] a_vec =
-                {
-                    0.5E+00, 0.5E+00, 0.5E+00, 1.0E+00,
-                    1.0E+00, 1.0E+00, 1.0E+00, 1.0E+00,
-                    2.0E+00, 2.0E+00, 2.0E+00, 2.0E+00,
-                    2.0E+00, 2.0E+00, 2.0E+00, 2.0E+00,
-                    2.0E+00, 5.5E+00, 10.0E+00, 10.0E+00,
-                    10.0E+00, 10.0E+00, 20.0E+00, 20.0E+00,
-                    20.0E+00, 20.0E+00, 20.0E+00, 30.0E+00,
-                    30.0E+00, 40.0E+00
-                }
-                ;
-            double[] b_vec =
-                {
-                    0.5E+00, 0.5E+00, 0.5E+00, 0.5E+00,
-                    0.5E+00, 0.5E+00, 0.5E+00, 1.0E+00,
-                    2.0E+00, 2.0E+00, 2.0E+00, 2.0E+00,
-                    2.0E+00, 2.0E+00, 2.0E+00, 2.0E+00,
-                    2.0E+00, 5.0E+00, 0.5E+00, 5.0E+00,
-                    5.0E+00, 10.0E+00, 5.0E+00, 10.0E+00,
-                    10.0E+00, 20.0E+00, 20.0E+00, 10.0E+00,
-                    10.0E+00, 20.0E+00
-                }
-                ;
-            double[] fx_vec =
-                {
-                    0.0637686E+00, 0.2048328E+00, 1.0000000E+00, 0.0E+00,
-                    0.0050126E+00, 0.0513167E+00, 0.2928932E+00, 0.5000000E+00,
-                    0.028E+00, 0.104E+00, 0.216E+00, 0.352E+00,
-                    0.500E+00, 0.648E+00, 0.784E+00, 0.896E+00,
-                    0.972E+00, 0.4361909E+00, 0.1516409E+00, 0.0897827E+00,
-                    1.0000000E+00, 0.5000000E+00, 0.4598773E+00, 0.2146816E+00,
-                    0.9507365E+00, 0.5000000E+00, 0.8979414E+00, 0.2241297E+00,
-                    0.7586405E+00, 0.7001783E+00
-                }
-                ;
-            double[] x_vec =
-                {
-                    0.01E+00, 0.10E+00, 1.00E+00, 0.0E+00,
-                    0.01E+00, 0.10E+00, 0.50E+00, 0.50E+00,
-                    0.1E+00, 0.2E+00, 0.3E+00, 0.4E+00,
-                    0.5E+00, 0.6E+00, 0.7E+00, 0.8E+00,
-                    0.9E+00, 0.50E+00, 0.90E+00, 0.50E+00,
-                    1.00E+00, 0.50E+00, 0.80E+00, 0.60E+00,
-                    0.80E+00, 0.50E+00, 0.60E+00, 0.70E+00,
-                    0.80E+00, 0.70E+00
-                }
-                ;
+            double[] a_vec =  {
+                0.5E+00, 0.5E+00, 0.5E+00, 1.0E+00,
+                1.0E+00, 1.0E+00, 1.0E+00, 1.0E+00,
+                2.0E+00, 2.0E+00, 2.0E+00, 2.0E+00,
+                2.0E+00, 2.0E+00, 2.0E+00, 2.0E+00,
+                2.0E+00, 5.5E+00, 10.0E+00, 10.0E+00,
+                10.0E+00, 10.0E+00, 20.0E+00, 20.0E+00,
+                20.0E+00, 20.0E+00, 20.0E+00, 30.0E+00,
+                30.0E+00, 40.0E+00
+            }
+            ;
+            double[] b_vec =  {
+                0.5E+00, 0.5E+00, 0.5E+00, 0.5E+00,
+                0.5E+00, 0.5E+00, 0.5E+00, 1.0E+00,
+                2.0E+00, 2.0E+00, 2.0E+00, 2.0E+00,
+                2.0E+00, 2.0E+00, 2.0E+00, 2.0E+00,
+                2.0E+00, 5.0E+00, 0.5E+00, 5.0E+00,
+                5.0E+00, 10.0E+00, 5.0E+00, 10.0E+00,
+                10.0E+00, 20.0E+00, 20.0E+00, 10.0E+00,
+                10.0E+00, 20.0E+00
+            }
+            ;
+            double[] fx_vec =  {
+                0.0637686E+00, 0.2048328E+00, 1.0000000E+00, 0.0E+00,
+                0.0050126E+00, 0.0513167E+00, 0.2928932E+00, 0.5000000E+00,
+                0.028E+00, 0.104E+00, 0.216E+00, 0.352E+00,
+                0.500E+00, 0.648E+00, 0.784E+00, 0.896E+00,
+                0.972E+00, 0.4361909E+00, 0.1516409E+00, 0.0897827E+00,
+                1.0000000E+00, 0.5000000E+00, 0.4598773E+00, 0.2146816E+00,
+                0.9507365E+00, 0.5000000E+00, 0.8979414E+00, 0.2241297E+00,
+                0.7586405E+00, 0.7001783E+00
+            }
+            ;
+            double[] x_vec =  {
+                0.01E+00, 0.10E+00, 1.00E+00, 0.0E+00,
+                0.01E+00, 0.10E+00, 0.50E+00, 0.50E+00,
+                0.1E+00, 0.2E+00, 0.3E+00, 0.4E+00,
+                0.5E+00, 0.6E+00, 0.7E+00, 0.8E+00,
+                0.9E+00, 0.50E+00, 0.90E+00, 0.50E+00,
+                1.00E+00, 0.50E+00, 0.80E+00, 0.60E+00,
+                0.80E+00, 0.50E+00, 0.60E+00, 0.70E+00,
+                0.80E+00, 0.70E+00
+            }
+            ;
 
             if (n_data < 0)
             {
@@ -1263,19 +884,19 @@ namespace Burkardt.CDFLib
             //    of the Beta function.
             //
         {
-            double a;
-            double b;
-            double c;
+            double a = 0;
+            double b = 0;
+            double c = 0;
             double e = .918938533204673e0;
-            double h;
-            int i;
-            int n;
-            double T1;
-            double u;
-            double v;
-            double value;
-            double w;
-            double z;
+            double h = 0;
+            int i = 0;
+            int n = 0;
+            double T1 = 0;
+            double u = 0;
+            double v = 0;
+            double value = 0;
+            double w = 0;
+            double z = 0;
 
             a = Math.Min(a0, b0);
             b = Math.Max(a0, b0);
@@ -1373,7 +994,7 @@ namespace Burkardt.CDFLib
             //
             //  Purpose:
             //
-            //    BETA_PSER uses a Math.Power series Math.Expansion to evaluate IX(A,B)(X).
+            //    BETA_PSER uses a power series expansion to evaluate IX(A,B)(X).
             //
             //  Discussion:
             //
@@ -1405,20 +1026,20 @@ namespace Burkardt.CDFLib
             //    Output, double BETA_PSER, the approximate value of IX(A,B)(X).
             //
         {
-            double a0;
-            double apb;
-            double b0;
-            double bpser;
-            double c;
-            int i;
-            int m;
-            double n;
-            double sum;
-            double t;
-            double tol;
-            double u;
-            double w;
-            double z;
+            double a0 = 0;
+            double apb = 0;
+            double b0 = 0;
+            double bpser = 0;
+            double c = 0;
+            int i = 0;
+            int m = 0;
+            double n = 0;
+            double sum = 0;
+            double t = 0;
+            double tol = 0;
+            double u = 0;
+            double w = 0;
+            double z = 0;
 
             bpser = 0.0e0;
             if (x == 0.0e0)
@@ -1544,27 +1165,27 @@ namespace Burkardt.CDFLib
             //    double CONST = 1/SQRT(2*PI)
             //
         {
-            double a0;
-            double apb;
-            double b0;
-            double brcomp;
-            double c;
+            double a0 = 0;
+            double apb = 0;
+            double b0 = 0;
+            double brcomp = 0;
+            double c = 0;
             double Const = 0.398942280401433e0;
-            double e;
-            double h;
-            int i;
-            double lambda;
-            double lnx;
-            double lny;
-            int n;
-            double t;
-            double T1;
-            double T2;
-            double u;
-            double v;
-            double x0;
-            double y0;
-            double z;
+            double e = 0;
+            double h = 0;
+            int i = 0;
+            double lambda = 0;
+            double lnx = 0;
+            double lny = 0;
+            int n = 0;
+            double t = 0;
+            double T1 = 0;
+            double T2 = 0;
+            double u = 0;
+            double v = 0;
+            double x0 = 0;
+            double y0 = 0;
+            double z = 0;
 
             brcomp = 0.0e0;
             if (x == 0.0e0 || y == 0.0e0) return brcomp;
@@ -1683,13 +1304,13 @@ namespace Burkardt.CDFLib
             return brcomp;
         }
 
-        public static double beta_rcomp1(int mu, double a, double b, ref double x, ref double y)
+        public static double beta_rcomp1(int mu, double a, double b, double x, double y)
 
             //****************************************************************************80
             //
             //  Purpose:
             //
-            //    BETA_RCOMP1 evaluates Math.Exp(MU) * X^A * Y^B / Beta(A,B).
+            //    BETA_RCOMP1 evaluates exp(MU) * X^A * Y^B / Beta(A,B).
             //
             //  Licensing:
             //
@@ -1713,36 +1334,36 @@ namespace Burkardt.CDFLib
             //    Input, double X, Y, ?
             //
             //    Output, double BETA_RCOMP1, the value of
-            //    Math.Exp(MU) * X^A * Y^B / Beta(A,B).
+            //    exp(MU) * X^A * Y^B / Beta(A,B).
             //
             //  Local:
             //
             //    double CONST = 1/SQRT(2*PI)
             //
         {
-            double a0;
-            double apb;
-            double b0;
-            double brcmp1;
-            double c;
+            double a0 = 0;
+            double apb = 0;
+            double b0 = 0;
+            double brcmp1 = 0;
+            double c = 0;
             double Const = 0.398942280401433e0;
-            double e;
-            double h;
-            int i;
-            double lambda;
-            double lnx;
-            double lny;
-            int n;
-            double t;
-            double T1;
-            double T2;
-            double T3;
-            double T4;
-            double u;
-            double v;
-            double x0;
-            double y0;
-            double z;
+            double e = 0;
+            double h = 0;
+            int i = 0;
+            double lambda = 0;
+            double lnx = 0;
+            double lny = 0;
+            int n = 0;
+            double t = 0;
+            double T1 = 0;
+            double T2 = 0;
+            double T3 = 0;
+            double T4 = 0;
+            double u = 0;
+            double v = 0;
+            double x0 = 0;
+            double y0 = 0;
+            double z = 0;
 
             a0 = Math.Min(a, b);
             if (a0 >= 8.0e0) goto S130;
@@ -1896,21 +1517,21 @@ namespace Burkardt.CDFLib
             //    Output, double BETA_UP, the value of IX(A,B) - IX(A+N,B).
             //
         {
-            double ap1;
-            double apb;
-            double bup;
-            double d;
-            int i;
-            int k;
+            double ap1 = 0;
+            double apb = 0;
+            double bup = 0;
+            double d = 0;
+            int i = 0;
+            int k = 0;
             int K1 = 1;
             int K2 = 0;
-            int kp1;
-            double l;
-            int mu;
-            int nm1;
-            double r;
-            double t;
-            double w;
+            int kp1 = 0;
+            double l = 0;
+            int mu = 0;
+            int nm1 = 0;
+            double r = 0;
+            double t = 0;
+            double w = 0;
             //
             //  OBTAIN THE SCALING FACTOR EXP(-MU) AND
             //  EXP(MU)*(X^A*Y^B/BETA(A,B))/A
@@ -1927,7 +1548,7 @@ namespace Burkardt.CDFLib
             t = mu;
             d = Math.Exp(-t);
             S10:
-            bup = beta_rcomp1(mu, a, b, ref x, ref y) / a;
+            bup = beta_rcomp1(mu, a, b, x, y) / a;
             if (n == 1 || bup == 0.0e0) return bup;
             nm1 = n - 1;
             w = d;
@@ -1978,60 +1599,6 @@ namespace Burkardt.CDFLib
             return bup;
         }
 
-        public static double dbetrm(double a, double b)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    DBETRM computes the Sterling remainder for the complete beta function.
-            //
-            //  Discussion:
-            //
-            //    Log(Beta(A,B)) = Lgamma(A) + Lgamma(B) - Lgamma(A+B)
-            //    where Lgamma is the log of the (complete) gamma function
-            //
-            //    Let ZZ be approximation obtained if each log gamma is approximated
-            //    by Sterling's formula, i.e.,
-            //    Sterling(Z) = LOG( SQRT( 2*PI ) ) + ( Z-0.5 ) * LOG( Z ) - Z
-            //
-            //    The Sterling remainder is Log(Beta(A,B)) - ZZ.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    14 February 2021
-            //
-            //  Author:
-            //
-            //    Barry Brown, James Lovato, Kathy Russell.
-            //
-            //  Parameters:
-            //
-            //    Input, double *A, *B, the parameters of the Beta function.
-            //
-            //    Output, double DBETRM, the Sterling remainder.
-            //
-        {
-            double dbetrm;
-            double T1;
-            double T2;
-            double T3;
-            //
-            //  Sum from smallest to largest
-            //
-            T1 = a + b;
-            dbetrm = -dstrem(T1);
-            T2 = Math.Max(a, b);
-            dbetrm = dbetrm + dstrem(T2);
-            T3 = Math.Min(a, b);
-            dbetrm = dbetrm + dstrem(T3);
-
-            return dbetrm;
-        }
 
     }
 }

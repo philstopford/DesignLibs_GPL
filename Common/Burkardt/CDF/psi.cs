@@ -116,9 +116,9 @@ namespace Burkardt.CDFLib
             //  MAKE AN ERROR EXIT IF X <= -XMAX1
             //
             if (w >= xmax1) goto S100;
-            nq = (int)(w);
+            nq = (int)Math.Truncate(w);
             w = w - (double) nq;
-            nq = (int)(w * 4.0e0);
+            nq = (int)Math.Truncate(w * 4.0e0);
             w = 4.0e0 * (w - (double) nq * .25e0);
             //
             //  W IS NOW RELATED TO THE FRACTIONAL PART OF  4.0 * X.

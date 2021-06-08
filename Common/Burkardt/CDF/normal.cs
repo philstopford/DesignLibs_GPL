@@ -2,7 +2,7 @@
 {
     public static partial class CDF
     {
-        public static void normal_cdf_values ( ref int n_data, ref double x, ref double fx )
+        public static void normal_cdf_values (ref int n_data, ref double x, ref double fx )
 
             //****************************************************************************80
             //

@@ -69,6 +69,5 @@ namespace Burkardt.CDFLib
 
             return alnrel;
         }
-
     }
 }

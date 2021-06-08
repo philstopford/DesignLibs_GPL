@@ -219,7 +219,7 @@ namespace Burkardt.CDFLib
                 //  Calculating P and Q
                 //
                 data.status = 0;
-                cumchi(data.x, df, p, q);
+                cumchi(data.x, df, ref p, ref q);
                 if (porq > 1.5e0)
                 {
                     data.status = 10;
@@ -240,7 +240,7 @@ namespace Burkardt.CDFLib
                 E0000E0001.dinvr(ref data);
                 S230:
                 if (!(data.status == 1)) goto S270;
-                cumchi(data.x, df, cum, ccum);
+                cumchi(data.x, df, ref cum, ref ccum);
                 if (!qporq) goto S240;
                 data.fx = cum - p;
                 goto S250;
@@ -281,7 +281,7 @@ namespace Burkardt.CDFLib
                 E0000E0001.dinvr(ref data);
                 S310:
                 if (!(data.status == 1)) goto S350;
-                cumchi(data.x, df, cum, ccum);
+                cumchi(data.x, df, ref cum, ref ccum);
                 if (!qporq) goto S320;
                 data.fx = cum - p;
                 goto S330;

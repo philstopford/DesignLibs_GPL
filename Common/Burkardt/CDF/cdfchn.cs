@@ -194,7 +194,7 @@
                 //
                 //     Calculating P and Q
                 //
-                cumchn(data.x, df, pnonc, p, q);
+                cumchn(data.x, df, pnonc, ref p, ref q);
                 data.status = 0;
             }
             else if (2 == which)
@@ -211,7 +211,7 @@
                 E0000E0001.dinvr(ref data);
                 S140:
                 if (!(data.status == 1)) goto S150;
-                cumchn(data.x, df, pnonc, cum, ccum);
+                cumchn(data.x, df, pnonc, ref cum, ref ccum);
                 data.fx = cum - p;
                 E0000E0001.dinvr(ref data);
                 goto S140;
@@ -243,7 +243,7 @@
                 E0000E0001.dinvr(ref data);
                 S190:
                 if (!(data.status == 1)) goto S200;
-                cumchn(data.x, df, pnonc, cum, ccum);
+                cumchn(data.x, df, pnonc, ref cum, ref ccum);
                 data.fx = cum - p;
                 data.x = df;
                 E0000E0001.dinvr(ref data);
@@ -275,7 +275,7 @@
                 E0000E0001.dinvr(ref data);
                 S240:
                 if (!(data.status == 1)) goto S250;
-                cumchn(data.x, df, pnonc, cum, ccum);
+                cumchn(data.x, df, pnonc, ref cum, ref ccum);
                 data.fx = cum - p;
                 data.x = pnonc;
                 E0000E0001.dinvr(ref data);

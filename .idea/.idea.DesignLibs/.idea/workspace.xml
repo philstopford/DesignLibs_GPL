@@ -169,15 +169,15 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/beta.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/binomial.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdf.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdfbin.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdfchi.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/dpmpar.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/dlanor.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/dstrem.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/dstinv.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/eval_pol.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdfchi.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/E0000_E0001.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdfbet.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdfbin.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />

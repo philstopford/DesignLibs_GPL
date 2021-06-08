@@ -99,16 +99,16 @@ namespace Burkardt.CDFLib
             double inf = 1.0e300;
             double one = 1.0e0;
 
-            double ccum;
-            double cum;
+            double ccum = 0;
+            double cum = 0;
             int K1 = 1;
             double K2 = 0.0e0;
             double K3 = 1.0e0;
             double K8 = 0.5e0;
             double K9 = 5.0e0;
-            double pq;
-            bool qporq;
-            double xy;
+            double pq = 0;
+            bool qporq = false;
+            double xy = 0;
 
             E0000_E0001_Data data = new E0000_E0001_Data();
             

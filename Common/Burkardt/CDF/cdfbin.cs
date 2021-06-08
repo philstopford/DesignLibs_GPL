@@ -274,7 +274,8 @@ namespace Burkardt.CDFLib
                 T6 = tol;
                 dstinv(K2, xn, K3, K3, K4, T5, T6);
                 data.status = 0;
-                dinvr(status, s, fx, qleft, qhi);
+                data.x = s;
+                E0000E0001.dinvr(ref data);
                 S340:
                 if (!(data.status == 1)) goto S370;
                 cumbin(s, xn, pr, ompr, cum, ccum);
@@ -284,7 +285,8 @@ namespace Burkardt.CDFLib
                 S350:
                 data.fx = ccum - q;
                 S360:
-                dinvr(status, s, fx, qleft, qhi);
+                data.x = s;
+                E0000E0001.dinvr(ref data);
                 goto S340;
                 S370:
                 if (!(data.status == -1)) goto S400;
@@ -310,7 +312,8 @@ namespace Burkardt.CDFLib
                 T10 = tol;
                 dstinv(T7, T8, K3, K3, K4, T9, T10);
                 data.status = 0;
-                dinvr(status, xn, fx, qleft, qhi);
+                data.x = xn;
+                E0000E0001.dinvr(ref data);
                 S410:
                 if (!(status == 1)) goto S440;
                 cumbin(s, xn, pr, ompr, cum, ccum);
@@ -320,7 +323,8 @@ namespace Burkardt.CDFLib
                 S420:
                 data.fx = ccum - q;
                 S430:
-                dinvr(status, xn, fx, qleft, qhi);
+                data.x = xn;
+                E0000E0001.dinvr(ref data);
                 goto S410;
                 S440:
                 if (!(data.status == -1)) goto S470;
@@ -344,26 +348,30 @@ namespace Burkardt.CDFLib
                 dstzr(K2, K11, T12, T13);
                 if (!qporq) goto S500;
                 data.status = 0;
-                dzror(status, pr, fx, xlo, xhi, qleft, qhi);
+                data.x = pr;
+                E0000E0001.dzror(ref data);
                 ompr = one - pr;
                 S480:
                 if (!(data.status == 1)) goto S490;
                 cumbin(s, xn, pr, ompr, cum, ccum);
                 data.fx = cum - p;
-                dzror(status, pr, fx, xlo, xhi, qleft, qhi);
+                data.x = pr;
+                E0000E0001.dzror(ref data);
                 ompr = one - pr;
                 goto S480;
                 S490:
                 goto S530;
                 S500:
                 data.status = 0;
-                dzror(status, ompr, fx, xlo, xhi, qleft, qhi);
+                data.x = ompr;
+                E0000E0001.dzror(ref data);
                 pr = one - ompr;
                 S510:
                 if (!(data.status == 1)) goto S520;
                 cumbin(s, xn, pr, ompr, cum, ccum);
                 data.fx = ccum - q;
-                dzror(status, ompr, fx, xlo, xhi, qleft, qhi);
+                data.x = ompr;
+                E0000E0001.dzror(ref data);
                 pr = one - ompr;
                 goto S510;
                 S530:

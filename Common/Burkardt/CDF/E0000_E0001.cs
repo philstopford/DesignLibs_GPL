@@ -273,6 +273,11 @@ namespace Burkardt.CDFLib
         {
             E0001(1, ref data);
         }
+
+        public static void dzror(ref E0000_E0001_Data data, double x_)
+        {
+            
+        }
         
         public static void dzror(ref E0000_E0001_Data data)
 
@@ -368,26 +373,23 @@ namespace Burkardt.CDFLib
             //
         {
 
-            double absstp;
-            double abstol;
-            double big;
-            double fbig,
-                fsmall,
-                relstp,
-                reltol,
-                small,
-                step,
-                stpmul,
-                xhi,
-                xlb,
-                xlo,
-                xsave,
-                xub,
-                yy;
-            int i99999
-                ;
-            bool qbdd, qcond, qdum1, qdum2, qincr, qlim;
-            bool qup;
+            double absstp = 0;
+            double abstol = 0;
+            double big = 0;
+            double fbig = 0,
+                fsmall = 0,
+                relstp = 0,
+                reltol = 0,
+                small = 0,
+                step = 0,
+                stpmul = 0,
+                xlb = 0,
+                xsave = 0,
+                xub = 0,
+                yy = 0;
+            int i99999 = 0;
+            bool qbdd = false, qcond = false, qdum1 = false, qdum2 = false, qincr = false, qlim = false;
+            bool qup = false;
 
             switch (IENTRY)
             {
@@ -499,7 +501,7 @@ namespace Burkardt.CDFLib
             S150:
             if (!(qlim && !qbdd)) goto S160;
             data.status = -1;
-            data.qleft = 0;
+            data.qleft = false;
             data.qhi = !qincr;
             data.x = big;
             return;
@@ -538,13 +540,13 @@ namespace Burkardt.CDFLib
             S220:
             if (!(qlim && !qbdd)) goto S230;
             data.status = -1;
-            data.qleft = 1;
+            data.qleft = true;
             data.qhi = qincr;
             data.x = small;
             return;
             S240:
             S230:
-            dstzr(xlb, xub, abstol, reltol);
+            dstzr(ref data, xlb, xub, abstol, reltol);
             //
             //  IF WE REACH HERE, XLB AND XUB BOUND THE ZERO OF F.
             //
@@ -553,7 +555,7 @@ namespace Burkardt.CDFLib
             S250:
             if (!(data.status == 1)) goto S290;
             S260:
-            dzror(data.status, data.x, data.fx, xlo, xhi, qdum1, qdum2);
+            dzror(ref data, data.x, data.fx, xlo, xhi, qdum1, qdum2);
             if (!(data.status == 1)) goto S280;
             //
             //     GET-FUNCTION-VALUE

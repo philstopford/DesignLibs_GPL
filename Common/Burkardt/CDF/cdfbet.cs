@@ -251,7 +251,7 @@ namespace Burkardt.CDFLib
                 //
                 //  Calculating P and Q
                 //
-                cumbet(data.x, y, a, b, p, q);
+                cumbet(data.x, y, a, b, ref p, ref q);
                 data.status = 0;
             }
             else if (2 == which)
@@ -268,7 +268,7 @@ namespace Burkardt.CDFLib
                 y = one - data.x;
                 S320:
                 if (!(data.status == 1)) goto S330;
-                cumbet(data.x, y, a, b, cum, ccum);
+                cumbet(data.x, y, a, b, ref cum, ref ccum);
                 data.fx = cum - p;
                 E0000E0001.dzror(ref data);
                 y = one - data.x;
@@ -282,7 +282,7 @@ namespace Burkardt.CDFLib
                 data.x = one - data.x;
                 S350:
                 if (!(data.status == 1)) goto S360;
-                cumbet(data.x, y, a, b, cum, ccum);
+                cumbet(data.x, y, a, b, ref cum, ref ccum);
                 data.fx = ccum - q;
                 data.x = y;
                 E0000E0001.dzror(ref data);
@@ -317,7 +317,7 @@ namespace Burkardt.CDFLib
                 E0000E0001.dinvr(ref data);
                 S410:
                 if (!(data.status == 1)) goto S440;
-                cumbet(data.x, y, a, b, cum, ccum);
+                cumbet(data.x, y, a, b, ref cum, ref ccum);
                 if (!qporq) goto S420;
                 data.fx = cum - p;
                 goto S430;
@@ -355,7 +355,7 @@ namespace Burkardt.CDFLib
                 E0000E0001.dinvr(ref data);
                 S480:
                 if (!(data.status == 1)) goto S510;
-                cumbet(data.x, y, a, b, cum, ccum);
+                cumbet(data.x, y, a, b, ref cum, ref ccum);
                 if (!qporq) goto S490;
                 data.fx = cum - p;
                 goto S500;

@@ -261,7 +261,7 @@ namespace Burkardt.CDFLib
                 //
                 //  Calculating P
                 //
-                cumbin(s, xn, pr, ompr, p, q);
+                cumbin(s, xn, pr, ompr, ref p, ref q);
                 data.status = 0;
             }
             else if (2 == which)
@@ -278,7 +278,7 @@ namespace Burkardt.CDFLib
                 E0000E0001.dinvr(ref data);
                 S340:
                 if (!(data.status == 1)) goto S370;
-                cumbin(s, xn, pr, ompr, cum, ccum);
+                cumbin(s, xn, pr, ompr, ref cum, ref ccum);
                 if (!qporq) goto S350;
                 data.fx = cum - p;
                 goto S360;
@@ -315,8 +315,8 @@ namespace Burkardt.CDFLib
                 data.x = xn;
                 E0000E0001.dinvr(ref data);
                 S410:
-                if (!(status == 1)) goto S440;
-                cumbin(s, xn, pr, ompr, cum, ccum);
+                if (!(data.status == 1)) goto S440;
+                cumbin(s, xn, pr, ompr, ref cum, ref ccum);
                 if (!qporq) goto S420;
                 data.fx = cum - p;
                 goto S430;
@@ -353,7 +353,7 @@ namespace Burkardt.CDFLib
                 ompr = one - pr;
                 S480:
                 if (!(data.status == 1)) goto S490;
-                cumbin(s, xn, pr, ompr, cum, ccum);
+                cumbin(s, xn, pr, ompr, ref cum, ref ccum);
                 data.fx = cum - p;
                 data.x = pr;
                 E0000E0001.dzror(ref data);
@@ -368,7 +368,7 @@ namespace Burkardt.CDFLib
                 pr = one - ompr;
                 S510:
                 if (!(data.status == 1)) goto S520;
-                cumbin(s, xn, pr, ompr, cum, ccum);
+                cumbin(s, xn, pr, ompr, ref cum, ref ccum);
                 data.fx = ccum - q;
                 data.x = ompr;
                 E0000E0001.dzror(ref data);
@@ -389,7 +389,6 @@ namespace Burkardt.CDFLib
 
             S560:
             status_ = data.status;
-            return;
         }
     }
 }

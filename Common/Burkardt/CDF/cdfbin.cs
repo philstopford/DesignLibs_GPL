@@ -99,24 +99,24 @@ namespace Burkardt.CDFLib
             double inf = 1.0e300;
             double one = 1.0e0;
 
-            double ccum;
-            double cum;
+            double ccum= 0;
+            double cum= 0;
             int K1 = 1;
             double K2 = 0.0e0;
             double K3 = 0.5e0;
             double K4 = 5.0e0;
             double K11 = 1.0e0;
-            double pq;
-            double prompr;
-            bool qporq;
-            double T5;
-            double T6;
-            double T7;
-            double T8;
-            double T9;
-            double T10;
-            double T12;
-            double T13;
+            double pq= 0;
+            double prompr= 0;
+            bool qporq = false;
+            double T5= 0;
+            double T6= 0;
+            double T7= 0;
+            double T8= 0;
+            double T9= 0;
+            double T10= 0;
+            double T12= 0;
+            double T13= 0;
 
             E0000_E0001_Data data = new E0000_E0001_Data();
 
@@ -272,7 +272,7 @@ namespace Burkardt.CDFLib
                 s = 5.0e0;
                 T5 = atol;
                 T6 = tol;
-                dstinv(K2, xn, K3, K3, K4, T5, T6);
+                E0000E0001.dstinv(ref data, K2, xn, K3, K3, K4, T5, T6);
                 data.status = 0;
                 data.x = s;
                 E0000E0001.dinvr(ref data);
@@ -310,7 +310,7 @@ namespace Burkardt.CDFLib
                 T8 = inf;
                 T9 = atol;
                 T10 = tol;
-                dstinv(T7, T8, K3, K3, K4, T9, T10);
+                E0000E0001.dstinv(ref data, T7, T8, K3, K3, K4, T9, T10);
                 data.status = 0;
                 data.x = xn;
                 E0000E0001.dinvr(ref data);
@@ -345,7 +345,7 @@ namespace Burkardt.CDFLib
                 //
                 T12 = atol;
                 T13 = tol;
-                dstzr(K2, K11, T12, T13);
+                E0000E0001.dstzr(ref data, K2, K11, T12, T13);
                 if (!qporq) goto S500;
                 data.status = 0;
                 data.x = pr;

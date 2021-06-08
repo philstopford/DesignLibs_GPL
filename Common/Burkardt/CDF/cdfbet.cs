@@ -111,8 +111,8 @@ namespace Burkardt.CDFLib
             double xy = 0;
 
             E0000_E0001_Data data = new E0000_E0001_Data();
-            
-            double T4, T5, T6, T7, T10, T11, T12, T13, T14, T15;
+
+            double T4 = 0, T5 = 0, T6 = 0, T7 = 0, T10 = 0, T11 = 0, T12 = 0, T13 = 0, T14 = 0, T15 = 0;
 
             data.status = 0;
             bound = 0.0;

@@ -220,7 +220,7 @@ namespace Burkardt.CDFLib
                 //
                 //     Calculating P
                 //
-                cumf(f, dfn, dfd, p, q);
+                cumf(f, dfn, dfd, ref p, ref q);
                 data.status = 0;
             }
             else if (2 == which)
@@ -238,7 +238,7 @@ namespace Burkardt.CDFLib
                 E0000E0001.dinvr(ref data);
                 S220:
                 if (!(data.status == 1)) goto S250;
-                cumf(f, dfn, dfd, cum, ccum);
+                cumf(f, dfn, dfd, ref cum, ref ccum);
                 if (!qporq) goto S230;
                 data.fx = cum - p;
                 goto S240;
@@ -286,7 +286,7 @@ namespace Burkardt.CDFLib
 
                 while (data.status == 1)
                 {
-                    cumf(f, dfn, dfd, cum, ccum);
+                    cumf(f, dfn, dfd, ref cum, ref ccum);
 
                     if (p <= q)
                     {
@@ -340,7 +340,7 @@ namespace Burkardt.CDFLib
 
                 while (data.status == 1)
                 {
-                    cumf(f, dfn, dfd, cum, ccum);
+                    cumf(f, dfn, dfd, ref cum, ref ccum);
 
                     if (p <= q)
                     {

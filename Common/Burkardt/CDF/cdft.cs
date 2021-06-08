@@ -4,7 +4,7 @@ namespace Burkardt.CDFLib
 {
     public static partial class CDF
     {
-        public void cdft(int which, ref double p, ref double q, ref double t, ref double df,
+        public static void cdft(int which, ref double p, ref double q, ref double t, ref double df,
                 ref int status_, ref double bound)
 
             //****************************************************************************80

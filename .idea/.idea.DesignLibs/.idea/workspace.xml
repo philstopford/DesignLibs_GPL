@@ -127,7 +127,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/dstrem.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/dstinv.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/eval_pol.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/E0000_E0001.cs" />
@@ -178,6 +177,7 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdffnc.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdfgam.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cumgam.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/student.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -194,7 +194,7 @@
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C#" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunManager" selected=".NET Project.BLAS1DTest">
+  <component name="RunManager" selected=".NET Project.CDFLibTest">
     <configuration name="ASA005Test" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />

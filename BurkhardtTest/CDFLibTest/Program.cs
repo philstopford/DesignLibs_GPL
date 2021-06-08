@@ -519,7 +519,7 @@ namespace CDFLibTest
                     pnonc = -1.0;
                 }
 
-                CDF.cdfchn(which, ref p, ref q, x, ref df, ref pnonc, ref status, ref bound);
+                CDF.cdfchn(which, ref p, ref q, ref x, ref df, ref pnonc, ref status, ref bound);
 
                 if (status != 0)
                 {
@@ -1800,7 +1800,7 @@ namespace CDFLibTest
 
             for (;;)
             {
-                CDF.gamma_inc_values(ref n_data, a, ref x, ref cdf_lookup);
+                CDF.gamma_inc_values(ref n_data, ref a, ref x, ref cdf_lookup);
 
                 if (n_data == 0)
                 {
@@ -1825,7 +1825,7 @@ namespace CDFLibTest
 
             for (;;)
             {
-                CDF.gamma_inc_values(ref n_data, a, ref x, ref cdf_lookup);
+                CDF.gamma_inc_values(ref n_data, ref a, ref x, ref cdf_lookup);
 
                 if (n_data == 0)
                 {
@@ -2363,7 +2363,7 @@ namespace CDFLibTest
 
             for (;;)
             {
-                CDF.gamma_values(n_data, ref x, ref gamma_lookup);
+                CDF.gamma_values(ref n_data, ref x, ref gamma_lookup);
 
                 if (n_data == 0)
                 {
@@ -2432,7 +2432,7 @@ namespace CDFLibTest
 
                 CDF.gamma_inc(a, x, ref p, ref q, ind);
 
-                CDF.gamma_inc_inv(a, ref x2, x0, p, q, ref ierror);
+                CDF.gamma_inc_inv(a, ref x2, ref x0, ref p, ref q, ref ierror);
 
                 Console.WriteLine("  "
                      + x.ToString().PadLeft(12) + "  "

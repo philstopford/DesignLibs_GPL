@@ -118,25 +118,19 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/E6E6B40B-308C-4FE1-9C93-7C26C144C865/394/FileStream.Windows.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/E6E6B40B-308C-4FE1-9C93-7C26C144C865/32/Math.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/E6E6B40B-308C-4FE1-9C93-7C26C144C865/F3/UInt64.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Common/Burkardt/Sobol/SobolData.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Common/Burkardt/Sobol/SobolDataLarge.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/FEM/FEM1DBVPTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/LatinCenterTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/F5A748D1-B618-44F7-8E57-7E559F530DB4/40/282d4431/Widget.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/dstinv.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/eval_pol.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/E0000_E0001.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/ipmpar.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/chi.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cumbet.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdfbet.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cumbin.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdfbin.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdfchi.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cumchn.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdfchn.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cumf.cs" />
@@ -178,6 +172,14 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdfgam.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cumgam.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/student.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/stvaln.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/binomial.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdfchi.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdfbet.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/CDFLibTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/E0000_E0001.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/ASA241.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/SobolTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -186,7 +188,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.18824111" />
+    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.18814814" />
     <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.0" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />

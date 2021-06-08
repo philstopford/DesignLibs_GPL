@@ -4,17 +4,11 @@ namespace Burkardt.CDFLib
 {
     public class E0000_E0001_Data
     {
-        public int e0000_status;
-        public double e0000_x;
-        public double e0000_fx;
-        public bool e0000_qleft;
-        public bool e0000_qhi;
-
-        public int e0001_status;
-        public double e0001_x;
-        public double e0001_fx;
-        public bool e0001_qleft;
-        public bool e0001_qhi;
+        public int status;
+        public double x;
+        public double fx;
+        public bool qleft;
+        public bool qhi;
 
         public double e0000_zabsst;
         public double e0000_zabsto;
@@ -34,6 +28,15 @@ namespace Burkardt.CDFLib
 
     public static partial class E0000E0001
     {
+        public static void dinvr(ref E0000_E0001_Data data, double x_, double fx_, bool qleft_, bool qhi_)
+        {
+            data.x = x_;
+            data.fx = fx_;
+            data.qleft = qleft_;
+            data.qhi = qhi_;
+            dinvr(ref data);
+        }
+        
         public static void dinvr(ref E0000_E0001_Data data)
 
             //****************************************************************************80
@@ -98,6 +101,20 @@ namespace Burkardt.CDFLib
             E0000(0, ref data);
         }
 
+        public static void dstinv(ref E0000_E0001_Data data, double zsmall_, double zbig_, double zabsst_,
+            double zrelst_, double zstpmu_, double zabsto_, double zrelto_)
+        {
+            data.e0000_zsmall = zsmall_;
+            data.e0000_zbig = zbig_;
+            data.e0000_zabsst = zabsst_;
+            data.e0000_zrelst = zrelst_;
+            data.e0000_zstpmu = zstpmu_;
+            data.e0000_zabsto = zabsto_;
+            data.e0000_zrelto = zrelto_;
+            
+            dstinv(ref data);
+        }
+        
         public static void dstinv(ref E0000_E0001_Data data)
 
             //****************************************************************************80
@@ -178,7 +195,16 @@ namespace Burkardt.CDFLib
             //          of the solution.  See function for a precise definition.
             //
         {
-            E000(1, ref data);
+            E0000(1, ref data);
+        }
+
+        public static void dstzr(ref E0000_E0001_Data data, double zxlo, double zxhi, double zabstl, double zreltl)
+        {
+            data.e0001_zxlo = zxlo;
+            data.e0001_zxhi = zxhi;
+            data.e0001_zabstl = zabstl;
+            data.e0001_zreltl = zreltl;
+            dstzr(ref data);
         }
 
         public static void dstzr(ref E0000_E0001_Data data)
@@ -247,7 +273,7 @@ namespace Burkardt.CDFLib
         {
             E0001(1, ref data);
         }
-
+        
         public static void dzror(ref E0000_E0001_Data data)
 
             //****************************************************************************80
@@ -370,62 +396,62 @@ namespace Burkardt.CDFLib
             }
 
             DINVR:
-            if (data.e0000_status > 0) goto S310;
-            qcond = !qxmon(small, data.e0000_x, big);
+            if (data.status > 0) goto S310;
+            qcond = !qxmon(small, data.x, big);
             if (qcond)
             {
                 throw new Exception(" SMALL, X, BIG not monotone in INVR");
             }
 
-            xsave = data.e0000_x;
+            xsave = data.x;
             //
             //     See that SMALL and BIG bound the zero and set QINCR
             //
-            data.e0000_x = small;
+            data.x = small;
             //
             //     GET-FUNCTION-VALUE
             //
             i99999 = 1;
             goto S300;
             S10:
-            fsmall = data.e0000_fx;
-            data.e0000_x = big;
+            fsmall = data.fx;
+            data.x = big;
             //
             //     GET-FUNCTION-VALUE
             //
             i99999 = 2;
             goto S300;
             S20:
-            fbig = data.e0000_fx;
+            fbig = data.fx;
             qincr = fbig > fsmall;
             if (!qincr) goto S50;
             if (fsmall <= 0.0e0) goto S30;
-            data.e0000_status = -1;
-            data.e0000_qleft = data.e0000_qhi = true;
+            data.status = -1;
+            data.qleft = data.qhi = true;
             return;
             S30:
             if (fbig >= 0.0e0) goto S40;
-            data.e0000_status = -1;
-            data.e0000_qleft = data.e0000_qhi = false
+            data.status = -1;
+            data.qleft = data.qhi = false
             return;
             S40:
             goto S80;
             S50:
             if (fsmall >= 0.0e0) goto S60;
-            data.e0000_status = -1;
-            data.e0000_qleft = true;
-            data.e0000_qhi = false;
+            data.status = -1;
+            data.qleft = true;
+            data.qhi = false;
             return;
             S60:
             if (fbig <= 0.0e0) goto S70;
-            data.e0000_status = -1;
-            data.e0000_qleft = false;
-            data.e0000_qhi = true;
+            data.status = -1;
+            data.qleft = false;
+            data.qhi = true;
             return;
             S80:
             S70:
-            data.e0000_x = xsave;
-            step = Math.Max(absstp, relstp * Math.Abs(data.e0000_x));
+            data.x = xsave;
+            step = Math.Max(absstp, relstp * Math.Abs(data.x));
             //
             //      YY = F(X) - Y
             //     GET-FUNCTION-VALUE
@@ -433,9 +459,9 @@ namespace Burkardt.CDFLib
             i99999 = 3;
             goto S300;
             S90:
-            yy = data.e0000_fx;
+            yy = data.fx;
             if (!(yy == 0.0e0)) goto S100;
-            data.e0000_status = 0;
+            data.status = 0;
             //  qok = 1;
             return;
             S100:
@@ -453,14 +479,14 @@ namespace Burkardt.CDFLib
             //
             //      YY = F(XUB) - Y
             //
-            data.e0000_x = xub;
+            data.x = xub;
             //
             //     GET-FUNCTION-VALUE
             //
             i99999 = 4;
             goto S300;
             S130:
-            yy = data.e0000_fx;
+            yy = data.fx;
             qbdd = (qincr && yy >= 0.0e0) || (!qincr && yy <= 0.0e0);
             qlim = xub >= big;
             qcond = qbdd || qlim;
@@ -472,10 +498,10 @@ namespace Burkardt.CDFLib
             goto S110;
             S150:
             if (!(qlim && !qbdd)) goto S160;
-            data.e0000_status = -1;
-            data.e0000_qleft = 0;
-            data.e0000_qhi = !qincr;
-            data.e0000_x = big;
+            data.status = -1;
+            data.qleft = 0;
+            data.qhi = !qincr;
+            data.x = big;
             return;
             S160:
             goto S240;
@@ -492,14 +518,14 @@ namespace Burkardt.CDFLib
             //
             //      YY = F(XLB) - Y
             //
-            data.e0000_x = xlb;
+            data.x = xlb;
             //
             //     GET-FUNCTION-VALUE
             //
             i99999 = 5;
             goto S300;
             S200:
-            yy = data.e0000_fx;
+            yy = data.fx;
             qbdd = (qincr && yy <= 0.0e0) || (!qincr && yy >= 0.0e0);
             qlim = xlb <= small;
             qcond = qbdd || qlim;
@@ -511,10 +537,10 @@ namespace Burkardt.CDFLib
             goto S180;
             S220:
             if (!(qlim && !qbdd)) goto S230;
-            data.e0000_status = -1;
-            data.e0000_qleft = 1;
-            data.e0000_qhi = qincr;
-            data.e0000_x = small;
+            data.status = -1;
+            data.qleft = 1;
+            data.qhi = qincr;
+            data.x = small;
             return;
             S240:
             S230:
@@ -522,13 +548,13 @@ namespace Burkardt.CDFLib
             //
             //  IF WE REACH HERE, XLB AND XUB BOUND THE ZERO OF F.
             //
-            data.e0000_status = 0;
+            data.status = 0;
             goto S260;
             S250:
-            if (!(data.e0000_status == 1)) goto S290;
+            if (!(data.status == 1)) goto S290;
             S260:
-            dzror(data.e0000_status, data.e0000_x, data.e0000_fx, xlo, xhi, qdum1, qdum2);
-            if (!(data.e0000_status == 1)) goto S280;
+            dzror(data.status, data.x, data.fx, xlo, xhi, qdum1, qdum2);
+            if (!(data.status == 1)) goto S280;
             //
             //     GET-FUNCTION-VALUE
             //
@@ -538,8 +564,8 @@ namespace Burkardt.CDFLib
             S270:
             goto S250;
             S290:
-            data.e0000_x = xlo;
-            data.e0000_status = 0;
+            data.x = xlo;
+            data.status = 0;
             return;
             DSTINV:
             small = data.e0000_zsmall;
@@ -554,7 +580,7 @@ namespace Burkardt.CDFLib
             //
             //     TO GET-FUNCTION-VALUE
             //
-            data.e0000_status = 1;
+            data.status = 1;
             return;
             S310:
             switch ((int) i99999)
@@ -613,19 +639,19 @@ namespace Burkardt.CDFLib
             }
 
             DZROR:
-            if (data.e0001_status > 0) goto S280;
+            if (data.status > 0) goto S280;
             data.e0001_xlo = xxlo;
             data.e0001_xhi = xxhi;
-            b = data.e0001_x = data.e0001_xlo;
+            b = data.x = data.e0001_xlo;
             //
             //     GET-FUNCTION-VALUE
             //
             i99999 = 1;
             goto S270;
             S10:
-            fb = data.e0001_fx;
+            fb = data.fx;
             data.e0001_xlo = data.e0001_xhi;
-            a = data.e0001_x = data.e0001_xlo;
+            a = data.x = data.e0001_xlo;
             //
             //     GET-FUNCTION-VALUE
             //
@@ -637,22 +663,22 @@ namespace Burkardt.CDFLib
             //                F(ZXLO) > 0 > F(ZXHI)
             //
             if (!(fb < 0.0e0)) goto S40;
-            if (!(data.e0001_fx < 0.0e0)) goto S30;
-            data.e0001_status = -1;
-            data.e0001_qleft = data.e0001_fx < fb;
-            data.e0001_qhi = 0;
+            if (!(data.fx < 0.0e0)) goto S30;
+            data.status = -1;
+            data.qleft = data.fx < fb;
+            data.qhi = 0;
             return;
             S40:
             S30:
             if (!(fb > 0.0e0)) goto S60;
-            if (!(data.e0001_fx > 0.0e0)) goto S50;
-            data.e0001_status = -1;
-            data.e0001_qleft = data.e0001_fx > fb;
-            data.e0001_qhi = 1;
+            if (!(data.fx > 0.0e0)) goto S50;
+            data.status = -1;
+            data.qleft = data.fx > fb;
+            data.qhi = 1;
             return;
             S60:
             S50:
-            fa = data.e0001_fx;
+            fa = data.fx;
             first = 1;
             S70:
             c = a;
@@ -715,14 +741,14 @@ namespace Burkardt.CDFLib
             fa = fb;
             b = b + w;
             data.e0001_xlo = b;
-            data.e0001_x = data.e0001_xlo;
+            data.x = data.e0001_xlo;
             //
             //  GET-FUNCTION-VALUE
             //
             i99999 = 3;
             goto S270;
             S200:
-            fb = data.e0001_fx;
+            fb = data.fx;
             if (!(fc * fb >= 0.0e0)) goto S210;
             goto S70;
             S210:
@@ -737,10 +763,10 @@ namespace Burkardt.CDFLib
             data.e0001_xhi = c;
             qrzero = (fc >= 0.0e0 && fb <= 0.0e0) || (fc < 0.0e0 && fb >= 0.0e0);
             if (!qrzero) goto S250;
-            data.e0001_status = 0;
+            data.status = 0;
             goto S260;
             S250:
-            data.e0001_status = -1;
+            data.status = -1;
             S260:
             return;
             DSTZR:
@@ -753,7 +779,7 @@ namespace Burkardt.CDFLib
             //
             //     TO GET-FUNCTION-VALUE
             //
-            data.e0001_status = 1;
+            data.status = 1;
             return;
             S280:
             switch ((int) i99999)

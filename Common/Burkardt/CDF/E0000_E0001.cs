@@ -434,7 +434,7 @@ namespace Burkardt.CDFLib
             S30:
             if (fbig >= 0.0e0) goto S40;
             data.status = -1;
-            data.qleft = data.qhi = false
+            data.qleft = data.qhi = false;
             return;
             S40:
             goto S80;
@@ -555,7 +555,9 @@ namespace Burkardt.CDFLib
             S250:
             if (!(data.status == 1)) goto S290;
             S260:
-            dzror(ref data, data.x, data.fx, xlo, xhi, qdum1, qdum2);
+            data.qleft = qdum1;
+            data.qhi = qdum2;
+            dzror(ref data);
             if (!(data.status == 1)) goto S280;
             //
             //     GET-FUNCTION-VALUE
@@ -566,7 +568,7 @@ namespace Burkardt.CDFLib
             S270:
             goto S250;
             S290:
-            data.x = xlo;
+            data.x = data.e0001_xlo;
             data.status = 0;
             return;
             DSTINV:
@@ -621,11 +623,11 @@ namespace Burkardt.CDFLib
             //
         {
 
-            double a;
-            double abstol, b, c, d, fa, fb, fc, fd, fda;
-            double fdb, m, mb, p, q, reltol, tol, w, xxhi, xxlo;
-            int ext, i99999;
-            bool first, qrzero;
+            double a = 0;
+            double abstol = 0, b = 0, c = 0, d = 0, fa = 0, fb = 0, fc = 0, fd = 0, fda = 0;
+            double fdb = 0, m = 0, mb = 0, p = 0, q = 0, reltol = 0, tol = 0, w = 0, xxhi = 0, xxlo = 0;
+            int ext = 0, i99999 = 0;
+            bool first = false, qrzero = false;
 
             double ftol(double zx)
             {
@@ -668,7 +670,7 @@ namespace Burkardt.CDFLib
             if (!(data.fx < 0.0e0)) goto S30;
             data.status = -1;
             data.qleft = data.fx < fb;
-            data.qhi = 0;
+            data.qhi = false;
             return;
             S40:
             S30:
@@ -676,12 +678,12 @@ namespace Burkardt.CDFLib
             if (!(data.fx > 0.0e0)) goto S50;
             data.status = -1;
             data.qleft = data.fx > fb;
-            data.qhi = 1;
+            data.qhi = true;
             return;
             S60:
             S50:
             fa = data.fx;
-            first = 1;
+            first = true;
             S70:
             c = a;
             fc = fa;
@@ -712,7 +714,7 @@ namespace Burkardt.CDFLib
             p = (b - a) * fb;
             if (!first) goto S120;
             q = fa - fb;
-            first = 0;
+            first = false;
             goto S130;
             S120:
             fdb = (fd - fb) / (d - b);

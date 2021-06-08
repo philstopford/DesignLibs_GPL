@@ -127,7 +127,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/BLAS/BLAS3D.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/BLAS/BLAS3DTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/BarycentricInterp1D.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/BarycentricInterp1DTest/Program.cs" />
@@ -172,11 +171,12 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/dstrem.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/dstinv.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/eval_pol.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdfchi.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdfbet.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdfbin.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/E0000_E0001.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/ipmpar.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdfbet.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdfbin.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdfchi.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdff.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdfchn.cs" />
     </changedPaths>
   </component>

@@ -108,21 +108,21 @@
             double one = (1.0e0-1.0e-16);
             double inf = 1.0e300;
 
-            double cum;
-            double ccum;
+            double cum = 0;
+            double ccum = 0;
             double K1 = 0.0e0;
             double K3 = 0.5e0;
             double K4 = 5.0e0;
-            double T2;
-            double T5;
-            double T6;
-            double T7;
-            double T8;
-            double T9;
-            double T10;
-            double T11;
-            double T12;
-            double T13;
+            double T2 = 0;
+            double T5 = 0;
+            double T6 = 0;
+            double T7 = 0;
+            double T8 = 0;
+            double T9 = 0;
+            double T10 = 0;
+            double T11 = 0;
+            double T12 = 0;
+            double T13 = 0;
 
             E0000_E0001_Data data = new E0000_E0001_Data();
 

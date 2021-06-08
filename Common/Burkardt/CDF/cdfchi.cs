@@ -4,8 +4,8 @@ namespace Burkardt.CDFLib
 {
     public static partial class CDF
     {
-        public static void cdfchi(int which, ref double p, ref double q, ref double x, ref double df,
-                ref int status, ref double bound)
+        public static void cdfchi(int which, ref double p, ref double q, ref double x_, ref double df,
+                ref int status_, ref double bound)
 
             //****************************************************************************80
             //
@@ -100,15 +100,12 @@ namespace Burkardt.CDFLib
 
             double ccum;
             double cum;
-            double fx;
             int K1 = 1;
             double K2 = 0.0e0;
             double K4 = 0.5e0;
             double K5 = 5.0e0;
             double porq;
             double pq;
-            bool qhi;
-            bool qleft;
             bool qporq;
             double T3;
             double T6;
@@ -118,7 +115,9 @@ namespace Burkardt.CDFLib
             double T10;
             double T11;
 
-            status = 0;
+            E0000_E0001_Data data = new E0000_E0001_Data();
+
+            data.status = 0;
             bound = 0.0;
             //
             //  Check arguments
@@ -130,7 +129,7 @@ namespace Burkardt.CDFLib
             S10:
             bound = 3.0e0;
             S20:
-            status = -1;
+            data.status = -1;
             return;
             S30:
             if (which == 1) goto S70;
@@ -144,7 +143,7 @@ namespace Burkardt.CDFLib
             S40:
             bound = 1.0e0;
             S50:
-            status = -2;
+            data.status = -2;
             return;
             S70:
             S60:
@@ -159,7 +158,7 @@ namespace Burkardt.CDFLib
             S80:
             bound = 1.0e0;
             S90:
-            status = -3;
+            data.status = -3;
             return;
             S110:
             S100:
@@ -167,9 +166,9 @@ namespace Burkardt.CDFLib
             //
             //     X
             //
-            if (!(x < 0.0e0)) goto S120;
+            if (!(data.x < 0.0e0)) goto S120;
             bound = 0.0e0;
-            status = -4;
+            data.status = -4;
             return;
             S130:
             S120:
@@ -179,7 +178,7 @@ namespace Burkardt.CDFLib
             //
             if (!(df <= 0.0e0)) goto S140;
             bound = 0.0e0;
-            status = -5;
+            data.status = -5;
             return;
             S150:
             S140:
@@ -195,7 +194,7 @@ namespace Burkardt.CDFLib
             S160:
             bound = 1.0e0;
             S170:
-            status = 3;
+            data.status = 3;
             return;
             S190:
             S180:
@@ -219,11 +218,11 @@ namespace Burkardt.CDFLib
                 //
                 //  Calculating P and Q
                 //
-                status = 0;
-                cumchi(x, df, p, q);
+                data.status = 0;
+                cumchi(data.x, df, p, q);
                 if (porq > 1.5e0)
                 {
-                    status = 10;
+                    data.status = 10;
                     return;
                 }
             }
@@ -232,36 +231,36 @@ namespace Burkardt.CDFLib
                 //
                 //  Calculating X
                 //
-                x = 5.0e0;
+                data.x = 5.0e0;
                 T3 = inf;
                 T6 = atol;
                 T7 = tol;
                 dstinv(K2, T3, K4, K4, K5, T6, T7);
-                status = 0;
+                data.status = 0;
                 dinvr(status, x, fx, qleft, qhi);
                 S230:
-                if (!(status == 1)) goto S270;
-                cumchi(x, df, cum, ccum);
+                if (!(data.status == 1)) goto S270;
+                cumchi(data.x, df, cum, ccum);
                 if (!qporq) goto S240;
-                fx = cum - p;
+                data.fx = cum - p;
                 goto S250;
                 S240:
-                fx = ccum - q;
+                data.fx = ccum - q;
                 S250:
-                if (!(fx + porq > 1.5e0)) goto S260;
-                status = 10;
+                if (!(data.fx + porq > 1.5e0)) goto S260;
+                data.status = 10;
                 return;
                 S260:
                 dinvr(status, x, fx, qleft, qhi);
                 goto S230;
                 S270:
-                if (!(status == -1)) goto S300;
-                if (!qleft) goto S280;
-                status = 1;
+                if (!(data.status == -1)) goto S300;
+                if (!data.qleft) goto S280;
+                data.status = 1;
                 bound = 0.0e0;
                 goto S290;
                 S280:
-                status = 2;
+                data.status = 2;
                 bound = inf;
                 S300:
                 S290: ;
@@ -277,31 +276,31 @@ namespace Burkardt.CDFLib
                 T10 = atol;
                 T11 = tol;
                 dstinv(T8, T9, K4, K4, K5, T10, T11);
-                status = 0;
+                data.status = 0;
                 dinvr(status, df, fx, qleft, qhi);
                 S310:
-                if (!(status == 1)) goto S350;
-                cumchi(x, df, &cum, &ccum);
+                if (!(data.status == 1)) goto S350;
+                cumchi(data.x, df, cum, ccum);
                 if (!qporq) goto S320;
-                fx = cum - p;
+                data.fx = cum - p;
                 goto S330;
                 S320:
-                fx = ccum - q;
+                data.fx = ccum - q;
                 S330:
-                if (!(fx + porq > 1.5e0)) goto S340;
-                status = 10;
+                if (!(data.fx + porq > 1.5e0)) goto S340;
+                data.status = 10;
                 return;
                 S340:
                 dinvr(status, df, fx, qleft, qhi);
                 goto S310;
                 S350:
-                if (!(status == -1)) goto S380;
-                if (!qleft) goto S360;
-                status = 1;
+                if (!(data.status == -1)) goto S380;
+                if (!data.qleft) goto S360;
+                data.status = 1;
                 bound = zero;
                 goto S370;
                 S360:
-                status = 2;
+                data.status = 2;
                 bound = inf;
                 S370: ;
             }

@@ -1,6 +1,6 @@
 ﻿namespace Burkardt.CDFLib
 {
-    public class cdffnc
+    public static partial class CDF
     {
         public static void cdffnc(int which, ref double p, ref double q, ref double f, ref double dfn,
                 ref double dfd, ref double phonc, ref int status_, ref double bound)
@@ -227,7 +227,7 @@
                 //
                 //  Calculating P
                 //
-                cumfnc(f, dfn, dfd, phonc, p, q);
+                cumfnc(f, dfn, dfd, phonc, ref p, ref q);
                 data.status = 0;
             }
             else if (2 == which)
@@ -245,7 +245,7 @@
                 E0000E0001.dinvr(ref data);
                 S160:
                 if (!(data.status == 1)) goto S170;
-                cumfnc(f, dfn, dfd, phonc, cum, ccum);
+                cumfnc(f, dfn, dfd, phonc, ref cum, ref ccum);
                 data.fx = cum - p;
                 data.x = f;
                 E0000E0001.dinvr(ref data);
@@ -262,7 +262,7 @@
                 S200:
                 S190: ;
             }
-            else if (3 == *which)
+            else if (3 == which)
             {
                 //
                 //  Calculating DFN
@@ -278,7 +278,7 @@
                 E0000E0001.dinvr(ref data);
                 S210:
                 if (!(data.status == 1)) goto S220;
-                cumfnc(f, dfn, dfd, phonc, cum, ccum);
+                cumfnc(f, dfn, dfd, phonc, ref cum, ref ccum);
                 data.fx = cum - p;
                 data.x = dfn;
                 E0000E0001.dinvr(ref data);
@@ -311,7 +311,7 @@
                 E0000E0001.dinvr(ref data);
                 S260:
                 if (!(data.status == 1)) goto S270;
-                cumfnc(f, dfn, dfd, phonc, cum, ccum);
+                cumfnc(f, dfn, dfd, phonc, ref cum, ref ccum);
                 data.fx = cum - p;
                 data.x = dfd;
                 E0000E0001.dinvr(ref data);
@@ -343,7 +343,7 @@
                 E0000E0001.dinvr(ref data);
                 S310:
                 if (!(data.status == 1)) goto S320;
-                cumfnc(f, dfn, dfd, phonc, cum, ccum);
+                cumfnc(f, dfn, dfd, phonc, ref cum, ref ccum);
                 data.fx = cum - p;
                 data.x = phonc;
                 E0000E0001.dinvr(ref data);
@@ -362,7 +362,6 @@
 
             S350:
             status_ = data.status;
-            return;
         }
     }
 }

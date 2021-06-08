@@ -239,7 +239,7 @@ namespace Burkardt.CDFLib
                 //     Computing X
                 //
                 T2 = -1.0e0;
-                gamma_inc_inv(shape, xx, T2, p, q, ierr);
+                gamma_inc_inv(shape, ref xx, ref T2, ref p, ref q, ref ierr);
                 if (ierr < 0.0e0)
                 {
                     data.status = 10;
@@ -300,7 +300,7 @@ namespace Burkardt.CDFLib
                 //  Computing SCALE
                 //
                 T9 = -1.0e0;
-                gamma_inc_inv(shape, xx, T9, p, q, ierr);
+                gamma_inc_inv(shape, ref xx, ref T9, ref p, ref q, ref ierr);
                 if (ierr < 0.0e0)
                 {
                     data.status = 10;

@@ -414,7 +414,7 @@ namespace Burkardt.CDFLib
             u = algdiv(b, a) + b * Math.Log(nu);
             u = r * Math.Exp(-u);
             if (u == 0.0e0) goto S70;
-            gamma_rat1(b, z, r, p, q, eps);
+            gamma_rat1(b, z, r, ref p, ref q, eps);
             v = 0.25e0 * Math.Pow(1.0e0 / nu, 2.0);
             t2 = 0.25e0 * lnx * lnx;
             l = w / u;
@@ -626,7 +626,7 @@ namespace Burkardt.CDFLib
             b0 = b0 + (double) n;
             S150:
             T3 = 15.0e0 * eps;
-            beta_grat(b0, a0, y0, x0, w1, T3, ierr1);
+            beta_grat(b0, a0, y0, x0, ref w1, T3, ref ierr1);
             w = 0.5e0 + (0.5e0 - w1);
             goto S250;
             S160:
@@ -648,7 +648,7 @@ namespace Burkardt.CDFLib
             a0 = a0 + (double) n;
             S190:
             T4 = 15.0e0 * eps;
-            beta_grat(a0, b0, x0, y0, w, T4, ierr1);
+            beta_grat(a0, b0, x0, y0, ref w, T4, ref ierr1);
             w1 = 0.5e0 + (0.5e0 - w);
             goto S250;
             S200:

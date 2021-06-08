@@ -53,7 +53,7 @@
             }
             else
             {
-                gamma_inc ( a, x, cum, ccum, K1 );
+                gamma_inc ( a, x, ref cum, ref ccum, K1 );
             }
         }
     }

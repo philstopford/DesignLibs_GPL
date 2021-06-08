@@ -37,7 +37,7 @@
         {
             double a = df * 0.5;
             double xx = x * 0.5;
-            cumgam ( xx, a, cum, ccum );
+            cumgam ( xx, a, ref cum, ref ccum );
 
         }
     }

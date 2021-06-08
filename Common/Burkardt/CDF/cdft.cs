@@ -189,7 +189,7 @@ namespace Burkardt.CDFLib
                 //
                 //  Computing P and Q
                 //
-                cumt(t, df, p, q);
+                cumt(t, df, ref p, ref q);
                 data.status = 0;
             }
             else if (2 == which)
@@ -209,7 +209,7 @@ namespace Burkardt.CDFLib
                 E0000E0001.dinvr(ref data);
                 S180:
                 if (!(data.status == 1)) goto S210;
-                cumt(t, df, cum, ccum);
+                cumt(t, df, ref cum, ref ccum);
                 if (!qporq) goto S190;
                 data.fx = cum - p;
                 goto S200;
@@ -247,7 +247,7 @@ namespace Burkardt.CDFLib
                 E0000E0001.dinvr(ref data);
                 S250:
                 if (!(data.status == 1)) goto S280;
-                cumt(t, df, cum, ccum);
+                cumt(t, df, ref cum, ref ccum);
                 if (!qporq) goto S260;
                 data.fx = cum - p;
                 goto S270;
@@ -271,7 +271,6 @@ namespace Burkardt.CDFLib
 
             S310:
             status_ = data.status;
-            return;
         }
     }
 }

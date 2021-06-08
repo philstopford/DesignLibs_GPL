@@ -32,13 +32,11 @@ namespace Burkardt.CDFLib
             //
             //    double BETA, the value of the beta function.
             //
-        {
-            double value;
+       {
+           double value = Math.Exp(beta_log(a, b));
 
-            value = Math.Exp(beta_log(a, b));
-
-            return value;
-        }
+           return value;
+       }
 
         public static double beta_asym(double a, double b, double lambda, double eps)
 
@@ -84,40 +82,40 @@ namespace Burkardt.CDFLib
         {
             double[] a0 = new double[21];
             double[] b0 = new double[21];
-            double bsum;
+            double bsum = 0;
             double[] c = new double[21];
             double[] d = new double[21];
-            double dsum;
+            double dsum = 0;
             double e0 = 1.12837916709551e0;
             double e1 = 0.353553390593274e0;
-            double f;
-            double h;
-            double h2;
-            double hn;
-            double j0;
-            double j1;
+            double f = 0;
+            double h = 0;
+            double h2 = 0;
+            double hn = 0;
+            double j0 = 0;
+            double j1 = 0;
             int K3 = 1;
             int num = 20;
-            double r;
-            double r0;
-            double r1;
-            double value;
+            double r = 0;
+            double r0 = 0;
+            double r1 = 0;
+            double value = 0;
 
-            double s,
-                sum,
-                t,
-                t0,
-                t1,
-                u,
-                w,
-                w0,
-                z,
-                z0,
-                z2,
-                zn,
-                znm1;
-            int i, im1, imj, j, m, mm1, mmj, n, np1;
-            double T1, T2;
+            double s = 0,
+                sum = 0,
+                t = 0,
+                t0 = 0,
+                t1 = 0,
+                u = 0,
+                w = 0,
+                w0 = 0,
+                z = 0,
+                z0 = 0,
+                z2 = 0,
+                zn = 0,
+                znm1 = 0;
+            int i = 0, im1 = 0, imj = 0, j = 0, m = 0, mm1 = 0, mmj = 0, n = 0, np1 = 0;
+            double T1 = 0, T2 = 0;
 
             value = 0.0e0;
             if (a >= b) goto S10;
@@ -246,25 +244,25 @@ namespace Burkardt.CDFLib
             //    fraction approximation for IX(A,B).
             //
         {
-            double alpha;
-            double an;
-            double anp1;
-            double beta;
-            double bfrac;
-            double bn;
-            double bnp1;
-            double c;
-            double c0;
-            double c1;
-            double e;
-            double n;
-            double p;
-            double r;
-            double r0;
-            double s;
-            double t;
-            double w;
-            double yp1;
+            double alpha = 0;
+            double an = 0;
+            double anp1 = 0;
+            double beta = 0;
+            double bfrac = 0;
+            double bn = 0;
+            double bnp1 = 0;
+            double c = 0;
+            double c0 = 0;
+            double c1 = 0;
+            double e = 0;
+            double n = 0;
+            double p = 0;
+            double r = 0;
+            double r0 = 0;
+            double s = 0;
+            double t = 0;
+            double w = 0;
+            double yp1 = 0;
 
             bfrac = beta_rcomp(a, b, x, y);
 
@@ -369,32 +367,32 @@ namespace Burkardt.CDFLib
             //    was detected.
             //
         {
-            double bm1;
-            double bp2n;
+            double bm1 = 0;
+            double bp2n = 0;
             double[] c = new double[30];
-            double cn;
-            double coef;
+            double cn = 0;
+            double coef = 0;
             double[] d = new double[30];
-            double dj;
-            int i;
-            double j;
-            double l;
-            double lnx;
-            int n;
-            double n2;
-            int nm1;
-            double nu;
-            double p;
-            double q;
-            double r;
-            double s;
-            double sum;
-            double t;
-            double T1;
-            double t2;
-            double u;
-            double v;
-            double z;
+            double dj = 0;
+            int i = 0;
+            double j = 0;
+            double l = 0;
+            double lnx = 0;
+            int n = 0;
+            double n2 = 0;
+            int nm1 = 0;
+            double nu = 0;
+            double p = 0;
+            double q = 0;
+            double r = 0;
+            double s = 0;
+            double sum = 0;
+            double t = 0;
+            double T1 = 0;
+            double t2 = 0;
+            double u = 0;
+            double v = 0;
+            double z = 0;
 
             bm1 = b - 0.5e0 - 0.5e0;
             nu = a + 0.5e0 * bm1;
@@ -507,18 +505,18 @@ namespace Burkardt.CDFLib
             //    7, Y = B = 0.
             //
         {
-            double a0;
-            double b0;
+            double a0 = 0;
+            double b0 = 0;
             int K1 = 1;
-            double eps;
-            double lambda;
-            double t;
-            double x0;
-            double y0;
-            double z;
+            double eps = 0;
+            double lambda = 0;
+            double t = 0;
+            double x0 = 0;
+            double y0 = 0;
+            double z = 0;
 
-            int ierr1, ind, n;
-            double T2, T3, T4, T5;
+            int ierr1 = 0, ind = 0, n = 0;
+            double T2 = 0, T3 = 0, T4 = 0, T5 = 0;
             //
             //  EPS IS A MACHINE DEPENDENT CONSTANT. EPS IS THE SMALLEST
             //  NUMBER FOR WHICH 1.0 + EPS .GT. 1.0
@@ -886,19 +884,19 @@ namespace Burkardt.CDFLib
             //    of the Beta function.
             //
         {
-            double a;
-            double b;
-            double c;
+            double a = 0;
+            double b = 0;
+            double c = 0;
             double e = .918938533204673e0;
-            double h;
-            int i;
-            int n;
-            double T1;
-            double u;
-            double v;
-            double value;
-            double w;
-            double z;
+            double h = 0;
+            int i = 0;
+            int n = 0;
+            double T1 = 0;
+            double u = 0;
+            double v = 0;
+            double value = 0;
+            double w = 0;
+            double z = 0;
 
             a = Math.Min(a0, b0);
             b = Math.Max(a0, b0);
@@ -1028,20 +1026,20 @@ namespace Burkardt.CDFLib
             //    Output, double BETA_PSER, the approximate value of IX(A,B)(X).
             //
         {
-            double a0;
-            double apb;
-            double b0;
-            double bpser;
-            double c;
-            int i;
-            int m;
-            double n;
-            double sum;
-            double t;
-            double tol;
-            double u;
-            double w;
-            double z;
+            double a0 = 0;
+            double apb = 0;
+            double b0 = 0;
+            double bpser = 0;
+            double c = 0;
+            int i = 0;
+            int m = 0;
+            double n = 0;
+            double sum = 0;
+            double t = 0;
+            double tol = 0;
+            double u = 0;
+            double w = 0;
+            double z = 0;
 
             bpser = 0.0e0;
             if (x == 0.0e0)
@@ -1167,27 +1165,27 @@ namespace Burkardt.CDFLib
             //    double CONST = 1/SQRT(2*PI)
             //
         {
-            double a0;
-            double apb;
-            double b0;
-            double brcomp;
-            double c;
+            double a0 = 0;
+            double apb = 0;
+            double b0 = 0;
+            double brcomp = 0;
+            double c = 0;
             double Const = 0.398942280401433e0;
-            double e;
-            double h;
-            int i;
-            double lambda;
-            double lnx;
-            double lny;
-            int n;
-            double t;
-            double T1;
-            double T2;
-            double u;
-            double v;
-            double x0;
-            double y0;
-            double z;
+            double e = 0;
+            double h = 0;
+            int i = 0;
+            double lambda = 0;
+            double lnx = 0;
+            double lny = 0;
+            int n = 0;
+            double t = 0;
+            double T1 = 0;
+            double T2 = 0;
+            double u = 0;
+            double v = 0;
+            double x0 = 0;
+            double y0 = 0;
+            double z = 0;
 
             brcomp = 0.0e0;
             if (x == 0.0e0 || y == 0.0e0) return brcomp;
@@ -1343,29 +1341,29 @@ namespace Burkardt.CDFLib
             //    double CONST = 1/SQRT(2*PI)
             //
         {
-            double a0;
-            double apb;
-            double b0;
-            double brcmp1;
-            double c;
+            double a0 = 0;
+            double apb = 0;
+            double b0 = 0;
+            double brcmp1 = 0;
+            double c = 0;
             double Const = 0.398942280401433e0;
-            double e;
-            double h;
-            int i;
-            double lambda;
-            double lnx;
-            double lny;
-            int n;
-            double t;
-            double T1;
-            double T2;
-            double T3;
-            double T4;
-            double u;
-            double v;
-            double x0;
-            double y0;
-            double z;
+            double e = 0;
+            double h = 0;
+            int i = 0;
+            double lambda = 0;
+            double lnx = 0;
+            double lny = 0;
+            int n = 0;
+            double t = 0;
+            double T1 = 0;
+            double T2 = 0;
+            double T3 = 0;
+            double T4 = 0;
+            double u = 0;
+            double v = 0;
+            double x0 = 0;
+            double y0 = 0;
+            double z = 0;
 
             a0 = Math.Min(a, b);
             if (a0 >= 8.0e0) goto S130;
@@ -1519,21 +1517,21 @@ namespace Burkardt.CDFLib
             //    Output, double BETA_UP, the value of IX(A,B) - IX(A+N,B).
             //
         {
-            double ap1;
-            double apb;
-            double bup;
-            double d;
-            int i;
-            int k;
+            double ap1 = 0;
+            double apb = 0;
+            double bup = 0;
+            double d = 0;
+            int i = 0;
+            int k = 0;
             int K1 = 1;
             int K2 = 0;
-            int kp1;
-            double l;
-            int mu;
-            int nm1;
-            double r;
-            double t;
-            double w;
+            int kp1 = 0;
+            double l = 0;
+            int mu = 0;
+            int nm1 = 0;
+            double r = 0;
+            double t = 0;
+            double w = 0;
             //
             //  OBTAIN THE SCALING FACTOR EXP(-MU) AND
             //  EXP(MU)*(X^A*Y^B/BETA(A,B))/A

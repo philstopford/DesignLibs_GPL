@@ -127,9 +127,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/UniformRNG_i4.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/misc.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/UniformRNG_r82.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/i4.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Bins.cs" />
@@ -146,7 +143,6 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/alnrel.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/apser.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/bcorr.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/beta.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/binomial.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdf.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/dpmpar.cs" />
@@ -157,10 +153,6 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/E0000_E0001.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/ipmpar.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdffnc.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/dinvnr.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdfnor.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdfpoi.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdft.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/chi.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cumbet.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdfbet.cs" />
@@ -178,6 +170,14 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cumnbn.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdfnbn.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cumnor.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdfnor.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/dinvnr.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cumpoi.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdfpoi.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/beta.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cumt.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdft.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/dbetrm.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />

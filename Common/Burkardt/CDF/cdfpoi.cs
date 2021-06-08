@@ -85,20 +85,20 @@ namespace Burkardt.CDFLib
             double atol = (1.0e-50);
             double inf = 1.0e300;
 
-            double ccum;
-            double cum;
+            double ccum = 0;
+            double cum = 0;
             int K1 = 1;
             double K2 = 0.0e0;
             double K4 = 0.5e0;
             double K5 = 5.0e0;
-            double pq;
-            bool qporq;
-            double T3;
-            double T6;
-            double T7;
-            double T8;
-            double T9;
-            double T10;
+            double pq = 0;
+            bool qporq = false;
+            double T3 = 0;
+            double T6 = 0;
+            double T7 = 0;
+            double T8 = 0;
+            double T9 = 0;
+            double T10 = 0;
 
             E0000_E0001_Data data = new E0000_E0001_Data();
 
@@ -193,7 +193,7 @@ namespace Burkardt.CDFLib
                 //
                 //  Calculating P
                 //
-                cumpoi(s, xlam, p, q);
+                cumpoi(s, xlam, ref p, ref q);
                 data.status = 0;
             }
             else if (2 == which)
@@ -211,7 +211,7 @@ namespace Burkardt.CDFLib
                 E0000E0001.dinvr(ref data);
                 S200:
                 if (!(data.status == 1)) goto S230;
-                cumpoi(s, xlam, cum, ccum);
+                cumpoi(s, xlam, ref cum, ref ccum);
                 if (!qporq) goto S210;
                 data.fx = cum - p;
                 goto S220;
@@ -248,7 +248,7 @@ namespace Burkardt.CDFLib
                 E0000E0001.dinvr(ref data);
                 S270:
                 if (!(data.status == 1)) goto S300;
-                cumpoi(s, xlam, cum, ccum);
+                cumpoi(s, xlam, ref cum, ref ccum);
                 if (!qporq) goto S280;
                 data.fx = cum - p;
                 goto S290;

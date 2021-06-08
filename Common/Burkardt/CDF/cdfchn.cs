@@ -293,7 +293,8 @@
             }
 
             S280:
-            return;
+            x_ = data.x;
+            status_ = data.status;
         }
     }
 }

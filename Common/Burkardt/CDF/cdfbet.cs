@@ -378,6 +378,8 @@ namespace Burkardt.CDFLib
             }
 
             S540:
+            x_ = data.x;
+            status_ = data.status;
             return;
         }
     }

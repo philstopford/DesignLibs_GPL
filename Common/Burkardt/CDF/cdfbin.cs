@@ -388,6 +388,7 @@ namespace Burkardt.CDFLib
             }
 
             S560:
+            status_ = data.status;
             return;
         }
     }

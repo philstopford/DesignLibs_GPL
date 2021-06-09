@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace Burkardt.Types
 {
@@ -215,11 +218,11 @@ namespace Burkardt.Types
             for (i = 0; i < n; i++)
             {
                 Console.WriteLine("  " + i.ToString().PadLeft(8)
-                    + ": " + a[i].ToString().PadLeft(8) + "");
+                                       + ": " + a[i].ToString().PadLeft(8) + "");
             }
         }
 
-        public static void i4vec_sort_heap_a(int n, int[] a)
+        public static void i4vec_sort_heap_a(int n, ref int[] a)
 
             //****************************************************************************80
             //
@@ -297,7 +300,7 @@ namespace Burkardt.Types
             return;
         }
 
-        public static int i4vec_sorted_unique(int n, int[] a)
+        public static int i4vec_sorted_unique(int n, ref int[] a)
 
             //****************************************************************************80
             //
@@ -421,7 +424,7 @@ namespace Burkardt.Types
             return isgn;
         }
 
-        public static void i4vec2_sort_a(int n, int[] a1, int[] a2)
+        public static void i4vec2_sort_a(int n, ref int[] a1, ref int[] a2)
 
             //****************************************************************************80
             //
@@ -499,7 +502,7 @@ namespace Burkardt.Types
             }
         }
 
-        public static void i4vec2_sorted_unique(int n, int[] a1, int[] a2, ref int nuniq)
+        public static void i4vec2_sorted_unique(int n, ref int[] a1, ref int[] a2, ref int nuniq)
 
             //****************************************************************************80
             //
@@ -564,5 +567,202 @@ namespace Burkardt.Types
 
             return;
         }
+
+        public static void i4vec_dec(int n, ref int[] a)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_DEC decrements an I4VEC.
+            //
+            //  Discussion:
+            //
+            //    An I4VEC is a vector of I4's.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    18 July 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in the vectors.
+            //
+            //    Input/output, int A[N], the vector to be decremented.
+            //
+        {
+            for (int i = 0; i < n; i++)
+            {
+                a[i] = a[i] - 1;
+            }
+        }
+
+        public static void i4vec_inc(int n, ref int[] a)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_INC increments an I4VEC.
+            //
+            //  Discussion:
+            //
+            //    An I4VEC is a vector of I4's.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    18 July 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in the vectors.
+            //
+            //    Input/output, int A[N], the vector to be incremented.
+            //
+        {
+            for (int i = 0; i < n; i++)
+            {
+                a[i] = a[i] + 1;
+            }
+        }
+
+        public static void i4vec_data_read(string input_filename, int n, ref int[] table)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_DATA_READ reads data from an I4VEC file.
+            //
+            //  Discussion:
+            //
+            //    An I4VEC is a vector of I4's.
+            //
+            //    The file is assumed to contain one record per line.
+            //
+            //    Records beginning with '#' are comments, and are ignored.
+            //    Blank lines are also ignored.
+            //
+            //    Each line that is not ignored is assumed to contain exactly one value.
+            //
+            //    There are assumed to be exactly (or at least) N such records.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    17 July 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, string INPUT_FILENAME, the name of the input file.
+            //
+            //    Input, int N, the number of points.  The program
+            //    will stop reading data once N values have been read.
+            //
+            //    Output, int TABLE[N], the data.
+            //
+        {
+
+            try
+            {
+                string[] input = File.ReadAllLines(input_filename);
+                
+                int j = 0;
+
+                foreach (string line in input)
+                {
+                    if (line[0] == '#' || s_len_trim(line) == 0)
+                    {
+                        continue;
+                    }
+
+                    table[j] = Convert.ToInt32(line);
+                    j = j + 1;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("I4VEC_DATA_READ - Fatal error!");
+                Console.WriteLine("  Could not open the input file: \"" + input_filename + "\"");
+            }
+
+        }
+
+        public static void i4vec_write(string output_filename, int n, int[] table)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_WRITE writes an I4VEC to a file.
+            //
+            //  Discussion:
+            //
+            //    An I4VEC is a vector of I4's.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    12 July 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, string OUTPUT_FILENAME, the output filename.
+            //
+            //    Input, int N, the number of points.
+            //
+            //    Input, int TABLE[N], the data.
+            //
+        {
+            try
+            {
+                List<string> output = new List<string>();
+
+                for (int j = 0; j < n; j++)
+                {
+                    output.Add(table[j].ToString());
+                }
+
+                File.WriteAllLines(output_filename, output);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("I4VEC_WRITE - Fatal error!");
+                Console.WriteLine("  Could not open the output file.");
+            }
+        }
+
     }
 }

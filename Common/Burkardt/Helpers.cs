@@ -4,7 +4,7 @@ using Burkardt.Types;
 
 namespace Burkardt
 {
-    public static class Helpers
+    public static partial class Helpers
     {
         public static double[] getExampleDoubleData()
         {

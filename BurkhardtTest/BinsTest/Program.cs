@@ -275,9 +275,10 @@ int N = 20;
       //
       //  Call the sort routine over and over.
       //
+      SortHeapExternalData data = new SortHeapExternalData();
       for (;;)
       {
-        typeMethods.sort_heap_external(N, ref indx, ref i, ref j, isgn);
+        Helpers.sort_heap_external(ref data, N, ref indx, ref i, ref j, isgn);
         //
         //  If the return value of INDX is negative, we're asked to compare
         //  array elements I and J;

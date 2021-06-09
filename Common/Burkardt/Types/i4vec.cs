@@ -471,9 +471,10 @@ namespace Burkardt.Types
             //
             //  Call the external heap sorter.
             //
+            SortHeapExternalData data = new SortHeapExternalData();
             for (;;)
             {
-                typeMethods.sort_heap_external(n, ref indx, ref i, ref j, isgn);
+                Helpers.sort_heap_external(ref data, n, ref indx, ref i, ref j, isgn);
                 //
                 //  Interchange the I and J objects.
                 //

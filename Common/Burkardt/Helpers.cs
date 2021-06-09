@@ -222,5 +222,13 @@ namespace Burkardt
  
             return sign*y;
         }
+
+        public static string[] splitStringByWhitespace(string line)
+        {
+            string[] tokens = line.Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
+            // line.Split(new char[] {' ', '\t'}, StringSplitOptions.RemoveEmptyEntries);
+            return tokens;
+        }
+        
     }
 }

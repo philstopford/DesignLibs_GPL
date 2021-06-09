@@ -292,6 +292,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClenshawCurtisTest", "Burkh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompressedColumnStorageTest", "BurkhardtTest\CompressedColumnStorageTest\CompressedColumnStorageTest.csproj", "{6E6B2133-F06B-4AC0-94C0-8D7900C0DAA0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SparseTripletTest", "BurkhardtTest\SparseTripletTest\SparseTripletTest.csproj", "{2A54493F-6339-4675-91D6-25486C5AF0D7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1850,6 +1852,18 @@ Global
 		{6E6B2133-F06B-4AC0-94C0-8D7900C0DAA0}.Release|x64.Build.0 = Release|Any CPU
 		{6E6B2133-F06B-4AC0-94C0-8D7900C0DAA0}.Release|x86.ActiveCfg = Release|Any CPU
 		{6E6B2133-F06B-4AC0-94C0-8D7900C0DAA0}.Release|x86.Build.0 = Release|Any CPU
+		{2A54493F-6339-4675-91D6-25486C5AF0D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A54493F-6339-4675-91D6-25486C5AF0D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A54493F-6339-4675-91D6-25486C5AF0D7}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2A54493F-6339-4675-91D6-25486C5AF0D7}.Debug|x64.Build.0 = Debug|Any CPU
+		{2A54493F-6339-4675-91D6-25486C5AF0D7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2A54493F-6339-4675-91D6-25486C5AF0D7}.Debug|x86.Build.0 = Debug|Any CPU
+		{2A54493F-6339-4675-91D6-25486C5AF0D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A54493F-6339-4675-91D6-25486C5AF0D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A54493F-6339-4675-91D6-25486C5AF0D7}.Release|x64.ActiveCfg = Release|Any CPU
+		{2A54493F-6339-4675-91D6-25486C5AF0D7}.Release|x64.Build.0 = Release|Any CPU
+		{2A54493F-6339-4675-91D6-25486C5AF0D7}.Release|x86.ActiveCfg = Release|Any CPU
+		{2A54493F-6339-4675-91D6-25486C5AF0D7}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1994,6 +2008,7 @@ Global
 		{756FEDD2-4F73-4369-A238-67DE891C6A2E} = {B14C0D74-30A0-4540-8100-2FFA1C84CA6D}
 		{9BC7CB0C-B187-488A-A781-07207A9BDD30} = {B14C0D74-30A0-4540-8100-2FFA1C84CA6D}
 		{6E6B2133-F06B-4AC0-94C0-8D7900C0DAA0} = {B14C0D74-30A0-4540-8100-2FFA1C84CA6D}
+		{2A54493F-6339-4675-91D6-25486C5AF0D7} = {B14C0D74-30A0-4540-8100-2FFA1C84CA6D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B449416C-C504-4FA8-9E10-10857263A64A}

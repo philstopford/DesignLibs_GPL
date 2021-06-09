@@ -105,6 +105,7 @@
     <projectFile>BurkhardtTest/CauchyPrincipalValueTest/CauchyPrincipalValueTest.csproj</projectFile>
     <projectFile>BurkhardtTest/ClenshawCurtisTest/ClenshawCurtisTest.csproj</projectFile>
     <projectFile>BurkhardtTest/CompressedColumnStorageTest/CompressedColumnStorageTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/SparseTripletTest/SparseTripletTest.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="" />
@@ -135,11 +136,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdft.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/fpser.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/gam1.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/gamma.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/gsumln.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/negbinomial.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/normal.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/poisson.cs" />
@@ -174,7 +170,6 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/Latin/LatinizeTest/LatinizeTest.csproj" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Latin/LatinRandomTest/LatinRandomTest.csproj" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Bisection/BisectionIntegerTest/BisectionIntegerTest.csproj" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Helpers.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Bisection/BisectionRCTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/BlackScholes.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/BlackScholesTest/Program.cs" />
@@ -184,8 +179,14 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/ClenshawCurtisTest/Program.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/CompressedColumnStorageTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/i4vec.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CompressedColumnStorage.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/SortHeapExternal.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Helpers.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/misc.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/i4vec.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/BinsTest/Program.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/SparseTripletTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8st.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -194,7 +195,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.18826018" />
+    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.1884058" />
     <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.0" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
@@ -202,7 +203,7 @@
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C#" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunManager" selected=".NET Project.CompressedColumnStorageTest">
+  <component name="RunManager" selected=".NET Project.SparseTripletTest">
     <configuration name="ASA005Test" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -1823,6 +1824,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="SparseTripletTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/SparseTripletTest/SparseTripletTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="StochasticDiffusionTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -2199,6 +2218,7 @@
       <item itemvalue=".NET Project.CauchyPrincipalValueTest" />
       <item itemvalue=".NET Project.ClenshawCurtisTest" />
       <item itemvalue=".NET Project.CompressedColumnStorageTest" />
+      <item itemvalue=".NET Project.SparseTripletTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -2239,6 +2259,32 @@
             </endOffsets>
           </properties>
           <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Common/Burkardt/Types/r8st.cs</url>
+          <line>69</line>
+          <properties documentPath="D:\development\git\DesignLibs_GPL\Common\Burkardt\Types\r8st.cs" initialLine="69" containingFunctionPresentation="method 'r8st_data_read'">
+            <startOffsets>
+              <option value="1974" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1996" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Common/Burkardt/Types/r8st.cs</url>
+          <line>194</line>
+          <properties documentPath="D:\development\git\DesignLibs_GPL\Common\Burkardt\Types\r8st.cs" initialLine="194" containingFunctionPresentation="method 'r8st_header_read'">
+            <startOffsets>
+              <option value="6144" />
+            </startOffsets>
+            <endOffsets>
+              <option value="6145" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="18" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

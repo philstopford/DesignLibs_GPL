@@ -337,5 +337,172 @@ namespace Burkardt
             string filename_acc = prefix + "_acc.txt";
             typeMethods.r8vec_write(filename_acc, ncc, acc);
         }
+        
+        public static void ccs_to_st ( int m, int n, int ncc, int[] icc, int[] ccc, double[] acc, 
+        ref int nst, ref int[] ist, ref int[] jst, ref double[] ast )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    ccs_TO_ST converts sparse matrix information from CCS to ST format.
+        //
+        //  Discussion:
+        //
+        //    Only JST actually needs to be computed.  The other three output 
+        //    quantities are simply copies.  
+        // 
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    23 July 2014
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int M, the number of rows.
+        //
+        //    Input, int N, the number of columns.
+        //
+        //    Input, int NCC, the number of CCS elements.
+        //
+        //    Input, int ICC[NCC], the CCS rows.
+        //
+        //    Input, int CCC[N+1], the CCS compressed columns.
+        //
+        //    Input, double ACC[NCC], the CCS values.
+        //
+        //    Output, int &NST, the number of ST elements.
+        //
+        //    Output, int IST[NST], JST[NST], the ST rows and columns.
+        //
+        //    Output, double AST[NST], the ST values.
+        //
+        {
+            int j;
+            int jhi;
+            int jlo;
+            int k;
+            int khi;
+            int klo;
+
+            nst = 0;
+
+            if ( ccc[0] == 0 )
+            {
+                jlo = 0;
+                jhi = n - 1;
+  
+                for ( j = jlo; j <= jhi; j++ )
+                {
+                    klo = ccc[j];
+                    khi = ccc[j+1] - 1;
+
+                    for ( k = klo; k <= khi; k++ )
+                    {
+                        ist[nst] = icc[k];
+                        jst[nst] = j;
+                        ast[nst] = acc[k];
+                        nst = nst + 1;
+                    }
+                }
+            }
+            else
+            {
+                jlo = 1;
+                jhi = n;
+  
+                for ( j = jlo; j <= jhi; j++ )
+                {
+                    klo = ccc[j-1];
+                    khi = ccc[j] - 1;
+
+                    for ( k = klo; k <= khi; k++ )
+                    {
+                        ist[nst] = icc[k-1];
+                        jst[nst] = j;
+                        ast[nst] = acc[k-1];
+                        nst = nst + 1;
+                    }
+                }
+            }
+        }
+        
+        public static double[] ccs_mv ( int m, int n, int ncc, int[] icc, int[] ccc, double[] acc, 
+        double[] x )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    ccs_MV multiplies a CCS matrix by a vector
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    15 July 2014
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Iain Duff, Roger Grimes, John Lewis,
+        //    User's Guide for the Harwell-Boeing Sparse Matrix Collection,
+        //    October 1992
+        //
+        //  Parameters:
+        //
+        //    Input, int M, the number of rows.
+        //
+        //    Input, int N, the number of columns.
+        //
+        //    Input, int NCC, the number of CCS values.
+        //
+        //    Input, int ICC[NCC], the CCS rows.
+        //
+        //    Input, int CCC[N+1], the compressed CCS columns
+        //
+        //    Input, double ACC[NCC], the CCS values.
+        //
+        //    Input, double X[N], the vector to be multiplied.
+        //
+        //    Output, double ccs_MV[M], the product A*X.
+        //
+        {
+            double[] b;
+            int i;
+            int j;
+            int k;
+
+            b = new double[m];
+
+            for ( i = 0; i < m; i++ )
+            {
+                b[i] = 0.0;
+            }
+
+            for ( j = 0; j < n; j++ )
+            {
+                for ( k = ccc[j]; k < ccc[j+1]; k++ )
+                {
+                    i = icc[k];
+                    b[i] = b[i] + acc[k] * x[j];
+                }
+            }
+
+            return b;
+        }
+        
     }
 }

@@ -690,7 +690,7 @@ namespace Burkardt.Types
             try
             {
                 string[] input = File.ReadAllLines(input_filename);
-                
+
                 int j = 0;
 
                 foreach (string line in input)
@@ -763,6 +763,178 @@ namespace Burkardt.Types
                 Console.WriteLine("I4VEC_WRITE - Fatal error!");
                 Console.WriteLine("  Could not open the output file.");
             }
+        }
+
+        public static int i4vec2_sorted_unique_count(int n, int[] a1, int[] a2 )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    I4VEC2_SORTED_UNIQUE_COUNT counts unique elements in an I4VEC2.
+        //
+        //  Discussion:
+        //
+        //    Item I is stored as the pair A1(I), A2(I).
+        //
+        //    The items must have been sorted, or at least it must be the
+        //    case that equal items are stored in adjacent vector locations.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    12 July 2014
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number of items.
+        //
+        //    Input, int A1[N], A2[N], the array of N items.
+        //
+        //    Output, int I4VEC2_SORTED_UNIQUE_COUNT, the number of unique items.
+        //
+        {
+            int i;
+            int iu;
+            int unique_num;
+
+            unique_num = 0;
+
+            if (n <= 0)
+            {
+                return unique_num;
+            }
+
+            iu = 0;
+            unique_num = 1;
+
+            for (i = 1; i < n; i++)
+            {
+                if (a1[i] != a1[iu] ||
+                    a2[i] != a2[iu])
+                {
+                    iu = i;
+                    unique_num = unique_num + 1;
+                }
+            }
+
+            return unique_num;
+        }
+
+        public static void i4vec2_sorted_uniquely(int n1, int[] a1, int[] b1, int n2, int[] a2,
+        int[] b2 )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    I4VEC2_SORTED_UNIQUELY keeps the unique elements in an I4VEC2.
+        //
+        //  Discussion:
+        //
+        //    Item I is stored as the pair A1(I), A2(I).
+        //
+        //    The items must have been sorted, or at least it must be the
+        //    case that equal items are stored in adjacent vector locations.
+        //
+        //    If the items were not sorted, then this routine will only
+        //    replace a string of equal values by a single representative.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    15 July 2014
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N1, the number of items.
+        //
+        //    Input, int A1[N1], B1[N1], the input array.
+        //
+        //    Input, int N2, the number of unique items.
+        //
+        //    Input, int A2[N2], B2[N2], the output array of unique items.
+        //
+        {
+            int i1;
+            int i2;
+
+            i1 = 0;
+            i2 = 0;
+
+            if (n1 <= 0)
+            {
+                return;
+            }
+
+            a2[i2] = a1[i1];
+            b2[i2] = b1[i1];
+
+            for (i1 = 1; i1 < n1; i1++)
+            {
+                if (a1[i1] != a2[i2] || b1[i1] != b2[i2])
+                {
+                    i2 = i2 + 1;
+                    a2[i2] = a1[i1];
+                    b2[i2] = b1[i1];
+                }
+            }
+        }
+
+        public static int[] i4vec_copy_new ( int n, int[] a1 )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_COPY_NEW copies an I4VEC.
+            //
+            //  Discussion:
+            //
+            //    An I4VEC is a vector of I4's.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    04 July 2008
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in the vectors.
+            //
+            //    Input, int A1[N], the vector to be copied.
+            //
+            //    Output, int I4VEC_COPY_NEW[N], the copy of A1.
+            //
+        {
+            int[] a2 = new int[n];
+
+            for (int i = 0; i < n; i++ )
+            {
+                a2[i] = a1[i];
+            }
+            return a2;
         }
 
     }

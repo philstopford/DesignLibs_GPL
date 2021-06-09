@@ -98,6 +98,7 @@
     <projectFile>BurkhardtTest/BetaNCTest/BetaNCTest.csproj</projectFile>
     <projectFile>BurkhardtTest/BinsTest/BinsTest.csproj</projectFile>
     <projectFile>BurkhardtTest/ZeroRCTest/ZeroRCTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/BisectionIntegerTest/BisectionIntegerTest.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="" />
@@ -129,8 +130,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cumchn.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdfchn.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cumf.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdff.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cumfnc.cs" />
@@ -180,6 +179,8 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/SobolTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/zerorc.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ZeroRCTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/BisectionInteger.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/BisectionIntegerTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -188,7 +189,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.18814814" />
+    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.18805528" />
     <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.0" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
@@ -196,7 +197,7 @@
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C#" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunManager" selected=".NET Project.CDFLibTest">
+  <component name="RunManager" selected=".NET Project.BisectionIntegerTest">
     <configuration name="ASA005Test" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -998,6 +999,24 @@
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
       <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/BinsTest/BinsTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="BisectionIntegerTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/BisectionIntegerTest/BisectionIntegerTest.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
@@ -2079,6 +2098,7 @@
       <item itemvalue=".NET Project.BetaNCTest" />
       <item itemvalue=".NET Project.BinsTest" />
       <item itemvalue=".NET Project.ZeroRCTest" />
+      <item itemvalue=".NET Project.BisectionIntegerTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

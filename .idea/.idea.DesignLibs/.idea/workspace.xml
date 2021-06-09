@@ -100,6 +100,7 @@
     <projectFile>BurkhardtTest/ZeroRCTest/ZeroRCTest.csproj</projectFile>
     <projectFile>BurkhardtTest/BisectionIntegerTest/BisectionIntegerTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Bisection/BisectionRCTest/BisectionRCTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/BlackScholesTest/BlackScholesTest.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="" />
@@ -130,9 +131,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/dbetrm.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/dexpml.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/dt1.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/erf.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/errorf.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/errorfc.cs" />
@@ -181,6 +179,9 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/Bisection/BisectionIntegerTest/BisectionIntegerTest.csproj" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Helpers.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Bisection/BisectionRCTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/BlackScholes.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/BlackScholesTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -197,7 +198,7 @@
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C#" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunManager" selected=".NET Project.BisectionIntegerTest">
+  <component name="RunManager" selected=".NET Project.BlackScholesTest">
     <configuration name="ASA005Test" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -1009,24 +1010,42 @@
       </method>
     </configuration>
     <configuration name="BisectionIntegerTest" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/BisectionIntegerTest/Debug/net5.0/BisectionIntegerTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/BisectionIntegerTest/Debug/net5.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/BisectionIntegerTest/BisectionIntegerTest.csproj" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Bisection/BisectionIntegerTest/BisectionIntegerTest.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_TFM" value="net5.0" />
       <method v="2">
         <option name="Build" />
       </method>
     </configuration>
     <configuration name="BisectionRCTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/BisectionRCTest/Debug/net5.0/BisectionRCTest.exe" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/BisectionRCTest/Debug/net5.0" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Bisection/BisectionRCTest/BisectionRCTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="net5.0" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="BlackScholesTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1034,7 +1053,7 @@
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Bisection/BisectionRCTest/BisectionRCTest.csproj" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/BlackScholesTest/BlackScholesTest.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
@@ -1502,7 +1521,7 @@
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/LatinCenterTest/LatinCenterTest.csproj" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Latin/LatinCenterTest/LatinCenterTest.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
@@ -1513,81 +1532,81 @@
       </method>
     </configuration>
     <configuration name="LatinCoverTest" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/LatinCoverTest/Debug/net5.0/LatinCoverTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/LatinCoverTest/Debug/net5.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/LatinCoverTest/LatinCoverTest.csproj" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Latin/LatinCoverTest/LatinCoverTest.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_TFM" value="net5.0" />
       <method v="2">
         <option name="Build" />
       </method>
     </configuration>
     <configuration name="LatinEdgeTest" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/LatinEdgeTest/Debug/net5.0/LatinEdgeTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/LatinEdgeTest/Debug/net5.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/LatinEdgeTest/LatinEdgeTest.csproj" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Latin/LatinEdgeTest/LatinEdgeTest.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_TFM" value="net5.0" />
       <method v="2">
         <option name="Build" />
       </method>
     </configuration>
-    <configuration name="LatinRandomTest" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
+    <configuration name="LatinRandomTest " type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/LatinRandomTest/Debug/net5.0/LatinRandomTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/LatinRandomTest/Debug/net5.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/LatinRandomTest/LatinRandomTest.csproj" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Latin/LatinRandomTest/LatinRandomTest.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_TFM" value="net5.0" />
       <method v="2">
         <option name="Build" />
       </method>
     </configuration>
     <configuration name="LatinizeTest" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/LatinizeTest/Debug/net5.0/LatinizeTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/LatinizeTest/Debug/net5.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/LatinizeTest/LatinizeTest.csproj" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Latin/LatinizeTest/LatinizeTest.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_TFM" value="net5.0" />
       <method v="2">
         <option name="Build" />
       </method>
     </configuration>
     <configuration name="MonteCarloTest" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/MonteCarloTest/Debug/net5.0/MonteCarloTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/MonteCarloTest/Debug/net5.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
@@ -1597,7 +1616,7 @@
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_TFM" value="net5.0" />
       <method v="2">
         <option name="Build" />
       </method>
@@ -1765,9 +1784,9 @@
       </method>
     </configuration>
     <configuration name="TableTest" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/TableTest/Debug/net5.0/TableTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/TableTest/Debug/net5.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
@@ -1777,7 +1796,7 @@
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_TFM" value="net5.0" />
       <method v="2">
         <option name="Build" />
       </method>
@@ -1927,9 +1946,9 @@
       </method>
     </configuration>
     <configuration name="ZeroRCTest" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/ZeroRCTest/Debug/net5.0/ZeroRCTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/ZeroRCTest/Debug/net5.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
@@ -1939,7 +1958,7 @@
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_TFM" value="net5.0" />
       <method v="2">
         <option name="Build" />
       </method>
@@ -1981,9 +2000,9 @@
       </method>
     </configuration>
     <configuration name="oasTest" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/oasTest/Debug/net5.0/oasTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/oasTest/Debug/net5.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
@@ -1993,7 +2012,7 @@
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_TFM" value="net5.0" />
       <method v="2">
         <option name="Build" />
       </method>
@@ -2025,6 +2044,9 @@
       <item itemvalue=".NET Project.IHSTest" />
       <item itemvalue=".NET Project.KeyHolerTest" />
       <item itemvalue=".NET Project.LatinCenterTest" />
+      <item itemvalue=".NET Project.LatinEdgeTest" />
+      <item itemvalue=".NET Project.LatinCoverTest" />
+      <item itemvalue=".NET Project.LatinRandomTest " />
       <item itemvalue=".NET Project.LatinizeTest" />
       <item itemvalue=".NET Project.oasTest" />
       <item itemvalue=".NET Project.partitionTest" />
@@ -2037,12 +2059,9 @@
       <item itemvalue=".NET Project.TestEtoViewport.Mac64" />
       <item itemvalue=".NET Project.TestEtoViewport.WinForms" />
       <item itemvalue=".NET Project.TestEtoViewport.Wpf" />
-      <item itemvalue=".NET Project.LatinEdgeTest" />
-      <item itemvalue=".NET Project.LatinCoverTest" />
       <item itemvalue=".NET Project.TableTest" />
       <item itemvalue=".NET Project.BoxBehnkenTest" />
       <item itemvalue=".NET Project.HyperCubeMonteCarloTest" />
-      <item itemvalue=".NET Project.LatinRandomTest" />
       <item itemvalue=".NET Project.MonteCarloTest" />
       <item itemvalue=".NET Project.ASA005Test" />
       <item itemvalue=".NET Project.ASA006Test" />
@@ -2118,6 +2137,7 @@
       <item itemvalue=".NET Project.ZeroRCTest" />
       <item itemvalue=".NET Project.BisectionIntegerTest" />
       <item itemvalue=".NET Project.BisectionRCTest" />
+      <item itemvalue=".NET Project.BlackScholesTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

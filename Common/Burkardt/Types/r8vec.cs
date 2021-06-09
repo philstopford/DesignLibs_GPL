@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using Burkardt.Uniform;
 
@@ -2246,171 +2247,277 @@ namespace Burkardt.Types
             }
         }
 
-public static void r8vec_sort_quick_a ( int n, ref double[] a )
+        public static void r8vec_sort_quick_a(int n, ref double[] a)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8VEC_SORT_QUICK_A ascending sorts an R8VEC using quick sort.
-//
-//  Discussion:
-//
-//    An R8VEC is a vector of R8's.
-//
-//  Example:
-//
-//    Input:
-//
-//      N = 7
-//
-//      A = ( 6, 7, 3, 2, 9, 1, 8 )
-//
-//    Output:
-//
-//      A = ( 1, 2, 3, 6, 7, 8, 9 )
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    30 April 1999
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, int N, the number of entries of A.
-//
-//    Input/output, double A[N].  On input, the array to be sorted.
-//    On output, A has been reordered into ascending order.
-//
-{
-int LEVEL_MAX = 30;
-
-  int base_;
-  int l_segment = 0;
-  int level;
-  int n_segment;
-  int[] rsave = new int[LEVEL_MAX];
-  int r_segment = 0;
-
-  if ( n < 1 )
-  {
-    Console.WriteLine("");
-    Console.WriteLine("R8VEC_SORT_QUICK_A - Fatal error!");
-    Console.WriteLine("  N < 1.");
-    return;
-  }
-  else if ( n == 1 )
-  {
-    return;
-  }
-
-  level = 1;
-  rsave[0] = n + 1;
-  base_ = 1;
-  n_segment = n;
-
-  while ( 0 < n_segment )
-  {
-//
-//  Partition the segment.
-//
-    r8vec_part_quick_a ( n_segment, ref a, (base_ - 1 ), ref l_segment, ref r_segment );
-//
-//  If the left segment has more than one element, we need to partition it.
-//
-    if ( 1 < l_segment )
-    {
-
-      if ( LEVEL_MAX < level )
-      {
-        Console.WriteLine("");
-        Console.WriteLine("R8VEC_SORT_QUICK_A - Fatal error!");
-        Console.WriteLine("  Exceeding recursion maximum of " + LEVEL_MAX + "");
-        return;
-      }
-
-      level = level + 1;
-      n_segment = l_segment;
-      rsave[level-1] = r_segment + base_ - 1;
-    }
-//
-//  The left segment and the middle segment are sorted.
-//  Must the right segment be partitioned?
-//
-    else if ( r_segment < n_segment )
-    {
-      n_segment = n_segment + 1 - r_segment;
-      base_ = base_ + r_segment - 1;
-    }
-//
-//  Otherwise, we back up a level if there is an earlier one.
-//
-    else
-    {
-      for ( ; ; )
-      {
-        if ( 1 < level )
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8VEC_SORT_QUICK_A ascending sorts an R8VEC using quick sort.
+            //
+            //  Discussion:
+            //
+            //    An R8VEC is a vector of R8's.
+            //
+            //  Example:
+            //
+            //    Input:
+            //
+            //      N = 7
+            //
+            //      A = ( 6, 7, 3, 2, 9, 1, 8 )
+            //
+            //    Output:
+            //
+            //      A = ( 1, 2, 3, 6, 7, 8, 9 )
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    30 April 1999
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries of A.
+            //
+            //    Input/output, double A[N].  On input, the array to be sorted.
+            //    On output, A has been reordered into ascending order.
+            //
         {
-          base_ = rsave[level-1];
-          n_segment = rsave[level-2] - rsave[level-1];
-          level = level - 1;
-          if ( 0 < n_segment )
-          {
-            break;
-          }
+            int LEVEL_MAX = 30;
+
+            int base_;
+            int l_segment = 0;
+            int level;
+            int n_segment;
+            int[] rsave = new int[LEVEL_MAX];
+            int r_segment = 0;
+
+            if (n < 1)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("R8VEC_SORT_QUICK_A - Fatal error!");
+                Console.WriteLine("  N < 1.");
+                return;
+            }
+            else if (n == 1)
+            {
+                return;
+            }
+
+            level = 1;
+            rsave[0] = n + 1;
+            base_ = 1;
+            n_segment = n;
+
+            while (0 < n_segment)
+            {
+                //
+                //  Partition the segment.
+                //
+                r8vec_part_quick_a(n_segment, ref a, (base_ - 1), ref l_segment, ref r_segment);
+                //
+                //  If the left segment has more than one element, we need to partition it.
+                //
+                if (1 < l_segment)
+                {
+
+                    if (LEVEL_MAX < level)
+                    {
+                        Console.WriteLine("");
+                        Console.WriteLine("R8VEC_SORT_QUICK_A - Fatal error!");
+                        Console.WriteLine("  Exceeding recursion maximum of " + LEVEL_MAX + "");
+                        return;
+                    }
+
+                    level = level + 1;
+                    n_segment = l_segment;
+                    rsave[level - 1] = r_segment + base_ - 1;
+                }
+                //
+                //  The left segment and the middle segment are sorted.
+                //  Must the right segment be partitioned?
+                //
+                else if (r_segment < n_segment)
+                {
+                    n_segment = n_segment + 1 - r_segment;
+                    base_ = base_ + r_segment - 1;
+                }
+                //
+                //  Otherwise, we back up a level if there is an earlier one.
+                //
+                else
+                {
+                    for (;;)
+                    {
+                        if (1 < level)
+                        {
+                            base_ = rsave[level - 1];
+                            n_segment = rsave[level - 2] - rsave[level - 1];
+                            level = level - 1;
+                            if (0 < n_segment)
+                            {
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            n_segment = 0;
+                            break;
+                        }
+                    }
+                }
+            }
+
         }
-        else
+
+        public static void r8vec_swap(int n, ref double[] a1, int startIndexA1, ref double[] a2, int startIndexA2)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8VEC_SWAP swaps the entries of two R8VEC's.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    28 August 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in the arrays.
+            //
+            //    Input/output, double A1[N], A2[N], the vectors to swap.
+            //
         {
-          n_segment = 0;
-          break;
+            for (int i = 0; i < n; i++)
+            {
+                double temp = a1[i + startIndexA1];
+                a1[i + startIndexA1] = a2[i + startIndexA2];
+                a2[i + startIndexA2] = temp;
+            }
         }
-      }
-    }
-  }
 
-}
+        public static void r8vec_print_part(int n, double[] a, int max_print, string title )
 
-public static void r8vec_swap ( int n, ref double[] a1, int startIndexA1, ref double[] a2, int startIndexA2 )
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8VEC_PRINT_PART prints "part" of an R8VEC.
+        //
+        //  Discussion:
+        //
+        //    The user specifies MAX_PRINT, the maximum number of lines to print.
+        //
+        //    If N, the size of the vector, is no more than MAX_PRINT, then
+        //    the entire vector is printed, one entry per line.
+        //
+        //    Otherwise, if possible, the first MAX_PRINT-2 entries are printed,
+        //    followed by a line of periods suggesting an omission,
+        //    and the last entry.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    27 February 2010
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number of entries of the vector.
+        //
+        //    Input, double A[N], the vector to be printed.
+        //
+        //    Input, int MAX_PRINT, the maximum number of lines
+        //    to print.
+        //
+        //    Input, string TITLE, a title.
+        //
+        {
+            int i;
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8VEC_SWAP swaps the entries of two R8VEC's.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    28 August 2003
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, int N, the number of entries in the arrays.
-//
-//    Input/output, double A1[N], A2[N], the vectors to swap.
-//
-{
-    for ( int i = 0; i < n; i++ )
-  {
-    double temp = a1[i + startIndexA1];
-    a1[i + startIndexA1] = a2[i + startIndexA2];
-    a2[i + startIndexA2] = temp;
-  }
-}
+            if (max_print <= 0)
+            {
+                return;
+            }
 
+            if (n <= 0)
+            {
+                return;
+            }
+
+            Console.WriteLine("");
+            Console.WriteLine(title + "");
+            Console.WriteLine("");
+
+            if (n <= max_print)
+            {
+                for (i = 0; i < n; i++)
+                {
+                    Console.WriteLine("  " + i.ToString().PadLeft(8)
+                        + "  " + a[i].ToString().PadLeft(14) + "");
+                }
+            }
+            else if (3 <= max_print)
+            {
+                for (i = 0; i < max_print - 2; i++)
+                {
+                    Console.WriteLine("  " + i.ToString().PadLeft(8)
+                                           + "  " + a[i].ToString().PadLeft(14) + "");
+                }
+
+                Console.WriteLine("  ........  ..............");
+                i = n - 1;
+                Console.WriteLine("  " + i.ToString().PadLeft(8)
+                                       + "  " + a[i].ToString().PadLeft(14) + "");
+            }
+            else
+            {
+                for (i = 0; i < max_print - 1; i++)
+                {
+                    Console.WriteLine("  " + i.ToString().PadLeft(8)
+                                           + "  " + a[i].ToString().PadLeft(14) + "");
+                }
+
+                i = max_print - 1;
+                Console.WriteLine("  " + i.ToString().PadLeft(8)
+                    + ": " + a[i].ToString().PadLeft(14)
+                    + "  " + "...more entries...");
+            }
+
+            return;
+        }
+
+        public static void r8vec_write(string output_filename, int n, double[] x)
+        {
+            string[] x_ = new string[n];
+            for (int i = 0; i < n; i++)
+            {
+                x_[i] = x[i].ToString();
+            }
+            File.WriteAllLines(output_filename, x_);
+        }
     }
 }

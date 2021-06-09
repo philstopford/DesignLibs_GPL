@@ -33,7 +33,6 @@ namespace FDM1DBVPTest
         {
             Console.WriteLine("");
             Console.WriteLine("FD1D_BVP_TEST");
-            Console.WriteLine("  C++ version");
             Console.WriteLine("  Test the FD1D_BVP library.");
 
             fd1d_bvp_test01();

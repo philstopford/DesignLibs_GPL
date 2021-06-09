@@ -33,7 +33,6 @@ namespace BLAS3DTest
         {
             Console.WriteLine("");
             Console.WriteLine("BLAS3_D_TEST");
-            Console.WriteLine("  C++ version");
             Console.WriteLine("  Test the BLAS3_D library.");
 
             dgemm_test();

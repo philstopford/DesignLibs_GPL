@@ -77,7 +77,6 @@ namespace Burkardt.FEM1DProjectTest
             
             Console.WriteLine("");
             Console.WriteLine("FEM1D_PROJECT");
-            Console.WriteLine("  C++ version.");
             Console.WriteLine("");
             Console.WriteLine("  Read files defining a sampling of a function of 1 argument.");
             Console.WriteLine("  Read files defining a finite element mesh.");

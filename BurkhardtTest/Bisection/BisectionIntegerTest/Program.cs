@@ -31,7 +31,6 @@ namespace Burkardt.BisectionIntegerTest
         {
             Console.WriteLine("");
             Console.WriteLine("BISECTION_INTEGER_TEST");
-            Console.WriteLine("  C++ version");
             Console.WriteLine("  Test the BISECTION_INTEGER library.");
 
             test01();

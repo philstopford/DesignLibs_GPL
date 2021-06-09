@@ -31,7 +31,6 @@ namespace Burkardt.BlackScholesTest
         {
             Console.WriteLine("");
             Console.WriteLine("BLACK_SCHOLES_TEST");
-            Console.WriteLine("  C++ version");
             Console.WriteLine("  Test the BLACK_SCHOLES library.");
 
             asset_path_test();

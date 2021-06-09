@@ -43,7 +43,6 @@ namespace BarycentricInterp1DTest
 
             Console.WriteLine("");
             Console.WriteLine("BARYCENTRIC_INTERP_1D_TEST:");
-            Console.WriteLine("  C++ version");
             Console.WriteLine("  Test the BARYCENTRIC_INTERP_1D library.");
             Console.WriteLine("  The R8LIB library is needed.");
             Console.WriteLine("  The tests need the TEST_INTERP_1D library.");

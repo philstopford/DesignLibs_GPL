@@ -102,7 +102,6 @@ namespace Burkardt.FEM1DPMethodTest
 
             Console.WriteLine("");
             Console.WriteLine("FEM1D_PMETHOD");
-            Console.WriteLine("  C++ version");
             Console.WriteLine("");
             Console.WriteLine("  Solve the two-point boundary value problem");
             Console.WriteLine("");

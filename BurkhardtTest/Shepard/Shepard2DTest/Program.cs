@@ -44,7 +44,6 @@ namespace Shepard2DTest
 
             Console.WriteLine("");
             Console.WriteLine("SHEPARD_INTERP_2D_TEST:");
-            Console.WriteLine("  C++ version");
             Console.WriteLine("  Test the SHEPARD_INTERP_2D library.");
             Console.WriteLine("  The R8LIB library is needed.");
             Console.WriteLine("  This test also needs the TEST_INTERP_2D library.");

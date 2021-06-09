@@ -31,7 +31,6 @@ namespace Burkardt.BacktrackBinaryTest
         {
             Console.WriteLine("");
             Console.WriteLine("BACKTRACK_BINARY_RC_TEST:");
-            Console.WriteLine("  C++ version");
             Console.WriteLine("  Test the BACKTRACK_BINARY_RC library.");
 
             test01();

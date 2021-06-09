@@ -406,7 +406,7 @@ namespace Burkardt.SobolTest
 
             Console.WriteLine();
             Console.WriteLine("TEST055");
-            Console.WriteLine("  The C++ function ^ computes the bitwise exclusive OR");
+            Console.WriteLine("  The function ^ computes the bitwise exclusive OR");
             Console.WriteLine("  of two LONG LONG INT's.");
             Console.WriteLine();
             Console.WriteLine("       I       J     I^J");

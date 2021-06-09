@@ -33,7 +33,6 @@ namespace Burkardt.FEM1DPackTest
         {
             Console.WriteLine("");
             Console.WriteLine("FEM1D_PACK_TEST");
-            Console.WriteLine("  C++ version");
             Console.WriteLine("  Test the FEM1D_PACK library.");
 
             test01();

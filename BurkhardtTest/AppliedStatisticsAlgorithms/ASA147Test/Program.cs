@@ -31,7 +31,6 @@ namespace Burkardt.ASA147Test
         {
             Console.WriteLine("");
             Console.WriteLine("ASA147_TEST:");
-            Console.WriteLine("  C++ version");
             Console.WriteLine("  Test the ASA147 library.");
 
             test01 ( );

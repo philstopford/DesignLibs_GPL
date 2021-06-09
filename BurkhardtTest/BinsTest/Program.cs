@@ -34,7 +34,6 @@ namespace BinsTest
     {
       Console.WriteLine("");
       Console.WriteLine("BINS_TEST");
-      Console.WriteLine("  C++ version");
       Console.WriteLine("  Test the BINS library.");
 
       test0081();

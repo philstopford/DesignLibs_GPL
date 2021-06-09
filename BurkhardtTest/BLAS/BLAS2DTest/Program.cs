@@ -33,7 +33,6 @@ namespace BLAS2DTest
         {
             Console.WriteLine("");
             Console.WriteLine("BLAS2_D_TEST");
-            Console.WriteLine("  C++ version");
             Console.WriteLine("  Test the BLAS2_D library.");
 
             dgemv_test();

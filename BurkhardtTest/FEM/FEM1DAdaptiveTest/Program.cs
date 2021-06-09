@@ -291,7 +291,6 @@ namespace Burkardt.FEM1DAdaptiveTest
 
             Console.WriteLine("");
             Console.WriteLine("FEM1D_ADAPTIVE");
-            Console.WriteLine("  C++ version");
             Console.WriteLine("");
             Console.WriteLine("Solve the two-point boundary value problem:");
             Console.WriteLine("");

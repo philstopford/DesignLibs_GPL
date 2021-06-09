@@ -31,7 +31,6 @@ namespace Burkardt.BisectionRCTest
         {
             Console.WriteLine("");
             Console.WriteLine("BISECTION_RC_TEST:");
-            Console.WriteLine("  C++ version.");
             Console.WriteLine("  Test the BISECTION_RC library.");
 
             test01();

@@ -34,7 +34,6 @@ namespace BLAS1ZTest
         {
             Console.WriteLine("");
             Console.WriteLine("BLAS1_Z_TEST:");
-            Console.WriteLine("  C++ version");
             Console.WriteLine("  Test the BLAS1_Z library,");
 
             test01();

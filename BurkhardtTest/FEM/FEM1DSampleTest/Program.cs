@@ -73,7 +73,6 @@ namespace Burkardt.FEM1DSampleTest
 
             Console.WriteLine("");
             Console.WriteLine("FEM1D_SAMPLE");
-            Console.WriteLine("  C++ version.");
             Console.WriteLine("");
             Console.WriteLine("  Read files defining an FEM function of 1 argument.");
             Console.WriteLine("  Read a file of sample arguments.");

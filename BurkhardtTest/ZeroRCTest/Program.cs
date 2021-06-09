@@ -30,7 +30,6 @@ namespace Burkardt.ZeroRCTest
 
       Console.WriteLine("");
       Console.WriteLine("zero_rc_test()");
-      Console.WriteLine("  C++ version");
       Console.WriteLine("  zero_rc() seeks a root of a function F(X)");
       Console.WriteLine("  in an interval [A,B] using reverse communication.");
 

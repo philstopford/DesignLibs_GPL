@@ -40,7 +40,6 @@ namespace ShepardnDTest
 
             Console.WriteLine("");
             Console.WriteLine("SHEPARD_INTERP_1D_TEST:");
-            Console.WriteLine("  C++ version");
             Console.WriteLine("  Test the SHEPARD_INTERP_1D library.");
             Console.WriteLine("  The R8LIB library is needed.");
             Console.WriteLine("  This test needs the TEST_INTERP library as well.");

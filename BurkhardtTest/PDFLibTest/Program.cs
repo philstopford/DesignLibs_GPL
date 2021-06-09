@@ -206,7 +206,7 @@ namespace PDFLibTest
             Console.WriteLine("  R8_CHI_SAMPLE ( DF ) samples the Chi distribution with");
             Console.WriteLine("  DF degrees of freedom.");
 //
-//  Set the current generator index to #2, which (this being C++) has index 1!.
+//  Set the current generator index to #2, which (this being C#) has index 1!.
 //
             int g = 1;
             // cgn_set(g);

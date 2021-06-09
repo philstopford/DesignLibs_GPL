@@ -2,7 +2,7 @@
 
 namespace Burkardt.Bisection
 {
-    public static class BisectionInteger
+    public static class Integer
     {
         public static void bisection_integer(Func<int,int> f, ref int a, ref int b, ref int c, ref int fc )
 

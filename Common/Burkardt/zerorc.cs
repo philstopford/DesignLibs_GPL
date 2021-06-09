@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Burkardt.ZeroRC
+namespace Burkardt.ZeroRCNS
 {
-    public class zerorc_data
+    public class ZeroRC_data
     {
         public double c;
         public double d;
@@ -14,9 +14,9 @@ namespace Burkardt.ZeroRC
         public double sb;
     }
 
-    public static class zerorc
+    public static class ZeroRC
     {
-        public static void zero_rc(ref zerorc_data data, double a, double b, double t, ref double arg, ref int status,
+        public static void zero_rc(ref ZeroRC_data data, double a, double b, double t, ref double arg, ref int status,
         ref double value )
 
         //****************************************************************************80

@@ -85,7 +85,7 @@ namespace Burkardt.BisectionIntegerTest
             Console.WriteLine("  F(" + a + ") = " + f01(a) + "");
             Console.WriteLine("  F(" + b + ") = " + f01(b) + "");
 
-            BisectionInteger.bisection_integer(f01, ref a, ref b, ref c, ref fc);
+            Integer.bisection_integer(f01, ref a, ref b, ref c, ref fc);
 
             if (fc == 0)
             {
@@ -109,7 +109,7 @@ namespace Burkardt.BisectionIntegerTest
             Console.WriteLine("  F(" + a + ") = " + f01(a) + "");
             Console.WriteLine("  F(" + b + ") = " + f01(b) + "");
 
-            BisectionInteger.bisection_integer(f01, ref a, ref b, ref c, ref fc);
+            Integer.bisection_integer(f01, ref a, ref b, ref c, ref fc);
 
             if (fc == 0)
             {

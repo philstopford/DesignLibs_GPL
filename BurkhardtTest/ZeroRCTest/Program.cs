@@ -1,5 +1,5 @@
 ﻿using System;
-using Burkardt.ZeroRC;
+using Burkardt.ZeroRCNS;
 
 namespace Burkardt.ZeroRCTest
 {
@@ -108,8 +108,8 @@ namespace Burkardt.ZeroRCTest
       
       for (;;)
       {
-        zerorc_data data = new zerorc_data();
-        zerorc.zero_rc(ref data, a, b, t, ref arg, ref status, ref value);
+        ZeroRC_data data = new ZeroRC_data();
+        ZeroRC.zero_rc(ref data, a, b, t, ref arg, ref status, ref value);
 
         if (status < 0)
         {

@@ -125,19 +125,10 @@
     <setting file="file://$PROJECT_DIR$/Common/Burkardt/Sobol/SobolData.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Common/Burkardt/Sobol/SobolDataLarge.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/FEM/FEM1DBVPTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/BurkhardtTest/LatinCenterTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/F5A748D1-B618-44F7-8E57-7E559F530DB4/40/282d4431/Widget.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cumf.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdff.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cumfnc.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cumnbn.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdfnbn.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cumnor.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdfnor.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/dinvnr.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cumpoi.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdfpoi.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cumt.cs" />
@@ -177,10 +168,18 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/E0000_E0001.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/ASA241.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/SobolTest/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/zerorc.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/ZeroRCTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/BisectionInteger.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/BisectionIntegerTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/zerorc.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/ZeroRC.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/ZeroRCTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Integer.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/BisectionRC.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Latin/LatinCenterTest/LatinCenterTest.csproj" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Latin/LatinCoverTest/LatinCoverTest.csproj" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Latin/LatinEdgeTest/LatinEdgeTest.csproj" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Latin/LatinizeTest/LatinizeTest.csproj" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Latin/LatinRandomTest/LatinRandomTest.csproj" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -189,7 +188,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.18805528" />
+    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.18826018" />
     <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.0" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />

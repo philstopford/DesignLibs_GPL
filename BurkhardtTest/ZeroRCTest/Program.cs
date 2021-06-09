@@ -105,10 +105,10 @@ namespace Burkardt.ZeroRCTest
 
       int status = 0;
 
-      zerorc_data data = new zerorc_data();
       
       for (;;)
       {
+        zerorc_data data = new zerorc_data();
         zerorc.zero_rc(ref data, a, b, t, ref arg, ref status, ref value);
 
         if (status < 0)

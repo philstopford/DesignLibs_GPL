@@ -8,6 +8,585 @@ namespace Burkardt.Types
     public static partial class typeMethods
     {
 
+        public static void i4vec_copy(int n, int[] a1, int[] a2)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_COPY copies an I4VEC.
+            //
+            //  Discussion:
+            //
+            //    An I4VEC is a vector of I4's.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    25 April 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in the vectors.
+            //
+            //    Input, int A1[N], the vector to be copied.
+            //
+            //    Output, int A2[N], the copy of A1.
+            //
+        {
+            int i;
+
+            for (i = 0; i < n; i++)
+            {
+                a2[i] = a1[i];
+            }
+
+            return;
+        }
+
+        public static int[] i4vec_indicator0_new(int n)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_INDICATOR0_NEW sets an I4VEC to the indicator vector (0,1,2,...).
+            //
+            //  Discussion:
+            //
+            //    An I4VEC is a vector of I4's.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    27 September 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of elements of A.
+            //
+            //    Output, int I4VEC_INDICATOR0_NEW[N], the array.
+            //
+        {
+            int[] a;
+            int i;
+
+            a = new int[n];
+
+            for (i = 0; i < n; i++)
+            {
+                a[i] = i;
+            }
+
+            return a;
+        }
+
+        public static int[] i4vec_indicator1_new(int n)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_INDICATOR1_NEW sets an I4VEC to the indicator vector (1,2,3,...).
+            //
+            //  Discussion:
+            //
+            //    An I4VEC is a vector of I4's.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    27 September 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of elements of A.
+            //
+            //    Output, int I4VEC_INDICATOR1_NEW[N], the array.
+            //
+        {
+            int[] a;
+            int i;
+
+            a = new int[n];
+
+            for (i = 0; i < n; i++)
+            {
+                a[i] = i + 1;
+            }
+
+            return a;
+        }
+
+        public static void i4vec_permute(int n, int[] p, int[] a)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_PERMUTE permutes an I4VEC in place.
+            //
+            //  Discussion:
+            //
+            //    An I4VEC is a vector of I4's.
+            //
+            //    This routine permutes an array of integer "objects", but the same
+            //    logic can be used to permute an array of objects of any arithmetic
+            //    type, or an array of objects of any complexity.  The only temporary
+            //    storage required is enough to store a single object.  The number
+            //    of data movements made is N + the number of cycles of order 2 or more,
+            //    which is never more than N + N/2.
+            //
+            //  Example:
+            //
+            //    Input:
+            //
+            //      N = 5
+            //      P = (   1,   3,   4,   0,   2 )
+            //      A = (   1,   2,   3,   4,   5 )
+            //
+            //    Output:
+            //
+            //      A    = (   2,   4,   5,   1,   3 ).
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    30 October 2008
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of objects.
+            //
+            //    Input, int P[N], the permutation.  P(I) = J means
+            //    that the I-th element of the output array should be the J-th
+            //    element of the input array.
+            //
+            //    Input/output, int A[N], the array to be permuted.
+            //
+        {
+            int a_temp;
+            int i;
+            int iget;
+            int iput;
+            int istart;
+            
+            if (!perm0_check(n, p))
+            {
+                Console.WriteLine("");
+                Console.WriteLine("I4VEC_PERMUTE - Fatal error!");
+                Console.WriteLine("  PERM0_CHECK rejects permutation.");
+                return;
+            }
+
+            //
+            //  In order for the sign negation trick to work, we need to assume that the
+            //  entries of P are strictly positive.  Presumably, the lowest number is 0.
+            //  So temporarily add 1 to each entry to force positivity.
+            //
+            for (i = 0; i < n; i++)
+            {
+                p[i] = p[i] + 1;
+            }
+
+            //
+            //  Search for the next element of the permutation that has not been used.
+            //
+            for (istart = 1; istart <= n; istart++)
+            {
+                if (p[istart - 1] < 0)
+                {
+                    continue;
+                }
+                else if (p[istart - 1] == istart)
+                {
+                    p[istart - 1] = -p[istart - 1];
+                    continue;
+                }
+                else
+                {
+                    a_temp = a[istart - 1];
+                    iget = istart;
+                    //
+                    //  Copy the new value into the vacated entry.
+                    //
+                    for (;;)
+                    {
+                        iput = iget;
+                        iget = p[iget - 1];
+
+                        p[iput - 1] = -p[iput - 1];
+
+                        if (iget < 1 || n < iget)
+                        {
+                            Console.WriteLine("");
+                            Console.WriteLine("I4VEC_PERMUTE - Fatal error!");
+                            Console.WriteLine("  Entry IPUT = " + iput + " of the permutation has");
+                            Console.WriteLine("  an illegal value IGET = " + iget + ".");
+                            return;
+                        }
+
+                        if (iget == istart)
+                        {
+                            a[iput - 1] = a_temp;
+                            break;
+                        }
+
+                        a[iput - 1] = a[iget - 1];
+                    }
+                }
+            }
+
+            //
+            //  Restore the signs of the entries.
+            //
+            for (i = 0; i < n; i++)
+            {
+                p[i] = -p[i];
+            }
+
+            //
+            //  Restore the entries.
+            //
+            for (i = 0; i < n; i++)
+            {
+                p[i] = p[i] - 1;
+            }
+
+            return;
+        }
+
+        public static int[] i4vec_zero_new(int n)
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_ZERO_NEW creates and zeroes an I4VEC.
+            //
+            //  Discussion:
+            //
+            //    An I4VEC is a vector of I4's.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    11 July 2008
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in the vector.
+            //
+            //    Output, int I4VEC_ZERO_NEW[N], a vector of zeroes.
+            //
+        {
+            int[] a = new int[n];
+
+            for (int i = 0; i < n; i++)
+            {
+                a[i] = 0;
+            }
+
+            return a;
+        }
+        
+        public static int i4vec_sum(int n, int[] a)
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_SUM sums the entries of an I4VEC.
+            //
+            //  Discussion:
+            //
+            //    An I4VEC is a vector of I4's.
+            //
+            //  Example:
+            //
+            //    Input:
+            //
+            //      A = ( 1, 2, 3, 4 )
+            //
+            //    Output:
+            //
+            //      I4VEC_SUM = 10
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    26 May 1999
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in the vector.
+            //
+            //    Input, int A[N], the vector to be summed.
+            //
+            //    Output, int I4VEC_SUM, the sum of the entries of A.
+            //
+        {
+            int i;
+
+            int sum = 0;
+            for (i = 0; i < n; i++)
+            {
+                sum = sum + a[i];
+            }
+
+            return sum;
+        }
+        public static int i4vec_run_count(int n, int[] a)
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_RUN_COUNT counts runs of equal values in an I4VEC.
+            //
+            //  Discussion:
+            //
+            //    An I4VEC is a vector of integer values.
+            //
+            //    A run is a sequence of equal values.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    26 January 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in the vector.
+            //
+            //    Input, int A[N], the vector to be examined.
+            //
+            //    Output, int I4VEC_RUN_COUNT, the number of runs.
+            //
+        {
+            int run_count = 0;
+
+            if (n < 1)
+            {
+                return run_count;
+            }
+
+            int test = 0;
+
+            for (int i = 0; i < n; i++)
+            {
+                if (i == 0 || a[i] != test)
+                {
+                    run_count = run_count + 1;
+                    test = a[i];
+                }
+            }
+
+            return run_count;
+        }
+        
+        public static int i4vec_unique_count(int n, int[] a)
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_UNIQUE_COUNT counts the unique elements in an unsorted I4VEC.
+            //
+            //  Discussion:
+            //
+            //    An I4VEC is a vector of I4's.
+            //
+            //    Because the array is unsorted, this algorithm is O(N^2).
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    29 April 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of elements of A.
+            //
+            //    Input, int A[N], the array to examine, which does NOT have to
+            //    be sorted.
+            //
+            //    Output, int I4VEC_UNIQUE_COUNT, the number of unique elements of A.
+            //
+        {
+            int unique_num = 0;
+
+            for (int i = 0; i < n; i++)
+            {
+                unique_num = unique_num + 1;
+
+                for (int j = 0; j < i; j++)
+                {
+                    if (a[i] == a[j])
+                    {
+                        unique_num = unique_num - 1;
+                        break;
+                    }
+                }
+            }
+
+            return unique_num;
+        }
+
+        public static double i4vec_variance(int n, int[] x)
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_VARIANCE returns the variance of an I4VEC.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    01 May 1999
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in the vector.
+            //
+            //    Input, int X[N], the vector whose variance is desired.
+            //
+            //    Output, double I4VEC_VARIANCE, the variance of the vector entries.
+            //
+        {
+            double mean = i4vec_mean(n, x);
+
+            double variance = 0.0;
+            for (int i = 0; i < n; i++)
+            {
+                variance = variance + ((double) x[i] - mean) * ((double) x[i] - mean);
+            }
+
+            if (1 < n)
+            {
+                variance = variance / (double) (n - 1);
+            }
+            else
+            {
+                variance = 0.0;
+            }
+
+            return variance;
+        }
+
+        public static double i4vec_mean(int n, int[] x)
+        {
+            if (x.Length <= 0)
+            {
+                return 0;
+            }
+
+            // Limit to the number of items in the array as a maximum
+            n = Math.Min(n, x.Length);
+
+            if (n == x.Length)
+            {
+                return x.Average();
+            }
+
+            return x.Take(n).Average();
+        }
+
+        public static int i4vec_max(int n, int[] ivec)
+        {
+            if (ivec.Length <= 0)
+            {
+                return 0;
+            }
+
+            // Limit to the number of items in the array as a maximum
+            n = Math.Min(n, ivec.Length);
+
+            if (n == ivec.Length)
+            {
+                return ivec.Max();
+            }
+
+            return ivec.Take(n).Max();
+        }
+
+        public static int i4vec_min(int n, int[] ivec)
+        {
+            if (ivec.Length <= 0)
+            {
+                return 0;
+            }
+
+            // Limit to the number of items in the array as a maximum
+            n = Math.Min(n, ivec.Length);
+
+            if (n == ivec.Length)
+            {
+                return ivec.Min();
+            }
+
+            return ivec.Take(n).Min();
+        }
+
         public static void i4vec_zeros ( int n, int[] a )
 
             //****************************************************************************80

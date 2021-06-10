@@ -140,11 +140,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8r8vec_etc.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8r8_etc.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8rmat.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_print.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_io.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_minmax.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8_append.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_append.cs" />
@@ -179,7 +174,6 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8_factorial.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8cmat.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/i4vec.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8mat_solve_fs.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_copy.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8mat.cs" />
@@ -189,8 +183,14 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8mat_minmax.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/dsvdc.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/QRSolve.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/BLAS/BLAS1DTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/BLAS/BLAS1D.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/BLAS/BLAS1DTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/SVDSolve.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/i4.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/i4row.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/i4vec.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/misc.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/perm.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -199,7 +199,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.1884058" />
+    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.18853256" />
     <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.0" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />

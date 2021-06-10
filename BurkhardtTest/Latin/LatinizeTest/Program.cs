@@ -93,9 +93,9 @@ namespace Burkardt.LatinizeTest
             //
             //  Need to create the output file name from the input filename.
             //
-            string output_filename = TableWriter.file_name_ext_swap ( input_filename, "latin.txt" );
+            string output_filename = TableMisc.file_name_ext_swap ( input_filename, "latin.txt" );
 
-            TableHeader header = TableReader.r8mat_header_read ( input_filename);
+            TableHeader header = typeMethods.r8mat_header_read ( input_filename);
 
             Console.WriteLine();
             Console.WriteLine("  Read the header of \"" + input_filename + "\".");
@@ -103,7 +103,7 @@ namespace Burkardt.LatinizeTest
             Console.WriteLine("  Spatial dimension M = " + header.m );
             Console.WriteLine("  Number of points N  = " + header.n);
 
-            table = TableReader.r8mat_data_read ( input_filename, header.m, header.n );
+            table = typeMethods.r8mat_data_read ( input_filename, header.m, header.n );
 
             Console.WriteLine();
             Console.WriteLine("  Read the data in \"" + input_filename + "\".");
@@ -121,12 +121,10 @@ namespace Burkardt.LatinizeTest
             //
             //  Write the data to a file.
             //
-            TableWriter.r8mat_write ( output_filename, header.m, header.n, latTable );
+            typeMethods.r8mat_write ( output_filename, header.m, header.n, latTable );
 
             Console.WriteLine();
             Console.WriteLine("  Wrote the latinized data to \"" + output_filename + "\".");
-            
-            return;
         }        
     }
 }

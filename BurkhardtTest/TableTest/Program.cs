@@ -101,7 +101,7 @@ namespace Burkardt.TableTest
             typeMethods.r8mat_transpose_print_some(M, N, table, 1, 1, 5, 5,
                 "  5x5 portion of the TRANSPOSED data:");
 
-            TableWriter.r8mat_write(output_filename, M, N, table);
+            typeMethods.r8mat_write(output_filename, M, N, table);
 
             Console.WriteLine();
             Console.WriteLine("  Wrote the header and data for \""
@@ -138,7 +138,7 @@ namespace Burkardt.TableTest
             Console.WriteLine("  (Information about the dimension of the data)");
             Console.WriteLine("  R8MAT_DATA_READ reads the data.");
 
-            TableHeader h = TableReader.r8mat_header_read ( input_filename );
+            TableHeader h = typeMethods.r8mat_header_read ( input_filename );
 
             Console.WriteLine();
             Console.WriteLine("  Read the header of \"" + input_filename + "\".");
@@ -146,7 +146,7 @@ namespace Burkardt.TableTest
             Console.WriteLine("  Spatial dimension M = " + h.m);
             Console.WriteLine("  Number of points N  = " + h.n);
 
-            double[] table = TableReader.r8mat_data_read ( input_filename, h.m, h.n );
+            double[] table = typeMethods.r8mat_data_read ( input_filename, h.m, h.n );
 
             Console.WriteLine();
             Console.WriteLine("  Read the data in \"" + input_filename + "\".");
@@ -201,7 +201,7 @@ namespace Burkardt.TableTest
             typeMethods.i4mat_print_some ( M, N, table, 1, 1, 5, 5, 
                 "  5 x 5 portion of data written to file:" );
 
-            TableWriter.i4mat_write ( output_filename, M, N, table );
+            typeMethods.i4mat_write ( output_filename, M, N, table );
 
             Console.WriteLine();
             Console.WriteLine("  Wrote the header and data for \""
@@ -238,7 +238,7 @@ namespace Burkardt.TableTest
             Console.WriteLine("  (Information about the dimension of the data)");
             Console.WriteLine("  I4MAT_HEADER_READ reads the data.");
 
-            TableHeader h = TableReader.i4mat_header_read ( input_filename );
+            TableHeader h = typeMethods.i4mat_header_read ( input_filename );
 
             Console.WriteLine();
             Console.WriteLine("  Read the header of \"" + input_filename + "\".");
@@ -246,7 +246,7 @@ namespace Burkardt.TableTest
             Console.WriteLine("  Spatial dimension M = " + h.m);
             Console.WriteLine("  Number of points N  = " + h.n);
 
-            int[] table = TableReader.i4mat_data_read (  input_filename, h.m, h.n );
+            int[] table = typeMethods.i4mat_data_read (  input_filename, h.m, h.n );
 
             Console.WriteLine();
             Console.WriteLine("  Read the data in \"" + input_filename + "\".");
@@ -331,11 +331,11 @@ namespace Burkardt.TableTest
 
             typeMethods.i4mat_print ( m, n, table, "  Initial dataset:" );
 
-            int[] table2 = TableBorder.i4mat_border_cut ( m, n, table );
+            int[] table2 = typeMethods.i4mat_border_cut ( m, n, table );
 
             typeMethods.i4mat_print ( m-2, n-2, table2, "  'Cut' dataset:" );
 
-            int[] table3 = TableBorder.i4mat_border_add ( m - 2, n - 2, table2 );
+            int[] table3 = typeMethods.i4mat_border_add ( m - 2, n - 2, table2 );
 
             typeMethods.i4mat_print ( m, n, table3, "  'Added' dataset:" );
         }

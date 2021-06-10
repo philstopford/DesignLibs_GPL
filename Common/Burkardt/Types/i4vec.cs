@@ -8,6 +8,88 @@ namespace Burkardt.Types
     public static partial class typeMethods
     {
 
+        public static void i4vec_zeros ( int n, int[] a )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_ZEROS zeroes an I4VEC.
+            //
+            //  Discussion:
+            //
+            //    An I4VEC is a vector of I4's.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    01 August 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in the vector.
+            //
+            //    Output, int A[N], a vector of zeroes.
+            //
+        {
+            int i;
+
+            for ( i = 0; i < n; i++ )
+            {
+                a[i] = 0;
+            }
+            return;
+        }
+
+        public static int[] i4vec_zeros_new ( int n )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_ZEROS_NEW creates and zeroes an I4VEC.
+            //
+            //  Discussion:
+            //
+            //    An I4VEC is a vector of I4's.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    11 July 2008
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in the vector.
+            //
+            //    Output, int I4VEC_ZEROS_NEW[N], a vector of zeroes.
+            //
+        {
+            int[] a;
+            int i;
+
+            a = new int[n];
+
+            for ( i = 0; i < n; i++ )
+            {
+                a[i] = 0;
+            }
+            return a;
+        }
 
         public static void i4vec_heap_d(int n, ref int[] a)
 

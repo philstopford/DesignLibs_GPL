@@ -8,28 +8,28 @@ namespace FDM1DBVPTest
     class Program
     {
         static void Main(string[] args)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    MAIN is the main program for FD1D_BVP_TEST.
-//
-//  Discussion:
-//
-//    FD1D_BVP_TEST tests the FD1D_BVP library.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    17 May 2009
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    MAIN is the main program for FD1D_BVP_TEST.
+            //
+            //  Discussion:
+            //
+            //    FD1D_BVP_TEST tests the FD1D_BVP library.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    17 May 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             Console.WriteLine("");
             Console.WriteLine("FD1D_BVP_TEST");
@@ -49,30 +49,30 @@ namespace FDM1DBVPTest
 
         static void fd1d_bvp_test01()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    FD1D_BVP_TEST01 carries out test case #1.
-//
-//  Discussion:
-//
-//    Use A1, C1, F1, EXACT1.
-//
-//    Repeat using a nonuniform mesh.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    15 February 2011
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    FD1D_BVP_TEST01 carries out test case #1.
+            //
+            //  Discussion:
+            //
+            //    Use A1, C1, F1, EXACT1.
+            //
+            //    Repeat using a nonuniform mesh.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    15 February 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             string filename;
             int i;
@@ -109,12 +109,12 @@ namespace FDM1DBVPTest
             for (i = 0; i < n; i++)
             {
                 Console.WriteLine("  " + i.ToString().PadLeft(4)
-                    + "  " + x[i].ToString().PadLeft(8)
-                    + "  " + u[i].ToString().PadLeft(12)
-                    + "  " + uexact[i].ToString().PadLeft(12)
-                    + "  " + Math.Abs(u[i] - uexact[i]).ToString().PadLeft(14) + "");
+                                       + "  " + x[i].ToString().PadLeft(8)
+                                       + "  " + u[i].ToString().PadLeft(12)
+                                       + "  " + uexact[i].ToString().PadLeft(12)
+                                       + "  " + Math.Abs(u[i] - uexact[i]).ToString().PadLeft(14) + "");
             }
-            
+
             Console.WriteLine("");
             Console.WriteLine("  Repeat, using a nonuniform mesh.");
 
@@ -136,17 +136,17 @@ namespace FDM1DBVPTest
             for (i = 0; i < n; i++)
             {
                 Console.WriteLine("  " + i.ToString().PadLeft(4)
-                    + "  " + x[i].ToString().PadLeft(8)
-                    + "  " + u[i].ToString().PadLeft(12)
-                    + "  " + uexact[i].ToString().PadLeft(12)
-                    + "  " + Math.Abs(u[i] - uexact[i]).ToString().PadLeft(14) + "");
+                                       + "  " + x[i].ToString().PadLeft(8)
+                                       + "  " + u[i].ToString().PadLeft(12)
+                                       + "  " + uexact[i].ToString().PadLeft(12)
+                                       + "  " + Math.Abs(u[i] - uexact[i]).ToString().PadLeft(14) + "");
             }
 
-//
-//  Write the data to files.
-//
+            //
+            //  Write the data to files.
+            //
             filename = "fd1d_bvp_test01_nodes.txt";
-            TableWriter.r8mat_write(filename, n, 1, x);
+            typeMethods.r8mat_write(filename, n, 1, x);
 
             u2 = new double[n * 2];
             for (i = 0; i < n; i++)
@@ -160,35 +160,35 @@ namespace FDM1DBVPTest
             }
 
             filename = "fd1d_bvp_test01_values.txt";
-            TableWriter.r8mat_write(filename, n, 2, u2);
+            typeMethods.r8mat_write(filename, n, 2, u2);
 
             return;
         }
 
         static void fd1d_bvp_test02()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    FD1D_BVP_TEST02 carries out test case #2.
-//
-//  Discussion:
-//
-//    Use A1, C2, F2, EXACT1.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    15 February 2011
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    FD1D_BVP_TEST02 carries out test case #2.
+            //
+            //  Discussion:
+            //
+            //    Use A1, C2, F2, EXACT1.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    15 February 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             string filename;
             int i;
@@ -225,17 +225,17 @@ namespace FDM1DBVPTest
             for (i = 0; i < n; i++)
             {
                 Console.WriteLine("  " + i.ToString().PadLeft(4)
-                    + "  " + x[i].ToString().PadLeft(8)
-                    + "  " + u[i].ToString().PadLeft(12)
-                    + "  " + uexact[i].ToString().PadLeft(12)
-                    + "  " + Math.Abs(u[i] - uexact[i]).ToString().PadLeft(14) + "");
+                                       + "  " + x[i].ToString().PadLeft(8)
+                                       + "  " + u[i].ToString().PadLeft(12)
+                                       + "  " + uexact[i].ToString().PadLeft(12)
+                                       + "  " + Math.Abs(u[i] - uexact[i]).ToString().PadLeft(14) + "");
             }
 
-//
-//  Write the data to files.
-//
+            //
+            //  Write the data to files.
+            //
             filename = "fd1d_bvp_test02_nodes.txt";
-            TableWriter.r8mat_write(filename, n, 1, x);
+            typeMethods.r8mat_write(filename, n, 1, x);
 
             u2 = new double[n * 2];
             for (i = 0; i < n; i++)
@@ -249,33 +249,33 @@ namespace FDM1DBVPTest
             }
 
             filename = "fd1d_bvp_test02_values.txt";
-            TableWriter.r8mat_write(filename, n, 2, u2);
+            typeMethods.r8mat_write(filename, n, 2, u2);
         }
 
         static void fd1d_bvp_test03()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    FD1D_BVP_TEST03 carries out test case #3.
-//
-//  Discussion:
-//
-//    Use A1, C3, F3, EXACT1.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    15 February 2011
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    FD1D_BVP_TEST03 carries out test case #3.
+            //
+            //  Discussion:
+            //
+            //    Use A1, C3, F3, EXACT1.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    15 February 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             string filename;
             int i;
@@ -312,17 +312,17 @@ namespace FDM1DBVPTest
             for (i = 0; i < n; i++)
             {
                 Console.WriteLine("  " + i.ToString().PadLeft(4)
-                    + "  " + x[i].ToString().PadLeft(8)
-                    + "  " + u[i].ToString().PadLeft(12)
-                    + "  " + uexact[i].ToString().PadLeft(12)
-                    + "  " + Math.Abs(u[i] - uexact[i]).ToString().PadLeft(14) + "");
+                                       + "  " + x[i].ToString().PadLeft(8)
+                                       + "  " + u[i].ToString().PadLeft(12)
+                                       + "  " + uexact[i].ToString().PadLeft(12)
+                                       + "  " + Math.Abs(u[i] - uexact[i]).ToString().PadLeft(14) + "");
             }
 
-//
-//  Write the data to files.
-//
+            //
+            //  Write the data to files.
+            //
             filename = "fd1d_bvp_test03_nodes.txt";
-            TableWriter.r8mat_write(filename, n, 1, x);
+            typeMethods.r8mat_write(filename, n, 1, x);
 
             u2 = new double[n * 2];
             for (i = 0; i < n; i++)
@@ -336,34 +336,34 @@ namespace FDM1DBVPTest
             }
 
             filename = "fd1d_bvp_test03_values.txt";
-            TableWriter.r8mat_write(filename, n, 2, u2);
+            typeMethods.r8mat_write(filename, n, 2, u2);
 
         }
 
         static void fd1d_bvp_test04()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    FD1D_BVP_TEST04 carries out test case #4.
-//
-//  Discussion:
-//
-//    Use A2, C1, F4, EXACT1.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    15 February 2011
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    FD1D_BVP_TEST04 carries out test case #4.
+            //
+            //  Discussion:
+            //
+            //    Use A2, C1, F4, EXACT1.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    15 February 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             string filename;
             int i;
@@ -400,17 +400,17 @@ namespace FDM1DBVPTest
             for (i = 0; i < n; i++)
             {
                 Console.WriteLine("  " + i.ToString().PadLeft(4)
-                    + "  " + x[i].ToString().PadLeft(8)
-                    + "  " + u[i].ToString().PadLeft(12)
-                    + "  " + uexact[i].ToString().PadLeft(12)
-                    + "  " + Math.Abs(u[i] - uexact[i]).ToString().PadLeft(14) + "");
+                                       + "  " + x[i].ToString().PadLeft(8)
+                                       + "  " + u[i].ToString().PadLeft(12)
+                                       + "  " + uexact[i].ToString().PadLeft(12)
+                                       + "  " + Math.Abs(u[i] - uexact[i]).ToString().PadLeft(14) + "");
             }
 
-//
-//  Write the data to files.
-//
+            //
+            //  Write the data to files.
+            //
             filename = "fd1d_bvp_test04_nodes.txt";
-            TableWriter.r8mat_write(filename, n, 1, x);
+            typeMethods.r8mat_write(filename, n, 1, x);
 
             u2 = new double[n * 2];
             for (i = 0; i < n; i++)
@@ -424,34 +424,34 @@ namespace FDM1DBVPTest
             }
 
             filename = "fd1d_bvp_test04_values.txt";
-            TableWriter.r8mat_write(filename, n, 2, u2);
+            typeMethods.r8mat_write(filename, n, 2, u2);
 
         }
 
         static void fd1d_bvp_test05()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    FD1D_BVP_TEST05 carries out test case #5.
-//
-//  Discussion:
-//
-//    Use A3, C1, F5, EXACT1.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    15 February 2011
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    FD1D_BVP_TEST05 carries out test case #5.
+            //
+            //  Discussion:
+            //
+            //    Use A3, C1, F5, EXACT1.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    15 February 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             string filename;
             int i;
@@ -493,17 +493,17 @@ namespace FDM1DBVPTest
             for (i = 0; i < n; i++)
             {
                 Console.WriteLine("  " + i.ToString().PadLeft(4)
-                    + "  " + x[i].ToString().PadLeft(8)
-                    + "  " + u[i].ToString().PadLeft(12)
-                    + "  " + uexact[i].ToString().PadLeft(12)
-                    + "  " + Math.Abs(u[i] - uexact[i]).ToString().PadLeft(14) + "");
+                                       + "  " + x[i].ToString().PadLeft(8)
+                                       + "  " + u[i].ToString().PadLeft(12)
+                                       + "  " + uexact[i].ToString().PadLeft(12)
+                                       + "  " + Math.Abs(u[i] - uexact[i]).ToString().PadLeft(14) + "");
             }
 
-//
-//  Write the data to files.
-//
+            //
+            //  Write the data to files.
+            //
             filename = "fd1d_bvp_test05_nodes.txt";
-            TableWriter.r8mat_write(filename, n, 1, x);
+            typeMethods.r8mat_write(filename, n, 1, x);
 
             u2 = new double[n * 2];
             for (i = 0; i < n; i++)
@@ -517,36 +517,36 @@ namespace FDM1DBVPTest
             }
 
             filename = "fd1d_bvp_test05_values.txt";
-            TableWriter.r8mat_write(filename, n, 2, u2);
+            typeMethods.r8mat_write(filename, n, 2, u2);
 
         }
 
         static double a1(double x)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    A1 evaluates A function #1.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    17 May 2009
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double A1, the value of A(X).
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    A1 evaluates A function #1.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    17 May 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the evaluation point.
+            //
+            //    Output, double A1, the value of A(X).
+            //
         {
             double value = 1.0;
 
@@ -555,30 +555,30 @@ namespace FDM1DBVPTest
 
         static double a1prime(double x)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    A1PRIME evaluates A' function #1.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    17 May 2009
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double A1PRIME, the value of A'(X).
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    A1PRIME evaluates A' function #1.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    17 May 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the evaluation point.
+            //
+            //    Output, double A1PRIME, the value of A'(X).
+            //
         {
             double value = 0.0;
 
@@ -586,30 +586,30 @@ namespace FDM1DBVPTest
         }
 
         static double a2(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    A2 evaluates A function #2.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    17 May 2009
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double A2, the value of A(X).
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    A2 evaluates A function #2.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    17 May 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the evaluation point.
+            //
+            //    Output, double A2, the value of A(X).
+            //
         {
             double value = 1.0 + x * x;
 
@@ -617,30 +617,30 @@ namespace FDM1DBVPTest
         }
 
         static double a2prime(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    A2PRIME evaluates A' function #2.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    17 May 2009
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double A2PRIME, the value of A'(X).
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    A2PRIME evaluates A' function #2.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    17 May 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the evaluation point.
+            //
+            //    Output, double A2PRIME, the value of A'(X).
+            //
         {
             double value = 2.0 * x;
 
@@ -648,30 +648,30 @@ namespace FDM1DBVPTest
         }
 
         static double a3(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    A3 evaluates A function #3.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    17 May 2009
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double A3, the value of A(X).
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    A3 evaluates A function #3.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    17 May 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the evaluation point.
+            //
+            //    Output, double A3, the value of A(X).
+            //
         {
             double value;
 
@@ -688,30 +688,30 @@ namespace FDM1DBVPTest
         }
 
         static double a3prime(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    A3PRIME evaluates A' function #3.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    17 May 2009
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double A3PRIME, the value of A'(X).
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    A3PRIME evaluates A' function #3.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    17 May 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the evaluation point.
+            //
+            //    Output, double A3PRIME, the value of A'(X).
+            //
         {
             double value;
 
@@ -728,30 +728,30 @@ namespace FDM1DBVPTest
         }
 
         static double c1(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    C1 evaluates C function #1.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    17 May 2009
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double C1, the value of C(X).
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    C1 evaluates C function #1.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    17 May 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the evaluation point.
+            //
+            //    Output, double C1, the value of C(X).
+            //
         {
             double value = 0.0;
 
@@ -759,30 +759,30 @@ namespace FDM1DBVPTest
         }
 
         static double c2(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    C2 evaluates C function #2.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    17 May 2009
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double C2, the value of C(X).
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    C2 evaluates C function #2.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    17 May 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the evaluation point.
+            //
+            //    Output, double C2, the value of C(X).
+            //
         {
             double value = 2.0;
 
@@ -790,30 +790,30 @@ namespace FDM1DBVPTest
         }
 
         static double c3(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    C3 evaluates C function #3.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    17 May 2009
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double C3, the value of C(X).
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    C3 evaluates C function #3.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    17 May 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the evaluation point.
+            //
+            //    Output, double C3, the value of C(X).
+            //
         {
             double value = 2.0 * x;
 
@@ -821,30 +821,30 @@ namespace FDM1DBVPTest
         }
 
         static double f1(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    F1 evaluates right hand side function #1.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    17 May 2009
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double F1, the value of F(X).
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    F1 evaluates right hand side function #1.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    17 May 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the evaluation point.
+            //
+            //    Output, double F1, the value of F(X).
+            //
         {
             double value = x * (x + 3.0) * Math.Exp(x);
 
@@ -852,30 +852,30 @@ namespace FDM1DBVPTest
         }
 
         static double f2(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    F2 evaluates right hand side function #2.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    17 May 2009
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double F2, the value of F(X).
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    F2 evaluates right hand side function #2.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    17 May 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the evaluation point.
+            //
+            //    Output, double F2, the value of F(X).
+            //
         {
             double value = x * (5.0 - x) * Math.Exp(x);
 
@@ -883,30 +883,30 @@ namespace FDM1DBVPTest
         }
 
         static double f3(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    F3 evaluates right hand side function #3.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    17 May 2009
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double F3, the value of F(X).
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    F3 evaluates right hand side function #3.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    17 May 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the evaluation point.
+            //
+            //    Output, double F3, the value of F(X).
+            //
         {
             double value = -x * (2.0 * x * x - 3.0 * x - 3.0) * Math.Exp(x);
 
@@ -914,30 +914,30 @@ namespace FDM1DBVPTest
         }
 
         static double f4(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    F4 evaluates right hand side function #4.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    17 May 2009
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double F4, the value of F(X).
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    F4 evaluates right hand side function #4.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    17 May 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the evaluation point.
+            //
+            //    Output, double F4, the value of F(X).
+            //
         {
             double value = (x + 3.0 * x * x + 5.0 * x * x * x + x * x * x * x) * Math.Exp(x);
 
@@ -945,30 +945,30 @@ namespace FDM1DBVPTest
         }
 
         static double f5(double x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    F5 evaluates right hand side function #5.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    17 May 2009
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double X, the evaluation point.
-//
-//    Output, double F5, the value of F(X).
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    F5 evaluates right hand side function #5.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    17 May 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the evaluation point.
+            //
+            //    Output, double F5, the value of F(X).
+            //
         {
             double value;
 
@@ -986,32 +986,32 @@ namespace FDM1DBVPTest
         }
 
         static double[] exact1(int n, double[] x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    EXACT1 evaluates exact solution #1.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    17 May 2009
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, int N, the number of points.
-//
-//    Input, double X[N], the evaluation points.
-//
-//    Output, double EXACT1[N], the values of U(X(1:N)).
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    EXACT1 evaluates exact solution #1.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    17 May 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of points.
+            //
+            //    Input, double X[N], the evaluation points.
+            //
+            //    Output, double EXACT1[N], the values of U(X(1:N)).
+            //
         {
             double[] uexact = new double[n];
 
@@ -1024,32 +1024,32 @@ namespace FDM1DBVPTest
         }
 
         static double[] exact2(int n, double[] x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    EXACT2 returns exact solution #2.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    17 May 2009
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, int N, the number of points.
-//
-//    Input, double X[N], the evaluation points.
-//
-//    Output, double EXACT2[N], the values of U(X(1:N)).
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    EXACT2 returns exact solution #2.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    17 May 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of points.
+            //
+            //    Input, double X[N], the evaluation points.
+            //
+            //    Output, double EXACT2[N], the values of U(X(1:N)).
+            //
         {
             double[] uexact = new double[n];
 
@@ -1069,32 +1069,32 @@ namespace FDM1DBVPTest
         }
 
         double[] exact3(int n, double[] x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    EXACT3 returns exact solution #3.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    17 May 2009
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, int N, the number of points.
-//
-//    Input, double X[N], the evaluation points.
-//
-//    Output, double EXACT3[N], the values of U(X(1:N)).
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    EXACT3 returns exact solution #3.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    17 May 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of points.
+            //
+            //    Input, double X[N], the evaluation points.
+            //
+            //    Output, double EXACT3[N], the values of U(X(1:N)).
+            //
         {
             double[] uexact = new double[n];
 

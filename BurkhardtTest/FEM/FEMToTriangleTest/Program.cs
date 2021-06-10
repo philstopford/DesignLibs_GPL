@@ -98,7 +98,7 @@ namespace Burkardt.FEMToTriangleTest
                 //
                 //  Read the node data.
                 //
-                TableHeader h = TableReader.r8mat_header_read(fem_node_filename);
+                TableHeader h = typeMethods.r8mat_header_read(fem_node_filename);
                 node_num = h.n;
                 m = h.m;
 
@@ -116,7 +116,7 @@ namespace Burkardt.FEMToTriangleTest
                     return;
                 }
 
-                node_x = TableReader.r8mat_data_read(fem_node_filename, m, node_num);
+                node_x = typeMethods.r8mat_data_read(fem_node_filename, m, node_num);
 
                 Console.WriteLine("");
                 Console.WriteLine("  Read the data in \"" + fem_node_filename + "\".");
@@ -126,7 +126,7 @@ namespace Burkardt.FEMToTriangleTest
                 //
                 //  Read the element data.
                 //
-                h = TableReader.i4mat_header_read(fem_element_filename);
+                h = typeMethods.i4mat_header_read(fem_element_filename);
                 element_order = h.m;
                 element_num = h.n;
 
@@ -145,7 +145,7 @@ namespace Burkardt.FEMToTriangleTest
                     return;
                 }
 
-                element_node = TableReader.i4mat_data_read(fem_element_filename, element_order,
+                element_node = typeMethods.i4mat_data_read(fem_element_filename, element_order,
                     element_num);
 
                 Console.WriteLine("");

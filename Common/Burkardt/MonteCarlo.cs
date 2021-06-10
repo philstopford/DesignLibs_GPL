@@ -82,9 +82,9 @@ namespace Burkardt.MonteCarlo
             Console.WriteLine("  Weight file will be   " + filename_w);
             Console.WriteLine("  Abscissa file will be " + filename_x);
 
-            TableWriter.r8mat_write ( filename_r, m, 2, r );
-            TableWriter.r8mat_write ( filename_w, 1, n, w );
-            TableWriter.r8mat_write ( filename_x, m, n, x );
+            typeMethods.r8mat_write ( filename_r, m, 2, r );
+            typeMethods.r8mat_write ( filename_w, 1, n, w );
+            typeMethods.r8mat_write ( filename_x, m, n, x );
 
             Console.WriteLine();
             Console.WriteLine("MONTE_CARLO_RULE:");

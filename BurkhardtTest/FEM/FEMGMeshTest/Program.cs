@@ -85,7 +85,7 @@ namespace Burkardt.FEMGMeshTest
             //
             //  Read the node data.
             //
-            TableHeader h = TableReader.r8mat_header_read(node_filename);
+            TableHeader h = typeMethods.r8mat_header_read(node_filename);
             node_num = h.n;
             m = h.m;
 
@@ -95,7 +95,7 @@ namespace Burkardt.FEMGMeshTest
             Console.WriteLine("  Spatial dimension = " + m + "");
             Console.WriteLine("  Number of nodes  = " + node_num + "");
 
-            node_x = TableReader.r8mat_data_read(node_filename, m, node_num);
+            node_x = typeMethods.r8mat_data_read(node_filename, m, node_num);
 
             Console.WriteLine("");
             Console.WriteLine("  Read the data in \"" + node_filename + "\".");
@@ -105,7 +105,7 @@ namespace Burkardt.FEMGMeshTest
             //
             //  Read the element data.
             //
-            h = TableReader.i4mat_header_read(element_filename);
+            h = typeMethods.i4mat_header_read(element_filename);
             element_order = h.m;
             element_num = h.n;
 
@@ -160,7 +160,7 @@ namespace Burkardt.FEMGMeshTest
             Console.WriteLine("  Element order = " + element_order + "");
             Console.WriteLine("  Number of elements  = " + element_num + "");
 
-            element_node = TableReader.i4mat_data_read(element_filename, element_order,
+            element_node = typeMethods.i4mat_data_read(element_filename, element_order,
                 element_num);
 
             Console.WriteLine("");

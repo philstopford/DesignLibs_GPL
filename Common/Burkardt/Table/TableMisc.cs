@@ -9,7 +9,32 @@ namespace Burkardt.Table
     
     public static partial class TableMisc
     {
+        public static TableHeader readHeader(string input_filename)
+        {
+            TableHeader ret = new TableHeader {m = TableMisc.file_column_count(input_filename), n = TableMisc.file_row_count ( input_filename )};
 
+            return ret;
+        }
+        
+        public static string file_name_ext_swap(string filename, string extension)
+        {
+            string[] tokens = filename.Split('.');
+            if (tokens.Length == 1)
+            {
+                return String.Join('.', filename, extension);
+            }
+
+            string ret = "";
+            for (int i = 0; i < tokens.Length - 1; i++)
+            {
+                ret += tokens[i] + ".";
+            }
+
+            ret += extension;
+
+            return ret;
+        }
+        
         public static int file_column_count(string filename)
         {
             //****************************************************************************80

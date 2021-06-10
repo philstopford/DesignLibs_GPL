@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt.Table;
+using Burkardt.Types;
 
 namespace Burkardt
 {
@@ -344,9 +345,9 @@ namespace Burkardt
             Console.WriteLine("  Abscissa file will be \"" + filename_x + "\".");
             Console.WriteLine("  Region file will be   \"" + filename_r + "\".");
 
-            TableWriter.r8mat_write(filename_w, 1, order, w);
-            TableWriter.r8mat_write(filename_x, 1, order, x);
-            TableWriter.r8mat_write(filename_r, 1, 2, r);
+            typeMethods.r8mat_write(filename_w, 1, order, w);
+            typeMethods.r8mat_write(filename_x, 1, order, x);
+            typeMethods.r8mat_write(filename_r, 1, 2, r);
 
         }
     }

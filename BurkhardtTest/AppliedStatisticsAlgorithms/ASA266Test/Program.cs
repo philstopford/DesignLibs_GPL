@@ -212,7 +212,7 @@ namespace Burkardt.ASA266Test
 
                 Console.WriteLine(x.ToString().PadLeft(14)
                                   + Algorithms.digamma(x, ref ifault).ToString().PadLeft(14)
-                                  + Algorithms.r8_psi(x).ToString().PadLeft(14) + "");
+                                  + typeMethods.r8_psi(x).ToString().PadLeft(14) + "");
             }
         }
 
@@ -297,7 +297,7 @@ namespace Burkardt.ASA266Test
 
                 double log1 = Algorithms.alngam(x, ref ifault);
                 double log2 = Algorithms.alogam(x, ref ifault);
-                double log3 = Algorithms.r8_gamma_log(x);
+                double log3 = typeMethods.r8_gamma_log(x);
                 double log4 = Algorithms.lngamma(x, ref ifault);
 
                 Console.WriteLine(x.ToString().PadLeft(14)

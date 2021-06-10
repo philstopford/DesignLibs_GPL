@@ -1,6 +1,7 @@
 ﻿using System;
 using Burkardt.FEM;
 using Burkardt.Table;
+using Burkardt.Types;
 
 namespace Burkardt.FEM1DSampleTest
 {
@@ -114,11 +115,11 @@ namespace Burkardt.FEM1DSampleTest
 //
 //  Read the FEM data.
 //
-            TableHeader h = TableReader.r8mat_header_read(fem_node_filename);
+            TableHeader h = typeMethods.r8mat_header_read(fem_node_filename);
             fem_node_dim = h.m;
             fem_node_num = h.n;
 
-            fem_node_x = TableReader.r8mat_data_read(fem_node_filename, fem_node_dim, fem_node_num);
+            fem_node_x = typeMethods.r8mat_data_read(fem_node_filename, fem_node_dim, fem_node_num);
 
             Console.WriteLine("");
             Console.WriteLine("  The FEM node dimension is        " + fem_node_dim + "");
@@ -132,17 +133,17 @@ namespace Burkardt.FEM1DSampleTest
                 return;
             }
 
-            h = TableReader.i4mat_header_read(fem_element_filename);
+            h = typeMethods.i4mat_header_read(fem_element_filename);
             fem_element_order = h.m;
             fem_element_num = h.n;
 
-            fem_element_node = TableReader.i4mat_data_read(fem_element_filename, fem_element_order,
+            fem_element_node = typeMethods.i4mat_data_read(fem_element_filename, fem_element_order,
                 fem_element_num);
 
             Console.WriteLine("  The FEM element order is         " + fem_element_order + "");
             Console.WriteLine("  The FEM element number is        " + fem_element_num + "");
 
-            h = TableReader.r8mat_header_read(fem_value_filename);
+            h = typeMethods.r8mat_header_read(fem_value_filename);
             fem_value_dim = h.m;
             fem_value_num = h.n;
 
@@ -157,15 +158,15 @@ namespace Burkardt.FEM1DSampleTest
                 return;
             }
 
-            fem_value = TableReader.r8mat_data_read(fem_value_filename, fem_value_dim, fem_value_num);
+            fem_value = typeMethods.r8mat_data_read(fem_value_filename, fem_value_dim, fem_value_num);
 //
 //  Read the SAMPLE node data.
 //
-            h = TableReader.r8mat_header_read(sample_node_filename);
+            h = typeMethods.r8mat_header_read(sample_node_filename);
             sample_node_dim = h.m;
             sample_node_num = h.n;
 
-            sample_node_x = TableReader.r8mat_data_read(sample_node_filename, sample_node_dim,
+            sample_node_x = typeMethods.r8mat_data_read(sample_node_filename, sample_node_dim,
                 sample_node_num);
 
             Console.WriteLine("");
@@ -191,7 +192,7 @@ namespace Burkardt.FEM1DSampleTest
 //
 //  Write the sample values.
 //
-            TableWriter.r8mat_write(sample_value_filename, sample_value_dim, sample_value_num,
+            typeMethods.r8mat_write(sample_value_filename, sample_value_dim, sample_value_num,
                 sample_value);
 
             Console.WriteLine("");

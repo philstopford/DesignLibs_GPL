@@ -130,7 +130,7 @@ namespace Burkardt.BoxBehnkenTest
 
                 double[] x = BoxBehnken.box_behnken ( dim_num, x_num, range );
 
-                TableWriter.r8mat_write ( file_out_name, dim_num, x_num, x );
+                typeMethods.r8mat_write ( file_out_name, dim_num, x_num, x );
 
                 Console.WriteLine();
                 Console.WriteLine("  The data was written to the file \"" + file_out_name + "\".");

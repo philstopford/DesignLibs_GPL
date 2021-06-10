@@ -88,17 +88,17 @@ namespace Burkardt.FEM
                 return;
             }
 
-            node_coord = TableReader.r8mat_data_read(node_coord_file_name, dim_num, node_num);
+            node_coord = typeMethods.r8mat_data_read(node_coord_file_name, dim_num, node_num);
 
             if (0 < typeMethods.s_len_trim(element_file_name))
             {
-                element_node = TableReader.i4mat_data_read(element_file_name, element_order,
+                element_node = typeMethods.i4mat_data_read(element_file_name, element_order,
                     element_num);
             }
 
             if (0 < typeMethods.s_len_trim(node_data_file_name))
             {
-                node_data = TableReader.r8mat_data_read(node_data_file_name, node_data_num,
+                node_data = typeMethods.r8mat_data_read(node_data_file_name, node_data_num,
                     node_num);
             }
 
@@ -248,13 +248,13 @@ namespace Burkardt.FEM
             //
             //  Read the node coordinate file.
             //
-            TableHeader h = TableReader.r8mat_header_read(node_coord_file_name);
+            TableHeader h = typeMethods.r8mat_header_read(node_coord_file_name);
             element_order = h.m;
             element_num = h.n;
 
             if (0 < typeMethods.s_len_trim(element_file_name))
             {
-                TableReader.i4mat_header_read(element_file_name);
+                typeMethods.i4mat_header_read(element_file_name);
             }
             else
             {
@@ -264,7 +264,7 @@ namespace Burkardt.FEM
 
             if (0 < typeMethods.s_len_trim(node_data_file_name))
             {
-                h = TableReader.r8mat_header_read(node_data_file_name);
+                h = typeMethods.r8mat_header_read(node_data_file_name);
                 node_data_num = h.m;
                 node_num2 = h.n;
 
@@ -351,7 +351,7 @@ namespace Burkardt.FEM
             //
             if (0 < typeMethods.s_len_trim(node_coord_file_name))
             {
-                TableWriter.r8mat_write(node_coord_file_name, dim_num, node_num, node_coord);
+                typeMethods.r8mat_write(node_coord_file_name, dim_num, node_num, node_coord);
 
                 Console.WriteLine("");
                 Console.WriteLine("FEM_WRITE wrote node coordinates to \""
@@ -363,7 +363,7 @@ namespace Burkardt.FEM
             //
             if (0 < typeMethods.s_len_trim(element_file_name))
             {
-                TableWriter.i4mat_write(element_file_name, element_order, element_num, element_node);
+                typeMethods.i4mat_write(element_file_name, element_order, element_num, element_node);
             }
 
             //
@@ -371,7 +371,7 @@ namespace Burkardt.FEM
             //
             if (0 < typeMethods.s_len_trim(node_data_file_name))
             {
-                TableWriter.r8mat_write(node_data_file_name, node_data_num, node_num, node_data);
+                typeMethods.r8mat_write(node_data_file_name, node_data_num, node_num, node_data);
 
                 Console.WriteLine("");
                 Console.WriteLine("FEM_WRITE wrote node data to \""

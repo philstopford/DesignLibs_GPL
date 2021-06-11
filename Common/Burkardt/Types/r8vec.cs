@@ -1501,5 +1501,52 @@ namespace Burkardt.Types
             return a;
         }
 
+        public static bool r8vec_in_ab ( int n, double[] x, double a, double b )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8VEC_IN_AB is TRUE if the entries of an R8VEC are in the range [A,B].
+        //
+        //  Discussion:
+        //
+        //    An R8VEC is a vector of R8's.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    15 April 2012
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number of entries.
+        //
+        //    Input, double X[N], the vector
+        //
+        //    Input, double A, B, the limits of the range.
+        //
+        //    Output, bool R8VEC_IN_AB, is TRUE if every entry is
+        //    between A and B.
+        //
+        {
+            int i;
+
+            for ( i = 0; i < n; i++ )
+            {
+                if ( x[i] < a || b < x[i] )
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }

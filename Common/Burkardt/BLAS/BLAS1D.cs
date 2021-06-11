@@ -1607,7 +1607,7 @@ namespace Burkardt.BLAS
             }
         }
 
-        public static int idamax(int n, double[] dx, int incx)
+        public static int idamax(int n, double[] dx, int incx, int index = 0)
 
             //****************************************************************************80
             //
@@ -1680,29 +1680,29 @@ namespace Burkardt.BLAS
 
             if (incx == 1)
             {
-                dmax = Math.Abs(dx[0]);
+                dmax = Math.Abs(dx[0 + index]);
 
                 for (i = 1; i < n; i++)
                 {
-                    if (dmax < Math.Abs(dx[i]))
+                    if (dmax < Math.Abs(dx[i + index]))
                     {
                         value = i + 1;
-                        dmax = Math.Abs(dx[i]);
+                        dmax = Math.Abs(dx[i + index]);
                     }
                 }
             }
             else
             {
                 ix = 0;
-                dmax = Math.Abs(dx[0]);
+                dmax = Math.Abs(dx[0 + index]);
                 ix = ix + incx;
 
                 for (i = 1; i < n; i++)
                 {
-                    if (dmax < Math.Abs(dx[ix]))
+                    if (dmax < Math.Abs(dx[ix + index]))
                     {
                         value = i + 1;
-                        dmax = Math.Abs(dx[ix]);
+                        dmax = Math.Abs(dx[ix + index]);
                     }
 
                     ix = ix + incx;

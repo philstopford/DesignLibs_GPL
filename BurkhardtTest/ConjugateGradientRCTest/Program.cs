@@ -154,7 +154,7 @@ namespace ConjugateGradientRCTest
             ConjugateGradientData data = new ConjugateGradientData();
             for (;;)
             {
-                job = ConjugateGradient.cg_rc(ref data, n, b, ref x, ref r, ref z, ref p, ref q, ref job);
+                job = ConjugateGradientRC.cg_rc(ref data, n, b, ref x, ref r, ref z, ref p, ref q, ref job);
                 //
                 //  Compute q = A * p.
                 //
@@ -378,7 +378,7 @@ namespace ConjugateGradientRCTest
             ConjugateGradientData data = new ConjugateGradientData();
             for (;;)
             {
-                job = ConjugateGradient.cg_rc(ref data, n, b, ref x, ref r, ref z, ref p, ref q, ref job);
+                job = ConjugateGradientRC.cg_rc(ref data, n, b, ref x, ref r, ref z, ref p, ref q, ref job);
                 //
                 //  Compute q = A * p.
                 //

@@ -8,7 +8,7 @@
         public int rlbl;
     }
 
-    public static class ConjugateGradient
+    public static class ConjugateGradientRC
     {
         public static int cg_rc(ref ConjugateGradientData data, int n, double[] b, ref double[] x, ref double[] r, ref double[] z,
                 ref double[] p, ref double[] q, ref int job )

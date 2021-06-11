@@ -32,7 +32,6 @@ namespace QRSolveTest
         {
             Console.WriteLine("");
             Console.WriteLine("QR_SOLVE_TEST");
-            Console.WriteLine("  C++ version");
             Console.WriteLine("  Test the QR_SOLVE library.");
             Console.WriteLine("  QR_SOLVE needs the R8LIB library.");
             Console.WriteLine("  This test also needs the TEST_LS library.");

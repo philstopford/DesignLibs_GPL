@@ -135,20 +135,12 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/E6E6B40B-308C-4FE1-9C93-7C26C144C865/F3/UInt64.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Common/Burkardt/Types/r8mat.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Common/Burkardt/Sobol/SobolData.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/BurkhardtTest/ProbabilityTestData/Class1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Common/Burkardt/Sobol/SobolDataLarge.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/FEM/FEM1DBVPTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/F5A748D1-B618-44F7-8E57-7E559F530DB4/40/282d4431/Widget.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_sort.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_bin.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8_binary.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_bracket.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_cheby.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_sum.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_dot.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_concatenate.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_convolution.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_cross.cs" />
@@ -192,7 +184,14 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/perm.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTestData/Class1.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/ProbabilityFunctions.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CellularAutomaton.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/QRSolveTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Solve/ConjugateGradient.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8sp.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8sd.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8pb.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8ge.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r83t.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />

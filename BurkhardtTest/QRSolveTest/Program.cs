@@ -97,7 +97,7 @@ namespace QRSolveTest
             Console.WriteLine("  NORMAL_SOLVE cannot be applied when N < M,");
             Console.WriteLine("  or if the matrix does not have full column rank.");
 
-            prob_num = p00_prob_num();
+            prob_num = ProbabilityFunctions.p00_prob_num();
 
             Console.WriteLine("");
             Console.WriteLine("  Number of problems = " + prob_num + "");
@@ -110,14 +110,14 @@ namespace QRSolveTest
                 //
                 //  Get problem size.
                 //
-                m = p00_m(prob);
-                n = p00_n(prob);
+                m = ProbabilityFunctions.p00_m(prob);
+                n = ProbabilityFunctions.p00_n(prob);
                 //
                 //  Retrieve problem data.
                 //
-                a = p00_a(prob, m, n);
-                b = p00_b(prob, m);
-                x1 = p00_x(prob, n);
+                a = ProbabilityFunctions.p00_a(prob, m, n);
+                b = ProbabilityFunctions.p00_b(prob, m);
+                x1 = ProbabilityFunctions.p00_x(prob, n);
 
                 b_norm = typeMethods.r8vec_norm(m, b);
                 x1_norm = typeMethods.r8vec_norm(n, x1);
@@ -223,7 +223,7 @@ namespace QRSolveTest
             Console.WriteLine("  solves a linear system A*x = b in the least squares sense.");
             Console.WriteLine("  Compare a tabulated solution X1 to the QR_SOLVE result X2.");
 
-            prob_num = p00_prob_num();
+            prob_num = ProbabilityFunctions.p00_prob_num();
 
             Console.WriteLine("");
             Console.WriteLine("  Number of problems = " + prob_num + "");
@@ -236,14 +236,14 @@ namespace QRSolveTest
                 //
                 //  Get problem size.
                 //
-                m = p00_m(prob);
-                n = p00_n(prob);
+                m = ProbabilityFunctions.p00_m(prob);
+                n = ProbabilityFunctions.p00_n(prob);
                 //
                 //  Retrieve problem data.
                 //
-                a = p00_a(prob, m, n);
-                b = p00_b(prob, m);
-                x1 = p00_x(prob, n);
+                a = ProbabilityFunctions.p00_a(prob, m, n);
+                b = ProbabilityFunctions.p00_b(prob, m);
+                x1 = ProbabilityFunctions.p00_x(prob, n);
 
                 b_norm = typeMethods.r8vec_norm(m, b);
                 x1_norm = typeMethods.r8vec_norm(n, x1);
@@ -331,7 +331,7 @@ namespace QRSolveTest
             Console.WriteLine("  solves a linear system A*x = b in the least squares sense.");
             Console.WriteLine("  Compare a tabulated solution X1 to the SVD_SOLVE result X2.");
 
-            prob_num = p00_prob_num();
+            prob_num = ProbabilityFunctions.p00_prob_num();
 
             Console.WriteLine("");
             Console.WriteLine("  Number of problems = " + prob_num + "");
@@ -344,14 +344,14 @@ namespace QRSolveTest
                 //
                 //  Get problem size.
                 //
-                m = p00_m(prob);
-                n = p00_n(prob);
+                m = ProbabilityFunctions.p00_m(prob);
+                n = ProbabilityFunctions.p00_n(prob);
                 //
                 //  Retrieve problem data.
                 //
-                a = p00_a(prob, m, n);
-                b = p00_b(prob, m);
-                x1 = p00_x(prob, n);
+                a = ProbabilityFunctions.p00_a(prob, m, n);
+                b = ProbabilityFunctions.p00_b(prob, m);
+                x1 = ProbabilityFunctions.p00_x(prob, n);
 
                 b_norm = typeMethods.r8vec_norm(m, b);
                 x1_norm = typeMethods.r8vec_norm(n, x1);

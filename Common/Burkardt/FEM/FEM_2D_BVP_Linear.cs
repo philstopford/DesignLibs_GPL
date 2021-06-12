@@ -3,7 +3,7 @@ using Burkardt.Types;
 
 namespace Burkardt.FEM
 {
-    public class FEM_2D_BVP_Linear
+    public static class FEM_2D_BVP_Linear
     {
         public static double[] fem2d_bvp_linear(int nx, int ny, Func<double, double, double> a,
                 Func<double, double, double> c, Func<double, double, double> f,

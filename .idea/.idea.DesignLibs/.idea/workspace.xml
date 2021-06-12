@@ -148,8 +148,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/WathenMatrix.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Solve/ConjugateGradientRC.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ConjugateGradientRCTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Matrix.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Matrix/bandwidth.cs" />
@@ -199,6 +197,8 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/SGQF.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CDGQF.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Chebyshev/Chebyshev1RuleTest/Program.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Chebyshev/Chebyshev2RuleTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CGQF.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />

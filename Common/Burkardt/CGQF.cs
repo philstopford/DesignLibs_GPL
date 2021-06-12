@@ -1,6 +1,6 @@
 ﻿namespace Burkardt
 {
-    public static class CQGF
+    public static class CGQF
     {
         public static void cgqf(int nt, int kind, double alpha, double beta, double a, double b,
             double[] t, double[] wts )

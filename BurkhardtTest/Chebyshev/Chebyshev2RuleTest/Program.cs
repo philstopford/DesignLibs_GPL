@@ -1,7 +1,7 @@
 ﻿using System;
 using Burkardt;
 
-namespace Chebyshev1RuleTest
+namespace Chebyshev2RuleTest
 {
     class Program
     {
@@ -10,18 +10,18 @@ namespace Chebyshev1RuleTest
             //
             //  Purpose:
             //
-            //    MAIN is the main program for CHEBYSHEV1_RULE.
+            //    MAIN is the main program for CHEBYSHEV2_RULE.
             //
             //  Discussion:
             //
-            //    This program computes a standard Gauss-Chebyshev type 1 quadrature rule
+            //    This program computes a standard Gauss-Chebyshev type 2 quadrature rule
             //    and writes it to a file.
             //
             //    The user specifies:
-            //    * the ORDER (number of points) in the rule
-            //    * A, the left endpoint;
-            //    * B, the right endpoint;
-            //    * FILENAME, the root name of the output files.
+            //    * the ORDER (number of points) in the rule;
+            //    * A, the left endpoint.
+            //    * B, the right endpoint.
+            //    * FILENAME, which defines the names of the output files.
             //
             //  Licensing:
             //
@@ -48,24 +48,19 @@ namespace Chebyshev1RuleTest
             double[] x;
 
             Console.WriteLine("");
-            Console.WriteLine("CHEBYSHEV1_RULE");
+            Console.WriteLine("CHEBYSHEV2_RULE");
+            Console.WriteLine("  C++ version");
             Console.WriteLine("");
-            Console.WriteLine("  Compute a Gauss-Chebyshev type 1 rule for approximating");
-            Console.WriteLine("");
-            Console.WriteLine("    Integral ( A <= x <= B ) f(x) / sqrt ( ( x - A ) * ( B - x ) ) dx");
-            Console.WriteLine("");
+            Console.WriteLine("  Compute a Gauss-Chebyshev type 2 rule for approximating");
+            Console.WriteLine("    Integral ( A <= x <= B ) f(x) * sqrt ( ( x - A ) * ( B - x ) ) dx");
             Console.WriteLine("  of order ORDER.");
             Console.WriteLine("");
-            Console.WriteLine("  The user specifies ORDER, A, B and FILENAME.");
+            Console.WriteLine("  The user specifies ORDER, A, B, and FILENAME.");
             Console.WriteLine("");
-            Console.WriteLine("  Order is the number of points.");
-            Console.WriteLine("");
-            Console.WriteLine("  A is the left endpoint.");
-            Console.WriteLine("");
-            Console.WriteLine("  B is the right endpoint.");
-            Console.WriteLine("");
+            Console.WriteLine("  ORDER is the number of points:");
+            Console.WriteLine("  A is the left endpoint:");
+            Console.WriteLine("  B is the right endpoint:");
             Console.WriteLine("  FILENAME is used to generate 3 files:");
-            Console.WriteLine("");
             Console.WriteLine("    filename_w.txt - the weight file");
             Console.WriteLine("    filename_x.txt - the abscissa file.");
             Console.WriteLine("    filename_r.txt - the region file.");
@@ -98,7 +93,7 @@ namespace Chebyshev1RuleTest
             catch (Exception)
             {
                 Console.WriteLine("");
-                Console.WriteLine("  Enter the value of A:");
+                Console.WriteLine("  Enter the left endpoint A:");
                 a = Convert.ToDouble(Console.ReadLine());
             }
 
@@ -112,7 +107,7 @@ namespace Chebyshev1RuleTest
             catch (Exception)
             {
                 Console.WriteLine("");
-                Console.WriteLine("  Enter the value of B:");
+                Console.WriteLine("  Enter the right endpoint B:");
                 b = Convert.ToDouble(Console.ReadLine());
             }
 
@@ -137,14 +132,14 @@ namespace Chebyshev1RuleTest
             Console.WriteLine("  ORDER = " + order + "");
             Console.WriteLine("  A = " + a + "");
             Console.WriteLine("  B = " + b + "");
-            Console.WriteLine("  FILENAME = \"" + filename + "\".");
+            Console.WriteLine("  FILENAME \"" + filename + "\".");
             //
             //  Construct the rule.
             //
             w = new double[order];
             x = new double[order];
 
-            kind = 2;
+            kind = 9;
             CGQF.cgqf(order, kind, alpha, beta, a, b, x, w);
             //
             //  Write the rule.
@@ -156,9 +151,8 @@ namespace Chebyshev1RuleTest
             QuadratureRule.rule_write(order, filename, x, w, r);
 
             Console.WriteLine("");
-            Console.WriteLine("CHEBYSHEV1_RULE:");
+            Console.WriteLine("CHEBYSHEV2_RULE:");
             Console.WriteLine("  Normal end of execution.");
-
             Console.WriteLine("");
         }
     }

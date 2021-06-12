@@ -115,6 +115,7 @@
     <projectFile>BurkhardtTest/WathenMatrixTest/WathenMatrixTest.csproj</projectFile>
     <projectFile>BurkhardtTest/SparseDisplayTest/SparseDisplayTest.csproj</projectFile>
     <projectFile>BurkhardtTest/ChebyshevPolynomialTest/ChebyshevPolynomialTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Chebyshev/ChebyshevSeriestTest/ChebyshevSeriestTest.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="" />
@@ -147,22 +148,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/dsvdc.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/QRSolve.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/BLAS/BLAS1DTest/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/SVDSolve.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/i4.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/i4row.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/misc.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/i4vec.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/perm.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTestData/Class1.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/ProbabilityFunctions.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CellularAutomaton.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/QRSolveTest/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8sp.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8sd.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8pb.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8ge.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r83t.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r83s.cs" />
@@ -198,6 +183,22 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Chebyshev/ChebyshevPolynomial_v.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ChebyshevPolynomialTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8poly.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Chebyshev/ChebyshevSeries.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Chebyshev/ChebyshevPolynomialTest/ChebyshevPolynomialTest.csproj" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/CompressedColumn/CompressedColumnStorageTest/CompressedColumnStorageTest.csproj" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/CompressedColumn/CompressedColumnToSparseTripletTest/CompressedColumnToSparseTripletTest.csproj" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Solve/QRSolveTest/QRSolveTest.csproj" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Solve/SolveTest/SolveTest.csproj" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Solve/ConjugateGradientRCTest/ConjugateGradientRCTest.csproj" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/SparseTriplet/SparseTripletTest/SparseTripletTest.csproj" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/SparseTriplet/SparseTripletToCompressedColumnTest/SparseTripletToCompressedColumnTest.csproj" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Interpolation/InterpTestData/InterpTestData.csproj" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Interpolation/BarycentricInterp1DTest/BarycentricInterp1DTest.csproj" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Interpolation/Shepard/Shepard1DTest/Shepard1DTest.csproj" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Interpolation/Shepard/Shepard2DTest/Shepard2DTest.csproj" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Interpolation/Shepard/ShepardnDTest/ShepardnDTest.csproj" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Helpers.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Chebyshev/ChebyshevSeriestTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -1160,6 +1161,24 @@
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
       <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/ChebyshevPolynomialTest/ChebyshevPolynomialTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="ChebyshevSeriestTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Chebyshev/ChebyshevSeriestTest/ChebyshevSeriestTest.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
@@ -2401,6 +2420,7 @@
       <item itemvalue=".NET Project.WathenMatrixTest" />
       <item itemvalue=".NET Project.SparseDisplayTest" />
       <item itemvalue=".NET Project.ChebyshevPolynomialTest" />
+      <item itemvalue=".NET Project.ChebyshevSeriestTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

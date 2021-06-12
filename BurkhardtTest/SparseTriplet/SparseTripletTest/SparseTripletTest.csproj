@@ -6,17 +6,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Common\Burkardt\Burkardt.csproj" />
+      <ProjectReference Include="..\..\..\Common\Burkardt\Burkardt.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="simple_acc.txt">
+      <None Update="a5by5_r8.st">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-      <None Update="simple_ccc.txt">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="simple_icc.txt">
+      <None Update="kershaw_r8.st">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
     </ItemGroup>

@@ -6,7 +6,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Common\Burkardt\Burkardt.csproj" />
+      <ProjectReference Include="..\..\..\..\Common\Burkardt\Burkardt.csproj" />
+      <ProjectReference Include="..\..\InterpTestData\InterpTestData.csproj" />
     </ItemGroup>
 
 </Project>

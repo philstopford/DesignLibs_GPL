@@ -6,6 +6,12 @@ namespace Burkardt
 {
     public static partial class Helpers
     {
+        public static void sincos(double input, ref double outsin, ref double outcos)
+        {
+            outsin = Math.Sin(input);
+            outcos = Math.Cos(input);
+        }
+        
         public static double[] getExampleDoubleData()
         {
             string[] lines;

@@ -116,6 +116,8 @@
     <projectFile>BurkhardtTest/SparseDisplayTest/SparseDisplayTest.csproj</projectFile>
     <projectFile>BurkhardtTest/ChebyshevPolynomialTest/ChebyshevPolynomialTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Chebyshev/ChebyshevSeriestTest/ChebyshevSeriestTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/FEM/FEM2DBVPTest/FEM2DBVPTest.fsproj</projectFile>
+    <projectFile>BurkhardtTest/FEM/FEM2DBVPLinearTest/FEM2DBVPLinearTest.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="" />
@@ -136,22 +138,15 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/E6E6B40B-308C-4FE1-9C93-7C26C144C865/394/FileStream.Windows.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/E6E6B40B-308C-4FE1-9C93-7C26C144C865/32/Math.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/E6E6B40B-308C-4FE1-9C93-7C26C144C865/F3/UInt64.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Common/Burkardt/Types/r8mat.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Common/Burkardt/Sobol/SobolData.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Common/Burkardt/Sobol/SobolDataLarge.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/FEM/FEM1DBVPTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/2E9BEEB1-8083-4F4B-9ABE-A5F3DB1BC8BD/394/FileStream.Windows.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/BurkhardtTest/FEM/FEM2DBVPLinearTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Common/Burkardt/Sobol/SobolData.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/F5A748D1-B618-44F7-8E57-7E559F530DB4/40/282d4431/Widget.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Common/Burkardt/Types/r8mat.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/BurkhardtTest/Solve/ConjugateGradientRCTest/ConjugateGradientRCTest.csproj" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/SparseTriplet/SparseTripletTest/SparseTripletTest.csproj" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/SparseTriplet/SparseTripletToCompressedColumnTest/SparseTripletToCompressedColumnTest.csproj" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/Interpolation/InterpTestData/InterpTestData.csproj" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Interpolation/BarycentricInterp1DTest/BarycentricInterp1DTest.csproj" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Interpolation/Shepard/Shepard1DTest/Shepard1DTest.csproj" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Interpolation/Shepard/Shepard2DTest/Shepard2DTest.csproj" />
@@ -199,6 +194,10 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Correlation/SamplePaths_Eigen.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Correlation/Covariance.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/CorrelationTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/FEM/FEM_2D_BVP.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/FEM/FEM2DBVPTest/Program.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/FEM/FEM2DBVPLinearTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/FEM/FEM_2D_BVP_Linear.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -1566,6 +1565,42 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="FEM2DBVPLinearTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/FEM/FEM2DBVPLinearTest/FEM2DBVPLinearTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="FEM2DBVPTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/FEM/FEM2DBVPTest/FEM2DBVPTest.fsproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="FEMBasisTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/FEMBasisTest/Debug/net5.0/FEMBasisTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -2478,6 +2513,8 @@
       <item itemvalue=".NET Project.Chebyshev1RuleTest" />
       <item itemvalue=".NET Project.Chebyshev2RuleTest" />
       <item itemvalue=".NET Project.CorrelationTest" />
+      <item itemvalue=".NET Project.FEM2DBVPTest" />
+      <item itemvalue=".NET Project.FEM2DBVPLinearTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

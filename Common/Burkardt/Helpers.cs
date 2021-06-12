@@ -6,6 +6,96 @@ namespace Burkardt
 {
     public static partial class Helpers
     {
+        public static double pythag ( double a, double b )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    PYTHAG computes SQRT ( A * A + B * B ) carefully.
+            //
+            //  Discussion:
+            //
+            //    The formula
+            //
+            //      PYTHAG = sqrt ( A * A + B * B )
+            //
+            //    is reasonably accurate, but can fail if, for example, A^2 is larger
+            //    than the machine overflow.  The formula can lose most of its accuracy
+            //    if the sum of the squares is very large or very small.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    08 November 2012
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Smith, Boyle, Dongarra, Garbow, Ikebe,
+            //    Klema, Moler.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    James Wilkinson, Christian Reinsch,
+            //    Handbook for Automatic Computation,
+            //    Volume II, Linear Algebra, Part 2,
+            //    Springer, 1971,
+            //    ISBN: 0387054146,
+            //    LC: QA251.W67.
+            //
+            //    Brian Smith, James Boyle, Jack Dongarra, Burton Garbow,
+            //    Yasuhiko Ikebe, Virginia Klema, Cleve Moler,
+            //    Matrix Eigensystem Routines, EISPACK Guide,
+            //    Lecture Notes in Computer Science, Volume 6,
+            //    Springer Verlag, 1976,
+            //    ISBN13: 978-3540075462,
+            //    LC: QA193.M37.
+            //
+            //  Modified:
+            //
+            //    08 November 2012
+            //
+            //  Parameters:
+            //
+            //    Input, double A, B, the two legs of a right triangle.
+            //
+            //    Output, double PYTHAG, the length of the hypotenuse.
+            //
+        {
+            double p;
+            double r;
+            double s;
+            double t;
+            double u;
+
+            p = Math.Max ( Math.Abs ( a ), Math.Abs ( b ) );
+
+            if ( p != 0.0 )
+            {
+                r = Math.Min ( Math.Abs ( a ), Math.Abs ( b ) ) / p;
+                r = r * r;
+
+                while ( true )
+                {
+                    t = 4.0 + r;
+
+                    if ( t == 4.0 )
+                    {
+                        break;
+                    }
+
+                    s = r / t;
+                    u = 1.0 + 2.0 * s;
+                    p = u * p;
+                    r = ( s / u ) * ( s / u ) * r;
+                }
+            }
+            return p;
+        }
         public static void sincos(double input, ref double outsin, ref double outcos)
         {
             outsin = Math.Sin(input);

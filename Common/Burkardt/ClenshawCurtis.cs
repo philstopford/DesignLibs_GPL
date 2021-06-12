@@ -6,6 +6,118 @@ namespace Burkardt
 {
     public static class ClenshawCurtis
     {
+        public static void clenshaw_curtis_compute(int order, double[] x, double[] w )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    CLENSHAW_CURTIS_COMPUTE computes a Clenshaw Curtis quadrature rule.
+        //
+        //  Discussion:
+        //
+        //    The integration interval is [ -1, 1 ].
+        //
+        //    The weight function is w(x) = 1.0.
+        //
+        //    The integral to approximate:
+        //
+        //      Integral ( -1 <= X <= 1 ) F(X) dX
+        //
+        //    The quadrature rule:
+        //
+        //      Sum ( 1 <= I <= ORDER ) W(I) * F ( X(I) )
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    19 March 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int ORDER, the order of the rule.
+        //    1 <= ORDER.
+        //
+        //    Output, double X[ORDER], the abscissas.
+        //
+        //    Output, double W[ORDER], the weights.
+        //
+        {
+            double b;
+            int i;
+            int j;
+            double pi = 3.141592653589793;
+            double theta;
+
+            if (order < 1)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("CLENSHAW_CURTIS_COMPUTE - Fatal error!");
+                Console.WriteLine("  Illegal value of ORDER = " + order + "");
+                return;
+            }
+            else if (order == 1)
+            {
+                x[0] = 0.0;
+                w[0] = 2.0;
+            }
+            else
+            {
+                for (i = 0; i < order; i++)
+                {
+                    x[i] = Math.Cos((double) (order - 1 - i) * pi
+                                    / (double) (order - 1));
+                }
+
+                x[0] = -1.0;
+                if ((order % 2) == 1)
+                {
+                    x[(order - 1) / 2] = 0.0;
+                }
+
+                x[order - 1] = +1.0;
+
+                for (i = 0; i < order; i++)
+                {
+                    theta = (double) (i) * pi / (double) (order - 1);
+
+                    w[i] = 1.0;
+
+                    for (j = 1; j <= (order - 1) / 2; j++)
+                    {
+                        if (2 * j == (order - 1))
+                        {
+                            b = 1.0;
+                        }
+                        else
+                        {
+                            b = 2.0;
+                        }
+
+                        w[i] = w[i] - b * Math.Cos(2.0 * (double) (j) * theta)
+                            / (double) (4 * j * j - 1);
+                    }
+                }
+
+                w[0] = w[0] / (double) (order - 1);
+                for (i = 1; i < order - 1; i++)
+                {
+                    w[i] = 2.0 * w[i] / (double) (order - 1);
+                }
+
+                w[order - 1] = w[order - 1] / (double) (order - 1);
+            }
+
+            return;
+        }
+
         public static double[] ccn_compute_points_new(int n)
 
             //****************************************************************************80
@@ -239,45 +351,45 @@ namespace Burkardt
             return w;
         }
 
-        public static void rescale(double a, double b, int n, ref double[] x, ref double[] w )
+        public static void rescale(double a, double b, int n, ref double[] x, ref double[] w)
 
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    RESCALE rescales a Legendre quadrature rule from [-1,+1] to [A,B].
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    18 October 2009
-        //
-        //  Author:
-        //
-        //    John Burkardt.
-        //
-        //  Reference:
-        //
-        //    Andreas Glaser, Xiangtao Liu, Vladimir Rokhlin,
-        //    A fast algorithm for the calculation of the roots of special functions,
-        //    SIAM Journal on Scientific Computing,
-        //    Volume 29, Number 4, pages 1420-1438, 2007.
-        //
-        //  Parameters:
-        //
-        //    Input, double A, B, the endpoints of the new interval.
-        //
-        //    Input, int N, the order.
-        //
-        //    Input/output, double X[N], on input, the abscissas for [-1,+1].
-        //    On output, the abscissas for [A,B].
-        //
-        //    Input/output, double W[N], on input, the weights for [-1,+1].
-        //    On output, the weights for [A,B].
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    RESCALE rescales a Legendre quadrature rule from [-1,+1] to [A,B].
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    18 October 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Andreas Glaser, Xiangtao Liu, Vladimir Rokhlin,
+            //    A fast algorithm for the calculation of the roots of special functions,
+            //    SIAM Journal on Scientific Computing,
+            //    Volume 29, Number 4, pages 1420-1438, 2007.
+            //
+            //  Parameters:
+            //
+            //    Input, double A, B, the endpoints of the new interval.
+            //
+            //    Input, int N, the order.
+            //
+            //    Input/output, double X[N], on input, the abscissas for [-1,+1].
+            //    On output, the abscissas for [A,B].
+            //
+            //    Input/output, double W[N], on input, the weights for [-1,+1].
+            //    On output, the weights for [A,B].
+            //
         {
             int i;
 
@@ -295,38 +407,38 @@ namespace Burkardt
         }
 
         public static void rule_write(int order, string filename, double[] x, double[] w,
-        double[] r )
+                double[] r)
 
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    RULE_WRITE writes a quadrature rule to three files.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    18 February 2010
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int ORDER, the order of the rule.
-        //
-        //    Input, double A, the left endpoint.
-        //
-        //    Input, double B, the right endpoint.
-        //
-        //    Input, string FILENAME, specifies the output filenames.
-        //    "filename_w.txt", "filename_x.txt", "filename_r.txt"
-        //    defining weights, abscissas, and region.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    RULE_WRITE writes a quadrature rule to three files.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    18 February 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int ORDER, the order of the rule.
+            //
+            //    Input, double A, the left endpoint.
+            //
+            //    Input, double B, the right endpoint.
+            //
+            //    Input, string FILENAME, specifies the output filenames.
+            //    "filename_w.txt", "filename_x.txt", "filename_r.txt"
+            //    defining weights, abscissas, and region.
+            //
         {
             string filename_r;
             string filename_w;

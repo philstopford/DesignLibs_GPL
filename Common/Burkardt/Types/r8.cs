@@ -2162,6 +2162,114 @@ namespace Burkardt.Types
 
             return value;
         }
+        
+        public static double r8_wrap ( double r, double rlo, double rhi )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_WRAP forces an R8 to lie between given limits by wrapping.
+            //
+            //  Discussion:
+            //
+            //    An R8 is a double value.
+            //
+            //  Example:
+            //
+            //    RLO = 4.0, RHI = 8.0
+            //
+            //     R  Value
+            //
+            //    -2     8
+            //    -1     4
+            //     0     5
+            //     1     6
+            //     2     7
+            //     3     8
+            //     4     4
+            //     5     5
+            //     6     6
+            //     7     7
+            //     8     8
+            //     9     4
+            //    10     5
+            //    11     6
+            //    12     7
+            //    13     8
+            //    14     4
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    12 December 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double R, a value.
+            //
+            //    Input, double RLO, RHI, the desired bounds.
+            //
+            //    Output, double R8_WRAP, a "wrapped" version of the value.
+            //
+        {
+            int n;
+            double rhi2;
+            double rlo2;
+            double rwide;
+            double value;
+            //
+            //  Guarantee RLO2 < RHI2.
+            //
+            if ( rlo <= rhi )
+            {
+                rlo2 = rlo;
+                rhi2 = rhi;
+            }
+            else
+            {
+                rlo2 = rhi;
+                rhi2 = rlo;
+            }
+            //
+            //  Find the width.
+            //
+            rwide = rhi2 - rlo2;
+            //
+            //  Add enough copies of (RHI2-RLO2) to R so that the
+            //  result ends up in the interval RLO2 - RHI2.
+            //
+            if ( rwide == 0.0 )
+            {
+                value = rlo;
+            }
+            else if ( r < rlo2 )
+            {
+                n = ( int ) ( ( rlo2 - r ) / rwide ) + 1;
+                value = r + n * rwide;
+                if ( value == rhi )
+                {
+                    value = rlo;
+                }
+            }
+            else
+            {
+                n = ( int ) ( ( r - rlo2 ) / rwide );
+                value = r - n * rwide;
+                if ( value == rlo )
+                {
+                    value = rhi;
+                }
+            }
+            return value;
+        }
 
     }
 }

@@ -114,7 +114,7 @@ namespace Burkardt.CorrelationNS
             return k;
         }
 
-        public static void covariance_to_correlation(int n, double[] k, double[] c, double[] sigma)
+        public static void covariance_to_correlation(int n, double[] k, ref double[] c, ref double[] sigma)
 
             //****************************************************************************80
             //

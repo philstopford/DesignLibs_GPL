@@ -148,8 +148,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/BurkhardtTest/Solve/QRSolveTest/QRSolveTest.csproj" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/Solve/SolveTest/SolveTest.csproj" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Solve/ConjugateGradientRCTest/ConjugateGradientRCTest.csproj" />
       <option value="$PROJECT_DIR$/BurkhardtTest/SparseTriplet/SparseTripletTest/SparseTripletTest.csproj" />
       <option value="$PROJECT_DIR$/BurkhardtTest/SparseTriplet/SparseTripletToCompressedColumnTest/SparseTripletToCompressedColumnTest.csproj" />
@@ -191,14 +189,16 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Correlation/RationalQuadratic.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Correlation/Spherical.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Correlation/WhiteNoise.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Correlation/Covariance.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Matrix/MinIJ.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Paths.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Helpers.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Correlation/SamplePaths.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Correlation/SamplePaths_Cholesky.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/TRED2.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/TQL2.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Correlation/SamplePaths_Eigen.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Correlation/Covariance.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/CorrelationTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -215,7 +215,7 @@
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C#" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunManager" selected=".NET Project.ChebyshevPolynomialTest">
+  <component name="RunManager" selected=".NET Project.CorrelationTest">
     <configuration name="ASA005Test" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -883,9 +883,9 @@
       </method>
     </configuration>
     <configuration name="BLAS3DTest" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/BLAS3DTest/Debug/net5.0/BLAS3DTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/BLAS3DTest/Debug/net5.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
@@ -895,7 +895,7 @@
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_TFM" value="net5.0" />
       <method v="2">
         <option name="Build" />
       </method>
@@ -919,27 +919,27 @@
       </method>
     </configuration>
     <configuration name="BarycentricInterp1DTest" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/BarycentricInterp1DTest/Debug/net5.0/BarycentricInterp1DTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/BarycentricInterp1DTest/Debug/net5.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/BarycentricInterp1DTest/BarycentricInterp1DTest.csproj" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Interpolation/BarycentricInterp1DTest/BarycentricInterp1DTest.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_TFM" value="net5.0" />
       <method v="2">
         <option name="Build" />
       </method>
     </configuration>
     <configuration name="BellmanFordTest" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/BellmanFordTest/Debug/net5.0/BellmanFordTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/BellmanFordTest/Debug/net5.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
@@ -949,7 +949,7 @@
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_TFM" value="net5.0" />
       <method v="2">
         <option name="Build" />
       </method>
@@ -1152,10 +1152,46 @@
         <option name="Build" />
       </method>
     </configuration>
-    <configuration name="ChebyshevPolynomialTest" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
+    <configuration name="Chebyshev1RuleTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/Chebyshev1RuleTest/Debug/net5.0/Chebyshev1RuleTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/Chebyshev1RuleTest/Debug/net5.0" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Chebyshev/Chebyshev1RuleTest/Chebyshev1RuleTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="net5.0" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="Chebyshev2RuleTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/Chebyshev2RuleTest/Debug/net5.0/Chebyshev2RuleTest.exe" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/Chebyshev2RuleTest/Debug/net5.0" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Chebyshev/Chebyshev2RuleTest/Chebyshev2RuleTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="net5.0" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="ChebyshevPolynomialTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/ChebyshevPolynomialTest/Debug/net5.0/ChebyshevPolynomialTest.exe" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/ChebyshevPolynomialTest/Debug/net5.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
@@ -1165,33 +1201,33 @@
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_TFM" value="net5.0" />
       <method v="2">
         <option name="Build" />
       </method>
     </configuration>
-    <configuration name="ChebyshevSeriestTest" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
+    <configuration name="ChebyshevSeriesTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/ChebyshevSeriesTest/Debug/net5.0/ChebyshevSeriesTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/ChebyshevSeriesTest/Debug/net5.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Chebyshev/ChebyshevSeriestTest/ChebyshevSeriestTest.csproj" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Chebyshev/ChebyshevSeriesTest/ChebyshevSeriesTest.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_TFM" value="net5.0" />
       <method v="2">
         <option name="Build" />
       </method>
     </configuration>
     <configuration name="ChebyshevTest" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/ChebyshevTest/Debug/net5.0/ChebyshevTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/ChebyshevTest/Debug/net5.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
@@ -1201,7 +1237,7 @@
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_TFM" value="net5.0" />
       <method v="2">
         <option name="Build" />
       </method>
@@ -1243,9 +1279,9 @@
       </method>
     </configuration>
     <configuration name="CompressedColumnToSparseTripletTest" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/CompressedColumnToSparseTripletTest/Debug/net5.0/CompressedColumnToSparseTripletTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/CompressedColumnToSparseTripletTest/Debug/net5.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
@@ -1255,7 +1291,7 @@
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_TFM" value="net5.0" />
       <method v="2">
         <option name="Build" />
       </method>
@@ -1296,10 +1332,28 @@
         <option name="Build" />
       </method>
     </configuration>
-    <configuration name="FDM1DBVPTest" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
+    <configuration name="CorrelationTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/CorrelationTest/Debug/net5.0/CorrelationTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/CorrelationTest/Debug/net5.0" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/CorrelationTest/CorrelationTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="net5.0" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="FDM1DBVPTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/FDM1DBVPTest/Debug/net5.0/FDM1DBVPTest.exe" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/FDM1DBVPTest/Debug/net5.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
@@ -1309,7 +1363,7 @@
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_TFM" value="net5.0" />
       <method v="2">
         <option name="Build" />
       </method>
@@ -1855,55 +1909,55 @@
       </method>
     </configuration>
     <configuration name="Shepard1DTest" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/Shepard1DTest/Debug/net5.0/Shepard1DTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/Shepard1DTest/Debug/net5.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Shepard/Shepard1DTest/Shepard1DTest.csproj" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Interpolation/Shepard/Shepard1DTest/Shepard1DTest.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_TFM" value="net5.0" />
       <method v="2">
         <option name="Build" />
       </method>
     </configuration>
     <configuration name="Shepard2DTest" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/Shepard2DTest/Debug/net5.0/Shepard2DTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/Shepard2DTest/Debug/net5.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Shepard/Shepard2DTest/Shepard2DTest.csproj" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Interpolation/Shepard/Shepard2DTest/Shepard2DTest.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_TFM" value="net5.0" />
       <method v="2">
         <option name="Build" />
       </method>
     </configuration>
     <configuration name="ShepardnDTest" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/ShepardnDTest/Debug/net5.0/ShepardnDTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/ShepardnDTest/Debug/net5.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Shepard/ShepardnDTest/ShepardnDTest.csproj" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Interpolation/Shepard/ShepardnDTest/ShepardnDTest.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_TFM" value="net5.0" />
       <method v="2">
         <option name="Build" />
       </method>
@@ -1927,9 +1981,9 @@
       </method>
     </configuration>
     <configuration name="SolveTest" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/SolveTest/Debug/net5.0/SolveTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/SolveTest/Debug/net5.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
@@ -1939,7 +1993,7 @@
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_TFM" value="net5.0" />
       <method v="2">
         <option name="Build" />
       </method>
@@ -1981,37 +2035,37 @@
       </method>
     </configuration>
     <configuration name="SparseTripletTest" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/SparseTripletTest/Debug/net5.0/SparseTripletTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/SparseTripletTest/Debug/net5.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/SparseTripletTest/SparseTripletTest.csproj" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/SparseTriplet/SparseTripletTest/SparseTripletTest.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_TFM" value="net5.0" />
       <method v="2">
         <option name="Build" />
       </method>
     </configuration>
     <configuration name="SparseTripletToCompressedColumnTest" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/SparseTripletToCompressedColumnTest/Debug/net5.0/SparseTripletToCompressedColumnTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/SparseTripletToCompressedColumnTest/Debug/net5.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/SparseTripletToCompressedColumnTest/SparseTripletToCompressedColumnTest.csproj" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/SparseTriplet/SparseTripletToCompressedColumnTest/SparseTripletToCompressedColumnTest.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_TFM" value="net5.0" />
       <method v="2">
         <option name="Build" />
       </method>
@@ -2397,8 +2451,8 @@
       <item itemvalue=".NET Project.CDFLibTest" />
       <item itemvalue=".NET Project.BLAS2DTest" />
       <item itemvalue=".NET Project.BLAS3DTest" />
-      <item itemvalue=".NET Project.BarycentricInterp1DTest" />
       <item itemvalue=".NET Project.BellmanFordTest" />
+      <item itemvalue=".NET Project.BarycentricInterp1DTest" />
       <item itemvalue=".NET Project.BernsteinPolynomialTest" />
       <item itemvalue=".NET Project.BesselJTest" />
       <item itemvalue=".NET Project.BetaNCTest" />
@@ -2410,8 +2464,8 @@
       <item itemvalue=".NET Project.CauchyPrincipalValueTest" />
       <item itemvalue=".NET Project.ClenshawCurtisTest" />
       <item itemvalue=".NET Project.CompressedColumnStorageTest" />
-      <item itemvalue=".NET Project.SparseTripletTest" />
       <item itemvalue=".NET Project.CompressedColumnToSparseTripletTest" />
+      <item itemvalue=".NET Project.SparseTripletTest" />
       <item itemvalue=".NET Project.SparseTripletToCompressedColumnTest" />
       <item itemvalue=".NET Project.ChebyshevTest" />
       <item itemvalue=".NET Project.QRSolveTest" />
@@ -2420,7 +2474,10 @@
       <item itemvalue=".NET Project.WathenMatrixTest" />
       <item itemvalue=".NET Project.SparseDisplayTest" />
       <item itemvalue=".NET Project.ChebyshevPolynomialTest" />
-      <item itemvalue=".NET Project.ChebyshevSeriestTest" />
+      <item itemvalue=".NET Project.ChebyshevSeriesTest" />
+      <item itemvalue=".NET Project.Chebyshev1RuleTest" />
+      <item itemvalue=".NET Project.Chebyshev2RuleTest" />
+      <item itemvalue=".NET Project.CorrelationTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

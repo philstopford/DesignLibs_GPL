@@ -49,7 +49,6 @@ namespace Chebyshev2RuleTest
 
             Console.WriteLine("");
             Console.WriteLine("CHEBYSHEV2_RULE");
-            Console.WriteLine("  C++ version");
             Console.WriteLine("");
             Console.WriteLine("  Compute a Gauss-Chebyshev type 2 rule for approximating");
             Console.WriteLine("    Integral ( A <= x <= B ) f(x) * sqrt ( ( x - A ) * ( B - x ) ) dx");

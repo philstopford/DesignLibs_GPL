@@ -33,7 +33,6 @@ namespace CorrelationTest
         {
             Console.WriteLine("");
             Console.WriteLine("CORRELATION_TEST");
-            Console.WriteLine("  C++ version.");
             Console.WriteLine("  Test the CORRELATION library.");
 
             correlation_test01();

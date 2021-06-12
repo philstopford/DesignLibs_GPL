@@ -32,7 +32,6 @@ namespace Burkardt.FEM2DBVPLinearTest
         {
             Console.WriteLine("");
             Console.WriteLine("FEM2D_BVP_LINEAR_TEST");
-            Console.WriteLine("  C++ version");
             Console.WriteLine("  Test the FEM2D_BVP_LINEAR library.");
 
             test01();

@@ -32,7 +32,6 @@ namespace ChebyshevSeriestTest
         {
             Console.WriteLine("");
             Console.WriteLine("CHEBYSHEV_SERIES_TEST:");
-            Console.WriteLine("  C++ version");
             Console.WriteLine("  Test the CHEBYSHEV_SERIES libary.");
 
             test01();

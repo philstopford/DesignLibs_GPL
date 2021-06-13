@@ -338,6 +338,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClausenTest", "BurkhardtTes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClenshawCurtisRuleTest", "BurkhardtTest\ClenshawCurtisRuleTest\ClenshawCurtisRuleTest.csproj", "{E11C59E8-ECF6-4A64-AAD0-1DC62BBA6BEC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExactnessTest", "BurkhardtTest\ExactnessTest\ExactnessTest.csproj", "{C3A6970D-AC14-4F12-81D2-91B5715DB4C9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -2112,6 +2114,18 @@ Global
 		{E11C59E8-ECF6-4A64-AAD0-1DC62BBA6BEC}.Release|x64.Build.0 = Release|Any CPU
 		{E11C59E8-ECF6-4A64-AAD0-1DC62BBA6BEC}.Release|x86.ActiveCfg = Release|Any CPU
 		{E11C59E8-ECF6-4A64-AAD0-1DC62BBA6BEC}.Release|x86.Build.0 = Release|Any CPU
+		{C3A6970D-AC14-4F12-81D2-91B5715DB4C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3A6970D-AC14-4F12-81D2-91B5715DB4C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3A6970D-AC14-4F12-81D2-91B5715DB4C9}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C3A6970D-AC14-4F12-81D2-91B5715DB4C9}.Debug|x64.Build.0 = Debug|Any CPU
+		{C3A6970D-AC14-4F12-81D2-91B5715DB4C9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C3A6970D-AC14-4F12-81D2-91B5715DB4C9}.Debug|x86.Build.0 = Debug|Any CPU
+		{C3A6970D-AC14-4F12-81D2-91B5715DB4C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3A6970D-AC14-4F12-81D2-91B5715DB4C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3A6970D-AC14-4F12-81D2-91B5715DB4C9}.Release|x64.ActiveCfg = Release|Any CPU
+		{C3A6970D-AC14-4F12-81D2-91B5715DB4C9}.Release|x64.Build.0 = Release|Any CPU
+		{C3A6970D-AC14-4F12-81D2-91B5715DB4C9}.Release|x86.ActiveCfg = Release|Any CPU
+		{C3A6970D-AC14-4F12-81D2-91B5715DB4C9}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2279,6 +2293,7 @@ Global
 		{F80C71C1-10BE-4715-AFA5-19185197E0BC} = {10FD5718-3BCA-4DC0-8CC3-BE641DA480C5}
 		{2C95FA6B-1CB5-4225-ABB7-D7B94F5D799D} = {B14C0D74-30A0-4540-8100-2FFA1C84CA6D}
 		{E11C59E8-ECF6-4A64-AAD0-1DC62BBA6BEC} = {B14C0D74-30A0-4540-8100-2FFA1C84CA6D}
+		{C3A6970D-AC14-4F12-81D2-91B5715DB4C9} = {B14C0D74-30A0-4540-8100-2FFA1C84CA6D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B449416C-C504-4FA8-9E10-10857263A64A}

@@ -90,7 +90,7 @@ namespace Burkardt.Grid
             //
             rank = -1;
             tuple = new int[dim_num];
-            BTupleData data = new BTupleData();
+            BTupleData data = new BTupleData() {base_ = new int[dim_num]};
             BTuple.tuple_next_fast(ref data, n_side, dim_num, rank, tuple);
             //
             //  Now generate the appropriate indices, and "center" them.

@@ -185,7 +185,7 @@ namespace Burkardt.Probability
         //    Output, double FISK_MEAN, the mean of the PDF.
         //
         {
-            const double r8_pi = 3.14159265358979323;
+            
 
             if (c <= 1.0)
             {
@@ -195,7 +195,7 @@ namespace Burkardt.Probability
                 return (1);
             }
 
-            double mean = a + r8_pi * (b / c) * typeMethods.r8_csc(r8_pi / c);
+            double mean = a + Math.PI * (b / c) * typeMethods.r8_csc(Math.PI / c);
 
             return mean;
         }
@@ -321,7 +321,7 @@ namespace Burkardt.Probability
         //
         {
             double g;
-            const double r8_pi = 3.14159265358979323;
+            
             double variance;
 
             if (c <= 2.0)
@@ -332,7 +332,7 @@ namespace Burkardt.Probability
                 return (1);
             }
 
-            g = r8_pi / c;
+            g = Math.PI / c;
 
             variance = b * b * (2.0 * g * typeMethods.r8_csc(2.0 * g)
                                 - Math.Pow((g * typeMethods.r8_csc(g)), 2));

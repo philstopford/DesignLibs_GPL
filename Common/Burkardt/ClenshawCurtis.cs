@@ -53,7 +53,6 @@ namespace Burkardt
             double b;
             int i;
             int j;
-            double pi = 3.141592653589793;
             double theta;
 
             if (order < 1)
@@ -72,7 +71,7 @@ namespace Burkardt
             {
                 for (i = 0; i < order; i++)
                 {
-                    x[i] = Math.Cos((double) (order - 1 - i) * pi
+                    x[i] = Math.Cos((double) (order - 1 - i) * Math.PI
                                     / (double) (order - 1));
                 }
 
@@ -86,7 +85,7 @@ namespace Burkardt
 
                 for (i = 0; i < order; i++)
                 {
-                    theta = (double) (i) * pi / (double) (order - 1);
+                    theta = (double) (i) * Math.PI / (double) (order - 1);
 
                     w[i] = 1.0;
 
@@ -167,7 +166,6 @@ namespace Burkardt
             int i;
             int k;
             int m;
-            double pi = 3.141592653589793;
             int td;
             int tu;
 
@@ -223,7 +221,7 @@ namespace Burkardt
             //
             for (i = 0; i < n; i++)
             {
-                x[i] = Math.Cos(x[i] * pi);
+                x[i] = Math.Cos(x[i] * Math.PI);
             }
 
             x[0] = 0.0;

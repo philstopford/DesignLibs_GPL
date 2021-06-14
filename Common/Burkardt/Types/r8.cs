@@ -880,7 +880,6 @@ namespace Burkardt.Types
         {
             int n;
             const double r8_huge = 1.0E+30;
-            const double r8_pi = 3.14159265358979323;
             double value;
 
             if (p <= 1.0)
@@ -889,7 +888,7 @@ namespace Burkardt.Types
             }
             else if (p == 2.0)
             {
-                value = Math.Pow(r8_pi, 2) / 6.0;
+                value = Math.Pow(Math.PI, 2) / 6.0;
             }
             else if (p == 3.0)
             {
@@ -897,7 +896,7 @@ namespace Burkardt.Types
             }
             else if (p == 4.0)
             {
-                value = Math.Pow(r8_pi, 4) / 90.0;
+                value = Math.Pow(Math.PI, 4) / 90.0;
             }
             else if (p == 5.0)
             {
@@ -905,7 +904,7 @@ namespace Burkardt.Types
             }
             else if (p == 6.0)
             {
-                value = Math.Pow(r8_pi, 6) / 945.0;
+                value = Math.Pow(Math.PI, 6) / 945.0;
             }
             else if (p == 7.0)
             {
@@ -913,7 +912,7 @@ namespace Burkardt.Types
             }
             else if (p == 8.0)
             {
-                value = Math.Pow(r8_pi, 8) / 9450.0;
+                value = Math.Pow(Math.PI, 8) / 9450.0;
             }
             else if (p == 9.0)
             {
@@ -921,7 +920,7 @@ namespace Burkardt.Types
             }
             else if (p == 10.0)
             {
-                value = Math.Pow(r8_pi, 10) / 93555.0;
+                value = Math.Pow(Math.PI, 10) / 93555.0;
             }
             else if (p == 11.0)
             {

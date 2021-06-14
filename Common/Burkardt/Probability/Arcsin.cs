@@ -31,7 +31,7 @@ namespace Burkardt.Probability
         //
         {
             double cdf;
-            const double r8_pi = 3.14159265358979323;
+            
 
             if (x <= -a)
             {
@@ -39,7 +39,7 @@ namespace Burkardt.Probability
             }
             else if (x < a)
             {
-                cdf = 0.5 + Math.Asin(x / a) / r8_pi;
+                cdf = 0.5 + Math.Asin(x / a) / Math.PI;
             }
             else
             {
@@ -75,7 +75,7 @@ namespace Burkardt.Probability
         //    Output, double ARCSIN_CDF_INV, the corresponding argument.
         //
         {
-            const double r8_pi = 3.14159265358979323;
+            
             double x;
 
             if (cdf < 0.0 || 1.0 < cdf)
@@ -86,7 +86,7 @@ namespace Burkardt.Probability
                 return 1.0;
             }
 
-            x = a * Math.Sin(r8_pi * (cdf - 0.5));
+            x = a * Math.Sin(Math.PI * (cdf - 0.5));
 
             return x;
         }
@@ -212,7 +212,7 @@ namespace Burkardt.Probability
         //
         {
             double pdf;
-            const double r8_pi = 3.14159265358979323;
+            
 
             if (a <= 0)
             {
@@ -228,7 +228,7 @@ namespace Burkardt.Probability
             }
             else
             {
-                pdf = 1.0 / (r8_pi * Math.Sqrt(a * a - x * x));
+                pdf = 1.0 / (Math.PI * Math.Sqrt(a * a - x * x));
             }
 
             return pdf;

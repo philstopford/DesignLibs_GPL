@@ -249,13 +249,13 @@ namespace Burkardt.Probability
         //    Output, double FOLDED_NORMAL_MEAN, the mean of the PDF.
         //
         {
-            const double r8_pi = 3.14159265358979323;
+            
 
             double a2 = a / b;
 
             double cdf = Normal.normal_01_cdf(a2);
 
-            double mean = b * Math.Sqrt(2.0 / r8_pi) * Math.Exp(-0.5 * a2 * a2)
+            double mean = b * Math.Sqrt(2.0 / Math.PI) * Math.Exp(-0.5 * a2 * a2)
                           - a * (1.0 - 2.0 * cdf);
 
             return mean;
@@ -298,7 +298,7 @@ namespace Burkardt.Probability
         //
         {
             double pdf;
-            const double r8_pi = 3.14159265358979323;
+            
 
             if (x < 0.0)
             {
@@ -306,7 +306,7 @@ namespace Burkardt.Probability
             }
             else
             {
-                pdf = Math.Sqrt(2.0 / r8_pi) * (1.0 / b) * Math.Cosh(a * x / b / b)
+                pdf = Math.Sqrt(2.0 / Math.PI) * (1.0 / b) * Math.Cosh(a * x / b / b)
                       * Math.Exp(-0.5 * (x * x + a * a) / b / b);
             }
 

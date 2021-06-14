@@ -226,7 +226,7 @@ namespace Burkardt.Probability
         //
         {
             double pdf;
-            const double r8_pi = 3.141592653589793;
+            
 
             if (b <= 0.0)
             {
@@ -242,7 +242,7 @@ namespace Burkardt.Probability
             }
             else
             {
-                pdf = Math.Sqrt(b / (2.0 * r8_pi))
+                pdf = Math.Sqrt(b / (2.0 * Math.PI))
                       * Math.Exp(-b / (2.0 * (x - a)))
                       / Math.Sqrt(Math.Pow(x - a, 3));
             }

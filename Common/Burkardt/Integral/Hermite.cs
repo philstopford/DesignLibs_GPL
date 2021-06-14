@@ -37,12 +37,12 @@ namespace Burkardt.IntegralNS
             //    Output, double HERMITE_INTEGRAL, the value of the integral.
             //
         {
-            const double r8_pi = 3.141592653589793;
+            
             double value;
 
             if ( ( p % 2 ) == 0 )
             {
-                value = typeMethods.r8_factorial2 ( p - 1 ) * Math.Sqrt ( r8_pi ) / Math.Pow ( 2.0, p / 2 );
+                value = typeMethods.r8_factorial2 ( p - 1 ) * Math.Sqrt ( Math.PI ) / Math.Pow ( 2.0, p / 2 );
             }
             else
             {

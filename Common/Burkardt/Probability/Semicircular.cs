@@ -35,7 +35,7 @@ namespace Burkardt.Probability
         //
         {
             double cdf = 0;
-            const double r8_pi = 3.14159265358979323;
+            
             double y;
 
             if (x <= a - b)
@@ -46,7 +46,7 @@ namespace Burkardt.Probability
             {
                 y = (x - a) / b;
 
-                cdf = 0.5 + (y * Math.Sqrt(1.0 - y * y) + Math.Asin(y)) / r8_pi;
+                cdf = 0.5 + (y * Math.Sqrt(1.0 - y * y) + Math.Asin(y)) / Math.PI;
             }
             else if (a + b < x)
             {
@@ -269,7 +269,7 @@ namespace Burkardt.Probability
         //
         {
             double pdf = 0;
-            const double r8_pi = 3.14159265358979323;
+            
             double y;
 
             if (x < a - b)
@@ -280,7 +280,7 @@ namespace Burkardt.Probability
             {
                 y = (x - a) / b;
 
-                pdf = 2.0 / (b * r8_pi) * Math.Sqrt(1.0 - y * y);
+                pdf = 2.0 / (b * Math.PI) * Math.Sqrt(1.0 - y * y);
             }
             else if (a + b < x)
             {
@@ -319,11 +319,11 @@ namespace Burkardt.Probability
         //    Output, double SEMICIRCULAR_SAMPLE, a sample of the PDF.
         //
         {
-            const double r8_pi = 3.14159265358979323;
+            
 
             double radius = UniformRNG.r8_uniform_01(ref seed);
             radius = b * Math.Sqrt(radius);
-            double angle = r8_pi * UniformRNG.r8_uniform_01(ref seed);
+            double angle = Math.PI * UniformRNG.r8_uniform_01(ref seed);
             double x = a + radius * Math.Cos(angle);
 
             return x;

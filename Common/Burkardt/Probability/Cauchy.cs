@@ -34,11 +34,11 @@ namespace Burkardt.Probability
         //    Output, double CDF, the value of the CDF.
         //
         {
-            const double r8_pi = 3.14159265358979323;
+            
 
             double y = (x - a) / b;
 
-            double cdf = 0.5 + Math.Atan(y) / r8_pi;
+            double cdf = 0.5 + Math.Atan(y) / Math.PI;
 
             return cdf;
         }
@@ -73,7 +73,7 @@ namespace Burkardt.Probability
         //    Output, double CAUCHY_CDF_INV, the corresponding argument.
         //
         {
-            const double r8_pi = 3.14159265358979323;
+            
 
             if (cdf < 0.0 || 1.0 < cdf)
             {
@@ -83,7 +83,7 @@ namespace Burkardt.Probability
                 return 1;
             }
 
-            double x = a + b * Math.Tan(r8_pi * (cdf - 0.5));
+            double x = a + b * Math.Tan(Math.PI * (cdf - 0.5));
 
             return x;
         }
@@ -350,11 +350,11 @@ namespace Burkardt.Probability
         //    Output, double PDF, the value of the PDF.
         //
         {
-            const double r8_pi = 3.14159265358979323;
+            
 
             double y = (x - a) / b;
 
-            double pdf = 1.0 / (r8_pi * b * (1.0 + y * y));
+            double pdf = 1.0 / (Math.PI * b * (1.0 + y * y));
 
             return pdf;
         }

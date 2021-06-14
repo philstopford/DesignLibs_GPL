@@ -64,7 +64,6 @@ namespace Burkardt.Types
             double hw;
             int k = 0;
             int nm = 0;
-            const double r8_pi = 3.141592653589793;
             double r;
 
             bool l0 = (c == (int) (c)) && (c < 0.0);
@@ -122,7 +121,7 @@ namespace Burkardt.Types
             }
             else if (1.0 + x <= eps && Math.Abs(c - a + b - 1.0) <= eps)
             {
-                double g0 = Math.Sqrt(r8_pi) * Math.Pow(2.0, -a);
+                double g0 = Math.Sqrt(Math.PI) * Math.Pow(2.0, -a);
                 double g1 = Helpers.Gamma(c);
                 double g2 = Helpers.Gamma(1.0 + a / 2.0 - b);
                 double g3 = Helpers.Gamma(0.5 + 0.5 * a);

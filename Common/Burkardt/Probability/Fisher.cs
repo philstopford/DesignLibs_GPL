@@ -81,7 +81,7 @@ namespace Burkardt.Probability
 
             double[] b = new double[NB];
             double pdf;
-            const double r8_pi = 3.141592653589793;
+            
 
             if (kappa < 0.0)
             {
@@ -94,7 +94,7 @@ namespace Burkardt.Probability
 
             if (kappa == 0.0)
             {
-                pdf = 1.0 / (4.0 * r8_pi);
+                pdf = 1.0 / (4.0 * Math.PI);
                 return pdf;
             }
 
@@ -103,7 +103,7 @@ namespace Burkardt.Probability
 
             Ribesl.ribesl(kappa, alpha, NB, ize, b);
 
-            double cf = Math.Sqrt(kappa) / (Math.Sqrt(Math.Pow(2.0 * r8_pi, 3)) * b[0]);
+            double cf = Math.Sqrt(kappa) / (Math.Sqrt(Math.Pow(2.0 * Math.PI, 3)) * b[0]);
 
             double mu_norm = typeMethods.r8vec_length(3, mu);
 
@@ -179,7 +179,7 @@ namespace Burkardt.Probability
             double lambda;
             double mu_norm;
             double[] phi;
-            const double r8_pi = 3.141592653589793;
+            
             double[] rst = new double[3];
             double[] theta;
             double[] xyz;
@@ -219,7 +219,7 @@ namespace Burkardt.Probability
 
             for (int k = 0; k < n; k++)
             {
-                phi[k] = 2.0 * r8_pi * phi[k];
+                phi[k] = 2.0 * Math.PI * phi[k];
             }
 
             //

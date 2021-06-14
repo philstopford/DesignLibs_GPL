@@ -320,11 +320,11 @@ namespace Burkardt.Probability
         //    Output, double STUDENT_PDF, the value of the PDF.
         //
         {
-            const double r8_pi = 3.14159265358979323;
+            
 
             double y = (x - a) / b;
 
-            double pdf = Helpers.Gamma(0.5 * (c + 1.0)) / (Math.Sqrt(r8_pi * c)
+            double pdf = Helpers.Gamma(0.5 * (c + 1.0)) / (Math.Sqrt(Math.PI * c)
                                                     * Helpers.Gamma(0.5 * c)
                                                     * Math.Sqrt(Math.Pow((1.0 + y * y / c), (2 * c + 1.0))));
 
@@ -488,7 +488,7 @@ namespace Burkardt.Probability
             double cdf2;
             double drb;
             double emin = 12.5;
-            const double r8_pi = 3.14159265358979323;
+            
 
             double f = (double) idf;
 
@@ -513,13 +513,13 @@ namespace Burkardt.Probability
                 {
                     cdf2 = Normal.normal_01_cdf(a * drb);
                     fmkm2 = a * Math.Sqrt(b) * Math.Exp(-0.5 * drb * drb) * cdf2
-                            / Math.Sqrt(2.0 * r8_pi);
+                            / Math.Sqrt(2.0 * Math.PI);
                 }
 
                 double fmkm1 = b * d * a * fmkm2;
                 if (Math.Abs(d) < emin)
                 {
-                    fmkm1 = fmkm1 + 0.5 * b * a * Math.Exp(-0.5 * d * d) / r8_pi;
+                    fmkm1 = fmkm1 + 0.5 * b * a * Math.Exp(-0.5 * d * d) / Math.PI;
                 }
 
                 if (idf % 2 == 0)
@@ -559,7 +559,7 @@ namespace Burkardt.Probability
                 if (idf % 2 == 0)
                 {
                     cdf2 = Normal.normal_01_cdf(d);
-                    cdf = 1.0 - cdf2 + sum2 * Math.Sqrt(2.0 * r8_pi);
+                    cdf = 1.0 - cdf2 + sum2 * Math.Sqrt(2.0 * Math.PI);
                 }
                 else
                 {

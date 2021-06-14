@@ -39,15 +39,15 @@ namespace Burkardt.Probability
         //
         {
             double cdf;
-            const double r8_pi = 3.14159265358979323;
+            
 
-            if (x <= a - r8_pi)
+            if (x <= a - Math.PI)
             {
                 cdf = 0.0;
             }
-            else if (x < a + r8_pi)
+            else if (x < a + Math.PI)
             {
-                cdf = (r8_pi + x - a + 2.0 * b * Math.Sin(x - a)) / (2.0 * r8_pi);
+                cdf = (Math.PI + x - a + 2.0 * b * Math.Sin(x - a)) / (2.0 * Math.PI);
             }
             else
             {
@@ -88,13 +88,13 @@ namespace Burkardt.Probability
         //    A - PI <= X <= A + PI.
         //
         {
-            const double r8_pi = 3.14159265358979323;
+            
             double tol = 0.000001;
             double x;
 
             if (cdf <= 0.0)
             {
-                x = a - r8_pi;
+                x = a - Math.PI;
             }
             else if (cdf < 1.0)
             {
@@ -104,7 +104,7 @@ namespace Burkardt.Probability
 
                 for (;;)
                 {
-                    double fx = cdf - (r8_pi + x - a + 2.0 * b * Math.Sin(x - a)) / (2.0 * r8_pi);
+                    double fx = cdf - (Math.PI + x - a + 2.0 * b * Math.Sin(x - a)) / (2.0 * Math.PI);
 
                     if (Math.Abs(fx) < tol)
                     {
@@ -119,18 +119,18 @@ namespace Burkardt.Probability
                         return 1;
                     }
 
-                    double fp = -(1.0 + 2.0 * b * Math.Cos(x - a)) / (2.0 * r8_pi);
+                    double fp = -(1.0 + 2.0 * b * Math.Cos(x - a)) / (2.0 * Math.PI);
 
                     x = x - fx / fp;
-                    x = Math.Max(x, a - r8_pi);
-                    x = Math.Min(x, a + r8_pi);
+                    x = Math.Max(x, a - Math.PI);
+                    x = Math.Min(x, a + Math.PI);
 
                     it = it + 1;
                 }
             }
             else
             {
-                x = a + r8_pi;
+                x = a + Math.PI;
             }
 
             return x;
@@ -251,9 +251,9 @@ namespace Burkardt.Probability
         //    Output, double CARDIOID_PDF, the value of the PDF.
         //
         {
-            const double r8_pi = 3.14159265358979323;
+            
 
-            double pdf = (1.0 + 2.0 * b * Math.Cos(x - a)) / (2.0 * r8_pi);
+            double pdf = (1.0 + 2.0 * b * Math.Cos(x - a)) / (2.0 * Math.PI);
 
             return pdf;
         }

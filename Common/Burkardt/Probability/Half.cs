@@ -159,9 +159,9 @@ namespace Burkardt.Probability
         //    Output, double HALF_NORMAL_MEAN, the mean of the PDF.
         //
         {
-            const double r8_pi = 3.14159265358979323;
+            
 
-            double mean = a + b * Math.Sqrt(2.0 / r8_pi);
+            double mean = a + b * Math.Sqrt(2.0 / Math.PI);
 
             return mean;
         }
@@ -207,7 +207,7 @@ namespace Burkardt.Probability
         //
         {
             double pdf;
-            const double r8_pi = 3.14159265358979323;
+            
 
             if (x <= a)
             {
@@ -217,7 +217,7 @@ namespace Burkardt.Probability
             {
                 double y = (x - a) / b;
 
-                pdf = Math.Sqrt(2.0 / r8_pi) * (1.0 / b) * Math.Exp(-0.5 * y * y);
+                pdf = Math.Sqrt(2.0 / Math.PI) * (1.0 / b) * Math.Exp(-0.5 * y * y);
             }
 
             return pdf;
@@ -286,9 +286,9 @@ namespace Burkardt.Probability
         //    Output, double HALF_NORMAL_VARIANCE, the variance of the PDF.
         //
         {
-            const double r8_pi = 3.14159265358979323;
+            
 
-            double variance = b * b * (1.0 - 2.0 / r8_pi);
+            double variance = b * b * (1.0 - 2.0 / Math.PI);
 
             return variance;
         }

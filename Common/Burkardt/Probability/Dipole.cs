@@ -35,10 +35,10 @@ namespace Burkardt.Probability
         //
         {
             double cdf;
-            const double r8_pi = 3.14159265358979323;
+            
 
-            cdf = 0.5 + (1.0 / r8_pi) * Math.Atan(x) + b * b * (x * Math.Cos(2.0 * a)
-                                                           - Math.Sin(2.0 * a)) / (r8_pi * (1.0 + x * x));
+            cdf = 0.5 + (1.0 / Math.PI) * Math.Atan(x) + b * b * (x * Math.Cos(2.0 * a)
+                                                           - Math.Sin(2.0 * a)) / (Math.PI * (1.0 + x * x));
 
             return cdf;
         }
@@ -266,12 +266,12 @@ namespace Burkardt.Probability
         //
         {
             double pdf;
-            const double r8_pi = 3.14159265358979323;
+            
 
-            pdf = 1.0 / (r8_pi * (1.0 + x * x))
+            pdf = 1.0 / (Math.PI * (1.0 + x * x))
                   + b * b * ((1.0 - x * x) * Math.Cos(2.0 * a)
                              + 2.0 * x * Math.Sin(2.0 * x))
-                  / (r8_pi * (1.0 + x * x) * (1.0 + x * x));
+                  / (Math.PI * (1.0 + x * x) * (1.0 + x * x));
 
             return pdf;
         }

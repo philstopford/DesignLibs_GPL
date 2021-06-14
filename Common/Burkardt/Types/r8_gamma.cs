@@ -88,7 +88,6 @@ namespace Burkardt.Types
                     6.64561438202405440627855E+04
                 }
                 ;
-            const double r8_pi = 3.1415926535897932384626434;
             double[] q =
                 {
                     -3.08402300119738975254353E+01,
@@ -133,7 +132,7 @@ namespace Burkardt.Types
                         parity = true;
                     }
 
-                    fact = -r8_pi / Math.Sin(r8_pi * res);
+                    fact = -Math.PI / Math.Sin(Math.PI * res);
                     y = y + one;
                 }
                 else

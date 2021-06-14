@@ -35,20 +35,20 @@ namespace Burkardt.Probability
         //
         {
             double cdf = 0;
-            const double r8_pi = 3.14159265358979323;
+            
             double y;
 
-            if (x <= a - r8_pi * b)
+            if (x <= a - Math.PI * b)
             {
                 cdf = 0.0;
             }
-            else if (x <= a + r8_pi * b)
+            else if (x <= a + Math.PI * b)
             {
                 y = (x - a) / b;
 
-                cdf = 0.5 + (y + Math.Sin(y)) / (2.0 * r8_pi);
+                cdf = 0.5 + (y + Math.Sin(y)) / (2.0 * Math.PI);
             }
-            else if (a + r8_pi * b < x)
+            else if (a + Math.PI * b < x)
             {
                 cdf = 1.0;
             }
@@ -91,7 +91,7 @@ namespace Burkardt.Probability
         //
         {
             int it_max = 100;
-            const double r8_pi = 3.14159265358979323;
+            
             double tol = 0.0001;
             double x;
 
@@ -105,19 +105,19 @@ namespace Burkardt.Probability
 
             if (cdf == 0.0)
             {
-                x = a - r8_pi * b;
+                x = a - Math.PI * b;
                 return x;
             }
             else if (1.0 == cdf)
             {
-                x = a + r8_pi * b;
+                x = a + Math.PI * b;
                 return x;
             }
 
-            double x1 = a - r8_pi * b;
+            double x1 = a - Math.PI * b;
             double cdf1 = 0.0;
 
-            double x2 = a + r8_pi * b;
+            double x2 = a + Math.PI * b;
             //
             //  Now use bisection.
             //
@@ -257,20 +257,20 @@ namespace Burkardt.Probability
         //
         {
             double pdf = 0;
-            const double r8_pi = 3.14159265358979323;
+            
             double y;
 
-            if (x < a - r8_pi * b)
+            if (x < a - Math.PI * b)
             {
                 pdf = 0.0;
             }
-            else if (x <= a + r8_pi * b)
+            else if (x <= a + Math.PI * b)
             {
                 y = (x - a) / b;
 
-                pdf = 1.0 / (2.0 * r8_pi * b) * Math.Cos(y);
+                pdf = 1.0 / (2.0 * Math.PI * b) * Math.Cos(y);
             }
-            else if (a + r8_pi * b < x)
+            else if (a + Math.PI * b < x)
             {
                 pdf = 0.0;
             }
@@ -341,9 +341,9 @@ namespace Burkardt.Probability
         //    Output, double VARIANCE, the variance of the PDF.
         //
         {
-            const double r8_pi = 3.14159265358979323;
+            
 
-            double variance = (r8_pi * r8_pi / 3.0 - 2.0) * b * b;
+            double variance = (Math.PI * Math.PI / 3.0 - 2.0) * b * b;
 
             return variance;
         }

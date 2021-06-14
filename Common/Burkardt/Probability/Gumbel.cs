@@ -205,9 +205,9 @@ namespace Burkardt.Probability
         //    Output, double GUMBEL_VARIANCE, the variance of the PDF.
         //
         {
-            const double r8_pi = 3.14159265358979323;
+            
 
-            double variance = r8_pi * r8_pi / 6.0;
+            double variance = Math.PI * Math.PI / 6.0;
 
             return variance;
         }

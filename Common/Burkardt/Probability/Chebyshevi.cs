@@ -32,7 +32,7 @@ namespace Burkardt.Probability
         //
         {
             double cdf;
-            const double r8_pi = 3.14159265358979323;
+            
 
             if (x < -1.0)
             {
@@ -44,7 +44,7 @@ namespace Burkardt.Probability
             }
             else
             {
-                cdf = 0.5 + Math.Asin(x) / r8_pi;
+                cdf = 0.5 + Math.Asin(x) / Math.PI;
             }
 
             return cdf;
@@ -77,7 +77,7 @@ namespace Burkardt.Probability
         //    Output, double CHEBYSHEV1_CDF_INV, the corresponding argument.
         //
         {
-            const double r8_pi = 3.14159265358979323;
+            
 
             if (cdf < 0.0 || 1.0 < cdf)
             {
@@ -87,7 +87,7 @@ namespace Burkardt.Probability
                 return 1;
             }
 
-            double x = Math.Sin(r8_pi * (cdf - 0.5));
+            double x = Math.Sin(Math.PI * (cdf - 0.5));
 
             return x;
         }
@@ -148,7 +148,7 @@ namespace Burkardt.Probability
         //
         {
             double pdf;
-            const double r8_pi = 3.14159265358979323;
+            
 
             if (x <= -1.0 || 1.0 <= x)
             {
@@ -156,7 +156,7 @@ namespace Burkardt.Probability
             }
             else
             {
-                pdf = 1.0 / r8_pi / Math.Sqrt(1.0 - x * x);
+                pdf = 1.0 / Math.PI / Math.Sqrt(1.0 - x * x);
             }
 
             return pdf;

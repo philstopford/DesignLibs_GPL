@@ -282,9 +282,9 @@ namespace Burkardt.Probability
         //
         {
             double mean;
-            const double r8_pi = 3.14159265358979323;
+            
 
-            mean = a * Math.Sqrt(0.5 * r8_pi);
+            mean = a * Math.Sqrt(0.5 * Math.PI);
 
             return mean;
         }
@@ -400,9 +400,9 @@ namespace Burkardt.Probability
         //    Output, double RAYLEIGH_VARIANCE, the variance of the PDF.
         //
         {
-            const double r8_pi = 3.14159265358979323;
+            
 
-            double variance = 2.0 * a * a * (1.0 - 0.25 * r8_pi);
+            double variance = 2.0 * a * a * (1.0 - 0.25 * Math.PI);
 
             return variance;
         }

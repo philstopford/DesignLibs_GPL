@@ -445,9 +445,9 @@ namespace Burkardt.Probability
         //    Output, double PDF, the value of the PDF.
         //
         {
-            const double r8_pi = 3.14159265358979323;
+            
 
-            double pdf = Math.Exp(-0.5 * x * x) / Math.Sqrt(2.0 * r8_pi);
+            double pdf = Math.Exp(-0.5 * x * x) / Math.Sqrt(2.0 * Math.PI);
 
             return pdf;
         }
@@ -486,11 +486,11 @@ namespace Burkardt.Probability
         //    Output, double NORMAL_01_SAMPLE, a normally distributed random value.
         //
         {
-            const double r8_pi = 3.14159265358979323;
+            
 
             double r1 = UniformRNG.r8_uniform_01(ref seed);
             double r2 = UniformRNG.r8_uniform_01(ref seed);
-            double x = Math.Sqrt(-2.0 * Math.Log(r1)) * Math.Cos(2.0 * r8_pi * r2);
+            double x = Math.Sqrt(-2.0 * Math.Log(r1)) * Math.Cos(2.0 * Math.PI * r2);
 
             return x;
         }
@@ -531,7 +531,7 @@ namespace Burkardt.Probability
         //    Output, double NORMAL_01_SAMPLES[N], the samples.
         //
         {
-            const double r8_pi = 3.14159265358979323;
+            
             double[] x;
 
             double[] r1 = UniformRNG.r8vec_uniform_01_new(n, ref seed);
@@ -540,7 +540,7 @@ namespace Burkardt.Probability
             x = new double[n];
             for (int i = 0; i < n; i++)
             {
-                x[i] = Math.Sqrt(-2.0 * Math.Log(r1[i])) * Math.Cos(2.0 * r8_pi * r2[i]);
+                x[i] = Math.Sqrt(-2.0 * Math.Log(r1[i])) * Math.Cos(2.0 * Math.PI * r2[i]);
             }
             return x;
         }
@@ -629,7 +629,7 @@ namespace Burkardt.Probability
         {
             int i;
             int m;
-            const double r8_pi = 3.14159265358979323;
+            
             double[] r;
 
             double[] x = new double[n];
@@ -645,7 +645,7 @@ namespace Burkardt.Probability
             {
                 r = UniformRNG.r8vec_uniform_01_new(2, ref seed);
 
-                x[x_hi - 1] = Math.Sqrt(-2.0 * Math.Log(r[0])) * Math.Cos(2.0 * r8_pi * r[1]);
+                x[x_hi - 1] = Math.Sqrt(-2.0 * Math.Log(r[0])) * Math.Cos(2.0 * Math.PI * r[1]);
             }
             //
             //  If we require an even number of values, that's easy.
@@ -658,8 +658,8 @@ namespace Burkardt.Probability
 
                 for (i = 0; i <= 2 * m - 2; i = i + 2)
                 {
-                    x[x_lo + i - 1] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Cos(2.0 * r8_pi * r[i + 1]);
-                    x[x_lo + i] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Sin(2.0 * r8_pi * r[i + 1]);
+                    x[x_lo + i - 1] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Cos(2.0 * Math.PI * r[i + 1]);
+                    x[x_lo + i] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Sin(2.0 * Math.PI * r[i + 1]);
                 }
             }
             //
@@ -676,13 +676,13 @@ namespace Burkardt.Probability
 
                 for (i = 0; i <= 2 * m - 4; i = i + 2)
                 {
-                    x[x_lo + i - 1] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Cos(2.0 * r8_pi * r[i + 1]);
-                    x[x_lo + i] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Sin(2.0 * r8_pi * r[i + 1]);
+                    x[x_lo + i - 1] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Cos(2.0 * Math.PI * r[i + 1]);
+                    x[x_lo + i] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Sin(2.0 * Math.PI * r[i + 1]);
                 }
 
                 i = 2 * m - 2;
 
-                x[x_lo + i - 1] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Cos(2.0 * r8_pi * r[i + 1]);
+                x[x_lo + i - 1] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Cos(2.0 * Math.PI * r[i + 1]);
 
             }
 
@@ -1030,11 +1030,11 @@ namespace Burkardt.Probability
         //    Output, double PDF, the value of the PDF.
         //
         {
-            const double r8_pi = 3.14159265358979323;
+            
 
             double y = (x - mu) / sigma;
 
-            double pdf = Math.Exp(-0.5 * y * y) / Math.Sqrt(2.0 * r8_pi * sigma * sigma);
+            double pdf = Math.Exp(-0.5 * y * y) / Math.Sqrt(2.0 * Math.PI * sigma * sigma);
 
             return pdf;
         }

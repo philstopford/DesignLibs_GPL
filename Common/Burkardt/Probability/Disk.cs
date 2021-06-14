@@ -71,13 +71,13 @@ namespace Burkardt.Probability
         //    Output, double DISK_SAMPLE[2], a sampled point of the disk.
         //
         {
-            const double r8_pi = 3.14159265358979323;
+            
 
             double[] x = new double[2];
 
             double radius_frac = Math.Sqrt(UniformRNG.r8_uniform_01(ref seed));
 
-            double angle = 2.0 * r8_pi * UniformRNG.r8_uniform_01(ref seed);
+            double angle = 2.0 * Math.PI * UniformRNG.r8_uniform_01(ref seed);
 
             x[0] = a + c * radius_frac * Math.Cos(angle);
             x[1] = b + c * radius_frac * Math.Sin(angle);

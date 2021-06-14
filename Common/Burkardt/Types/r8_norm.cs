@@ -39,7 +39,6 @@ namespace Burkardt.Types
             //    Output, double R8_NORMAL_01, a normally distributed random value.
             //
         {
-            double pi = 3.141592653589793;
             int seed2 = 0;
             int used = 0;
             double x;
@@ -54,8 +53,8 @@ namespace Burkardt.Types
                 seed2 = seed;
                 double r2 = UniformRNG.r8_uniform_01(ref seed2);
 
-                x = Math.Sqrt(-2.0 * Math.Log(r1)) * Math.Cos(2.0 * pi * r2);
-                y = Math.Sqrt(-2.0 * Math.Log(r1)) * Math.Sin(2.0 * pi * r2);
+                x = Math.Sqrt(-2.0 * Math.Log(r1)) * Math.Cos(2.0 * Math.PI * r2);
+                y = Math.Sqrt(-2.0 * Math.Log(r1)) * Math.Sin(2.0 * Math.PI * r2);
             }
             else
             {

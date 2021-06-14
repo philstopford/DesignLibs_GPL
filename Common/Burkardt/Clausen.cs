@@ -111,7 +111,6 @@ namespace Burkardt
                 0.00000000000000000002
             }
             ;
-            const double r8_pi = 3.141592653589793;
             int n1 = 19;
             int n2 = 30;
             double value;
@@ -123,22 +122,22 @@ namespace Burkardt
             //
             //  The function is periodic.  Wrap X into [-pi/2, 3pi/2].
             //
-            xa = -0.5 * r8_pi;
-            xb = 0.5 * r8_pi;
-            xc = 1.5 * r8_pi;
+            xa = -0.5 * Math.PI;
+            xb = 0.5 * Math.PI;
+            xc = 1.5 * Math.PI;
             x2 = typeMethods.r8_wrap(x, xa, xc);
             //
             //  Choose the appropriate expansion.
             //
             if (x2 < xb)
             {
-                x3 = 2.0 * x2 / r8_pi;
+                x3 = 2.0 * x2 / Math.PI;
                 value = x2 - x2 * Math.Log(Math.Abs(x2))
                         + 0.5 * Math.Pow(x2, 3) * Correlation.r8_csevl(x3, c1, n1);
             }
             else
             {
-                x3 = 2.0 * x2 / r8_pi - 2.0;
+                x3 = 2.0 * x2 / Math.PI - 2.0;
                 value = Correlation.r8_csevl(x3, c2, n2);
             }
 

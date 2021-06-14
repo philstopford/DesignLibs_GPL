@@ -28,15 +28,15 @@ namespace Burkardt.Probability
         //
         {
             double cdf;
-            const double r8_pi = 3.14159265358979323;
+            
 
-            if (x < -0.25 * r8_pi)
+            if (x < -0.25 * Math.PI)
             {
                 cdf = 0.0;
             }
-            else if (x < 0.25 * r8_pi)
+            else if (x < 0.25 * Math.PI)
             {
-                cdf = 0.5 - 0.5 * Math.Cos(2.0 * x + r8_pi / 2.0);
+                cdf = 0.5 - 0.5 * Math.Cos(2.0 * x + Math.PI / 2.0);
             }
             else
             {
@@ -69,9 +69,6 @@ namespace Burkardt.Probability
         //    Output, double ANGLIT_CDF_INV, the corresponding argument.
         //
         {
-            const double r8_pi = 3.14159265358979323;
-            double x;
-
             if (cdf < 0.0 || 1.0 < cdf)
             {
                 Console.WriteLine("");
@@ -80,7 +77,7 @@ namespace Burkardt.Probability
                 return 1.0;
             }
 
-            x = 0.5 * (Math.Acos(1.0 - 2.0 * cdf) - r8_pi / 2.0);
+            double x = 0.5 * (Math.Acos(1.0 - 2.0 * cdf) - Math.PI / 2.0);
 
             return x;
         }
@@ -135,15 +132,15 @@ namespace Burkardt.Probability
         //
         {
             double pdf;
-            const double r8_pi = 3.14159265358979323;
+            
 
-            if (x <= -0.25 * r8_pi || 0.25 * r8_pi <= x)
+            if (x <= -0.25 * Math.PI || 0.25 * Math.PI <= x)
             {
                 pdf = 0.0;
             }
             else
             {
-                pdf = Math.Sin(2.0 * x + 0.25 * r8_pi);
+                pdf = Math.Sin(2.0 * x + 0.25 * Math.PI);
             }
 
             return pdf;
@@ -171,12 +168,9 @@ namespace Burkardt.Probability
         //    Output, double ANGLIT_SAMPLE, a sample of the PDF.
         //
         {
-            double cdf;
-            double x;
+            double cdf = UniformRNG.r8_uniform_01(ref seed);
 
-            cdf = UniformRNG.r8_uniform_01(ref seed);
-
-            x = anglit_cdf_inv(cdf);
+            double x = anglit_cdf_inv(cdf);
 
             return x;
         }
@@ -210,10 +204,7 @@ namespace Burkardt.Probability
         //    Output, double ANGLIT_VARIANCE, the variance of the PDF.
         //
         {
-            const double r8_pi = 3.14159265358979323;
-            double variance;
-
-            variance = 0.0625 * r8_pi * r8_pi - 0.5;
+            double variance = 0.0625 * Math.PI * Math.PI - 0.5;
 
             return variance;
         }

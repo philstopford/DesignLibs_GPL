@@ -74,12 +74,12 @@ namespace Burkardt.Probability
         //
         {
             double cdf;
-            const double r8_pi = 3.14159265358979323;
+            
             double y;
 
             y = (x - a) / b;
 
-            cdf = 2.0 * Math.Atan(Math.Exp(y)) / r8_pi;
+            cdf = 2.0 * Math.Atan(Math.Exp(y)) / Math.PI;
 
             return cdf;
         }
@@ -114,7 +114,7 @@ namespace Burkardt.Probability
         //
         {
             const double r8_huge = 1.0E+30;
-            const double r8_pi = 3.14159265358979323;
+            
             double x = 0;
 
             if (cdf < 0.0 || 1.0 < cdf)
@@ -131,7 +131,7 @@ namespace Burkardt.Probability
             }
             else if (cdf < 1.0)
             {
-                x = a + b * Math.Log(Math.Tan(0.5 * r8_pi * cdf));
+                x = a + b * Math.Log(Math.Tan(0.5 * Math.PI * cdf));
             }
             else if (1.0 == cdf)
             {
@@ -244,11 +244,11 @@ namespace Burkardt.Probability
         //    Output, double SECH_PDF, the value of the PDF.
         //
         {
-            const double r8_pi = 3.14159265358979323;
+            
 
             double y = (x - a) / b;
 
-            double pdf = sech(y) / (r8_pi * b);
+            double pdf = sech(y) / (Math.PI * b);
 
             return pdf;
         }
@@ -282,11 +282,11 @@ namespace Burkardt.Probability
         //    Output, double SECH_SAMPLE, a sample of the PDF.
         //
         {
-            const double r8_pi = 3.14159265358979323;
+            
 
             double cdf = UniformRNG.r8_uniform_01(ref seed);
 
-            double x = a + b * Math.Log(Math.Tan(0.5 * r8_pi * cdf));
+            double x = a + b * Math.Log(Math.Tan(0.5 * Math.PI * cdf));
 
             return x;
         }
@@ -318,9 +318,9 @@ namespace Burkardt.Probability
         //    Output, double SECH_VARIANCE, the variance of the PDF.
         //
         {
-            const double r8_pi = 3.14159265358979323;
+            
 
-            double variance = 0.25 * r8_pi * r8_pi * b * b;
+            double variance = 0.25 * Math.PI * Math.PI * b * b;
 
             return variance;
         }

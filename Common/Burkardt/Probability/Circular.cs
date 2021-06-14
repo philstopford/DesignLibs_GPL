@@ -67,9 +67,9 @@ namespace Burkardt.Probability
         //    Output, double CIRCULAR_NORMAL_01_PDF, the value of the PDF.
         //
         {
-            const double r8_pi = 3.14159265358979323;
+            
 
-            double pdf = Math.Exp(-0.5 * (x[0] * x[0] + x[1] * x[1])) / (2.0 * r8_pi);
+            double pdf = Math.Exp(-0.5 * (x[0] * x[0] + x[1] * x[1])) / (2.0 * Math.PI);
 
             return pdf;
         }
@@ -100,15 +100,15 @@ namespace Burkardt.Probability
         //    Output, double CIRCULAR_NORMAL_01_SAMPLE[2], a sample of the PDF.
         //
         {
-            const double r8_pi = 3.14159265358979323;
+            
 
             double[] x = new double[2];
 
             double v1 = UniformRNG.r8_uniform_01(ref seed);
             double v2 = UniformRNG.r8_uniform_01(ref seed);
 
-            x[0] = Math.Sqrt(-2.0 *Math.Log(v1)) * Math.Cos(2.0 * r8_pi * v2);
-            x[1] = Math.Sqrt(-2.0 * Math.Log(v1)) * Math.Sin(2.0 * r8_pi * v2);
+            x[0] = Math.Sqrt(-2.0 *Math.Log(v1)) * Math.Cos(2.0 * Math.PI * v2);
+            x[1] = Math.Sqrt(-2.0 * Math.Log(v1)) * Math.Sin(2.0 * Math.PI * v2);
 
             return x;
         }
@@ -218,12 +218,12 @@ namespace Burkardt.Probability
         {
             double d;
             double pdf;
-            const double r8_pi = 3.14159265358979323;
+            
 
             d = (Math.Pow(x[0] - a[0], 2)
                  + Math.Pow(x[1] - a[1], 2)) / Math.Pow(b, 2);
 
-            pdf = Math.Exp(-0.5 * d) / (2.0 * b * b * r8_pi);
+            pdf = Math.Exp(-0.5 * d) / (2.0 * b * b * Math.PI);
 
             return pdf;
         }
@@ -258,7 +258,7 @@ namespace Burkardt.Probability
         //    Output, double CIRCULAR_NORMAL_SAMPLE[2], a sample of the PDF.
         //
         {
-            const double r8_pi = 3.14159265358979323;
+            
 
             double[] x = new double[2];
 
@@ -267,8 +267,8 @@ namespace Burkardt.Probability
 
             double r = Math.Sqrt(-2.0 * Math.Log(v1));
 
-            x[0] = a[0] + b * r * Math.Cos(2.0 * r8_pi * v2);
-            x[1] = a[1] + b * r * Math.Sin(2.0 * r8_pi * v2);
+            x[0] = a[0] + b * r * Math.Cos(2.0 * Math.PI * v2);
+            x[1] = a[1] + b * r * Math.Sin(2.0 * Math.PI * v2);
 
             return x;
         }

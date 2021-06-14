@@ -154,18 +154,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Exactness/Chebyshev1.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Integral/Chebyshev2.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Integral/Gegenbauer.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Exactness/Gegenbauer.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Exactness/Chebyshev2.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Integral/Hermite.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Exactness/Hermite.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Integral/Laguerre.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Exactness/Laguerre.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Integral/Legendre.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Exactness/Legendre.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/ExactnessTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CNF.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/misc.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/CNFTest/Program.cs" />
@@ -205,6 +193,18 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/Triangle.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/Walk.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/RandomDataTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8_norm.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8_gamma.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_norm.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Clausen.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/ClenshawCurtis.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8_factorial.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8_hyper.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Angle.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Anglit.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Arcsin.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Cardioid.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />

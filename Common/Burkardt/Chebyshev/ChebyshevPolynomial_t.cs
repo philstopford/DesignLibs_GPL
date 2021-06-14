@@ -1009,14 +1009,14 @@ namespace Burkardt.ChebyshevPolynomialNS
         {
             double angle;
             int i;
-            const double r8_pi = 3.141592653589793;
+            
             double[] z;
 
             z = new double[n];
 
             for (i = 1; i <= n; i++)
             {
-                angle = (double) (2 * i - 1) * r8_pi / (double) (2 * n);
+                angle = (double) (2 * i - 1) * Math.PI / (double) (2 * n);
                 z[i - 1] = Math.Cos(angle);
             }
 
@@ -1066,7 +1066,7 @@ namespace Burkardt.ChebyshevPolynomialNS
             double fac;
             int j;
             int k;
-            const double r8_pi = 3.141592653589793;
+            
             double total;
             double y;
 
@@ -1074,7 +1074,7 @@ namespace Burkardt.ChebyshevPolynomialNS
 
             for (k = 0; k <= n; k++)
             {
-                y = Math.Cos(r8_pi * ((double) (k) + 0.5) / (double) (n + 1));
+                y = Math.Cos(Math.PI * ((double) (k) + 0.5) / (double) (n + 1));
                 d[k] = f(y);
             }
 
@@ -1087,7 +1087,7 @@ namespace Burkardt.ChebyshevPolynomialNS
                 total = 0.0;
                 for (k = 0; k <= n; k++)
                 {
-                    total = total + d[k] * Math.Cos((r8_pi * (double) (j))
+                    total = total + d[k] * Math.Cos((Math.PI * (double) (j))
                                                * (((double) (k) + 0.5) / (double) (n + 1)));
                 }
 
@@ -1449,7 +1449,7 @@ namespace Burkardt.ChebyshevPolynomialNS
         {
             double[] bj;
             int i;
-            const double r8_pi = 3.141592653589793;
+            
 
             for (i = 0; i < n; i++)
             {
@@ -1463,7 +1463,7 @@ namespace Burkardt.ChebyshevPolynomialNS
                 bj[i] = 0.5;
             }
 
-            w[0] = Math.Sqrt(r8_pi);
+            w[0] = Math.Sqrt(Math.PI);
             for (i = 1; i < n; i++)
             {
                 w[i] = 0.0;

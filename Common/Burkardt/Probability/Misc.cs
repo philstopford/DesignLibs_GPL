@@ -168,12 +168,12 @@ namespace Burkardt.Probability
             double area;
             int i;
             int m;
-            const double r8_pi = 3.141592653589793;
+            
 
             if ((dim_num % 2) == 0)
             {
                 m = dim_num / 2;
-                area = 2.0 * Math.Pow(r8_pi, m);
+                area = 2.0 * Math.Pow(Math.PI, m);
                 for (i = 1; i <= m - 1; i++)
                 {
                     area = area / ((double) i);
@@ -182,7 +182,7 @@ namespace Burkardt.Probability
             else
             {
                 m = (dim_num - 1) / 2;
-                area = Math.Pow(2.0, dim_num) * Math.Pow(r8_pi, m);
+                area = Math.Pow(2.0, dim_num) * Math.Pow(Math.PI, m);
                 for (i = m + 1; i <= 2 * m; i++)
                 {
                     area = area / ((double) i);

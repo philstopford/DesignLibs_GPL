@@ -73,7 +73,6 @@ namespace Burkardt.Probability
         //
         {
             double pdf;
-            const double r8_pi = 3.141592653589793238462643;
 
             if (a < 0.0)
             {
@@ -121,7 +120,7 @@ namespace Burkardt.Probability
                 return 1;
             }
 
-            pdf = (2.0 * l * (a + b) - l * l) / (r8_pi * a * b);
+            pdf = (2.0 * l * (a + b) - l * l) / (Math.PI * a * b);
 
             return pdf;
         }
@@ -207,7 +206,6 @@ namespace Burkardt.Probability
         //    crossed at least one line of the grid of cells.
         //
         {
-            const double r8_pi = 3.141592653589793238462643;
 
             int hits = 0;
 
@@ -221,7 +219,7 @@ namespace Burkardt.Probability
                 //
                 double x1 = a * UniformRNG.r8_uniform_01(ref seed);
                 double y1 = b * UniformRNG.r8_uniform_01(ref seed);
-                double angle = 2.0 * r8_pi * UniformRNG.r8_uniform_01(ref seed);
+                double angle = 2.0 * Math.PI * UniformRNG.r8_uniform_01(ref seed);
                 //
                 //  Compute the location of the point of the needle.
                 //
@@ -297,7 +295,6 @@ namespace Burkardt.Probability
         //
         {
             double pdf;
-            const double r8_pi = 3.141592653589793238462643;
 
             if (a < 0.0)
             {
@@ -325,7 +322,7 @@ namespace Burkardt.Probability
                 return pdf;
             }
 
-            pdf = (2.0 * l) / (r8_pi * a);
+            pdf = (2.0 * l) / (Math.PI * a);
 
             return pdf;
         }
@@ -396,7 +393,6 @@ namespace Burkardt.Probability
         //    crossed at least one line of the grid of cells.
         //
         {
-            const double r8_pi = 3.141592653589793238462643;
 
             int hits = 0;
 
@@ -409,7 +405,7 @@ namespace Burkardt.Probability
                 //  in [0,0]x[A,0], and the angle the needle makes.
                 //
                 double x1 = a * UniformRNG.r8_uniform_01(ref seed); // (double) rand() / (double) RAND_MAX;
-                double angle = 2.0 * r8_pi * UniformRNG.r8_uniform_01(ref seed); // (double) rand() / (double) RAND_MAX;
+                double angle = 2.0 * Math.PI * UniformRNG.r8_uniform_01(ref seed); // (double) rand() / (double) RAND_MAX;
                 //
                 //  Compute the location of the point of the needle.
                 //  We only need to know the value of X2, not Y2!

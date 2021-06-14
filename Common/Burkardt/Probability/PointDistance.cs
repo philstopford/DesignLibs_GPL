@@ -139,7 +139,7 @@ namespace Burkardt.Probability
 //
         {
             double pdf;
-            const double r8_pi = 3.14159265358979323;
+            
 
             if (a < 1)
             {
@@ -163,8 +163,8 @@ namespace Burkardt.Probability
             }
             else
             {
-                pdf = 2.0 * Math.Pow(b * r8_pi, a) * Math.Pow(x, 2 * a - 1)
-                    * Math.Exp(-b * r8_pi * x * x) / typeMethods.r8_factorial(a - 1);
+                pdf = 2.0 * Math.Pow(b * Math.PI, a) * Math.Pow(x, 2 * a - 1)
+                    * Math.Exp(-b * Math.PI * x * x) / typeMethods.r8_factorial(a - 1);
             }
 
             return pdf;
@@ -226,7 +226,7 @@ namespace Burkardt.Probability
 //
         {
             double pdf;
-            const double r8_pi = 3.14159265358979323;
+            
 
             if (a < 1)
             {
@@ -250,8 +250,8 @@ namespace Burkardt.Probability
             }
             else
             {
-                pdf = 3.0 * Math.Pow(((4.0 / 3.0) * b * r8_pi), a)
-                          * Math.Pow(x, 3 * a - 1) * Math.Exp(-(4.0 / 3.0) * b * r8_pi * x * x * x)
+                pdf = 3.0 * Math.Pow(((4.0 / 3.0) * b * Math.PI), a)
+                          * Math.Pow(x, 3 * a - 1) * Math.Exp(-(4.0 / 3.0) * b * Math.PI * x * x * x)
                       / typeMethods.r8_factorial(a - 1);
             }
 

@@ -287,9 +287,9 @@ namespace Burkardt.Probability
         //    Output, double VARIANCE, the variance of the PDF.
         //
         {
-            const double r8_pi = 3.14159265358979323;
+            
 
-            double variance = b * b * (r8_pi * r8_pi / 6.0 + Misc.trigamma(c));
+            double variance = b * b * (Math.PI * Math.PI / 6.0 + Misc.trigamma(c));
 
             return variance;
         }

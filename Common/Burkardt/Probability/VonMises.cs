@@ -64,7 +64,7 @@ namespace Burkardt.Probability
             int ip;
             int n;
             double p;
-            const double r8_pi = 3.14159265358979323;
+            
             double r;
             double s;
             double sn;
@@ -75,13 +75,13 @@ namespace Burkardt.Probability
             //
             //  We expect -PI <= X - A <= PI.
             //
-            if (x - a <= -r8_pi)
+            if (x - a <= -Math.PI)
             {
                 cdf = 0.0;
                 return cdf;
             }
 
-            if (r8_pi <= x - a)
+            if (Math.PI <= x - a)
             {
                 cdf = 1.0;
                 return cdf;
@@ -92,14 +92,14 @@ namespace Burkardt.Probability
             //
             z = b;
 
-            u = typeMethods.r8_modp(x - a + r8_pi, 2.0 * r8_pi);
+            u = typeMethods.r8_modp(x - a + Math.PI, 2.0 * Math.PI);
 
             if (u < 0.0)
             {
-                u = u + 2.0 * r8_pi;
+                u = u + 2.0 * Math.PI;
             }
 
-            y = u - r8_pi;
+            y = u - Math.PI;
             //
             //  For small B, sum IP terms by backwards recursion.
             //
@@ -130,7 +130,7 @@ namespace Burkardt.Probability
                     }
                 }
 
-                cdf = (u * 0.5 + v) / r8_pi;
+                cdf = (u * 0.5 + v) / Math.PI;
             }
             //
             //  For large B, compute the normal approximation and left tail.
@@ -195,7 +195,7 @@ namespace Burkardt.Probability
             double cdf3;
             int it;
             int it_max = 100;
-            const double r8_pi = 3.14159265358979323;
+            
             double tol = 0.0001;
             double x;
             double x1;
@@ -212,19 +212,19 @@ namespace Burkardt.Probability
 
             if (cdf == 0.0)
             {
-                x = a - r8_pi;
+                x = a - Math.PI;
                 return x;
             }
             else if (1.0 == cdf)
             {
-                x = a + r8_pi;
+                x = a + Math.PI;
                 return x;
             }
 
-            x1 = a - r8_pi;
+            x1 = a - Math.PI;
             cdf1 = 0.0;
 
-            x2 = a + r8_pi;
+            x2 = a + Math.PI;
             //
             //  Now use bisection.
             //
@@ -467,9 +467,9 @@ namespace Burkardt.Probability
         //    Output, bool VON_MISES_CHECK, is true if the parameters are legal.
         //
         {
-            const double r8_pi = 3.14159265358979323;
+            
 
-            if (a < -r8_pi || r8_pi < a)
+            if (a < -Math.PI || Math.PI < a)
             {
                 Console.WriteLine(" ");
                 Console.WriteLine("VON_MISES_CHECK - Warning!");
@@ -615,15 +615,15 @@ namespace Burkardt.Probability
         //
         {
             double pdf;
-            const double r8_pi = 3.14159265358979323;
+            
 
-            if (x < a - r8_pi)
+            if (x < a - Math.PI)
             {
                 pdf = 0.0;
             }
-            else if (x <= a + r8_pi)
+            else if (x <= a + Math.PI)
             {
-                pdf = Math.Exp(b * Math.Cos(x - a)) / (2.0 * r8_pi * Bessel.bessel_i0(b));
+                pdf = Math.Exp(b * Math.Cos(x - a)) / (2.0 * Math.PI * Bessel.bessel_i0(b));
             }
             else
             {
@@ -672,7 +672,7 @@ namespace Burkardt.Probability
         {
             double c;
             double f;
-            const double r8_pi = 3.14159265358979323;
+            
             double r;
             double rho;
             double tau;
@@ -689,7 +689,7 @@ namespace Burkardt.Probability
             for (;;)
             {
                 u1 = UniformRNG.r8_uniform_01(ref seed);
-                z = Math.Cos(r8_pi * u1);
+                z = Math.Cos(Math.PI * u1);
                 f = (1.0 + r * z) / (r + z);
                 c = b * (r - f);
 

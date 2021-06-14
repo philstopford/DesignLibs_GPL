@@ -82,8 +82,6 @@ namespace Burkardt.Types
             //    Output, double R8_FACTORIAL_STIRLING, an approximation to N!.
             //
         {
-            const double r8_e = 2.71828182845904523;
-            const double r8_pi = 3.14159265358979323;
             double value;
 
             if (n < 0)
@@ -96,8 +94,8 @@ namespace Burkardt.Types
             }
             else
             {
-                value = Math.Sqrt(2.0 * r8_pi * (double) (n))
-                        * Math.Pow((double) (n) / r8_e, n)
+                value = Math.Sqrt(2.0 * Math.PI * (double) (n))
+                        * Math.Pow((double) (n) / Math.E, n)
                         * Math.Exp(1.0 / (double) (12 * n));
             }
 

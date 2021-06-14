@@ -36,7 +36,6 @@ namespace Burkardt.Probability
         //
         {
             double cdf;
-            const double r8_pi = 3.14159265358979323;
             double zero = 0.0;
 
             if (n < 2)
@@ -52,19 +51,19 @@ namespace Burkardt.Probability
             {
                 cdf = 0.0;
             }
-            else if (r8_pi < x)
+            else if (Math.PI < x)
             {
                 cdf = 1.0;
             }
             else if (n == 2)
             {
-                cdf = x / r8_pi;
+                cdf = x / Math.PI;
             }
             else
             {
                 cdf = Misc.sin_power_int(zero, x, n - 2)
                       * Helpers.Gamma((double) (n) / 2.0)
-                      / (Math.Sqrt(r8_pi) * Helpers.Gamma((double) (n - 1) / 2.0));
+                      / (Math.Sqrt(Math.PI) * Helpers.Gamma((double) (n - 1) / 2.0));
             }
 
             return cdf;
@@ -94,9 +93,8 @@ namespace Burkardt.Probability
         //
         {
             double mean;
-            const double r8_pi = 3.14159265358979323;
 
-            mean = r8_pi / 2.0;
+            mean = Math.PI / 2.0;
 
             return mean;
         }
@@ -148,7 +146,6 @@ namespace Burkardt.Probability
         //
         {
             double pdf;
-            const double r8_pi = 3.14159265358979323;
 
             if (n < 2)
             {
@@ -159,19 +156,19 @@ namespace Burkardt.Probability
                 return 1.0;
             }
 
-            if (x < 0.0 || r8_pi < x)
+            if (x < 0.0 || Math.PI < x)
             {
                 pdf = 0.0;
             }
             else if (n == 2)
             {
-                pdf = 1.0 / r8_pi;
+                pdf = 1.0 / Math.PI;
             }
             else
             {
                 pdf = Math.Pow((Math.Sin(x)), (n - 2))
                       * Helpers.Gamma((double) (n) / 2.0)
-                      / (Math.Sqrt(r8_pi) * Helpers.Gamma((double) (n - 1) / 2.0));
+                      / (Math.Sqrt(Math.PI) * Helpers.Gamma((double) (n - 1) / 2.0));
             }
             
             return pdf;

@@ -31,9 +31,9 @@ namespace Burkardt.Probability
         //    Output, double LORENTZ_CDF, the value of the CDF.
         //
         {
-            const double r8_pi = 3.14159265358979323;
+            
 
-            double cdf = 0.5 + Math.Atan(x) / r8_pi;
+            double cdf = 0.5 + Math.Atan(x) / Math.PI;
 
             return cdf;
         }
@@ -65,7 +65,7 @@ namespace Burkardt.Probability
         //    Output, double LORENTZ_CDF_INV, the corresponding argument.
         //
         {
-            const double r8_pi = 3.14159265358979323;
+            
 
             if (cdf < 0.0 || 1.0 < cdf)
             {
@@ -75,7 +75,7 @@ namespace Burkardt.Probability
                 return (1);
             }
 
-            double x = Math.Tan(r8_pi * (cdf - 0.5));
+            double x = Math.Tan(Math.PI * (cdf - 0.5));
 
             return x;
         }
@@ -145,9 +145,9 @@ namespace Burkardt.Probability
         //    Output, double LORENTZ_PDF, the value of the PDF.
         //
         {
-            const double r8_pi = 3.14159265358979323;
+            
 
-            double pdf = 1.0 / (r8_pi * (1.0 + x * x));
+            double pdf = 1.0 / (Math.PI * (1.0 + x * x));
 
             return pdf;
         }

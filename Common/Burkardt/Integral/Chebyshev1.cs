@@ -1,4 +1,6 @@
-﻿namespace Burkardt.IntegralNS
+﻿using System;
+
+namespace Burkardt.IntegralNS
 {
     public static partial class Integral
     {
@@ -38,7 +40,7 @@
             double bot;
             double exact;
             int i;
-            const double r8_pi = 3.141592653589793;
+            
             double top;
             //
             //  Get the exact value of the integral.
@@ -53,7 +55,7 @@
                     bot = bot *   i;
                 }
 	
-                exact = r8_pi * ( double ) ( top ) / ( double ) ( bot );
+                exact = Math.PI * ( double ) ( top ) / ( double ) ( bot );
             }
             else
             {

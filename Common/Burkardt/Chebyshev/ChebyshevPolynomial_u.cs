@@ -100,7 +100,7 @@ namespace Burkardt.ChebyshevPolynomialNS
         {
             double arg1;
             double arg2;
-            const double r8_pi = 3.141592653589793;
+            
             double value;
 
             if ((e % 2) == 1)
@@ -111,7 +111,7 @@ namespace Burkardt.ChebyshevPolynomialNS
             {
                 arg1 = 0.5 * (double) (1 + e);
                 arg2 = 2.0 + 0.5 * (double) (e);
-                value = 0.5 * Math.Sqrt(r8_pi) * Helpers.Gamma(arg1) / Helpers.Gamma(arg2);
+                value = 0.5 * Math.Sqrt(Math.PI) * Helpers.Gamma(arg1) / Helpers.Gamma(arg2);
             }
 
             return value;
@@ -949,7 +949,7 @@ namespace Burkardt.ChebyshevPolynomialNS
         {
             double[] bj;
             int i;
-            const double r8_pi = 3.141592653589793;
+            
 
             for (i = 0; i < n; i++)
             {
@@ -962,7 +962,7 @@ namespace Burkardt.ChebyshevPolynomialNS
                 bj[i] = 0.5;
             }
 
-            w[0] = Math.Sqrt(r8_pi / 2.0);
+            w[0] = Math.Sqrt(Math.PI / 2.0);
             for (i = 1; i < n; i++)
             {
                 w[i] = 0.0;
@@ -1045,7 +1045,7 @@ namespace Burkardt.ChebyshevPolynomialNS
             //    Output, double UU_PRODUCT_INTEGRAL, the value of the integral.
             //
         {
-            const double r8_pi = 3.141592653589793;
+            
             double value;
 
             if (i < 0)
@@ -1070,7 +1070,7 @@ namespace Burkardt.ChebyshevPolynomialNS
             }
             else
             {
-                value = r8_pi / 2.0;
+                value = Math.PI / 2.0;
             }
 
             return value;

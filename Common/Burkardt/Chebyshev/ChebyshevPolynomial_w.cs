@@ -113,17 +113,17 @@ namespace Burkardt.ChebyshevPolynomialNS
             double f7;
             double f8;
             double r8_e;
-            const double r8_pi = 3.141592653589793;
+            
             double value;
 
             r8_e = (double) (e);
 
             f1 = 1.0 / Helpers.Gamma(1.5 + r8_e);
             f2 = typeMethods.r8_mop(e);
-            f3 = r8_pi * Helpers.Gamma(1.5 + r8_e);
+            f3 = Math.PI * Helpers.Gamma(1.5 + r8_e);
             f4 = 2.0 * typeMethods.r8_mop(e) * typeMethods.r8_hyper_2f1(0.5, -r8_e, 1.0, 2.0);
             f5 = (-1.0 + typeMethods.r8_mop(e)) * typeMethods.r8_hyper_2f1(0.5, -r8_e, 2.0, 2.0);
-            f6 = Math.Sqrt(r8_pi) * typeMethods.r8_factorial(e);
+            f6 = Math.Sqrt(Math.PI) * typeMethods.r8_factorial(e);
             f7 = (-1.0 + typeMethods.r8_mop(e))
                  * typeMethods.r8_hyper_2f1(-0.5, 1.0 + r8_e, 1.5 + r8_e, -1.0);
             f8 = 2.0 * typeMethods.r8_mop(e) * typeMethods.r8_hyper_2f1(0.5, 1.0 + r8_e, 1.5 + r8_e, -1.0);
@@ -928,7 +928,7 @@ namespace Burkardt.ChebyshevPolynomialNS
         {
             double[] bj;
             int i;
-            const double r8_pi = 3.141592653589793;
+            
 
             for (i = 0; i < n; i++)
             {
@@ -943,7 +943,7 @@ namespace Burkardt.ChebyshevPolynomialNS
                 bj[i] = 0.5;
             }
 
-            w[0] = Math.Sqrt(r8_pi);
+            w[0] = Math.Sqrt(Math.PI);
             for (i = 1; i < n; i++)
             {
                 w[i] = 0.0;
@@ -985,7 +985,7 @@ namespace Burkardt.ChebyshevPolynomialNS
             //    Output, double WW_PRODUCT_INTEGRAL, the value of the integral.
             //
         {
-            const double r8_pi = 3.141592653589793;
+            
             double value;
 
             if (i < 0)
@@ -1010,7 +1010,7 @@ namespace Burkardt.ChebyshevPolynomialNS
             }
             else
             {
-                value = r8_pi;
+                value = Math.PI;
             }
 
             return value;

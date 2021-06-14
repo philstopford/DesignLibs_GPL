@@ -126,6 +126,7 @@
     <projectFile>BurkhardtTest/Discrete2DPDFTest/Discrete2DPDFTest.csproj</projectFile>
     <projectFile>BurkhardtTest/RandomDataTest/RandomDataTest.csproj</projectFile>
     <projectFile>BurkhardtTest/ColoredNoiseTest/ColoredNoiseTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/SlowFourierTransformTest/SlowFourierTransformTest.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="" />
@@ -155,21 +156,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Matrix/DGE_MXV.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Random/DirectionUniform.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Random/Brownian.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Matrix/DUT_MXV.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Halham.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/i4vec.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Random/Ksub.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/Polygon.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Prime.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Halton.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Hammersley.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/UniformRNG_r8.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Random/Normal.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/Tuple.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Random/Scale.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Random/Stri.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Helpers.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/triangle.cs" />
@@ -202,10 +188,25 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Integral/Chebyshev1.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Integral/Chebyshev2.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Grid/Grid.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/FourierTransform/Slow.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Noise/Colored.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ColoredNoiseTest/Program.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/RandomDataTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/FourierTransform/Slow_c4.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/FourierTransform/Slow.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/FourierTransform/Slow_r4.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/UniformRNG_r4.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/FourierTransform/Slow_r8.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/UniformRNG_c8.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/UniformRNG_c4.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/c8mat.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/c4.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/c4mat.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/c4vec.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/c8vec.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/FourierTransform/Slow_c8.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r4.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r4vec.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/SlowFourierTransformTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -222,7 +223,7 @@
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C#" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunManager" selected=".NET Project.RandomDataTest">
+  <component name="RunManager" selected=".NET Project.SlowFourierTransformTest">
     <configuration name="ASA005Test" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -2131,6 +2132,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="SlowFourierTransformTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/SlowFourierTransformTest/SlowFourierTransformTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="SobolTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -2656,6 +2675,7 @@
       <item itemvalue=".NET Project.Discrete2DPDFTest" />
       <item itemvalue=".NET Project.RandomDataTest" />
       <item itemvalue=".NET Project.ColoredNoiseTest" />
+      <item itemvalue=".NET Project.SlowFourierTransformTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

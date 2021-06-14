@@ -125,6 +125,7 @@
     <projectFile>BurkhardtTest/CNFTest/CNFTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Discrete2DPDFTest/Discrete2DPDFTest.csproj</projectFile>
     <projectFile>BurkhardtTest/RandomDataTest/RandomDataTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/ColoredNoiseTest/ColoredNoiseTest.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="" />
@@ -154,9 +155,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/PDF/Discrete2D.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/Discrete2DPDFTest/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Random/BadSimplex.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Matrix/DGE_MXV.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Random/DirectionUniform.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Random/Brownian.cs" />
@@ -171,7 +169,6 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/UniformRNG_r8.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Random/Normal.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/Tuple.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Grid/Grid.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Random/Scale.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Random/Stri.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Helpers.cs" />
@@ -189,7 +186,6 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/Ellipsoid.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/Triangle.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/Walk.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/RandomDataTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8_norm.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8_gamma.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8.cs" />
@@ -205,6 +201,11 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Buffon.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Integral/Chebyshev1.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Integral/Chebyshev2.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Grid/Grid.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/FourierTransform/Slow.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Noise/Colored.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/ColoredNoiseTest/Program.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/RandomDataTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -1316,6 +1317,24 @@
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
       <option name="PROJECT_TFM" value="net5.0" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="ColoredNoiseTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/ColoredNoiseTest/ColoredNoiseTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
       <method v="2">
         <option name="Build" />
       </method>
@@ -2636,6 +2655,7 @@
       <item itemvalue=".NET Project.CNFTest" />
       <item itemvalue=".NET Project.Discrete2DPDFTest" />
       <item itemvalue=".NET Project.RandomDataTest" />
+      <item itemvalue=".NET Project.ColoredNoiseTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

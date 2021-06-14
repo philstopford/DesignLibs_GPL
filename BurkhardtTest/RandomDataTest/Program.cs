@@ -39,7 +39,6 @@ namespace RandomDataTest
         {
             Console.WriteLine("");
             Console.WriteLine("RANDOM_DATA_TEST");
-            Console.WriteLine("  C++ version");
             Console.WriteLine("  Test the RANDOM_DATA library.");
 
             test005();

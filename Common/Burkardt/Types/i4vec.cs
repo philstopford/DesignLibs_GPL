@@ -1597,6 +1597,95 @@ namespace Burkardt.Types
             }
             return a2;
         }
+        
+        public static void i4vec_transpose_print ( int n, int[] a, string title )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    I4VEC_TRANSPOSE_PRINT prints an I4VEC "transposed".
+        //
+        //  Discussion:
+        //
+        //    An I4VEC is a vector of I4's.
+        //
+        //  Example:
+        //
+        //    A = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 }
+        //    TITLE = "My vector:  "
+        //
+        //    My vector:      1    2    3    4    5
+        //                    6    7    8    9   10
+        //                   11
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    03 July 2004
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number of components of the vector.
+        //
+        //    Input, int A[N], the vector to be printed.
+        //
+        //    Input, string TITLE, a title to be printed first.
+        //    TITLE may be blank or NULL.
+        //
+        {
+            int i;
+            int ihi;
+            int ilo;
+            int title_len;
+
+            if ( 0 < s_len_trim ( title ) )
+            {
+                title_len = title.Length;
+
+                for ( ilo = 1; ilo <= n; ilo = ilo + 5 )
+                {
+                    string cout = "";
+                    ihi = Math.Min ( ilo + 5 - 1, n );
+                    if ( ilo == 1 )
+                    {
+                        cout = title;
+                    }
+                    else
+                    {
+                        for ( i = 1; i <= title_len; i++ )
+                        {
+                            cout += " ";
+                        }
+                    }
+                    for ( i = ilo; i <= ihi; i++ )
+                    {
+                        cout += a[i-1].ToString().PadLeft(12);
+                    }
+                    Console.WriteLine(cout);
+                }
+            }
+            else
+            {
+                for ( ilo = 1; ilo <= n; ilo = ilo + 5 )
+                {
+                    string cout = "";
+                    ihi = Math.Min ( ilo + 5 - 1, n );
+                    for ( i = ilo; i <= ihi; i++ )
+                    {
+                        cout += a[i-1].ToString().PadLeft(12);
+                    }
+                    Console.WriteLine(cout);
+                }
+            }
+        }
 
     }
 }

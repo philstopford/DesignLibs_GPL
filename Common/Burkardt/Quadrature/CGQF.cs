@@ -3,7 +3,7 @@
     public static class CGQF
     {
         public static void cgqf(int nt, int kind, double alpha, double beta, double a, double b,
-            double[] t, double[] wts )
+            ref double[] t, ref double[] wts )
 
         //****************************************************************************80
         //
@@ -73,7 +73,7 @@
             //
             //  Compute the Gauss quadrature formula for default values of A and B.
             //
-            CDGQF.cdgqf(nt, kind, alpha, beta, t, wts);
+            CDGQF.cdgqf(nt, kind, alpha, beta, ref t, ref wts);
             //
             //  Prepare to scale the quadrature formula to other weight function with 
             //  valid A and B.

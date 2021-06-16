@@ -4,8 +4,8 @@ namespace Burkardt.Types
 {
     public static partial class typeMethods
     {
-        public static void r8r8r8vec_index_insert_unique(int maxn, ref int n, double[] x, double[] y,
-        double[] z, int[] indx, double xval, double yval, double zval, ref int ival,
+        public static void r8r8r8vec_index_insert_unique(int maxn, ref int n, ref double[] x, ref double[] y,
+        ref double[] z, ref int[] indx, double xval, double yval, double zval, ref int ival,
         ref int ierror )
 
         //****************************************************************************80
@@ -256,8 +256,8 @@ namespace Burkardt.Types
             return;
         }
 
-        public static void r8r8vec_index_insert_unique(int maxn, ref int n, double[] x, double[] y,
-        int[] indx, double xval, double yval, ref int ival, ref int ierror )
+        public static void r8r8vec_index_insert_unique(int maxn, ref int n, ref double[] x, ref double[] y,
+        ref int[] indx, double xval, double yval, ref int ival, ref int ierror )
 
         //****************************************************************************80
         //

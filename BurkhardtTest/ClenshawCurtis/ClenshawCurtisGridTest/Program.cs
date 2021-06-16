@@ -107,7 +107,7 @@ namespace ClenshawCurtisGridTest
 
                 grid_point = new double[order_nd];
 
-                ClenshawCurtisGrid.cc_grid(DIM_NUM, order_1d, order_nd, grid_point);
+                ClenshawCurtisGrid.cc_grid(DIM_NUM, order_1d, order_nd, ref grid_point);
 
                 for (j = 0; j < order_nd; j++)
                 {
@@ -174,7 +174,7 @@ namespace ClenshawCurtisGridTest
             Console.WriteLine("  Total number of points in the grid = " + order_nd + "");
             Console.WriteLine("");
 
-            ClenshawCurtisGrid.cc_grid(DIM_NUM, order_1d, order_nd, grid_point);
+            ClenshawCurtisGrid.cc_grid(DIM_NUM, order_1d, order_nd, ref grid_point);
 
             j = 1;
             q = 0;
@@ -834,7 +834,7 @@ namespace ClenshawCurtisGridTest
 
             for (order = 1; order <= 10; order++)
             {
-                ClenshawCurtis.clenshaw_curtis_compute(order, x, w);
+                ClenshawCurtis.clenshaw_curtis_compute(order, ref x, ref w);
 
                 Console.WriteLine("");
                 Console.WriteLine("  " + order.ToString().PadLeft(8) + "");
@@ -941,7 +941,7 @@ namespace ClenshawCurtisGridTest
 
             for (order = 1; order <= ORDER_MAX; order++)
             {
-                ClenshawCurtis.clenshaw_curtis_compute(order, xtab, weight);
+                ClenshawCurtis.clenshaw_curtis_compute(order, ref xtab, ref weight);
 
                 result[0] = 0.0;
                 for (i = 0; i < order; i++)
@@ -1113,7 +1113,7 @@ namespace ClenshawCurtisGridTest
             Console.WriteLine("  Spatial dimension = " + DIM_NUM + "");
             Console.WriteLine("  Computing the rule of order = " + ORDER + "");
 
-            ClenshawCurtis.clenshaw_curtis_compute(ORDER, x, w);
+            ClenshawCurtis.clenshaw_curtis_compute(ORDER, ref x, ref w);
 
             Console.WriteLine("");
             Console.WriteLine("  Write abscissas to file \"" + x_file + "\".");

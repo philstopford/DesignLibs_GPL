@@ -165,7 +165,7 @@ namespace Burkardt.Probability
             return mean;
         }
 
-        public static void coupon_sample(int type_num, ref int seed, int[] coupon, ref int box_num )
+        public static void coupon_sample(int type_num, ref int seed, ref int[] coupon, ref int box_num )
         //****************************************************************************80
         //
         //  Purpose:

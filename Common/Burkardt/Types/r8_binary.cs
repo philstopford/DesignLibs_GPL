@@ -2,7 +2,7 @@
 {
     public static partial class typeMethods
     {
-        public static void r8vec_binary_next ( int n, double[] bvec )
+        public static void r8vec_binary_next ( int n, ref double[] bvec )
 
             //****************************************************************************80
             //

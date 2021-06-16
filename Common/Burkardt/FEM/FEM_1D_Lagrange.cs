@@ -5,7 +5,7 @@ namespace Burkardt.FEM
     public static class FEM_1D_Lagrange
     {
         public static void fem1d_lagrange_stiffness(int x_num, double[] x, int q_num,
-        Func<double, double> f, double[] a, double[] m, double[] b )
+        Func<double, double> f, ref double[] a, ref double[] m, ref double[] b )
 //****************************************************************************80
 //
 //  Purpose:
@@ -65,7 +65,7 @@ namespace Burkardt.FEM
             double[] q_x = new double[q_num];
             double[] q_w = new double[q_num];
 
-            legendre_set(q_num, q_x, q_w);
+            legendre_set(q_num, ref q_x, ref q_w);
 //
 //  Adjust the quadrature rule to the interval [ x(1), x(x_num) }
 //
@@ -261,7 +261,7 @@ namespace Burkardt.FEM
             return li;
         }
 
-        public static void legendre_set(int n, double[] x, double[] w)
+        public static void legendre_set(int n, ref double[] x, ref double[] w)
 //****************************************************************************80
 //
 //  Purpose:

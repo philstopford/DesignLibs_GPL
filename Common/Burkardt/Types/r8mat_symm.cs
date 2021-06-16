@@ -70,7 +70,7 @@ namespace Burkardt.Types
             return a;
         }
 
-        public static void r8mat_symm_jacobi(int n, double[] a)
+        public static void r8mat_symm_jacobi(int n, ref double[] a)
 
             //****************************************************************************80
             //

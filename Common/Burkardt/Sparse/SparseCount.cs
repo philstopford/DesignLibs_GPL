@@ -113,7 +113,7 @@ namespace Burkardt.Sparse
 
                 for (;;)
                 {
-                    comp_next(level, dim_num, level_1d, ref more, ref h, ref t);
+                    comp_next(level, dim_num, ref level_1d, ref more, ref h, ref t);
 
                     int v = 1;
                     for (int dim = 0; dim < dim_num; dim++)
@@ -231,7 +231,7 @@ namespace Burkardt.Sparse
 
                 for (;;)
                 {
-                    comp_next(level, dim_num, level_1d, ref more, ref h, ref t);
+                    comp_next(level, dim_num, ref level_1d, ref more, ref h, ref t);
 
                     int v = 1;
                     for (int dim = 0; dim < dim_num; dim++)
@@ -251,7 +251,7 @@ namespace Burkardt.Sparse
             return point_num;
         }
 
-        public static void comp_next(int n, int k, int[] a, ref bool more, ref int h, ref int t )
+        public static void comp_next(int n, int k, ref int[] a, ref bool more, ref int h, ref int t )
 //****************************************************************************80
 //
 //  Purpose:
@@ -494,7 +494,7 @@ namespace Burkardt.Sparse
 
                 for (;;)
                 {
-                    comp_next(level, dim_num, level_1d, ref more, ref h, ref t);
+                    comp_next(level, dim_num, ref level_1d, ref more, ref h, ref t);
 
                     int v = 1;
                     for (int dim = 0; dim < dim_num; dim++)
@@ -633,7 +633,7 @@ namespace Burkardt.Sparse
 
                 for (;;)
                 {
-                    comp_next(level, dim_num, level_1d, ref more, ref h, ref t);
+                    comp_next(level, dim_num, ref level_1d, ref more, ref h, ref t);
 
                     int v = 1;
                     for (int dim = 0; dim < dim_num; dim++)
@@ -737,7 +737,7 @@ namespace Burkardt.Sparse
 
                 for (;;)
                 {
-                    comp_next(level, dim_num, level_1d, ref more, ref h, ref t);
+                    comp_next(level, dim_num, ref level_1d, ref more, ref h, ref t);
 
                     int v = 1;
                     for (int dim = 0; dim < dim_num; dim++)
@@ -840,7 +840,7 @@ namespace Burkardt.Sparse
 
                 for (;;)
                 {
-                    comp_next(level, dim_num, level_1d, ref more, ref h, ref t);
+                    comp_next(level, dim_num, ref level_1d, ref more, ref h, ref t);
 
                     int v = 1;
                     for (int dim = 0; dim < dim_num; dim++)
@@ -941,7 +941,7 @@ namespace Burkardt.Sparse
 
                 for (;;)
                 {
-                    comp_next(level, dim_num, level_1d, ref more, ref h, ref t);
+                    comp_next(level, dim_num, ref level_1d, ref more, ref h, ref t);
 
                     int v = 1;
                     for (int dim = 0; dim < dim_num; dim++)
@@ -1098,7 +1098,7 @@ namespace Burkardt.Sparse
 
                         for (;;)
                         {
-                            comp_next(level, dim_num2, level_1d, ref more, ref h, ref t);
+                            comp_next(level, dim_num2, ref level_1d, ref more, ref h, ref t);
 
                             int v = 1;
                             for (int dim = 0; dim < dim_num2; dim++)
@@ -1257,7 +1257,7 @@ namespace Burkardt.Sparse
 
                         for (;;)
                         {
-                            comp_next(level, dim_num2, level_1d, ref more, ref h, ref t);
+                            comp_next(level, dim_num2, ref level_1d, ref more, ref h, ref t);
 
                             int v = 1;
                             for (int dim = 0; dim < dim_num2; dim++)
@@ -1405,7 +1405,7 @@ namespace Burkardt.Sparse
 
                         for (;;)
                         {
-                            comp_next(level, dim_num2, level_1d, ref more, ref h, ref t);
+                            comp_next(level, dim_num2, ref level_1d, ref more, ref h, ref t);
 
                             int v = 1;
                             for (int dim = 0; dim < dim_num2; dim++)

@@ -4,7 +4,7 @@ namespace Burkardt.Types
 {
     public static partial class typeMethods
     {
-        public static void r8vec_normalize(int n, double[] a)
+        public static void r8vec_normalize(int n, ref double[] a)
 
             //****************************************************************************80
             //
@@ -63,7 +63,7 @@ namespace Burkardt.Types
             return;
         }
 
-        public static void r8vec_normalize_l1(int n, double[] a)
+        public static void r8vec_normalize_l1(int n, ref double[] a)
 
             //****************************************************************************80
             //

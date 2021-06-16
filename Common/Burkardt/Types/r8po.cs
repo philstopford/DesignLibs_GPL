@@ -197,7 +197,7 @@ namespace Burkardt.Types
             return b;
         }
 
-        public static void r8po_sl(double[] a, int lda, int n, double[] b, int aIndex = 0, int bIndex = 0 )
+        public static void r8po_sl(double[] a, int lda, int n, ref double[] b, int aIndex = 0, int bIndex = 0 )
 
         //****************************************************************************80
         //

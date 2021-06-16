@@ -5,7 +5,7 @@ namespace Burkardt.Types
     public static partial class typeMethods
     {
         public static void r8sp_cg(int n, int nz_num, int[] row, int[] col, double[] a,
-        double[] b, double[] x )
+        double[] b, ref double[] x )
 
         //****************************************************************************80
         //

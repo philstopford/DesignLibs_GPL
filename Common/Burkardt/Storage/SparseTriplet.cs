@@ -349,7 +349,7 @@ namespace Burkardt
         }
 
         public static void st_to_ccs_index(int nst, int[] ist, int[] jst, int ncc, int n,
-                int[] icc, int[] ccc)
+                ref int[] icc, ref int[] ccc)
 
             //****************************************************************************80
             //
@@ -404,7 +404,7 @@ namespace Burkardt
             //  Get the unique elements.
             //
             jcc = new int[ncc];
-            typeMethods.i4vec2_sorted_uniquely(nst, jst2, ist2, ncc, jcc, icc);
+            typeMethods.i4vec2_sorted_uniquely(nst, jst2, ist2, ncc, ref jcc, ref icc);
             //
             //  Compress the column index.
             //

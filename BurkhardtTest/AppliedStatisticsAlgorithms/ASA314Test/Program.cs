@@ -100,7 +100,7 @@ namespace Burkardt.ASA314Test
 
             typeMethods.i4mat_print ( nrow, nrow, mat, "  The matrix to be inverted:" );
 
-            Algorithms.invmod ( mat, imat, rmod, cmod, nrow, ref ifault );
+            Algorithms.invmod ( ref mat, ref imat, rmod, cmod, nrow, ref ifault );
 
             typeMethods.i4mat_print ( nrow, nrow, imat, "  The computed inverse:" );
 

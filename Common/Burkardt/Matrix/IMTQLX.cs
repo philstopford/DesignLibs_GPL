@@ -5,7 +5,7 @@ namespace Burkardt
 {
     public static class IMTQLX
     {
-        public static void imtqlx(int n, double[] d, double[] e, ref double[] z )
+        public static void imtqlx(int n, ref double[] d, ref double[] e, ref double[] z )
 
         //****************************************************************************80
         //

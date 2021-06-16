@@ -4,7 +4,7 @@ namespace Burkardt.AppliedStatistics
 {
     public static partial class Algorithms
     {
-        public static void cholesky ( double[] a, int n, int nn, double[] u, ref int nullty, 
+        public static void cholesky ( double[] a, int n, int nn, ref double[] u, ref int nullty, 
                                         ref int ifault )
         //****************************************************************************80
         //

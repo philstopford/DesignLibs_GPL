@@ -139,7 +139,7 @@ namespace Chebyshev2RuleTest
             x = new double[order];
 
             kind = 9;
-            CGQF.cgqf(order, kind, alpha, beta, a, b, x, w);
+            CGQF.cgqf(order, kind, alpha, beta, a, b, ref x, ref w);
             //
             //  Write the rule.
             //

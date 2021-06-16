@@ -91,7 +91,7 @@ namespace Burkardt.Grid
             rank = -1;
             tuple = new int[dim_num];
             BTupleData data = new BTupleData() {base_ = new int[dim_num]};
-            BTuple.tuple_next_fast(ref data, n_side, dim_num, rank, tuple);
+            BTuple.tuple_next_fast(ref data, n_side, dim_num, rank, ref tuple);
             //
             //  Now generate the appropriate indices, and "center" them.
             //
@@ -101,7 +101,7 @@ namespace Burkardt.Grid
             {
                 rank = rank_list[j] - 1;
 
-                BTuple.tuple_next_fast(ref data, n_side, dim_num, rank, tuple);
+                BTuple.tuple_next_fast(ref data, n_side, dim_num, rank, ref tuple);
 
                 if (center == 1)
                 {

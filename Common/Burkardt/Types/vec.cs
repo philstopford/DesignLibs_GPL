@@ -189,7 +189,7 @@ namespace Burkardt.Types
         }
 
         public static void vector_constrained_next4(int n, double[] alpha, int[] x_min,
-        int[] x_max, int[] x, double q, ref bool more )
+        int[] x_max, ref int[] x, double q, ref bool more )
 
         //****************************************************************************80
         //

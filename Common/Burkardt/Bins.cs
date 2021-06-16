@@ -938,7 +938,7 @@ namespace Burkardt
         }
 
         public static void bin_to_r83_even3(int[] nbin, int[] bin, double[] a, double[] b,
-                double[] cmin, double[] cmax)
+                ref double[] cmin, ref double[] cmax)
 
             //****************************************************************************80
             //
@@ -1329,7 +1329,7 @@ namespace Burkardt
             return true;
         }
 
-        public static void perm_inv(int n, int[] p)
+        public static void perm_inv(int n, ref int[] p)
 
             //****************************************************************************80
             //

@@ -119,7 +119,7 @@ namespace Burkardt.Uniform
             //
             for (j = 0; j < n; j++)
             {
-                typeMethods.r8po_sl(u, dim_num, dim_num, x, bIndex: +j * dim_num);
+                typeMethods.r8po_sl(u, dim_num, dim_num, ref x, bIndex: +j * dim_num);
             }
 
             return x;
@@ -239,7 +239,7 @@ namespace Burkardt.Uniform
             //
             for (j = 0; j < n; j++)
             {
-                typeMethods.r8po_sl(u, dim_num, dim_num, x, aIndex:0, bIndex: + j * dim_num);
+                typeMethods.r8po_sl(u, dim_num, dim_num, ref x, aIndex:0, bIndex: + j * dim_num);
             }
 
             return x;

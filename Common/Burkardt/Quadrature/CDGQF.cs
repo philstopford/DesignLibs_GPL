@@ -2,8 +2,8 @@
 {
     public static class CDGQF
     {
-        public static void cdgqf(int nt, int kind, double alpha, double beta, double[] t,
-        double[] wts )
+        public static void cdgqf(int nt, int kind, double alpha, double beta, ref double[] t,
+        ref double[] wts )
 
         //****************************************************************************80
         //

@@ -85,7 +85,7 @@ namespace Burkardt.FEM1DLagrangeTest
                 double[] x = new double[n];
                 double[] w = new double[n];
 
-                FEM_1D_Lagrange.legendre_set(n, x, w);
+                FEM_1D_Lagrange.legendre_set(n, ref x, ref w);
                 double e1 = 0.0;
                 double e2 = 0.0;
                 double e3 = 0.0;
@@ -304,7 +304,7 @@ namespace Burkardt.FEM1DLagrangeTest
             m = new double[x_num * x_num];
             b = new double[x_num];
 
-            FEM_1D_Lagrange.fem1d_lagrange_stiffness(x_num, x, q_num, FEM_Test_Methods.f, a, m, b);
+            FEM_1D_Lagrange.fem1d_lagrange_stiffness(x_num, x, q_num, FEM_Test_Methods.f, ref a, ref m, ref b);
 
             k = new double[x_num * x_num];
 

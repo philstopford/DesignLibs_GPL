@@ -85,7 +85,7 @@ namespace Burkardt
             //
             //  Diagonalize the Jacobi matrix.
             //
-            IMTQLX.imtqlx(nt, t, bj, ref wts);
+            IMTQLX.imtqlx(nt, ref t, ref bj, ref wts);
 
             for (i = 0; i < nt; i++)
             {

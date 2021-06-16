@@ -4,7 +4,7 @@ namespace Burkardt.Types
 {
     public static partial class typeMethods
     {
-        public static void r8mat_identity(int n, double[] a)
+        public static void r8mat_identity(int n, ref double[] a)
 
             //****************************************************************************80
             //

@@ -8,7 +8,7 @@ namespace Burkardt.Types
     public static partial class typeMethods
     {
 
-        public static void r8vec_01_to_ab(int n, double[] a, double amax, double amin)
+        public static void r8vec_01_to_ab(int n, ref double[] a, double amax, double amin)
 
             //****************************************************************************80
             //
@@ -89,7 +89,7 @@ namespace Burkardt.Types
             }
         }
 
-        public static void r8vec_add(int n, double[] a1, double[] a2)
+        public static void r8vec_add(int n, double[] a1, ref double[] a2)
 
             //****************************************************************************80
             //
@@ -296,7 +296,7 @@ namespace Burkardt.Types
             return value;
         }
 
-        public static void r8vec_divide(int n, double[] a, double s)
+        public static void r8vec_divide(int n, ref double[] a, double s)
 
             //****************************************************************************80
             //
@@ -530,7 +530,7 @@ namespace Burkardt.Types
 
 
         public static void r8vec_mesh_2d(int nx, int ny, double[] xvec, double[] yvec,
-                double[] xmat, double[] ymat)
+                ref double[] xmat, ref double[] ymat)
             //****************************************************************************80
             //
             //  Purpose:
@@ -1548,5 +1548,146 @@ namespace Burkardt.Types
             }
             return true;
         }
+        
+        public static void r8vec_backtrack ( int n, int maxstack, double[] stack, ref double[] x, 
+        ref int indx, ref int k, ref int nstack, ref int[] ncan )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8VEC_BACKTRACK supervises a backtrack search for a real vector.
+        //
+        //  Discussion:
+        //
+        //    The routine tries to construct a real vector one index at a time,
+        //    using possible candidates as supplied by the user.
+        //
+        //    At any time, the partially constructed vector may be discovered to be
+        //    unsatisfactory, but the routine records information about where the
+        //    last arbitrary choice was made, so that the search can be
+        //    carried out efficiently, rather than starting out all over again.
+        //
+        //    First, call the routine with INDX = 0 so it can initialize itself.
+        //
+        //    Now, on each return from the routine, if INDX is:
+        //      1, you've just been handed a complete candidate vector;
+        //         Admire it, analyze it, do what you like.
+        //      2, please determine suitable candidates for position X(K).
+        //         Return the number of candidates in NCAN(K), adding each
+        //         candidate to the end of STACK, and increasing NSTACK.
+        //      3, you're done.  Stop calling the routine;
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    13 July 2004
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Albert Nijenhuis, Herbert Wilf.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Albert Nijenhuis, Herbert Wilf,
+        //    Combinatorial Algorithms for Computers and Calculators,
+        //    Second Edition,
+        //    Academic Press, 1978,
+        //    ISBN: 0-12-519260-6,
+        //    LC: QA164.N54.
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number of positions to be filled in the vector.
+        //
+        //    Input, int MAXSTACK, the maximum length of the stack.
+        //
+        //    Input, double STACK[MAXSTACK], a list of all current candidates for
+        //    all positions 1 through K.
+        //
+        //    Input/output, double X[N], the partial or complete candidate vector.
+        //
+        //    Input/output, int &INDX, a communication flag.
+        //    On input,
+        //      0 to start a search.
+        //    On output:
+        //      1, a complete output vector has been determined and returned in X(1:N);
+        //      2, candidates are needed for position X(K);
+        //      3, no more possible vectors exist.
+        //
+        //    Inout/output, int &K, if INDX=2, the current vector index being considered.
+        //
+        //    Input/output, int &NSTACK, the current length of the stack.
+        //
+        //    Input/output, int NCAN[N], lists the current number of candidates for
+        //    positions 1 through K.
+        //
+        {
+            //
+            //  If this is the first call, request a candidate for position 1.
+            //
+            if (indx == 0)
+            {
+                k = 1;
+                nstack = 0;
+                indx = 2;
+                return;
+            }
+
+            //
+            //  Examine the stack.
+            //
+            for (;;)
+            {
+                //
+                //  If there are candidates for position K, take the first available
+                //  one off the stack, and increment K.
+                //
+                //  This may cause K to reach the desired value of N, in which case
+                //  we need to signal the user that a complete set of candidates
+                //  is being returned.
+                //
+                if (0 < ncan[k - 1])
+                {
+                    x[k - 1] = stack[nstack - 1];
+                    nstack = nstack - 1;
+
+                    ncan[k - 1] = ncan[k - 1] - 1;
+
+                    if (k != n)
+                    {
+                        k = k + 1;
+                        indx = 2;
+                    }
+                    else
+                    {
+                        indx = 1;
+                    }
+
+                    break;
+                }
+                //
+                //  If there are no candidates for position K, then decrement K.
+                //  If K is still positive, repeat the examination of the stack.
+                //
+                else
+                {
+                    k = k - 1;
+
+                    if (k <= 0)
+                    {
+                        indx = 3;
+                        break;
+                    }
+                }
+            }
+
+            return;
+        }
+
     }
 }

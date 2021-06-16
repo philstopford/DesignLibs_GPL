@@ -73,7 +73,7 @@ namespace Burkardt.AppliedStatistics
             //
             int nn = (n * (n + 1)) / 2;
 
-            cholesky(a, n, nn, c, ref nullty, ref ifault);
+            cholesky(a, n, nn, ref c, ref nullty, ref ifault);
 
             if (ifault != 0)
             {

@@ -9,7 +9,7 @@ namespace Burkardt.Types
 
     public static class BTuple
     {
-        public static void tuple_next_fast(ref BTupleData data, int m, int n, int rank, int[] x)
+        public static void tuple_next_fast(ref BTupleData data, int m, int n, int rank, ref int[] x)
 
             //****************************************************************************80
             //

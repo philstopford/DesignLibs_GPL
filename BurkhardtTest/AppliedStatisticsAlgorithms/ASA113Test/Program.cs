@@ -172,7 +172,7 @@ namespace Burkardt.ASA113Test
 
             for (;;)
             {
-                Algorithms.trnsfr(a, c, c_size, m, k, n, ref critvl, ref ntrans1, ref ifault);
+                Algorithms.trnsfr(a, ref c, ref c_size, m, k, n, ref critvl, ref ntrans1, ref ifault);
 
                 if (ntrans1 == 0 && ntrans2 == 0)
                 {

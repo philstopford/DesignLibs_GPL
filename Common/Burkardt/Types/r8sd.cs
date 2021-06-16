@@ -3,7 +3,7 @@
     public static partial class typeMethods
     {
         public static void r8sd_cg(int n, int ndiag, int[] offset, double[] a, double[] b,
-        double[] x )
+        ref double[] x )
 
         //****************************************************************************80
         //

@@ -443,7 +443,7 @@ namespace Burkardt.Types
             return value;
         }
 
-        public static void r8vec_normal_01(int n, ref int seed, double[] x)
+        public static void r8vec_normal_01(int n, ref int seed, ref double[] x)
 
             //****************************************************************************80
             //

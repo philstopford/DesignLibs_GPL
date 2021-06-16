@@ -5,7 +5,7 @@ namespace Burkardt.RandomNS
 {
     public static partial class BRandom
     {
-        public static void direction_uniform_nd ( int dim_num, ref int seed, double[] w )
+        public static void direction_uniform_nd ( int dim_num, ref int seed, ref double[] w )
 
         //****************************************************************************80
         //
@@ -43,7 +43,7 @@ namespace Burkardt.RandomNS
             //
             //  Sample the standard normal distribution.
             //
-            typeMethods.r8vec_normal_01 ( dim_num, ref seed, w );
+            typeMethods.r8vec_normal_01 ( dim_num, ref seed, ref w );
             //
             //  Compute the length of the vector.
             //

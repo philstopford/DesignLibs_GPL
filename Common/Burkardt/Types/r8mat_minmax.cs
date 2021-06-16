@@ -946,7 +946,7 @@ namespace Burkardt.Types
             return value;
         }
 
-        public static void r8mat_minvm(int n1, int n2, double[] a, double[] b, double[] c)
+        public static void r8mat_minvm(int n1, int n2, double[] a, double[] b, ref double[] c)
 
             //****************************************************************************80
             //

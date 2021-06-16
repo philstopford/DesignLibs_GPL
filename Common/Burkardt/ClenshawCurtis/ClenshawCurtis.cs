@@ -6,7 +6,7 @@ namespace Burkardt
 {
     public static class ClenshawCurtis
     {
-        public static void clenshaw_curtis_compute(int order, double[] x, double[] w )
+        public static void clenshaw_curtis_compute(int order, ref double[] x, ref double[] w )
 
         //****************************************************************************80
         //

@@ -228,7 +228,7 @@ namespace Burkardt.AppliedStatistics
                 //  point is re-allocated, if necessary, to the cluster that will
                 //  induce the maximum reduction in within-cluster sum of squares.
                 //
-                optra(a, m, n, c, k, ref ic1, ref ic2, ref nc, ref an1, ref an2, ref ncp, ref d, ref itran, ref live, ref indx);
+                optra(a, m, n, ref c, k, ref ic1, ref ic2, ref nc, ref an1, ref an2, ref ncp, ref d, ref itran, ref live, ref indx);
                 //
                 //  Stop if no transfer took place in the last M optimal transfer steps.
                 //
@@ -315,7 +315,7 @@ namespace Burkardt.AppliedStatistics
 
         }
 
-        static void optra(double[] a, int m, int n, double[] c, int k, ref int[] ic1,
+        static void optra(double[] a, int m, int n, ref double[] c, int k, ref int[] ic1,
                             ref int[] ic2, ref int[] nc, ref double[] an1, ref double[] an2, ref int[] ncp, ref double[] d,
                             ref int[] itran, ref int[] live, ref int indx )
         //****************************************************************************80

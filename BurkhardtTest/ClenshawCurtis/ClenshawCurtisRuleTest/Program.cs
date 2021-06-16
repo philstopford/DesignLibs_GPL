@@ -140,7 +140,7 @@ namespace ClenshawCurtisRuleTest
             r[0] = a;
             r[1] = b;
 
-            ClenshawCurtis.clenshaw_curtis_compute(order, x, w);
+            ClenshawCurtis.clenshaw_curtis_compute(order, ref x, ref w);
             //
             //  Rescale the rule.
             //

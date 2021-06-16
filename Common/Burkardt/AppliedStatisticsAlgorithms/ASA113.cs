@@ -162,7 +162,7 @@ namespace Burkardt.AppliedStatistics
             }
         }
         
-        public static void trnsfr ( double[] varval, int[] klass, int[] clsize, int in_, int ik, 
+        public static void trnsfr ( double[] varval, ref int[] klass, ref int[] clsize, int in_, int ik, 
                                     int iv, ref double critvl, ref int ntrans, ref int ifault )
         //****************************************************************************80
         //

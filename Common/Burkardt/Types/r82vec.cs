@@ -143,7 +143,7 @@ namespace Burkardt.Types
             return;
         }
 
-        public static void r82vec_permute(int n, double[] a, int[] p )
+        public static void r82vec_permute(int n, ref double[] a, int[] p )
 
         //****************************************************************************80*
         //

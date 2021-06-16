@@ -47,7 +47,7 @@
             return a;
         }
 
-        public static void r8mat_zeros ( int m, int n, double[] a )
+        public static void r8mat_zeros ( int m, int n, ref double[] a )
 
             //****************************************************************************80
             //

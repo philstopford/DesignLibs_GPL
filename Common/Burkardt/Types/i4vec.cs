@@ -7,7 +7,7 @@ namespace Burkardt.Types
 {
     public static partial class typeMethods
     {
-        public static int i4vec_product ( int n, int[] a, int aIndex = 0 )
+        public static int i4vec_product(int n, int[] a, int aIndex = 0)
 
             //****************************************************************************80
             //
@@ -50,7 +50,7 @@ namespace Burkardt.Types
             int product;
 
             product = 1;
-            for ( i = 0; i < n; i++ )
+            for (i = 0; i < n; i++)
             {
                 product = product * a[i + aIndex];
             }
@@ -58,7 +58,7 @@ namespace Burkardt.Types
             return product;
         }
 
-        public static void i4vec_copy(int n, int[] a1, int[] a2)
+        public static void i4vec_copy(int n, int[] a1, ref int[] a2)
 
             //****************************************************************************80
             //
@@ -189,7 +189,7 @@ namespace Burkardt.Types
             return a;
         }
 
-        public static void i4vec_permute(int n, int[] p, int[] a)
+        public static void i4vec_permute(int n, int[] p, ref int[] a)
 
             //****************************************************************************80
             //
@@ -248,7 +248,7 @@ namespace Burkardt.Types
             int iget;
             int iput;
             int istart;
-            
+
             if (!perm0_check(n, p))
             {
                 Console.WriteLine("");
@@ -373,7 +373,7 @@ namespace Burkardt.Types
 
             return a;
         }
-        
+
         public static int i4vec_sum(int n, int[] a)
             //****************************************************************************80
             //
@@ -426,6 +426,7 @@ namespace Burkardt.Types
 
             return sum;
         }
+
         public static int i4vec_run_count(int n, int[] a)
             //****************************************************************************80
             //
@@ -480,7 +481,7 @@ namespace Burkardt.Types
 
             return run_count;
         }
-        
+
         public static int i4vec_unique_count(int n, int[] a)
             //****************************************************************************80
             //
@@ -637,7 +638,7 @@ namespace Burkardt.Types
             return ivec.Take(n).Min();
         }
 
-        public static void i4vec_zeros ( int n, int[] a )
+        public static void i4vec_zeros(int n, ref int[] a)
 
             //****************************************************************************80
             //
@@ -670,14 +671,15 @@ namespace Burkardt.Types
         {
             int i;
 
-            for ( i = 0; i < n; i++ )
+            for (i = 0; i < n; i++)
             {
                 a[i] = 0;
             }
+
             return;
         }
 
-        public static int[] i4vec_zeros_new ( int n )
+        public static int[] i4vec_zeros_new(int n)
 
             //****************************************************************************80
             //
@@ -713,10 +715,11 @@ namespace Burkardt.Types
 
             a = new int[n];
 
-            for ( i = 0; i < n; i++ )
+            for (i = 0; i < n; i++)
             {
                 a[i] = 0;
             }
+
             return a;
         }
 
@@ -1476,41 +1479,41 @@ namespace Burkardt.Types
             }
         }
 
-        public static int i4vec2_sorted_unique_count(int n, int[] a1, int[] a2 )
+        public static int i4vec2_sorted_unique_count(int n, int[] a1, int[] a2)
 
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    I4VEC2_SORTED_UNIQUE_COUNT counts unique elements in an I4VEC2.
-        //
-        //  Discussion:
-        //
-        //    Item I is stored as the pair A1(I), A2(I).
-        //
-        //    The items must have been sorted, or at least it must be the
-        //    case that equal items are stored in adjacent vector locations.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    12 July 2014
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int N, the number of items.
-        //
-        //    Input, int A1[N], A2[N], the array of N items.
-        //
-        //    Output, int I4VEC2_SORTED_UNIQUE_COUNT, the number of unique items.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC2_SORTED_UNIQUE_COUNT counts unique elements in an I4VEC2.
+            //
+            //  Discussion:
+            //
+            //    Item I is stored as the pair A1(I), A2(I).
+            //
+            //    The items must have been sorted, or at least it must be the
+            //    case that equal items are stored in adjacent vector locations.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    12 July 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of items.
+            //
+            //    Input, int A1[N], A2[N], the array of N items.
+            //
+            //    Output, int I4VEC2_SORTED_UNIQUE_COUNT, the number of unique items.
+            //
         {
             int i;
             int iu;
@@ -1539,47 +1542,47 @@ namespace Burkardt.Types
             return unique_num;
         }
 
-        public static void i4vec2_sorted_uniquely(int n1, int[] a1, int[] b1, int n2, int[] a2,
-        int[] b2 )
+        public static void i4vec2_sorted_uniquely(int n1, int[] a1, int[] b1, int n2, ref int[] a2,
+                ref int[] b2)
 
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    I4VEC2_SORTED_UNIQUELY keeps the unique elements in an I4VEC2.
-        //
-        //  Discussion:
-        //
-        //    Item I is stored as the pair A1(I), A2(I).
-        //
-        //    The items must have been sorted, or at least it must be the
-        //    case that equal items are stored in adjacent vector locations.
-        //
-        //    If the items were not sorted, then this routine will only
-        //    replace a string of equal values by a single representative.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    15 July 2014
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int N1, the number of items.
-        //
-        //    Input, int A1[N1], B1[N1], the input array.
-        //
-        //    Input, int N2, the number of unique items.
-        //
-        //    Input, int A2[N2], B2[N2], the output array of unique items.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC2_SORTED_UNIQUELY keeps the unique elements in an I4VEC2.
+            //
+            //  Discussion:
+            //
+            //    Item I is stored as the pair A1(I), A2(I).
+            //
+            //    The items must have been sorted, or at least it must be the
+            //    case that equal items are stored in adjacent vector locations.
+            //
+            //    If the items were not sorted, then this routine will only
+            //    replace a string of equal values by a single representative.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    15 July 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N1, the number of items.
+            //
+            //    Input, int A1[N1], B1[N1], the input array.
+            //
+            //    Input, int N2, the number of unique items.
+            //
+            //    Input, int A2[N2], B2[N2], the output array of unique items.
+            //
         {
             int i1;
             int i2;
@@ -1606,7 +1609,7 @@ namespace Burkardt.Types
             }
         }
 
-        public static int[] i4vec_copy_new ( int n, int[] a1 )
+        public static int[] i4vec_copy_new(int n, int[] a1)
 
             //****************************************************************************80
             //
@@ -1641,33 +1644,523 @@ namespace Burkardt.Types
         {
             int[] a2 = new int[n];
 
-            for (int i = 0; i < n; i++ )
+            for (int i = 0; i < n; i++)
             {
                 a2[i] = a1[i];
             }
+
             return a2;
         }
-        
-        public static void i4vec_transpose_print ( int n, int[] a, string title )
+
+        public static void i4vec_transpose_print(int n, int[] a, string title)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_TRANSPOSE_PRINT prints an I4VEC "transposed".
+            //
+            //  Discussion:
+            //
+            //    An I4VEC is a vector of I4's.
+            //
+            //  Example:
+            //
+            //    A = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 }
+            //    TITLE = "My vector:  "
+            //
+            //    My vector:      1    2    3    4    5
+            //                    6    7    8    9   10
+            //                   11
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    03 July 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of components of the vector.
+            //
+            //    Input, int A[N], the vector to be printed.
+            //
+            //    Input, string TITLE, a title to be printed first.
+            //    TITLE may be blank or NULL.
+            //
+        {
+            int i;
+            int ihi;
+            int ilo;
+            int title_len;
+
+            if (0 < s_len_trim(title))
+            {
+                title_len = title.Length;
+
+                for (ilo = 1; ilo <= n; ilo = ilo + 5)
+                {
+                    string cout = "";
+                    ihi = Math.Min(ilo + 5 - 1, n);
+                    if (ilo == 1)
+                    {
+                        cout = title;
+                    }
+                    else
+                    {
+                        for (i = 1; i <= title_len; i++)
+                        {
+                            cout += " ";
+                        }
+                    }
+
+                    for (i = ilo; i <= ihi; i++)
+                    {
+                        cout += a[i - 1].ToString().PadLeft(12);
+                    }
+
+                    Console.WriteLine(cout);
+                }
+            }
+            else
+            {
+                for (ilo = 1; ilo <= n; ilo = ilo + 5)
+                {
+                    string cout = "";
+                    ihi = Math.Min(ilo + 5 - 1, n);
+                    for (i = ilo; i <= ihi; i++)
+                    {
+                        cout += a[i - 1].ToString().PadLeft(12);
+                    }
+
+                    Console.WriteLine(cout);
+                }
+            }
+        }
+
+        public static void i4vec_backtrack(int n, int maxstack, int[] stack, ref int[] x, ref int indx,
+                ref int k, ref int nstack, ref int[] ncan)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_BACKTRACK supervises a backtrack search for an I4VEC.
+            //
+            //  Discussion:
+            //
+            //    The routine tries to construct an integer vector one index at a time,
+            //    using possible candidates as supplied by the user.
+            //
+            //    At any time, the partially constructed vector may be discovered to be
+            //    unsatisfactory, but the routine records information about where the
+            //    last arbitrary choice was made, so that the search can be
+            //    carried out efficiently, rather than starting out all over again.
+            //
+            //    First, call the routine with INDX = 0 so it can initialize itself.
+            //
+            //    Now, on each return from the routine, if INDX is:
+            //      1, you've just been handed a complete candidate vector;
+            //         Admire it, analyze it, do what you like.
+            //      2, please determine suitable candidates for position X(K).
+            //         Return the number of candidates in NCAN(K), adding each
+            //         candidate to the end of STACK, and increasing NSTACK.
+            //      3, you're done.  Stop calling the routine;
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    13 July 2004
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Albert Nijenhuis, Herbert Wilf.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Albert Nijenhuis, Herbert Wilf,
+            //    Combinatorial Algorithms for Computers and Calculators,
+            //    Second Edition,
+            //    Academic Press, 1978,
+            //    ISBN: 0-12-519260-6,
+            //    LC: QA164.N54.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of positions to be filled in the vector.
+            //
+            //    Input, int MAXSTACK, the maximum length of the stack.
+            //
+            //    Input, int STACK[MAXSTACK], a list of all current candidates for
+            //    all positions 1 through K.
+            //
+            //    Input/output, int X[N], the partial or complete candidate vector.
+            //
+            //    Input/output, int &INDX, a communication flag.
+            //    On input,
+            //      0 to start a search.
+            //    On output:
+            //      1, a complete output vector has been determined and returned in X(1:N);
+            //      2, candidates are needed for position X(K);
+            //      3, no more possible vectors exist.
+            //
+            //    Input/output, int *&K, if INDX=2, the current vector index being considered.
+            //
+            //    Input/output, int &NSTACK, the current length of the stack.
+            //
+            //    Input/output, int NCAN[N], lists the current number of candidates for
+            //    positions 1 through K.
+            //
+        {
+            //
+            //  If this is the first call, request a candidate for position 1.
+            //
+            if (indx == 0)
+            {
+                k = 1;
+                nstack = 0;
+                indx = 2;
+                return;
+            }
+
+            //
+            //  Examine the stack.
+            //
+            for (;;)
+            {
+                //
+                //  If there are candidates for position K, take the first available
+                //  one off the stack, and increment K.
+                //
+                //  This may cause K to reach the desired value of N, in which case
+                //  we need to signal the user that a complete set of candidates
+                //  is being returned.
+                //
+                if (0 < ncan[k - 1])
+                {
+                    x[k - 1] = stack[nstack - 1];
+                    nstack = nstack - 1;
+
+                    ncan[k - 1] = ncan[k - 1] - 1;
+
+                    if (k != n)
+                    {
+                        k = k + 1;
+                        indx = 2;
+                    }
+                    else
+                    {
+                        indx = 1;
+                    }
+
+                    break;
+                }
+                //
+                //  If there are no candidates for position K, then decrement K.
+                //  If K is still positive, repeat the examination of the stack.
+                //
+                else
+                {
+                    k = k - 1;
+
+                    if (k <= 0)
+                    {
+                        indx = 3;
+                        break;
+                    }
+                }
+            }
+
+            return;
+        }
+
+        public static int[] i4vec_part1_new(int n, int npart)
+
+            //****************************************************************************80
+            // 
+            //  Purpose:
+            //
+            //    I4VEC_PART1_NEW partitions an integer N into NPART parts.
+            // 
+            //  Example:
+            // 
+            //    Input:
+            // 
+            //      N = 17, NPART = 5
+            // 
+            //    Output:
+            // 
+            //      X = ( 13, 1, 1, 1, 1 ).
+            // 
+            //  Licensing:
+            // 
+            //    This code is distributed under the GNU LGPL license.
+            // 
+            //  Modified:
+            // 
+            //    24 July 2011
+            // 
+            //  Author:
+            // 
+            //    John Burkardt
+            // 
+            //  Parameters:
+            // 
+            //    Input, int N, the integer to be partitioned.  N
+            //    may be positive, zero, or negative.
+            // 
+            //    Input, int NPART, the number of entries in the array.
+            //    1 <= NPART <= N.
+            // 
+            //    Output, int I4VEC_PART1_NEW[NPART], the partition of N.  The entries of
+            //    X add up to N.  X(1) = N + 1 - NPART, and all other entries
+            //    are equal to 1.
+            // 
+        {
+            int i;
+            int[] x;
+
+            if (npart < 1 || n < npart)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("I4VEC_PART1_NEW - Fatal error!");
+                Console.WriteLine("  The input value of NPART is illegal.");
+                return null;
+            }
+
+            x = new int[npart];
+
+            x[0] = n + 1 - npart;
+            for (i = 1; i < npart; i++)
+            {
+                x[i] = 1;
+            }
+
+            return x;
+        }
+
+        public static void i4vec_part2(int n, int npart, ref int[] x, int xIndex = 0)
+
+            //****************************************************************************80
+            // 
+            //  Purpose:
+            //
+            //    I4VEC_PART2 partitions an integer N into NPART nearly equal parts.
+            // 
+            //  Discussion:
+            //
+            //    Thanks to John Nitao for pointing out a typographical error in 
+            //    of the form "x[j=1]" for "x[j-1]", 14 April 2013.
+            //
+            //  Example:
+            // 
+            //    Input:
+            // 
+            //      N = 17, NPART = 5
+            // 
+            //    Output:
+            // 
+            //      X = ( 4, 4, 3, 3, 3 ).
+            // 
+            //  Licensing:
+            // 
+            //    This code is distributed under the GNU LGPL license.
+            // 
+            //  Modified:
+            // 
+            //    14 April 2013
+            // 
+            //  Author:
+            // 
+            //    John Burkardt
+            // 
+            //  Parameters:
+            // 
+            //    Input, int N, the integer to be partitioned.  N
+            //    may be positive, zero, or negative.
+            // 
+            //    Input, int NPART, the number of entries in the array.
+            //    1 <= NPART
+            // 
+            //    Output, int X[NPART], the partition of N.  The entries of
+            //    X add up to N.  The entries of X are either all equal, or
+            //    differ by at most 1.  The entries of X all have the same sign
+            //    as N, and the "largest" entries occur first.
+            // 
+        {
+            int i;
+            int j;
+
+            if (npart < 1)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("I4VEC_PART2 - Fatal error!");
+                Console.WriteLine("  The input value of NPART is illegal.");
+                return;
+            }
+
+            for (i = 0; i < npart; i++)
+            {
+                x[i + xIndex] = 0;
+            }
+
+            if (0 < n)
+            {
+                j = 1;
+                for (i = 1; i <= n; i++)
+                {
+                    x[xIndex + (j - 1)] = x[xIndex + (j - 1)] + 1;
+                    j = j + 1;
+                    if (npart < j)
+                    {
+                        j = 1;
+                    }
+                }
+            }
+            else if (n < 0)
+            {
+                j = 1;
+                for (i = n; i <= -1; i++)
+                {
+                    x[xIndex + (j - 1)] = x[xIndex + (j - 1)] - 1;
+                    j = j + 1;
+                    if (npart < j)
+                    {
+                        j = 1;
+                    }
+                }
+            }
+        }
+
+        public static int[] i4vec_part2_new(int n, int npart)
+
+            //****************************************************************************80
+            // 
+            //  Purpose:
+            //
+            //    I4VEC_PART2_NEW partitions an integer N into NPART nearly equal parts.
+            // 
+            //  Example:
+            // 
+            //    Input:
+            // 
+            //      N = 17, NPART = 5
+            // 
+            //    Output:
+            // 
+            //      X = ( 4, 4, 3, 3, 3 ).
+            // 
+            //  Licensing:
+            // 
+            //    This code is distributed under the GNU LGPL license.
+            // 
+            //  Modified:
+            // 
+            //    25 July 2011
+            // 
+            //  Author:
+            // 
+            //    John Burkardt
+            // 
+            //  Parameters:
+            // 
+            //    Input, int N, the integer to be partitioned.  N
+            //    may be positive, zero, or negative.
+            // 
+            //    Input, int NPART, the number of entries in the array.
+            //    1 <= NPART
+            // 
+            //    Output, int I4VEC_PART2[NPART], the partition of N.  The entries of
+            //    X add up to N.  The entries of X are either all equal, or
+            //    differ by at most 1.  The entries of X all have the same sign
+            //    as N, and the "largest" entries occur first.
+            // 
+        {
+            int[] x;
+
+            x = new int[npart];
+
+            i4vec_part2(n, npart, ref x);
+
+            return x;
+        }
+
+        public static void i4vec_reverse(int n, ref int[] a, int aIndex)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_REVERSE reverses the elements of an I4VEC.
+            //
+            //  Discussion:
+            //
+            //    An I4VEC is a vector of I4's.
+            //
+            //  Example:
+            //
+            //    Input:
+            //
+            //      N = 5,
+            //      A = ( 11, 12, 13, 14, 15 ).
+            //
+            //    Output:
+            //
+            //      A = ( 15, 14, 13, 12, 11 ).
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    22 September 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in the array.
+            //
+            //    Input/output, int A[N], the array to be reversed.
+            //
+        {
+            int i;
+            int j;
+
+            for (i = 0; i < n / 2; i++)
+            {
+                j = a[aIndex + i];
+                a[aIndex + i] = a[aIndex + (n - 1 - i)];
+                a[aIndex + (n - 1 - i)] = j;
+            }
+        }
+
+        public static int i4vec_search_binary_a(int n, int[] a, int b )
 
         //****************************************************************************80
         //
         //  Purpose:
         //
-        //    I4VEC_TRANSPOSE_PRINT prints an I4VEC "transposed".
+        //    I4VEC_SEARCH_BINARY_A searches an ascending sorted I4VEC for a value.
         //
         //  Discussion:
         //
         //    An I4VEC is a vector of I4's.
         //
-        //  Example:
-        //
-        //    A = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 }
-        //    TITLE = "My vector:  "
-        //
-        //    My vector:      1    2    3    4    5
-        //                    6    7    8    9   10
-        //                   11
+        //    Binary search is used.
         //
         //  Licensing:
         //
@@ -1675,65 +2168,321 @@ namespace Burkardt.Types
         //
         //  Modified:
         //
-        //    03 July 2004
+        //    22 September 2005
         //
         //  Author:
         //
         //    John Burkardt
         //
+        //  Reference:
+        //
+        //    Donald Kreher, Douglas Simpson,
+        //    Algorithm 1.9,
+        //    Combinatorial Algorithms,
+        //    CRC Press, 1998, page 26.
+        //
         //  Parameters:
         //
-        //    Input, int N, the number of components of the vector.
+        //    Input, int N, the number of elements in the vector.
         //
-        //    Input, int A[N], the vector to be printed.
+        //    Input, int A[N], the array to be searched.  A must
+        //    be sorted in ascending order.
         //
-        //    Input, string TITLE, a title to be printed first.
-        //    TITLE may be blank or NULL.
+        //    Input, int B, the value to be searched for.
+        //
+        //    Output, int I4VEC_SEARCH_BINARY_A, the result of the search.
+        //    -1, B does not occur in A.
+        //    I, A[I] = B.
         //
         {
-            int i;
-            int ihi;
-            int ilo;
-            int title_len;
-
-            if ( 0 < s_len_trim ( title ) )
+            int high;
+            int index;
+            int low;
+            int mid;
+            //
+            //  Check.
+            //
+            if (n <= 0)
             {
-                title_len = title.Length;
+                Console.WriteLine("");
+                Console.WriteLine("I4VEC_SEARCH_BINARY_A - Fatal error!");
+                Console.WriteLine("  The array dimension N is less than 1.");
+                return (1);
+            }
 
-                for ( ilo = 1; ilo <= n; ilo = ilo + 5 )
+            index = -1;
+
+            low = 1;
+            high = n;
+
+            while (low <= high)
+            {
+                mid = (low + high) / 2;
+
+                if (a[mid - 1] == b)
                 {
-                    string cout = "";
-                    ihi = Math.Min ( ilo + 5 - 1, n );
-                    if ( ilo == 1 )
-                    {
-                        cout = title;
-                    }
-                    else
-                    {
-                        for ( i = 1; i <= title_len; i++ )
-                        {
-                            cout += " ";
-                        }
-                    }
-                    for ( i = ilo; i <= ihi; i++ )
-                    {
-                        cout += a[i-1].ToString().PadLeft(12);
-                    }
-                    Console.WriteLine(cout);
+                    index = mid;
+                    break;
+                }
+                else if (a[mid - 1] < b)
+                {
+                    low = mid + 1;
+                }
+                else if (b < a[mid - 1])
+                {
+                    high = mid - 1;
                 }
             }
-            else
+
+            return index;
+        }
+
+        public static int i4vec_search_binary_d(int n, int[] a, int b )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    I4VEC_SEARCH_BINARY_D searches a descending sorted I4VEC for a value.
+        //
+        //  Discussion:
+        //
+        //    An I4VEC is a vector of I4's.
+        //
+        //    Binary search is used.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    22 September 2005
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Donald Kreher, Douglas Simpson,
+        //    Algorithm 1.9,
+        //    Combinatorial Algorithms,
+        //    CRC Press, 1998, page 26.
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number of elements in the vector.
+        //
+        //    Input, int A[N], the array to be searched.  A must
+        //    be sorted in descending order.
+        //
+        //    Input, int B, the value to be searched for.
+        //
+        //    Output, int I4VEC_SEARCH_BINARY_D, the result of the search.
+        //    -1, B does not occur in A.
+        //    I, A[I] = B.
+        //
+        {
+            int high;
+            int index;
+            int low;
+            int mid;
+            //
+            //  Check.
+            //
+            if (n <= 0)
             {
-                for ( ilo = 1; ilo <= n; ilo = ilo + 5 )
+                Console.WriteLine("");
+                Console.WriteLine("I4VEC_SEARCH_BINARY_D - Fatal error!");
+                Console.WriteLine("  The array dimension N is less than 1.");
+                return 1;
+            }
+
+            index = -1;
+
+            low = 1;
+            high = n;
+
+            while (low <= high)
+            {
+                mid = (low + high) / 2;
+
+                if (a[mid - 1] == b)
                 {
-                    string cout = "";
-                    ihi = Math.Min ( ilo + 5 - 1, n );
-                    for ( i = ilo; i <= ihi; i++ )
-                    {
-                        cout += a[i-1].ToString().PadLeft(12);
-                    }
-                    Console.WriteLine(cout);
+                    index = mid;
+                    break;
                 }
+                else if (b < a[mid - 1])
+                {
+                    low = mid + 1;
+                }
+                else if (a[mid - 1] < b)
+                {
+                    high = mid - 1;
+                }
+            }
+
+            return index;
+        }
+
+        public static void i4vec_sort_insert_a(int n, ref int[] a)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_SORT_INSERT_A uses an ascending insertion sort on an I4VEC.
+            //
+            //  Discussion:
+            //
+            //    An I4VEC is a vector of I4's.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    13 April 1999
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Donald Kreher, Douglas Simpson,
+            //    Algorithm 1.1,
+            //    Combinatorial Algorithms,
+            //    CRC Press, 1998, page 11.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of items in the vector.
+            //    N must be positive.
+            //
+            //    Input/output, int A[N].
+            //    On input, A contains data to be sorted.
+            //    On output, the entries of A have been sorted in ascending order.
+            //
+        {
+            int i;
+            int j;
+            int x;
+
+            for (i = 1; i < n; i++)
+            {
+                x = a[i];
+
+                j = i;
+
+                while (1 <= j && x < a[j - 1])
+                {
+                    a[j] = a[j - 1];
+                    j = j - 1;
+                }
+
+                a[j] = x;
+            }
+
+            return;
+        }
+
+        public static void i4vec_sort_insert_d(int n, ref int[] a)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_SORT_INSERT_D uses a descending insertion sort on an I4VEC.
+            //
+            //  Discussion:
+            //
+            //    An I4VEC is a vector of I4's.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    13 April 1999
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Donald Kreher, Douglas Simpson,
+            //    Algorithm 1.1,
+            //    Combinatorial Algorithms,
+            //    CRC Press, 1998, page 11.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of items in the vector.
+            //    N must be positive.
+            //
+            //    Input/output, int A[N].
+            //    On input, A contains data to be sorted.
+            //    On output, the entries of A have been sorted in ascending order.
+            //
+        {
+            int i;
+            int j;
+            int x;
+
+            for (i = 1; i < n; i++)
+            {
+                x = a[i];
+                j = i;
+
+                while (1 <= j && a[j - 1] < x)
+                {
+                    a[j] = a[j - 1];
+                    j = j - 1;
+                }
+
+                a[j] = x;
+            }
+
+            return;
+        }
+        
+        public static void i4vec_indicator1 ( int n, ref int[] a )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_INDICATOR1 sets an I4VEC to the indicator1 vector.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    25 February 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of elements of A.
+            //
+            //    Output, int A[N], the initialized array.
+            //
+        {
+            int i;
+
+            for ( i = 0; i < n; i++ )
+            {
+                a[i] = i + 1;
             }
         }
 

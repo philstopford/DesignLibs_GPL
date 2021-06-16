@@ -4,7 +4,7 @@ namespace Burkardt.AppliedStatistics
 {
     public static partial class Algorithms
     {
-        public static void invmod(int[] mat, int[] imat, int[] rmod, int[] cmod, int nrow,
+        public static void invmod(ref int[] mat, ref int[] imat, int[] rmod, int[] cmod, int nrow,
             ref int ifault)
         //****************************************************************************80
         //

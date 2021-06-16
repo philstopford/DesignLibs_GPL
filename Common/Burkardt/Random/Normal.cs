@@ -78,7 +78,7 @@ namespace Burkardt.RandomNS
             //
             for (j = 0; j < n; j++)
             {
-                typeMethods.r8vec_normal_01(dim_num, ref seed, v);
+                typeMethods.r8vec_normal_01(dim_num, ref seed, ref v);
 
                 for (i = 0; i < dim_num; i++)
                 {
@@ -151,7 +151,7 @@ namespace Burkardt.RandomNS
             //
             //  The radius is normally distributed.
             //
-            typeMethods.r8vec_normal_01(n, ref seed, r);
+            typeMethods.r8vec_normal_01(n, ref seed, ref r);
 
             for (j = 0; j < n; j++)
             {
@@ -246,7 +246,7 @@ namespace Burkardt.RandomNS
             //
             for (j = 0; j < n; j++)
             {
-                typeMethods.r8vec_normal_01(m, ref seed, v);
+                typeMethods.r8vec_normal_01(m, ref seed, ref v);
 
                 for (i = 0; i < m; i++)
                 {
@@ -311,7 +311,7 @@ namespace Burkardt.RandomNS
 
             x = new double[dim_num * n];
 
-            typeMethods.r8vec_normal_01(dim_num * n, ref seed, x);
+            typeMethods.r8vec_normal_01(dim_num * n, ref seed, ref x);
 
             return x;
         }

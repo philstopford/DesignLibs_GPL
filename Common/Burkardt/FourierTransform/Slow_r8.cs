@@ -750,7 +750,7 @@ namespace Burkardt.FourierTransform
             return x;
         }
 
-        public static void r8vec_swtf(int n, double[] x, double[] s, double[] d )
+        public static void r8vec_swtf(int n, double[] x, ref double[] s, ref double[] d )
 
         //****************************************************************************80
         //

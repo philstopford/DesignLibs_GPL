@@ -961,7 +961,7 @@ namespace Burkardt.ChebyshevPolynomialNS
                 w[i] = 0.0;
             }
 
-            IMTQLX.imtqlx(n, t, bj, ref w);
+            IMTQLX.imtqlx(n, ref t, ref bj, ref w);
 
             for (i = 0; i < n; i++)
             {

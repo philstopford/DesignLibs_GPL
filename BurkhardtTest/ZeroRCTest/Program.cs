@@ -108,7 +108,7 @@ namespace Burkardt.ZeroRCTest
       for (;;)
       {
         ZeroRC_data data = new ZeroRC_data();
-        ZeroRC.zero_rc(ref data, a, b, t, ref arg, ref status, ref value);
+        ZeroRC.zero_rc(ref data, a, b, t, ref arg, ref status, value);
 
         if (status < 0)
         {

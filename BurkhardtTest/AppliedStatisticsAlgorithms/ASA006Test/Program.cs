@@ -102,7 +102,7 @@ namespace Burkardt.ASA006Test
                     k = k + 1;
                 }
 
-                Algorithms.cholesky(a, n, nn, u, ref nullty, ref ifault);
+                Algorithms.cholesky(a, n, nn, ref u, ref nullty, ref ifault);
 
                 Console.WriteLine("");
                 Console.WriteLine("  Matrix order N = " + n + "");
@@ -205,7 +205,7 @@ namespace Burkardt.ASA006Test
                     }
                 }
 
-                Algorithms.cholesky(a, n, nn, u, ref nullty, ref ifault);
+                Algorithms.cholesky(a, n, nn, ref u, ref nullty, ref ifault);
 
                 Console.WriteLine("");
                 Console.WriteLine("  Matrix order N = " + n + "");

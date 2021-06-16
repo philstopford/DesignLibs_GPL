@@ -213,7 +213,7 @@ namespace WathenMatrixTest
             }
 
             int job = 0;
-            Matrix.dgbsl(a, lda, n, ml, mu, ipvt, x2, job);
+            Matrix.dgbsl(a, lda, n, ml, mu, ipvt, ref x2, job);
             //
             //  Compute the maximum solution error.
             //
@@ -517,7 +517,7 @@ namespace WathenMatrixTest
 
                 t0 = DateTime.Now;
                 Matrix.dgbfa(a, lda, n, ml, mu, ref ipvt);
-                Matrix.dgbsl(a, lda, n, ml, mu, ipvt, x2, job);
+                Matrix.dgbsl(a, lda, n, ml, mu, ipvt, ref x2, job);
                 t2 = DateTime.Now - t0;
                 //
                 //  Compute the maximum solution error.
@@ -689,7 +689,7 @@ namespace WathenMatrixTest
 
                 t0 = DateTime.Now;
                 Matrix.dgbfa(a, lda, n, ml, mu, ref ipvt);
-                Matrix.dgbsl(a, lda, n, ml, mu, ipvt, x2, job);
+                Matrix.dgbsl(a, lda, n, ml, mu, ipvt, ref x2, job);
                 t2 = DateTime.Now - t0;
                 //
                 //  Compute the maximum solution error.
@@ -786,7 +786,7 @@ namespace WathenMatrixTest
                 x2[i] = 1.0;
             }
 
-            ConjugateGradient.cg_ge(n, a, b, x2);
+            ConjugateGradient.cg_ge(n, a, b, ref x2);
             //
             //  Compute the maximum solution error.
             //
@@ -875,7 +875,7 @@ namespace WathenMatrixTest
                 x2[i] = 1.0;
             }
 
-            ConjugateGradient.cg_st(n, nz_num, row, col, a, b, x2);
+            ConjugateGradient.cg_st(n, nz_num, row, col, a, b, ref x2);
             //
             //  Compute the maximum solution error.
             //
@@ -963,7 +963,7 @@ namespace WathenMatrixTest
                 x2[i] = 1.0;
             }
 
-            ConjugateGradient.cg_gb(n, ml, mu, a, b, x2);
+            ConjugateGradient.cg_gb(n, ml, mu, a, b, ref x2);
             //
             //  Compute the maximum solution error.
             //

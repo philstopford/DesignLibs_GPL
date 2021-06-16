@@ -17,7 +17,7 @@ namespace Burkardt.ZeroRCNS
     public static class ZeroRC
     {
         public static void zero_rc(ref ZeroRC_data data, double a, double b, double t, ref double arg, ref int status,
-        ref double value )
+        double value )
 
         //****************************************************************************80
         //

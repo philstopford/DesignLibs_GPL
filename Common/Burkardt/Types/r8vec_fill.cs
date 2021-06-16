@@ -2,7 +2,7 @@
 {
     public static partial class typeMethods
     {
-        public static void r8vec_fill ( int n, double value, double[] x )
+        public static void r8vec_fill ( int n, double value, ref double[] x )
 
             //****************************************************************************80
             //

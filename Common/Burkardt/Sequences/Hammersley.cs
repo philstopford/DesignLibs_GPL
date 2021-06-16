@@ -121,7 +121,7 @@ namespace Burkardt
         }
 
         public static void i4_to_hammersley(int dim_num, int step, int[] seed, int[] leap,
-                int[] base_, double[] r)
+                int[] base_, ref double[] r)
 
             //****************************************************************************80
             //

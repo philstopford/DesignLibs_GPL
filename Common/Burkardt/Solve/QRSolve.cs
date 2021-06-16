@@ -80,7 +80,7 @@ namespace Burkardt
             return x;
         }
         
-        public static void dqrank(double[] a, int lda, int m, int n, double tol, ref int kr,
+        public static void dqrank(ref double[] a, int lda, int m, int n, double tol, ref int kr,
         ref int[] jpvt, ref double[] qraux )
 
         //****************************************************************************80
@@ -584,7 +584,7 @@ namespace Burkardt
             //
             if (itask == 1)
             {
-                dqrank(a, lda, m, n, tol, ref kr, ref jpvt, ref qraux);
+                dqrank(ref a, lda, m, n, tol, ref kr, ref jpvt, ref qraux);
             }
 
             //

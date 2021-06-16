@@ -4,7 +4,7 @@ namespace Burkardt.Types
 {
     public static partial class typeMethods
     {
-        public static void r83_cg(int n, double[] a, double[] b, double[] x)
+        public static void r83_cg(int n, double[] a, double[] b, ref double[] x)
 
             //****************************************************************************80
             //

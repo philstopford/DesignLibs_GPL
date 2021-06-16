@@ -53,7 +53,7 @@
 
             histo_gram = new int[histo_num+2];
 
-            i4vec_zeros ( histo_num+2, histo_gram );
+            i4vec_zeros ( histo_num+2, ref histo_gram );
 
             delta = ( a_hi - a_lo ) / ( double ) ( 2 * histo_num );
 

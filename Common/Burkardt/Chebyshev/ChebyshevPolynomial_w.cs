@@ -39,7 +39,7 @@ namespace Burkardt.ChebyshevPolynomialNS
             x = new double[n + 1];
             w = new double[n + 1];
 
-            w_quadrature_rule(n + 1, x, w);
+            w_quadrature_rule(n + 1, ref x, ref w);
 
             phi = w_polynomial(n + 1, n, x);
 
@@ -899,7 +899,7 @@ namespace Burkardt.ChebyshevPolynomialNS
             return z;
         }
 
-        public static void w_quadrature_rule(int n, double[] t, double[] w )
+        public static void w_quadrature_rule(int n, ref double[] t, ref double[] w )
 
         //****************************************************************************80
         //
@@ -949,7 +949,7 @@ namespace Burkardt.ChebyshevPolynomialNS
                 w[i] = 0.0;
             }
 
-            IMTQLX.imtqlx(n, t, bj, ref w);
+            IMTQLX.imtqlx(n, ref t, ref bj, ref w);
 
             for (i = 0; i < n; i++)
             {

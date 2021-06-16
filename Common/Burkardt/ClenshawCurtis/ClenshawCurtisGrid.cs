@@ -363,7 +363,7 @@ namespace Burkardt
             return test_level;
         }
 
-        public static void cc_grid(int dim_num, int[] order_1d, int order_nd, double[] point, int ptIndex = 0)
+        public static void cc_grid(int dim_num, int[] order_1d, int order_nd, ref double[] point, int ptIndex = 0)
 
             //****************************************************************************80
             //
@@ -578,7 +578,7 @@ namespace Burkardt
             for (;;)
             {
                 typeMethods.vector_constrained_next4(dim_num, alpha, order_min, order_max,
-                    order_1d, q_max, ref more);
+                    ref order_1d, q_max, ref more);
 
                 if (!more)
                 {
@@ -591,7 +591,7 @@ namespace Burkardt
                     order_nd = order_nd * order_1d[dim];
                 }
 
-                cc_grid(dim_num, order_1d, order_nd, grid_point, ptIndex: +point_num * dim_num);
+                cc_grid(dim_num, order_1d, order_nd, ref grid_point, ptIndex: +point_num * dim_num);
 
                 point_num = point_num + order_nd;
 
@@ -674,7 +674,7 @@ namespace Burkardt
             for (;;)
             {
                 typeMethods.vector_constrained_next4(dim_num, alpha, order_min, order_max,
-                    order_1d, q_max, ref more);
+                    ref order_1d, q_max, ref more);
 
                 if (!more)
                 {
@@ -772,7 +772,7 @@ namespace Burkardt
                         order_nd = order_nd * order_1d[dim];
                     }
 
-                    cc_grid(dim_num, order_1d, order_nd, grid_point, ptIndex: +point_num * dim_num);
+                    cc_grid(dim_num, order_1d, order_nd, ref grid_point, ptIndex: +point_num * dim_num);
 
                     point_num = point_num + order_nd;
 
@@ -1023,7 +1023,7 @@ namespace Burkardt
             for (;;)
             {
                 typeMethods.vector_constrained_next4(dim_num, alpha, level_min, level_max,
-                    level_1d, q_max, ref more);
+                    ref level_1d, q_max, ref more);
 
                 if (!more)
                 {
@@ -1038,7 +1038,7 @@ namespace Burkardt
                     order_nd = order_nd * order_1d[dim];
                 }
 
-                cc_grid(dim_num, order_1d, order_nd, grid_point, ptIndex: +point_num * dim_num);
+                cc_grid(dim_num, order_1d, order_nd, ref grid_point, ptIndex: +point_num * dim_num);
 
                 point_num = point_num + order_nd;
 
@@ -1128,7 +1128,7 @@ namespace Burkardt
             for (;;)
             {
                 typeMethods.vector_constrained_next4(dim_num, alpha, level_min, level_max,
-                    level_1d, q_max, ref more);
+                    ref level_1d, q_max, ref more);
 
                 if (!more)
                 {
@@ -1241,7 +1241,7 @@ namespace Burkardt
                         order_nd = order_nd * order_1d[dim];
                     }
 
-                    cc_grid(dim_num, order_1d, order_nd, grid_point, ptIndex: +point_num * dim_num);
+                    cc_grid(dim_num, order_1d, order_nd, ref grid_point, ptIndex: +point_num * dim_num);
 
                     point_num = point_num + order_nd;
 
@@ -1512,7 +1512,7 @@ namespace Burkardt
                     x1d = new double[order];
                     w1d = new double[order];
 
-                    ClenshawCurtis.clenshaw_curtis_compute(order, x1d, w1d);
+                    ClenshawCurtis.clenshaw_curtis_compute(order, ref x1d, ref w1d);
                 }
 
                 p = 0;

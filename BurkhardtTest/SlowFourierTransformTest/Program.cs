@@ -323,7 +323,7 @@ namespace SlowFourierTransformTest
             a = new float[n / 2];
             b = new float[n / 2];
 
-            Slow.r4vec_sftf(n, x, ref azero, a, b);
+            Slow.r4vec_sftf(n, x, ref azero, ref a, ref b);
 
             Console.WriteLine("");
             Console.WriteLine("  A (cosine) coefficients:");
@@ -791,7 +791,7 @@ namespace SlowFourierTransformTest
             s = new double[np1h];
             d = new double[np1h];
 
-            Slow.r8vec_swtf(n, x, s, d);
+            Slow.r8vec_swtf(n, x, ref s, ref d);
 
             Console.WriteLine("");
             Console.WriteLine("     I          S(I)            D(I)");

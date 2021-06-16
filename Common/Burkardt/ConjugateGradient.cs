@@ -4,7 +4,7 @@ namespace Burkardt
 {
     public static class ConjugateGradient
     {
-        public static void cg_gb(int n, int ml, int mu, double[] a, double[] b, double[] x )
+        public static void cg_gb(int n, int ml, int mu, double[] a, double[] b, ref double[] x )
 
         //****************************************************************************80
         //
@@ -152,7 +152,7 @@ namespace Burkardt
 
         }
 
-        public static void cg_ge(int n, double[] a, double[] b, double[] x )
+        public static void cg_ge(int n, double[] a, double[] b, ref double[] x )
 
         //****************************************************************************80
         //
@@ -299,7 +299,7 @@ namespace Burkardt
         }
 
         public static void cg_st(int n, int nz_num, int[] row, int[] col, double[] a, double[] b,
-        double[] x )
+        ref double[] x )
 
         //****************************************************************************80
         //

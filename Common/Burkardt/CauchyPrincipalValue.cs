@@ -93,7 +93,7 @@ namespace Burkardt
             x = new double[n];
             w = new double[n];
 
-            legendre_set(n, x, w);
+            legendre_set(n, ref x, ref w);
             //
             //  Estimate the integral.
             //
@@ -109,7 +109,7 @@ namespace Burkardt
             return value;
         }
 
-        public static void legendre_set(int n, double[] x, double[] w )
+        public static void legendre_set(int n, ref double[] x, ref double[] w )
 
         //****************************************************************************80
         //

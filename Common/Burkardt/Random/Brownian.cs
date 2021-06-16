@@ -69,7 +69,7 @@ namespace Burkardt.RandomNS
                 r = typeMethods.r8_normal_01 ( ref seed );
                 r = Math.Abs ( r );
 
-                direction_uniform_nd ( dim_num, ref seed, direction );
+                direction_uniform_nd ( dim_num, ref seed, ref direction );
 
                 for ( i = 0; i < dim_num; i++ )
                 {

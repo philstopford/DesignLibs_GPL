@@ -647,7 +647,7 @@ namespace ChebyshevPolynomialTest
             double[] x = new double[n];
             double[] w = new double[n];
 
-            ChebyshevPolynomial.t_quadrature_rule(n, x, w);
+            ChebyshevPolynomial.t_quadrature_rule(n, ref x, ref w);
 
             typeMethods.r8vec2_print(n, x, w, "    N      X            W");
 
@@ -1174,7 +1174,7 @@ namespace ChebyshevPolynomialTest
             x = new double[n];
             w = new double[n];
 
-            ChebyshevPolynomial.t_quadrature_rule(n, x, w);
+            ChebyshevPolynomial.t_quadrature_rule(n, ref x, ref w);
 
             seed = 123456789;
 
@@ -1739,7 +1739,7 @@ namespace ChebyshevPolynomialTest
             x = new double[n];
             w = new double[n];
 
-            ChebyshevPolynomial.u_quadrature_rule(n, x, w);
+            ChebyshevPolynomial.u_quadrature_rule(n, ref x, ref w);
 
             typeMethods.r8vec2_print(n, x, w, "    N      X            W");
 
@@ -2895,7 +2895,7 @@ namespace ChebyshevPolynomialTest
             double[] x = new double[n];
             double[] w = new double[n];
 
-            ChebyshevPolynomial.w_quadrature_rule(n, x, w);
+            ChebyshevPolynomial.w_quadrature_rule(n, ref x, ref w);
 
             typeMethods.r8vec2_print(n, x, w, "    N      X            W");
 

@@ -110,7 +110,7 @@ namespace ConjugateGradientTest
                 x2[i] = 1.0;
             }
 
-            typeMethods.r8ge_cg(n, a, b, x2);
+            typeMethods.r8ge_cg(n, a, b, ref x2);
             //
             //  Compute the residual.
             //
@@ -188,7 +188,7 @@ namespace ConjugateGradientTest
                 x2[i] = 1.0;
             }
 
-            typeMethods.r83_cg(n, a, b, x2);
+            typeMethods.r83_cg(n, a, b, ref x2);
             //
             //  Compute the residual.
             //
@@ -266,7 +266,7 @@ namespace ConjugateGradientTest
                 x2[i] = 1.0;
             }
 
-            typeMethods.r83s_cg(n, a, b, x2);
+            typeMethods.r83s_cg(n, a, b, ref x2);
             //
             //  Compute the residual.
             //
@@ -344,7 +344,7 @@ namespace ConjugateGradientTest
                 x2[i] = 1.0;
             }
 
-            typeMethods.r83t_cg(n, a, b, x2);
+            typeMethods.r83t_cg(n, a, b, ref x2);
             //
             //  Compute the residual.
             //
@@ -424,7 +424,7 @@ namespace ConjugateGradientTest
                 x2[i] = 1.0;
             }
 
-            typeMethods.r8pbu_cg(n, mu, a, b, x2);
+            typeMethods.r8pbu_cg(n, mu, a, b, ref x2);
             //
             //  Compute the residual.
             //
@@ -509,7 +509,7 @@ namespace ConjugateGradientTest
                 x2[i] = 1.0;
             }
 
-            typeMethods.r8sd_cg(n, ndiag, offset, a, b, x2);
+            typeMethods.r8sd_cg(n, ndiag, offset, a, b, ref x2);
             //
             //  Compute the residual.
             //
@@ -594,7 +594,7 @@ namespace ConjugateGradientTest
                 x2[i] = 1.0;
             }
 
-            typeMethods.r8sp_cg(n, nz_num, row, col, a, b, x2);
+            typeMethods.r8sp_cg(n, nz_num, row, col, a, b, ref x2);
             //
             //  Compute the residual.
             //

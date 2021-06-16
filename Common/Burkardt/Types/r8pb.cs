@@ -2,7 +2,7 @@
 {
     public static partial class typeMethods
     {
-        public static void r8pbu_cg(int n, int mu, double[] a, double[] b, double[] x )
+        public static void r8pbu_cg(int n, int mu, double[] a, double[] b, ref double[] x )
 
         //****************************************************************************80
         //

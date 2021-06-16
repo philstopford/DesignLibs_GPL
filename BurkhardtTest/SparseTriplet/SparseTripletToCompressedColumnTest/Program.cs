@@ -193,7 +193,7 @@ namespace SparseTripletToCompressedColumnTest
             icc = new int[ncc];
             ccc = new int[n + 1];
 
-            SparseTriplet.st_to_ccs_index(nst, ist, jst, ncc, n, icc, ccc);
+            SparseTriplet.st_to_ccs_index(nst, ist, jst, ncc, n, ref icc, ref ccc);
             //
             //  Create the CCS values.
             //
@@ -289,7 +289,7 @@ namespace SparseTripletToCompressedColumnTest
             icc = new int[ncc];
             ccc = new int[n + 1];
 
-            SparseTriplet.st_to_ccs_index(nst, ist, jst, ncc, n, icc, ccc);
+            SparseTriplet.st_to_ccs_index(nst, ist, jst, ncc, n, ref icc, ref ccc);
             //
             //  Create the CCS values.
             //
@@ -388,7 +388,7 @@ namespace SparseTripletToCompressedColumnTest
             icc = new int[ncc];
             ccc = new int[n + 1];
 
-            SparseTriplet.st_to_ccs_index(nst, ist, jst, ncc, n, icc, ccc);
+            SparseTriplet.st_to_ccs_index(nst, ist, jst, ncc, n, ref icc, ref ccc);
             //
             //  Create the CCS values.
             //
@@ -507,7 +507,7 @@ namespace SparseTripletToCompressedColumnTest
             //
             icc = new int[ncc];
             ccc = new int[n + 1];
-            SparseTriplet.st_to_ccs_index(nst, ist, jst, ncc, n, icc, ccc);
+            SparseTriplet.st_to_ccs_index(nst, ist, jst, ncc, n, ref icc, ref ccc);
             //
             //  Create the CCS values.
             //

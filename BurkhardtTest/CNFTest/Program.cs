@@ -516,7 +516,7 @@ namespace CNFTest
                     Console.WriteLine(cout);
                 }
 
-                typeMethods.lvec_next(v_num, v_val);
+                typeMethods.lvec_next(v_num, ref v_val);
             }
 
             //

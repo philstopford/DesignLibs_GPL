@@ -7,7 +7,7 @@ namespace Burkardt
     public static partial class Matrix
     {
         public static void dgbsl(double[] abd, int lda, int n, int ml, int mu, int[] ipvt,
-        double[] b, int job )
+        ref double[] b, int job )
 
         //****************************************************************************80
         //

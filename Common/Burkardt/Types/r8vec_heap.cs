@@ -2,7 +2,7 @@
 {
     public static partial class typeMethods
     {
-        public static void r8vec_heap_a(int n, double[] a)
+        public static void r8vec_heap_a(int n, ref double[] a)
 
             //****************************************************************************80
             //
@@ -128,7 +128,7 @@
             return;
         }
 
-        public static void r8vec_heap_d(int n, double[] a)
+        public static void r8vec_heap_d(int n, ref double[] a)
 
             //****************************************************************************80
             //

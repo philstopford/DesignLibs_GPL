@@ -578,8 +578,8 @@ namespace Burkardt.Types
             //
             r8mat_copy(m, n, a, ref u);
 
-            r8mat_zeros(m, m, l);
-            r8mat_zeros(m, m, p);
+            r8mat_zeros(m, m, ref l);
+            r8mat_zeros(m, m, ref p);
             for (i = 0; i < m; i++)
             {
                 l[i + i * m] = 1.0;
@@ -642,8 +642,6 @@ namespace Burkardt.Types
                     }
                 }
             }
-
-            return;
         }
 
 
@@ -763,7 +761,7 @@ namespace Burkardt.Types
             return c;
         }
         
-        public static void r8mat_nint(int m, int n, double[] a)
+        public static void r8mat_nint(int m, int n, ref double[] a)
 
             //****************************************************************************80
             //

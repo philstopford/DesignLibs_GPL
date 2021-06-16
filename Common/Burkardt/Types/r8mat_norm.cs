@@ -187,7 +187,7 @@ namespace Burkardt.Types
             //
             //  Diagonalize B.
             //
-            r8mat_symm_jacobi(m, b);
+            r8mat_symm_jacobi(m, ref b);
             //
             //  Find the maximum eigenvalue, and take its square root.
             //
@@ -215,7 +215,7 @@ namespace Burkardt.Types
             //      R8MAT_NORM_LI =  max ( 1 <= I <= M ) sum ( 1 <= J <= N ) abs ( A(I,J) ).
             //
             //    The matrix L-oo norm is derived from the vector L-oo norm,
-            //    and satisifies:
+            //    and satisfies:
             //
             //      r8vec_norm_li ( A * x ) <= r8mat_norm_li ( A ) * r8vec_norm_li ( x ).
             //

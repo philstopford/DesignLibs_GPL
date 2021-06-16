@@ -221,7 +221,7 @@ namespace Burkardt.Types
             return c;
         }
 
-        public static void r8mat_cholesky_inverse(int n, double[] a)
+        public static void r8mat_cholesky_inverse(int n, ref double[] a)
 
             //****************************************************************************80
             //

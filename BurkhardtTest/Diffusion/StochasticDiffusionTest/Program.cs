@@ -286,7 +286,7 @@ namespace Burkardt.StochasticDiffusionTest
 
             double[] xmat = new double[nx * ny];
             double[] ymat = new double[nx * ny];
-            typeMethods.r8vec_mesh_2d(nx, ny, xvec, yvec, xmat, ymat);
+            typeMethods.r8vec_mesh_2d(nx, ny, xvec, yvec, ref xmat, ref ymat);
 //
 //  Sample OMEGA.
 //
@@ -399,7 +399,7 @@ namespace Burkardt.StochasticDiffusionTest
 
             double[] xmat = new double[nx * ny];
             double[] ymat = new double[nx * ny];
-            typeMethods.r8vec_mesh_2d(nx, ny, xvec, yvec, xmat, ymat);
+            typeMethods.r8vec_mesh_2d(nx, ny, xvec, yvec, ref xmat, ref ymat);
 //
 //  Sample OMEGA.
 //
@@ -512,7 +512,7 @@ namespace Burkardt.StochasticDiffusionTest
 
             double[] xmat = new double[nx * ny];
             double[] ymat = new double[nx * ny];
-            typeMethods.r8vec_mesh_2d(nx, ny, xvec, yvec, xmat, ymat);
+            typeMethods.r8vec_mesh_2d(nx, ny, xvec, yvec, ref xmat, ref ymat);
 //
 //  Sample OMEGA.
 //  We rescale to  [-sqrt(3),sqrt(3)].
@@ -679,7 +679,7 @@ namespace Burkardt.StochasticDiffusionTest
 
             xmat = new double[nx * ny];
             ymat = new double[nx * ny];
-            typeMethods.r8vec_mesh_2d(nx, ny, xvec, yvec, xmat, ymat);
+            typeMethods.r8vec_mesh_2d(nx, ny, xvec, yvec, ref xmat, ref ymat);
 //
 //  Sample OMEGA.
 //

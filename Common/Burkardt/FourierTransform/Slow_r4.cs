@@ -142,7 +142,7 @@ namespace Burkardt.FourierTransform
             return r;
         }
 
-        public static void r4vec_sftf(int n, float[] r, ref float azero, float[] a, float[] b)
+        public static void r4vec_sftf(int n, float[] r, ref float azero, ref float[] a, ref float[] b)
 
             //****************************************************************************80
             //

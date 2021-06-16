@@ -104,7 +104,7 @@ namespace Burkardt.ProbabilityTest
                 average = 0.0;
                 for (i = 1; i <= N_TRIAL; i++)
                 {
-                    Coupon.coupon_sample(n_type, ref seed, coupon, ref n_coupon);
+                    Coupon.coupon_sample(n_type, ref seed, ref coupon, ref n_coupon);
 
                     Console.WriteLine("  "
                                       + i.ToString().PadLeft(6) + "  "

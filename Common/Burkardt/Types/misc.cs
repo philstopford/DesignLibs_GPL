@@ -6,7 +6,7 @@ namespace Burkardt.Types
 {
     public static partial class typeMethods
     {
-        public static void lvec_next ( int n, bool[] lvec )
+        public static void lvec_next ( int n, ref bool[] lvec )
 
             //****************************************************************************80
             //

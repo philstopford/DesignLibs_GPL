@@ -219,7 +219,7 @@ namespace Burkardt.Uniform
             return value;
         }
 
-                public static int[] i4vec_uniform_ab_new(int n, int a, int b, ref int seed)
+        public static int[] i4vec_uniform_ab_new(int n, int a, int b, ref int seed)
             //****************************************************************************80
             //
             //  Purpose:
@@ -344,6 +344,114 @@ namespace Burkardt.Uniform
                 {
                     value = b;
                 }
+
+                x[i] = value;
+            }
+
+            return x;
+        }
+
+        public static int[] i4vec_uniform(int n, int a, int b, ref int seed)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_UNIFORM returns a scaled pseudorandom I4VEC.
+            //
+            //  Discussion:
+            //
+            //    The pseudorandom numbers should be uniformly distributed
+            //    between A and B.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    12 November 2006
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Paul Bratley, Bennett Fox, Linus Schrage,
+            //    A Guide to Simulation,
+            //    Springer Verlag, pages 201-202, 1983.
+            //
+            //    Pierre L'Ecuyer,
+            //    Random Number Generation,
+            //    in Handbook of Simulation,
+            //    edited by Jerry Banks,
+            //    Wiley Interscience, page 95, 1998.
+            //
+            //    Bennett Fox,
+            //    Algorithm 647:
+            //    Implementation and Relative Efficiency of Quasirandom
+            //    Sequence Generators,
+            //    ACM Transactions on Mathematical Software,
+            //    Volume 12, Number 4, pages 362-376, 1986.
+            //
+            //    Peter Lewis, Allen Goodman, James Miller
+            //    A Pseudo-Random Number Generator for the System/360,
+            //    IBM Systems Journal,
+            //    Volume 8, pages 136-143, 1969.
+            //
+            //  Parameters:
+            //
+            //    Input, integer N, the dimension of the vector.
+            //
+            //    Input, int A, B, the limits of the interval.
+            //
+            //    Input/output, int *SEED, the "seed" value, which should NOT be 0.
+            //    On output, SEED has been updated.
+            //
+            //    Output, int IVEC_UNIFORM[N], a vector of random values between A and B.
+            //
+        {
+            int i;
+            int k;
+            float r;
+            int value;
+            int[] x;
+
+            if (seed == 0)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("I4VEC_UNIFORM - Fatal error!");
+                Console.WriteLine("  Input value of SEED = 0.");
+                return null;
+            }
+
+            x = new int[n];
+
+            for (i = 0; i < n; i++)
+            {
+                k = seed / 127773;
+
+                seed = 16807 * (seed - k * 127773) - k * 2836;
+
+                if (seed < 0)
+                {
+                    seed = seed + 2147483647;
+                }
+
+                r = (float) (seed) * 4.656612875E-10f;
+                //
+                //  Scale R to lie between A-0.5 and B+0.5.
+                //
+                r = (float)((1.0 - r) * ((float) (Math.Min(a, b)) - 0.5)
+                    + r * ((float) (Math.Max(a, b)) + 0.5));
+                //
+                //  Use rounding to convert R to an integer between A and B.
+                //
+                value = (int)(r);
+
+                value = Math.Max(value, Math.Min(a, b));
+                value = Math.Min(value, Math.Max(a, b));
 
                 x[i] = value;
             }

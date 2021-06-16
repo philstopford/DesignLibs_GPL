@@ -7,6 +7,56 @@ namespace Burkardt.Types
 {
     public static partial class typeMethods
     {
+        public static int i4vec_product ( int n, int[] a, int aIndex = 0 )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_PRODUCT multiplies the entries of an I4VEC.
+            //
+            //  Example:
+            //
+            //    Input:
+            //
+            //      A = ( 1, 2, 3, 4 )
+            //
+            //    Output:
+            //
+            //      I4VEC_PRODUCT = 24
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    17 May 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in the vector.
+            //
+            //    Input, int A[N], the vector
+            //
+            //    Output, int I4VEC_PRODUCT, the product of the entries of A.
+            //
+        {
+            int i;
+            int product;
+
+            product = 1;
+            for ( i = 0; i < n; i++ )
+            {
+                product = product * a[i + aIndex];
+            }
+
+            return product;
+        }
 
         public static void i4vec_copy(int n, int[] a1, int[] a2)
 

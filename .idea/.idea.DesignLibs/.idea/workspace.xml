@@ -128,6 +128,7 @@
     <projectFile>BurkhardtTest/ColoredNoiseTest/ColoredNoiseTest.csproj</projectFile>
     <projectFile>BurkhardtTest/SlowFourierTransformTest/SlowFourierTransformTest.csproj</projectFile>
     <projectFile>BurkhardtTest/FEM2DBVPSereneTest/FEM2DBVPSereneTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/ClenshawCurtis/ClenshawCurtisGridTest/ClenshawCurtisGridTest.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="" />
@@ -156,12 +157,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8po.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/Parallelogram.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/Polygon.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/Sector.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/Tetrahedron.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/Cube.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/Simplex.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/Sphere.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/Ellipsoid.cs" />
@@ -207,6 +202,12 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/i4.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/FEM/FEM_2D_BVP_Serene.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/FEM2DBVPSereneTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/i4vec.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/vec.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/ClenshawCurtis/ClenshawCurtisGrid.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/dtable.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/UniformRNG_i4.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/ClenshawCurtis/ClenshawCurtisGridTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -1277,6 +1278,24 @@
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
       <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/ClausenTest/ClausenTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="ClenshawCurtisGridTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/ClenshawCurtis/ClenshawCurtisGridTest/ClenshawCurtisGridTest.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
@@ -2695,6 +2714,7 @@
       <item itemvalue=".NET Project.ColoredNoiseTest" />
       <item itemvalue=".NET Project.SlowFourierTransformTest" />
       <item itemvalue=".NET Project.FEM2DBVPSereneTest" />
+      <item itemvalue=".NET Project.ClenshawCurtisGridTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

@@ -662,7 +662,7 @@ namespace Burkardt.FourierTransform
             return y;
         }
 
-        public static double[] r8vec_swtb(int n, double[] s, double[] d )
+        public static double[] r8vec_swtb(int n, ref double[] s, ref double[] d )
 
         //****************************************************************************80
         //

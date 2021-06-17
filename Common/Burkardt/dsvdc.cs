@@ -7,7 +7,7 @@ namespace Burkardt
 {
     public static class DSVDC
     {
-        public static int dsvdc(double[] a, int lda, int m, int n, ref double[] s, ref double[] e,
+        public static int dsvdc(ref double[] a, int lda, int m, int n, ref double[] s, ref double[] e,
         ref double[] u, int ldu, ref double[] v, int ldv, double[] work, int job )
 
         //****************************************************************************80

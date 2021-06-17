@@ -319,8 +319,6 @@ namespace Burkardt.Probability
         //    Output, double SEMICIRCULAR_SAMPLE, a sample of the PDF.
         //
         {
-            
-
             double radius = UniformRNG.r8_uniform_01(ref seed);
             radius = b * Math.Sqrt(radius);
             double angle = Math.PI * UniformRNG.r8_uniform_01(ref seed);

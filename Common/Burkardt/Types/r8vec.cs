@@ -1075,7 +1075,7 @@ namespace Burkardt.Types
             return first_index;
         }
 
-        public static double r8vec_frac(int n, double[] a, int k )
+        public static double r8vec_frac(int n, ref double[] a, int k )
 
         //****************************************************************************80
         //

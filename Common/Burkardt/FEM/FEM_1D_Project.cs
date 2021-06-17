@@ -103,7 +103,7 @@ namespace Burkardt.FEM
                 }
             }
 
-            typeMethods.r83_np_fa(fem_node_num, a);
+            typeMethods.r83_np_fa(fem_node_num, ref a);
 //
 //  Set up the right hand side b.
 //

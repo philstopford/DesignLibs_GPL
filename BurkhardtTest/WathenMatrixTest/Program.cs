@@ -51,7 +51,6 @@ namespace WathenMatrixTest
             Console.WriteLine("  Normal end of execution.");
             Console.WriteLine("");
         }
-        //****************************************************************************80
 
         static void test01()
 
@@ -121,7 +120,7 @@ namespace WathenMatrixTest
             //  Solve the linear system.
             //
             ipvt = new int[n];
-            Matrix.dgefa(a, n, n, ref ipvt);
+            Matrix.dgefa(ref a, n, n, ref ipvt);
 
             x2 = new double[n];
             for (i = 0; i < n; i++)
@@ -204,7 +203,7 @@ namespace WathenMatrixTest
             //
             int lda = 2 * ml + mu + 1;
             int[] ipvt = new int[n];
-            Matrix.dgbfa(a, lda, n, ml, mu, ref ipvt);
+            Matrix.dgbfa(ref a, lda, n, ml, mu, ref ipvt);
 
             double[] x2 = new double[n];
             for (int i = 0; i < n; i++)
@@ -395,7 +394,7 @@ namespace WathenMatrixTest
                 job = 0;
 
                 t0 = DateTime.Now;
-                Matrix.dgefa(a, n, n, ref ipvt);
+                Matrix.dgefa(ref a, n, n, ref ipvt);
                 Matrix.dgesl(a, n, n, ipvt, ref x2, job);
                 t2 = DateTime.Now - t0;
                 //
@@ -516,7 +515,7 @@ namespace WathenMatrixTest
                 job = 0;
 
                 t0 = DateTime.Now;
-                Matrix.dgbfa(a, lda, n, ml, mu, ref ipvt);
+                Matrix.dgbfa(ref a, lda, n, ml, mu, ref ipvt);
                 Matrix.dgbsl(a, lda, n, ml, mu, ipvt, ref x2, job);
                 t2 = DateTime.Now - t0;
                 //
@@ -633,7 +632,7 @@ namespace WathenMatrixTest
                 job = 0;
 
                 t0 = DateTime.Now;
-                Matrix.dgefa(a, n, n, ref ipvt);
+                Matrix.dgefa(ref a, n, n, ref ipvt);
                 Matrix.dgesl(a, n, n, ipvt, ref x2, job);
                 t2 = DateTime.Now - t0;
                 //
@@ -688,7 +687,7 @@ namespace WathenMatrixTest
                 job = 0;
 
                 t0 = DateTime.Now;
-                Matrix.dgbfa(a, lda, n, ml, mu, ref ipvt);
+                Matrix.dgbfa(ref a, lda, n, ml, mu, ref ipvt);
                 Matrix.dgbsl(a, lda, n, ml, mu, ipvt, ref x2, job);
                 t2 = DateTime.Now - t0;
                 //
@@ -861,7 +860,7 @@ namespace WathenMatrixTest
             seed = 123456789;
             row = new int[nz_num];
             col = new int[nz_num];
-            a = WathenMatrix.wathen_st(nx, ny, nz_num, ref seed, row, col);
+            a = WathenMatrix.wathen_st(nx, ny, nz_num, ref seed, ref row, ref col);
             //
             //  Compute the corresponding right hand side B.
             //

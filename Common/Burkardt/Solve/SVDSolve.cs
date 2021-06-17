@@ -88,7 +88,7 @@ namespace Burkardt
             work = new double[m];
             job = 11;
 
-            info = DSVDC.dsvdc(a_copy, lda, m, n, ref sdiag, ref e, ref u, ldu, ref v, ldv, work, job);
+            info = DSVDC.dsvdc(ref a_copy, lda, m, n, ref sdiag, ref e, ref u, ldu, ref v, ldv, work, job);
 
             if (info != 0)
             {

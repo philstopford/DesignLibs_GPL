@@ -1451,7 +1451,7 @@ namespace Burkardt.BlendTest
             Console.WriteLine("  Interpolated values:");
             Console.WriteLine();
 
-            double[] x_ = Blend.Blend.blend_i_0d1 ( x, m );
+            double[] x_ = Blend.Blend.blend_i_0d1 ( ref x, m );
 
             for (int i = 0; i < m; i++ )
             {
@@ -1500,29 +1500,29 @@ namespace Burkardt.BlendTest
             //
             int i = 0;
             int j = 0;
-            double r = ( double ) i / ( double ) ( m1 - 1 );
-            double s = ( double ) j / ( double ) ( m2 - 1 );
+            double r = i / ( double ) ( m1 - 1 );
+            double s = j / ( double ) ( m2 - 1 );
             double temp = cubic_rs ( r, s, 1 );
             x[i*m2+j] = temp;
 
             i = m1 - 1;
             j = 0;
-            r = ( double ) i / ( double ) ( m1 - 1 );
-            s = ( double ) j / ( double ) ( m2 - 1 );
+            r = i / ( double ) ( m1 - 1 );
+            s = j / ( double ) ( m2 - 1 );
             temp = cubic_rs ( r, s, 1 );
             x[i*m2+j] = temp;
 
             i = 0;
             j = m2 - 1;
-            r = ( double ) i / ( double ) ( m1 - 1 );
-            s = ( double ) j / ( double ) ( m2 - 1 );
+            r = i / ( double ) ( m1 - 1 );
+            s = j / ( double ) ( m2 - 1 );
             temp = cubic_rs ( r, s, 1 );
             x[i*m2+j] = temp;
 
             i = m1 - 1;
             j = m2 - 1;
-            r = ( double ) i / ( double ) ( m1 - 1 );
-            s = ( double ) j / ( double ) ( m2 - 1 );
+            r = i / ( double ) ( m1 - 1 );
+            s = j / ( double ) ( m2 - 1 );
             temp = cubic_rs ( r, s, 1 );
             x[i*m2+j] = temp;
 
@@ -1583,30 +1583,30 @@ namespace Burkardt.BlendTest
             //
             for (int i = 0; i < m1; i++ )
             {
-                double r = ( double ) i / ( double ) ( m1 - 1 );
+                double r = i / ( double ) ( m1 - 1 );
 
                 int j = 0;
-                double s = ( double ) j / ( double ) ( m2 - 1 );
+                double s = j / ( double ) ( m2 - 1 );
                 double temp = cubic_rs ( r, s, 1 );
                 x[i*m2+j] = temp;
 
                 j = m2 - 1;
-                s = ( double ) j / ( double ) ( m2 - 1 );
+                s = j / ( double ) ( m2 - 1 );
                 temp = cubic_rs ( r, s, 1 );
                 x[i*m2+j] = temp;
             }
 
             for (int j = 0; j < m2; j++ )
             {
-                double s = ( double ) j / ( double ) ( m2 - 1 );
+                double s = j / ( double ) ( m2 - 1 );
 
                 int i = 0;
-                double r = ( double ) i / ( double ) ( m1 - 1 );
+                double r = i / ( double ) ( m1 - 1 );
                 double temp = cubic_rs ( r, s, 1 );
                 x[i*m2+j] = temp;
 
                 i = m1 - 1;
-                r = ( double ) i / ( double ) ( m1 - 1 );
+                r = i / ( double ) ( m1 - 1 );
                 temp = cubic_rs ( r, s, 1 );
                 x[i*m2+j] = temp;
             }
@@ -1671,13 +1671,13 @@ namespace Burkardt.BlendTest
             //
             for (int i = 0; i < m1; i++ )
             {
-                double r = ( double ) i / ( double ) ( m1 - 1 );
+                double r = i / ( double ) ( m1 - 1 );
                 for (int j = 0; j < m2; j++ )
                 {
-                    double s = ( double ) j / ( double ) ( m2 - 1 );
+                    double s = j / ( double ) ( m2 - 1 );
                     for (int k = 0; k < m3; k++ )
                     {
-                        double t = ( double ) k / ( double ) ( m3 - 1 );
+                        double t = k / ( double ) ( m3 - 1 );
                         int num_extreme = 0;
                         if ( i == 0 || i == m1 - 1 )
                         {
@@ -1753,13 +1753,13 @@ namespace Burkardt.BlendTest
 
             for (int i = 0; i < m1; i++ )
             {
-                double r = ( double ) i / ( double ) ( m1 - 1 );
+                double r = i / ( double ) ( m1 - 1 );
                 for (int j = 0; j < m2; j++ )
                 {
-                    double s = ( double ) j / ( double ) ( m2 - 1 );
+                    double s = j / ( double ) ( m2 - 1 );
                     for (int k = 0; k < m3; k++ )
                     {
-                        double t = ( double ) k / ( double ) ( m3 - 1 );
+                        double t = k / ( double ) ( m3 - 1 );
                         temp = quad_rst ( r, s, t, 1 );
                         x[(i*m3+j)*m2+k] = temp;
                     }
@@ -1828,13 +1828,13 @@ namespace Burkardt.BlendTest
             //
             for (int i = 0; i < m1; i++ )
             {
-                double r = ( double ) i / ( double ) ( m1 - 1 );
+                double r = i / ( double ) ( m1 - 1 );
                 for (int j = 0; j < m2; j++ )
                 {
-                    double s = ( double ) j / ( double ) ( m2 - 1 );
+                    double s = j / ( double ) ( m2 - 1 );
                     for (int k = 0; k < m3; k++ )
                     {
-                        double t = ( double ) k / ( double ) ( m3 - 1 );
+                        double t = k / ( double ) ( m3 - 1 );
                         int num_extreme = 0;
                         if ( i == 0 || i == m1 - 1 )
                         {
@@ -1910,13 +1910,13 @@ namespace Burkardt.BlendTest
 
             for (int i = 0; i < m1; i++ )
             {
-                double r = ( double ) i / ( double ) ( m1 - 1 );
+                double r = i / ( double ) ( m1 - 1 );
                 for (int j = 0; j < m2; j++ )
                 {
-                    double s = ( double ) j / ( double ) ( m2 - 1 );
+                    double s = j / ( double ) ( m2 - 1 );
                     for (int k = 0; k < m3; k++ )
                     {
-                        double t = ( double ) k / ( double ) ( m3 - 1 );
+                        double t = k / ( double ) ( m3 - 1 );
                         temp = quad_rst ( r, s, t, 1 );
                         x[(i*m3+j)*m2+k] = temp;
                     }
@@ -1986,13 +1986,13 @@ namespace Burkardt.BlendTest
             //
             for ( int i = 0; i < m1; i++ )
             {
-                double r = ( double ) i / ( double ) ( m1 - 1 );
+                double r = i / ( double ) ( m1 - 1 );
                 for ( int j = 0; j < m2; j++ )
                 {
-                    double s = ( double ) j / ( double ) ( m2 - 1 );
+                    double s = j / ( double ) ( m2 - 1 );
                     for ( int k = 0; k < m3; k++ )
                     {
-                        double t = ( double ) k / ( double ) ( m3 - 1 );
+                        double t = k / ( double ) ( m3 - 1 );
                         if ( i == 0 || i == m1 - 1 ||
                         j == 0 || j == m2 - 1 ||
                         k == 0 || k == m3 - 1 )
@@ -2057,13 +2057,13 @@ namespace Burkardt.BlendTest
 
             for ( int i = 0; i < m1; i++ )
             {
-                double r = ( double ) i / ( double ) ( m1 - 1 );
+                double r = i / ( double ) ( m1 - 1 );
                 for ( int j = 0; j < m2; j++ )
                 {
-                    double s = ( double ) j / ( double ) ( m2 - 1 );
+                    double s = j / ( double ) ( m2 - 1 );
                     for ( int k = 0; k < m3; k++ )
                     {
-                        double t = ( double ) k / ( double ) ( m3 - 1 );
+                        double t = k / ( double ) ( m3 - 1 );
                         temp = quad_rst ( r, s, t, 1 );
                         x[(i*m3+j)*m2+k] = temp;
                     }

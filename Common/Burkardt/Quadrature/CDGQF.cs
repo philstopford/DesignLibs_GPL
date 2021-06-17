@@ -76,7 +76,7 @@
             aj = new double[nt];
             bj = new double[nt];
 
-            zemu = Matrix.class_matrix(kind, nt, alpha, beta, aj, bj);
+            zemu = Matrix.class_matrix(kind, nt, alpha, beta, ref aj, ref bj);
             //
             //  Compute the knots and weights.
             //

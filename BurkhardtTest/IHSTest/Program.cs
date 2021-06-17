@@ -77,7 +77,7 @@ namespace Burkardt.IHSTest
                 //
                 //  Get the points.
                 //
-                int[] x = IHS.IHS.ihs( dim_num, point_num, duplication, seed );
+                int[] x = IHS.IHS.ihs( dim_num, point_num, duplication, ref seed );
                 //
                 //  Compute the covariance.
                 //
@@ -146,7 +146,7 @@ namespace Burkardt.IHSTest
                 //
                 //  Get the points.
                 //
-                int[] x = IHS.IHS.ihs( dim_num, point_num, duplication, seed );
+                int[] x = IHS.IHS.ihs( dim_num, point_num, duplication, ref seed );
                 //
                 //  Compute the covariance.
                 //
@@ -216,7 +216,7 @@ namespace Burkardt.IHSTest
                 //
                 //  Get the points.
                 //
-                int[] x = IHS.IHS.ihs( dim_num, point_num, duplication, seed );
+                int[] x = IHS.IHS.ihs( dim_num, point_num, duplication, ref seed );
                 //
                 //  Compute the covariance.
                 //
@@ -305,7 +305,7 @@ namespace Burkardt.IHSTest
                 //
                 //  Get the points.
                 //
-                int[] x = IHS.IHS.ihs( dim_num, point_num, duplication, seed );
+                int[] x = IHS.IHS.ihs( dim_num, point_num, duplication, ref seed );
                 //
                 //  Compute the covariance.
                 //

@@ -396,8 +396,6 @@ namespace Burkardt.RankingNS
                     }
                 }
             }
-
-            return;
         }
     }
 }

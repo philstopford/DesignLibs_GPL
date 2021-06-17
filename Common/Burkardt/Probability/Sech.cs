@@ -282,8 +282,6 @@ namespace Burkardt.Probability
         //    Output, double SECH_SAMPLE, a sample of the PDF.
         //
         {
-            
-
             double cdf = UniformRNG.r8_uniform_01(ref seed);
 
             double x = a + b * Math.Log(Math.Tan(0.5 * Math.PI * cdf));

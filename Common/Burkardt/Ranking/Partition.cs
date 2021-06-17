@@ -5,7 +5,7 @@ namespace Burkardt.RankingNS
 {
     public static partial class Ranking
     {
-        public static int[] partition_greedy(int n, int[] a)
+        public static int[] partition_greedy(int n, ref int[] a)
 
             //****************************************************************************80
             // 

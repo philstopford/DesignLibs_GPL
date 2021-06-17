@@ -136,7 +136,7 @@ namespace Burkardt.FDM
 //
 //  Solve the linear system.
 //
-            u = typeMethods.r83np_fs(n, tri, rhs);
+            u = typeMethods.r83np_fs(n, ref tri, rhs);
 
             return u;
         }

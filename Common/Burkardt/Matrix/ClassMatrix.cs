@@ -4,8 +4,8 @@ namespace Burkardt
 {
     public static partial class Matrix
     {
-        public static double class_matrix(int kind, int m, double alpha, double beta, double[] aj,
-        double[] bj )
+        public static double class_matrix(int kind, int m, double alpha, double beta, ref double[] aj,
+        ref double[] bj )
 
         //****************************************************************************80
         //

@@ -581,7 +581,7 @@ namespace Burkardt.Blend
             return x;
         }
 
-        public static double[] blend_i_0d1 ( double[] x, int m )
+        public static double[] blend_i_0d1 ( ref double[] x, int m )
         //****************************************************************************80
         //
         //  Purpose:

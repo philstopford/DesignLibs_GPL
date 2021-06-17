@@ -4,7 +4,7 @@ namespace Burkardt.Probability
 {
     public static class Ribesl
     {
-        public static int ribesl(double x, double alpha, int nb, int ize, double[] b)
+        public static int ribesl(double x, double alpha, int nb, int ize, ref double[] b)
         //****************************************************************************80
         //
         //  Purpose:

@@ -472,7 +472,7 @@ namespace Burkardt.Types
             return r;
         }
 
-        public static int r83_np_fa(int n, double[] a)
+        public static int r83_np_fa(int n, ref double[] a)
             //****************************************************************************80
             //
             //  Purpose:
@@ -664,7 +664,7 @@ namespace Burkardt.Types
             return x;
         }
 
-        public static double[] r83np_fs(int n, double[] a, double[] b)
+        public static double[] r83np_fs(int n, ref double[] a, double[] b)
 
             //****************************************************************************80
             //

@@ -571,8 +571,8 @@ namespace Burkardt
             return n;
         }
 
-        public static double[] wathen_st(int nx, int ny, int nz_num, ref int seed, int[] row,
-                int[] col)
+        public static double[] wathen_st(int nx, int ny, int nz_num, ref int seed, ref int[] row,
+                ref int[] col)
 
             //****************************************************************************80
             //

@@ -259,12 +259,10 @@ namespace Burkardt.Probability
         //    Output, double ARCSIN_SAMPLE, a sample of the PDF.
         //
         {
-            double cdf;
-            double x;
 
-            cdf = UniformRNG.r8_uniform_01(ref seed);
+            double cdf = UniformRNG.r8_uniform_01(ref seed);
 
-            x = arcsin_cdf_inv(cdf, a);
+            double x = arcsin_cdf_inv(cdf, a);
 
             return x;
         }

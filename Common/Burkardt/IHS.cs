@@ -89,7 +89,7 @@ namespace Burkardt.IHS
 
     public static class IHS
     {
-        public static int[] ihs ( int dim_num, int n, int d, int seed )
+        public static int[] ihs ( int dim_num, int n, int d, ref int seed )
 
         //****************************************************************************80
         //
@@ -145,8 +145,7 @@ namespace Burkardt.IHS
         //    Output, int IHS[DIM_NUM*N], the points.
         //
         {
-            const double r8_huge = 1.0E+30;
-            
+           
             int[] avail = new int [ dim_num * n ];
             int[] list = new int [ d * n ];
             int[] point = new int [ dim_num * d * n ];
@@ -207,12 +206,12 @@ namespace Burkardt.IHS
                 //  For each candidate, determine the distance to all the
                 //  points that have already been selected, and save the minimum value.
                 //
-                double min_all = r8_huge;
+                double min_all = typeMethods.r8_huge();
                 int best = 0;
 
                 for (int k = 0; k < d * count; k++ )
                 {
-                    double min_can = r8_huge;
+                    double min_can = typeMethods.r8_huge();
 
                     for (int j = count; j < n; j++ )
                     {

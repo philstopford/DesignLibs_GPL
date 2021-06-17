@@ -121,8 +121,7 @@ namespace Burkardt.CorrelationNS
         }
 
         public static double[] sample_paths2_cholesky(int n, int n2, double rhomin, double rhomax,
-                double rho0, Func<int, int, double[], double[],
-                    double, double[]> correlation2, ref int seed)
+                double rho0, Func<int, int, double[], double[], double, double[]> correlation2, ref int seed)
 
             //****************************************************************************80
             //

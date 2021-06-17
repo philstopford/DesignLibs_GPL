@@ -5,7 +5,7 @@ namespace Burkardt
 {
     public static partial class Matrix
     {
-        public static int dgbfa(double[] abd, int lda, int n, int ml, int mu, ref int[] ipvt )
+        public static int dgbfa(ref double[] abd, int lda, int n, int ml, int mu, ref int[] ipvt )
 
         //****************************************************************************80
         //

@@ -48,7 +48,7 @@ namespace Burkardt.ComboTest
             Console.WriteLine("  two subsets with nearly equal sum.");
             Console.WriteLine("");
 
-            indx = Ranking.partition_greedy(n, a1);
+            indx = Ranking.partition_greedy(n, ref a1);
 
             Console.WriteLine("");
             Console.WriteLine("");
@@ -78,7 +78,7 @@ namespace Burkardt.ComboTest
             Console.WriteLine("  " + sums[0].ToString().PadLeft(4)
                 + "  " + sums[1].ToString().PadLeft(4) + "");
             
-            indx = Ranking.partition_greedy(n, a2);
+            indx = Ranking.partition_greedy(n, ref a2);
 
             Console.WriteLine("");
             Console.WriteLine("");

@@ -807,7 +807,7 @@ namespace SlowFourierTransformTest
             //  Now try to retrieve the data from the coefficients.
             //
 
-            x = Slow.r8vec_swtb(n, s, d);
+            x = Slow.r8vec_swtb(n, ref s, ref d);
 
             typeMethods.r8vec_print_part(n, x, 10, "  The retrieved data:");
         }

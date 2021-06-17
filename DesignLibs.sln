@@ -370,6 +370,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CircleRulesTest", "Burkhard
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CircleSegmentTest", "BurkhardtTest\Circle\CircleSegmentTest\CircleSegmentTest.csproj", "{0F887613-DBE5-4AF5-96FB-72CBF584FB18}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompassSearchTest", "BurkhardtTest\CompassSearchTest\CompassSearchTest.csproj", "{CD106BBE-0EDF-40AE-8DA6-1B466FB65278}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -2312,6 +2314,18 @@ Global
 		{0F887613-DBE5-4AF5-96FB-72CBF584FB18}.Release|x64.Build.0 = Release|Any CPU
 		{0F887613-DBE5-4AF5-96FB-72CBF584FB18}.Release|x86.ActiveCfg = Release|Any CPU
 		{0F887613-DBE5-4AF5-96FB-72CBF584FB18}.Release|x86.Build.0 = Release|Any CPU
+		{CD106BBE-0EDF-40AE-8DA6-1B466FB65278}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD106BBE-0EDF-40AE-8DA6-1B466FB65278}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD106BBE-0EDF-40AE-8DA6-1B466FB65278}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CD106BBE-0EDF-40AE-8DA6-1B466FB65278}.Debug|x64.Build.0 = Debug|Any CPU
+		{CD106BBE-0EDF-40AE-8DA6-1B466FB65278}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CD106BBE-0EDF-40AE-8DA6-1B466FB65278}.Debug|x86.Build.0 = Debug|Any CPU
+		{CD106BBE-0EDF-40AE-8DA6-1B466FB65278}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD106BBE-0EDF-40AE-8DA6-1B466FB65278}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD106BBE-0EDF-40AE-8DA6-1B466FB65278}.Release|x64.ActiveCfg = Release|Any CPU
+		{CD106BBE-0EDF-40AE-8DA6-1B466FB65278}.Release|x64.Build.0 = Release|Any CPU
+		{CD106BBE-0EDF-40AE-8DA6-1B466FB65278}.Release|x86.ActiveCfg = Release|Any CPU
+		{CD106BBE-0EDF-40AE-8DA6-1B466FB65278}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2495,6 +2509,7 @@ Global
 		{1FE07C5E-17AA-4082-A1FE-5150F550BD3C} = {87CC8A90-782C-4F12-A643-B39362A62671}
 		{445C5BFE-876A-4A40-8B8B-65F4D28F5F04} = {87CC8A90-782C-4F12-A643-B39362A62671}
 		{0F887613-DBE5-4AF5-96FB-72CBF584FB18} = {87CC8A90-782C-4F12-A643-B39362A62671}
+		{CD106BBE-0EDF-40AE-8DA6-1B466FB65278} = {B14C0D74-30A0-4540-8100-2FFA1C84CA6D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B449416C-C504-4FA8-9E10-10857263A64A}

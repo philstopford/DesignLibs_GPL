@@ -6,64 +6,64 @@ namespace Burkardt.Types
 {
     public static partial class typeMethods
     {
-        public static void r82vec_part_quick_a(int n, ref double[] a, int startIndexA, ref int l, ref int r )
+        public static void r82vec_part_quick_a(int n, ref double[] a, int startIndexA, ref int l, ref int r)
 
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    R82VEC_PART_QUICK_A reorders an R82 vector as part of a quick sort.
-        //
-        //  Discussion:
-        //
-        //    A is a two dimensional array of order N by 2, stored as a vector
-        //    of rows: A(0,0), A(0,1), // A(1,0), A(1,1) // ...
-        //
-        //    The routine reorders the entries of A.  Using A(1:2,1) as a
-        //    key, all entries of A that are less than or equal to the key will
-        //    precede the key, which precedes all entries that are greater than the key.
-        //
-        //  Example:
-        //
-        //    Input:
-        //
-        //      N = 8
-        //
-        //      A = ( (2,4), (8,8), (6,2), (0,2), (10,6), (10,0), (0,6), (4,8) )
-        //
-        //    Output:
-        //
-        //      L = 2, R = 4
-        //
-        //      A = ( (0,2), (0,6), (2,4), (8,8), (6,2), (10,6), (10,0), (4,8) )
-        //             -----------          ----------------------------------
-        //             LEFT          KEY    RIGHT
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    01 September 2003
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int N, the number of entries of A.
-        //
-        //    Input/output, double A[N*2].  On input, the array to be checked.
-        //    On output, A has been reordered as described above.
-        //
-        //    Output, int *L, *R, the indices of A that define the three segments.
-        //    Let KEY = the input value of A(1:2,1).  Then
-        //    I <= L                 A(1:2,I) < KEY;
-        //         L < I < R         A(1:2,I) = KEY;
-        //                 R <= I    A(1:2,I) > KEY.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R82VEC_PART_QUICK_A reorders an R82 vector as part of a quick sort.
+            //
+            //  Discussion:
+            //
+            //    A is a two dimensional array of order N by 2, stored as a vector
+            //    of rows: A(0,0), A(0,1), // A(1,0), A(1,1) // ...
+            //
+            //    The routine reorders the entries of A.  Using A(1:2,1) as a
+            //    key, all entries of A that are less than or equal to the key will
+            //    precede the key, which precedes all entries that are greater than the key.
+            //
+            //  Example:
+            //
+            //    Input:
+            //
+            //      N = 8
+            //
+            //      A = ( (2,4), (8,8), (6,2), (0,2), (10,6), (10,0), (0,6), (4,8) )
+            //
+            //    Output:
+            //
+            //      L = 2, R = 4
+            //
+            //      A = ( (0,2), (0,6), (2,4), (8,8), (6,2), (10,6), (10,0), (4,8) )
+            //             -----------          ----------------------------------
+            //             LEFT          KEY    RIGHT
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    01 September 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries of A.
+            //
+            //    Input/output, double A[N*2].  On input, the array to be checked.
+            //    On output, A has been reordered as described above.
+            //
+            //    Output, int *L, *R, the indices of A that define the three segments.
+            //    Let KEY = the input value of A(1:2,1).  Then
+            //    I <= L                 A(1:2,I) < KEY;
+            //         L < I < R         A(1:2,I) = KEY;
+            //                 R <= I    A(1:2,I) > KEY.
+            //
         {
             int i;
             int j;
@@ -106,7 +106,7 @@ namespace Burkardt.Types
                 else if (r8vec_eq(2, a, startIndexA + (2 * ll), key))
                 {
                     m = m + 1;
-                    r8vec_swap(2, ref a, startIndexA + (2 * (m - 1)),  ref a, startIndexA + (2 * ll));
+                    r8vec_swap(2, ref a, startIndexA + (2 * (m - 1)), ref a, startIndexA + (2 * ll));
                     ll = ll + 1;
                 }
                 else if (r8vec_lt(2, a, startIndexA + (2 * ll), key))
@@ -143,61 +143,61 @@ namespace Burkardt.Types
             return;
         }
 
-        public static void r82vec_permute(int n, ref double[] a, int[] p )
+        public static void r82vec_permute(int n, ref double[] a, int[] p)
 
-        //****************************************************************************80*
-        //
-        //  Purpose:
-        //
-        //    R82VEC_PERMUTE permutes an R82VEC in place.
-        //
-        //  Discussion:
-        //
-        //    This routine permutes an array of real "objects", but the same
-        //    logic can be used to permute an array of objects of any arithmetic
-        //    type, or an array of objects of any complexity.  The only temporary
-        //    storage required is enough to store a single object.  The number
-        //    of data movements made is N + the number of cycles of order 2 or more,
-        //    which is never more than N + N/2.
-        //
-        //  Example:
-        //
-        //    Input:
-        //
-        //      N = 5
-        //      P = (   2,    4,    5,    1,    3 )
-        //      A = ( 1.0,  2.0,  3.0,  4.0,  5.0 )
-        //          (11.0, 22.0, 33.0, 44.0, 55.0 )
-        //
-        //    Output:
-        //
-        //      A    = (  2.0,  4.0,  5.0,  1.0,  3.0 )
-        //             ( 22.0, 44.0, 55.0, 11.0, 33.0 ).
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    19 February 2004
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int N, the number of objects.
-        //
-        //    Input/output, double A[2*N], the array to be permuted.
-        //
-        //    Input, int P[N], the permutation.  P(I) = J means
-        //    that the I-th element of the output array should be the J-th
-        //    element of the input array.  P must be a legal permutation
-        //    of the integers from 1 to N, otherwise the algorithm will
-        //    fail catastrophically.
-        //
+            //****************************************************************************80*
+            //
+            //  Purpose:
+            //
+            //    R82VEC_PERMUTE permutes an R82VEC in place.
+            //
+            //  Discussion:
+            //
+            //    This routine permutes an array of real "objects", but the same
+            //    logic can be used to permute an array of objects of any arithmetic
+            //    type, or an array of objects of any complexity.  The only temporary
+            //    storage required is enough to store a single object.  The number
+            //    of data movements made is N + the number of cycles of order 2 or more,
+            //    which is never more than N + N/2.
+            //
+            //  Example:
+            //
+            //    Input:
+            //
+            //      N = 5
+            //      P = (   2,    4,    5,    1,    3 )
+            //      A = ( 1.0,  2.0,  3.0,  4.0,  5.0 )
+            //          (11.0, 22.0, 33.0, 44.0, 55.0 )
+            //
+            //    Output:
+            //
+            //      A    = (  2.0,  4.0,  5.0,  1.0,  3.0 )
+            //             ( 22.0, 44.0, 55.0, 11.0, 33.0 ).
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    19 February 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of objects.
+            //
+            //    Input/output, double A[2*N], the array to be permuted.
+            //
+            //    Input, int P[N], the permutation.  P(I) = J means
+            //    that the I-th element of the output array should be the J-th
+            //    element of the input array.  P must be a legal permutation
+            //    of the integers from 1 to N, otherwise the algorithm will
+            //    fail catastrophically.
+            //
         {
             double[] a_temp = new double[2];
             int i;
@@ -277,40 +277,40 @@ namespace Burkardt.Types
             return;
         }
 
-        public static void r82vec_print(int n, double[] a, string title )
+        public static void r82vec_print(int n, double[] a, string title)
 
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    R82VEC_PRINT prints an R82VEC.
-        //
-        //  Discussion:
-        //
-        //    A is a two dimensional array of order N by 2, stored as a vector
-        //    of rows: A(0,0), A(0,1), // A(1,0), A(1,1) // ...
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    01 September 2003
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int N, the number of components of the vector.
-        //
-        //    Input, double A[N*2], the vector to be printed.
-        //
-        //    Input, string TITLE, a title to be printed first.
-        //    TITLE may be blank.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R82VEC_PRINT prints an R82VEC.
+            //
+            //  Discussion:
+            //
+            //    A is a two dimensional array of order N by 2, stored as a vector
+            //    of rows: A(0,0), A(0,1), // A(1,0), A(1,1) // ...
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    01 September 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of components of the vector.
+            //
+            //    Input, double A[N*2], the vector to be printed.
+            //
+            //    Input, string TITLE, a title to be printed first.
+            //    TITLE may be blank.
+            //
         {
             int i;
 
@@ -324,8 +324,8 @@ namespace Burkardt.Types
             for (i = 0; i <= n - 1; i++)
             {
                 Console.WriteLine(i.ToString().PadLeft(6) + "  "
-                    + a[2 * i + 0].ToString().PadLeft(14) + "  "
-                    + a[2 * i + 1].ToString().PadLeft(14) + "");
+                                                          + a[2 * i + 0].ToString().PadLeft(14) + "  "
+                                                          + a[2 * i + 1].ToString().PadLeft(14) + "");
             }
         }
 
@@ -585,41 +585,41 @@ namespace Burkardt.Types
         }
 
         public static void r82vec_uniform(int n, double[] alo, double[] ahi, ref int seed,
-        ref double[] a )
+                ref double[] a)
 
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    R82VEC_UNIFORM returns a random R82VEC in a given range.
-        //
-        //  Discussion:
-        //
-        //    A is a two dimensional array of order N by 2, stored as a vector
-        //    of rows: A(0,0), A(0,1), // A(1,0), A(1,1) // ...
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    01 September 2003
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int N, the number of entries in the vector.
-        //
-        //    Input, double ALO[2], AHI[2], the range allowed for the entries.
-        //
-        //    Input/output, int *SEED, a seed for the random number generator.
-        //
-        //    Output, double A[N*2], the vector of randomly chosen integers.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R82VEC_UNIFORM returns a random R82VEC in a given range.
+            //
+            //  Discussion:
+            //
+            //    A is a two dimensional array of order N by 2, stored as a vector
+            //    of rows: A(0,0), A(0,1), // A(1,0), A(1,1) // ...
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    01 September 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in the vector.
+            //
+            //    Input, double ALO[2], AHI[2], the range allowed for the entries.
+            //
+            //    Input/output, int *SEED, a seed for the random number generator.
+            //
+            //    Output, double A[N*2], the vector of randomly chosen integers.
+            //
         {
             for (int i = 0; i < n; i++)
             {
@@ -629,5 +629,106 @@ namespace Burkardt.Types
                 }
             }
         }
+
+        public static void r82vec_print_part(int n, double[] a, int max_print, string title)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R82VEC_PRINT_PART prints "part" of an R82VEC.
+            //
+            //  Discussion:
+            //
+            //    The user specifies MAX_PRINT, the maximum number of lines to print.
+            //
+            //    If N, the size of the vector, is no more than MAX_PRINT, then
+            //    the entire vector is printed, one entry per line.
+            //
+            //    Otherwise, if possible, the first MAX_PRINT-2 entries are printed,
+            //    followed by a line of periods suggesting an omission,
+            //    and the last entry.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    09 November 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries of the vector.
+            //
+            //    Input, double A[2*N], the vector to be printed.
+            //
+            //    Input, int MAX_PRINT, the maximum number of lines
+            //    to print.
+            //
+            //    Input, string TITLE, a title.
+            //
+        {
+            int i;
+
+            if (max_print <= 0)
+            {
+                return;
+            }
+
+            if (n <= 0)
+            {
+                return;
+            }
+
+            Console.WriteLine("");
+            Console.WriteLine(title + "");
+            Console.WriteLine("");
+
+            if (n <= max_print)
+            {
+                for (i = 0; i < n; i++)
+                {
+                    Console.WriteLine("  " + i.ToString().PadLeft(8)
+                                           + "  " + a[0 + i * 2].ToString().PadLeft(14)
+                                           + "  " + a[1 + i * 2].ToString().PadLeft(14) + "");
+                }
+            }
+            else if (3 <= max_print)
+            {
+                for (i = 0; i < max_print - 2; i++)
+                {
+                    Console.WriteLine("  " + i.ToString().PadLeft(8)
+                                           + ": " + a[0 + i * 2].ToString().PadLeft(14)
+                                           + "  " + a[1 + i * 2].ToString().PadLeft(14) + "");
+                }
+
+                Console.WriteLine("  ........  ..............  ..............");
+                i = n - 1;
+                Console.WriteLine("  " + i.ToString().PadLeft(8)
+                                       + ": " + a[0 + i * 2].ToString().PadLeft(14)
+                                       + "  " + a[1 + i * 2].ToString().PadLeft(14) + "");
+            }
+            else
+            {
+                for (i = 0; i < max_print - 1; i++)
+                {
+                    Console.WriteLine("  " + i.ToString().PadLeft(8)
+                                           + ": " + a[0 + i * 2].ToString().PadLeft(14)
+                                           + "  " + a[1 + i * 2].ToString().PadLeft(14) + "");
+                }
+
+                i = max_print - 1;
+                Console.WriteLine("  " + i.ToString().PadLeft(8)
+                                       + ": " + a[0 + i * 2].ToString().PadLeft(14)
+                                       + "  " + a[1 + i * 2].ToString().PadLeft(14)
+                                       + "  " + "...more entries...");
+            }
+        }
+
     }
 }

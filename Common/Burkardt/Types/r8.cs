@@ -1207,6 +1207,47 @@ namespace Burkardt.Types
                 return (1.0);
             }
         }
+        
+        public static double r8_sign2 ( double x, double y )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_SIGN2 returns the first argument with the sign of the second.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    08 January 2002
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double X, Y, the input arguments.
+            //
+            //    Output, double R8_SIGN2, is equal to the absolute value of X, and
+            //    has the sign of Y.
+            //
+        {
+            double value;
+
+            if ( 0.0 <= y )
+            {
+                value = Math.Abs ( x );
+            } 
+            else
+            {
+                value = - Math.Abs ( x );
+            }
+            return value;
+        }
 
 
         public static double r8_modp(double x, double y)

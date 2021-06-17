@@ -312,6 +312,63 @@ namespace Burkardt.Types
 
             return amin_index;
         }
+        
+        public static int r8vec_max_abs_index ( int n, double[] a )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8VEC_MAX_ABS_INDEX returns the index of the maximum absolute value in an R8VEC.
+            //
+            //  Discussion:
+            //
+            //    An R8VEC is a vector of R8's.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    08 April 2012
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in the array.
+            //
+            //    Input, double A[N], the array.
+            //
+            //    Output, int R8VEC_MAX_ABS_INDEX, the index of the entry of 
+            //    largest absolute value.
+            //
+        {
+            int i;
+            int max_index;
+
+            if ( n <= 0 )
+            {
+                max_index = -1;
+            }
+            else
+            {
+                max_index = 0;
+
+                for ( i = 1; i < n; i++ )
+                {
+                    if ( Math.Abs ( a[max_index] ) < Math.Abs ( a[i] ) )
+                    {
+                        max_index = i;
+                    }
+                }
+            }
+
+            return max_index;
+        }
 
     }
 }

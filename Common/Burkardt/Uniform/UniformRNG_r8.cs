@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Types;
 
 namespace Burkardt.Uniform
 {
@@ -1007,9 +1008,62 @@ namespace Burkardt.Uniform
 
             return r;
         }
+        
+        public static double[] r8vec_uniform_unit_new ( int m, ref int seed )
 
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8VEC_UNIFORM_UNIT_NEW generates a random unit vector.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    04 October 2012
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, the dimension of the space.
+            //
+            //    Input/output, int &SEED, a seed for the random number generator.
+            //
+            //    Output, double R8VEC_UNIFORM_UNIT_NEW[M], a random direction vector, 
+            //    with unit norm.
+            //
+        {
+            double[] a;
+            int i;
+            double norm;
+            //
+            //  Take M random samples from the normal distribution.
+            //
+            a = typeMethods.r8vec_normal_01_new ( m, ref seed );
+            //
+            //  Compute the norm.
+            //
+            norm = 0.0;
+            for ( i = 0; i < m; i++ )
+            {
+                norm = norm + a[i] * a[i];
+            }
+            norm = Math.Sqrt ( norm );
+            //
+            //  Normalize.
+            //
+            for ( i = 0; i < m; i++ )
+            {
+                a[i] = a[i] / norm;
+            }
 
-
-
+            return a;
+        }
     }
 }

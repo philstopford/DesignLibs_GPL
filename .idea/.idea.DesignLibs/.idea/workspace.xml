@@ -164,14 +164,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/BurkhardtTest/ComboTest/knapsack.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/ComboTest/ksubset.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/ComboTest/marriage.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/ComboTest/npart.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/ComboTest/mountain.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/ComboTest/xx.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/ComboTest/part.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/ComboTest/perm.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ComboTest/pruefer.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ComboTest/queens.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ComboTest/r8.cs" />
@@ -206,7 +198,6 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/Circle/CircleMonteCarloTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Circle/QuadratureRule.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Circle/CircleRulesTest/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Files.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Jacobi.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Gauss.cs" />
@@ -215,6 +206,15 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/Circle/CircleSegmentTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CompassSearch.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/CompassSearchTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Matrix/Combin.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8ge.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_minmax.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/UniformRNG_r8.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Matrix/Condition.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Matrix/Conex.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Matrix/Kahan.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />

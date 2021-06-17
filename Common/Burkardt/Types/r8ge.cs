@@ -630,5 +630,285 @@ namespace Burkardt.Types
                 }
             }
         }
+
+        public static int r8ge_fa(int n, ref double[] a, ref int[] pivot)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8GE_FA performs a LINPACK-style PLU factorization of a R8GE matrix.
+            //
+            //  Discussion:
+            //
+            //    The R8GE storage format is used for a "general" M by N matrix.  
+            //    A physical storage space is made for each logical entry.  The two 
+            //    dimensional logical array is mapped to a vector, in which storage is 
+            //    by columns.
+            //
+            //    R8GE_FA is a simplified version of the LINPACK routine SGEFA.
+            //
+            //    The two dimensional array is stored by columns in a one dimensional
+            //    array.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    11 September 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Jack Dongarra, Jim Bunch, Cleve Moler, Pete Stewart,
+            //    LINPACK User's Guide,
+            //    SIAM, 1979,
+            //    ISBN13: 978-0-898711-72-1,
+            //    LC: QA214.L56.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order of the matrix.
+            //    N must be positive.
+            //
+            //    Input/output, double A[N*N], the matrix to be factored.
+            //    On output, A contains an upper triangular matrix and the multipliers
+            //    which were used to obtain it.  The factorization can be written
+            //    A = L * U, where L is a product of permutation and unit lower
+            //    triangular matrices and U is upper triangular.
+            //
+            //    Output, int PIVOT[N], a vector of pivot indices.
+            //
+            //    Output, int R8GE_FA, singularity flag.
+            //    0, no singularity detected.
+            //    nonzero, the factorization failed on the INFO-th step.
+            //
+        {
+            int i;
+            int j;
+            int k;
+            int l;
+            double t;
+            //
+            for (k = 1; k <= n - 1; k++)
+            {
+                //
+                //  Find L, the index of the pivot row.
+                //
+                l = k;
+
+                for (i = k + 1; i <= n; i++)
+                {
+                    if (Math.Abs(a[l - 1 + (k - 1) * n]) < Math.Abs(a[i - 1 + (k - 1) * n]))
+                    {
+                        l = i;
+                    }
+                }
+
+                pivot[k - 1] = l;
+                //
+                //  If the pivot index is zero, the algorithm has failed.
+                //
+                if (a[l - 1 + (k - 1) * n] == 0.0)
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("R8GE_FA - Fatal error!");
+                    Console.WriteLine("  Zero pivot on step " + k + "");
+                    return 0;
+                }
+
+                //
+                //  Interchange rows L and K if necessary.
+                //
+                if (l != k)
+                {
+                    t = a[l - 1 + (k - 1) * n];
+                    a[l - 1 + (k - 1) * n] = a[k - 1 + (k - 1) * n];
+                    a[k - 1 + (k - 1) * n] = t;
+                }
+
+                //
+                //  Normalize the values that lie below the pivot entry A(K,K).
+                //
+                for (i = k + 1; i <= n; i++)
+                {
+                    a[i - 1 + (k - 1) * n] = -a[i - 1 + (k - 1) * n] / a[k - 1 + (k - 1) * n];
+                }
+
+                //
+                //  Row elimination with column indexing.
+                //
+                for (j = k + 1; j <= n; j++)
+                {
+                    if (l != k)
+                    {
+                        t = a[l - 1 + (j - 1) * n];
+                        a[l - 1 + (j - 1) * n] = a[k - 1 + (j - 1) * n];
+                        a[k - 1 + (j - 1) * n] = t;
+                    }
+
+                    for (i = k + 1; i <= n; i++)
+                    {
+                        a[i - 1 + (j - 1) * n] =
+                            a[i - 1 + (j - 1) * n] + a[i - 1 + (k - 1) * n] * a[k - 1 + (j - 1) * n];
+                    }
+
+                }
+
+            }
+
+            pivot[n - 1] = n;
+
+            if (a[n - 1 + (n - 1) * n] == 0.0)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("R8GE_FA - Fatal error!");
+                Console.WriteLine("  Zero pivot on step " + n + "");
+                return 0;
+            }
+
+            return 0;
+        }
+
+        public static void r8ge_sl(int n, double[] a_lu, int[] pivot, ref double[] x, int job )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8GE_SL solves a R8GE system factored by R8GE_FA.
+        //
+        //  Discussion:
+        //
+        //    The R8GE storage format is used for a "general" M by N matrix.  
+        //    A physical storage space is made for each logical entry.  The two 
+        //    dimensional logical array is mapped to a vector, in which storage is 
+        //    by columns.
+        //
+        //    R8GE_SL is a simplified version of the LINPACK routine SGESL.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    09 April 2012
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order of the matrix.
+        //    N must be positive.
+        //
+        //    Input, double A_LU[N*N], the LU factors from R8GE_FA.
+        //
+        //    Input, int PIVOT[N], the pivot vector from R8GE_FA.
+        //
+        //    Input/output, double X[N], on input, the right hand side vector.
+        //    On output, the solution vector.
+        //
+        //    Input, int JOB, specifies the operation.
+        //    0, solve A * x = b.
+        //    nonzero, solve A' * x = b.
+        //
+        {
+            int i;
+            int k;
+            int l;
+            double t;
+            //
+            //  Solve A * x = b.
+            //
+            if (job == 0)
+            {
+                //
+                //  Solve PL * Y = B.
+                //
+                for (k = 1; k <= n - 1; k++)
+                {
+                    l = pivot[k - 1];
+
+                    if (l != k)
+                    {
+                        t = x[l - 1];
+                        x[l - 1] = x[k - 1];
+                        x[k - 1] = t;
+                    }
+
+                    for (i = k + 1; i <= n; i++)
+                    {
+                        x[i - 1] = x[i - 1] + a_lu[i - 1 + (k - 1) * n] * x[k - 1];
+                    }
+                }
+
+                //
+                //  Solve U * X = Y.
+                //
+                for (k = n; 1 <= k; k--)
+                {
+                    x[k - 1] = x[k - 1] / a_lu[k - 1 + (k - 1) * n];
+                    for (i = 1; i <= k - 1; i++)
+                    {
+                        x[i - 1] = x[i - 1] - a_lu[i - 1 + (k - 1) * n] * x[k - 1];
+                    }
+                }
+            }
+            //
+            //  Solve A' * X = B.
+            //
+            else
+            {
+                //
+                //  Solve U' * Y = B.
+                //
+                for (k = 1; k <= n; k++)
+                {
+                    t = 0.0;
+                    for (i = 1; i <= k - 1; i++)
+                    {
+                        t = t + x[i - 1] * a_lu[i - 1 + (k - 1) * n];
+                    }
+
+                    x[k - 1] = (x[k - 1] - t) / a_lu[k - 1 + (k - 1) * n];
+                }
+
+                //
+                //  Solve ( PL )' * X = Y.
+                //
+                for (k = n - 1; 1 <= k; k--)
+                {
+                    t = 0.0;
+                    for (i = k + 1; i <= n; i++)
+                    {
+                        t = t + x[i - 1] * a_lu[i - 1 + (k - 1) * n];
+                    }
+
+                    x[k - 1] = x[k - 1] + t;
+
+                    l = pivot[k - 1];
+
+                    if (l != k)
+                    {
+                        t = x[l - 1];
+                        x[l - 1] = x[k - 1];
+                        x[k - 1] = t;
+                    }
+                }
+            }
+
+            return;
+        }
+
+
+
     }
 }

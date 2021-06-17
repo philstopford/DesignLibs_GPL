@@ -775,51 +775,51 @@ namespace Burkardt.Types
             return 0;
         }
 
-        public static void r8ge_sl(int n, double[] a_lu, int[] pivot, ref double[] x, int job )
+        public static void r8ge_sl(int n, double[] a_lu, int[] pivot, ref double[] x, int job)
 
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    R8GE_SL solves a R8GE system factored by R8GE_FA.
-        //
-        //  Discussion:
-        //
-        //    The R8GE storage format is used for a "general" M by N matrix.  
-        //    A physical storage space is made for each logical entry.  The two 
-        //    dimensional logical array is mapped to a vector, in which storage is 
-        //    by columns.
-        //
-        //    R8GE_SL is a simplified version of the LINPACK routine SGESL.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license. 
-        //
-        //  Modified:
-        //
-        //    09 April 2012
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int N, the order of the matrix.
-        //    N must be positive.
-        //
-        //    Input, double A_LU[N*N], the LU factors from R8GE_FA.
-        //
-        //    Input, int PIVOT[N], the pivot vector from R8GE_FA.
-        //
-        //    Input/output, double X[N], on input, the right hand side vector.
-        //    On output, the solution vector.
-        //
-        //    Input, int JOB, specifies the operation.
-        //    0, solve A * x = b.
-        //    nonzero, solve A' * x = b.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8GE_SL solves a R8GE system factored by R8GE_FA.
+            //
+            //  Discussion:
+            //
+            //    The R8GE storage format is used for a "general" M by N matrix.  
+            //    A physical storage space is made for each logical entry.  The two 
+            //    dimensional logical array is mapped to a vector, in which storage is 
+            //    by columns.
+            //
+            //    R8GE_SL is a simplified version of the LINPACK routine SGESL.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    09 April 2012
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order of the matrix.
+            //    N must be positive.
+            //
+            //    Input, double A_LU[N*N], the LU factors from R8GE_FA.
+            //
+            //    Input, int PIVOT[N], the pivot vector from R8GE_FA.
+            //
+            //    Input/output, double X[N], on input, the right hand side vector.
+            //    On output, the solution vector.
+            //
+            //    Input, int JOB, specifies the operation.
+            //    0, solve A * x = b.
+            //    nonzero, solve A' * x = b.
+            //
         {
             int i;
             int k;
@@ -908,7 +908,111 @@ namespace Burkardt.Types
             return;
         }
 
+        public static double[] r8ge_inverse(int n, double[] a, int[] pivot )
 
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8GE_INVERSE computes the inverse of a R8GE matrix factored by R8GE_FA.
+        //
+        //  Discussion:
+        //
+        //    The R8GE storage format is used for a "general" M by N matrix.  
+        //    A physical storage space is made for each logical entry.  The two 
+        //    dimensional logical array is mapped to a vector, in which storage is 
+        //    by columns.
+        //
+        //    R8GE_INVERSE is a simplified standalone version of the LINPACK routine
+        //    SGEDI.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    15 September 2003
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order of the matrix A.
+        //
+        //    Input, double A[N*N], the factor information computed by R8GE_FA.
+        //
+        //    Input, int PIVOT(N), the pivot vector from R8GE_FA.
+        //
+        //    Output, double R8GE_INVERSE[N*N], the inverse matrix.
+        //
+        {
+            double[] b;
+            int i;
+            int j;
+            int k;
+            double temp;
+
+            b = new double[n * n];
+            //
+            //  Compute Inverse(U).
+            //
+            for (k = 1; k <= n; k++)
+            {
+                for (i = 1; i <= k - 1; i++)
+                {
+                    b[i - 1 + (k - 1) * n] = -b[i - 1 + (k - 1) * n] / a[k - 1 + (k - 1) * n];
+                }
+
+                b[k - 1 + (k - 1) * n] = 1.0 / a[k - 1 + (k - 1) * n];
+
+                for (j = k + 1; j <= n; j++)
+                {
+                    b[k - 1 + (j - 1) * n] = 0.0;
+                    for (i = 1; i <= k; i++)
+                    {
+                        b[i - 1 + (j - 1) * n] =
+                            b[i - 1 + (j - 1) * n] + b[i - 1 + (k - 1) * n] * a[k - 1 + (j - 1) * n];
+                    }
+                }
+            }
+
+            //
+            //  Multiply Inverse(U) by Inverse(L).
+            //
+            for (k = n - 1; 1 <= k; k--)
+            {
+                for (i = k + 1; i <= n; i++)
+                {
+                    b[i - 1 + (k - 1) * n] = 0.0;
+                }
+
+                for (j = k + 1; j <= n; j++)
+                {
+                    for (i = 1; i <= n; i++)
+                    {
+                        b[i - 1 + (k - 1) * n] =
+                            b[i - 1 + (k - 1) * n] + b[i - 1 + (j - 1) * n] * a[j - 1 + (k - 1) * n];
+                    }
+                }
+
+                if (pivot[k - 1] != k)
+                {
+                    for (i = 1; i <= n; i++)
+                    {
+                        temp = b[i - 1 + (k - 1) * n];
+                        b[i - 1 + (k - 1) * n] = b[i - 1 + (pivot[k - 1] - 1) * n];
+                        b[i - 1 + (pivot[k - 1] - 1) * n] = temp;
+                    }
+
+                }
+
+            }
+
+            return b;
+        }
 
     }
 }

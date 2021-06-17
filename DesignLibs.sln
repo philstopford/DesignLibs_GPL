@@ -368,6 +368,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CircleMonteCarloTest", "Bur
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CircleRulesTest", "BurkhardtTest\Circle\CircleRulesTest\CircleRulesTest.csproj", "{445C5BFE-876A-4A40-8B8B-65F4D28F5F04}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CircleSegmentTest", "BurkhardtTest\Circle\CircleSegmentTest\CircleSegmentTest.csproj", "{0F887613-DBE5-4AF5-96FB-72CBF584FB18}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -2298,6 +2300,18 @@ Global
 		{445C5BFE-876A-4A40-8B8B-65F4D28F5F04}.Release|x64.Build.0 = Release|Any CPU
 		{445C5BFE-876A-4A40-8B8B-65F4D28F5F04}.Release|x86.ActiveCfg = Release|Any CPU
 		{445C5BFE-876A-4A40-8B8B-65F4D28F5F04}.Release|x86.Build.0 = Release|Any CPU
+		{0F887613-DBE5-4AF5-96FB-72CBF584FB18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F887613-DBE5-4AF5-96FB-72CBF584FB18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F887613-DBE5-4AF5-96FB-72CBF584FB18}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0F887613-DBE5-4AF5-96FB-72CBF584FB18}.Debug|x64.Build.0 = Debug|Any CPU
+		{0F887613-DBE5-4AF5-96FB-72CBF584FB18}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0F887613-DBE5-4AF5-96FB-72CBF584FB18}.Debug|x86.Build.0 = Debug|Any CPU
+		{0F887613-DBE5-4AF5-96FB-72CBF584FB18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F887613-DBE5-4AF5-96FB-72CBF584FB18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F887613-DBE5-4AF5-96FB-72CBF584FB18}.Release|x64.ActiveCfg = Release|Any CPU
+		{0F887613-DBE5-4AF5-96FB-72CBF584FB18}.Release|x64.Build.0 = Release|Any CPU
+		{0F887613-DBE5-4AF5-96FB-72CBF584FB18}.Release|x86.ActiveCfg = Release|Any CPU
+		{0F887613-DBE5-4AF5-96FB-72CBF584FB18}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2480,6 +2494,7 @@ Global
 		{E4172B77-5ECA-4730-B6C2-6839F721BE6F} = {87CC8A90-782C-4F12-A643-B39362A62671}
 		{1FE07C5E-17AA-4082-A1FE-5150F550BD3C} = {87CC8A90-782C-4F12-A643-B39362A62671}
 		{445C5BFE-876A-4A40-8B8B-65F4D28F5F04} = {87CC8A90-782C-4F12-A643-B39362A62671}
+		{0F887613-DBE5-4AF5-96FB-72CBF584FB18} = {87CC8A90-782C-4F12-A643-B39362A62671}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B449416C-C504-4FA8-9E10-10857263A64A}

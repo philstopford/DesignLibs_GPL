@@ -2270,5 +2270,114 @@ namespace Burkardt.Types
             return value;
         }
 
+        public static double r8_atan(double y, double x)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_ATAN computes the inverse tangent of the ratio Y / X.
+            //
+            //  Discussion:
+            //
+            //    R8_ATAN returns an angle whose tangent is ( Y / X ), a job which
+            //    the built in functions ATAN and ATAN2 already do.
+            //
+            //    However:
+            //
+            //    * R8_ATAN always returns a positive angle, between 0 and 2 PI,
+            //      while ATAN and ATAN2 return angles in the interval [-PI/2,+PI/2]
+            //      and [-PI,+PI] respectively;
+            //
+            //    * R8_ATAN accounts for the signs of X and Y, (as does ATAN2).  The ATAN
+            //     function by contrast always returns an angle in the first or fourth
+            //     quadrants.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    15 August 2008
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double Y, X, two quantities which represent the tangent of
+            //    an angle.  If Y is not zero, then the tangent is (Y/X).
+            //
+            //    Output, double R8_ATAN, an angle between 0 and 2 * PI, whose tangent is
+            //    (Y/X), and which lies in the appropriate quadrant so that the signs
+            //    of its cosine and sine match those of X and Y.
+            //
+        {
+            double abs_x;
+            double abs_y;
+            double theta = 0;
+            double theta_0;
+            //
+            //  Special cases:
+            //
+            if (x == 0.0)
+            {
+                if (0.0 < y)
+                {
+                    theta = Math.PI / 2.0;
+                }
+                else if (y < 0.0)
+                {
+                    theta = 3.0 * Math.PI / 2.0;
+                }
+                else if (y == 0.0)
+                {
+                    theta = 0.0;
+                }
+            }
+            else if (y == 0.0)
+            {
+                if (0.0 < x)
+                {
+                    theta = 0.0;
+                }
+                else if (x < 0.0)
+                {
+                    theta = Math.PI;
+                }
+            }
+            //
+            //  We assume that ATAN2 is correct when both arguments are positive.
+            //
+            else
+            {
+                abs_y = Math.Abs(y);
+                abs_x = Math.Abs(x);
+
+                theta_0 = Math.Atan2(abs_y, abs_x);
+
+                if (0.0 < x && 0.0 < y)
+                {
+                    theta = theta_0;
+                }
+                else if (x < 0.0 && 0.0 < y)
+                {
+                    theta = Math.PI - theta_0;
+                }
+                else if (x < 0.0 && y < 0.0)
+                {
+                    theta = Math.PI + theta_0;
+                }
+                else if (0.0 < x && y < 0.0)
+                {
+                    theta = 2.0 * Math.PI - theta_0;
+                }
+            }
+
+            return theta;
+        }
+
     }
 }

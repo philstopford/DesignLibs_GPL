@@ -2095,7 +2095,7 @@ namespace Burkardt.Types
             return x;
         }
 
-        public static void i4vec_reverse(int n, ref int[] a, int aIndex)
+        public static void i4vec_reverse(int n, ref int[] a, int aIndex = 0)
 
             //****************************************************************************80
             //
@@ -2484,6 +2484,51 @@ namespace Burkardt.Types
             {
                 a[i] = i + 1;
             }
+        }
+        
+        public static int i4vec_dot_product ( int n, int[] x, int[] y )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    I4VEC_DOT_PRODUCT computes the dot product of two I4VEC's.
+        //
+        //  Discussion:
+        //
+        //    An I4VEC is a vector of I4's.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    19 December 2011
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the size of the array.
+        //
+        //    Input, int X[N], Y[N], the arrays.
+        //
+        //    Output, int I4VEC_DOT_PRODUCT, the dot product of X and Y.
+        //
+        {
+            int i;
+            int value;
+
+            value = 0;
+            for ( i = 0; i < n; i++ )
+            {
+                value = value + x[i] * y[i];
+            }
+
+            return value;
         }
 
     }

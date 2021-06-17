@@ -1,0 +1,698 @@
+﻿using System;
+using Burkardt.RankingNS;
+using Burkardt.Types;
+
+namespace Burkardt.ComboTest
+{
+    partial class Program
+    {
+        static void ksubset_colex_check_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    KSUBSET_COLEX_CHECK_TEST tests KSUBSET_COLEX_CHECK.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    14 January 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            bool check;
+            int k = 0;
+            int n = 0;
+            int[] s = new int[1];
+            int[] s2 =  {
+                5, 3, 2
+            }
+            ;
+            int[] s3 =  {
+                5, 2, 3
+            }
+            ;
+            int[] s4 =  {
+                7, 3, 2
+            }
+            ;
+            int[] s5 =  {
+                5, 3, 2
+            }
+            ;
+            int test;
+
+            Console.WriteLine("");
+            Console.WriteLine("KSUBSET_COLEX_CHECK TEST");
+            Console.WriteLine("  KSUBSET_COLEX_CHECK checks a K subset of an N set.");
+
+            for (test = 1; test <= 7; test++)
+            {
+                if (test == 1)
+                {
+                    k = -1;
+                    n = 5;
+                    s = null;
+                }
+                else if (test == 2)
+                {
+                    k = 3;
+                    n = 0;
+                    s = typeMethods.i4vec_copy_new(k, s2);
+                }
+                else if (test == 3)
+                {
+                    k = 3;
+                    n = 5;
+                    s = typeMethods.i4vec_copy_new(k, s3);
+                }
+                else if (test == 4)
+                {
+                    k = 3;
+                    n = 5;
+                    s = typeMethods.i4vec_copy_new(k, s4);
+                }
+                else if (test == 5)
+                {
+                    k = 3;
+                    n = 5;
+                    s = typeMethods.i4vec_copy_new(k, s5);
+                }
+                else if (test == 6)
+                {
+                    k = 0;
+                    n = 5;
+                    s = null;
+                }
+                else if (test == 7)
+                {
+                    k = 0;
+                    n = 0;
+                    s = null;
+                }
+
+                check = Ranking.ksubset_colex_check(k, n, s);
+                typeMethods.i4vec_transpose_print(k, s, "  Subset:");
+                Console.WriteLine("  N = " + n + ", K = " + k + "");
+                Console.WriteLine("  Check = " + check + "");
+            }
+        }
+
+        static void ksubset_colex_rank_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    KSUBSET_COLEX_RANK_TEST tests KSUBSET_COLEX_RANK.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    30 November 2015
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            int k;
+            int n;
+            int rank;
+            int[] t =  {
+                5, 3, 1
+            }
+            ;
+
+            Console.WriteLine("");
+            Console.WriteLine("KSUBSET_COLEX_RANK_TEST");
+            Console.WriteLine("  KSUBSET_COLEX_RANK ranks");
+            Console.WriteLine("  K-subsets of an N set,");
+            Console.WriteLine("  using the colexicographic ordering:");
+
+            k = 3;
+            n = 5;
+            typeMethods.i4vec_transpose_print(k, t, "  Element to be ranked:");
+
+            rank = Ranking.ksubset_colex_rank(k, n, t);
+
+            Console.WriteLine("");
+            Console.WriteLine("  Rank is computed as " + rank + "");
+        }
+
+        static void ksubset_colex_successor_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    KSUBSET_COLEX_SUCCESSOR_TEST tests KSUBSET_COLEX_SUCCESSOR.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    30 November 2015
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            int i;
+            int k;
+            int n;
+            int rank;
+            int rank_old;
+            int[] t = new int[1];
+
+            Console.WriteLine("");
+            Console.WriteLine("KSUBSET_COLEX_SUCCESSOR_TEST");
+            Console.WriteLine("  KSUBSET_COLEX_SUCCESSOR lists");
+            Console.WriteLine("  K-subsets of an N set using the colexicographic ordering:");
+
+            k = 3;
+            n = 5;
+            t = new int[k];
+
+            rank = -1;
+
+            for (;;)
+            {
+                rank_old = rank;
+
+                Ranking.ksubset_colex_successor(k, n, ref t, ref rank);
+
+                if (rank <= rank_old)
+                {
+                    break;
+                }
+
+                string cout = "  " + rank.ToString().PadLeft(4);
+                for (i = 0; i < k; i++)
+                {
+                    cout += "  " + t[i].ToString().PadLeft(4);
+                }
+
+                Console.WriteLine("");
+            }
+        }
+
+        static void ksubset_colex_unrank_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    KSUBSET_COLEX_UNRANK_TEST tests KSUBSET_COLEX_UNRANK.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    30 November 2015
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            int k;
+            int n;
+            int rank;
+            int[] t;
+
+            Console.WriteLine("");
+            Console.WriteLine("KSUBSET_COLEX_UNRANK_TEST");
+            Console.WriteLine("  KSUBSET_COLEX_UNRANK unranks");
+            Console.WriteLine("  K-subsets of an N set");
+            Console.WriteLine("  using the colexicographic ordering.");
+
+            rank = 5;
+            k = 3;
+            n = 5;
+
+            t = Ranking.ksubset_colex_unrank(rank, k, n);
+
+            Console.WriteLine("");
+            Console.WriteLine("  The element of rank " + rank + "");
+            Console.WriteLine("");
+            typeMethods.i4vec_transpose_print(k, t, "");
+        }
+
+        static void ksubset_enum_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    KSUBSET_ENUM_TEST tests KSUBSET_ENUM.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    27 November 2015
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            int k;
+            int n;
+
+            Console.WriteLine("");
+            Console.WriteLine("KSUBSET_ENUM_TEST");
+            Console.WriteLine("  KSUBSET_ENUM enumerates K subsets of an N set.");
+            Console.WriteLine("");
+            Console.WriteLine("      K:      0       1       2       3       4       5");
+            Console.WriteLine("   N");
+
+            for (n = 0; n <= 10; n++)
+            {
+                string cout = "  " + n.ToString().PadLeft(2)
+                    + ":  ";
+                for (k = 0; k <= Math.Min(n, 5); k++)
+                {
+                    cout += "  " + Ranking.ksubset_enum(k, n).ToString().PadLeft(6);
+                }
+
+                Console.WriteLine(cout);
+            }
+        }
+
+        static void ksubset_lex_check_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    KSUBSET_LEX_CHECK_TEST tests KSUBSET_LEX_CHECK.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    13 January 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            bool check;
+            int k = 0;
+            int n = 0;
+            int[] s = new int[1];
+            int[] s2 =  {
+                2, 3, 5
+            }
+            ;
+            int[] s3 =  {
+                3, 2, 5
+            }
+            ;
+            int[] s4 =  {
+                2, 3, 7
+            }
+            ;
+            int[] s5 =  {
+                2, 3, 5
+            }
+            ;
+            int test;
+
+            Console.WriteLine("");
+            Console.WriteLine("KSUBSET_LEX_CHECK TEST");
+            Console.WriteLine("  KSUBSET_LEX_CHECK checks a K subset of an N set.");
+
+            for (test = 1; test <= 7; test++)
+            {
+                if (test == 1)
+                {
+                    k = -1;
+                    n = 5;
+                    s = null;
+                }
+                else if (test == 2)
+                {
+                    k = 3;
+                    n = 0;
+                    s = typeMethods.i4vec_copy_new(k, s2);
+                }
+                else if (test == 3)
+                {
+                    k = 3;
+                    n = 5;
+                    s = typeMethods.i4vec_copy_new(k, s3);
+                }
+                else if (test == 4)
+                {
+                    k = 3;
+                    n = 5;
+                    s = typeMethods.i4vec_copy_new(k, s4);
+                }
+                else if (test == 5)
+                {
+                    k = 3;
+                    n = 5;
+                    s = typeMethods.i4vec_copy_new(k, s5);
+                }
+                else if (test == 6)
+                {
+                    k = 0;
+                    n = 5;
+                    s = null;
+                }
+                else if (test == 7)
+                {
+                    k = 0;
+                    n = 0;
+                    s = null;
+                }
+
+                check = Ranking.ksubset_lex_check(k, n, s);
+                typeMethods.i4vec_transpose_print(k, s, "  Subset:");
+                Console.WriteLine("  N = " + n + ", K = " + k + "");
+                Console.WriteLine("  Check = " + check + "");
+            }
+        }
+
+        static void ksubset_lex_rank_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    KSUBSET_LEX_RANK_TEST tests KSUBSET_LEX_RANK.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    30 November 2015
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            int k;
+            int n;
+            int rank;
+            int[] t =  {
+                1, 4, 5
+            }
+            ;
+
+            Console.WriteLine("");
+            Console.WriteLine("KSUBSET_LEX_RANK_TEST");
+            Console.WriteLine("  KSUBSET_LEX_RANK ranks");
+            Console.WriteLine("  K-subsets of an N set,");
+            Console.WriteLine("  using the lexicographic ordering:");
+
+            k = 3;
+            n = 5;
+            typeMethods.i4vec_transpose_print(k, t, "  Element to be ranked:");
+
+            rank = Ranking.ksubset_lex_rank(k, n, t);
+
+            Console.WriteLine("");
+            Console.WriteLine("  Rank is computed as " + rank + "");
+        }
+
+        static void ksubset_lex_successor_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    KSUBSET_LEX_SUCCESSOR_TEST tests KSUBSET_LEX_SUCCESSOR.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    30 November 2015
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            int i;
+            int k;
+            int n;
+            int rank;
+            int rank_old;
+            int[] t = new int[1];
+
+            Console.WriteLine("");
+            Console.WriteLine("KSUBSET_LEX_SUCCESSOR_TEST");
+            Console.WriteLine("  KSUBSET_LEX_SUCCESSOR lists");
+            Console.WriteLine("  K-subsets of an N set using the lexicographic ordering:");
+
+            k = 3;
+            n = 5;
+            t = new int[k];
+
+            rank = -1;
+
+            for (;;)
+            {
+                rank_old = rank;
+
+                Ranking.ksubset_lex_successor(k, n, ref t, ref rank);
+
+                if (rank <= rank_old)
+                {
+                    break;
+                }
+
+                string cout = "  " + rank.ToString().PadLeft(4);
+                for (i = 0; i < k; i++)
+                {
+                    cout += "  " + t[i].ToString().PadLeft(4);
+                }
+
+                Console.WriteLine(cout);
+            }
+        }
+
+        static void ksubset_lex_unrank_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    KSUBSET_LEX_UNRANK_TEST tests KSUBSET_LEX_UNRANK.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    30 November 2015
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            int k;
+            int n;
+            int rank;
+            int[] t;
+
+            Console.WriteLine("");
+            Console.WriteLine("KSUBSET_LEX_UNRANK_TEST");
+            Console.WriteLine("  KSUBSET_LEX_UNRANK unranks");
+            Console.WriteLine("  K-subsets of an N set");
+            Console.WriteLine("  using the lexicographic ordering.");
+
+            rank = 5;
+            k = 3;
+            n = 5;
+
+            t = Ranking.ksubset_lex_unrank(rank, k, n);
+
+            Console.WriteLine("");
+            Console.WriteLine("  The element of rank " + rank + "");
+            Console.WriteLine("");
+            typeMethods.i4vec_transpose_print(k, t, "");
+        }
+
+        static void ksubset_revdoor_rank_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    KSUBSET_REVDOOR_RANK_TEST tests KSUBSET_REVDOOR_RANK.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    30 November 2015
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            int k;
+            int n;
+            int rank;
+            int[] t =  {
+                2, 4, 5
+            }
+            ;
+
+            Console.WriteLine("");
+            Console.WriteLine("KSUBSET_REVDOOR_RANK_TEST");
+            Console.WriteLine("  KSUBSET_REVDOOR_RANK ranks");
+            Console.WriteLine("  K-subsets of an N set,");
+            Console.WriteLine("  using the revolving door ordering:");
+
+            k = 3;
+            n = 5;
+            typeMethods.i4vec_transpose_print(k, t, "  Element to be ranked:");
+
+            rank = Ranking.ksubset_revdoor_rank(k, n, t);
+
+            Console.WriteLine("");
+            Console.WriteLine("  Rank is computed as " + rank + "");
+        }
+
+        static void ksubset_revdoor_successor_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    KSUBSET_REVDOOR_SUCCESSOR_TEST tests KSUBSET_REVDOOR_SUCCESSOR.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    30 November 2015
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            int i;
+            int k;
+            int n;
+            int rank;
+            int rank_old;
+            int[] t;
+
+            Console.WriteLine("");
+            Console.WriteLine("KSUBSET_REVDOOR_SUCCESSOR_TEST");
+            Console.WriteLine("  KSUBSET_REVDOOR_SUCCESSOR lists");
+            Console.WriteLine("  K-subsets of an N set using the revolving door ordering:");
+
+            k = 3;
+            n = 5;
+            t = new int[k];
+
+            rank = -1;
+
+            for (;;)
+            {
+                rank_old = rank;
+
+                Ranking.ksubset_revdoor_successor(k, n, ref t, ref rank);
+
+                if (rank <= rank_old)
+                {
+                    break;
+                }
+
+                string cout = "  " + rank.ToString().PadLeft(4);
+                for (i = 0; i < k; i++)
+                {
+                    cout += "  " + t[i].ToString().PadLeft(4);
+                }
+
+                Console.WriteLine(cout);
+            }
+        }
+
+        static void ksubset_revdoor_unrank_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    KSUBSET_REVDOOR_UNRANK_TEST tests KSUBSET_REVDOOR_UNRANK.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    30 November 2015
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            int k;
+            int n;
+            int rank;
+            int[] t;
+
+            Console.WriteLine("");
+            Console.WriteLine("KSUBSET_REVDOOR_UNRANK_TEST");
+            Console.WriteLine("  KSUBSET_REVDOOR_UNRANK unranks");
+            Console.WriteLine("  K-subsets of an N set");
+            Console.WriteLine("  using the revolving door ordering.");
+
+            rank = 5;
+            k = 3;
+            n = 5;
+
+            t = Ranking.ksubset_revdoor_unrank(rank, k, n);
+
+            Console.WriteLine("");
+            Console.WriteLine("  The element of rank " + rank + "");
+            Console.WriteLine("");
+            typeMethods.i4vec_transpose_print(k, t, "");
+        }
+    }
+}

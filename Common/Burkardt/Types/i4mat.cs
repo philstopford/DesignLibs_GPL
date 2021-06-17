@@ -718,6 +718,56 @@ namespace Burkardt.Types
 
             return table;
         }
+        
+        public static int[] i4mat_copy_new ( int m, int n, int[] a1 )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4MAT_COPY_NEW copies an I4MAT to a "new" I4MAT.
+            //
+            //  Discussion:
+            //
+            //    An I4MAT is an MxN array of I4's, stored by (I,J) -> [I+J*M].
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    27 August 2008
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns.
+            //
+            //    Input, int A1[M*N], the matrix to be copied.
+            //
+            //    Output, int I4MAT_COPY_NEW[M*N], the copy of A1.
+            //
+        {
+            int[] a2;
+            int i;
+            int j;
+
+            a2 = new int[m*n];
+
+            for ( j = 0; j < n; j++ )
+            {
+                for ( i = 0; i < m; i++ )
+                {
+                    a2[i+j*m] = a1[i+j*m];
+                }
+            }
+            return a2;
+        }
+        
     }
 
 }

@@ -56,23 +56,27 @@ namespace Burkardt.ComboTest
             {
                 if (test == 1)
                 {
-                    m = 2;
-                    f = typeMethods.i4vec_copy_new(m, f1);
+                    m = 1;
+                    //f = typeMethods.i4vec_copy_new(m, f1);
+                    f = f1;
                 }
                 else if (test == 2)
                 {
                     m = 7;
-                    f = typeMethods.i4vec_copy_new(m, f2);
+                    // f = typeMethods.i4vec_copy_new(m, f2);
+                    f = f2;
                 }
                 else if (test == 3)
                 {
                     m = 7;
-                    f = typeMethods.i4vec_copy_new(m, f3);
+                    // f = typeMethods.i4vec_copy_new(m, f3);
+                    f = f3;
                 }
                 else if (test == 4)
                 {
                     m = 7;
-                    f = typeMethods.i4vec_copy_new(m, f4);
+                    // f = typeMethods.i4vec_copy_new(m, f4);
+                    f = f4;
                 }
 
                 Console.WriteLine("");

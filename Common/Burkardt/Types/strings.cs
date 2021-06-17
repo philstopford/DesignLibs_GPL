@@ -35,6 +35,7 @@
             }
 
             string tmp = line.TrimEnd();
+            tmp = line.TrimStart();
 
             int index = tmp.Length;
             

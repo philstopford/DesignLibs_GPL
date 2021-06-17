@@ -221,49 +221,56 @@ namespace Burkardt.ComboTest
                     n = 0;
                     nmax = 6;
                     npart = 4;
-                    a = typeMethods.i4vec_copy_new(n, a1);
+                    // a = typeMethods.i4vec_copy_new(n, a1);
+                    a = a1;
                 }
                 else if (test == 2)
                 {
                     n = 15;
                     nmax = 6;
                     npart = 0;
-                    a = typeMethods.i4vec_copy_new(n, a2);
+                    // a = typeMethods.i4vec_copy_new(n, a2);
+                    a = a2;
                 }
                 else if (test == 3)
                 {
                     n = 15;
                     nmax = 6;
                     npart = 4;
-                    a = typeMethods.i4vec_copy_new(n, a3);
+                    // a = typeMethods.i4vec_copy_new(n, a3);
+                    a = a3;
                 }
                 else if (test == 4)
                 {
                     n = 15;
                     nmax = 6;
                     npart = 4;
-                    a = typeMethods.i4vec_copy_new(n, a4);
+                    // a = typeMethods.i4vec_copy_new(n, a4);
+                    a = a4;
                 }
                 else if (test == 5)
                 {
                     n = 15;
                     nmax = 6;
                     npart = 4;
-                    a = typeMethods.i4vec_copy_new(n, a5);
+                    // a = typeMethods.i4vec_copy_new(n, a5);
+                    a = a5;
                 }
                 else if (test == 6)
                 {
                     n = 15;
                     nmax = 6;
                     npart = 4;
-                    a = typeMethods.i4vec_copy_new(n, a6);
+                    // a = typeMethods.i4vec_copy_new(n, a6);
+                    a = a6;
                 }
                 else if (test == 7)
                 {
                     n = 15;
                     nmax = 6;
                     npart = 4;
-                    a = typeMethods.i4vec_copy_new(n, a7);
+                    // a = typeMethods.i4vec_copy_new(n, a7);
+                    a = a7;
                 }
 
                 Console.WriteLine("");

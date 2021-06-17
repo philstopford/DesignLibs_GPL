@@ -1700,7 +1700,9 @@ namespace Burkardt.Types
             int ilo;
             int title_len;
 
-            if (0 < s_len_trim(title))
+            int slt = s_len_trim(title);
+            
+            if (0 < slt)
             {
                 title_len = title.Length;
 

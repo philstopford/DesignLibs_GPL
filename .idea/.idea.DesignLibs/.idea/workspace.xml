@@ -158,8 +158,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8mat_norm.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_histo.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/Ellipsoid.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CauchyPrincipalValue.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA006Test/Program.cs" />
@@ -196,19 +194,21 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/ComboTest/mountain.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ComboTest/xx.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ComboTest/part.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/i4vec.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/ComboTest/partition.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ComboTest/perm.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ComboTest/pruefer.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ComboTest/queens.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ComboTest/r8.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ComboTest/r8vec.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/ComboTest/rgf.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ComboTest/setpart.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ComboTest/stirling.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ComboTest/subset.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/ComboTest/tableau.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ComboTest/tree.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/i4mat.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/ComboTest/tableau.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/ComboTest/partition.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/strings.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/i4vec.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/ComboTest/rgf.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />

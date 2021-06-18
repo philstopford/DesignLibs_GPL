@@ -168,10 +168,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/BurkhardtTest/Circle/CircleArcGridTest/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r82vec.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Circle/Integrals.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Monomial.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Circle/CircleIntegralsTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Circle/MonteCarlo.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Circle/CircleMonteCarloTest/Program.cs" />
@@ -214,11 +210,15 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/BlackScholesTest/Program.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Power.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Uniform.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Cube/QuadratureRule.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Cube/CubeRuleTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Cube/Exactness.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Exactness/Legendre.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Cube/CubeExactnessTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Sparse/SparseCount.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/ClenshawCurtis/ClenshawCurtisGrid.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Cube/Integrals.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Comp.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Cube/QuadratureRule.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />

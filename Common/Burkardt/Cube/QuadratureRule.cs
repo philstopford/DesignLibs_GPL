@@ -3210,5 +3210,534 @@ namespace Burkardt.Cube
             typeMethods.r8mat_row_copy(3, n, 2, zs, ref x);
             typeMethods.r8vec_copy(n, ws, ref w);
         }
+
+        public static void cube_quad_test(int degree_max)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    CUBE_QUAD_TEST tests the rules for a cube in 3D.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    05 September 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int DEGREE_MAX, the maximum total degree of the
+            //    monomials to check.
+            //
+        {
+            int DIM_NUM = 3;
+
+            double[] a =
+                {
+                    -1.0, -1.0, -1.0
+                }
+                ;
+            double[] b =
+                {
+                    +1.0, +1.0, +1.0
+                }
+                ;
+            int dim;
+            int dim_num = DIM_NUM;
+            int[] expon = new int[DIM_NUM];
+            int h = 0;
+            int k;
+            bool more;
+            int order;
+            int[] order_1d = new int[DIM_NUM];
+            double quad;
+            int t = 0;
+            double[] v;
+            double[] w;
+            double[] xyz;
+
+            Console.WriteLine("");
+            Console.WriteLine("CUBE_QUAD_TEST");
+            Console.WriteLine("  For the unit hexahedron,");
+            Console.WriteLine("  we approximate monomial integrals with:");
+            Console.WriteLine("  CUBE_RULE, which returns N1 by N2 by N3 point rules..");
+
+            more = false;
+
+            SubCompData data = new SubCompData();
+
+            for (;;)
+            {
+                SubComp.subcomp_next(ref data, degree_max, dim_num, ref expon, ref more, ref h, ref t);
+
+                Console.WriteLine("");
+                string cout = "  Monomial exponents: ";
+                for (dim = 0; dim < dim_num; dim++)
+                {
+                    cout += "  " + expon[dim].ToString().PadLeft(2);
+                }
+
+                Console.WriteLine(cout);
+                Console.WriteLine("");
+
+                for (k = 1; k <= 5; k++)
+                {
+                    for (dim = 0; dim < dim_num; dim++)
+                    {
+                        order_1d[dim] = k;
+                    }
+
+                    order = typeMethods.i4vec_product(dim_num, order_1d);
+                    w = new double[order];
+                    xyz = new double[dim_num * order];
+                    cube_rule(a, b, order_1d, ref w, ref xyz);
+                    v = typeMethods.monomial_value(dim_num, order, expon, xyz);
+                    quad = typeMethods.r8vec_dot_product(order, w, v);
+                    Console.WriteLine("  " + order_1d[0].ToString().PadLeft(6)
+                                           + "  " + order_1d[1].ToString().PadLeft(6)
+                                           + "  " + order_1d[2].ToString().PadLeft(6)
+                                           + "  " + quad.ToString().PadLeft(14) + "");
+                }
+
+                //
+                //  Try a rule of mixed orders.
+                //
+                order_1d[0] = 3;
+                order_1d[1] = 5;
+                order_1d[2] = 2;
+                order = typeMethods.i4vec_product(dim_num, order_1d);
+                w = new double[order];
+                xyz = new double[dim_num * order];
+                cube_rule(a, b, order_1d, ref w, ref xyz);
+                v = typeMethods.monomial_value(dim_num, order, expon, xyz);
+                quad = typeMethods.r8vec_dot_product(order, w, v);
+                Console.WriteLine("  " + order_1d[0].ToString().PadLeft(6)
+                                       + "  " + order_1d[1].ToString().PadLeft(6)
+                                       + "  " + order_1d[2].ToString().PadLeft(6)
+                                       + "  " + quad.ToString().PadLeft(14) + "");
+
+                Console.WriteLine("");
+                quad = Integrals.cube_monomial(a, b, expon);
+                Console.WriteLine("  " + " Exact"
+                                       + "  " + "      "
+                                       + "  " + "      "
+                                       + "  " + quad.ToString().PadLeft(14) + "");
+
+                if (!more)
+                {
+                    break;
+                }
+            }
+        }
+
+        public static void cube_rule(double[] a, double[] b, int[] order_1d, ref double[] w,
+                ref double[] xyz)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    CUBE_RULE returns a quadrature rule for a cube in 3D.
+            //
+            //  Discussion:
+            //
+            //    The integration region is:
+            //      A(1) <= X <= B(1)
+            //      A(2) <= Y <= B(2)
+            //      A(3) <= Z <= B(3)
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    05 September 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Carlos Felippa,
+            //    A compendium of FEM integration formulas for symbolic work,
+            //    Engineering Computation,
+            //    Volume 21, Number 8, 2004, pages 867-890.
+            //
+            //  Parameters:
+            //
+            //    Input, double A[3], B[3], the lower and upper limits.
+            //
+            //    Input, int ORDER_1D[3], the order of the rule in 
+            //    each dimension.  1 <= ORDER_1D(I) <= 5.
+            //
+            //    Output, double W[ORDER_1D[0]*ORDER_1D[1]*ORDER_1D[2]], the weights.
+            //
+            //    Output, double XYZ[3*ORDER_1D[0]*ORDER_1D[1]*ORDER_1D[2]], the abscissas.
+            //
+        {
+            int i;
+            int j;
+            int o;
+            int order;
+            double[] w_1d;
+            double[] x_1d;
+
+            order = typeMethods.i4vec_product(3, order_1d);
+
+            for (i = 0; i < 3; i++)
+            {
+                o = order_1d[i];
+
+                w_1d = new double[o];
+                x_1d = new double[o];
+
+                if (o == 1)
+                {
+                    line_unit_o01(w_1d, x_1d);
+                }
+                else if (o == 2)
+                {
+                    line_unit_o02(w_1d, x_1d);
+                }
+                else if (o == 3)
+                {
+                    line_unit_o03(w_1d, x_1d);
+                }
+                else if (o == 4)
+                {
+                    line_unit_o04(w_1d, x_1d);
+                }
+                else if (o == 5)
+                {
+                    line_unit_o05(w_1d, x_1d);
+                }
+                else
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("CUBE_RULE - Fatal error!");
+                    Console.WriteLine("  Illegal value of ORDER_1D[*].");
+                    return;
+                }
+
+                //
+                //  Transform from [-1,+1] to [Ai,Bi]
+                //
+                for (j = 0; j < o; j++)
+                {
+                    w_1d[j] = w_1d[j] * (b[i] - a[i]) / 2.0;
+                    x_1d[j] = ((1.0 - x_1d[j]) * a[i]
+                               + (1.0 + x_1d[j]) * b[i])
+                              / 2.0;
+                }
+
+                //
+                //  Add this information to the rule.
+                //
+                typeMethods.r8vec_direct_product(i, o, x_1d, 3, order, ref xyz);
+
+                typeMethods.r8vec_direct_product2(i, o, w_1d, 3, order, ref w);
+
+            }
+        }
+
+        static void line_unit_o01(double[] w, double[] x)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    LINE_UNIT_O01 returns a 1 point quadrature rule for the unit line.
+            //
+            //  Discussion:
+            //
+            //    The integration region is:
+            //
+            //    - 1.0 <= X <= 1.0
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    17 April 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Arthur Stroud,
+            //    Approximate Calculation of Multiple Integrals,
+            //    Prentice Hall, 1971,
+            //    ISBN: 0130438936,
+            //    LC: QA311.S85.
+            //
+            //  Parameters:
+            //
+            //    Output, double W[1], the weights.
+            //
+            //    Output, double X[1], the abscissas.
+            //
+        {
+            int order = 1;
+            double[] w_save = {2.0};
+            double[] x_save = {0.0};
+
+            typeMethods.r8vec_copy(order, w_save, ref w);
+            typeMethods.r8vec_copy(order, x_save, ref x);
+
+        }
+
+        static void line_unit_o02(double[] w, double[] x)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    LINE_UNIT_O02 returns a 2 point quadrature rule for the unit line.
+            //
+            //  Discussion:
+            //
+            //    The integration region is:
+            //
+            //    - 1.0 <= X <= 1.0
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    17 April 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Arthur Stroud,
+            //    Approximate Calculation of Multiple Integrals,
+            //    Prentice Hall, 1971,
+            //    ISBN: 0130438936,
+            //    LC: QA311.S85.
+            //
+            //  Parameters:
+            //
+            //    Output, double W[2], the weights.
+            //
+            //    Output, double X[2], the abscissas.
+            //
+        {
+            int order = 2;
+            double[] w_save =
+            {
+                1.0000000000000000000,
+                1.0000000000000000000
+            };
+            double[] x_save =
+            {
+                -0.57735026918962576451,
+                0.57735026918962576451
+            };
+
+            typeMethods.r8vec_copy(order, w_save, ref w);
+            typeMethods.r8vec_copy(order, x_save, ref x);
+        }
+
+        static void line_unit_o03(double[] w, double[] x)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    LINE_UNIT_O03 returns a 3 point quadrature rule for the unit line.
+            //
+            //  Discussion:
+            //
+            //    The integration region is:
+            //
+            //    - 1.0 <= X <= 1.0
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    17 April 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Arthur Stroud,
+            //    Approximate Calculation of Multiple Integrals,
+            //    Prentice Hall, 1971,
+            //    ISBN: 0130438936,
+            //    LC: QA311.S85.
+            //
+            //  Parameters:
+            //
+            //    Output, double W[3], the weights.
+            //
+            //    Output, double X[3], the abscissas.
+            //
+        {
+            int order = 3;
+            double[] w_save =
+            {
+                0.55555555555555555556,
+                0.88888888888888888889,
+                0.55555555555555555556
+            };
+            double[] x_save =
+            {
+                -0.77459666924148337704,
+                0.00000000000000000000,
+                0.77459666924148337704
+            };
+
+            typeMethods.r8vec_copy(order, w_save, ref w);
+            typeMethods.r8vec_copy(order, x_save, ref x);
+        }
+
+        static void line_unit_o04(double[] w, double[] x)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    LINE_UNIT_O04 returns a 4 point quadrature rule for the unit line.
+            //
+            //  Discussion:
+            //
+            //    The integration region is:
+            //
+            //    - 1.0 <= X <= 1.0
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    17 April 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Arthur Stroud,
+            //    Approximate Calculation of Multiple Integrals,
+            //    Prentice Hall, 1971,
+            //    ISBN: 0130438936,
+            //    LC: QA311.S85.
+            //
+            //  Parameters:
+            //
+            //    Output, double W[4], the weights.
+            //
+            //    Output, double X[4], the abscissas.
+            //
+        {
+            int order = 4;
+            double[] w_save =
+            {
+                0.34785484513745385737,
+                0.65214515486254614263,
+                0.65214515486254614263,
+                0.34785484513745385737
+            };
+            double[] x_save =
+            {
+                -0.86113631159405257522,
+                -0.33998104358485626480,
+                0.33998104358485626480,
+                0.86113631159405257522
+            };
+
+            typeMethods.r8vec_copy(order, w_save, ref w);
+            typeMethods.r8vec_copy(order, x_save, ref x);
+
+        }
+
+        static void line_unit_o05(double[] w, double[] x)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    LINE_UNIT_O05 returns a 5 point quadrature rule for the unit line.
+            //
+            //  Discussion:
+            //
+            //    The integration region is:
+            //
+            //    - 1.0 <= X <= 1.0
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    17 April 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Arthur Stroud,
+            //    Approximate Calculation of Multiple Integrals,
+            //    Prentice Hall, 1971,
+            //    ISBN: 0130438936,
+            //    LC: QA311.S85.
+            //
+            //  Parameters:
+            //
+            //    Output, double W[5], the weights.
+            //
+            //    Output, double X[5], the abscissas.
+            //
+        {
+            int order = 5;
+            double[] w_save =
+            {
+                0.23692688505618908751,
+                0.47862867049936646804,
+                0.56888888888888888889,
+                0.47862867049936646804,
+                0.23692688505618908751
+            };
+            double[] x_save =
+            {
+                -0.90617984593866399280,
+                -0.53846931010568309104,
+                0.00000000000000000000,
+                0.53846931010568309104,
+                0.90617984593866399280
+            };
+
+            typeMethods.r8vec_copy(order, w_save, ref w);
+            typeMethods.r8vec_copy(order, x_save, ref x);
+        }
     }
 }

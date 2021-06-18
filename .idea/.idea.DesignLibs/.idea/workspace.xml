@@ -152,6 +152,7 @@
     <projectFile>BurkhardtTest/FDM/FD1DAdvectionDiffusionSteadyTest/FD1DAdvectionDiffusionSteadyTest.csproj</projectFile>
     <projectFile>BurkhardtTest/FDM/FD1DAdvectionFTCSTest/FD1DAdvectionFTCSTest.csproj</projectFile>
     <projectFile>BurkhardtTest/FD1DAdvectionLAXTest/FD1DAdvectionLAXTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/FD1DAdvectionLAXWendroffTest/FD1DAdvectionLAXWendroffTest.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="" />
@@ -180,7 +181,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA109Test/Program.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA113Test/Program.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA136Test/Program.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA245Test/Program.cs" />
@@ -231,6 +231,7 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/FDM/InitialCondition.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/FDM/FD1DAdvectionFTCSTest/Program.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/FD1DAdvectionLAXTest/Program.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/FD1DAdvectionLAXWendroffTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -247,7 +248,7 @@
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C#" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunManager" selected=".NET Project.FD1DAdvectionLAXTest">
+  <component name="RunManager" selected=".NET Project.FD1DAdvectionLAXWendroffTest">
     <configuration name="ASA005Test" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -1887,6 +1888,24 @@
       </method>
     </configuration>
     <configuration name="FD1DAdvectionLAXTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/FD1DAdvectionLAXTest/Debug/net5.0/FD1DAdvectionLAXTest.exe" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/FD1DAdvectionLAXTest/Debug/net5.0" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/FDM/FD1DAdvectionLAXTest/FD1DAdvectionLAXTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="net5.0" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="FD1DAdvectionLAXWendroffTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -1894,7 +1913,7 @@
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/FD1DAdvectionLAXTest/FD1DAdvectionLAXTest.csproj" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/FD1DAdvectionLAXWendroffTest/FD1DAdvectionLAXWendroffTest.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
@@ -3175,6 +3194,7 @@
       <item itemvalue=".NET Project.FD1DAdvectionDiffusionSteadyTest" />
       <item itemvalue=".NET Project.FD1DAdvectionFTCSTest" />
       <item itemvalue=".NET Project.FD1DAdvectionLAXTest" />
+      <item itemvalue=".NET Project.FD1DAdvectionLAXWendroffTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

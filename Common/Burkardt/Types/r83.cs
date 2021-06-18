@@ -4,6 +4,185 @@ namespace Burkardt.Types
 {
     public static partial class typeMethods
     {
+        public static void r83_print ( int n, double[] a, string title )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R83_PRINT prints a R83 matrix.
+        //
+        //  Discussion:
+        //
+        //    The R83 storage format is used for a tridiagonal matrix.
+        //    The superdiagonal is stored in entries (1,2:N), the diagonal in
+        //    entries (2,1:N), and the subdiagonal in (3,1:N-1).  Thus, the
+        //    original matrix is "collapsed" vertically into the array.
+        //
+        //  Example:
+        //
+        //    Here is how a R83 matrix of order 5 would be stored:
+        //
+        //       *  A12 A23 A34 A45
+        //      A11 A22 A33 A44 A55
+        //      A21 A32 A43 A54  *
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    06 April 2006
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order of the matrix.
+        //    N must be positive.
+        //
+        //    Input, double A[3*N], the R83 matrix.
+        //
+        //    Input, string TITLE, a title.
+        //
+        {
+            r83_print_some ( n, a, 1, 1, n, n, title );
+        }
+        
+        public static void r83_print_some ( int n, double[] a, int ilo, int jlo, int ihi, int jhi,
+        string title )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R83_PRINT_SOME prints some of a R83 matrix.
+        //
+        //  Discussion:
+        //
+        //    The R83 storage format is used for a tridiagonal matrix.
+        //    The superdiagonal is stored in entries (1,2:N), the diagonal in
+        //    entries (2,1:N), and the subdiagonal in (3,1:N-1).  Thus, the
+        //    original matrix is "collapsed" vertically into the array.
+        //
+        //  Example:
+        //
+        //    Here is how a R83 matrix of order 5 would be stored:
+        //
+        //       *  A12 A23 A34 A45
+        //      A11 A22 A33 A44 A55
+        //      A21 A32 A43 A54  *
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    06 April 2006
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order of the matrix.
+        //    N must be positive.
+        //
+        //    Input, double A[3*N], the R83 matrix.
+        //
+        //    Input, int ILO, JLO, IHI, JHI, designate the first row and
+        //    column, and the last row and column, to be printed.
+        //
+        //    Input, string TITLE, a title.
+        //
+        {
+            int INCX = 5;
+
+            int i;
+            int i2hi;
+            int i2lo;
+            int inc;
+            int j;
+            int j2;
+            int j2hi;
+            int j2lo;
+
+            Console.WriteLine("");
+            Console.WriteLine(title + "");
+            //
+            //  Print the columns of the matrix, in strips of 5.
+            //
+            for (j2lo = jlo; j2lo <= jhi; j2lo = j2lo + INCX)
+            {
+                j2hi = j2lo + INCX - 1;
+                j2hi = Math.Min(j2hi, n);
+                j2hi = Math.Min(j2hi, jhi);
+
+                inc = j2hi + 1 - j2lo;
+
+                Console.WriteLine("");
+                string cout = "  Col: ";
+                for (j = j2lo; j <= j2hi; j++)
+                {
+                    j2 = j + 1 - j2lo;
+                    cout += j.ToString().PadLeft(7) + "       ";
+                }
+
+                Console.WriteLine(cout);
+                Console.WriteLine("  Row");
+                Console.WriteLine("  ---");
+                //
+                //  Determine the range of the rows in this strip.
+                //
+                i2lo = Math.Max(ilo, 1);
+                i2lo = Math.Max(i2lo, j2lo - 1);
+
+                i2hi = Math.Min(ihi, n);
+                i2hi = Math.Min(i2hi, j2hi + 1);
+
+                for (i = i2lo; i <= i2hi; i++)
+                {
+                    //
+                    //  Print out (up to) 5 entries in row I, that lie in the current strip.
+                    //
+                    string cout2 = i.ToString().PadLeft(6) + ": ";
+
+                    for (j2 = 1; j2 <= inc; j2++)
+                    {
+                        j = j2lo - 1 + j2;
+
+                        if (1 < i - j || 1 < j - i)
+                        {
+                            cout2 += "              ";
+                        }
+                        else if (j == i + 1)
+                        {
+                            cout2 += a[0 + (j - 1) * 3].ToString().PadLeft(12) + "  ";
+                        }
+                        else if (j == i)
+                        {
+                            cout2 += a[1 + (j - 1) * 3].ToString().PadLeft(12) + "  ";
+                        }
+                        else if (j == i - 1)
+                        {
+                            cout2 += a[2 + (j - 1) * 3].ToString().PadLeft(12) + "  ";
+                        }
+
+                    }
+
+                    Console.WriteLine(cout2);
+                }
+            }
+
+            return;
+        # undef INCX
+        }
+
         public static void r83_cg(int n, double[] a, double[] b, ref double[] x)
 
             //****************************************************************************80

@@ -7,7 +7,7 @@ namespace Burkardt.Cube
 {
     public static class QuadratureRule
     {
-        static void cube_arbq(int degree, int n, double[] x, double[] w)
+        public static void cube_arbq(int degree, int n, ref double[] x, ref double[] w)
 
             //****************************************************************************80
             //
@@ -54,63 +54,63 @@ namespace Burkardt.Cube
 
             if (degree == 1)
             {
-                rule01(n, x, w);
+                rule01(n, ref x, ref w);
             }
             else if (degree == 2)
             {
-                rule02(n, x, w);
+                rule02(n, ref x, ref w);
             }
             else if (degree == 3)
             {
-                rule03(n, x, w);
+                rule03(n, ref x, ref w);
             }
             else if (degree == 4)
             {
-                rule04(n, x, w);
+                rule04(n, ref x, ref w);
             }
             else if (degree == 5)
             {
-                rule05(n, x, w);
+                rule05(n, ref x, ref w);
             }
             else if (degree == 6)
             {
-                rule06(n, x, w);
+                rule06(n, ref x, ref w);
             }
             else if (degree == 7)
             {
-                rule07(n, x, w);
+                rule07(n, ref x, ref w);
             }
             else if (degree == 8)
             {
-                rule08(n, x, w);
+                rule08(n, ref x, ref w);
             }
             else if (degree == 9)
             {
-                rule09(n, x, w);
+                rule09(n, ref x, ref w);
             }
             else if (degree == 10)
             {
-                rule10(n, x, w);
+                rule10(n, ref x, ref w);
             }
             else if (degree == 11)
             {
-                rule11(n, x, w);
+                rule11(n, ref x, ref w);
             }
             else if (degree == 12)
             {
-                rule12(n, x, w);
+                rule12(n, ref x, ref w);
             }
             else if (degree == 13)
             {
-                rule13(n, x, w);
+                rule13(n, ref x, ref w);
             }
             else if (degree == 14)
             {
-                rule14(n, x, w);
+                rule14(n, ref x, ref w);
             }
             else if (degree == 15)
             {
-                rule15(n, x, w);
+                rule15(n, ref x, ref w);
             }
             else
             {
@@ -128,7 +128,7 @@ namespace Burkardt.Cube
             }
         }
 
-        static void cube_arbq_gnuplot(int n, double[] x, string header)
+        public static void cube_arbq_gnuplot(int n, double[] x, string header)
 
             //****************************************************************************80
             //
@@ -254,7 +254,7 @@ namespace Burkardt.Cube
             Console.WriteLine("  Created command file '" + command_filename + "'");
         }
 
-        static int cube_arbq_size(int degree)
+        public static int cube_arbq_size(int degree)
 
             //****************************************************************************80
             //
@@ -312,7 +312,7 @@ namespace Burkardt.Cube
             return n;
         }
 
-        static double[] lege3eva(int degree, double[] z)
+        public static double[] lege3eva(int degree, double[] z)
 
             //****************************************************************************80
             //
@@ -389,7 +389,7 @@ namespace Burkardt.Cube
             return pols;
         }
 
-        static double[] llegepols1(int degree, double x)
+        public static double[] llegepols1(int degree, double x)
 
             //****************************************************************************80
             //
@@ -466,7 +466,7 @@ namespace Burkardt.Cube
             return pols;
         }
 
-        static void rule01(int n, double[] x, double[] w)
+        public static void rule01(int n, ref double[] x, ref double[] w)
 
             //****************************************************************************80
             //
@@ -528,7 +528,7 @@ namespace Burkardt.Cube
 
         }
 
-        static void rule02(int n, double[] x, double[] w)
+        public static void rule02(int n, ref double[] x, ref double[] w)
 
             //****************************************************************************80
             //
@@ -593,7 +593,7 @@ namespace Burkardt.Cube
             typeMethods.r8vec_copy(n, ws, ref w);
         }
 
-        static void rule03(int n, double[] x, double[] w)
+        public static void rule03(int n, ref double[] x, ref double[] w)
 
             //****************************************************************************80
             //
@@ -662,7 +662,7 @@ namespace Burkardt.Cube
             typeMethods.r8vec_copy(n, ws, ref w);
         }
 
-        static void rule04(int n, double[] x, double[] w)
+        public static void rule04(int n, ref double[] x, ref double[] w)
 
             //****************************************************************************80
             //
@@ -739,7 +739,7 @@ namespace Burkardt.Cube
             typeMethods.r8vec_copy(n, ws, ref w);
         }
 
-        static void rule05(int n, double[] x, double[] w)
+        public static void rule05(int n, ref double[] x, ref double[] w)
 
             //****************************************************************************80
             //
@@ -824,7 +824,7 @@ namespace Burkardt.Cube
             typeMethods.r8vec_copy(n, ws, ref w);
         }
 
-        static void rule06(int n, double[] x, double[] w)
+        public static void rule06(int n, ref double[] x, ref double[] w)
 
             //****************************************************************************80
             //
@@ -925,7 +925,7 @@ namespace Burkardt.Cube
             typeMethods.r8vec_copy(n, ws, ref w);
         }
 
-        static void rule07(int n, double[] x, double[] w)
+        public static void rule07(int n, ref double[] x, ref double[] w)
 
             //****************************************************************************80
             //
@@ -1034,7 +1034,7 @@ namespace Burkardt.Cube
             typeMethods.r8vec_copy(n, ws, ref w);
         }
 
-        static void rule08(int n, double[] x, double[] w)
+        public static void rule08(int n, ref double[] x, ref double[] w)
 
             //****************************************************************************80
             //
@@ -1175,7 +1175,7 @@ namespace Burkardt.Cube
             typeMethods.r8vec_copy(n, ws, ref w);
         }
 
-        static void rule09(int n, double[] x, double[] w)
+        public static void rule09(int n, ref double[] x, ref double[] w)
 
             //****************************************************************************80
             //
@@ -1336,7 +1336,7 @@ namespace Burkardt.Cube
             typeMethods.r8vec_copy(n, ws, ref w);
         }
 
-        static void rule10(int n, double[] x, double[] w)
+        public static void rule10(int n, ref double[] x, ref double[] w)
 
             //****************************************************************************80
             //
@@ -1541,7 +1541,7 @@ namespace Burkardt.Cube
             typeMethods.r8vec_copy(n, ws, ref w);
         }
 
-        static void rule11(int n, double[] x, double[] w)
+        public static void rule11(int n, ref double[] x, ref double[] w)
 
             //****************************************************************************80
             //
@@ -1766,7 +1766,7 @@ namespace Burkardt.Cube
             typeMethods.r8vec_copy(n, ws, ref w);
         }
 
-        static void rule12(int n, double[] x, double[] w)
+        public static void rule12(int n, ref double[] x, ref double[] w)
 
             //****************************************************************************80
             //
@@ -2055,7 +2055,7 @@ namespace Burkardt.Cube
             typeMethods.r8vec_copy(n, ws, ref w);
         }
 
-        static void rule13(int n, double[] x, double[] w)
+        public static void rule13(int n, ref double[] x, ref double[] w)
 
             //****************************************************************************80
             //
@@ -2373,7 +2373,7 @@ namespace Burkardt.Cube
             typeMethods.r8vec_copy(n, ws, ref w);
         }
 
-        static void rule14(int n, double[] x, double[] w)
+        public static void rule14(int n, ref double[] x, ref double[] w)
 
             //****************************************************************************80
             //
@@ -2774,7 +2774,7 @@ namespace Burkardt.Cube
             typeMethods.r8vec_copy(n, ws, ref w);
         }
 
-        static void rule15(int n, double[] x, double[] w)
+        public static void rule15(int n, ref double[] x, ref double[] w)
 
             //****************************************************************************80
             //

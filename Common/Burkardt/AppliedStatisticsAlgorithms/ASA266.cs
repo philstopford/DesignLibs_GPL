@@ -91,7 +91,7 @@ namespace Burkardt.AppliedStatistics
             return value;
         }
 
-        static double digamma(double x)
+        public static double digamma(double x)
         //****************************************************************************80
         //
         //  Purpose:
@@ -176,7 +176,7 @@ namespace Burkardt.AppliedStatistics
             return value;
         }
 
-        static void dirichlet_check(int n, double[] a)
+        public static void dirichlet_check(int n, double[] a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -970,7 +970,7 @@ namespace Burkardt.AppliedStatistics
             return variance;
         }
 
-        static double exponential_01_sample(ref int seed)
+        public static double exponential_01_sample(ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1006,7 +1006,7 @@ namespace Burkardt.AppliedStatistics
             return x;
         }
 
-        static double exponential_cdf_inv(double cdf, double a, double b)
+        public static double exponential_cdf_inv(double cdf, double a, double b)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1474,11 +1474,5 @@ namespace Burkardt.AppliedStatistics
 
             return value;
         }
-        
-
-
-
-
-        
    }
 }

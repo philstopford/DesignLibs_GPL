@@ -5,7 +5,7 @@ namespace Burkardt.Blend
 {
     public static class Blend
     {
-        static double blend_101 ( double r, double x0, double x1 )
+        public static double blend_101 ( double r, double x0, double x1 )
         //****************************************************************************80
         //
         //  Purpose:
@@ -41,7 +41,7 @@ namespace Burkardt.Blend
         }        
         
 
-        static double blend_102 ( double r, double s, double x00, double x01, double x10, double x11 )
+        public static double blend_102 ( double r, double s, double x00, double x01, double x10, double x11 )
         //****************************************************************************80
         //
         //  Purpose:
@@ -149,7 +149,7 @@ namespace Burkardt.Blend
         }
 
         
-        static double blend_103 ( double r, double s, double t, double x000, double x001, 
+        public static double blend_103 ( double r, double s, double t, double x000, double x001, 
                                   double x010, double x011, double x100, double x101, double x110, 
                                   double x111 )
         //****************************************************************************80
@@ -264,7 +264,7 @@ namespace Burkardt.Blend
         }
 
         
-        static double blend_112 ( double r, double s, double x00, double x01, double x10,
+        public static double blend_112 ( double r, double s, double x00, double x01, double x10,
                                     double x11, double xr0, double xr1, double x0s, double x1s)
         //****************************************************************************80
         //
@@ -355,7 +355,7 @@ namespace Burkardt.Blend
         }
 
         
-        static double blend_113 ( double r, double s, double t, double x000, double x001, 
+        public static double blend_113 ( double r, double s, double t, double x000, double x001, 
                           double x010, double x011, double x100, double x101, double x110, double x111, 
                           double xr00, double xr01, double xr10, double xr11, double x0s0, double x0s1, 
                           double x1s0, double x1s1, double x00t, double x01t, double x10t, double x11t 
@@ -464,7 +464,7 @@ namespace Burkardt.Blend
         }
 
         
-        static double blend_123 ( double r, double s, double t,
+        public static double blend_123 ( double r, double s, double t,
                                   double x000, double x001, double x010, double x011,
                                   double x100, double x101, double x110, double x111,
                                   double xr00, double xr01, double xr10, double xr11,

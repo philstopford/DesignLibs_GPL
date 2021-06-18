@@ -4,7 +4,7 @@ namespace Burkardt.AppliedStatistics
 {
     public static partial class Algorithms
     {
-        static void revers(ref int[] ivec, int kdim )
+        public static void revers(ref int[] ivec, int kdim )
         //****************************************************************************80
         //
         //  Purpose:

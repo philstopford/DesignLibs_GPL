@@ -386,7 +386,7 @@ namespace Burkardt.CDFLib
             E0001(0, ref data);
         }
 
-        static bool qxmon(double zx, double zy, double zz)
+        public static bool qxmon(double zx, double zy, double zz)
         {
             return ((zx) <= (zy) && (zy) <= (zz));
         }

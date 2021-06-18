@@ -20,7 +20,7 @@ namespace Burkardt.Table
 
     public static class TableSummary
     {
-        static void r8block_print ( int l, int m, int n, double[] a, string title )
+        public static void r8block_print ( int l, int m, int n, double[] a, string title )
 
         //****************************************************************************80
         //

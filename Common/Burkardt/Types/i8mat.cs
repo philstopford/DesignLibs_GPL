@@ -45,7 +45,7 @@ namespace Burkardt.Types
             i8mat_transpose_print_some ( m, n, a, 1, 1, m, n, title );
         }
 
-        static void i8mat_transpose_print_some ( int m, int n, long[] a, int ilo, int jlo,
+        public static void i8mat_transpose_print_some ( int m, int n, long[] a, int ilo, int jlo,
         int ihi, int jhi, string title )
 
         //****************************************************************************80
@@ -198,7 +198,7 @@ namespace Burkardt.Types
             i8mat_print_some ( m, n, a, 1, 1, m, n, title );
         }
 
-        static void i8mat_print_some ( int m, int n, long[] a, int ilo, int jlo, int ihi,
+        public static void i8mat_print_some ( int m, int n, long[] a, int ilo, int jlo, int ihi,
         int jhi, string title )
         //****************************************************************************80
         //

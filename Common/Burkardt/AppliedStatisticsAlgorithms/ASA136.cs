@@ -315,7 +315,7 @@ namespace Burkardt.AppliedStatistics
 
         }
 
-        static void optra(double[] a, int m, int n, ref double[] c, int k, ref int[] ic1,
+        public static void optra(double[] a, int m, int n, ref double[] c, int k, ref int[] ic1,
                             ref int[] ic2, ref int[] nc, ref double[] an1, ref double[] an2, ref int[] ncp, ref double[] d,
                             ref int[] itran, ref int[] live, ref int indx )
         //****************************************************************************80
@@ -534,7 +534,7 @@ namespace Burkardt.AppliedStatistics
             }
         }
 
-        static void qtran(double[] a, int m, int n, ref double[] c, int k, ref int[] ic1,
+        public static void qtran(double[] a, int m, int n, ref double[] c, int k, ref int[] ic1,
                             ref int[] ic2, ref int[] nc, ref double[] an1, ref double[] an2, ref int[] ncp, ref double[] d,
                             ref int[] itran, ref int indx )
         //****************************************************************************80

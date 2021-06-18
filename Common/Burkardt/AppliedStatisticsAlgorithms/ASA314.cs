@@ -264,7 +264,7 @@ namespace Burkardt.AppliedStatistics
 
         }
 
-        static void msort(ref int[] mat, ref int[] imat, ref int[] rmod, ref int[] cmod, ref int[] rsort,
+        public static void msort(ref int[] mat, ref int[] imat, ref int[] rmod, ref int[] cmod, ref int[] rsort,
             ref int[] csort, int nrow)
 
 //****************************************************************************80
@@ -415,12 +415,9 @@ namespace Burkardt.AppliedStatistics
                     }
                 }
             }
-
-            return;
         }
-//****************************************************************************80
 
-        static void musort(ref int[] mat, ref int[] imat, ref int[] rmod, ref int[] cmod, ref int[] rsort,
+        public static void musort(ref int[] mat, ref int[] imat, ref int[] rmod, ref int[] cmod, ref int[] rsort,
             ref int[] csort, int nrow)
 
 //****************************************************************************80

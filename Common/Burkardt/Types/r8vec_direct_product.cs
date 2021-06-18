@@ -127,9 +127,9 @@
             //
         {
             /*
-            static int contig = 0;
-            static int rep = 0;
-            static int skip = 0;
+            public static int contig = 0;
+            public static int rep = 0;
+            public static int skip = 0;
             */
             int contig = 0;
             int rep = 0;
@@ -302,9 +302,9 @@
             //
         {
             /*
-            static int contig = 0;
-            static int rep = 0;
-            static int skip = 0;
+            public static int contig = 0;
+            public static int rep = 0;
+            public static int skip = 0;
             */
             int contig = 0;
             int rep = 0;

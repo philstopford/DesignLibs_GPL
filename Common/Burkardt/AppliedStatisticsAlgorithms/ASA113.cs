@@ -331,7 +331,7 @@ namespace Burkardt.AppliedStatistics
             }
         }
 
-        static double crswap ( double[] a, int[] c, int[] c_size, int m, int k,
+        public static double crswap ( double[] a, int[] c, int[] c_size, int m, int k,
                                 int n, double critvl, int i1, int i2, int c1, int c2, int iswitch )
         //****************************************************************************80
         //
@@ -466,7 +466,7 @@ namespace Burkardt.AppliedStatistics
             return inc;
         }
 
-        static double crtran ( double[] a, int[] c, int[] c_size, int m, int k, int n,
+        public static double crtran ( double[] a, int[] c, int[] c_size, int m, int k, int n,
                                 double critvl, int i1, int c1, int c2, int iswitch )
         //****************************************************************************80
         //

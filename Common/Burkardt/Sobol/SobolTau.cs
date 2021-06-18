@@ -2,7 +2,7 @@
 {
     public static class Tau
     {
-        static int tau_sobol ( int dim_num )
+        public static int tau_sobol ( int dim_num )
 
         //****************************************************************************80
         //

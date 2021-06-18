@@ -33,7 +33,7 @@ namespace ConjugateGradientTest
         {
             Console.WriteLine("");
             Console.WriteLine("CG_TEST");
-            Console.WriteLine("  C++ version");
+
             Console.WriteLine("  Test the CG library.");
 
             r8ge_cg_test();

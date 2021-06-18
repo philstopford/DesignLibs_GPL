@@ -33,7 +33,7 @@ namespace MatrixConditionTest
         {
             Console.WriteLine("");
             Console.WriteLine("CONDITION_TEST");
-            Console.WriteLine("  C++ version");
+
             Console.WriteLine("  Test the CONDITION library.");
             Console.WriteLine("  This test also requires the R8LIB library.");
 

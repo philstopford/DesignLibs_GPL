@@ -32,7 +32,7 @@ namespace CircleArcGridTest
         {
             Console.WriteLine("");
             Console.WriteLine("CIRCLE_ARC_GRID_TEST");
-            Console.WriteLine("  C++ version");
+
             Console.WriteLine("  Test the CIRCLE_ARC_GRID library.");
 
             test01();

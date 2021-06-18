@@ -34,7 +34,7 @@ namespace CircleIntegralsTest
         {
             Console.WriteLine("");
             Console.WriteLine("CIRCLE_INTEGRALS_TEST");
-            Console.WriteLine("  C++ version");
+
             Console.WriteLine("  Test the CIRCLE_INTEGRALS library.");
 
             test01();

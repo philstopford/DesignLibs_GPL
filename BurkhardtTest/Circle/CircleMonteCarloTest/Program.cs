@@ -33,7 +33,7 @@ namespace CircleMonteCarloTest
         {
             Console.WriteLine("");
             Console.WriteLine("CIRCLE_MONTE_CARLO_TEST");
-            Console.WriteLine("  C++ version");
+
             Console.WriteLine("  Test the CIRCLE_MONTE_CARLO library.");
 
             circle01_sample_random_test();

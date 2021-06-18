@@ -34,7 +34,7 @@ namespace SlowFourierTransformTest
         {
             Console.WriteLine("");
             Console.WriteLine("SFTPACK_TEST");
-            Console.WriteLine("  C++ version");
+
             Console.WriteLine("  Test the SFTPACK library.");
 
             c4mat_sft_test();

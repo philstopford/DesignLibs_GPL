@@ -380,6 +380,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cube", "Cube", "{333B59CB-7
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CubeRuleTest", "BurkhardtTest\Cube\CubeRuleTest\CubeRuleTest.csproj", "{BC0AB99F-3C0D-4AA7-A43D-8273490E550E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CubeExactnessTest", "BurkhardtTest\Cube\CubeExactnessTest\CubeExactnessTest.csproj", "{EEBFC13C-FF67-4552-90CE-5DE20313EAB2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -2370,6 +2372,18 @@ Global
 		{BC0AB99F-3C0D-4AA7-A43D-8273490E550E}.Release|x64.Build.0 = Release|Any CPU
 		{BC0AB99F-3C0D-4AA7-A43D-8273490E550E}.Release|x86.ActiveCfg = Release|Any CPU
 		{BC0AB99F-3C0D-4AA7-A43D-8273490E550E}.Release|x86.Build.0 = Release|Any CPU
+		{EEBFC13C-FF67-4552-90CE-5DE20313EAB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEBFC13C-FF67-4552-90CE-5DE20313EAB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEBFC13C-FF67-4552-90CE-5DE20313EAB2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EEBFC13C-FF67-4552-90CE-5DE20313EAB2}.Debug|x64.Build.0 = Debug|Any CPU
+		{EEBFC13C-FF67-4552-90CE-5DE20313EAB2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EEBFC13C-FF67-4552-90CE-5DE20313EAB2}.Debug|x86.Build.0 = Debug|Any CPU
+		{EEBFC13C-FF67-4552-90CE-5DE20313EAB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEBFC13C-FF67-4552-90CE-5DE20313EAB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEBFC13C-FF67-4552-90CE-5DE20313EAB2}.Release|x64.ActiveCfg = Release|Any CPU
+		{EEBFC13C-FF67-4552-90CE-5DE20313EAB2}.Release|x64.Build.0 = Release|Any CPU
+		{EEBFC13C-FF67-4552-90CE-5DE20313EAB2}.Release|x86.ActiveCfg = Release|Any CPU
+		{EEBFC13C-FF67-4552-90CE-5DE20313EAB2}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2558,6 +2572,7 @@ Global
 		{AFA8ABF9-8745-46B1-8D52-C34CFF8CF55E} = {B14C0D74-30A0-4540-8100-2FFA1C84CA6D}
 		{333B59CB-7E68-4F39-B862-F71D825373B5} = {B14C0D74-30A0-4540-8100-2FFA1C84CA6D}
 		{BC0AB99F-3C0D-4AA7-A43D-8273490E550E} = {333B59CB-7E68-4F39-B862-F71D825373B5}
+		{EEBFC13C-FF67-4552-90CE-5DE20313EAB2} = {333B59CB-7E68-4F39-B862-F71D825373B5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B449416C-C504-4FA8-9E10-10857263A64A}

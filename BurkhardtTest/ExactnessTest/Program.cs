@@ -32,7 +32,7 @@ namespace ExactnessTest
         {
             Console.WriteLine("");
             Console.WriteLine("EXACTNESS_TEST");
-            Console.WriteLine("  C++ version");
+
             Console.WriteLine("  Test the EXACTNESS library.");
 
             chebyshev1_exactness_test();

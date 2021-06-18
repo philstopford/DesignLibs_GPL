@@ -36,7 +36,7 @@ namespace CircleSegmentTest
         {
             Console.WriteLine("");
             Console.WriteLine("CIRCLE_SEGMENT_TEST");
-            Console.WriteLine("  C++ version");
+
             Console.WriteLine("  Test the CIRCLE_SEGMENT library.");
 
             test01();

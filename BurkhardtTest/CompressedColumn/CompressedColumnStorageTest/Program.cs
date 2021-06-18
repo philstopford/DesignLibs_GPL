@@ -32,7 +32,7 @@ namespace CompressedColumnStorageTest
         {
             Console.WriteLine("");
             Console.WriteLine("ccs_io_test");
-            Console.WriteLine("  C++ version");
+
             Console.WriteLine("  Test the ccs_io library.");
 
             test01();

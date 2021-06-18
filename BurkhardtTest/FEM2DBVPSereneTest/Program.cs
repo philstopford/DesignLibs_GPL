@@ -34,7 +34,7 @@ namespace Burkadt.FEM2DBVPSereneTest
         {
             Console.WriteLine("");
             Console.WriteLine("FEM2D_BVP_SERENE_TEST");
-            Console.WriteLine("  C++ version");
+
             Console.WriteLine("  Test the FEM2D_BVP_SERENE library.");
 
             test01();

@@ -33,7 +33,7 @@ namespace ConjugateGradientRCTest
         {
             Console.WriteLine("");
             Console.WriteLine("CG_RC_TEST:");
-            Console.WriteLine("  C++ version");
+
             Console.WriteLine("  Test the CG_RC library.");
 
             test01();

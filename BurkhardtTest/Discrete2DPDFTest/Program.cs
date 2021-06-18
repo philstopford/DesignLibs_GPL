@@ -55,7 +55,7 @@ namespace Discrete2DPDFTest
 
             Console.WriteLine("");
             Console.WriteLine("DISCRETE_PDF_SAMPLE_2D:");
-            Console.WriteLine("  C++ version");
+
             Console.WriteLine("  Generate sample data using a discrete PDF.");
 
             n = 1000;

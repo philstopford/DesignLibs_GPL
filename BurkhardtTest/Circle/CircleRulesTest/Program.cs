@@ -33,7 +33,7 @@ namespace CircleRulesTest
 
             Console.WriteLine("");
             Console.WriteLine("CIRCLE_RULE:");
-            Console.WriteLine("  C++ version");
+
             Console.WriteLine("  Test the CIRCLE_RULE library.");
 
             nt = 8;

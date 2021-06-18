@@ -30,7 +30,7 @@ namespace ComboTest
         {
             Console.WriteLine("");
             Console.WriteLine("COMBO_TEST");
-            Console.WriteLine("  C++ version");
+
             Console.WriteLine("  Test the COMBO library.");
 
             backtrack_test();

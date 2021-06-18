@@ -386,6 +386,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CubeFelippaTest", "Burkhard
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CubeIntegralsTest", "BurkhardtTest\Cube\CubeIntegralsTest\CubeIntegralsTest.csproj", "{45225128-2CE0-4343-91EF-342A724D5A76}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CubeGridTest", "BurkhardtTest\Cube\CubeGridTest\CubeGridTest.csproj", "{9B16A4DB-C9C8-4E4D-BF52-710B8F8538F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -2412,6 +2414,18 @@ Global
 		{45225128-2CE0-4343-91EF-342A724D5A76}.Release|x64.Build.0 = Release|Any CPU
 		{45225128-2CE0-4343-91EF-342A724D5A76}.Release|x86.ActiveCfg = Release|Any CPU
 		{45225128-2CE0-4343-91EF-342A724D5A76}.Release|x86.Build.0 = Release|Any CPU
+		{9B16A4DB-C9C8-4E4D-BF52-710B8F8538F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B16A4DB-C9C8-4E4D-BF52-710B8F8538F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B16A4DB-C9C8-4E4D-BF52-710B8F8538F1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9B16A4DB-C9C8-4E4D-BF52-710B8F8538F1}.Debug|x64.Build.0 = Debug|Any CPU
+		{9B16A4DB-C9C8-4E4D-BF52-710B8F8538F1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9B16A4DB-C9C8-4E4D-BF52-710B8F8538F1}.Debug|x86.Build.0 = Debug|Any CPU
+		{9B16A4DB-C9C8-4E4D-BF52-710B8F8538F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B16A4DB-C9C8-4E4D-BF52-710B8F8538F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B16A4DB-C9C8-4E4D-BF52-710B8F8538F1}.Release|x64.ActiveCfg = Release|Any CPU
+		{9B16A4DB-C9C8-4E4D-BF52-710B8F8538F1}.Release|x64.Build.0 = Release|Any CPU
+		{9B16A4DB-C9C8-4E4D-BF52-710B8F8538F1}.Release|x86.ActiveCfg = Release|Any CPU
+		{9B16A4DB-C9C8-4E4D-BF52-710B8F8538F1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2603,6 +2617,7 @@ Global
 		{EEBFC13C-FF67-4552-90CE-5DE20313EAB2} = {333B59CB-7E68-4F39-B862-F71D825373B5}
 		{8293C87B-2CA3-4357-A34D-C6321BB4F003} = {333B59CB-7E68-4F39-B862-F71D825373B5}
 		{45225128-2CE0-4343-91EF-342A724D5A76} = {333B59CB-7E68-4F39-B862-F71D825373B5}
+		{9B16A4DB-C9C8-4E4D-BF52-710B8F8538F1} = {333B59CB-7E68-4F39-B862-F71D825373B5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B449416C-C504-4FA8-9E10-10857263A64A}

@@ -148,6 +148,7 @@
     <projectFile>BurkhardtTest/Cycle/CycleFloydTest/CycleFloydTest.csproj</projectFile>
     <projectFile>BurkhardtTest/CyclicReductionTest/CyclicReductionTest.csproj</projectFile>
     <projectFile>BurkhardtTest/DifferTest/DifferTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/DijkstraTest/DijkstraTest.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="" />
@@ -176,8 +177,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/BurkhardtTest/MatrixConditionTest/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8ge.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/CosineTransformTest/Program.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Chebyshev/ChebyshevTest/Program.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/BlendTest/Program.cs" />
@@ -227,6 +226,8 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Differ.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Helpers.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/DifferTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Dijkstra.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/DijkstraTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -1792,6 +1793,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="DijkstraTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/DijkstraTest/DijkstraTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="Discrete2DPDFTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -3095,6 +3114,7 @@
       <item itemvalue=".NET Project.CycleFloydTest" />
       <item itemvalue=".NET Project.CyclicReductionTest" />
       <item itemvalue=".NET Project.DifferTest" />
+      <item itemvalue=".NET Project.DijkstraTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

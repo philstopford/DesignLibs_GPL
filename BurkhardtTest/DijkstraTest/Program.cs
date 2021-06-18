@@ -149,6 +149,7 @@ namespace DijkstraTest
         {
             for (int i = 0; i < ohd.Length; i++)
             {
+                ohd[i] = new int[ohd.Length];
                 for (int j = 0; j < ohd[i].Length; j++)
                 {
                     if (i == j)

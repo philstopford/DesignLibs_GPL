@@ -178,9 +178,6 @@ namespace Burkardt.Types
                     Console.WriteLine(cout2);
                 }
             }
-
-            return;
-        # undef INCX
         }
 
         public static void r83_cg(int n, double[] a, double[] b, ref double[] x)

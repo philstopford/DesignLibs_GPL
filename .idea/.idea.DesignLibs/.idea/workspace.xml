@@ -144,6 +144,7 @@
     <projectFile>BurkhardtTest/Cube/CubeIntegralsTest/CubeIntegralsTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Cube/CubeGridTest/CubeGridTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Tessellation/CentroidalVoronoiTessellationTest/CentroidalVoronoiTessellationTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Cycle/CycleBrentTest/CycleBrentTest.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="" />
@@ -172,8 +173,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Solve/Tridisolve.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Circle/Segment.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Circle/CircleSegmentTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/CompassSearch.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/CompassSearchTest/Program.cs" />
@@ -221,8 +220,10 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Cube/Grid.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Cube/CubeGridTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Files.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Tessellation/CentroidalVoronoi.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Tessellation/CentroidalVoronoiTessellationTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Tessellation/CentroidalVoronoi.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Cycle/Brent.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Cycle/CycleBrentTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -1716,6 +1717,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="CycleBrentTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Cycle/CycleBrentTest/CycleBrentTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="Discrete2DPDFTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -3015,6 +3034,7 @@
       <item itemvalue=".NET Project.CubeIntegralsTest" />
       <item itemvalue=".NET Project.CubeGridTest" />
       <item itemvalue=".NET Project.CentroidalVoronoiTessellationTest" />
+      <item itemvalue=".NET Project.CycleBrentTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

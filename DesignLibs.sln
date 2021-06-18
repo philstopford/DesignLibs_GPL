@@ -392,6 +392,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tessellation", "Tessellatio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CentroidalVoronoiTessellationTest", "BurkhardtTest\Tessellation\CentroidalVoronoiTessellationTest\CentroidalVoronoiTessellationTest.csproj", "{DB26CBAF-F411-4F3F-803C-52F6565DC4D9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cycle", "Cycle", "{A3E60089-6960-43EA-8F8A-F2E95DDA0CDB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CycleBrentTest", "BurkhardtTest\Cycle\CycleBrentTest\CycleBrentTest.csproj", "{C81F3DE7-523A-4229-8CD8-26A7CD5BFBD8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -2442,6 +2446,18 @@ Global
 		{DB26CBAF-F411-4F3F-803C-52F6565DC4D9}.Release|x64.Build.0 = Release|Any CPU
 		{DB26CBAF-F411-4F3F-803C-52F6565DC4D9}.Release|x86.ActiveCfg = Release|Any CPU
 		{DB26CBAF-F411-4F3F-803C-52F6565DC4D9}.Release|x86.Build.0 = Release|Any CPU
+		{C81F3DE7-523A-4229-8CD8-26A7CD5BFBD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C81F3DE7-523A-4229-8CD8-26A7CD5BFBD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C81F3DE7-523A-4229-8CD8-26A7CD5BFBD8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C81F3DE7-523A-4229-8CD8-26A7CD5BFBD8}.Debug|x64.Build.0 = Debug|Any CPU
+		{C81F3DE7-523A-4229-8CD8-26A7CD5BFBD8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C81F3DE7-523A-4229-8CD8-26A7CD5BFBD8}.Debug|x86.Build.0 = Debug|Any CPU
+		{C81F3DE7-523A-4229-8CD8-26A7CD5BFBD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C81F3DE7-523A-4229-8CD8-26A7CD5BFBD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C81F3DE7-523A-4229-8CD8-26A7CD5BFBD8}.Release|x64.ActiveCfg = Release|Any CPU
+		{C81F3DE7-523A-4229-8CD8-26A7CD5BFBD8}.Release|x64.Build.0 = Release|Any CPU
+		{C81F3DE7-523A-4229-8CD8-26A7CD5BFBD8}.Release|x86.ActiveCfg = Release|Any CPU
+		{C81F3DE7-523A-4229-8CD8-26A7CD5BFBD8}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2636,6 +2652,8 @@ Global
 		{9B16A4DB-C9C8-4E4D-BF52-710B8F8538F1} = {333B59CB-7E68-4F39-B862-F71D825373B5}
 		{1539125E-2685-43D3-A118-499FAFAB0A50} = {B14C0D74-30A0-4540-8100-2FFA1C84CA6D}
 		{DB26CBAF-F411-4F3F-803C-52F6565DC4D9} = {1539125E-2685-43D3-A118-499FAFAB0A50}
+		{A3E60089-6960-43EA-8F8A-F2E95DDA0CDB} = {B14C0D74-30A0-4540-8100-2FFA1C84CA6D}
+		{C81F3DE7-523A-4229-8CD8-26A7CD5BFBD8} = {A3E60089-6960-43EA-8F8A-F2E95DDA0CDB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B449416C-C504-4FA8-9E10-10857263A64A}

@@ -3,7 +3,7 @@ using Burkardt.AppliedStatistics;
 using Burkardt.Table;
 using Burkardt.Types;
 
-namespace Burkardt.ASA144Test
+namespace ASA144Test
 {
     class Program
     {

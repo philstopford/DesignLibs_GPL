@@ -4,7 +4,7 @@ using Burkardt.Table;
 using Burkardt.Types;
 using Burkardt.Uniform;
 
-namespace Burkardt.ASA266Test
+namespace ASA266Test
 {
     class Program
     {

@@ -2,7 +2,7 @@
 using Burkardt.Latin;
 using Burkardt.Types;
 
-namespace Burkardt.LatinCenterTest
+namespace LatinCenterTest
 {
     class Program
     {

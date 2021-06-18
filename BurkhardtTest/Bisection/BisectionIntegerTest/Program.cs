@@ -1,7 +1,7 @@
 ﻿using System;
 using Burkardt.Bisection;
 
-namespace Burkardt.BisectionIntegerTest
+namespace BisectionIntegerTest
 {
     class Program
     {

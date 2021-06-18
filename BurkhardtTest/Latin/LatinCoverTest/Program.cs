@@ -3,7 +3,7 @@ using Burkardt.Latin;
 using Burkardt.Table;
 using Burkardt.Types;
 
-namespace Burkardt.LatinCoverTest
+namespace LatinCoverTest
 {
     class Program
     {

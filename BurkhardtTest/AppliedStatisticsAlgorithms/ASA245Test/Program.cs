@@ -1,7 +1,8 @@
 ﻿using System;
+using Burkardt;
 using Burkardt.AppliedStatistics;
 
-namespace Burkardt.ASA245Test
+namespace ASA245Test
 {
     class Program
     {

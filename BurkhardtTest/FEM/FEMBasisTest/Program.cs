@@ -2,7 +2,7 @@
 using Burkardt.FEM;
 using Burkardt.Types;
 
-namespace Burkardt.FEMBasisTest
+namespace FEMBasisTest
 {
     class Program
     {

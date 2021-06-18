@@ -3,7 +3,7 @@ using Burkardt.IHS;
 using Burkardt.Table;
 using Burkardt.Types;
 
-namespace Burkardt.IHSTest
+namespace IHSTest
 {
     class Program
     {
@@ -77,7 +77,7 @@ namespace Burkardt.IHSTest
                 //
                 //  Get the points.
                 //
-                int[] x = IHS.IHS.ihs( dim_num, point_num, duplication, ref seed );
+                int[] x = IHS.ihs( dim_num, point_num, duplication, ref seed );
                 //
                 //  Compute the covariance.
                 //
@@ -146,7 +146,7 @@ namespace Burkardt.IHSTest
                 //
                 //  Get the points.
                 //
-                int[] x = IHS.IHS.ihs( dim_num, point_num, duplication, ref seed );
+                int[] x = IHS.ihs( dim_num, point_num, duplication, ref seed );
                 //
                 //  Compute the covariance.
                 //
@@ -216,7 +216,7 @@ namespace Burkardt.IHSTest
                 //
                 //  Get the points.
                 //
-                int[] x = IHS.IHS.ihs( dim_num, point_num, duplication, ref seed );
+                int[] x = IHS.ihs( dim_num, point_num, duplication, ref seed );
                 //
                 //  Compute the covariance.
                 //
@@ -305,7 +305,7 @@ namespace Burkardt.IHSTest
                 //
                 //  Get the points.
                 //
-                int[] x = IHS.IHS.ihs( dim_num, point_num, duplication, ref seed );
+                int[] x = IHS.ihs( dim_num, point_num, duplication, ref seed );
                 //
                 //  Compute the covariance.
                 //

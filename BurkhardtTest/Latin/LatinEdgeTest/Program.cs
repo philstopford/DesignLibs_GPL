@@ -2,7 +2,7 @@
 using Burkardt.Latin;
 using Burkardt.Types;
 
-namespace Burkardt.LatinEdgeTest
+namespace LatinEdgeTest
 {
     class Program
     {

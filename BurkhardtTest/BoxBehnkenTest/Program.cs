@@ -3,7 +3,7 @@ using Burkardt.BoxBehnkenNS;
 using Burkardt.Table;
 using Burkardt.Types;
 
-namespace Burkardt.BoxBehnkenTest
+namespace BoxBehnkenTest
 {
     class Program
     {

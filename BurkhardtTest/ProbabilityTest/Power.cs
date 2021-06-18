@@ -1,7 +1,7 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.ProbabilityTest
+namespace ProbabilityTest
 {
     partial class Program
     {
@@ -48,7 +48,7 @@ namespace Burkardt.ProbabilityTest
             Console.WriteLine("  PDF parameter A =      " + a + "");
             Console.WriteLine("  PDF parameter B =      " + b + "");
 
-            if (!Probability.Power.power_check(a, b))
+            if (!Burkardt.Probability.Power.power_check(a, b))
             {
                 Console.WriteLine("");
                 Console.WriteLine("POWER_CDF_TEST - Fatal error!");
@@ -62,10 +62,10 @@ namespace Burkardt.ProbabilityTest
 
             for (i = 1; i <= 10; i++)
             {
-                x = Probability.Power.power_sample(a, b, ref seed);
-                pdf = Probability.Power.power_pdf(x, a, b);
-                cdf = Probability.Power.power_cdf(x, a, b);
-                x2 = Probability.Power.power_cdf_inv(cdf, a, b);
+                x = Burkardt.Probability.Power.power_sample(a, b, ref seed);
+                pdf = Burkardt.Probability.Power.power_pdf(x, a, b);
+                cdf = Burkardt.Probability.Power.power_cdf(x, a, b);
+                x2 = Burkardt.Probability.Power.power_cdf_inv(cdf, a, b);
 
                 Console.WriteLine("  "
                                   + x.ToString().PadLeft(12) + "  "
@@ -123,7 +123,7 @@ namespace Burkardt.ProbabilityTest
             Console.WriteLine("  PDF parameter A =      " + a + "");
             Console.WriteLine("  PDF parameter B =      " + b + "");
 
-            if (!Probability.Power.power_check(a, b))
+            if (!Burkardt.Probability.Power.power_check(a, b))
             {
                 Console.WriteLine("");
                 Console.WriteLine("POWER_SAMPLE_TEST - Fatal error!");
@@ -131,8 +131,8 @@ namespace Burkardt.ProbabilityTest
                 return;
             }
 
-            mean = Probability.Power.power_mean(a, b);
-            variance = Probability.Power.power_variance(a, b);
+            mean = Burkardt.Probability.Power.power_mean(a, b);
+            variance = Burkardt.Probability.Power.power_variance(a, b);
 
             Console.WriteLine("");
             Console.WriteLine("  PDF mean =     " + mean + "");
@@ -140,7 +140,7 @@ namespace Burkardt.ProbabilityTest
 
             for (i = 0; i < SAMPLE_NUM; i++)
             {
-                x[i] = Probability.Power.power_sample(a, b, ref seed);
+                x[i] = Burkardt.Probability.Power.power_sample(a, b, ref seed);
             }
 
             mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
@@ -157,5 +157,9 @@ namespace Burkardt.ProbabilityTest
 
         }
 
+    }
+
+    internal class Probability
+    {
     }
 }

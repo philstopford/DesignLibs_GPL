@@ -3,7 +3,7 @@ using Burkardt.FEM;
 using Burkardt.Table;
 using Burkardt.Types;
 
-namespace Burkardt.FEM1DSampleTest
+namespace FEM1DSampleTest
 {
     class Program
     {

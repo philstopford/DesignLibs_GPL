@@ -1,7 +1,8 @@
 ﻿using System;
+using Burkardt;
 using Burkardt.Types;
 
-namespace Burkardt.BlackScholesTest
+namespace BlackScholesTest
 {
     class Program
     {

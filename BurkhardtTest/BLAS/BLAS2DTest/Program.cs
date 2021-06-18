@@ -1,6 +1,6 @@
 ﻿using System;
+using BLASTestData;
 using Burkardt.BLAS;
-using Burkardt.BLASTestData;
 using Burkardt.Types;
 
 namespace BLAS2DTest

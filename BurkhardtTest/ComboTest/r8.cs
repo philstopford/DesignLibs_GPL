@@ -2,7 +2,7 @@
 using Burkardt.RankingNS;
 using Burkardt.Types;
 
-namespace Burkardt.ComboTest
+namespace ComboTest
 {
     partial class Program
     {

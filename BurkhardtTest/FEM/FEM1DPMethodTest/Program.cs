@@ -1,7 +1,7 @@
 ﻿using System;
 using Burkardt.FEM;
 
-namespace Burkardt.FEM1DPMethodTest
+namespace FEM1DPMethodTest
 {
     class Program
     {

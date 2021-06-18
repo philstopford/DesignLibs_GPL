@@ -1,7 +1,7 @@
 ﻿using System;
 using Burkardt.ZeroRCNS;
 
-namespace Burkardt.ZeroRCTest
+namespace ZeroRCTest
 {
   class Program
   {

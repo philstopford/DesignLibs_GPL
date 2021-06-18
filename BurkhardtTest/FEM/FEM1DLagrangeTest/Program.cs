@@ -2,7 +2,7 @@
 using Burkardt.FEM;
 using Burkardt.Types;
 
-namespace Burkardt.FEM1DLagrangeTest
+namespace FEM1DLagrangeTest
 {
     class Program
     {

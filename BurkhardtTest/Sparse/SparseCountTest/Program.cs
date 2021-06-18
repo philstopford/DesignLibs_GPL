@@ -1,7 +1,7 @@
 ﻿using System;
 using Burkardt.Sparse;
 
-namespace Burkardt.SparseCountTest
+namespace SparseCountTest
 {
     class Program
     {

@@ -3,7 +3,7 @@ using Burkardt.Table;
 using Burkardt.Types;
 using Burkardt.Uniform;
 
-namespace Burkardt.TableTest
+namespace TableTest
 {
     class Program
     {

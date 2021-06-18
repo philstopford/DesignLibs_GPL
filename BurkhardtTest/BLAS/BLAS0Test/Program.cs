@@ -1,10 +1,10 @@
 ﻿using System;
-using Burkardt.BLASTestData;
+using BLASTestData;
 using Burkardt.BLAS;
 using Burkardt.Types;
 using Burkardt.Uniform;
 
-namespace Burkardt.BLAS0Test
+namespace BLAS0Test
 {
     class Program
     {

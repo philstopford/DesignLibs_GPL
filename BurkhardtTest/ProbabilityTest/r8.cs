@@ -3,7 +3,7 @@ using Burkardt.Probability;
 using Burkardt.Types;
 using Burkardt.Uniform;
 
-namespace Burkardt.ProbabilityTest
+namespace ProbabilityTest
 {
     partial class Program
     {

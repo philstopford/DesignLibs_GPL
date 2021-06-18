@@ -1,7 +1,8 @@
 ﻿using System;
+using Burkardt;
 using Burkardt.Bisection;
 
-namespace Burkardt.BisectionRCTest
+namespace BisectionRCTest
 {
     class Program
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using Burkardt.Blend;
 
-namespace Burkardt.BlendTest
+namespace BlendTest
 {
     partial class Program
     {
@@ -68,7 +68,7 @@ namespace Burkardt.BlendTest
             int n = 1;
 
             double r = 0.0;
-            x = Blend.Blend.blend_r_0dn ( r, x, n, identity_r );
+            x = Blend.blend_r_0dn ( r, x, n, identity_r );
             string cout = "  ";
             string t = r.ToString().PadLeft(8) + "  ";
             cout += t;
@@ -76,7 +76,7 @@ namespace Burkardt.BlendTest
             Console.WriteLine(cout);
 
             r = 1.0;
-            x = Blend.Blend.blend_r_0dn ( r, x, n, identity_r );
+            x = Blend.blend_r_0dn ( r, x, n, identity_r );
             cout = "  ";
             t = r.ToString().PadLeft(8) + "  ";
             cout += t;
@@ -84,7 +84,7 @@ namespace Burkardt.BlendTest
             Console.WriteLine(cout);
 
             r = 0.5;
-            x = Blend.Blend.blend_r_0dn ( r, x, n, identity_r );
+            x = Blend.blend_r_0dn ( r, x, n, identity_r );
             cout = "  ";
             t = r.ToString().PadLeft(8) + "  ";
             cout += t;
@@ -123,7 +123,7 @@ namespace Burkardt.BlendTest
 
             double r = 0.0;
             double s = 0.0;
-            x = Blend.Blend.blend_rs_0dn ( r, s, x, n, identity_rs );
+            x = Blend.blend_rs_0dn ( r, s, x, n, identity_rs );
             string cout =  "  ";
             string t = r.ToString().PadLeft(8) + "  ";
             cout += t;
@@ -137,7 +137,7 @@ namespace Burkardt.BlendTest
 
             r = 1.0;
             s = 0.0;
-            x = Blend.Blend.blend_rs_0dn ( r, s, x, n, identity_rs );
+            x = Blend.blend_rs_0dn ( r, s, x, n, identity_rs );
             cout =  "  ";
             t = r.ToString().PadLeft(8) + "  ";
             cout += t;
@@ -151,7 +151,7 @@ namespace Burkardt.BlendTest
 
             r = 0.0;
             s = 1.0;
-            x = Blend.Blend.blend_rs_0dn ( r, s, x, n, identity_rs );
+            x = Blend.blend_rs_0dn ( r, s, x, n, identity_rs );
             cout =  "  ";
             t = r.ToString().PadLeft(8) + "  ";
             cout += t;
@@ -165,7 +165,7 @@ namespace Burkardt.BlendTest
 
             r = 1.0;
             s = 1.0;
-            x = Blend.Blend.blend_rs_0dn ( r, s, x, n, identity_rs );
+            x = Blend.blend_rs_0dn ( r, s, x, n, identity_rs );
             cout =  "  ";
             t = r.ToString().PadLeft(8) + "  ";
             cout += t;
@@ -179,7 +179,7 @@ namespace Burkardt.BlendTest
 
             r = 0.5;
             s = 0.5;
-            x = Blend.Blend.blend_rs_0dn ( r, s, x, n, identity_rs );
+            x = Blend.blend_rs_0dn ( r, s, x, n, identity_rs );
             cout =  "  ";
             t = r.ToString().PadLeft(8) + "  ";
             cout += t;
@@ -223,7 +223,7 @@ namespace Burkardt.BlendTest
 
             double r = 0.0;
             double s = 0.0;
-            x = Blend.Blend.blend_rs_1dn ( r, s, x, n, identity_rs );
+            x = Blend.blend_rs_1dn ( r, s, x, n, identity_rs );
             string cout =  "  ";
             string t = r.ToString().PadLeft(8) + "  ";
             cout += t;
@@ -237,7 +237,7 @@ namespace Burkardt.BlendTest
 
             r = 1.0;
             s = 0.0;
-            x = Blend.Blend.blend_rs_1dn ( r, s, x, n, identity_rs );
+            x = Blend.blend_rs_1dn ( r, s, x, n, identity_rs );
             cout =  "  ";
             t = r.ToString().PadLeft(8) + "  ";
             cout += t;
@@ -251,7 +251,7 @@ namespace Burkardt.BlendTest
 
             r = 0.0;
             s = 1.0;
-            x = Blend.Blend.blend_rs_1dn ( r, s, x, n, identity_rs );
+            x = Blend.blend_rs_1dn ( r, s, x, n, identity_rs );
             cout =  "  ";
             t = r.ToString().PadLeft(8) + "  ";
             cout += t;
@@ -265,7 +265,7 @@ namespace Burkardt.BlendTest
 
             r = 1.0;
             s = 1.0;
-            x = Blend.Blend.blend_rs_1dn ( r, s, x, n, identity_rs );
+            x = Blend.blend_rs_1dn ( r, s, x, n, identity_rs );
             cout =  "  ";
             t = r.ToString().PadLeft(8) + "  ";
             cout += t;
@@ -279,7 +279,7 @@ namespace Burkardt.BlendTest
 
             r = 0.5;
             s = 0.5;
-            x = Blend.Blend.blend_rs_1dn ( r, s, x, n, identity_rs );
+            x = Blend.blend_rs_1dn ( r, s, x, n, identity_rs );
             cout =  "  ";
             t = r.ToString().PadLeft(8) + "  ";
             cout += t;
@@ -324,7 +324,7 @@ namespace Burkardt.BlendTest
             double r = 0.0;
             double s = 0.0;
             double t = 0.0;
-            x = Blend.Blend.blend_rst_0dn ( r, s, t, x, n, identity_rst );
+            x = Blend.blend_rst_0dn ( r, s, t, x, n, identity_rst );
             string cout =  "  ";
             string ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -343,7 +343,7 @@ namespace Burkardt.BlendTest
             r = 1.0;
             s = 0.0;
             t = 0.0;
-            x = Blend.Blend.blend_rst_0dn ( r, s, t, x, n, identity_rst );
+            x = Blend.blend_rst_0dn ( r, s, t, x, n, identity_rst );
             cout =  "  ";
             ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -362,7 +362,7 @@ namespace Burkardt.BlendTest
             r = 0.0;
             s = 1.0;
             t = 0.0;
-            x = Blend.Blend.blend_rst_0dn ( r, s, t, x, n, identity_rst );
+            x = Blend.blend_rst_0dn ( r, s, t, x, n, identity_rst );
             cout =  "  ";
             ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -381,7 +381,7 @@ namespace Burkardt.BlendTest
             r = 0.0;
             s = 0.0;
             t = 1.0;
-            x = Blend.Blend.blend_rst_0dn ( r, s, t, x, n, identity_rst );
+            x = Blend.blend_rst_0dn ( r, s, t, x, n, identity_rst );
             cout =  "  ";
             ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -400,7 +400,7 @@ namespace Burkardt.BlendTest
             r = 1.0;
             s = 1.0;
             t = 1.0;
-            x = Blend.Blend.blend_rst_0dn ( r, s, t, x, n, identity_rst );
+            x = Blend.blend_rst_0dn ( r, s, t, x, n, identity_rst );
             cout =  "  ";
             ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -419,7 +419,7 @@ namespace Burkardt.BlendTest
             r = 0.5;
             s = 0.5;
             t = 0.5;
-            x = Blend.Blend.blend_rst_0dn ( r, s, t, x, n, identity_rst );
+            x = Blend.blend_rst_0dn ( r, s, t, x, n, identity_rst );
             cout =  "  ";
             ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -468,7 +468,7 @@ namespace Burkardt.BlendTest
             double r = 0.0;
             double s = 0.0;
             double t = 0.0;
-            x = Blend.Blend.blend_rst_1dn ( r, s, t, x, n, identity_rst );
+            x = Blend.blend_rst_1dn ( r, s, t, x, n, identity_rst );
             string cout =  "  ";
             string ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -487,7 +487,7 @@ namespace Burkardt.BlendTest
             r = 1.0;
             s = 0.0;
             t = 0.0;
-            x = Blend.Blend.blend_rst_1dn ( r, s, t, x, n, identity_rst );
+            x = Blend.blend_rst_1dn ( r, s, t, x, n, identity_rst );
             cout =  "  ";
             ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -506,7 +506,7 @@ namespace Burkardt.BlendTest
             r = 0.0;
             s = 1.0;
             t = 0.0;
-            x = Blend.Blend.blend_rst_1dn ( r, s, t, x, n, identity_rst );
+            x = Blend.blend_rst_1dn ( r, s, t, x, n, identity_rst );
             cout =  "  ";
             ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -525,7 +525,7 @@ namespace Burkardt.BlendTest
             r = 0.0;
             s = 0.0;
             t = 1.0;
-            x = Blend.Blend.blend_rst_1dn ( r, s, t, x, n, identity_rst );
+            x = Blend.blend_rst_1dn ( r, s, t, x, n, identity_rst );
             cout =  "  ";
             ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -544,7 +544,7 @@ namespace Burkardt.BlendTest
             r = 1.0;
             s = 1.0;
             t = 1.0;
-            x = Blend.Blend.blend_rst_1dn ( r, s, t, x, n, identity_rst );
+            x = Blend.blend_rst_1dn ( r, s, t, x, n, identity_rst );
             cout =  "  ";
             ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -563,7 +563,7 @@ namespace Burkardt.BlendTest
             r = 0.5;
             s = 0.5;
             t = 0.5;
-            x = Blend.Blend.blend_rst_1dn ( r, s, t, x, n, identity_rst );
+            x = Blend.blend_rst_1dn ( r, s, t, x, n, identity_rst );
             cout =  "  ";
             ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -613,7 +613,7 @@ namespace Burkardt.BlendTest
             double r = 0.0;
             double s = 0.0;
             double t = 0.0;
-            x = Blend.Blend.blend_rst_2dn ( r, s, t, x, n, identity_rst );
+            x = Blend.blend_rst_2dn ( r, s, t, x, n, identity_rst );
             string cout =  "  ";
             string ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -632,7 +632,7 @@ namespace Burkardt.BlendTest
             r = 1.0;
             s = 0.0;
             t = 0.0;
-            x = Blend.Blend.blend_rst_2dn ( r, s, t, x, n, identity_rst );
+            x = Blend.blend_rst_2dn ( r, s, t, x, n, identity_rst );
             cout =  "  ";
             ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -651,7 +651,7 @@ namespace Burkardt.BlendTest
             r = 0.0;
             s = 1.0;
             t = 0.0;
-            x = Blend.Blend.blend_rst_2dn ( r, s, t, x, n, identity_rst );
+            x = Blend.blend_rst_2dn ( r, s, t, x, n, identity_rst );
             cout =  "  ";
             ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -670,7 +670,7 @@ namespace Burkardt.BlendTest
             r = 0.0;
             s = 0.0;
             t = 1.0;
-            x = Blend.Blend.blend_rst_2dn ( r, s, t, x, n, identity_rst );
+            x = Blend.blend_rst_2dn ( r, s, t, x, n, identity_rst );
             cout =  "  ";
             ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -689,7 +689,7 @@ namespace Burkardt.BlendTest
             r = 1.0;
             s = 1.0;
             t = 1.0;
-            x = Blend.Blend.blend_rst_2dn ( r, s, t, x, n, identity_rst );
+            x = Blend.blend_rst_2dn ( r, s, t, x, n, identity_rst );
             cout =  "  ";
             ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -708,7 +708,7 @@ namespace Burkardt.BlendTest
             r = 0.5;
             s = 0.5;
             t = 0.5;
-            x = Blend.Blend.blend_rst_2dn ( r, s, t, x, n, identity_rst );
+            x = Blend.blend_rst_2dn ( r, s, t, x, n, identity_rst );
             cout =  "  ";
             ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -755,7 +755,7 @@ namespace Burkardt.BlendTest
             int n = 1;
 
             double r = 0.0;
-            x = Blend.Blend.blend_r_0dn ( r, x, n, stretch_r );
+            x = Blend.blend_r_0dn ( r, x, n, stretch_r );
             string cout =  "  ";
             string ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -764,7 +764,7 @@ namespace Burkardt.BlendTest
             Console.WriteLine(cout);
 
             r = 1.0;
-            x = Blend.Blend.blend_r_0dn ( r, x, n, stretch_r );
+            x = Blend.blend_r_0dn ( r, x, n, stretch_r );
             cout =  "  ";
             ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -773,7 +773,7 @@ namespace Burkardt.BlendTest
             Console.WriteLine(cout);
 
             r = 0.5;
-            x = Blend.Blend.blend_r_0dn ( r, x, n, stretch_r );
+            x = Blend.blend_r_0dn ( r, x, n, stretch_r );
             cout =  "  ";
             ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -813,7 +813,7 @@ namespace Burkardt.BlendTest
 
             double r = 0.0;
             double s = 0.0;
-            x = Blend.Blend.blend_rs_0dn ( r, s, x, n, stretch_rs );
+            x = Blend.blend_rs_0dn ( r, s, x, n, stretch_rs );
             string cout =  "  ";
             string ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -827,7 +827,7 @@ namespace Burkardt.BlendTest
 
             r = 1.0;
             s = 0.0;
-            x = Blend.Blend.blend_rs_0dn ( r, s, x, n, stretch_rs );
+            x = Blend.blend_rs_0dn ( r, s, x, n, stretch_rs );
             cout =  "  ";
             ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -841,7 +841,7 @@ namespace Burkardt.BlendTest
 
             r = 0.0;
             s = 1.0;
-            x = Blend.Blend.blend_rs_0dn ( r, s, x, n, stretch_rs );
+            x = Blend.blend_rs_0dn ( r, s, x, n, stretch_rs );
             cout =  "  ";
             ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -855,7 +855,7 @@ namespace Burkardt.BlendTest
 
             r = 1.0;
             s = 1.0;
-            x = Blend.Blend.blend_rs_0dn ( r, s, x, n, stretch_rs );
+            x = Blend.blend_rs_0dn ( r, s, x, n, stretch_rs );
             cout =  "  ";
             ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -869,7 +869,7 @@ namespace Burkardt.BlendTest
 
             r = 0.5;
             s = 0.5;
-            x = Blend.Blend.blend_rs_0dn ( r, s, x, n, stretch_rs );
+            x = Blend.blend_rs_0dn ( r, s, x, n, stretch_rs );
             cout =  "  ";
             ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -913,7 +913,7 @@ namespace Burkardt.BlendTest
 
             double r = 0.0;
             double s = 0.0;
-            x = Blend.Blend.blend_rs_1dn ( r, s, x, n, stretch_rs );
+            x = Blend.blend_rs_1dn ( r, s, x, n, stretch_rs );
             string cout =  "  ";
             string ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -927,7 +927,7 @@ namespace Burkardt.BlendTest
 
             r = 1.0;
             s = 0.0;
-            x = Blend.Blend.blend_rs_1dn ( r, s, x, n, stretch_rs );
+            x = Blend.blend_rs_1dn ( r, s, x, n, stretch_rs );
             cout =  "  ";
             ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -941,7 +941,7 @@ namespace Burkardt.BlendTest
 
             r = 0.0;
             s = 1.0;
-            x = Blend.Blend.blend_rs_1dn ( r, s, x, n, stretch_rs );
+            x = Blend.blend_rs_1dn ( r, s, x, n, stretch_rs );
             cout =  "  ";
             ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -955,7 +955,7 @@ namespace Burkardt.BlendTest
 
             r = 1.0;
             s = 1.0;
-            x = Blend.Blend.blend_rs_1dn ( r, s, x, n, stretch_rs );
+            x = Blend.blend_rs_1dn ( r, s, x, n, stretch_rs );
             cout =  "  ";
             ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -969,7 +969,7 @@ namespace Burkardt.BlendTest
 
             r = 0.5;
             s = 0.5;
-            x = Blend.Blend.blend_rs_1dn ( r, s, x, n, stretch_rs );
+            x = Blend.blend_rs_1dn ( r, s, x, n, stretch_rs );
             cout =  "  ";
             ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -1014,7 +1014,7 @@ namespace Burkardt.BlendTest
             double r = 0.0;
             double s = 0.0;
             double t = 0.0;
-            x = Blend.Blend.blend_rst_0dn ( r, s, t, x, n, stretch_rst );
+            x = Blend.blend_rst_0dn ( r, s, t, x, n, stretch_rst );
             string cout =  "  ";
             string ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -1033,7 +1033,7 @@ namespace Burkardt.BlendTest
             r = 1.0;
             s = 0.0;
             t = 0.0;
-            x = Blend.Blend.blend_rst_0dn ( r, s, t, x, n, stretch_rst );
+            x = Blend.blend_rst_0dn ( r, s, t, x, n, stretch_rst );
             cout =  "  ";
             ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -1052,7 +1052,7 @@ namespace Burkardt.BlendTest
             r = 0.0;
             s = 1.0;
             t = 0.0;
-            x = Blend.Blend.blend_rst_0dn ( r, s, t, x, n, stretch_rst );
+            x = Blend.blend_rst_0dn ( r, s, t, x, n, stretch_rst );
             cout =  "  ";
             ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -1071,7 +1071,7 @@ namespace Burkardt.BlendTest
             r = 0.0;
             s = 0.0;
             t = 1.0;
-            x = Blend.Blend.blend_rst_0dn ( r, s, t, x, n, stretch_rst );
+            x = Blend.blend_rst_0dn ( r, s, t, x, n, stretch_rst );
             cout =  "  ";
             ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -1090,7 +1090,7 @@ namespace Burkardt.BlendTest
             r = 1.0;
             s = 1.0;
             t = 1.0;
-            x = Blend.Blend.blend_rst_0dn ( r, s, t, x, n, stretch_rst );
+            x = Blend.blend_rst_0dn ( r, s, t, x, n, stretch_rst );
             cout =  "  ";
             ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -1109,7 +1109,7 @@ namespace Burkardt.BlendTest
             r = 0.5;
             s = 0.5;
             t = 0.5;
-            x = Blend.Blend.blend_rst_0dn ( r, s, t, x, n, stretch_rst );
+            x = Blend.blend_rst_0dn ( r, s, t, x, n, stretch_rst );
             cout =  "  ";
             ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -1158,7 +1158,7 @@ namespace Burkardt.BlendTest
             double r = 0.0;
             double s = 0.0;
             double t = 0.0;
-            x = Blend.Blend.blend_rst_1dn ( r, s, t, x, n, stretch_rst );
+            x = Blend.blend_rst_1dn ( r, s, t, x, n, stretch_rst );
             string cout =  "  ";
             string ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -1177,7 +1177,7 @@ namespace Burkardt.BlendTest
             r = 1.0;
             s = 0.0;
             t = 0.0;
-            x = Blend.Blend.blend_rst_1dn ( r, s, t, x, n, stretch_rst );
+            x = Blend.blend_rst_1dn ( r, s, t, x, n, stretch_rst );
             cout =  "  ";
             ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -1196,7 +1196,7 @@ namespace Burkardt.BlendTest
             r = 0.0;
             s = 1.0;
             t = 0.0;
-            x = Blend.Blend.blend_rst_1dn ( r, s, t, x, n, stretch_rst );
+            x = Blend.blend_rst_1dn ( r, s, t, x, n, stretch_rst );
             cout =  "  ";
             ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -1215,7 +1215,7 @@ namespace Burkardt.BlendTest
             r = 0.0;
             s = 0.0;
             t = 1.0;
-            x = Blend.Blend.blend_rst_1dn ( r, s, t, x, n, stretch_rst );
+            x = Blend.blend_rst_1dn ( r, s, t, x, n, stretch_rst );
             cout =  "  ";
             ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -1234,7 +1234,7 @@ namespace Burkardt.BlendTest
             r = 1.0;
             s = 1.0;
             t = 1.0;
-            x = Blend.Blend.blend_rst_1dn ( r, s, t, x, n, stretch_rst );
+            x = Blend.blend_rst_1dn ( r, s, t, x, n, stretch_rst );
             cout =  "  ";
             ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -1253,7 +1253,7 @@ namespace Burkardt.BlendTest
             r = 0.5;
             s = 0.5;
             t = 0.5;
-            x = Blend.Blend.blend_rst_1dn ( r, s, t, x, n, stretch_rst );
+            x = Blend.blend_rst_1dn ( r, s, t, x, n, stretch_rst );
             cout =  "  ";
             ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -1302,7 +1302,7 @@ namespace Burkardt.BlendTest
             double r = 0.0;
             double s = 0.0;
             double t = 0.0;
-            x = Blend.Blend.blend_rst_2dn ( r, s, t, x, n, stretch_rst );
+            x = Blend.blend_rst_2dn ( r, s, t, x, n, stretch_rst );
             string cout =  "  ";
             string ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -1321,7 +1321,7 @@ namespace Burkardt.BlendTest
             r = 1.0;
             s = 0.0;
             t = 0.0;
-            x = Blend.Blend.blend_rst_2dn ( r, s, t, x, n, stretch_rst );
+            x = Blend.blend_rst_2dn ( r, s, t, x, n, stretch_rst );
             cout =  "  ";
             ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -1340,7 +1340,7 @@ namespace Burkardt.BlendTest
             r = 0.0;
             s = 1.0;
             t = 0.0;
-            x = Blend.Blend.blend_rst_2dn ( r, s, t, x, n, stretch_rst );
+            x = Blend.blend_rst_2dn ( r, s, t, x, n, stretch_rst );
             cout =  "  ";
             ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -1359,7 +1359,7 @@ namespace Burkardt.BlendTest
             r = 0.0;
             s = 0.0;
             t = 1.0;
-            x = Blend.Blend.blend_rst_2dn ( r, s, t, x, n, stretch_rst );
+            x = Blend.blend_rst_2dn ( r, s, t, x, n, stretch_rst );
             cout =  "  ";
             ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -1378,7 +1378,7 @@ namespace Burkardt.BlendTest
             r = 1.0;
             s = 1.0;
             t = 1.0;
-            x = Blend.Blend.blend_rst_2dn ( r, s, t, x, n, stretch_rst );
+            x = Blend.blend_rst_2dn ( r, s, t, x, n, stretch_rst );
             cout =  "  ";
             ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -1397,7 +1397,7 @@ namespace Burkardt.BlendTest
             r = 0.5;
             s = 0.5;
             t = 0.5;
-            x = Blend.Blend.blend_rst_2dn ( r, s, t, x, n, stretch_rst );
+            x = Blend.blend_rst_2dn ( r, s, t, x, n, stretch_rst );
             cout =  "  ";
             ts = r.ToString().PadLeft(8) + "  ";
             cout += ts;
@@ -1451,7 +1451,7 @@ namespace Burkardt.BlendTest
             Console.WriteLine("  Interpolated values:");
             Console.WriteLine();
 
-            double[] x_ = Blend.Blend.blend_i_0d1 ( ref x, m );
+            double[] x_ = Blend.blend_i_0d1 ( ref x, m );
 
             for (int i = 0; i < m; i++ )
             {
@@ -1526,7 +1526,7 @@ namespace Burkardt.BlendTest
             temp = cubic_rs ( r, s, 1 );
             x[i*m2+j] = temp;
 
-            double[] x_ = Blend.Blend.blend_ij_0d1 ( x, m1, m2 );
+            double[] x_ = Blend.blend_ij_0d1 ( x, m1, m2 );
 
             Console.WriteLine();
             Console.WriteLine("  Values interpolated by BLEND_IJ_0D1:");
@@ -1611,7 +1611,7 @@ namespace Burkardt.BlendTest
                 x[i*m2+j] = temp;
             }
 
-            double[] x_ = Blend.Blend.blend_ij_1d1 ( x, m1, m2 );
+            double[] x_ = Blend.blend_ij_1d1 ( x, m1, m2 );
 
             Console.WriteLine();
             Console.WriteLine("  Values interpolated by BLEND_IJ_1D1:");
@@ -1726,7 +1726,7 @@ namespace Burkardt.BlendTest
                     Console.WriteLine(cout);
                 }
             }
-            x = Blend.Blend.blend_ijk_0d1 ( x, m1, m2, m3 );
+            x = Blend.blend_ijk_0d1 ( x, m1, m2, m3 );
 
             Console.WriteLine();
             Console.WriteLine("  Values interpolated by BLEND_IJK_0D1:");
@@ -1883,7 +1883,7 @@ namespace Burkardt.BlendTest
                     Console.WriteLine(cout);
                 }
             }
-            x = Blend.Blend.blend_ijk_1d1 ( x, m1, m2, m3 );
+            x = Blend.blend_ijk_1d1 ( x, m1, m2, m3 );
 
             Console.WriteLine();
             Console.WriteLine("  Values interpolated by BLEND_IJK_1D1:");
@@ -2030,7 +2030,7 @@ namespace Burkardt.BlendTest
                     Console.WriteLine(cout);
                 }
             }
-            x = Blend.Blend.blend_ijk_2d1 ( x, m1, m2, m3 );
+            x = Blend.blend_ijk_2d1 ( x, m1, m2, m3 );
 
             Console.WriteLine();
             Console.WriteLine("  Values interpolated by BLEND_IJK_2D1:");

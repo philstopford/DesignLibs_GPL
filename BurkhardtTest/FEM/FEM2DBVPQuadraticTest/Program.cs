@@ -2,7 +2,7 @@
 using Burkardt.FEM;
 using Burkardt.Types;
 
-namespace Burkardt.FEM2DBVPQuadraticTest
+namespace FEM2DBVPQuadraticTest
 {
     class Program
     {

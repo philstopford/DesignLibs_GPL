@@ -374,6 +374,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompassSearchTest", "Burkha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MatrixConditionTest", "BurkhardtTest\MatrixConditionTest\MatrixConditionTest.csproj", "{B4FA001B-10F2-4AB8-8925-A347A7D1ED7B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CosineTransformTest", "BurkhardtTest\CosineTransformTest\CosineTransformTest.csproj", "{AFA8ABF9-8745-46B1-8D52-C34CFF8CF55E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -2340,6 +2342,18 @@ Global
 		{B4FA001B-10F2-4AB8-8925-A347A7D1ED7B}.Release|x64.Build.0 = Release|Any CPU
 		{B4FA001B-10F2-4AB8-8925-A347A7D1ED7B}.Release|x86.ActiveCfg = Release|Any CPU
 		{B4FA001B-10F2-4AB8-8925-A347A7D1ED7B}.Release|x86.Build.0 = Release|Any CPU
+		{AFA8ABF9-8745-46B1-8D52-C34CFF8CF55E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFA8ABF9-8745-46B1-8D52-C34CFF8CF55E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFA8ABF9-8745-46B1-8D52-C34CFF8CF55E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AFA8ABF9-8745-46B1-8D52-C34CFF8CF55E}.Debug|x64.Build.0 = Debug|Any CPU
+		{AFA8ABF9-8745-46B1-8D52-C34CFF8CF55E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AFA8ABF9-8745-46B1-8D52-C34CFF8CF55E}.Debug|x86.Build.0 = Debug|Any CPU
+		{AFA8ABF9-8745-46B1-8D52-C34CFF8CF55E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFA8ABF9-8745-46B1-8D52-C34CFF8CF55E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFA8ABF9-8745-46B1-8D52-C34CFF8CF55E}.Release|x64.ActiveCfg = Release|Any CPU
+		{AFA8ABF9-8745-46B1-8D52-C34CFF8CF55E}.Release|x64.Build.0 = Release|Any CPU
+		{AFA8ABF9-8745-46B1-8D52-C34CFF8CF55E}.Release|x86.ActiveCfg = Release|Any CPU
+		{AFA8ABF9-8745-46B1-8D52-C34CFF8CF55E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2525,6 +2539,7 @@ Global
 		{0F887613-DBE5-4AF5-96FB-72CBF584FB18} = {87CC8A90-782C-4F12-A643-B39362A62671}
 		{CD106BBE-0EDF-40AE-8DA6-1B466FB65278} = {B14C0D74-30A0-4540-8100-2FFA1C84CA6D}
 		{B4FA001B-10F2-4AB8-8925-A347A7D1ED7B} = {B14C0D74-30A0-4540-8100-2FFA1C84CA6D}
+		{AFA8ABF9-8745-46B1-8D52-C34CFF8CF55E} = {B14C0D74-30A0-4540-8100-2FFA1C84CA6D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B449416C-C504-4FA8-9E10-10857263A64A}

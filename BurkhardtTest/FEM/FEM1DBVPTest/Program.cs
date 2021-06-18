@@ -4,7 +4,7 @@ using System.IO;
 using Burkardt.FEM;
 using Burkardt.Types;
 
-namespace Burkardt.FEM1DBVPTest
+namespace FEM1DBVPTest
 {
     class Program
     {

@@ -137,6 +137,7 @@
     <projectFile>BurkhardtTest/Circle/CircleSegmentTest/CircleSegmentTest.csproj</projectFile>
     <projectFile>BurkhardtTest/CompassSearchTest/CompassSearchTest.csproj</projectFile>
     <projectFile>BurkhardtTest/MatrixConditionTest/MatrixConditionTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/CosineTransformTest/CosineTransformTest.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="" />
@@ -165,26 +166,7 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/BurkhardtTest/ComboTest/r8.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/ComboTest/r8vec.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/ComboTest/setpart.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/ComboTest/stirling.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/ComboTest/subset.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/ComboTest/tree.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/i4mat.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/ComboTest/tableau.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/strings.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/i4vec.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/ComboTest/rgf.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/FDM/FDM_1D_BVP.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/FEM/FEM_1D_Project.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Probability/Fisher.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Quadrature/CDGQF.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/IHS.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Solve/SVDSolve.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/BlendTest/Program.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ComboTest/partition.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/IHSTest/Program.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/SlowFourierTransformTest/Program.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/WathenMatrixTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Circle/CircleArcGrid.cs" />
@@ -216,6 +198,25 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/CosineTransform.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/MatrixConditionTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8ge.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/CosineTransformTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Cube/QuadratureRule.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Chebyshev/ChebyshevTest/Program.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/BlendTest/Program.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/IHSTest/Program.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Half.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA058Test/Program.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA091Test/Program.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA109Test/Program.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA113Test/Program.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA136Test/Program.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/AppliedStatisticsAlgorithms/ASA245Test/Program.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Bisection/BisectionRCTest/Program.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/BLAS/BLAS0Test/Program.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/BLAS/BLAS2DTest/Program.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/BLAS/BLAS3DTest/Program.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/BlackScholesTest/Program.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Power.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/ProbabilityTest/Uniform.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -224,7 +225,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.1882698" />
+    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.18815944" />
     <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.0" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
@@ -1583,6 +1584,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="CosineTransformTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/CosineTransformTest/CosineTransformTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="Discrete2DPDFTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -2875,6 +2894,7 @@
       <item itemvalue=".NET Project.CircleSegmentTest" />
       <item itemvalue=".NET Project.CompassSearchTest" />
       <item itemvalue=".NET Project.MatrixConditionTest" />
+      <item itemvalue=".NET Project.CosineTransformTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

@@ -3,7 +3,7 @@ using Burkardt.Table;
 using Burkardt.FEM;
 using Burkardt.Types;
 
-namespace Burkardt.FEMGMeshTest
+namespace FEMGMeshTest
 {
     class Program
     {

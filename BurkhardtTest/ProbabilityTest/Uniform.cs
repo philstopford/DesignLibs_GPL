@@ -1,7 +1,7 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.ProbabilityTest
+namespace ProbabilityTest
 {
     partial class Program
     {
@@ -36,7 +36,7 @@ namespace Burkardt.ProbabilityTest
             Console.WriteLine("  UNIFORM_ORDER_SAMPLE samples.");
 
             n = 10;
-            x = Probability.Uniform.uniform_01_order_sample(n, ref seed);
+            x = Burkardt.Probability.Uniform.uniform_01_order_sample(n, ref seed);
 
             typeMethods.r8vec_print(n, x, "  Ordered sample:");
         }
@@ -82,7 +82,7 @@ namespace Burkardt.ProbabilityTest
 
             for (i = 1; i <= 10; i++)
             {
-                x = Probability.Uniform.uniform_nsphere_sample(n, ref seed);
+                x = Burkardt.Probability.Uniform.uniform_nsphere_sample(n, ref seed);
                 string cout = "  " + i.ToString().PadLeft(6) + "  ";
                 for (j = 0; j < n; j++)
                 {
@@ -136,10 +136,10 @@ namespace Burkardt.ProbabilityTest
 
             for (i = 1; i <= 10; i++)
             {
-                x = Probability.Uniform.uniform_01_sample(ref seed);
-                pdf = Probability.Uniform.uniform_01_pdf(x);
-                cdf = Probability.Uniform.uniform_01_cdf(x);
-                x2 = Probability.Uniform.uniform_01_cdf_inv(cdf);
+                x = Burkardt.Probability.Uniform.uniform_01_sample(ref seed);
+                pdf = Burkardt.Probability.Uniform.uniform_01_pdf(x);
+                cdf = Burkardt.Probability.Uniform.uniform_01_cdf(x);
+                x2 = Burkardt.Probability.Uniform.uniform_01_cdf_inv(cdf);
 
                 Console.WriteLine("  "
                                   + x.ToString().PadLeft(12) + "  "
@@ -187,8 +187,8 @@ namespace Burkardt.ProbabilityTest
             Console.WriteLine("  UNIFORM_01_SAMPLE samples the Uniform 01 distribution;");
             Console.WriteLine("  UNIFORM_01_VARIANCE computes the Uniform 01 variance.");
 
-            mean = Probability.Uniform.uniform_01_mean();
-            variance = Probability.Uniform.uniform_01_variance();
+            mean = Burkardt.Probability.Uniform.uniform_01_mean();
+            variance = Burkardt.Probability.Uniform.uniform_01_variance();
 
             Console.WriteLine("");
             Console.WriteLine("  PDF mean =     " + mean + "");
@@ -196,7 +196,7 @@ namespace Burkardt.ProbabilityTest
 
             for (i = 0; i < SAMPLE_NUM; i++)
             {
-                x[i] = Probability.Uniform.uniform_01_sample(ref seed);
+                x[i] = Burkardt.Probability.Uniform.uniform_01_sample(ref seed);
             }
 
             mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
@@ -256,7 +256,7 @@ namespace Burkardt.ProbabilityTest
             Console.WriteLine("  PDF parameter A =      " + a + "");
             Console.WriteLine("  PDF parameter B =      " + b + "");
 
-            if (!Probability.Uniform.uniform_check(a, b))
+            if (!Burkardt.Probability.Uniform.uniform_check(a, b))
             {
                 Console.WriteLine("");
                 Console.WriteLine("UNIFORM_CDF_TEST - Fatal error!");
@@ -270,10 +270,10 @@ namespace Burkardt.ProbabilityTest
 
             for (i = 1; i <= 10; i++)
             {
-                x = Probability.Uniform.uniform_sample(a, b, ref seed);
-                pdf = Probability.Uniform.uniform_pdf(x, a, b);
-                cdf = Probability.Uniform.uniform_cdf(x, a, b);
-                x2 = Probability.Uniform.uniform_cdf_inv(cdf, a, b);
+                x = Burkardt.Probability.Uniform.uniform_sample(a, b, ref seed);
+                pdf = Burkardt.Probability.Uniform.uniform_pdf(x, a, b);
+                cdf = Burkardt.Probability.Uniform.uniform_cdf(x, a, b);
+                x2 = Burkardt.Probability.Uniform.uniform_cdf_inv(cdf, a, b);
 
                 Console.WriteLine("  "
                                   + x.ToString().PadLeft(12) + "  "
@@ -331,7 +331,7 @@ namespace Burkardt.ProbabilityTest
             Console.WriteLine("  PDF parameter A =      " + a + "");
             Console.WriteLine("  PDF parameter B =      " + b + "");
 
-            if (!Probability.Uniform.uniform_check(a, b))
+            if (!Burkardt.Probability.Uniform.uniform_check(a, b))
             {
                 Console.WriteLine("");
                 Console.WriteLine("UNIFORM_SAMPLE_TEST - Fatal error!");
@@ -339,8 +339,8 @@ namespace Burkardt.ProbabilityTest
                 return;
             }
 
-            mean = Probability.Uniform.uniform_mean(a, b);
-            variance = Probability.Uniform.uniform_variance(a, b);
+            mean = Burkardt.Probability.Uniform.uniform_mean(a, b);
+            variance = Burkardt.Probability.Uniform.uniform_variance(a, b);
 
             Console.WriteLine("");
             Console.WriteLine("  PDF mean =     " + mean + "");
@@ -348,7 +348,7 @@ namespace Burkardt.ProbabilityTest
 
             for (i = 0; i < SAMPLE_NUM; i++)
             {
-                x[i] = Probability.Uniform.uniform_sample(a, b, ref seed);
+                x[i] = Burkardt.Probability.Uniform.uniform_sample(a, b, ref seed);
             }
 
             mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
@@ -408,7 +408,7 @@ namespace Burkardt.ProbabilityTest
             Console.WriteLine("  PDF parameter A =      " + a + "");
             Console.WriteLine("  PDF parameter B =      " + b + "");
 
-            if (!Probability.Uniform.uniform_discrete_check(a, b))
+            if (!Burkardt.Probability.Uniform.uniform_discrete_check(a, b))
             {
                 Console.WriteLine("");
                 Console.WriteLine("UNIFORM_DISCRETE_CDF_TEST - Fatal error!");
@@ -422,10 +422,10 @@ namespace Burkardt.ProbabilityTest
 
             for (i = 1; i <= 10; i++)
             {
-                x = Probability.Uniform.uniform_discrete_sample(a, b, ref seed);
-                pdf = Probability.Uniform.uniform_discrete_pdf(x, a, b);
-                cdf = Probability.Uniform.uniform_discrete_cdf(x, a, b);
-                x2 = Probability.Uniform.uniform_discrete_cdf_inv(cdf, a, b);
+                x = Burkardt.Probability.Uniform.uniform_discrete_sample(a, b, ref seed);
+                pdf = Burkardt.Probability.Uniform.uniform_discrete_pdf(x, a, b);
+                cdf = Burkardt.Probability.Uniform.uniform_discrete_cdf(x, a, b);
+                x2 = Burkardt.Probability.Uniform.uniform_discrete_cdf_inv(cdf, a, b);
 
                 Console.WriteLine("  "
                                   + x.ToString().PadLeft(12) + "  "
@@ -483,7 +483,7 @@ namespace Burkardt.ProbabilityTest
             Console.WriteLine("  PDF parameter A =      " + a + "");
             Console.WriteLine("  PDF parameter B =      " + b + "");
 
-            if (!Probability.Uniform.uniform_discrete_check(a, b))
+            if (!Burkardt.Probability.Uniform.uniform_discrete_check(a, b))
             {
                 Console.WriteLine("");
                 Console.WriteLine("UNIFORM_DISCRETE_SAMPLE_TEST - Fatal error!");
@@ -491,8 +491,8 @@ namespace Burkardt.ProbabilityTest
                 return;
             }
 
-            mean = Probability.Uniform.uniform_discrete_mean(a, b);
-            variance = Probability.Uniform.uniform_discrete_variance(a, b);
+            mean = Burkardt.Probability.Uniform.uniform_discrete_mean(a, b);
+            variance = Burkardt.Probability.Uniform.uniform_discrete_variance(a, b);
 
             Console.WriteLine("");
             Console.WriteLine("  PDF mean =     " + mean + "");
@@ -500,7 +500,7 @@ namespace Burkardt.ProbabilityTest
 
             for (i = 0; i < SAMPLE_NUM; i++)
             {
-                x[i] = Probability.Uniform.uniform_discrete_sample(a, b, ref seed);
+                x[i] = Burkardt.Probability.Uniform.uniform_discrete_sample(a, b, ref seed);
             }
 
             mean = typeMethods.i4vec_mean(SAMPLE_NUM, x);

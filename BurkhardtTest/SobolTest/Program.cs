@@ -2,7 +2,7 @@
 using Burkardt.Sobol;
 using Burkardt.Uniform;
 
-namespace Burkardt.SobolTest
+namespace SobolTest
 {
     class Program
     {

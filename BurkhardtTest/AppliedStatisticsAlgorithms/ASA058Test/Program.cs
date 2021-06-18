@@ -1,9 +1,10 @@
 ﻿using System;
 using System.IO;
+using Burkardt;
 using Burkardt.AppliedStatistics;
 using Burkardt.Types;
 
-namespace Burkardt.ASA058Test
+namespace ASA058Test
 {
     class Program
     {

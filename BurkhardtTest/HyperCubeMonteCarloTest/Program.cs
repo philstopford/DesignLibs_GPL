@@ -2,7 +2,7 @@
 using Burkardt.HyperCubeMonteCarloNS;
 using Burkardt.Types;
 
-namespace Burkardt.HyperCubeMonteCarloTest
+namespace HyperCubeMonteCarloTest
 {
     class Program
     {

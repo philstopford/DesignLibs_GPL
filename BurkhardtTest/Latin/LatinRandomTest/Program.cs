@@ -3,7 +3,7 @@ using Burkardt.Table;
 using Burkardt.Types;
 using Random = Burkardt.Latin.Random;
 
-namespace Burkardt.LatinRandomTest
+namespace LatinRandomTest
 {
     class Program
     {

@@ -3,7 +3,7 @@ using Burkardt.Latinizer;
 using Burkardt.Table;
 using Burkardt.Types;
 
-namespace Burkardt.LatinizeTest
+namespace LatinizeTest
 {
     class Program
     {

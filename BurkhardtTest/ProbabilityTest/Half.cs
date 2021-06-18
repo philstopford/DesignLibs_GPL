@@ -1,7 +1,7 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.ProbabilityTest
+namespace ProbabilityTest
 {
     partial class Program
     {
@@ -48,7 +48,7 @@ namespace Burkardt.ProbabilityTest
             Console.WriteLine("  PDF parameter A =      " + a + "");
             Console.WriteLine("  PDF parameter B =      " + b + "");
 
-            if (!Probability.Half.half_normal_check(a, b))
+            if (!Burkardt.Probability.Half.half_normal_check(a, b))
             {
                 Console.WriteLine("");
                 Console.WriteLine("HALF_NORMAL_CDF_TEST - Fatal error!");
@@ -62,10 +62,10 @@ namespace Burkardt.ProbabilityTest
 
             for (i = 1; i <= 10; i++)
             {
-                x = Probability.Half.half_normal_sample(a, b, ref seed);
-                pdf = Probability.Half.half_normal_pdf(x, a, b);
-                cdf = Probability.Half.half_normal_cdf(x, a, b);
-                x2 = Probability.Half.half_normal_cdf_inv(cdf, a, b);
+                x = Burkardt.Probability.Half.half_normal_sample(a, b, ref seed);
+                pdf = Burkardt.Probability.Half.half_normal_pdf(x, a, b);
+                cdf = Burkardt.Probability.Half.half_normal_cdf(x, a, b);
+                x2 = Burkardt.Probability.Half.half_normal_cdf_inv(cdf, a, b);
 
                 Console.WriteLine("  "
                                   + x.ToString().PadLeft(12) + "  "
@@ -123,7 +123,7 @@ namespace Burkardt.ProbabilityTest
             Console.WriteLine("  PDF parameter A =      " + a + "");
             Console.WriteLine("  PDF parameter B =      " + b + "");
 
-            if (!Probability.Half.half_normal_check(a, b))
+            if (!Burkardt.Probability.Half.half_normal_check(a, b))
             {
                 Console.WriteLine("");
                 Console.WriteLine("HALF_NORMAL_SAMPLE_TEST - Fatal error!");
@@ -131,8 +131,8 @@ namespace Burkardt.ProbabilityTest
                 return;
             }
 
-            mean = Probability.Half.half_normal_mean(a, b);
-            variance = Probability.Half.half_normal_variance(a, b);
+            mean = Burkardt.Probability.Half.half_normal_mean(a, b);
+            variance = Burkardt.Probability.Half.half_normal_variance(a, b);
 
             Console.WriteLine("");
             Console.WriteLine("  PDF mean =     " + mean + "");
@@ -140,7 +140,7 @@ namespace Burkardt.ProbabilityTest
 
             for (i = 0; i < SAMPLE_NUM; i++)
             {
-                x[i] = Probability.Half.half_normal_sample(a, b, ref seed);
+                x[i] = Burkardt.Probability.Half.half_normal_sample(a, b, ref seed);
             }
 
             mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);

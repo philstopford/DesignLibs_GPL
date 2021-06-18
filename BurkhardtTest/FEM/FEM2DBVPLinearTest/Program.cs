@@ -2,7 +2,7 @@
 using Burkardt.FEM;
 using Burkardt.Types;
 
-namespace Burkardt.FEM2DBVPLinearTest
+namespace FEM2DBVPLinearTest
 {
     class Program
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using Burkardt.Probability;
 
-namespace Burkardt.ProbabilityTest
+namespace ProbabilityTest
 {
     partial class Program
     {

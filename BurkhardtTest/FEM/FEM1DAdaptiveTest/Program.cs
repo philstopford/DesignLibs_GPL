@@ -1,7 +1,7 @@
 ﻿using System;
 using Burkardt.FEM;
 
-namespace Burkardt.FEM1DAdaptiveTest
+namespace FEM1DAdaptiveTest
 {
     class Program
     {

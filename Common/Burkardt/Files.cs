@@ -1,10 +1,108 @@
 ﻿using System;
+using System.IO;
 using System.Text;
+using Burkardt.Types;
 
 namespace Burkardt
 {
     public static class Files
     {
+        public static void data_read(string file_in_name, int dim_num, int n, ref double[] r)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    DATA_READ reads generator coordinate data from a file.
+            //
+            //  Discussion:
+            //
+            //    The file is assumed to contain one record per line.
+            //
+            //    Records beginning with the '#' character are comments, and are ignored.
+            //    Blank lines are also ignored.
+            //
+            //    Each line that is not ignored is assumed to contain exactly (or at least)
+            //    M real numbers, representing the coordinates of a point.
+            //
+            //    There are assumed to be exactly (or at least) N such records.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    03 August 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, char *FILE_IN_NAME, the name of the input file.
+            //
+            //    Input, int DIM_NUM, the number of spatial dimensions.
+            //
+            //    Input, int N, the number of points.  The program
+            //    will stop reading data once N values have been read.
+            //
+            //    Output, double R[DIM_NUM*N], the point coordinates.
+            //
+        {
+            bool error;
+            string[] file_in;
+            int i;
+            int j;
+            double[] x;
+
+            try
+            {
+                file_in = File.ReadAllLines(file_in_name);
+
+                j = 0;
+
+                foreach (string line in file_in)
+                {
+
+                    if (line[0] == '#' || typeMethods.s_len_trim(line) == 0)
+                    {
+                        continue;
+                    }
+
+                    r8vec t = typeMethods.s_to_r8vec(line, dim_num);
+                    x = t.rvec;
+                    error = t.error;
+
+                    if (error)
+                    {
+                        continue;
+                    }
+
+                    for (i = 0; i < dim_num; i++)
+                    {
+                        r[i + j * dim_num] = x[i];
+                    }
+
+                    j = j + 1;
+
+                }
+
+                Console.WriteLine("");
+                Console.WriteLine("DATA_READ:");
+                Console.WriteLine("  Read coordinate data from file.");
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("DATA_READ - Fatal error!");
+                Console.WriteLine("  Could not open the input file: \"" + file_in_name + "\"");
+            }
+
+        }
+
         public static void filename_inc(ref string filename)
 
             //****************************************************************************80

@@ -14,6 +14,11 @@ namespace Burkardt.Tessellation
         public int ngrid ;
         public int rank;
         public int[] tuple;
+
+        public CVTHaltonData(int dim_num)
+        {
+            tupledata.base_ = new int[dim_num];
+        }
     }
     
     public static class CentroidalVoronoi

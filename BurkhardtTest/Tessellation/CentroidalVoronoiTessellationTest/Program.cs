@@ -55,7 +55,7 @@ namespace CentroidalVoronoiTessellationTest
             Console.WriteLine("CVT_TEST");
             Console.WriteLine("  Normal end of execution.");
             Console.WriteLine("");
-}
+        }
 
         static void test01()
 
@@ -112,8 +112,8 @@ namespace CentroidalVoronoiTessellationTest
 
             seed_init = seed;
 
-            CVTHaltonData data = new CVTHaltonData();
-            
+            CVTHaltonData data = new CVTHaltonData(DIM_NUM);
+
             CentroidalVoronoi.cvt(ref data, DIM_NUM, N, batch, init, sample, sample_num, it_max, it_fixed,
                 ref seed, ref r, ref it_num, ref it_diff, ref energy);
 
@@ -192,7 +192,7 @@ namespace CentroidalVoronoiTessellationTest
 
             seed_init = seed;
 
-            CVTHaltonData data = new CVTHaltonData();
+            CVTHaltonData data = new CVTHaltonData(DIM_NUM);
 
             CentroidalVoronoi.cvt(ref data, DIM_NUM, N, batch, init, sample, sample_num, it_max, it_fixed,
                 ref seed, ref r, ref it_num, ref it_diff, ref energy);
@@ -272,7 +272,7 @@ namespace CentroidalVoronoiTessellationTest
 
             seed_init = seed;
 
-            CVTHaltonData data = new CVTHaltonData();
+            CVTHaltonData data = new CVTHaltonData(DIM_NUM);
 
             CentroidalVoronoi.cvt(ref data, DIM_NUM, N, batch, init, sample, sample_num, it_max, it_fixed,
                 ref seed, ref r, ref it_num, ref it_diff, ref energy);
@@ -352,7 +352,7 @@ namespace CentroidalVoronoiTessellationTest
 
             seed_init = seed;
 
-            CVTHaltonData data = new CVTHaltonData();
+            CVTHaltonData data = new CVTHaltonData(DIM_NUM);
 
             CentroidalVoronoi.cvt(ref data, DIM_NUM, N, batch, init, sample, sample_num, it_max, it_fixed,
                 ref seed, ref r, ref it_num, ref it_diff, ref energy);
@@ -432,7 +432,7 @@ namespace CentroidalVoronoiTessellationTest
 
             seed_init = seed;
 
-            CVTHaltonData data = new CVTHaltonData();
+            CVTHaltonData data = new CVTHaltonData(DIM_NUM);
 
             CentroidalVoronoi.cvt(ref data, DIM_NUM, N, batch, init, sample, sample_num, it_max, it_fixed,
                 ref seed, ref r, ref it_num, ref it_diff, ref energy);
@@ -454,7 +454,8 @@ namespace CentroidalVoronoiTessellationTest
             Console.WriteLine("  EPSILON (unit roundoff) =  " + double.Epsilon + "");
 
             typeMethods.r8mat_transpose_print(DIM_NUM, N, r, "  Generators (rows):");
-}
+        }
+
         static void test06()
 
             //****************************************************************************80
@@ -476,8 +477,8 @@ namespace CentroidalVoronoiTessellationTest
             //    John Burkardt
             //
         {
-int N = 10;
-int DIM_NUM = 2;
+            int N = 10;
+            int DIM_NUM = 2;
 
             int batch;
             double energy = 0;
@@ -511,7 +512,7 @@ int DIM_NUM = 2;
 
             seed_init = seed;
 
-            CVTHaltonData data = new CVTHaltonData();
+            CVTHaltonData data = new CVTHaltonData(DIM_NUM);
 
             CentroidalVoronoi.cvt(ref data, DIM_NUM, N, batch, init, sample, sample_num, it_max, it_fixed,
                 ref seed, ref r, ref it_num, ref it_diff, ref energy);
@@ -533,7 +534,8 @@ int DIM_NUM = 2;
             Console.WriteLine("  EPSILON (unit roundoff) =  " + double.Epsilon + "");
 
             typeMethods.r8mat_transpose_print(DIM_NUM, N, r, "  Generators (rows):");
-}
+        }
+
         static void test07()
 
             //****************************************************************************80
@@ -555,8 +557,8 @@ int DIM_NUM = 2;
             //    John Burkardt
             //
         {
-int N = 10;
-int DIM_NUM = 2;
+            int N = 10;
+            int DIM_NUM = 2;
 
             int batch;
             double energy = 0;
@@ -590,7 +592,7 @@ int DIM_NUM = 2;
 
             seed_init = seed;
 
-            CVTHaltonData data = new CVTHaltonData();
+            CVTHaltonData data = new CVTHaltonData(DIM_NUM);
 
             CentroidalVoronoi.cvt(ref data, DIM_NUM, N, batch, init, sample, sample_num, it_max, it_fixed,
                 ref seed, ref r, ref it_num, ref it_diff, ref energy);
@@ -612,7 +614,8 @@ int DIM_NUM = 2;
             Console.WriteLine("  EPSILON (unit roundoff) =  " + double.Epsilon + "");
 
             typeMethods.r8mat_transpose_print(DIM_NUM, N, r, "  Generators (rows):");
-}
+        }
+
         static void test08()
 
             //****************************************************************************80
@@ -634,8 +637,8 @@ int DIM_NUM = 2;
             //    John Burkardt
             //
         {
-int N = 10;
-int DIM_NUM = 2;
+            int N = 10;
+            int DIM_NUM = 2;
 
             int batch;
             double energy = 0;
@@ -669,7 +672,7 @@ int DIM_NUM = 2;
 
             seed_init = seed;
 
-            CVTHaltonData data = new CVTHaltonData();
+            CVTHaltonData data = new CVTHaltonData(DIM_NUM);
 
             CentroidalVoronoi.cvt(ref data, DIM_NUM, N, batch, init, sample, sample_num, it_max, it_fixed,
                 ref seed, ref r, ref it_num, ref it_diff, ref energy);
@@ -691,7 +694,8 @@ int DIM_NUM = 2;
             Console.WriteLine("  EPSILON (unit roundoff) =  " + double.Epsilon + "");
 
             typeMethods.r8mat_transpose_print(DIM_NUM, N, r, "  Generators (rows):");
-}
+        }
+
         static void test09()
 
             //****************************************************************************80
@@ -713,8 +717,8 @@ int DIM_NUM = 2;
             //    John Burkardt
             //
         {
-int N = 10;
-int DIM_NUM = 2;
+            int N = 10;
+            int DIM_NUM = 2;
 
             int batch;
             double energy = 0;
@@ -748,7 +752,7 @@ int DIM_NUM = 2;
 
             seed_init = seed;
 
-            CVTHaltonData data = new CVTHaltonData();
+            CVTHaltonData data = new CVTHaltonData(DIM_NUM);
 
             CentroidalVoronoi.cvt(ref data, DIM_NUM, N, batch, init, sample, sample_num, it_max, it_fixed,
                 ref seed, ref r, ref it_num, ref it_diff, ref energy);
@@ -770,7 +774,8 @@ int DIM_NUM = 2;
             Console.WriteLine("  EPSILON (unit roundoff) =  " + double.Epsilon + "");
 
             typeMethods.r8mat_transpose_print(DIM_NUM, N, r, "  Generators (rows):");
-}
+        }
+
         static void test10()
 
             //****************************************************************************80
@@ -827,7 +832,7 @@ int DIM_NUM = 2;
 
             seed_init = seed;
 
-            CVTHaltonData data = new CVTHaltonData();
+            CVTHaltonData data = new CVTHaltonData(DIM_NUM);
 
             CentroidalVoronoi.cvt(ref data, DIM_NUM, N, batch, init, sample, sample_num, it_max, it_fixed,
                 ref seed, ref r, ref it_num, ref it_diff, ref energy);
@@ -851,7 +856,8 @@ int DIM_NUM = 2;
             typeMethods.r8mat_transpose_print_some(DIM_NUM, N, r, 1, 1, DIM_NUM, 10,
                 "  First 10 Generators (rows):");
 
-}
+        }
+
         static void test11()
 
             //****************************************************************************80
@@ -928,8 +934,8 @@ int DIM_NUM = 2;
             rank = -1;
             ngrid = 4;
 
-            CVTHaltonData data = new CVTHaltonData();
-            
+            CVTHaltonData data = new CVTHaltonData(DIM_NUM);
+
             BTuple.tuple_next_fast(ref data.tupledata, ngrid, DIM_NUM, rank, ref tuple);
             //
             //  Pick points on a grid.
@@ -968,7 +974,8 @@ int DIM_NUM = 2;
 
             typeMethods.r8mat_transpose_print(DIM_NUM, N, r, "  Generators (rows):");
 
-}
+        }
+
         static void test12()
 
             //****************************************************************************80
@@ -990,8 +997,8 @@ int DIM_NUM = 2;
             //    John Burkardt
             //
         {
-int N = 10;
-int DIM_NUM = 2;
+            int N = 10;
+            int DIM_NUM = 2;
 
             int batch;
             double energy = 0;
@@ -1055,7 +1062,7 @@ int DIM_NUM = 2;
             //
             batch = 1000;
             init = -1;
-            init_string =  "random";
+            init_string = "random";
             it_max = 0;
             it_fixed = 1;
             sample = 0;
@@ -1065,7 +1072,7 @@ int DIM_NUM = 2;
 
             seed_init = seed;
 
-            CVTHaltonData data = new CVTHaltonData();
+            CVTHaltonData data = new CVTHaltonData(DIM_NUM);
 
             CentroidalVoronoi.cvt(ref data, DIM_NUM, N, batch, init, sample, sample_num, it_max, it_fixed,
                 ref seed, ref r, ref it_num, ref it_diff, ref energy);
@@ -1102,7 +1109,7 @@ int DIM_NUM = 2;
 
             seed_init = seed;
 
-            data = new CVTHaltonData();
+            // data = new CVTHaltonData(DIM_NUM);
 
             CentroidalVoronoi.cvt(ref data, DIM_NUM, N, batch, init, sample, sample_num, it_max, it_fixed,
                 ref seed, ref r, ref it_num, ref it_diff, ref energy);
@@ -1139,7 +1146,7 @@ int DIM_NUM = 2;
 
             seed_init = seed;
 
-            data = new CVTHaltonData();
+            // data = new CVTHaltonData(DIM_NUM);
 
             CentroidalVoronoi.cvt(ref data, DIM_NUM, N, batch, init, sample, sample_num, it_max, it_fixed,
                 ref seed, ref r, ref it_num, ref it_diff, ref energy);
@@ -1161,7 +1168,8 @@ int DIM_NUM = 2;
             Console.WriteLine("  EPSILON (unit roundoff) =  " + double.Epsilon + "");
 
             typeMethods.r8mat_transpose_print(DIM_NUM, N, r, "  Generators (rows):");
-}
+        }
+
         static void test13()
 
             //****************************************************************************80
@@ -1221,7 +1229,7 @@ int DIM_NUM = 2;
 
             seed_init = seed;
 
-            CVTHaltonData data = new CVTHaltonData();
+            CVTHaltonData data = new CVTHaltonData(DIM_NUM);
 
             CentroidalVoronoi.cvt(ref data, DIM_NUM, N, batch, init, sample, sample_num, it_max, it_fixed,
                 ref seed, ref r, ref it_num, ref it_diff, ref energy);
@@ -1243,7 +1251,8 @@ int DIM_NUM = 2;
             Console.WriteLine("  EPSILON (unit roundoff) =  " + double.Epsilon + "");
 
             typeMethods.r8mat_write(file_out_name, DIM_NUM, N, r);
-}
+        }
+
         static void test14()
 
             //****************************************************************************80
@@ -1299,7 +1308,7 @@ int DIM_NUM = 2;
 
             seed_init = seed;
 
-            CVTHaltonData data = new CVTHaltonData();
+            CVTHaltonData data = new CVTHaltonData(DIM_NUM);
 
             CentroidalVoronoi.cvt(ref data, DIM_NUM, N, batch, init, sample, sample_num, it_max, it_fixed,
                 ref seed, ref r, ref it_num, ref it_diff, ref energy);

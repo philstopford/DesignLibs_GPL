@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.IntegralNS;
 using Burkardt.Types;
 
 namespace Burkardt
@@ -439,5 +440,75 @@ namespace Burkardt
                           / (nab - 1.0);
             }
         }
+        
+        public static double monomial_quadrature_jacobi ( int expon, double alpha, double beta,
+            int order, double[] w, double[] x )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    MONOMIAL_QUADRATURE_JACOBI applies a quadrature rule to a monomial.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    22 January 2008
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int EXPON, the exponent.
+        //
+        //    Input, double ALPHA, the exponent of (1-X) in the weight factor.
+        //
+        //    Input, double BETA, the exponent of (1+X) in the weight factor.
+        //
+        //    Input, int ORDER, the number of points in the rule.
+        //
+        //    Input, double W[ORDER], the quadrature weights.
+        //
+        //    Input, double X[ORDER], the quadrature points.
+        //
+        //    Output, double MONOMIAL_QUADRATURE_JACOBI, the quadrature error.
+        //
+        {
+            double exact;
+            int i;
+            double quad;
+            double quad_error;
+            //
+            //  Get the exact value of the integral of the unscaled monomial.
+            //
+            exact = Integral.jacobi_integral ( expon, alpha, beta );
+            //
+            //  Evaluate the unweighted monomial at the quadrature points.
+            //
+            quad = 0.0;
+            for ( i = 0; i < order; i++ )
+            {
+                quad = quad + w[i] * Math.Pow ( x[i], expon );
+            }
+            //
+            //  Absolute error for cases where exact integral is zero,
+            //  Relative error otherwise.
+            //
+            if ( exact == 0.0 )
+            {
+                quad_error = Math.Abs ( quad );
+            }
+            else
+            {
+                quad_error = Math.Abs ( quad - exact ) / Math.Abs ( exact );
+            }
+            return quad_error;
+        }
+        
     }
 }

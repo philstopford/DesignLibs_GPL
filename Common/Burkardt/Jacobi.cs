@@ -5,6 +5,66 @@ namespace Burkardt
 {
     public static class Jacobi
     {
+        public static double[] jacobi1 ( int n, double[] a, double[] b, double[] x )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    JACOBI1 carries out one step of the Jacobi iteration.
+        //
+        //  Discussion:
+        //
+        //    The linear system A*x=b is to be solved.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    13 January 2013
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order of the matrix.
+        //
+        //    Input, double A[N,N], the matrix.
+        //
+        //    Input, double B[N], the right hand side.
+        //
+        //    Input, double X[N], the current solution estimate.
+        //
+        //    Output, double JACOBI1[N], the solution estimate updated by
+        //    one step of the Jacobi iteration.
+        //
+        {
+            int i;
+            int j;
+            double[] x_new;
+
+            x_new = new double[n];
+
+            for ( i = 0; i < n; i++ )
+            {
+                x_new[i] = b[i];
+                for ( j = 0; j < n; j++ )
+                {
+                    if ( j != i )
+                    {
+                        x_new[i] = x_new[i] - a[i+j*n] * x[j];
+                    }
+                }
+                x_new[i] = x_new[i] / a[i+i*n];
+            }
+
+            return x_new;
+        }
+        
         public static void jacobi_eigenvalue(int n, double[] a, int it_max, ref double[] v,
         ref double[] d, ref int it_num, ref int rot_num )
 

@@ -2146,7 +2146,70 @@ namespace Burkardt.Types
             return vtmv;
         }
 
+        public static double r8mat_residual_norm ( int m, int n, double[] a, double[] x, double[] b )
 
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8MAT_RESIDUAL_NORM returns the norm of A*x-b.
+        //
+        //  Discussion:
+        //
+        //    A is an MxN R8MAT, a matrix of R8's.
+        //
+        //    X is an N R8VEC, and B is an M R8VEC.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    24 June 2011
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int M, N, the number of rows and columns of the matrix.
+        //
+        //    Input, double A[M,N], the M by N matrix.
+        //
+        //    Input, double X[N], the vector to be multiplied by A.
+        //
+        //    Input, double B[M], the right hand side vector.
+        //
+        //    Output, double R8MAT_RESIDUAL_NORM, the norm of A*x-b.
+        //
+        {
+            int i;
+            int j;
+            double[] r;
+            double r_norm;
+
+            r = new double[m];
+
+            for ( i = 0; i < m; i++ )
+            {
+                r[i] = - b[i];
+                for ( j = 0; j < n; j++ )
+                {
+                    r[i] = r[i] + a[i+j*m] * x[j];
+                }
+            }
+
+            r_norm = 0.0;
+            for ( i = 0; i < m; i++ )
+            {
+                r_norm = r_norm + r[i] * r[i];
+            }
+            r_norm = Math.Sqrt ( r_norm );
+            
+            return r_norm;
+        }
 
     }
 }

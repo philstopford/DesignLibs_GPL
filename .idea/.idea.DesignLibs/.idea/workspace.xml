@@ -173,6 +173,8 @@
     <projectFile>BurkhardtTest/Sampling/WishartTest/WishartTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Wedge/WedgeRulesTest/WedgeRulesTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Wedge/WedgeGridTest/WedgeGridTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Wedge/WedgeIntegralsTest/WedgeIntegralsTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Wedge/WedgeMonteCarloTest/WedgeMonteCarloTest.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="" />
@@ -202,9 +204,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/BurkhardtTest/FDM/FD1DWaveTest/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/FDM/FD2D_Heat_Steady.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/FDM/FD2DHeatSteadyTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Tessellation/CentroidalVoronoi.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Tessellation/CentroidalVoronoiTessellationTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/FEM/FEM_2D_Heat.cs" />
@@ -253,6 +252,9 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Wedge/Grid.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Wedge/WedgeGridTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Wedge/Integrals.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Wedge/WedgeIntegralsTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Wedge/MonteCarlo.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Wedge/WedgeMonteCarloTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -3312,6 +3314,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="WedgeMonteCarloTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Wedge/WedgeMonteCarloTest/WedgeMonteCarloTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="WedgeRulesTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -3615,6 +3635,7 @@
       <item itemvalue=".NET Project.WedgeRulesTest" />
       <item itemvalue=".NET Project.WedgeGridTest" />
       <item itemvalue=".NET Project.WedgeIntegralsTest" />
+      <item itemvalue=".NET Project.WedgeMonteCarloTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

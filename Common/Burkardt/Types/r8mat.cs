@@ -2211,5 +2211,92 @@ namespace Burkardt.Types
             return r_norm;
         }
 
+        public static double r8mat_is_eigen_right ( int n, int k, double[] a, double[] x,
+        double[] lambda )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8MAT_IS_EIGEN_RIGHT determines the error in a (right) eigensystem.
+        //
+        //  Discussion:
+        //
+        //    An R8MAT is a matrix of doubles.
+        //
+        //    This routine computes the Frobenius norm of
+        //
+        //      A * X - X * LAMBDA
+        //
+        //    where
+        //
+        //      A is an N by N matrix,
+        //      X is an N by K matrix (each of K columns is an eigenvector)
+        //      LAMBDA is a K by K diagonal matrix of eigenvalues.
+        //
+        //    This routine assumes that A, X and LAMBDA are all real.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    07 October 2010
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order of the matrix.
+        //
+        //    Input, int K, the number of eigenvectors.
+        //    K is usually 1 or N.
+        //
+        //    Input, double A[N*N], the matrix.
+        //
+        //    Input, double X[N*K], the K eigenvectors.
+        //
+        //    Input, double LAMBDA[K], the K eigenvalues.
+        //
+        //    Output, double R8MAT_IS_EIGEN_RIGHT, the Frobenius norm
+        //    of the difference matrix A * X - X * LAMBDA, which would be exactly zero
+        //    if X and LAMBDA were exact eigenvectors and eigenvalues of A.
+        //
+        {
+            double[] c;
+            double error_frobenius;
+            int i;
+            int j;
+            int l;
+
+            c = new double[n*k];
+
+            for ( j = 0; j < k; j++ )
+            {
+                for ( i = 0; i < n; i++ )
+                {
+                    c[i+j*n] = 0.0;
+                    for ( l = 0; l < n; l++ )
+                    {
+                        c[i+j*n] = c[i+j*n] + a[i+l*n] * x[l+j*n];
+                    }
+                }
+            }
+
+            for ( j = 0; j < k; j++ )
+            {
+                for ( i = 0; i < n; i++ )
+                {
+                    c[i+j*n] = c[i+j*n] - lambda[j] * x[i+j*n];
+                }
+            }
+
+            error_frobenius = r8mat_norm_fro ( n, k, c );
+            
+            return error_frobenius;
+        }
     }
 }

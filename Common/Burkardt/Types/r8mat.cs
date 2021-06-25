@@ -2298,5 +2298,98 @@ namespace Burkardt.Types
             
             return error_frobenius;
         }
+        
+        public static void r8mat_add ( int m, int n, double[] a, ref double[] b )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8MAT_ADD adds one R8MAT to another.
+        //
+        //  Discussion:
+        //
+        //    An R8MAT is a doubly dimensioned array of R8 values, stored as a vector
+        //    in column-major order.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    31 July 2013
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int M, N, the number of rows and columns.
+        //
+        //    Input, double A[M*N], the matrix to add.
+        //
+        //    Input/output, double B[M*N], the matrix to be incremented.
+        //
+        {
+            int i;
+            int j;
+
+            for ( j = 0; j < n; j++ )
+            {
+                for ( i = 0; i < m; i++ )
+                {
+                    b[i+j*m] = b[i+j*m] + a[i+j*m];
+                }
+            }
+        }
+        
+        public static void r8mat_divide ( int m, int n, double s, ref double[] a )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8MAT_DIVIDE divides an R8MAT by a scalar.
+            //
+            //  Discussion:
+            //
+            //    An R8MAT is a doubly dimensioned array of R8 values, stored as a vector
+            //    in column-major order.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 August 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns.
+            //
+            //    Input, double S, the divisor
+            //
+            //    Input/output, double A[M*N], the matrix to be scaled.
+            //
+        {
+            int i;
+            int j;
+
+            for ( j = 0; j < n; j++ )
+            {
+                for ( i = 0; i < m; i++ )
+                {
+                    a[i+j*m] = a[i+j*m] / s;
+                }
+            }
+        }
+        
     }
 }

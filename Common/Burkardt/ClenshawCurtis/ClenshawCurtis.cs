@@ -117,6 +117,73 @@ namespace Burkardt
             return;
         }
 
+        public static double[] cc_compute_points ( int n )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    CC_COMPUTE_POINTS computes Clenshaw Curtis quadrature points.
+            //
+            //  Discussion:
+            //
+            //    Our convention is that the abscissas are numbered from left to right.
+            //
+            //    This rule is defined on [-1,1].
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    30 September 2012
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order of the rule.
+            //
+            //    Output, double CC_COMPUTE_POINTS[N], the abscissas.
+            //
+        {
+            int i;
+            double[] x;
+
+            if ( n < 1 )
+            {
+                Console.WriteLine("");
+                Console.WriteLine("CC_COMPUTE_POINTS - Fatal error!");
+                Console.WriteLine("  N < 1.");
+                return null;
+            }
+
+            x = new double[n];
+
+            if ( n == 1 )
+            {
+                x[0] = 0.0;
+            }
+            else
+            {
+                for ( i = 1; i <= n; i++ )
+                {
+                    x[i-1] =  Math.Cos ( ( double ) ( n - i ) * Math.PI 
+                                    / ( double ) ( n - 1     ) );
+                }
+                x[0] = -1.0;
+                if ( ( n % 2 ) == 1 )
+                {
+                    x[(n-1)/2] = 0.0;
+                }
+                x[n-1] = +1.0;
+            }
+            return x;
+        }
+        
         public static double[] ccn_compute_points_new(int n)
 
             //****************************************************************************80

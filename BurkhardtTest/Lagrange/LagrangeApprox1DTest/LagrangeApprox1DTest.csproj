@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net5.0</TargetFramework>
+        <RootNamespace>Lagrange1DTest</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\Common\Burkardt\Burkardt.csproj" />
+      <ProjectReference Include="..\..\Interpolation\InterpTestData\InterpTestData.csproj" />
+    </ItemGroup>
+
+</Project>

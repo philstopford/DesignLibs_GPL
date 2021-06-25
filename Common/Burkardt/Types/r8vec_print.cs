@@ -90,7 +90,7 @@ namespace Burkardt.Types
             }
         }
         
-        public static void r8vec_print(int n, double[] a, string title)
+        public static void r8vec_print(int n, double[] a, string title, int aIndex = 0)
             //****************************************************************************80
             //
             //  Purpose:
@@ -128,7 +128,7 @@ namespace Burkardt.Types
             for (int i = 0; i < n; i++)
             {
                 Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                       + ": " + a[i].ToString().PadLeft(14) + "");
+                                       + ": " + a[aIndex + i].ToString().PadLeft(14) + "");
             }
         }
          public static void r8vec_print_part(int n, double[] a, int max_print, string title )

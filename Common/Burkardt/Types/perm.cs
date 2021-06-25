@@ -5,6 +5,67 @@ namespace Burkardt.Types
 {
     public static partial class typeMethods
     {
+        
+        public static void perm_check0 ( int n, int[] p )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    PERM_CHECK0 checks a 0-based permutation.
+            //
+            //  Discussion:
+            //
+            //    The routine verifies that each of the integers from 0 to
+            //    to N-1 occurs among the N entries of the permutation.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    24 October 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries.
+            //
+            //    Input, int P[N], the array to check.
+            //
+        {
+            int ierror;
+            int location;
+            int value;
+
+            for ( value = 0; value < n; value++ )
+            {
+                ierror = 1;
+
+                for ( location = 0; location < n; location++ )
+                {
+                    if ( p[location] == value )
+                    {
+                        ierror = 0;
+                        break;
+                    }
+                }
+
+                if ( ierror != 0 )
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("PERM_CHECK0 - Fatal error!");
+                    Console.WriteLine("  Permutation is missing value " + value + "");
+                    return;
+                }
+
+            }
+        }
+        
         public static int[] perm_uniform(int n, int base_, ref int seed)
             //****************************************************************************80
             //

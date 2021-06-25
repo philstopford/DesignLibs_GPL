@@ -7,6 +7,55 @@ namespace Burkardt.Types
 {
     public static partial class typeMethods
     {
+        public static void i4vec_concatenate ( int n1, int[] a, int n2, int[] b, ref int[] c )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    I4VEC_CONCATENATE concatenates two I4VEC's.
+        //
+        //  Discussion:
+        //
+        //    An I4VEC is a vector of I4's.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    22 November 2013
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N1, the number of entries in the first vector.
+        //
+        //    Input, int A[N1], the first vector.
+        //
+        //    Input, int N2, the number of entries in the second vector.
+        //
+        //    Input, int B[N2], the second vector.
+        //
+        //    Output, int C[N1+N2], the concatenated vector.
+        //
+        {
+            int i;
+
+            for ( i = 0; i < n1; i++ )
+            {
+                c[i] = a[i];
+            }
+            for ( i = 0; i < n2; i++ )
+            {
+                c[n1+i] = b[i];
+            }
+        }
+        
         public static int i4vec_product(int n, int[] a, int aIndex = 0)
 
             //****************************************************************************80
@@ -934,6 +983,139 @@ namespace Burkardt.Types
                 Console.WriteLine("  " + i.ToString().PadLeft(8)
                                        + ": " + a[i].ToString().PadLeft(8) + "");
             }
+        }
+
+        public static int[] i4vec_sort_heap_index_a(int n, int[] a)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_SORT_HEAP_INDEX_A does an indexed heap ascending sort of an I4VEC.
+            //
+            //  Discussion:
+            //
+            //    An I4VEC is a vector of I4's.
+            //
+            //    The sorting is not actually carried out.  Rather an index array is
+            //    created which defines the sorting.  This array may be used to sort
+            //    or index the array, or to sort or index related arrays keyed on the
+            //    original array.
+            //
+            //    Once the index array is computed, the sorting can be carried out
+            //    "implicitly:
+            //
+            //      a(indx(*))
+            //
+            //    or explicitly, by the call
+            //
+            //      i4vec_permute ( n, indx, a )
+            //
+            //    after which a(*) is sorted.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    03 June 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in the array.
+            //
+            //    Input, int A[N], an array to be index-sorted.
+            //
+            //    Output, int I4VEC_SORT_HEAP_INDEX_A[N], contains the sort index.  The
+            //    I-th element of the sorted array is A(INDX(I)).
+            //
+        {
+            int aval;
+            int i;
+            int[] indx;
+            int indxt;
+            int ir;
+            int j;
+            int l;
+
+            if (n < 1)
+            {
+                return null;
+            }
+
+            indx = new int[n];
+
+            for (i = 0; i < n; i++)
+            {
+                indx[i] = i;
+            }
+
+            if (n == 1)
+            {
+                indx[0] = indx[0];
+                return indx;
+            }
+
+            l = n / 2 + 1;
+            ir = n;
+
+            for (;;)
+            {
+
+                if (1 < l)
+                {
+                    l = l - 1;
+                    indxt = indx[l - 1];
+                    aval = a[indxt];
+                }
+                else
+                {
+                    indxt = indx[ir - 1];
+                    aval = a[indxt];
+                    indx[ir - 1] = indx[0];
+                    ir = ir - 1;
+
+                    if (ir == 1)
+                    {
+                        indx[0] = indxt;
+                        break;
+                    }
+                }
+
+                i = l;
+                j = l + l;
+
+                while (j <= ir)
+                {
+                    if (j < ir)
+                    {
+                        if (a[indx[j - 1]] < a[indx[j]])
+                        {
+                            j = j + 1;
+                        }
+                    }
+
+                    if (aval < a[indx[j - 1]])
+                    {
+                        indx[i - 1] = indx[j - 1];
+                        i = j;
+                        j = j + j;
+                    }
+                    else
+                    {
+                        j = ir + 1;
+                    }
+                }
+
+                indx[i - 1] = indxt;
+            }
+
+            return indx;
         }
 
         public static void i4vec_sort_heap_a(int n, ref int[] a)

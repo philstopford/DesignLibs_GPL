@@ -1,4 +1,7 @@
-﻿namespace Burkardt
+﻿using System;
+using Burkardt.Types;
+
+namespace Burkardt
 {
     public class CompNZData
     {
@@ -8,6 +11,136 @@
 
     public static class Comp
     {
+        public static int[] comp_unrank_grlex(int kc, int rank)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    COMP_UNRANK_GRLEX computes the composition of given grlex rank.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    11 December 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int KC, the number of parts of the composition.
+            //    1 <= KC.
+            //
+            //    Input, int RANK, the rank of the composition.
+            //    1 <= RANK.
+            //
+            //    Output, int COMP_UNRANK_GRLEX[KC], the composition XC of the given rank.
+            //    For each I, 0 <= XC[I] <= NC, and 
+            //    sum ( 1 <= I <= KC ) XC[I] = NC.
+            //
+        {
+            int i;
+            int j;
+            int ks;
+            int nc;
+            int ns;
+            int r;
+            int rank1;
+            int rank2;
+            int[] xc;
+            int[] xs;
+            //
+            //  Ensure that 1 <= KC.
+            //
+            if (kc < 1)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("COMP_UNRANK_GRLEX - Fatal error!");
+                Console.WriteLine("  KC < 1");
+                return null;
+            }
+
+            //
+            //  Ensure that 1 <= RANK.
+            //
+            if (rank < 1)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("COMP_UNRANK_GRLEX - Fatal error!");
+                Console.WriteLine("  RANK < 1");
+                return null;
+            }
+
+            //
+            //  Determine the appropriate value of NC.
+            //  Do this by adding up the number of compositions of sum 0, 1, 2, 
+            //  ..., without exceeding RANK.  Moreover, RANK - this sum essentially
+            //  gives you the rank of the composition within the set of compositions
+            //  of sum NC.  And that's the number you need in order to do the
+            //  unranking.
+            //
+            rank1 = 1;
+            nc = -1;
+            for (;;)
+            {
+                nc = nc + 1;
+                r = typeMethods.i4_choose(nc + kc - 1, nc);
+                if (rank < rank1 + r)
+                {
+                    break;
+                }
+
+                rank1 = rank1 + r;
+            }
+
+            rank2 = rank - rank1;
+            //
+            //  Convert to KSUBSET format.
+            //  Apology: an unranking algorithm was available for KSUBSETS,
+            //  but not immediately for compositions.  One day we will come back
+            //  and simplify all this.
+            //
+            ks = kc - 1;
+            ns = nc + kc - 1;
+            xs = new int[ks];
+
+            j = 1;
+
+            for (i = 1; i <= ks; i++)
+            {
+                r = typeMethods.i4_choose(ns - j, ks - i);
+
+                while (r <= rank2 && 0 < r)
+                {
+                    rank2 = rank2 - r;
+                    j = j + 1;
+                    r = typeMethods.i4_choose(ns - j, ks - i);
+                }
+
+                xs[i - 1] = j;
+                j = j + 1;
+            }
+
+            //
+            //  Convert from KSUBSET format to COMP format.
+            //
+            xc = new int[kc];
+            xc[0] = xs[0] - 1;
+            for (i = 2; i < kc; i++)
+            {
+                xc[i - 1] = xs[i - 1] - xs[i - 2] - 1;
+            }
+
+            xc[kc - 1] = ns - xs[ks - 1];
+            
+            return xc;
+        }
+
         public static void comp_next(int n, int k, ref int[] a, ref bool more, ref int h, ref int t)
             //****************************************************************************80
             //

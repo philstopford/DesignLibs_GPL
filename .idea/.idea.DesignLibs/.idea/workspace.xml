@@ -251,7 +251,6 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Search.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Order3_Quad.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Order6_Refine.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Delauney.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/triangle.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_bracket.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Order3_Sample.cs" />
@@ -260,6 +259,7 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Helpers.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/TriangulationTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Order4_Plot.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Delauney.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />

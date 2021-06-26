@@ -6,48 +6,48 @@ namespace Burkardt.Types
 {
     public static partial class typeMethods
     {
-        public static void lvec_print ( int n, bool[] a, string title )
+        public static void lvec_print(int n, bool[] a, string title)
 
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    LVEC_PRINT prints a logical vector.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    03 April 2005
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int N, the number of components of the vector.
-        //
-        //    Input, bool A[N], the vector to be printed.
-        //
-        //    Input, string TITLE, a title.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    LVEC_PRINT prints a logical vector.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    03 April 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of components of the vector.
+            //
+            //    Input, bool A[N], the vector to be printed.
+            //
+            //    Input, string TITLE, a title.
+            //
         {
             int i;
 
             Console.WriteLine("");
             Console.WriteLine(title + "");
             Console.WriteLine("");
-            for ( i = 0; i < n; i++ )
+            for (i = 0; i < n; i++)
             {
                 Console.WriteLine("  " + i.ToString().PadLeft(8)
-                    + "  " + a[i].ToString().PadLeft(1)  + "");
+                                       + "  " + a[i].ToString().PadLeft(1) + "");
             }
         }
-        
-        public static void lvec_next ( int n, ref bool[] lvec )
+
+        public static void lvec_next(int n, ref bool[] lvec)
 
             //****************************************************************************80
             //
@@ -107,18 +107,20 @@ namespace Burkardt.Types
         {
             int i;
 
-            for ( i = n - 1; 0 <= i; i-- )
+            for (i = n - 1; 0 <= i; i--)
             {
-                if ( !lvec[i] )
+                if (!lvec[i])
                 {
                     lvec[i] = true;
                     return;
                 }
+
                 lvec[i] = false;
             }
+
             return;
         }
-        
+
         public static int get_seed()
         {
             return RNG.nextint(1, Int32.MaxValue);
@@ -343,7 +345,7 @@ namespace Burkardt.Types
 
             return value;
         }
-        
+
         public static int diaedg(double x0, double y0, double x1, double y1, double x2, double y2,
                 double x3, double y3)
 
@@ -459,72 +461,76 @@ namespace Burkardt.Types
         }
 
 
-        public static int swapec(int i, ref int top, ref int btri, ref int bedg, int point_num,
-                double[] point_xy, int tri_num, ref int[] tri_vert, ref int[] tri_nabe,
-                int[] stack)
+        public static int swapec(int i, ref int top, ref int btri, ref int bedg, int node_num,
+            double[] node_xy, int triangle_num, ref int[] triangle_node,
+        ref int[] triangle_neighbor, int[] stack )
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    SWAPEC swaps diagonal edges until all triangles are Delaunay.
-            //
-            //  Discussion:
-            //
-            //    The routine swaps diagonal edges in a 2D triangulation, based on
-            //    the empty circumcircle criterion, until all triangles are Delaunay,
-            //    given that I is the index of the new vertex added to the triangulation.
-            //
-            //  Modified:
-            //
-            //    03 September 2003
-            //
-            //  Author:
-            //
-            //    Original FORTRAN77 version by Barry Joe.
-            //    C++ version by John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Barry Joe,
-            //    GEOMPACK - a software package for the generation of meshes
-            //    using geometric algorithms,
-            //    Advances in Engineering Software,
-            //    Volume 13, pages 325-331, 1991.
-            //
-            //  Parameters:
-            //
-            //    Input, int I, the index of the new vertex.
-            //
-            //    Input/output, int *TOP, the index of the top of the stack.
-            //    On output, TOP is zero.
-            //
-            //    Input/output, int *BTRI, *BEDG; on input, if positive, are the
-            //    triangle and edge indices of a boundary edge whose updated indices
-            //    must be recorded.  On output, these may be updated because of swaps.
-            //
-            //    Input, int POINT_NUM, the number of points.
-            //
-            //    Input, double POINT_XY[POINT_NUM*2], the coordinates of the points.
-            //
-            //    Input, int TRI_NUM, the number of triangles.
-            //
-            //    Input/output, int TRI_VERT[TRI_NUM*3], the triangle incidence list.
-            //    May be updated on output because of swaps.
-            //
-            //    Input/output, int TRI_NABE[TRI_NUM*3], the triangle neighbor list;
-            //    negative values are used for links of the counter-clockwise linked
-            //    list of boundary edges;  May be updated on output because of swaps.
-            //
-            //      LINK = -(3*I + J-1) where I, J = triangle, edge index.
-            //
-            //    Workspace, int STACK[MAXST]; on input, entries 1 through TOP
-            //    contain the indices of initial triangles (involving vertex I)
-            //    put in stack; the edges opposite I should be in interior;  entries
-            //    TOP+1 through MAXST are used as a stack.
-            //
-            //    Output, int SWAPEC, is set to 8 for abnormal return.
-            //
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    SWAPEC swaps diagonal edges until all triangles are Delaunay.
+        //
+        //  Discussion:
+        //
+        //    The routine swaps diagonal edges in a 2D triangulation, based on
+        //    the empty circumcircle criterion, until all triangles are Delaunay,
+        //    given that I is the index of the new vertex added to the triangulation.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    03 September 2003
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Barry Joe.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Barry Joe,
+        //    GEOMPACK - a software package for the generation of meshes
+        //    using geometric algorithms,
+        //    Advances in Engineering Software,
+        //    Volume 13, pages 325-331, 1991.
+        //
+        //  Parameters:
+        //
+        //    Input, int I, the index of the new vertex.
+        //
+        //    Input/output, int *TOP, the index of the top of the stack.
+        //    On output, TOP is zero.
+        //
+        //    Input/output, int *BTRI, *BEDG; on input, if positive, are the
+        //    triangle and edge indices of a boundary edge whose updated indices
+        //    must be recorded.  On output, these may be updated because of swaps.
+        //
+        //    Input, int NODE_NUM, the number of nodes.
+        //
+        //    Input, double NODE_XY[2*NODE_NUM], the coordinates of the nodes.
+        //
+        //    Input, int TRIANGLE_NUM, the number of triangles.
+        //
+        //    Input/output, int TRIANGLE_NODE[3*TRIANGLE_NUM], the triangle incidence
+        //    list.  May be updated on output because of swaps.
+        //
+        //    Input/output, int TRIANGLE_NEIGHBOR[3*TRIANGLE_NUM], the triangle neighbor
+        //    list; negative values are used for links of the counter-clockwise linked
+        //    list of boundary edges;  May be updated on output because of swaps.
+        //
+        //      LINK = -(3*I + J-1) where I, J = triangle, edge index.
+        //
+        //    Workspace, int STACK[MAXST]; on input, entries 1 through TOP
+        //    contain the indices of initial triangles (involving vertex I)
+        //    put in stack; the edges opposite I should be in interior;  entries
+        //    TOP+1 through MAXST are used as a stack.
+        //
+        //    Output, int SWAPEC, is set to 8 for abnormal return.
+        //
         {
             int a;
             int b;
@@ -549,8 +555,8 @@ namespace Burkardt.Types
             //  Determine whether triangles in stack are Delaunay, and swap
             //  diagonal edge of convex quadrilateral if not.
             //
-            x = point_xy[2 * (i - 1) + 0];
-            y = point_xy[2 * (i - 1) + 1];
+            x = node_xy[2 * (i - 1) + 0];
+            y = node_xy[2 * (i - 1) + 1];
 
             for (;;)
             {
@@ -562,45 +568,45 @@ namespace Burkardt.Types
                 t = stack[(top) - 1];
                 top = top - 1;
 
-                if (tri_vert[3 * (t - 1) + 0] == i)
+                if (triangle_node[3 * (t - 1) + 0] == i)
                 {
                     e = 2;
-                    b = tri_vert[3 * (t - 1) + 2];
+                    b = triangle_node[3 * (t - 1) + 2];
                 }
-                else if (tri_vert[3 * (t - 1) + 1] == i)
+                else if (triangle_node[3 * (t - 1) + 1] == i)
                 {
                     e = 3;
-                    b = tri_vert[3 * (t - 1) + 0];
+                    b = triangle_node[3 * (t - 1) + 0];
                 }
                 else
                 {
                     e = 1;
-                    b = tri_vert[3 * (t - 1) + 1];
+                    b = triangle_node[3 * (t - 1) + 1];
                 }
 
-                a = tri_vert[3 * (t - 1) + e - 1];
-                u = tri_nabe[3 * (t - 1) + e - 1];
+                a = triangle_node[3 * (t - 1) + e - 1];
+                u = triangle_neighbor[3 * (t - 1) + e - 1];
 
-                if (tri_nabe[3 * (u - 1) + 0] == t)
+                if (triangle_neighbor[3 * (u - 1) + 0] == t)
                 {
                     f = 1;
-                    c = tri_vert[3 * (u - 1) + 2];
+                    c = triangle_node[3 * (u - 1) + 2];
                 }
-                else if (tri_nabe[3 * (u - 1) + 1] == t)
+                else if (triangle_neighbor[3 * (u - 1) + 1] == t)
                 {
                     f = 2;
-                    c = tri_vert[3 * (u - 1) + 0];
+                    c = triangle_node[3 * (u - 1) + 0];
                 }
                 else
                 {
                     f = 3;
-                    c = tri_vert[3 * (u - 1) + 1];
+                    c = triangle_node[3 * (u - 1) + 1];
                 }
 
                 swap = diaedg(x, y,
-                    point_xy[2 * (a - 1) + 0], point_xy[2 * (a - 1) + 1],
-                    point_xy[2 * (c - 1) + 0], point_xy[2 * (c - 1) + 1],
-                    point_xy[2 * (b - 1) + 0], point_xy[2 * (b - 1) + 1]);
+                    node_xy[2 * (a - 1) + 0], node_xy[2 * (a - 1) + 1],
+                    node_xy[2 * (c - 1) + 0], node_xy[2 * (c - 1) + 1],
+                    node_xy[2 * (b - 1) + 0], node_xy[2 * (b - 1) + 1]);
 
                 if (swap == 1)
                 {
@@ -609,16 +615,16 @@ namespace Burkardt.Types
                     fm1 = i4_wrap(f - 1, 1, 3);
                     fp1 = i4_wrap(f + 1, 1, 3);
 
-                    tri_vert[3 * (t - 1) + ep1 - 1] = c;
-                    tri_vert[3 * (u - 1) + fp1 - 1] = i;
-                    r = tri_nabe[3 * (t - 1) + ep1 - 1];
-                    s = tri_nabe[3 * (u - 1) + fp1 - 1];
-                    tri_nabe[3 * (t - 1) + ep1 - 1] = u;
-                    tri_nabe[3 * (u - 1) + fp1 - 1] = t;
-                    tri_nabe[3 * (t - 1) + e - 1] = s;
-                    tri_nabe[3 * (u - 1) + f - 1] = r;
+                    triangle_node[3 * (t - 1) + ep1 - 1] = c;
+                    triangle_node[3 * (u - 1) + fp1 - 1] = i;
+                    r = triangle_neighbor[3 * (t - 1) + ep1 - 1];
+                    s = triangle_neighbor[3 * (u - 1) + fp1 - 1];
+                    triangle_neighbor[3 * (t - 1) + ep1 - 1] = u;
+                    triangle_neighbor[3 * (u - 1) + fp1 - 1] = t;
+                    triangle_neighbor[3 * (t - 1) + e - 1] = s;
+                    triangle_neighbor[3 * (u - 1) + f - 1] = r;
 
-                    if (0 < tri_nabe[3 * (u - 1) + fm1 - 1])
+                    if (0 < triangle_neighbor[3 * (u - 1) + fm1 - 1])
                     {
                         top = top + 1;
                         stack[(top) - 1] = u;
@@ -626,22 +632,22 @@ namespace Burkardt.Types
 
                     if (0 < s)
                     {
-                        if (tri_nabe[3 * (s - 1) + 0] == u)
+                        if (triangle_neighbor[3 * (s - 1) + 0] == u)
                         {
-                            tri_nabe[3 * (s - 1) + 0] = t;
+                            triangle_neighbor[3 * (s - 1) + 0] = t;
                         }
-                        else if (tri_nabe[3 * (s - 1) + 1] == u)
+                        else if (triangle_neighbor[3 * (s - 1) + 1] == u)
                         {
-                            tri_nabe[3 * (s - 1) + 1] = t;
+                            triangle_neighbor[3 * (s - 1) + 1] = t;
                         }
                         else
                         {
-                            tri_nabe[3 * (s - 1) + 2] = t;
+                            triangle_neighbor[3 * (s - 1) + 2] = t;
                         }
 
                         top = top + 1;
 
-                        if (point_num < top)
+                        if (node_num < top)
                         {
                             return 8;
                         }
@@ -660,15 +666,15 @@ namespace Burkardt.Types
                         tt = t;
                         ee = em1;
 
-                        while (0 < tri_nabe[3 * (tt - 1) + ee - 1])
+                        while (0 < triangle_neighbor[3 * (tt - 1) + ee - 1])
                         {
-                            tt = tri_nabe[3 * (tt - 1) + ee - 1];
+                            tt = triangle_neighbor[3 * (tt - 1) + ee - 1];
 
-                            if (tri_vert[3 * (tt - 1) + 0] == a)
+                            if (triangle_node[3 * (tt - 1) + 0] == a)
                             {
                                 ee = 3;
                             }
-                            else if (tri_vert[3 * (tt - 1) + 1] == a)
+                            else if (triangle_node[3 * (tt - 1) + 1] == a)
                             {
                                 ee = 1;
                             }
@@ -679,23 +685,23 @@ namespace Burkardt.Types
 
                         }
 
-                        tri_nabe[3 * (tt - 1) + ee - 1] = l;
+                        triangle_neighbor[3 * (tt - 1) + ee - 1] = l;
 
                     }
 
                     if (0 < r)
                     {
-                        if (tri_nabe[3 * (r - 1) + 0] == t)
+                        if (triangle_neighbor[3 * (r - 1) + 0] == t)
                         {
-                            tri_nabe[3 * (r - 1) + 0] = u;
+                            triangle_neighbor[3 * (r - 1) + 0] = u;
                         }
-                        else if (tri_nabe[3 * (r - 1) + 1] == t)
+                        else if (triangle_neighbor[3 * (r - 1) + 1] == t)
                         {
-                            tri_nabe[3 * (r - 1) + 1] = u;
+                            triangle_neighbor[3 * (r - 1) + 1] = u;
                         }
                         else
                         {
-                            tri_nabe[3 * (r - 1) + 2] = u;
+                            triangle_neighbor[3 * (r - 1) + 2] = u;
                         }
                     }
                     else
@@ -710,15 +716,15 @@ namespace Burkardt.Types
                         tt = u;
                         ee = fm1;
 
-                        while (0 < tri_nabe[3 * (tt - 1) + ee - 1])
+                        while (0 < triangle_neighbor[3 * (tt - 1) + ee - 1])
                         {
-                            tt = tri_nabe[3 * (tt - 1) + ee - 1];
+                            tt = triangle_neighbor[3 * (tt - 1) + ee - 1];
 
-                            if (tri_vert[3 * (tt - 1) + 0] == b)
+                            if (triangle_node[3 * (tt - 1) + 0] == b)
                             {
                                 ee = 3;
                             }
-                            else if (tri_vert[3 * (tt - 1) + 1] == b)
+                            else if (triangle_node[3 * (tt - 1) + 1] == b)
                             {
                                 ee = 1;
                             }
@@ -726,11 +732,15 @@ namespace Burkardt.Types
                             {
                                 ee = 2;
                             }
+
                         }
 
-                        tri_nabe[3 * (tt - 1) + ee - 1] = l;
+                        triangle_neighbor[3 * (tt - 1) + ee - 1] = l;
+
                     }
+
                 }
+
             }
 
             return 0;

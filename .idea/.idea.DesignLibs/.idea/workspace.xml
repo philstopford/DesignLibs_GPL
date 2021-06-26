@@ -218,7 +218,6 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Order6_Order3.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Order6_VertexCount.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Order3_Print.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/VBEDG.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Order3_Neighbor.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Measure.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangle/Grid.cs" />
@@ -235,8 +234,6 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/TriangulationTest/TriangulationSampleDataOr6Ex1.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Voronoi.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/Polygon.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r82vec.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/perm.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Triangulation.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Area.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/NodeOrder.cs" />
@@ -246,7 +243,6 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Order3_Check.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Order3_Refine.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/NeighborElements.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/misc.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Delauney.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Search.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Order3_Quad.cs" />
@@ -256,10 +252,14 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Order3_Sample.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Order6_Adj.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Order6_Boundary.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Helpers.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/TriangulationTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Order4_Plot.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r82vec.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Helpers.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/misc.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/perm.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/VBEDG.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Delauney.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/TriangulationTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />

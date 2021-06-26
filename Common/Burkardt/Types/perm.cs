@@ -5,8 +5,8 @@ namespace Burkardt.Types
 {
     public static partial class typeMethods
     {
-        
-        public static void perm_check0 ( int n, int[] p )
+
+        public static void perm_check0(int n, int[] p)
 
             //****************************************************************************80
             //
@@ -42,20 +42,20 @@ namespace Burkardt.Types
             int location;
             int value;
 
-            for ( value = 0; value < n; value++ )
+            for (value = 0; value < n; value++)
             {
                 ierror = 1;
 
-                for ( location = 0; location < n; location++ )
+                for (location = 0; location < n; location++)
                 {
-                    if ( p[location] == value )
+                    if (p[location] == value)
                     {
                         ierror = 0;
                         break;
                     }
                 }
 
-                if ( ierror != 0 )
+                if (ierror != 0)
                 {
                     Console.WriteLine("");
                     Console.WriteLine("PERM_CHECK0 - Fatal error!");
@@ -65,7 +65,7 @@ namespace Burkardt.Types
 
             }
         }
-        
+
         public static int[] perm_uniform(int n, int base_, ref int seed)
             //****************************************************************************80
             //
@@ -768,7 +768,7 @@ namespace Burkardt.Types
             {
                 Console.WriteLine("");
                 Console.WriteLine("PERM_INVERSE - Fatal error!");
-                Console.WriteLine("  Input value of N = " + n + "");
+                Console.WriteLine("  Input value of N = " +n +"");
                 return;
             }
 
@@ -845,7 +845,6 @@ namespace Burkardt.Types
                 p[i] = p[i] + p_min - base_;
             }
         }
-
 
     }
 }

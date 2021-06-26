@@ -76,7 +76,7 @@ namespace Burkardt
 
             return p_min;
         }
-        
+
         public static int lrline(double xu, double yu, double xv1, double yv1, double xv2,
                 double yv2, double dv)
 

@@ -2593,8 +2593,6 @@ namespace TriangulationTest
             //    John Burkardt
             //
         {
-        
-        return;
             int DIM_NUM = 2;
             int NODE_NUM = 13;
             int TEST_NUM = 10;
@@ -2771,7 +2769,6 @@ namespace TriangulationTest
             //    John Burkardt
             //
         {
-            return;
             int DIM_NUM = 2;
             int NODE_NUM = 13;
             int TEST_NUM = 10;

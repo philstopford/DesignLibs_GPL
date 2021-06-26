@@ -273,8 +273,6 @@ namespace Burkardt.Types
             {
                 p[i] = -p[i];
             }
-
-            return;
         }
 
         public static void r82vec_permute(int n, int[] p, int base_, ref double[] a)
@@ -427,7 +425,6 @@ namespace Burkardt.Types
             {
                 p[i] = p[i] - 1 + base_;
             }
-
         }
 
         public static int[] r82vec_sort_heap_index_a(int n, int base_, double[] a)

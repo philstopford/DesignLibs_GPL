@@ -333,66 +333,66 @@ namespace Burkardt.TriangulationNS
 
             return value;
         }
-        
-        public static int r8tris2 ( int node_num, ref double[] node_xy, ref int triangle_num,
-        ref int[] triangle_node, ref int[] triangle_neighbor )
 
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    R8TRIS2 constructs a Delaunay triangulation of 2D vertices.
-        //
-        //  Discussion:
-        //
-        //    The routine constructs the Delaunay triangulation of a set of 2D vertices
-        //    using an incremental approach and diagonal edge swaps.  Vertices are
-        //    first sorted in lexicographically increasing (X,Y) order, and
-        //    then are inserted one at a time from outside the convex hull.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    15 January 2004
-        //
-        //  Author:
-        //
-        //    Original FORTRAN77 version by Barry Joe.
-        //    C++ version by John Burkardt.
-        //
-        //  Reference:
-        //
-        //    Barry Joe,
-        //    GEOMPACK - a software package for the generation of meshes
-        //    using geometric algorithms,
-        //    Advances in Engineering Software,
-        //    Volume 13, pages 325-331, 1991.
-        //
-        //  Parameters:
-        //
-        //    Input, int NODE_NUM, the number of nodes.
-        //
-        //    Input/output, double NODE_XY[2*NODE_NUM], the coordinates of the nodes.
-        //    On output, the coordinates have been sorted into dictionary order.
-        //
-        //    Output, int *TRIANGLE_NUM, the number of triangles in the triangulation;
-        //    TRIANGLE_NUM is equal to 2*node_num - NB - 2, where NB is the number
-        //    of boundary vertices.
-        //
-        //    Output, int TRIANGLE_NODE[3*TRIANGLE_NUM], the nodes that make up each
-        //    triangle.  The elements are indices of NODE_XY.  The vertices of the
-        //    triangles are in counterclockwise order.
-        //
-        //    Output, int TRIANGLE_NEIGHBOR[3*TRIANGLE_NUM], the triangle neighbor list.
-        //    Positive elements are indices of TIL; negative elements are used for links
-        //    of a counter clockwise linked list of boundary edges; LINK = -(3*I + J-1)
-        //    where I, J = triangle, edge index; TRIANGLE_NEIGHBOR[I,J] refers to
-        //    the neighbor along edge from vertex J to J+1 (mod 3).
-        //
-        //    Output, int R8TRIS2, is 0 for no error.
+        public static int r8tris2(int node_num, ref double[] node_xy, ref int triangle_num,
+                ref int[] triangle_node, ref int[] triangle_neighbor)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8TRIS2 constructs a Delaunay triangulation of 2D vertices.
+            //
+            //  Discussion:
+            //
+            //    The routine constructs the Delaunay triangulation of a set of 2D vertices
+            //    using an incremental approach and diagonal edge swaps.  Vertices are
+            //    first sorted in lexicographically increasing (X,Y) order, and
+            //    then are inserted one at a time from outside the convex hull.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    15 January 2004
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Barry Joe.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Barry Joe,
+            //    GEOMPACK - a software package for the generation of meshes
+            //    using geometric algorithms,
+            //    Advances in Engineering Software,
+            //    Volume 13, pages 325-331, 1991.
+            //
+            //  Parameters:
+            //
+            //    Input, int NODE_NUM, the number of nodes.
+            //
+            //    Input/output, double NODE_XY[2*NODE_NUM], the coordinates of the nodes.
+            //    On output, the coordinates have been sorted into dictionary order.
+            //
+            //    Output, int *TRIANGLE_NUM, the number of triangles in the triangulation;
+            //    TRIANGLE_NUM is equal to 2*node_num - NB - 2, where NB is the number
+            //    of boundary vertices.
+            //
+            //    Output, int TRIANGLE_NODE[3*TRIANGLE_NUM], the nodes that make up each
+            //    triangle.  The elements are indices of NODE_XY.  The vertices of the
+            //    triangles are in counterclockwise order.
+            //
+            //    Output, int TRIANGLE_NEIGHBOR[3*TRIANGLE_NUM], the triangle neighbor list.
+            //    Positive elements are indices of TIL; negative elements are used for links
+            //    of a counter clockwise linked list of boundary edges; LINK = -(3*I + J-1)
+            //    where I, J = triangle, edge index; TRIANGLE_NEIGHBOR[I,J] refers to
+            //    the neighbor along edge from vertex J to J+1 (mod 3).
+            //
+            //    Output, int R8TRIS2, is 0 for no error.
         {
             int base_;
             double cmax;
@@ -465,7 +465,7 @@ namespace Burkardt.TriangulationNS
                         + node_xy[2 * (m - 1) + 1] + "");
                     Console.WriteLine("  X,Y(M1) = " + node_xy[2 * (m1 - 1) + 0] + "  "
                         + node_xy[2 * (m1 - 1) + 1] + "");
-                    return 1;
+                    return (1);
                 }
 
             }

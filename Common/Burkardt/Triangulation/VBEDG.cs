@@ -1,4 +1,5 @@
-﻿using Burkardt.Types;
+﻿using System;
+using Burkardt.Types;
 
 namespace Burkardt.TriangulationNS
 {
@@ -101,36 +102,44 @@ namespace Burkardt.TriangulationNS
 
             for (;;)
             {
-                l = -triangle_neighbor[3 * ((rtri) - 1) + (redg) - 1];
-                t = l / 3;
-                e = 1 + l % 3;
-                a = triangle_node[3 * (t - 1) + e - 1];
-
-                if (e <= 2)
+                try
                 {
-                    b = triangle_node[3 * (t - 1) + e];
+                    l = -triangle_neighbor[3 * ((rtri) - 1) + (redg) - 1];
+                    t = l / 3;
+                    e = 1 + l % 3;
+                    a = triangle_node[3 * (t - 1) + e - 1];
+
+                    if (e <= 2)
+                    {
+                        b = triangle_node[3 * (t - 1) + e];
+                    }
+                    else
+                    {
+                        b = triangle_node[3 * (t - 1) + 0];
+                    }
+
+                    ax = node_xy[2 * (a - 1) + 0];
+                    ay = node_xy[2 * (a - 1) + 1];
+
+                    bx = node_xy[2 * (b - 1) + 0];
+                    by = node_xy[2 * (b - 1) + 1];
+
+                    lr = Helpers.lrline(x, y, ax, ay, bx, by, 0.0);
+
+                    if (lr <= 0)
+                    {
+                        break;
+                    }
+
+                    rtri = t;
+                    redg = e;
+
+
                 }
-                else
-                {
-                    b = triangle_node[3 * (t - 1) + 0];
-                }
-
-                ax = node_xy[2 * (a - 1) + 0];
-                ay = node_xy[2 * (a - 1) + 1];
-
-                bx = node_xy[2 * (b - 1) + 0];
-                by = node_xy[2 * (b - 1) + 1];
-
-                lr = Helpers.lrline(x, y, ax, ay, bx, by, 0.0);
-
-                if (lr <= 0)
+                catch
                 {
                     break;
                 }
-
-                rtri = t;
-                redg = e;
-
             }
 
             if (done)

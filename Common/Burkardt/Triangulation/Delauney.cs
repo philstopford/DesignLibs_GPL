@@ -606,41 +606,48 @@ namespace Burkardt.TriangulationNS
 
                 for (;;)
                 {
-                    t = l / 3;
-                    e = (l % 3) + 1;
-                    l = -triangle_neighbor[3 * (t - 1) + e - 1];
-                    m2 = triangle_node[3 * (t - 1) + e - 1];
-
-                    if (e <= 2)
+                    try
                     {
-                        m1 = triangle_node[3 * (t - 1) + e];
+                        t = l / 3;
+                        e = (l % 3) + 1;
+                        l = -triangle_neighbor[3 * (t - 1) + e - 1];
+                        m2 = triangle_node[3 * (t - 1) + e - 1];
+
+                        if (e <= 2)
+                        {
+                            m1 = triangle_node[3 * (t - 1) + e];
+                        }
+                        else
+                        {
+                            m1 = triangle_node[3 * (t - 1) + 0];
+                        }
+
+                        triangle_num = triangle_num + 1;
+                        triangle_neighbor[3 * (t - 1) + e - 1] = triangle_num;
+                        triangle_node[3 * (triangle_num - 1) + 0] = m1;
+                        triangle_node[3 * (triangle_num - 1) + 1] = m2;
+                        triangle_node[3 * (triangle_num - 1) + 2] = m;
+                        triangle_neighbor[3 * (triangle_num - 1) + 0] = t;
+                        triangle_neighbor[3 * (triangle_num - 1) + 1] = triangle_num - 1;
+                        triangle_neighbor[3 * (triangle_num - 1) + 2] = triangle_num + 1;
+                        top = top + 1;
+
+                        if (node_num < top)
+                        {
+                            Console.WriteLine("");
+                            Console.WriteLine("R8TRIS2 - Fatal error!");
+                            Console.WriteLine("  Stack overflow.");
+                            return 8;
+                        }
+
+                        stack[top - 1] = triangle_num;
+
+                        if (t == rtri && e == redg)
+                        {
+                            break;
+                        }
                     }
-                    else
-                    {
-                        m1 = triangle_node[3 * (t - 1) + 0];
-                    }
-
-                    triangle_num = triangle_num + 1;
-                    triangle_neighbor[3 * (t - 1) + e - 1] = triangle_num;
-                    triangle_node[3 * (triangle_num - 1) + 0] = m1;
-                    triangle_node[3 * (triangle_num - 1) + 1] = m2;
-                    triangle_node[3 * (triangle_num - 1) + 2] = m;
-                    triangle_neighbor[3 * (triangle_num - 1) + 0] = t;
-                    triangle_neighbor[3 * (triangle_num - 1) + 1] = triangle_num - 1;
-                    triangle_neighbor[3 * (triangle_num - 1) + 2] = triangle_num + 1;
-                    top = top + 1;
-
-                    if (node_num < top)
-                    {
-                        Console.WriteLine("");
-                        Console.WriteLine("R8TRIS2 - Fatal error!");
-                        Console.WriteLine("  Stack overflow.");
-                        return 8;
-                    }
-
-                    stack[top - 1] = triangle_num;
-
-                    if (t == rtri && e == redg)
+                    catch
                     {
                         break;
                     }

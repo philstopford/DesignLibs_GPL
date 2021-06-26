@@ -6,6 +6,279 @@ namespace Burkardt
 {
     public static partial class Helpers
     {
+        public static int points_point_near_naive_nd ( int dim_num, int nset, double[] pset,
+        double[] ptest, ref double d_min )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    POINTS_POINT_NEAR_NAIVE_ND finds the nearest point to a given point in ND.
+        //
+        //  Discussion:
+        //
+        //    A naive algorithm is used.  The distance to every point is calculated,
+        //    in order to determine the smallest.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    13 June 2005
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int DIM_NUM, the spatial dimension.
+        //
+        //    Input, int NSET, the number of points in the set.
+        //
+        //    Input, double PSET[DIM_NUM*NSET], the coordinates of the points
+        //    in the set.
+        //
+        //    Input, double PTEST[DIM_NUM], the point whose nearest neighbor is sought.
+        //
+        //    Output, double *D_MIN, the distance between P and PSET(*,I_MIN).
+        //
+        //    Output, int POINTS_POINT_NEAR_NAIVE_ND, I_MIN, the index of the nearest
+        //    point in PSET to P.
+        //
+        {
+            double d;
+            int i;
+            int j;
+            int p_min;
+
+            d_min = typeMethods.r8_huge ( );
+            p_min = -1;
+
+            for ( j = 0; j < nset; j++ )
+            {
+                d = 0.0;
+                for ( i = 0; i < dim_num; i++ )
+                {
+                    d = d + ( ptest[i] - pset[i+j*dim_num] )
+                        * ( ptest[i] - pset[i+j*dim_num] );
+                }
+                if ( d < d_min )
+                {
+                    d_min = d;
+                    p_min = j + 1;
+                }
+            }
+
+            d_min = Math.Sqrt ( d_min );
+
+            return p_min;
+        }
+        
+        public static int lrline(double xu, double yu, double xv1, double yv1, double xv2,
+                double yv2, double dv)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    LRLINE determines where a point lies in relation to a directed line.
+            //
+            //  Discussion:
+            //
+            //    LRLINE determines whether a point is to the left of, right of,
+            //    or on a directed line parallel to a line through given points.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    28 August 2003
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Barry Joe.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Barry Joe,
+            //    GEOMPACK - a software package for the generation of meshes
+            //    using geometric algorithms,
+            //    Advances in Engineering Software,
+            //    Volume 13, pages 325-331, 1991.
+            //
+            //  Parameters:
+            //
+            //    Input, double XU, YU, XV1, YV1, XV2, YV2, are vertex coordinates; the
+            //    directed line is parallel to and at signed distance DV to the left of
+            //    the directed line from (XV1,YV1) to (XV2,YV2); (XU,YU) is the vertex for
+            //    which the position relative to the directed line is to be determined.
+            //
+            //    Input, double DV, the signed distance, positive for left.
+            //
+            //    Output, int LRLINE, is +1, 0, or -1 depending on whether (XU,YU) is
+            //    to the right of, on, or left of the directed line.  LRLINE is 0 if
+            //    the line degenerates to a point.
+            //
+        {
+            double dx;
+            double dxu;
+            double dy;
+            double dyu;
+            double t;
+            double tol = 0.0000001;
+            double tolabs;
+            int value = 0;
+
+            dx = xv2 - xv1;
+            dy = yv2 - yv1;
+            dxu = xu - xv1;
+            dyu = yu - yv1;
+
+            tolabs = tol * Math.Max(Math.Abs(dx),
+                Math.Max(Math.Abs(dy),
+                    Math.Max(Math.Abs(dxu),
+                        Math.Max(Math.Abs(dyu), Math.Abs(dv)))));
+
+            t = dy * dxu - dx * dyu + dv * Math.Sqrt(dx * dx + dy * dy);
+
+            if (tolabs < t)
+            {
+                value = 1;
+            }
+            else if (-tolabs <= t)
+            {
+                value = 0;
+            }
+            else if (t < -tolabs)
+            {
+                value = -1;
+            }
+
+            return value;
+        }
+
+        public static double angle_rad_2d(double[] p1, double[] p2, double[] p3, int p1Index = 0, int p2Index = 0, int p3Index = 0)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    ANGLE_RAD_2D returns the angle in radians swept out between two rays in 2D.
+            //
+            //  Discussion:
+            //
+            //      ANGLE_RAD_2D ( P1, P2, P3 ) + ANGLE_RAD_2D ( P3, P2, P1 ) = 2 * PI
+            //
+            //        P1
+            //        /
+            //       /
+            //      /
+            //     /
+            //    P2--------->P3
+            //
+            //  Modified:
+            //
+            //    24 June 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double P1[2], P2[2], P3[2], define the rays
+            //    P1 - P2 and P3 - P2 which define the angle.
+            //
+            //    Output, double ANGLE_RAD_3D, the angle between the two rays,
+            //    in radians.  This value will always be between 0 and 2*PI.  If either ray has
+            //    zero length, then the angle is returned as zero.
+            //
+        {
+            int DIM_NUM = 2;
+
+            double[] p = new double[DIM_NUM];
+            double value;
+
+            p[0] = (p3[p3Index + 0] - p2[p2Index + 0]) * (p1[p1Index + 0] - p2[p2Index + 0])
+                   + (p3[p3Index + 1] - p2[p2Index + 1]) * (p1[p1Index + 1] - p2[p2Index + 1]);
+
+
+            p[1] = (p3[p3Index + 0] - p2[p2Index + 0]) * (p1[p1Index + 1] - p2[p2Index + 1])
+                   - (p3[p3Index + 1] - p2[p2Index + 1]) * (p1[p1Index + 0] - p2[p2Index + 0]);
+
+            if (p[0] == 0.0 && p[1] == 0.0)
+            {
+                value = 0.0;
+                return value;
+            }
+
+            value = Math.Atan2(p[1], p[0]);
+
+            if (value < 0.0)
+            {
+                value = value + 2.0 * Math.PI;
+            }
+
+            return value;
+        }
+
+        public static double arc_cosine(double c)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    ARC_COSINE computes the arc cosine function, with argument truncation.
+            //
+            //  Discussion:
+            //
+            //    If you call your system ACOS routine with an input argument that is
+            //    outside the range [-1.0, 1.0 ], you may get an unpleasant surprise.
+            //    This routine truncates arguments outside the range.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    13 June 2002
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double C, the argument, the cosine of an angle.
+            //
+            //    Output, double ARC_COSINE, an angle whose cosine is C.
+            //
+        {
+            double value;
+
+            if (c <= -1.0)
+            {
+                value = Math.PI;
+            }
+            else if (1.0 <= c)
+            {
+                value = 0.0;
+            }
+            else
+            {
+                value = Math.Acos(c);
+            }
+
+            return value;
+        }
+
         public static double inverse_error ( int n, double[] a, double[] b )
 
         //****************************************************************************80

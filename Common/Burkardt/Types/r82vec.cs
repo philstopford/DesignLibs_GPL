@@ -277,6 +277,311 @@ namespace Burkardt.Types
             return;
         }
 
+        public static void r82vec_permute(int n, int[] p, int base_, ref double[] a)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R82VEC_PERMUTE permutes an R82VEC in place.
+            //
+            //  Discussion:
+            //
+            //    An R82VEC is a vector whose entries are R82's.
+            //    An R82 is a vector of type double precision with two entries.
+            //    An R82VEC may be stored as a 2 by N array.
+            //
+            //    This routine permutes an array of real "objects", but the same
+            //    logic can be used to permute an array of objects of any arithmetic
+            //    type, or an array of objects of any complexity.  The only temporary
+            //    storage required is enough to store a single object.  The number
+            //    of data movements made is N + the number of cycles of order 2 or more,
+            //    which is never more than N + N/2.
+            //
+            //  Example:
+            //
+            //    Input:
+            //
+            //      N = 5
+            //      P = (   2,    4,    5,    1,    3 )
+            //      A = ( 1.0,  2.0,  3.0,  4.0,  5.0 )
+            //          (11.0, 22.0, 33.0, 44.0, 55.0 )
+            //
+            //    Output:
+            //
+            //      A    = (  2.0,  4.0,  5.0,  1.0,  3.0 )
+            //             ( 22.0, 44.0, 55.0, 11.0, 33.0 ).
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    30 October 2008
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of objects.
+            //
+            //    Input, int P[N], the permutation.  P(I) = J means
+            //    that the I-th element of the output array should be the J-th
+            //    element of the input array.
+            //
+            //    Input, int BASE, is 0 for a 0-based permutation and 1 for a 1-based permutation.
+            //
+            //    Input/output, double A[2*N], the array to be permuted.
+            //
+        {
+            double[] a_temp = new double[2];
+            int i;
+            int iget;
+            int iput;
+            int istart;
+
+            if (!perm_check2(n, p, base_))
+            {
+                Console.WriteLine("");
+                Console.WriteLine("R82VEC_PERMUTE - Fatal error!");
+                Console.WriteLine("  PERM_CHECK rejects this permutation.");
+                return;
+            }
+
+            //
+            //  In order for the sign negation trick to work, we need to assume that the
+            //  entries of P are strictly positive.  Presumably, the lowest number is BASE.
+            //  So temporarily add 1-BASE to each entry to force positivity.
+            //
+            for (i = 0; i < n; i++)
+            {
+                p[i] = p[i] + 1 - base_;
+            }
+
+            //
+            //  Search for the next element of the permutation that has not been used.
+            //
+            for (istart = 1; istart <= n; istart++)
+            {
+                if (p[istart - 1] < 0)
+                {
+                    continue;
+                }
+                else if (p[istart - 1] == istart)
+                {
+                    p[istart - 1] = -p[istart - 1];
+                    continue;
+                }
+                else
+                {
+                    a_temp[0] = a[0 + (istart - 1) * 2];
+                    a_temp[1] = a[1 + (istart - 1) * 2];
+                    iget = istart;
+                    //
+                    //  Copy the new value into the vacated entry.
+                    //
+                    for (;;)
+                    {
+                        iput = iget;
+                        iget = p[iget - 1];
+
+                        p[iput - 1] = -p[iput - 1];
+
+                        if (iget < 1 || n < iget)
+                        {
+                            Console.WriteLine("");
+                            Console.WriteLine("R82VEC_PERMUTE - Fatal error!");
+                            Console.WriteLine("  Entry IPUT = " + iput + " of the permutation has");
+                            Console.WriteLine("  an illegal value IGET = " + iget + ".");
+                            return;
+                        }
+
+                        if (iget == istart)
+                        {
+                            a[0 + (iput - 1) * 2] = a_temp[0];
+                            a[1 + (iput - 1) * 2] = a_temp[1];
+                            break;
+                        }
+
+                        a[0 + (iput - 1) * 2] = a[0 + (iget - 1) * 2];
+                        a[1 + (iput - 1) * 2] = a[1 + (iget - 1) * 2];
+                    }
+                }
+            }
+
+            //
+            //  Restore the signs of the entries.
+            //
+            for (i = 0; i < n; i++)
+            {
+                p[i] = -p[i];
+            }
+
+            //
+            //  Restore the base of the entries.
+            //
+            for (i = 0; i < n; i++)
+            {
+                p[i] = p[i] - 1 + base_;
+            }
+
+        }
+
+        public static int[] r82vec_sort_heap_index_a(int n, int base_, double[] a)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R82VEC_SORT_HEAP_INDEX_A does an indexed heap ascending sort of an R82VEC.
+            //
+            //  Discussion:
+            //
+            //    An R82VEC is a vector whose entries are R82's.
+            //    An R82 is a vector of type double precision with two entries.
+            //    An R82VEC may be stored as a 2 by N array.
+            //
+            //    The sorting is not actually carried out.  Rather an index array is
+            //    created which defines the sorting.  This array may be used to sort
+            //    or index the array, or to sort or index related arrays keyed on the
+            //    original array.
+            //
+            //    Once the index array is computed, the sorting can be carried out
+            //    "implicitly:
+            //
+            //      a(*,indx(*))
+            //
+            //    or explicitly, by the call
+            //
+            //      r82vec_permute ( n, indx, base, a )
+            //
+            //    after which a(*,*) is sorted.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    03 June 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in the array.
+            //
+            //    Input, int BASE, the desired indexing for the sort index:
+            //    0 for 0-based indexing,
+            //    1 for 1-based indexing.
+            //
+            //    Input, double A[2*N], an array to be index-sorted.
+            //
+            //    Output, int R82VEC_SORT_HEAP_INDEX_A[N], the sort index.  The
+            //    I-th element of the sorted array is A(0:1,R8VEC_SORT_HEAP_INDEX_A(I)).
+            //
+        {
+            double[] aval = new double[2];
+            int i;
+            int[] indx;
+            int indxt;
+            int ir;
+            int j;
+            int l;
+
+            if (n < 1)
+            {
+                return null;
+            }
+
+            indx = new int[n];
+
+            for (i = 0; i < n; i++)
+            {
+                indx[i] = i;
+            }
+
+            if (n == 1)
+            {
+                indx[0] = indx[0] + base_;
+                return indx;
+            }
+
+            l = n / 2 + 1;
+            ir = n;
+
+            for (;;)
+            {
+                if (1 < l)
+                {
+                    l = l - 1;
+                    indxt = indx[l - 1];
+                    aval[0] = a[0 + indxt * 2];
+                    aval[1] = a[1 + indxt * 2];
+                }
+                else
+                {
+                    indxt = indx[ir - 1];
+                    aval[0] = a[0 + indxt * 2];
+                    aval[1] = a[1 + indxt * 2];
+                    indx[ir - 1] = indx[0];
+                    ir = ir - 1;
+
+                    if (ir == 1)
+                    {
+                        indx[0] = indxt;
+                        break;
+                    }
+                }
+
+                i = l;
+                j = l + l;
+
+                while (j <= ir)
+                {
+                    if (j < ir)
+                    {
+                        if (a[0 + indx[j - 1] * 2] < a[0 + indx[j] * 2] ||
+                            (a[0 + indx[j - 1] * 2] == a[0 + indx[j] * 2] &&
+                             a[1 + indx[j - 1] * 2] < a[1 + indx[j] * 2]))
+                        {
+                            j = j + 1;
+                        }
+                    }
+
+                    if (aval[0] < a[0 + indx[j - 1] * 2] ||
+                        (aval[0] == a[0 + indx[j - 1] * 2] &&
+                         aval[1] < a[1 + indx[j - 1] * 2]))
+                    {
+                        indx[i - 1] = indx[j - 1];
+                        i = j;
+                        j = j + j;
+                    }
+                    else
+                    {
+                        j = ir + 1;
+                    }
+                }
+
+                indx[i - 1] = indxt;
+            }
+
+            //
+            //  Take care of the base.
+            //
+            for (i = 0; i < n; i++)
+            {
+                indx[i] = indx[i] + base_;
+            }
+
+            return indx;
+        }
+
         public static void r82vec_print(int n, double[] a, string title)
 
             //****************************************************************************80

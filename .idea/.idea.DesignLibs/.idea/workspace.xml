@@ -176,6 +176,10 @@
     <projectFile>BurkhardtTest/Wedge/WedgeIntegralsTest/WedgeIntegralsTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Wedge/WedgeMonteCarloTest/WedgeMonteCarloTest.csproj</projectFile>
     <projectFile>BurkhardtTest/WaveletTest/WaveletTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/TriangulationTest/TriangulationTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Triangle/TriangleRulesTest/TriangleRulesTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Triangle/TriangleGridTest/TriangleGridTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Triangle/TriangleIntegralsTest/TriangleIntegralsTest.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="" />
@@ -205,57 +209,57 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Legendre.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Order3_RefToPhys.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Order6_PhysToRef.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Order6_RefToPhys.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Triangle/QuadratureRule.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Triangle/TriangleRulesTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Order6_Plot.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Order6_Print.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Order6_Order3.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Order6_VertexCount.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Order3_Print.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Helpers.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/VBEDG.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Order3_Neighbor.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Measure.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Triangle/Grid.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Triangle/TriangleGridTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/pascal.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Triangle/Integrals.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Map.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Trinomial.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/poly.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Map.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Triangle/TriangleIntegralsTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Points.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/r8Triangulation.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/TriangulationTest/TriangulationSampleDataOr6Ex1.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Voronoi.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/Polygon.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r82vec.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/perm.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Monomial.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Interpolation/MultivariateLagrange.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/i4vec.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Polynomial.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/Interpolation/MultivariateLangrageTest/Program.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/Interpolation/MultivariateLagrangeTest/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Matrix/Dif2.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Matrix/DIF2.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Jacobi/Jacobi.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/Jacobi/JacobiTest/Program.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/Jacobi/JacobiEigenValueTest/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Integral/Jacobi.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/Jacobi/JacobiExactnessTest/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Jacobi.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_print.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/Jacobi/JacobiPolynomialTest/Program.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/Jacobi/JacobiRuleTest/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Sampling.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Sampling/Bartlett.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Sampling/Wishart.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8ut.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8mat.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/Sampling/WishartTest/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Wedge/WedgeFelippaRule.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Wedge/QuadratureRule.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/Wedge/WedgeRulesTest/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Wedge/Grid.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/Wedge/WedgeGridTest/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Wedge/Integrals.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/Wedge/WedgeIntegralsTest/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Wedge/MonteCarlo.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/Wedge/WedgeMonteCarloTest/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Wedge/Exactness.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Daubechies/Coefficients.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/DaubechiesWavelet/Coefficients.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/DaubechiesWavelet/Daub2.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/DaubechiesWavelet/Daub4.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/DaubechiesWavelet/Daub6.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/DaubechiesWavelet/Daub8.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/DaubechiesWavelet/Daub10.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/DaubechiesWavelet/Daub12.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/DaubechiesWavelet/Daub14.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/DaubechiesWavelet/Daub16.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/DaubechiesWavelet/Daub18.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/DaubechiesWavelet/Daub20.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_conjugate.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/WaveletTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Triangulation.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Area.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/NodeOrder.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Order3_Adj.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/i4col.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Order3_Boundary.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Order3_Check.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Order3_Refine.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/NeighborElements.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/misc.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Delauney.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Search.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Order3_Quad.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Order6_Refine.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Delauney.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/triangle.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_bracket.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Order3_Sample.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Order6_Adj.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Order6_Boundary.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/TriangulationTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -3261,6 +3265,78 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="TriangleGridTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Triangle/TriangleGridTest/TriangleGridTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="TriangleIntegralsTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Triangle/TriangleIntegralsTest/TriangleIntegralsTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="TriangleRulesTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Triangle/TriangleRulesTest/TriangleRulesTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="TriangulationTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/TriangulationTest/TriangulationTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="WathenMatrixTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -3656,6 +3732,10 @@
       <item itemvalue=".NET Project.WedgeIntegralsTest" />
       <item itemvalue=".NET Project.WedgeMonteCarloTest" />
       <item itemvalue=".NET Project.WaveletTest" />
+      <item itemvalue=".NET Project.TriangulationTest" />
+      <item itemvalue=".NET Project.TriangleRulesTest" />
+      <item itemvalue=".NET Project.TriangleGridTest" />
+      <item itemvalue=".NET Project.TriangleIntegralsTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

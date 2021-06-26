@@ -1,4 +1,6 @@
-﻿namespace Burkardt.Uniform
+﻿using Burkardt.Types;
+
+namespace Burkardt.Uniform
 {
     public static class Polygon
     {
@@ -65,7 +67,7 @@
             //
             //  Find the centroid.
             //
-            centroid = Types.Polygon.polygon_centroid_2d(nv, v);
+            centroid = typeMethods.polygon_centroid_2d(nv, v);
             //
             //  Determine the areas of each triangle.
             //
@@ -90,7 +92,7 @@
                 t[0 + 2 * 2] = centroid[0];
                 t[1 + 2 * 2] = centroid[1];
 
-                area[i] = Types.triangle.triangle_area_2d(t);
+                area[i] = typeMethods.triangle_area_2d(t);
 
                 total = total + area[i];
             }

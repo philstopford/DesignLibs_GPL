@@ -654,6 +654,198 @@ namespace Burkardt.Types
             return p;
         }
 
+        public static bool perm_check2(int n, int[] p, int base_)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    PERM_CHECK2 checks that a vector represents a permutation.
+            //
+            //  Discussion:
+            //
+            //    The routine verifies that each of the integers from BASE to
+            //    to BASE+N-1 occurs among the N entries of the permutation.
+            //
+            //    Set the input quantity BASE to 0, if P is a 0-based permutation,
+            //    or to 1 if P is a 1-based permutation.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    03 June 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries.
+            //
+            //    Input, int P[N], the array to check.
+            //
+            //    Input, int BASE, the index base.
+            //
+            //    Output, bool PERM_CHECK2, is TRUE if the permutation is OK.
+            //
+        {
+            bool found;
+            int i;
+            int seek;
+
+            for (seek = base_; seek < base_ + n; seek++)
+            {
+                found = false;
+
+                for (i = 0; i < n; i++)
+                {
+                    if (p[i] == seek)
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (!found)
+                {
+                    return false;
+                }
+
+            }
+
+            return true;
+        }
+
+        public static void perm_inverse(int n, ref int[] p)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    PERM_INVERSE inverts a permutation "in place".
+            //
+            //  Discussion:
+            //
+            //    This algorithm assumes that the entries in the permutation vector are
+            //    strictly positive.  In particular, the value 0 must not occur.
+            //
+            //    When necessary, this function shifts the data temporarily so that
+            //    this requirement is satisfied.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    03 June 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of objects being permuted.
+            //
+            //    Input/output, int P[N], the permutation, in standard index form.
+            //    On output, P describes the inverse permutation
+            //
+        {
+            int base_;
+            int i;
+            int i0;
+            int i1;
+            int i2;
+            int is_;
+            int p_min;
+
+            if (n <= 0)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("PERM_INVERSE - Fatal error!");
+                Console.WriteLine("  Input value of N = " + n + "");
+                return;
+            }
+
+            //
+            //  Find the least value, and shift data so it begins at 1.
+            //
+            p_min = i4vec_min(n, p);
+            base_ = 1;
+
+            for (i = 0; i < n; i++)
+            {
+                p[i] = p[i] - p_min + base_;
+            }
+
+            //
+            //  Now we can safely check the permutation.
+            //
+            if (!perm_check2(n, p, base_))
+            {
+                Console.WriteLine("");
+                Console.WriteLine("PERM_INVERSE - Fatal error!");
+                Console.WriteLine("  PERM_CHECK rejects this permutation.");
+                return;
+            }
+            //
+            //  Now we can invert the permutation.
+            //
+            is_ = 1;
+
+            for (i = 1; i <= n; i++)
+            {
+                i1 = p[i - 1];
+
+                while (i < i1)
+                {
+                    i2 = p[i1 - 1];
+                    p[i1 - 1] = -i2;
+                    i1 = i2;
+                }
+
+                is_ = -i4_sign(p[i - 1]);
+                p[i - 1] = i4_sign( is_ ) *Math.Abs(p[i - 1]);
+            }
+
+            for (i = 1; i <= n; i++)
+            {
+                i1 = -p[i - 1];
+
+                if (0 <= i1)
+                {
+                    i0 = i;
+
+                    for (;;)
+                    {
+                        i2 = p[i1 - 1];
+                        p[i1 - 1] = i0;
+
+                        if (i2 < 0)
+                        {
+                            break;
+                        }
+
+                        i0 = i1;
+                        i1 = i2;
+                    }
+                }
+            }
+
+            //
+            //  Now we can restore the permutation.
+            //
+            for (i = 0; i < n; i++)
+            {
+                p[i] = p[i] + p_min - base_;
+            }
+        }
+
 
     }
 }

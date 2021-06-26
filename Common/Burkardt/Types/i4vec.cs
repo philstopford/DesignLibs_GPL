@@ -772,7 +772,7 @@ namespace Burkardt.Types
             return a;
         }
 
-        public static void i4vec_heap_d(int n, ref int[] a)
+        public static void i4vec_heap_d(int n, ref int[] a, int aIndex = 0)
 
             //****************************************************************************80
             //
@@ -839,7 +839,7 @@ namespace Burkardt.Types
                 //  Copy the value out of the parent node.
                 //  Position IFREE is now "open".
                 //
-                key = a[i];
+                key = a[aIndex + i];
                 ifree = i;
 
                 for (;;)
@@ -867,7 +867,7 @@ namespace Burkardt.Types
                             //  If both positions exist, take the larger of the two values,
                             //  and update M if necessary.
                             //
-                            if (a[m] < a[m + 1])
+                            if (a[aIndex + m] < a[aIndex + m + 1])
                             {
                                 m = m + 1;
                             }
@@ -878,9 +878,9 @@ namespace Burkardt.Types
                         //  and update IFREE, the location of the free position, and
                         //  consider the descendants of THIS position.
                         //
-                        if (key < a[m])
+                        if (key < a[aIndex + m])
                         {
-                            a[ifree] = a[m];
+                            a[aIndex + ifree] = a[aIndex + m];
                             ifree = m;
                         }
                         else
@@ -894,7 +894,7 @@ namespace Burkardt.Types
                 //  When you have stopped shifting items up, return the item you
                 //  pulled out back to the heap.
                 //
-                a[ifree] = key;
+                a[aIndex + ifree] = key;
             }
 
             return;
@@ -1118,7 +1118,7 @@ namespace Burkardt.Types
             return indx;
         }
 
-        public static void i4vec_sort_heap_a(int n, ref int[] a)
+        public static void i4vec_sort_heap_a(int n, ref int[] a, int aIndex = 0)
 
             //****************************************************************************80
             //
@@ -1172,9 +1172,9 @@ namespace Burkardt.Types
             //  The largest object in the heap is in A[0].
             //  Move it to position A[N-1].
             //
-            temp = a[0];
-            a[0] = a[n - 1];
-            a[n - 1] = temp;
+            temp = a[aIndex + 0];
+            a[aIndex + 0] = a[aIndex + n - 1];
+            a[aIndex + n - 1] = temp;
             //
             //  Consider the diminished heap of size N1.
             //
@@ -1187,9 +1187,9 @@ namespace Burkardt.Types
                 //
                 //  Take the largest object from A[0] and move it to A[N1-1].
                 //
-                temp = a[0];
-                a[0] = a[n1 - 1];
-                a[n1 - 1] = temp;
+                temp = a[aIndex + 0];
+                a[aIndex + 0] = a[aIndex + n1 - 1];
+                a[aIndex + n1 - 1] = temp;
 
             }
 

@@ -850,8 +850,84 @@ namespace Burkardt.Types
 
             return product;
         }
+        
+        public static void r8vec_sort_heap_a ( int n, ref double[] a )
 
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8VEC_SORT_HEAP_A ascending sorts an R8VEC using heap sort.
+            //
+            //  Discussion:
+            //
+            //    An R8VEC is a vector of R8's.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    30 April 1999
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Albert Nijenhuis, Herbert Wilf,
+            //    Combinatorial Algorithms,
+            //    Academic Press, 1978, second edition,
+            //    ISBN 0-12-519260-6.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in the array.
+            //
+            //    Input/output, double A[N].
+            //    On input, the array to be sorted;
+            //    On output, the array has been sorted.
+            //
+        {
+            int n1;
+            double temp;
 
+            if ( n <= 1 )
+            {
+                return;
+            }
+            //
+            //  1: Put A into descending heap form.
+            //
+            r8vec_heap_d ( n, ref a );
+            //
+            //  2: Sort A.
+            //
+            //  The largest object in the heap is in A[0].
+            //  Move it to position A[N-1].
+            //
+            temp = a[0];
+            a[0] = a[n-1];
+            a[n-1] = temp;
+            //
+            //  Consider the diminished heap of size N1.
+            //
+            for ( n1 = n-1; 2 <= n1; n1-- )
+            {
+                //
+                //  Restore the heap structure of the initial N1 entries of A.
+                //
+                r8vec_heap_d ( n1, ref a );
+                //
+                //  Take the largest object from A[0] and move it to A[N1-1].
+                //
+                temp = a[0];
+                a[0] = a[n1-1];
+                a[n1-1] = temp;
+            }
+        }
 
         public static double[] r8vec_midspace_new(int n, double a, double b)
 

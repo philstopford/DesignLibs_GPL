@@ -181,6 +181,7 @@
     <projectFile>BurkhardtTest/Triangle/TriangleGridTest/TriangleGridTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Triangle/TriangleIntegralsTest/TriangleIntegralsTest.csproj</projectFile>
     <projectFile>BurkhardtTest/DivDifTest/DivDifTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/DREAMTest/DREAMTest.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="" />
@@ -210,18 +211,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/pascal.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Triangle/Integrals.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Map.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Trinomial.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/poly.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Map.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/Triangle/TriangleIntegralsTest/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Points.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/r8Triangulation.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/TriangulationTest/TriangulationSampleDataOr6Ex1.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Voronoi.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/Polygon.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Triangulation.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Area.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/NodeOrder.cs" />
@@ -257,10 +246,22 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Roots.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Chebyshev/ChebyshevPolynomial_t.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Chebyshev/ChebyshevPolynomial_u.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8poly.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Dif.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8poly.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/DivDifTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/DREAM/Diff.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/DREAM/Input.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/DREAM/Jump.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/DREAM/Restart.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/DREAM/Sample.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/DREAM/StdCompute.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/DREAM/CR.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/DREAM/GelmanRubin.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/DREAM/Chain.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/DREAM/Dream.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/DREAMTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -1799,6 +1800,24 @@
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
       <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/CyclicReductionTest/CyclicReductionTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="DREAMTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/DREAMTest/DREAMTest.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
@@ -3756,6 +3775,7 @@
       <item itemvalue=".NET Project.TriangleGridTest" />
       <item itemvalue=".NET Project.TriangleIntegralsTest" />
       <item itemvalue=".NET Project.DivDifTest" />
+      <item itemvalue=".NET Project.DREAMTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

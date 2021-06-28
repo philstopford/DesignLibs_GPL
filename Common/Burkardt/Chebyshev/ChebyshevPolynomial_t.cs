@@ -7,6 +7,50 @@ namespace Burkardt.ChebyshevPolynomialNS
 {
     public static partial class ChebyshevPolynomial
     {
+        public static double[] cheby_t_zero ( int n )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    CHEBY_T_ZERO returns zeroes of the Chebyshev polynomial T(N)(X).
+            //
+            //  Discussion:
+            //
+            //    The I-th zero of T(N)(X) is cos((2*I-1)*PI/(2*N)), I = 1 to N
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    24 May 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order of the polynomial.
+            //
+            //    Output, double CHEBY_T_ZERO[N], the zeroes of T(N)(X).
+            //
+        {
+            double angle;
+            int i;
+            double[] z;
+
+            z = new double[n];
+
+            for ( i = 0; i < n; i++ )
+            {
+                angle = ( double ) ( 2 * i + 1 ) * Math.PI / ( double ) ( 2 * n );
+                z[i] = Math.Cos ( angle );
+            }
+            return z;
+        }
         public static double[] t_mass_matrix(int n)
 
             //****************************************************************************80

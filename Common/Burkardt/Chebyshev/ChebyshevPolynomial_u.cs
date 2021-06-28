@@ -7,6 +7,50 @@ namespace Burkardt.ChebyshevPolynomialNS
 {
     public static partial class ChebyshevPolynomial
     {
+        public static double[] cheby_u_zero ( int n )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    CHEBY_U_ZERO returns zeroes of the Chebyshev polynomial U(N)(X).
+            //
+            //  Discussion:
+            //
+            //    The I-th zero of U(N)(X) is cos((I-1)*PI/(N-1)), I = 1 to N
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    24 May 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order of the polynomial.
+            //
+            //    Output, double CHEBY_U_ZERO[N], the zeroes of U(N)(X).
+            //
+        {
+            double angle;
+            int i;
+            double[] z;
+
+            z = new double[n];
+
+            for ( i = 0; i < n; i++ )
+            {
+                angle = ( double ) ( i + 1 ) * Math.PI / ( double ) ( n + 1 );
+                z[i] = Math.Cos ( angle );
+            }
+            return z;
+        }
         public static double[] u_mass_matrix(int n)
 
             //****************************************************************************80

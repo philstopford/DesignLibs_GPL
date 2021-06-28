@@ -4,13 +4,20 @@ namespace Burkardt.Types
 {
     public static partial class typeMethods
     {
-        public static void r8poly_print ( int n, double[] a, string title )
+        public static void r8poly_ant_cof(int n, double[] poly_cof, ref double[] poly_cof2 )
 
         //****************************************************************************80
         //
         //  Purpose:
         //
-        //    R8POLY_PRINT prints out a polynomial.
+        //    R8POLY_ANT_COF integrates an R8POLY in standard form.
+        //
+        //  Discussion:
+        //
+        //    The antiderivative of a polynomial P(X) is any polynomial Q(X)
+        //    with the property that d/dX Q(X) = P(X).
+        //
+        //    This routine chooses the antiderivative whose constant term is zero.
         //
         //  Licensing:
         //
@@ -18,7 +25,7 @@ namespace Burkardt.Types
         //
         //  Modified:
         //
-        //    15 July 2015
+        //    13 April 1999
         //
         //  Author:
         //
@@ -26,33 +33,458 @@ namespace Burkardt.Types
         //
         //  Parameters:
         //
-        //    Input, int N, the dimension of A.
+        //    Input, int N, the order of the polynomial.
         //
-        //    Input, double A[N+1], the polynomial coefficients.
-        //    A(0) is the constant term and
-        //    A(N) is the coefficient of X^N.
+        //    Input, double POLY_COF[N], the polynomial coefficients.
+        //    POLY_COF[0] is the constant term, and POLY_COF[N-1] is the
+        //    coefficient of X**(N-1).
         //
-        //    Input, string TITLE, a title.
+        //    Output, double POLY_COF2[N+1], the coefficients of the antiderivative
+        //    polynomial, in standard form.  The constant term is set to zero.
         //
         {
+            int i;
+            //
+            //  Set the constant term.
+            //
+            poly_cof2[0] = 0.0;
+            //
+            //  Integrate the polynomial.
+            //
+            for (i = 1; i <= n; i++)
+            {
+                poly_cof2[i] = poly_cof[i - 1] / (double) i;
+            }
+        }
+
+        public static double r8poly_ant_val(int n, double[] poly_cof, double xval )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8POLY_ANT_VAL evaluates the antiderivative of an R8POLY in standard form.
+        //
+        //  Discussion:
+        //
+        //    The constant term of the antiderivative is taken to be zero.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    06 September 2004
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order of the polynomial.
+        //
+        //    Input, double POLY_COF[N], the polynomial coefficients.  POLY_COF[0]
+        //    is the constant term, and POLY_COF[N-1] is the coefficient of X**(N-1).
+        //
+        //    Input, double XVAL, the point where the antiderivative is to be
+        //    evaluated.
+        //
+        //    Output, double R8POLY_ANT_VAL, the value of the antiderivative of the polynomial
+        //    at XVAL.
+        //
+        {
+            int i;
+            double value;
+
+            value = 0.0;
+
+            for (i = n - 1; 0 <= i; i--)
+            {
+                value = (value + poly_cof[i] / (double) (i + 1)) * xval;
+            }
+
+            return value;
+        }
+
+        public static void r8poly_basis(int ntab, double[] xtab, ref double[] poly_cof )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8POLY_BASIS computes all Lagrange basis polynomials in standard form.
+        //
+        //  Discussion:
+        //
+        //    The I-th Lagrange basis polynomial for a set of NTAB X values XTAB,
+        //    L(I,NTAB,XTAB)(X) is a polynomial of order NTAB-1 which is zero at
+        //    XTAB(J) for J not equal to I, and 1 when J is equal to I.
+        //
+        //    The Lagrange basis polynomials have the property that the interpolating
+        //    polynomial through a set of NTAB data points (XTAB,YTAB) may be
+        //    represented as
+        //
+        //      P(X) = Sum ( 1 <= I <= N ) YTAB(I) * L(I,NTAB,XTAB)(X)
+        //
+        //    Higher order interpolation at selected points may be accomplished
+        //    using repeated X values, and scaled derivative values.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    05 September 2004
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int NTAB, the number of data points XTAB.
+        //
+        //    Input, double XTAB[NTAB], the X values upon which the Lagrange basis
+        //    polynomial is to be based.
+        //
+        //    Output, double *POLY_COF, points to NTAB * NTAB values.  The polynomial
+        //    coefficients for the I-th Lagrange basis polynomial are stored in
+        //    (logical) row I.  POLY_COF[0,*] is the constant term, and POLY_COF[NTAB-1,*] is
+        //    the coefficient of X**(NTAB-1).
+        //
+        {
+            int i;
+            int j;
+            double[] pointer1;
+            double[] pointer2;
+
+            pointer1 = poly_cof;
+
+            for (i = 0; i < ntab; i++)
+            {
+                pointer2 = pointer1;
+
+                for (j = 0; j < ntab; j++)
+                {
+                    if (j == i)
+                    {
+                        pointer1[i] = 1.0;
+                    }
+                    else
+                    {
+                        pointer1 [i]= 0.0;
+                    }
+                }
+
+                //
+                //  Compute the divided difference table for the IVAL-th Lagrange basis
+                //  polynomial.
+                //
+                Data.data_to_dif(ntab, xtab, pointer2, ref pointer2);
+                //
+                //  Convert the divided difference table coefficients to standard polynomial
+                //  coefficients.
+                //
+                Dif.dif_to_r8poly(ntab, xtab, pointer2, ref pointer2);
+            }
+        }
+
+        public static void r8poly_basis_1(int ival, int ntab, double[] xtab, ref double[] poly_cof )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8POLY_BASIS_1 computes the I-th Lagrange basis polynomial in standard form.
+        //
+        //  Discussion:
+        //
+        //    The I-th Lagrange basis polynomial for a set of NTAB X values XTAB,
+        //    L(I,NTAB,XTAB)(X) is a polynomial of order NTAB-1 which is zero at
+        //    XTAB(J) for J not equal to I, and 1 when J is equal to I.
+        //
+        //    The Lagrange basis polynomials have the property that the interpolating
+        //    polynomial through a set of NTAB data points (XTAB,YTAB) may be
+        //    represented as
+        //
+        //      P(X) = Sum ( 1 <= I <= N ) YTAB(I) * L(I,NTAB,XTAB)(X)
+        //
+        //    Higher order interpolation at selected points may be accomplished
+        //    using repeated X values, and scaled derivative values.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    05 September 2004
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int IVAL, the index of the desired Lagrange basis polynomial.
+        //    IVAL should be between 1 and NTAB.
+        //
+        //    Input, int NTAB, the number of data points XTAB.
+        //
+        //    Input, double XTAB[NTAB], the X values upon which the Lagrange basis
+        //    polynomial is to be based.
+        //
+        //    Output, double POLY_COF[NTAB], the polynomial coefficients for the
+        //    IVAL-th Lagrange basis polynomial.
+        //
+        {
+            int i;
+            //
+            //  Check IVAL.
+            //
+            if (ival < 1 || ntab < ival)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("R8POLY_BASIS_1 - Fatal error!");
+                Console.WriteLine("  IVAL must be between 1 and " + ntab + ".");
+                Console.WriteLine("  but your value is " + ival + ".");
+                return;
+            }
+
+            //
+            //  Initialize POLY_COF to the IVAL-th column of the identity matrix.
+            //
+            for (i = 0; i <= ntab - 1; i++)
+            {
+                poly_cof[i] = 0.0;
+            }
+
+            poly_cof[ival - 1] = 1.0;
+            //
+            //  Compute the divided difference table for the IVAL-th Lagrange basis
+            //  polynomial.
+            //
+            Data.data_to_dif(ntab, xtab, poly_cof, ref poly_cof);
+            //
+            //  Convert the divided difference table coefficients to standard polynomial
+            //  coefficients.
+            //
+            Dif.dif_to_r8poly(ntab, xtab, poly_cof, ref poly_cof);
+        }
+
+        public static void r8poly_der_cof(int n, double[] poly_cof, ref double[] poly_cof2 )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8POLY_DER_COF computes the coefficients of the derivative of a real polynomial.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    13 April 1999
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order of the polynomial.
+        //
+        //    Input, double POLY_COF[N], the coefficients of the polynomial to
+        //    be differentiated.  POLY_COF[0] is the constant term, and
+        //    POLY_COF[N-1] is the coefficient of X**(N-1).
+        //
+        //    Output, double POLY_COF2[N-1], the coefficients of the derivative of
+        //    the polynomial.
+        //
+        {
+            // Safety due to some oddball tests.
+            n = Math.Min(poly_cof.Length - 1, n);
+            
+            int i;
+
+            for (i = 0; i < n; i++)
+            {
+                poly_cof2[i] = (double) (i + 1) * poly_cof[i + 1];
+            }
+
+            return;
+        }
+
+        public static double r8poly_der_val(int n, double[] poly_cof, double xval )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8POLY_DER_VAL evaluates the derivative of a real polynomial in standard form.
+        //
+        //  Discussion:
+        //
+        //    A polynomial in standard form, with coefficients POLY_COF(*),
+        //    may be written:
+        //
+        //    P(X) = POLY_COF[0]
+        //         + POLY_COF[1] * X
+        //         ...
+        //         + POLY_COF[N-1] * X**(N-1)
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    13 April 1999
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order of the polynomial.
+        //
+        //    Input, double POLY_COF[N], the polynomial coefficients.  POLY_COF[0]
+        //    is the constant term, and POLY_COF[N-1] is the coefficient of
+        //    X**(N-1).
+        //
+        //    Input, double XVAL, a value where the derivative of the polynomial
+        //    is to be evaluated.
+        //
+        //    Output, double R8POLY_DER_VAL, the value of the derivative of the polynomial
+        //    at XVAL.
+        //
+        {
+            int i;
+            double value;
+
+            value = (double) (n - 1) * poly_cof[n - 1];
+
+            for (i = n - 2; 1 <= i; i--)
+            {
+                value = value * xval + (double) i * poly_cof[i];
+            }
+
+            return value;
+        }
+
+        public static int r8poly_order(int na, double[] a)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8POLY_ORDER returns the order of a polynomial.
+            //
+            //  Discussion:
+            //
+            //    The order of a polynomial is the degree plus 1.
+            //
+            //    The order of a constant polynomial is 1.  The order of the
+            //    zero polynomial is debatable, but this routine returns the
+            //    order as 1.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    06 September 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int NA, the order of the polynomial (ignoring zero coefficients).
+            //
+            //    Input, double A[NA], the coefficients of the polynomial.
+            //
+            //    Output, int R8POLY_ORDER, the degree of the polynomial.
+            //
+        {
+            int value;
+
+            value = na;
+
+            while (1 < value)
+            {
+                if (a[value - 1] != 0.0)
+                {
+                    return value;
+                }
+
+                value = value - 1;
+            }
+
+            return value;
+        }
+
+        public static void r8poly_print(int n, double[] a, string title, int aIndex = 0)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8POLY_PRINT prints out a polynomial.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    15 July 2015
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the dimension of A.
+            //
+            //    Input, double A[N+1], the polynomial coefficients.
+            //    A(0) is the constant term and
+            //    A(N) is the coefficient of X^N.
+            //
+            //    Input, string TITLE, a title.
+            //
+        {
+            // Safety measure due to some odd test configs.
+            n = Math.Min(a.Length - 1, n);
+            
             int i;
             double mag;
             char plus_minus;
 
-            if ( 0 < title.Length )
+            if (0 < title.Length)
             {
                 Console.WriteLine("");
                 Console.WriteLine(title + "");
             }
+
             Console.WriteLine("");
 
-            if ( n < 0 )
+            if (n < 0)
             {
                 Console.WriteLine("  p(x) = 0");
                 return;
             }
 
-            if ( a[n] < 0.0 )
+            if (a[n] < 0.0)
             {
                 plus_minus = '-';
             }
@@ -61,27 +493,27 @@ namespace Burkardt.Types
                 plus_minus = ' ';
             }
 
-            mag = Math.Abs ( a[n] );
+            mag = Math.Abs(a[n]);
 
-            if ( 2 <= n )
+            if (2 <= n)
             {
                 Console.WriteLine("  p(x) = " + plus_minus
-                    + mag.ToString().PadLeft(14) + " * x ^ " + n + "");
+                                              + mag.ToString().PadLeft(14) + " * x ^ " + n + "");
             }
-            else if ( n == 1 )
+            else if (n == 1)
             {
                 Console.WriteLine("  p(x) = " + plus_minus
-                    + mag.ToString().PadLeft(14) + " * x");
+                                              + mag.ToString().PadLeft(14) + " * x");
             }
-            else if ( n == 0 )
+            else if (n == 0)
             {
                 Console.WriteLine("  p(x) = " + plus_minus
-                    + mag.ToString().PadLeft(14) + "");
+                                              + mag.ToString().PadLeft(14) + "");
             }
 
-            for ( i = n - 1; 0 <= i; i-- )
+            for (i = n - 1; 0 <= i; i--)
             {
-                if ( a[i] < 0.0 )
+                if (a[aIndex + i] < 0.0)
                 {
                     plus_minus = '-';
                 }
@@ -90,27 +522,179 @@ namespace Burkardt.Types
                     plus_minus = '+';
                 }
 
-                mag = Math.Abs ( a[i] );
+                mag = Math.Abs(a[aIndex + i]);
 
-                if ( mag != 0.0 )
+                if (mag != 0.0)
                 {
-                    if ( 2 <= i )
+                    if (2 <= i)
                     {
                         Console.WriteLine("         " + plus_minus
-                            + mag.ToString().PadLeft(14) + " * x ^ " + i + "");
+                                                      + mag.ToString().PadLeft(14) + " * x ^ " + i + "");
                     }
-                    else if ( i == 1 )
+                    else if (i == 1)
                     {
                         Console.WriteLine("         " + plus_minus
-                            + mag.ToString().PadLeft(14) + " * x");
+                                                      + mag.ToString().PadLeft(14) + " * x");
                     }
-                    else if ( i == 0 )
+                    else if (i == 0)
                     {
                         Console.WriteLine("         " + plus_minus
-                            + mag.ToString().PadLeft(14) + "");
+                                                      + mag.ToString().PadLeft(14) + "");
                     }
                 }
             }
+        }
+
+        public static void r8poly_shift(double scale, double shift, int n, ref double[] poly_cof)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8POLY_SHIFT adjusts the coefficients of a polynomial for a new argument.
+            //
+            //  Discussion:
+            //
+            //    Assuming P(X) is a polynomial in the argument X, of the form:
+            //
+            //      P(X) =
+            //          C(N-1) * X^(N-1)
+            //        + ...
+            //        + C(1) * X
+            //        + C(0),
+            //
+            //    and that Z is related to X by the formula:
+            //
+            //      Z = SCALE * X + SHIFT
+            //
+            //    then this routine computes coefficients C for the polynomial Q(Z):
+            //
+            //      Q(Z) =
+            //          C(N-1) * Z^(N-1)
+            //        + ...
+            //        + C(1) * Z
+            //        + C(0)
+            //
+            //    so that:
+            //
+            //      Q(Z(X)) = P(X)
+            //
+            //  Example:
+            //
+            //    P(X) = 2 * X^2 - X + 6
+            //
+            //    Z = 2.0 * X + 3.0
+            //
+            //    Q(Z) = 0.5 *         Z^2 -  3.5 * Z + 12
+            //
+            //    Q(Z(X)) = 0.5 * ( 4.0 * X^2 + 12.0 * X +  9 )
+            //            - 3.5 * (               2.0 * X +  3 )
+            //                                            + 12
+            //
+            //            = 2.0         * X^2 -  1.0 * X +  6
+            //
+            //            = P(X)
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    06 September 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double SHIFT, SCALE, the shift and scale applied to X,
+            //    so that Z = SCALE * X + SHIFT.
+            //
+            //    Input, int N, the order of the polynomial.
+            //
+            //    Input/output, double POLY_COF[N].
+            //    On input, the coefficient array in terms of the X variable.
+            //    On output, the coefficient array in terms of the Z variable.
+            //
+        {
+            int i;
+            int j;
+
+            for (i = 1; i <= n; i++)
+            {
+                for (j = i + 1; j <= n; j++)
+                {
+                    poly_cof[j - 1] = poly_cof[j - 1] / scale;
+                }
+            }
+
+            for (i = 1; i <= n; i++)
+            {
+                for (j = n - 1; i <= j; j--)
+                {
+                    poly_cof[j - 1] = poly_cof[j - 1] - shift * poly_cof[j];
+                }
+            }
+
+            return;
+        }
+
+        public static double r8poly_val_horner(int n, double[] poly_cof, double xval, int polyCofIndex = 0 )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8POLY_VAL_HORNER evaluates a real polynomial in standard form.
+        //
+        //  Discussion:
+        //
+        //    A polynomial in standard form, with coefficients POLY_COF(*),
+        //    may be written:
+        //
+        //    P(X) = POLY_COF[0]
+        //         + POLY_COF[1] * X
+        //         ...
+        //         + POLY_COF[N-1] * X^(N-1)
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    13 April 1999
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order of the polynomial.
+        //
+        //    Input, double POLY_COF[N], the polynomial coefficients.  POLY_COF[0]
+        //    is the constant term, and POLY_COF[N-1] is the coefficient of
+        //    X^(N-1).
+        //
+        //    Input, double XVAL, a value where the polynomial is to be evaluated.
+        //
+        //    Output, double R8POLY_VAL_HORNER, the value of the polynomial at XVAL.
+        //
+        {
+            int i;
+            double value;
+
+            value = poly_cof[polyCofIndex + (n - 1)];
+
+            for (i = n - 2; 0 <= i; i--)
+            {
+                value = value * xval + poly_cof[polyCofIndex + i];
+            }
+
+            return value;
         }
     }
 }

@@ -486,6 +486,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiskGridTest", "BurkhardtTe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiskMonteCarloTest", "BurkhardtTest\Disk\DiskMonteCarloTest\DiskMonteCarloTest.csproj", "{74628B0C-A49A-408C-8420-C668AC53A74D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiskRuleTest", "BurkhardtTest\Disk\DiskRuleTest\DiskRuleTest.csproj", "{05356FB5-EB20-4093-9620-FE7A622C5143}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -3016,6 +3018,18 @@ Global
 		{74628B0C-A49A-408C-8420-C668AC53A74D}.Release|x64.Build.0 = Release|Any CPU
 		{74628B0C-A49A-408C-8420-C668AC53A74D}.Release|x86.ActiveCfg = Release|Any CPU
 		{74628B0C-A49A-408C-8420-C668AC53A74D}.Release|x86.Build.0 = Release|Any CPU
+		{05356FB5-EB20-4093-9620-FE7A622C5143}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05356FB5-EB20-4093-9620-FE7A622C5143}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05356FB5-EB20-4093-9620-FE7A622C5143}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{05356FB5-EB20-4093-9620-FE7A622C5143}.Debug|x64.Build.0 = Debug|Any CPU
+		{05356FB5-EB20-4093-9620-FE7A622C5143}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{05356FB5-EB20-4093-9620-FE7A622C5143}.Debug|x86.Build.0 = Debug|Any CPU
+		{05356FB5-EB20-4093-9620-FE7A622C5143}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05356FB5-EB20-4093-9620-FE7A622C5143}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05356FB5-EB20-4093-9620-FE7A622C5143}.Release|x64.ActiveCfg = Release|Any CPU
+		{05356FB5-EB20-4093-9620-FE7A622C5143}.Release|x64.Build.0 = Release|Any CPU
+		{05356FB5-EB20-4093-9620-FE7A622C5143}.Release|x86.ActiveCfg = Release|Any CPU
+		{05356FB5-EB20-4093-9620-FE7A622C5143}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -3257,6 +3271,7 @@ Global
 		{ACBF30BD-1AE9-4AE8-9ED9-8B1C8E284140} = {B14C0D74-30A0-4540-8100-2FFA1C84CA6D}
 		{AE69179D-0AD6-469B-A37B-4A0384989D3B} = {ACBF30BD-1AE9-4AE8-9ED9-8B1C8E284140}
 		{74628B0C-A49A-408C-8420-C668AC53A74D} = {ACBF30BD-1AE9-4AE8-9ED9-8B1C8E284140}
+		{05356FB5-EB20-4093-9620-FE7A622C5143} = {ACBF30BD-1AE9-4AE8-9ED9-8B1C8E284140}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B449416C-C504-4FA8-9E10-10857263A64A}

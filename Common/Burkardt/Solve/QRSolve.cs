@@ -6,6 +6,326 @@ namespace Burkardt
 {
     public static class QRSolve
     {
+        public static void qform(int m, int n, ref double[] q, int ldq, int qIndex = 0)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    qform() constructs the standard form of Q from its factored form.
+            //
+            //  Discussion:
+            //
+            //    This function proceeds from the computed QR factorization of
+            //    an M by N matrix A to accumulate the M by M orthogonal matrix
+            //    Q from its factored form.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 January 2018
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Jorge More, Burt Garbow, Ken Hillstrom.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Jorge More, Burton Garbow, Kenneth Hillstrom,
+            //    User Guide for MINPACK-1,
+            //    Technical Report ANL-80-74,
+            //    Argonne National Laboratory, 1980.
+            //
+            //  Parameters:
+            //
+            //    Input, int M, the number of rows of A, and the order of Q.
+            //
+            //    Input, int N, the number of columns of A.
+            //
+            //    Input/output, double Q[LDQ*N].  On input, the full lower trapezoid in
+            //    the first min(M,N) columns of Q contains the factored form.
+            //    On output Q has been accumulated into a square matrix.
+            //
+            //    Input, int LDQ, the leading dimension of the array Q.
+            //
+        {
+            int i;
+            int j;
+            int k;
+            int minmn;
+            double sum;
+            double temp;
+            double[] wa;
+            //
+            //  Zero out the upper triangle of Q in the first min(M,N) columns.
+            //
+            minmn = Math.Min(m, n);
+
+            for (j = 1; j < minmn; j++)
+            {
+                for (i = 0; i <= j - 1; i++)
+                {
+                    q[qIndex + (i + j * ldq)] = 0.0;
+                }
+            }
+
+            //
+            //  Initialize remaining columns to those of the identity matrix.
+            //
+            for (j = n; j < m; j++)
+            {
+                for (i = 0; i < m; i++)
+                {
+                    q[qIndex + (i + j * ldq)] = 0.0;
+                }
+
+                q[qIndex + (j + j * ldq)] = 1.0;
+            }
+
+            //
+            //  Accumulate Q from its factored form.
+            //
+            wa = new double[m];
+
+            for (k = minmn - 1; 0 <= k; k--)
+            {
+                for (i = k; i < m; i++)
+                {
+                    wa[i] = q[qIndex + (i + k * ldq)];
+                    q[qIndex + (i + k * ldq)] = 0.0;
+                }
+
+                q[qIndex + (k + k * ldq)] = 1.0;
+
+                if (wa[k] != 0.0)
+                {
+                    for (j = k; j < m; j++)
+                    {
+                        sum = 0.0;
+                        for (i = k; i < m; i++)
+                        {
+                            sum = sum + q[qIndex + (i + j * ldq)] * wa[i];
+                        }
+
+                        temp = sum / wa[k];
+                        for (i = k; i < m; i++)
+                        {
+                            q[qIndex + (i + j * ldq)] = q[qIndex + (i + j * ldq)] - temp * wa[i];
+                        }
+                    }
+                }
+            }
+        }
+
+        public static void qrfac ( int m, int n, ref double[] a, int lda, bool pivot, ref int[] ipvt,
+        ref int lipvt, ref double[] rdiag, ref double[] acnorm, int aIndex = 0, int rdiagIndex = 0, int acnormIndex = 0 )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    qrfac() computes the QR factorization of an M by N matrix.
+        //
+        //  Discussion:
+        //
+        //    This function uses Householder transformations with optional column
+        //    pivoting to compute a QR factorization of the M by N matrix A. 
+        //
+        //    That is, QRFAC determines an orthogonal
+        //    matrix Q, a permutation matrix P, and an upper trapezoidal
+        //    matrix R with diagonal elements of nonincreasing magnitude,
+        //    such that A*P = Q*R. 
+        //
+        //    The Householder transformation for
+        //    column k, k = 1,2,...,min(m,n), is of the form
+        //
+        //      i - (1/u(k))*u*u'
+        //
+        //    where U has zeros in the first K-1 positions. 
+        //
+        //    The form of this transformation and the method of pivoting first
+        //    appeared in the corresponding LINPACK function.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    02 January 2017
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Jorge More, Burt Garbow, Ken Hillstrom.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Jorge More, Burton Garbow, Kenneth Hillstrom,
+        //    User Guide for MINPACK-1,
+        //    Technical Report ANL-80-74,
+        //    Argonne National Laboratory, 1980.
+        //
+        //  Parameters:
+        //
+        //    Input, int M, the number of rows of A.
+        //
+        //    Input, int N, the number of columns of A.
+        //
+        //    Input/output, double A[M*N].  On input, the matrix for which the QR 
+        //    factorization is to be computed.  On output, the strict upper trapezoidal 
+        //    part contains the strict upper trapezoidal part of the R factor, and 
+        //    the lower trapezoidal part contains a factored form of Q, the non-trivial
+        //    elements of the U vectors described above.
+        //
+        //    Input, int LDA, a positive value not less than M which specifies the 
+        //    leading dimension of the array A.
+        //
+        //    Input, bool PIVOT.  If true, then column pivoting is enforced.
+        //
+        //    Output, integer IPVT[LIPVT].  If PIVOT is true, then on output IPVT 
+        //    defines the permutation matrix P such that A*P = Q*R.  Column J of P
+        //    is column IPVT[J] of the identity matrix.
+        //
+        //       lipvt is a positive integer input variable. if pivot is false,
+        //         then lipvt may be as small as 1. if pivot is true, then
+        //         lipvt must be at least n.
+        //
+        //       rdiag is an output array of length n which contains the
+        //         diagonal elements of r.
+        //
+        //       acnorm is an output array of length n which contains the
+        //         norms of the corresponding columns of the input matrix a.
+        //         if this information is not needed, then acnorm can coincide
+        //         with rdiag.
+        //
+        {
+            double ajnorm;
+            double epsmch;
+            int i;
+            int j;
+            int k;
+            int kmax;
+            int minmn;
+            const double p05 = 0.05;
+            double sum;
+            double temp;
+            double[] wa;
+            //
+            //  EPSMCH is the machine precision.
+            //
+            epsmch = double.Epsilon;
+            //
+            //  Compute the initial column norms and initialize several arrays.
+            //
+            wa = new double[n];
+
+            for (j = 0; j < n; j++)
+            {
+                acnorm[acnormIndex + (j)] = Helpers.enorm(m, a, xIndex: aIndex + (j * lda));
+                rdiag[rdiagIndex + (j)] = acnorm[acnormIndex + (j)];
+                wa[j] = rdiag[rdiagIndex + (j)];
+                if (pivot)
+                {
+                    ipvt[j] = j;
+                }
+            }
+
+            //
+            //  Reduce A to R with Householder transformations.
+            //
+            minmn = Math.Min(m, n);
+
+            for (j = 0; j < minmn; j++)
+            {
+                if (pivot)
+                {
+                    //
+                    //  Bring the column of largest norm into the pivot position.
+                    //
+                    kmax = j;
+                    for (k = j; k < n; k++)
+                    {
+                        if (rdiag[rdiagIndex + (kmax)] < rdiag[rdiagIndex + (k)])
+                        {
+                            kmax = k;
+                        }
+                    }
+
+                    if (kmax != j)
+                    {
+                        for (i = 0; i < m; i++)
+                        {
+                            temp = a[aIndex + (i + j * lda)];
+                            a[aIndex + (i + j * lda)] = a[aIndex + (i + kmax * lda)];
+                            a[aIndex + (i + kmax * lda)] = temp;
+                        }
+
+                        rdiag[rdiagIndex + (kmax)] = rdiag[rdiagIndex + (j)];
+                        wa[kmax] = wa[j];
+                        k = ipvt[j];
+                        ipvt[j] = ipvt[kmax];
+                        ipvt[kmax] = k;
+                    }
+                }
+
+                //
+                //  Compute the Householder transformation to reduce the
+                //  J-th column of A to a multiple of the J-th unit vector.
+                //
+                ajnorm = Helpers.enorm(m - j, a, xIndex: aIndex + (+ j + j * lda));
+
+                if (ajnorm != 0.0)
+                {
+                    if (a[aIndex + (j + j * lda)] < 0.0)
+                    {
+                        ajnorm = -ajnorm;
+                    }
+
+                    for (i = j; i < m; i++)
+                    {
+                        a[aIndex + (i + j * lda)] = a[aIndex + (i + j * lda)] / ajnorm;
+                    }
+
+                    a[aIndex + (j + j * lda)] = a[aIndex + (j + j * lda)] + 1.0;
+                    //
+                    //  Apply the transformation to the remaining columns and update the norms.
+                    //
+                    for (k = j + 1; k < n; k++)
+                    {
+                        sum = 0.0;
+                        for (i = j; i < m; i++)
+                        {
+                            sum = sum + a[aIndex + (i + j * lda)] * a[aIndex + (i + k * lda)];
+                        }
+
+                        temp = sum / a[aIndex + (j + j * lda)];
+                        for (i = j; i < m; i++)
+                        {
+                            a[aIndex + (i + k * lda)] = a[aIndex + (i + k * lda)] - temp * a[aIndex + (i + j * lda)];
+                        }
+
+                        if (pivot && rdiag[rdiagIndex + (k)] != 0.0)
+                        {
+                            temp = a[aIndex + (j + k * lda)] / rdiag[rdiagIndex + (k)];
+                            rdiag[rdiagIndex + (k)] = rdiag[rdiagIndex + (k)] * Math.Sqrt(Math.Max(0.0, 1.0 - temp * temp));
+                            if (p05 * (rdiag[rdiagIndex + (k)] / wa[k]) * (rdiag[rdiagIndex + (k)] / wa[k]) <= epsmch)
+                            {
+                                rdiag[rdiagIndex + (k)] = Helpers.enorm(m - 1 - j, a, xIndex: aIndex + (+ (j + 1) + k * lda));
+                                wa[k] = rdiag[rdiagIndex + (k)];
+                            }
+                        }
+                    }
+                }
+
+                rdiag[rdiagIndex + (j)] = -ajnorm;
+            }
+        }
+
         public static double[] qr_solve ( int m, int n, double[] a, double[] b )
 
         //****************************************************************************80

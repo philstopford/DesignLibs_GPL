@@ -6,6 +6,49 @@ namespace Burkardt
 {
     public static partial class Helpers
     {
+        public static double enorm ( int n, double[] x, int xIndex = 0 )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    enorm() returns the Euclidean norm of a vector.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    05 April 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Input:
+            //
+            //    int N, the number of entries in A.
+            //
+            //    double X[N], the vector whose norm is desired.
+            //
+            //  Output:
+            //
+            //    double ENORM, the norm of X.
+            //
+        {
+            int i;
+            double value;
+
+            value = 0.0;
+            for ( i = 0; i < n; i++ )
+            {
+                value = value + x[xIndex + i] * x[xIndex + i];
+            }
+            value = Math.Sqrt ( value );
+            return value;
+        }
+
         public static int points_point_near_naive_nd ( int dim_num, int nset, double[] pset,
         double[] ptest, ref double d_min )
 

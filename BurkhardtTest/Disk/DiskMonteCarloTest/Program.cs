@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt;
 using Burkardt.Types;
 using Burkardt.Uniform;
 
@@ -184,7 +185,7 @@ namespace DiskMonteCarloTest
                         e[i] = e_test[i + j * 2];
                     }
 
-                    value = MonteCarlo.monomial_value(2, n, e, x);
+                    value = Monomial.monomial_value(2, n, e, x);
 
                     result = MonteCarlo.disk_area(center, r) * typeMethods.r8vec_sum(n, value) / (double) (n);
                     cout += "  " + result.ToString().PadLeft(14);

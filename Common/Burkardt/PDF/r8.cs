@@ -1837,7 +1837,7 @@ value = ( double ) rand ( ) / ( double ) RAND_MAX;
         }
 
         public static double r8vec_multinormal_pdf(int n, double[] mu, double[] r, double c_det,
-            double[] x)
+            double[] x, int xIndex = 0)
 
 //****************************************************************************80
 //
@@ -1907,7 +1907,7 @@ value = ( double ) rand ( ) / ( double ) RAND_MAX;
 
             for (i = 0; i < n; i++)
             {
-                b[i] = x[i] - mu[i];
+                b[i] = x[xIndex + i] - mu[i];
             }
 
             y = typeMethods.r8mat_utsol(n, r, b);

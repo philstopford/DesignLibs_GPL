@@ -211,8 +211,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Triangulation.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Area.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/NodeOrder.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Order3_Adj.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/i4col.cs" />
@@ -261,7 +259,9 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/DREAM/Chain.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/DREAM/Dream.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/DREAMTest/Test01.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/DREAMTest/Program.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/DREAMTest/Test02.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -278,7 +278,7 @@
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C#" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunManager" selected=".NET Project.DivDifTest">
+  <component name="RunManager" selected=".NET Project.DREAMTest">
     <configuration name="ASA005Test" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />

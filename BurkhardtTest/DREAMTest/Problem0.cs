@@ -4,7 +4,7 @@ using Burkardt.PDFLib;
 
 namespace DREAMTest
 {
-    public static class Test01
+    public static class Problem0
     {
         public static void test()
         {

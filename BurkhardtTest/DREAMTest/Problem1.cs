@@ -5,7 +5,7 @@ using Burkardt.Types;
 
 namespace DREAMTest
 {
-    public static class Test02
+    public static class Problem1
     {
         class Covariance 
         {

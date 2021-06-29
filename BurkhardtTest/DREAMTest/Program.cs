@@ -9,7 +9,8 @@ namespace DREAMTest
     {
         static void Main(string[] args)
         {
-            Test01.test();
+            Problem0.test();
+            Problem1.test();
         }
     }
 }

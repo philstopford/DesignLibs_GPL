@@ -189,6 +189,7 @@
     <projectFile>BurkhardtTest/Ellipse/EllipseMonteCarloTest/EllipseMonteCarloTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Ellipsoid/EllipsoidGridTest/EllipsoidGridTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Ellipsoid/EllipsoidMonteCarloTest/EllipsoidMonteCarloTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/EllipticIntegralTest/EllipticIntegralTest.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="" />
@@ -218,34 +219,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/VBEDG.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/cdfbet.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/DivDif.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Lagrange/Interpolation.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Interpolation/Lagrange.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Quadrature/NewtonCotes.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Data.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Roots.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Chebyshev/ChebyshevPolynomial_t.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Chebyshev/ChebyshevPolynomial_u.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Dif.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8poly.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/DivDifTest/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/DREAM/Diff.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/DREAM/Input.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/DREAM/Jump.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/DREAM/Restart.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/DREAM/Sample.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/DREAM/StdCompute.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/DREAM/CR.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/DREAM/GelmanRubin.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/DREAM/Chain.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/DREAM/Dream.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/DREAMTest/Test01.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/DREAMTest/Test02.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/PDF/r8.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/DREAMTest/Problem1c_Covariance.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/DREAMTest/Problem1c.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/DREAMTest/Problem2.cs" />
@@ -269,6 +242,34 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8po.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Ellipsoid/MonteCarlo.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Ellipsoid/EllipsoidMonteCarloTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic._facs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Integral_Elliptic.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Jacobi_Elliptic.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic_FA_inc.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic_ea.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic_ea_inc.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic_ek.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic_ek_inc.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic_em.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic_em_inc.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic_fa.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic_fa_inc.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic_fk.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic_fk_inc.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic_fm.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic_fm_inc.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic_pia.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic_pia_inc.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic_pik.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic_pik_inc.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic_pim.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic_pim_inc.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Jacobi_cn.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Jacobi_dn.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Jacobi_sn.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/EllipticIntegralTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -2023,6 +2024,24 @@
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
       <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Ellipsoid/EllipsoidMonteCarloTest/EllipsoidMonteCarloTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="EllipticIntegralTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/EllipticIntegralTest/EllipticIntegralTest.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
@@ -3916,6 +3935,7 @@
       <item itemvalue=".NET Project.EllipseMonteCarloTest" />
       <item itemvalue=".NET Project.EllipsoidGridTest" />
       <item itemvalue=".NET Project.EllipsoidMonteCarloTest" />
+      <item itemvalue=".NET Project.EllipticIntegralTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

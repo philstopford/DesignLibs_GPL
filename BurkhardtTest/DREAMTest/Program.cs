@@ -11,6 +11,8 @@ namespace DREAMTest
         {
             Problem0.test();
             Problem1.test();
+            Problem1c.test();
+            Problem2.test();
         }
     }
 }

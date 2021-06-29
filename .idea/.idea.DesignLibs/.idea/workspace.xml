@@ -211,7 +211,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Order3_Boundary.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Order3_Check.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Order3_Refine.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/NeighborElements.cs" />
@@ -259,9 +258,10 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/DREAMTest/Test01.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/DREAMTest/Test02.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/PDF/r8.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/DREAMTest/Program.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/DREAMTest/Problem1c.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/DREAMTest/Problem1c_Covariance.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/DREAMTest/Problem1c.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/DREAMTest/Program.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/DREAMTest/Problem2.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />

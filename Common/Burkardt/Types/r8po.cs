@@ -197,6 +197,93 @@ namespace Burkardt.Types
             return b;
         }
 
+        public static double[] r8po_sl(int n, double[] a_lu, double[] b, int bIndex = 0)
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8PO_SL solves a linear system that has been factored by R8PO_FA.
+        //
+        //  Discussion:
+        //
+        //    The R8PO storage format is appropriate for a symmetric positive definite 
+        //    matrix and its inverse.  (The Cholesky factor of a R8PO matrix is an
+        //    upper triangular matrix, so it will be in R8GE storage format.)
+        //
+        //    Only the diagonal and upper triangle of the square array are used.
+        //    This same storage format is used when the matrix is factored by
+        //    R8PO_FA, or inverted by R8PO_INVERSE.  For clarity, the lower triangle
+        //    is set to zero.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    03 February 2004
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Dongarra, Bunch, Moler, Stewart.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Jack Dongarra, Jim Bunch, Cleve Moler, Pete Stewart,
+        //    LINPACK User's Guide,
+        //    SIAM, 1979,
+        //    ISBN13: 978-0-898711-72-1,
+        //    LC: QA214.L56.
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order of the matrix.
+        //
+        //    Input, double A_LU[N*N], the Cholesky factor from R8PO_FA.
+        //
+        //    Input, double B[N], the right hand side.
+        //
+        //    Output, double R8PO_SL[N], the solution vector.
+        //
+        {
+            int i;
+            int k;
+            double[] x;
+
+            x = new double[n];
+
+            for ( k = 0; k < n; k++ )
+            {
+                x[k] = b[bIndex + k];
+            }
+            //
+            //  Solve R' * y = b.
+            //
+            for ( k = 0; k < n; k++ )
+            {
+                for ( i = 0; i < k; i++ )
+                {
+                    x[k] = x[k] - x[i] * a_lu[i+k*n];
+                }
+                x[k] = x[k] / a_lu[k+k*n];
+            }
+            //
+            //  Solve R * x = y.
+            //
+            for ( k = n-1; 0 <= k; k-- )
+            {
+                x[k] = x[k] / a_lu[k+k*n];
+                for ( i = 0; i < k; i++ )
+                {
+                    x[i] = x[i] - a_lu[i+k*n] * x[k];
+                }
+            }
+
+            return x;
+        }
+        
         public static void r8po_sl(double[] a, int lda, int n, ref double[] b, int aIndex = 0, int bIndex = 0 )
 
         //****************************************************************************80

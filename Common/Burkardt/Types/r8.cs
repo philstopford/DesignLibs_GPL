@@ -2531,5 +2531,35 @@ namespace Burkardt.Types
                 }
             }
         }
+        
+        public static void r8_print ( double r, string title )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_PRINT prints an R8.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    14 August 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double R, the value to print.
+            //
+            //    Input, string TITLE, a title.
+            //
+        {
+            Console.WriteLine(title + "  " + r + "\n");
+        }
     }
 }

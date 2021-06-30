@@ -191,6 +191,7 @@
     <projectFile>BurkhardtTest/Ellipsoid/EllipsoidMonteCarloTest/EllipsoidMonteCarloTest.csproj</projectFile>
     <projectFile>BurkhardtTest/EllipticIntegralTest/EllipticIntegralTest.csproj</projectFile>
     <projectFile>BurkhardtTest/MinPackTest/MinPackTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/FaureTest/FaureTest.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="" />
@@ -220,10 +221,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Ellipse/QuadratureRule.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Ellipse/Grid.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/Ellipse/EllipseGridTest/Program.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/Disk/DiskMonteCarloTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Disk/MonteCarlo.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Ellipse/MonteCarlo.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Ellipse/EllipseMonteCarloTest/Program.cs" />
@@ -271,6 +268,10 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Minpack/hybrd.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Minpack/dogleg.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/MinPackTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Prime.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Coefficients.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Random/Faure.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/FaureTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -287,7 +288,7 @@
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C#" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunManager" selected=".NET Project.EllipticIntegralTest">
+  <component name="RunManager" selected=".NET Project.FaureTest">
     <configuration name="ASA005Test" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -2628,6 +2629,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="FaureTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/FaureTest/FaureTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="GeoWranglerTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -3956,6 +3975,7 @@
       <item itemvalue=".NET Project.EllipsoidMonteCarloTest" />
       <item itemvalue=".NET Project.EllipticIntegralTest" />
       <item itemvalue=".NET Project.MinPackTest" />
+      <item itemvalue=".NET Project.FaureTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

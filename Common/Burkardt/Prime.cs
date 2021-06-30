@@ -4,6 +4,100 @@ namespace Burkardt
 {
     public static class Prime
     {
+        public static int prime_ge ( int n )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    PRIME_GE returns the smallest prime greater than or equal to N.
+            //
+            //  Example:
+            //
+            //    N     PRIME_GE
+            //
+            //    -10    2
+            //      1    2
+            //      2    2
+            //      3    3
+            //      4    5
+            //      5    5
+            //      6    7
+            //      7    7
+            //      8   11
+            //      9   11
+            //     10   11
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    09 March 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number to be bounded.
+            //
+            //    Output, int PRIME_GE, the smallest prime number that is greater
+            //    than or equal to N.  However, if N is larger than the
+            //    largest prime stored, then PRIME_GE is returned as -1.
+            //
+        {
+            int i_hi;
+            int i_lo;
+            int i_mid;
+            int p;
+            int p_hi;
+            int p_mid;
+
+            if ( n <= 2 )
+            {
+                p = 2;
+            }
+            else
+            {
+                i_lo = 1;
+                i_hi = prime(-1);
+                p_hi = prime(i_hi);
+
+                if ( p_hi < n )
+                {
+                    p = - p_hi;
+                }
+                else
+                {
+                    for ( ; ; )
+                    {
+                        if ( i_lo + 1 == i_hi )
+                        {
+                            p = p_hi;
+                            break;
+                        }
+
+                        i_mid = ( i_lo + i_hi ) / 2;
+                        p_mid = prime(i_mid);
+
+                        if ( p_mid < n )
+                        {
+                            i_lo = i_mid;
+                        }
+                        else if ( n <= p_mid )
+                        {
+                            i_hi = i_mid;
+                            p_hi = p_mid;
+                        }
+                    }
+                }
+            }
+
+            return p;
+        }
         public static int prime(int n)
 
             //****************************************************************************80

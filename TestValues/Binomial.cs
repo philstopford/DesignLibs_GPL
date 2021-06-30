@@ -1,0 +1,411 @@
+﻿namespace TestValues
+{
+    public static class Binomial
+    {
+        public static void binomial_values(ref int n_data, ref int a, ref int b, ref int fx)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    BINOMIAL_VALUES returns some values of the binomial coefficients.
+            //
+            //  Discussion:
+            //
+            //    The formula for the binomial coefficient is
+            //
+            //      C(N,K) = N! / ( K! * (N-K)! )
+            //
+            //    In Mathematica, the function can be evaluated by:
+            //
+            //      Binomial[n,k]
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    18 August 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Milton Abramowitz, Irene Stegun,
+            //    Handbook of Mathematical Functions,
+            //    National Bureau of Standards, 1964,
+            //    ISBN: 0-486-61272-4,
+            //    LC: QA47.A34.
+            //
+            //    Stephen Wolfram,
+            //    The Mathematica Book,
+            //    Fourth Edition,
+            //    Cambridge University Press, 1999,
+            //    ISBN: 0-521-64314-7,
+            //    LC: QA76.95.W65.
+            //
+            //  Parameters:
+            //
+            //    Input/output, ref int N_DATA.  The user sets N_DATA to 0 before the
+            //    first call.  On each call, the routine increments N_DATA by 1, and
+            //    returns the corresponding data; when there is no more data, the
+            //    output value of N_DATA will be 0 again.
+            //
+            //    Output, ref int A, &B, the arguments of the function.
+            //
+            //    Output, ref int FX, the value of the function.
+            //
+        {
+            int N_MAX = 20;
+
+            int[] a_vec =
+            {
+                1, 6, 6, 6, 15,
+                15, 15, 15, 15, 15,
+                15, 25, 25, 25, 25,
+                25, 25, 25, 25, 25
+            };
+
+            int[] b_vec =
+            {
+                0, 1, 3, 5, 1,
+                3, 5, 7, 9, 11,
+                13, 1, 3, 5, 7,
+                9, 11, 13, 15, 17
+            };
+
+            int[] fx_vec =
+            {
+                1,
+                6,
+                20,
+                6,
+                15,
+                455,
+                3003,
+                6435,
+                5005,
+                1365,
+                105,
+                25,
+                2300,
+                53130,
+                480700,
+                2042975,
+                4457400,
+                5200300,
+                3268760,
+                1081575
+            };
+
+            if (n_data < 0)
+            {
+                n_data = 0;
+            }
+
+            n_data = n_data + 1;
+
+            if (N_MAX < n_data)
+            {
+                n_data = 0;
+                a = 0;
+                b = 0;
+                fx = 0;
+            }
+            else
+            {
+                a = a_vec[n_data - 1];
+                b = b_vec[n_data - 1];
+                fx = fx_vec[n_data - 1];
+            }
+        }
+
+        public static void binomial_cdf_values(ref int n_data, ref int a, ref double b, ref int x, ref double fx)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    BINOMIAL_CDF_VALUES returns some values of the binomial CDF.
+            //
+            //  Discussion:
+            //
+            //    CDF(X)(A,B) is the probability of at most X successes in A trials,
+            //    given that the probability of success on a single trial is B.
+            //
+            //    In Mathematica, the function can be evaluated by:
+            //
+            //      Needs["Statistics`DiscreteDistributions`]
+            //      dist = BinomialDistribution [ n, p ]
+            //      CDF [ dist, x ]
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    15 August 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Milton Abramowitz, Irene Stegun,
+            //    Handbook of Mathematical Functions,
+            //    National Bureau of Standards, 1964,
+            //    ISBN: 0-486-61272-4,
+            //    LC: QA47.A34.
+            //
+            //    Stephen Wolfram,
+            //    The Mathematica Book,
+            //    Fourth Edition,
+            //    Cambridge University Press, 1999,
+            //    ISBN: 0-521-64314-7,
+            //    LC: QA76.95.W65.
+            //
+            //    Daniel Zwillinger,
+            //    CRC Standard Mathematical Tables and Formulae,
+            //    30th Edition, CRC Press, 1996, pages 651-652.
+            //
+            //  Parameters:
+            //
+            //    Input/output, ref int N_DATA.  The user sets N_DATA to 0 before the
+            //    first call.  On each call, the routine increments N_DATA by 1, and
+            //    returns the corresponding data; when there is no more data, the
+            //    output value of N_DATA will be 0 again.
+            //
+            //    Output, ref int A, a parameter of the function.
+            //
+            //    Output, ref double B, a parameter of the function.
+            //
+            //    Output, ref int X, the argument of the function.
+            //
+            //    Output, ref double FX, the value of the function.
+            //
+        {
+            int N_MAX = 17;
+
+            int[] a_vec =
+            {
+                2, 2, 2, 2,
+                2, 4, 4, 4,
+                4, 10, 10, 10,
+                10, 10, 10, 10,
+                10
+            };
+
+            double[] b_vec =
+            {
+                0.05E+00,
+                0.05E+00,
+                0.05E+00,
+                0.50E+00,
+                0.50E+00,
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.05E+00,
+                0.10E+00,
+                0.15E+00,
+                0.20E+00,
+                0.25E+00,
+                0.30E+00,
+                0.40E+00,
+                0.50E+00
+            };
+
+            double[] fx_vec =
+            {
+                0.9025000000000000E+00,
+                0.9975000000000000E+00,
+                0.1000000000000000E+01,
+                0.2500000000000000E+00,
+                0.7500000000000000E+00,
+                0.3164062500000000E+00,
+                0.7382812500000000E+00,
+                0.9492187500000000E+00,
+                0.9960937500000000E+00,
+                0.9999363101685547E+00,
+                0.9983650626000000E+00,
+                0.9901259090013672E+00,
+                0.9672065024000000E+00,
+                0.9218730926513672E+00,
+                0.8497316674000000E+00,
+                0.6331032576000000E+00,
+                0.3769531250000000E+00
+            };
+
+            int[] x_vec =
+            {
+                0, 1, 2, 0,
+                1, 0, 1, 2,
+                3, 4, 4, 4,
+                4, 4, 4, 4,
+                4
+            };
+
+            if (n_data < 0)
+            {
+                n_data = 0;
+            }
+
+            n_data = n_data + 1;
+
+            if (N_MAX < n_data)
+            {
+                n_data = 0;
+                a = 0;
+                b = 0.0;
+                x = 0;
+                fx = 0.0;
+            }
+            else
+            {
+                a = a_vec[n_data - 1];
+                b = b_vec[n_data - 1];
+                x = x_vec[n_data - 1];
+                fx = fx_vec[n_data - 1];
+            }
+        }
+
+        public static void binomial_pdf_values(ref int n_data, ref int a, ref double b, ref int x, ref double fx)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    BINOMIAL_PDF_VALUES returns some values of the binomial PDF.
+            //
+            //  Discussion:
+            //
+            //    PDF(X)(A,B) is the probability of X successes in A trials,
+            //    given that the probability of success on a single trial is B.
+            //
+            //    In Mathematica, the function can be evaluated by:
+            //
+            //      Needs["Statistics`DiscreteDistributions`]
+            //      dist = BinomialDistribution [ n, p ]
+            //      PDF [ dist, x ]
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    27 July 2015
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Milton Abramowitz, Irene Stegun,
+            //    Handbook of Mathematical Functions,
+            //    National Bureau of Standards, 1964,
+            //    ISBN: 0-486-61272-4,
+            //    LC: QA47.A34.
+            //
+            //    Stephen Wolfram,
+            //    The Mathematica Book,
+            //    Fourth Edition,
+            //    Cambridge University Press, 1999,
+            //    ISBN: 0-521-64314-7,
+            //    LC: QA76.95.W65.
+            //
+            //    Daniel Zwillinger,
+            //    CRC Standard Mathematical Tables and Formulae,
+            //    30th Edition, CRC Press, 1996, pages 651-652.
+            //
+            //  Parameters:
+            //
+            //    Input/output, ref int N_DATA.  The user sets N_DATA to 0 before the
+            //    first call.  On each call, the routine increments N_DATA by 1, and
+            //    returns the corresponding data; when there is no more data, the
+            //    output value of N_DATA will be 0 again.
+            //
+            //    Output, ref int A, a parameter of the function.
+            //
+            //    Output, ref double B, a parameter of the function.
+            //
+            //    Output, ref int X, the argument of the function.
+            //
+            //    Output, ref double FX, the value of the function.
+            //
+        {
+            int N_MAX = 10;
+
+            int[] a_vec =
+            {
+                5, 12, 6, 13, 9,
+                1, 2, 17, 6, 8
+            };
+
+            double[] b_vec =
+            {
+                0.8295092339327006,
+                0.06611873491603133,
+                0.0438289977791071,
+                0.4495389603071763,
+                0.7972869541062562,
+                0.3507523379805466,
+                0.8590968552798568,
+                0.007512364073964213,
+                0.1136640464424993,
+                0.2671322702601793
+            };
+
+            double[] fx_vec =
+            {
+                0.3927408939646697,
+                0.0006199968732461383,
+                0.764211224733124,
+                0.0004260353334364943,
+                0.302948289145794,
+                0.3507523379805466,
+                0.01985369619202562,
+                0.006854388879646552,
+                0.000002156446446382985,
+                0.0005691150511772053
+            };
+
+            int[] x_vec =
+            {
+                5, 5, 0, 0, 7,
+                1, 0, 2, 6, 7
+            };
+
+            if (n_data < 0)
+            {
+                n_data = 0;
+            }
+
+            n_data = n_data + 1;
+
+            if (N_MAX < n_data)
+            {
+                n_data = 0;
+                a = 0;
+                b = 0.0;
+                x = 0;
+                fx = 0.0;
+            }
+            else
+            {
+                a = a_vec[n_data - 1];
+                b = b_vec[n_data - 1];
+                x = x_vec[n_data - 1];
+                fx = fx_vec[n_data - 1];
+            }
+        }
+
+    }
+}

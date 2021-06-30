@@ -1,0 +1,4386 @@
+﻿using System;
+using Burkardt.FullertonFnLib;
+
+namespace FullertonTest
+{
+    class Program
+    {
+        static void Main(string[] args)
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    MAIN is the main program for FN_TEST.
+            //
+            //  Discussion:
+            //
+            //    FN_TEST tests the FN library.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    07 May 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            Console.WriteLine("");
+            Console.WriteLine("FN_TEST:");
+            Console.WriteLine("  Test the FN library.");
+
+            i4_mach_test();
+            r8_acos_test();
+            r8_acosh_test();
+            r8_ai_test();
+            r8_aid_test();
+            r8_aint_test();
+            r8_asin_test();
+            r8_asinh_test();
+            r8_atan_test();
+            r8_atan2_test();
+            r8_atanh_test();
+            r8_besi0_test();
+            r8_besi1_test();
+            r8_besj0_test();
+            r8_besj1_test();
+            r8_besk0_test();
+            r8_besk1_test();
+            r8_besy0_test();
+            r8_besy1_test();
+            r8_beta_test();
+            r8_betai_test();
+            r8_bi_test();
+            r8_bid_test();
+            r8_binom_test();
+            r8_cbrt_test();
+            r8_chi_test();
+            r8_chu_test();
+            r8_ci_test();
+            r8_cin_test();
+            r8_cinh_test();
+            r8_cos_test();
+            r8_cos_deg_test();
+            r8_cosh_test();
+            r8_cot_test();
+            r8_csevl_test();
+            r8_dawson_test();
+            r8_e1_test();
+            r8_ei_test();
+            r8_erf_test();
+            r8_erfc_test();
+            r8_exp_test();
+            r8_fac_test();
+            r8_gamic_test();
+            r8_gamit_test();
+            r8_gaml_test();
+            r8_gamma_test();
+            r8_gamr_test();
+            r8_inits_test();
+            r8_int_test();
+            r8_lbeta_test();
+            r8_lgams_test();
+            r8_lgmc_test();
+            r8_li_test();
+            r8_lngam_test();
+            r8_lnrel_test();
+            r8_log_test();
+            r8_log10_test();
+            r8_mach_test();
+            r8_pak_test();
+            r8_poch_test();
+            r8_psi_test();
+            r8_rand_test();
+            r8_randgs_test();
+            r8_random_test();
+            r8_ren_test();
+            r8_shi_test();
+            r8_si_test();
+            r8_sin_test();
+            r8_sin_deg_test();
+            r8_sinh_test();
+            r8_spence_test();
+            r8_sqrt_test();
+            r8_tan_test();
+            r8_tanh_test();
+            r8_upak_test();
+            Console.WriteLine("");
+            Console.WriteLine("FN_TEST:");
+            Console.WriteLine("  Normal end of execution.");
+            Console.WriteLine("");
+        }
+
+        static void i4_mach_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4_MACH_TEST tests I4_MACH.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    22 April 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            int i;
+
+            Console.WriteLine("");
+            Console.WriteLine("I4_MACH_TEST:");
+            Console.WriteLine("  I4_MACH evaluates integer machine numbers.");
+            Console.WriteLine("");
+            Console.WriteLine("  I4_MACH(1) = the standard input unit.");
+            Console.WriteLine("  I4_MACH(2) = the standard output unit.");
+            Console.WriteLine("  I4_MACH(3) = the standard punch unit.");
+            Console.WriteLine("  I4_MACH(4) = the standard error message unit.");
+            Console.WriteLine("  I4_MACH(5) = the number of bits per integer storage unit.");
+            Console.WriteLine("  I4_MACH(6) = the number of characters per integer storage unit.");
+            Console.WriteLine("  I4_MACH(7) = A, the base.");
+            Console.WriteLine("  I4_MACH(8) = S, the number of base A digits.");
+            Console.WriteLine("  I4_MACH(9) = A^S-1, the largest integer.");
+            Console.WriteLine("  I4_MACH(10) = B, the base.");
+            Console.WriteLine("  I4_MACH(11) = T, the number of single precision base B digits.");
+            Console.WriteLine("  I4_MACH(12) = EMIN, the smallest single precision exponent E.");
+            Console.WriteLine("  I4_MACH(13) = EMAX, the largest single precision exponent E.");
+            Console.WriteLine("  I4_MACH(14) = T, the number of double precision base B digits.");
+            Console.WriteLine("  I4_MACH(15) = EMIN, the smallest double precision exponent E.");
+            Console.WriteLine("  I4_MACH(16) = EMAX, the largest double precision exponent E.");
+            Console.WriteLine("");
+            Console.WriteLine("    I     I4_MACH(I)");
+            Console.WriteLine("");
+
+            for (i = 1; i <= 16; i++)
+            {
+                Console.WriteLine("  " + i.ToString().PadLeft(4)
+                    + "  " + FullertonLib.i4_mach(i).ToString().PadLeft(12) + "");
+            }
+
+        }
+
+        static void r8_acos_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_ACOS_TEST tests R8_ACOS.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    10 September 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1 = 0;
+            double fx2;
+            int n_data;
+            double x = 0;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_ACOS_TEST:");
+            Console.WriteLine("  R8_ACOS evaluates the arccosine function.");
+            Console.WriteLine("");
+            Console.WriteLine("             X      ARCCOS(X)  R8_ACOS(X)         Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                arccos_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = FullertonLib.r8_acos(x);
+
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            }
+
+        }
+
+        static void r8_acosh_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_ACOSH_TEST tests R8_ACOSH.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    25 April 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_ACOSH_TEST:");
+            Console.WriteLine("  R8_ACOSH evaluates the hyperbolic arccosine function");
+            Console.WriteLine("");
+            Console.WriteLine("             X      ARCCOSH(X)  R8_ACOSH(X)        Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                arccosh_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_acosh(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_ai_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_AI_TEST tests R8_AI.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_AI_TEST:");
+            Console.WriteLine("  Test R8_AI.");
+            Console.WriteLine("");
+            Console.WriteLine("             X   AIRY_AI(X)  R8_AI(X)         Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                airy_ai_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_ai(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_aid_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_AID_TEST tests R8_AID.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_AID_TEST:");
+            Console.WriteLine("  Test R8_AID.");
+            Console.WriteLine("");
+            Console.WriteLine("             X   AIRY_AID(X)  R8_AID(X)         Diff");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                airy_ai_prime_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_aid(x);
+
+                Console.WriteLine("");
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_aint_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_AINT_TEST tests R8_AINT.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    24 April 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_AINT_TEST:");
+            Console.WriteLine("  R8_AINT rounds an R8 towards 0.");
+            Console.WriteLine("");
+            Console.WriteLine("             X      AINT(X)  R8_AINT(X)         Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                int_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_aint(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_asin_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_ASIN_TEST tests R8_ASIN.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    11 September 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_ASIN_TEST:");
+            Console.WriteLine("  Test R8_ASIN.");
+            Console.WriteLine("");
+            Console.WriteLine("             X      ARCSIN(X)  R8_ASIN(X)         Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                arcsin_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_asin(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_asinh_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_ASINH_TEST tests R8_ASINH.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    11 September 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_ASINH_TEST:");
+            Console.WriteLine("  Test R8_ASINH");
+            Console.WriteLine("");
+            Console.WriteLine("             X      ARCSINH(X)  R8_ASINH(X)        Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                arcsinh_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_asinh(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_atan_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_ATAN_TEST tests R8_ATAN.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    11 September 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_ATAN_TEST:");
+            Console.WriteLine("  Test R8_ATAN.");
+            Console.WriteLine("");
+            Console.WriteLine("             X      ARCTAN(X)  R8_ATAN(X)         Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                arctan_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_atan(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_atan2_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_ATAN2_TEST tests R8_ATAN2.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    11 September 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+            double y;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_ATAN2_TEST:");
+            Console.WriteLine("  Test R8_ATAN2.");
+            Console.WriteLine("");
+            Console.WriteLine("             X             Y      ARCTAN2(Y,X)  R8_ATAN2(Y,X)         Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                arctan2_values(n_data, x, y, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_atan2(y, x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + y
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_atanh_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_ATANH_TEST tests R8_ATANH.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    11 September 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_ATANH_TEST:");
+            Console.WriteLine("  Test ARCTANH_VALUES, R4_ATANH, R8_ATANH");
+            Console.WriteLine("");
+            Console.WriteLine("             X      ARCTANH(X)  R8_ATANH(X)        Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                arctanh_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_atanh(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_besi0_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_BESI0_TEST tests R8_BESI0.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_BESI0_TEST:");
+            Console.WriteLine("  Test R8_BESI0");
+            Console.WriteLine("");
+            Console.WriteLine("             X      BESI0(X)  R8_BESI0(X)        Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                bessel_i0_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_besi0(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_besi1_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_BESI1_TEST tests R8_BESI1.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_BESI1_TEST:");
+            Console.WriteLine("  Test R8_BESI1");
+            Console.WriteLine("");
+            Console.WriteLine("             X      BESI1(X)  R8_BESI1(X)        Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                bessel_i1_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_besi1(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_besj0_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_BESJ0_TEST tests R8_BESJ0.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_BESJ0_TEST:");
+            Console.WriteLine("  Test R8_BESJ0");
+            Console.WriteLine("");
+            Console.WriteLine("             X      BESJ0(X)  R8_BESJ0(X)        Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                bessel_j0_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_besj0(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_besj1_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_BESJ1_TEST tests R8_BESJ1.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_BESJ1_TEST:");
+            Console.WriteLine("  Test R8_BESJ1");
+            Console.WriteLine("");
+            Console.WriteLine("             X      BESJ1(X)  R8_BESJ1(X)        Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                bessel_j1_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_besj1(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_besk0_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_BESK0_TEST tests R8_BESK0.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_BESK0_TEST:");
+            Console.WriteLine("  Test R8_BESK0");
+            Console.WriteLine("");
+            Console.WriteLine("             X      BESK0(X)  R8_BESK0(X)        Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                bessel_k0_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_besk0(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_besk1_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_BESK1_TEST tests R8_BESK1.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_BESK1_TEST:");
+            Console.WriteLine("  Test R8_BESK1");
+            Console.WriteLine("");
+            Console.WriteLine("             X      BESK1(X)  R8_BESK1(X)        Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                bessel_k1_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_besk1(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_besy0_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_BESY0_TEST tests R8_BESY0.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_BESY0_TEST:");
+            Console.WriteLine("  Test R8_BESY0");
+            Console.WriteLine("");
+            Console.WriteLine("             X      BESY0(X)  R8_BESY0(X)        Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                bessel_y0_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_besy0(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_besy1_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_BESY1_TEST tests R8_BESY1.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_BESY1_TEST:");
+            Console.WriteLine("  Test R8_BESY1");
+            Console.WriteLine("");
+            Console.WriteLine("             X      BESY1(X)  R8_BESY1(X)        Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                bessel_y1_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_besy1(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_beta_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_BETA_TEST tests R8_BETA.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double a;
+            double b;
+            double fx1;
+            double fx2;
+            int n_data;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_BETA_TEST:");
+            Console.WriteLine("  Test R8_BETA.");
+            Console.WriteLine("");
+            Console.WriteLine("             X        BETA(A,B)  R8_BETA(A,B)       Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                beta_values(n_data, a, b, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_beta(a, b);
+
+
+                Console.WriteLine("  " + setw(14) + a
+                    + "  " + setw(14) + b
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_betai_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_BETAI_TEST tests R8_BETAI.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double a;
+            double b;
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_BETAI_TEST:");
+            Console.WriteLine("  Test R8_BETAI.");
+            Console.WriteLine("");
+            Console.WriteLine("             X        BETA(A,B,X)  R8_BETAI(A,B,X)       Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                beta_inc_values(n_data, a, b, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_betai(x, a, b);
+
+                Console.WriteLine("  " + setw(14) + a
+                    + "  " + setw(14) + b
+                    + "  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_bi_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_BI_TEST tests R8_BI.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_BI_TEST:");
+            Console.WriteLine("  Test R8_BI.");
+            Console.WriteLine("");
+            Console.WriteLine("             X   AIRY_BI(X)  R8_BI(X)         Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                airy_bi_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_bi(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_bid_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_BID_TEST tests R8_BID.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_BID_TEST:");
+            Console.WriteLine("  Test R8_BID.");
+            Console.WriteLine("");
+            Console.WriteLine("             X   AIRY_BID(X)  R8_BID(X)         Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                airy_bi_prime_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_bid(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_binom_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_BINOM_TEST tests R8_BINOM.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            int a;
+            int b;
+            int fx1;
+            double fx2;
+            int n_data;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_BINOM_TEST:");
+            Console.WriteLine("  Test R8_BINOM.");
+            Console.WriteLine("");
+            Console.WriteLine("             X        BINOM(A,B)  R8_BINOM(A,B)       Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                binomial_values(n_data, a, b, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_binom((double) a, (double) b);
+
+                Console.WriteLine("  " + setw(14) + a
+                    + "  " + setw(14) + b
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_cbrt_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_CBRT_TEST tests R8_CBRT.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_CBRT_TEST:");
+            Console.WriteLine("  Test R8_CBRT");
+            Console.WriteLine("");
+            Console.WriteLine("             X      CBRT(X)  R8_CBRT(X)        Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                cbrt_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_cbrt(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_chi_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_CHI_TEST tests R8_CHI.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_CHI_TEST:");
+            Console.WriteLine("  Test R8_CHI.");
+            Console.WriteLine("");
+            Console.WriteLine("             X      CHI(X)  R8_CHI(X)         Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                chi_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_chi(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_chu_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_CHU_TEST tests R8_CHU.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double a;
+            double b;
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_CHU_TEST:");
+            Console.WriteLine("  Test R8_CHU.");
+            Console.WriteLine("");
+            Console.WriteLine("             A               B               X     CHU(A,B,X)  R8_CHU(A,B,X)  Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                hypergeometric_u_values(n_data, a, b, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_chu(a, b, x);
+
+                Console.WriteLine("  " + setw(14) + a
+                    + "  " + setw(14) + b
+                    + "  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_ci_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_CI_TEST tests R8_CI.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_CI_TEST:");
+            Console.WriteLine("  Test R8_CI.");
+            Console.WriteLine("");
+            Console.WriteLine("             X      CI(X)  R8_CI(X)         Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                ci_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_ci(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_cin_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_CIN_TEST tests R8_CIN.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_CIN_TEST:");
+            Console.WriteLine("  Test R8_CIN.");
+            Console.WriteLine("");
+            Console.WriteLine("             X      CIN(X)  R8_CIN(X)         Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                cin_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_cin(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_cinh_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_CINH_TEST tests R8_CINH.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_CINH_TEST:");
+            Console.WriteLine("  Test R8_CINH.");
+            Console.WriteLine("");
+            Console.WriteLine("             X      CINH(X)  R8_CINH(X)         Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                cinh_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_cinh(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_cos_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_COS_TEST tests R8_COS.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    11 September 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_COS_TEST:");
+            Console.WriteLine("  Test R8_COS.");
+            Console.WriteLine("");
+            Console.WriteLine("             X      COS(X)  R8_COS(X)         Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                cos_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_cos(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_cos_deg_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_COS_DEG_TEST tests R8_COS_DEG.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_COS_DEG_TEST:");
+            Console.WriteLine("  Test R8_COS_DEG.");
+            Console.WriteLine("");
+            Console.WriteLine("             X      COS_DEG(X)  R8_COS_DEG(X)         Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                cos_degree_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_cos_deg(x);
+
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_cosh_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_COSH_TEST tests R8_COSH.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    11 September 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_COSH_TEST:");
+            Console.WriteLine("  Test R8_COSH");
+            Console.WriteLine("");
+            Console.WriteLine("             X      COSH(X)  R8_COSH(X)        Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                cosh_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_cosh(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_cot_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_COT_TEST tests R8_COT.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    11 September 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_COT_TEST:");
+            Console.WriteLine("  Test R8_COT.");
+            Console.WriteLine("");
+            Console.WriteLine("             X      COT(X)  R8_COT(X)         Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                cot_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_cot(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_csevl_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_CSEVL_TEST tests R8_CSEVL.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    22 April 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double err;
+            int i;
+            int n;
+            double expcs[15] =  {
+                2.532131755504016,
+                1.130318207984970,
+                0.271495339534077,
+                0.044336849848664,
+                0.005474240442094,
+                0.000542926311914,
+                0.000044977322954,
+                0.000003198436462,
+                0.000000199212481,
+                0.000000011036772,
+                0.000000000550590,
+                0.000000000024980,
+                0.000000000001039,
+                0.000000000000040,
+                0.000000000000001
+            }
+            ;
+            double s;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_CSEVL_TEST:");
+            Console.WriteLine("  R8_CSEVL evaluates a Chebyshev approximant");
+            Console.WriteLine("  of N terms at a point X.");
+            Console.WriteLine("");
+            Console.WriteLine("  Here we use an approximant to the exponential function.");
+            Console.WriteLine("  and average the absolute error at 21 points.");
+            Console.WriteLine("");
+            Console.WriteLine("   N    error");
+            Console.WriteLine("");
+
+            for (n = 1; n <= 12; n++)
+            {
+                err = 0.0;
+                for (i = -10; i <= 10; i++)
+                {
+                    x = (double) (i) / 10.0;
+                    s = r8_csevl(x, expcs, n);
+                    err = err + fabs(s - exp(x));
+                }
+
+                err = err / 21.0;
+                Console.WriteLine("  " + setw(2) + n
+                    + "  " + setw(14) + err + "");
+            }
+
+        }
+
+        static void r8_dawson_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_DAWSON_TEST tests R8_DAWSON.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    11 September 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_DAWSON_TEST:");
+            Console.WriteLine("  Test R8_DAWSON.");
+            Console.WriteLine("");
+            Console.WriteLine("             X      DAWSON(X)  R8_DAWSON(X)         Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                dawson_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_dawson(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_e1_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_E1_TEST tests R8_E1.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_E1_TEST:");
+            Console.WriteLine("  Test R8_E1.");
+            Console.WriteLine("");
+            Console.WriteLine("             X      E1(X)  R8_E1(X)         Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                e1_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_e1(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_ei_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_EI_TEST tests R8_EI.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_EI_TEST:");
+            Console.WriteLine("  Test R8_EI.");
+            Console.WriteLine("");
+            Console.WriteLine("             X      EI(X)  R8_EI(X)         Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                ei_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_ei(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_erf_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_ERF_TEST tests R8_ERF.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_ERF_TEST:");
+            Console.WriteLine("  Test  R8_ERF.");
+            Console.WriteLine("");
+            Console.WriteLine("             X      ERF(X)  R8_ERF(X)         Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                erf_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_erf(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_erfc_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_ERFC_TEST tests R8_ERFC.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_ERFC_TEST:");
+            Console.WriteLine("  Test R8_ERFC.");
+            Console.WriteLine("");
+            Console.WriteLine("             X      ERFC(X)  R8_ERFC(X)         Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                erfc_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_erfc(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_exp_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_EXP_TEST tests R8_EXP.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_EXP_TEST:");
+            Console.WriteLine("  Test R8_EXP.");
+            Console.WriteLine("");
+            Console.WriteLine("             X      EXP(X)  R8_EXP(X)         Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                exp_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_exp(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_fac_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_FAC_TEST tests R8_FAC.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    26 April 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n;
+            int n_data;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_FAC_TEST:");
+            Console.WriteLine("  R8_FAC evaluates the factorial function.");
+            Console.WriteLine("");
+            Console.WriteLine("             N      FAC(N)  R8_FAC(N)         Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                r8_factorial_values(n_data, n, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_fac(n);
+
+                Console.WriteLine("  " + setw(14) + n
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_gamic_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_GAMIC_TEST tests R8_GAMIC.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    25 April 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double a;
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_GAMIC_TEST:");
+            Console.WriteLine("  R8_GAMIC evaluates the incomplete gamma function.");
+            Console.WriteLine("");
+            Console.WriteLine("             X        GAMIC(A,X)  R8_GAMIC(A,X)       Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                gamma_inc_values(n_data, a, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_gamic(a, x);
+
+                Console.WriteLine("  " + setw(14) + a
+                    + "  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_gamit_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_GAMIT_TEST tests R8_GAMIT.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double a;
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_GAMIT_TEST:");
+            Console.WriteLine("  R8_GAMIT evaluates Tricomi's incomplete Gamma function.");
+            Console.WriteLine("");
+            Console.WriteLine("             X        GAMIT(A,X)  R8_GAMIT(A,X)       Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                gamma_inc_tricomi_values(n_data, a, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_gamit(a, x);
+
+                Console.WriteLine("  " + setw(14) + a
+                    + "  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_gaml_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_GAML_TEST tests R8_GAML.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    25 April 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double xmax;
+            double xmin;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_GAML_TEST:");
+            Console.WriteLine("  R8_GAML returns bounds for the argument of the gamma function.");
+
+            r8_gaml(xmin, xmax);
+
+            Console.WriteLine("");
+            Console.WriteLine("  Lower limit XMIN = " + xmin + "");
+            Console.WriteLine("  Upper limit XMAX = " + xmax + "");
+
+        }
+
+        static void r8_gamma_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_GAMMA_TEST tests R8_GAMMA.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    25 April 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_GAMMA_TEST:");
+            Console.WriteLine("  R8_GAMMA evaluates the gamma function.");
+            Console.WriteLine("");
+            Console.WriteLine("             X      GAMMA(X)  R8_GAMMA(X)        Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                gamma_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_gamma(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_gamr_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_GAMR_TEST tests R8_GAMR.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    25 April 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            double gx;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_GAMR_TEST:");
+            Console.WriteLine("  R8_GAMR evaluates 1.0/Gamma(x).");
+            Console.WriteLine("");
+            Console.WriteLine("             X    1/GAMMA(X)  R8_GAMR(X)        Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                gamma_values(n_data, x, gx);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx1 = 1.0 / gx;
+                fx2 = r8_gamr(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_inits_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_INITS_TEST tests R8_INITS.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    22 April 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            int i;
+            int n;
+            double sincs[15] =  {
+                -0.374991154955873175839919279977323464,
+                -0.181603155237250201863830316158004754,
+                +0.005804709274598633559427341722857921,
+                -0.000086954311779340757113212316353178,
+                +0.000000754370148088851481006839927030,
+                -0.000000004267129665055961107126829906,
+                +0.000000000016980422945488168181824792,
+                -0.000000000000050120578889961870929524,
+                +0.000000000000000114101026680010675628,
+                -0.000000000000000000206437504424783134,
+                +0.000000000000000000000303969595918706,
+                -0.000000000000000000000000371357734157,
+                +0.000000000000000000000000000382486123,
+                -0.000000000000000000000000000000336623,
+                +0.000000000000000000000000000000000256
+            }
+            ;
+            double tol;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_INITS_TEST:");
+            Console.WriteLine("  R8_INITS determines the Chebyshev interpolant degree");
+            Console.WriteLine("  necessary to guarantee a desired accuracy level.");
+            Console.WriteLine("");
+            Console.WriteLine("  Here, we use a 15 term Chebyshev expansion for the");
+            Console.WriteLine("  sine function.");
+            Console.WriteLine("");
+            Console.WriteLine("  Accuracy    Terms Needed");
+            Console.WriteLine("");
+
+            tol = 1.0;
+            for (i = 1; i <= 18; i++)
+            {
+                n = r8_inits(sincs, 15, tol);
+                Console.WriteLine("  " + setw(14) + tol
+                    + "  " + setw(4) + n + "");
+                tol = tol / 10.0;
+            }
+
+        }
+
+        static void r8_int_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_INT_TEST tests R8_INT.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    24 April 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_INT_TEST:");
+            Console.WriteLine("  R8_INT rounds an R8 to an integer value.");
+            Console.WriteLine("");
+            Console.WriteLine("             X      INT(X)  R8_INT(X)         Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                int_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_int(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_lbeta_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_LBETA_TEST tests R8_LBETA.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    25 April 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double a;
+            double b;
+            double fx1;
+            double fx2;
+            int n_data;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_LBETA_TEST:");
+            Console.WriteLine("  R8_LBETA evaluates the logarithm of the Beta function.");
+            Console.WriteLine("");
+            Console.WriteLine("             X        LBETA(A,B)  R8_LBETA(A,B)       Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                beta_log_values(n_data, a, b, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_lbeta(a, b);
+
+                Console.WriteLine("  " + setw(14) + a
+                    + "  " + setw(14) + b
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_lgams_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_LGAMS_TEST tests R8_LGAMS.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    01 May 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double slngam;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_LGAMS_TEST:");
+            Console.WriteLine("  R8_LGAMS evaluates the sign of Gamma(x) and");
+            Console.WriteLine("  the logarithm of the absolute value of Gamma(x).");
+            Console.WriteLine("");
+            Console.WriteLine("             X        LNGAM(X)  Sign(Gamma(X)) ALNGAM        Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                gamma_log_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                r8_lgams(x, fx2, slngam);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + slngam
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+
+            }
+
+        }
+
+        static void r8_lgmc_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_LGMC_TEST tests R8_LGMC.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    25 April 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            double gamma_log;
+            int n_data;
+            const double r8_pi = 3.141592653589793;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_LGMC_TEST:");
+            Console.WriteLine("  R8_LGMC evaluates the correction log gamma factor.");
+            Console.WriteLine("  r8_lgmc(x) = log ( gamma ( x ) ) - log ( sqrt ( 2 * pi )");
+            Console.WriteLine("  - ( x - 0.5 ) * log ( x ) + x");
+            Console.WriteLine("");
+            Console.WriteLine("             X        LGMC(X)  R8_LGMC(X)        Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                gamma_log_values(n_data, x, gamma_log);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                //
+                //  Function requires 10 <= x.
+                //
+                if (10.0 <= x)
+                {
+                    fx1 = gamma_log - log(sqrt(2.0 * r8_pi)) - (x - 0.5) * log(x) + x;
+                    fx2 = r8_lgmc(x);
+                    Console.WriteLine("  " + setw(14) + x
+                        + "  " + setw(14) + fx1
+                        + "  " + setw(14) + fx2
+                        + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                }
+            }
+
+        }
+
+        static void r8_li_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_LI_TEST tests R8_LI.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    25 April 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_LI_TEST:");
+            Console.WriteLine("  R8_LI evaluates the logarithmic integral");
+            Console.WriteLine("");
+            Console.WriteLine("             X      LI(X)  R8_LI(X)        Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                logarithmic_integral_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_li(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_lngam_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_LNGAM_TEST tests R8_LNGAM.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_LNGAM_TEST:");
+            Console.WriteLine("  Test R8_LNGAM");
+            Console.WriteLine("");
+            Console.WriteLine("             X        LNGAM(X)  R8_LNGAM(X)        Diff");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                gamma_log_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_lngam(x);
+
+                Console.WriteLine("");
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_lnrel_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_LNREL_TEST tests R8_LNREL.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL logcense.
+            //
+            //  Modified:
+            //
+            //    25 April 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_LNREL_TEST:");
+            Console.WriteLine("  R8_LNREL evaluates ln(1+x)");
+            Console.WriteLine("");
+            Console.WriteLine("             X      LOG(1+X)  R8_LNREL(X)        Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                log_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                x = x - 1.0;
+
+                fx2 = r8_lnrel(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_log_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_LOG_TEST tests R8_LOG.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL logcense.
+            //
+            //  Modified:
+            //
+            //    25 April 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_LOG_TEST:");
+            Console.WriteLine("  R8_LOG evaluates ln(x)");
+            Console.WriteLine("");
+            Console.WriteLine("             X      LOG(X)  R8_LOG(X)        Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                log_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_log(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_log10_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_LOG10_TEST tests R8_LOG10.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL log10cense.
+            //
+            //  Modified:
+            //
+            //    02 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_LOG10_TEST:");
+            Console.WriteLine("  Test R8_LOG10");
+            Console.WriteLine("");
+            Console.WriteLine("             X      LOG10(X)  R8_LOG10(X)        Diff");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                log10_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_log10(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_mach_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_MACH_TEST tests R8_MACH.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    22 April 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            int i;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_MACH_TEST:");
+            Console.WriteLine("  R8_MACH evaluates double precision machine numbers.");
+            Console.WriteLine("");
+            Console.WriteLine("  R8_MACH (1) = B^(EMIN-1), the smallest positive magnitude.");
+            Console.WriteLine("  R8_MACH (2) = B^EMAX*(1 - B^(-T)), the largest magnitude.");
+            Console.WriteLine("  R8_MACH (3) = B^(-T), the smallest relative spacing.");
+            Console.WriteLine("  R8_MACH (4) = B^(1-T), the largest relative spacing.");
+            Console.WriteLine("  R8_MACH (5) = LOG10(B)");
+            Console.WriteLine("");
+            Console.WriteLine("    I     R8_MACH(I)");
+            Console.WriteLine("");
+
+            for (i = 1; i <= 5; i++)
+            {
+                Console.WriteLine("  " + setw(4) + i
+                    + "  " + setw(14) + r8_mach(i) + "");
+            }
+
+        }
+
+        static void r8_pak_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_PAK_TEST tests R8_PAK.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    24 April 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            int i;
+            int n;
+            int n_test[11] =  {
+                7, 8, 7, 7, 4, 0, -1, 0, 7, 2, 0
+            }
+            ;
+            double x;
+            double y;
+            double y_test[11] =  {
+                0.5,
+                0.5,
+                -0.5,
+                0.75,
+                0.9375,
+                0.5,
+                0.5,
+                0.625,
+                0.5048828125,
+                0.7853981633974483,
+                0.0
+            }
+            ;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_PAK_TEST:");
+            Console.WriteLine("  R8_PAK converts a mantissa and base 2 exponent to an R8.");
+            Console.WriteLine("");
+            Console.WriteLine("    Mantissa     Exponent         R8");
+            Console.WriteLine("");
+
+            for (i = 0; i < 11; i++)
+            {
+                y = y_test[i];
+                n = n_test[i];
+
+                x = r8_pak(y, n);
+                Console.WriteLine("  " + setw(24) + y
+                    + "  " + setw(8) + n
+                    + "  " + setw(24) + x + "");
+            }
+
+        }
+
+        static void r8_poch_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_POCH_TEST tests R8_POCH.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    22 April 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double a;
+            double fx1;
+            double fx2;
+            int n;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_POCH_TEST:");
+            Console.WriteLine("  R8_POCH evaluates the Pochhammer symbol..");
+            Console.WriteLine("");
+            Console.WriteLine("             X        POCH(A,X)  R8_POCH(A,X)       Diff");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                r8_rise_values(n_data, a, n, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                x = (double) (n);
+                fx2 = r8_poch(a, x);
+
+                Console.WriteLine("  " + setw(14) + a
+                    + "  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_psi_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_PSI_TEST tests R8_PSI.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL psicense.
+            //
+            //  Modified:
+            //
+            //    02 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_PSI_TEST:");
+            Console.WriteLine("  Test R8_PSI");
+            Console.WriteLine("");
+            Console.WriteLine("             X      PSI(X)  R8_PSI(X)        Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                psi_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_psi(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_rand_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_RAND_TEST tests R8_RAND.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    05 May 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double average;
+            int i;
+            int i_value[7] =  {
+                1, 2, 3, 4, 10, 100, 1000
+            }
+            ;
+            int ix0;
+            int ix1;
+            int k;
+            double r;
+            double r_value[7] =  {
+                0.0004127026,
+                0.6750836372,
+                0.1614754200,
+                0.9086198807,
+                0.5527787209,
+                0.3600893021,
+                0.2176990509
+            }
+            ;
+            double s;
+            double variance;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_RAND_TEST:");
+            Console.WriteLine("  R8_RAND returns a random R8 value.");
+            Console.WriteLine("");
+            Console.WriteLine("               I       R8_RAND        Expected");
+            Console.WriteLine("");
+            //
+            //  Start the sequence.
+            //
+            ix0 = 0;
+            ix1 = 0;
+            s = 0.0;
+
+            k = 0;
+
+            for (i = 1; i <= 1000; i++)
+            {
+                r = r8_rand(s, ix0, ix1);
+
+                if (i == i_value[k])
+                {
+                    Console.WriteLine("  " + setw(14) + i
+                        + "  " + setw(14) + r
+                        + "  " + setw(14) + r_value[k] + "");
+                    k = k + 1;
+                }
+            }
+
+            //
+            //  Restart the sequence.
+            //
+            ix0 = 0;
+            ix1 = 0;
+            s = 0.0;
+
+            average = 0.0;
+            for (i = 1; i <= 1000000; i++)
+            {
+                r = r8_rand(s, ix0, ix1);
+                average = average + r;
+            }
+
+            average = average / 1000000.0;
+            Console.WriteLine("");
+            Console.WriteLine("     Average =  "
+                 + "  " + setw(14) + average
+                 + "  " + setw(14) + 0.5 + "");
+            //
+            //  Restart the sequence.
+            //
+            ix0 = 0;
+            ix1 = 0;
+            s = 0.0;
+
+            variance = 0.0;
+            for (i = 1; i <= 1000000; i++)
+            {
+                r = r8_rand(s, ix0, ix1);
+                variance = variance + pow(r - average, 2);
+            }
+
+            variance = variance / 1000000.0;
+            Console.WriteLine("     Variance = "
+                 + "  " + setw(14) + variance
+                 + "  " + setw(14) + 1.0 / 12.0 + "");
+
+        }
+
+        static void r8_randgs_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_RANDGS_TEST tests R8_RANDGS.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    24 April 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            int i;
+            double m;
+            double m2;
+            double r;
+            double sd;
+            double sd2;
+            int seed;
+
+            m = 3.0;
+            sd = 2.0;
+            seed = 123456789;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_RANDGS_TEST:");
+            Console.WriteLine("  R8_RANDGS generates a random normal R8.");
+            Console.WriteLine("  Mean =  " + m + "");
+            Console.WriteLine("  Standard deviation = " + sd + "");
+            Console.WriteLine("");
+            Console.WriteLine("               I       R8_RANDGS");
+            Console.WriteLine("");
+
+            m2 = 0.0;
+            sd2 = 0.0;
+
+            for (i = 1; i <= 1000; i++)
+            {
+                r = r8_randgs(m, sd, seed);
+                m2 = m2 + r;
+                sd2 = sd2 + pow(m - r, 2);
+                if (i <= 10)
+                {
+                    Console.WriteLine("  " + setw(14) + i
+                        + "  " + setw(14) + r + "");
+                }
+            }
+
+            m2 = m2 / 1000.0;
+            sd2 = sqrt(sd2 / 1000.0);
+
+            Console.WriteLine("");
+            Console.WriteLine("  Sequence mean =  " + m2 + "");
+            Console.WriteLine("  Sequence standard deviation = " + sd2 + "");
+
+        }
+
+        static void r8_random_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_RANDOM_TEST tests R8_RANDOM.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    09 May 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double average;
+            int i;
+            int i_value[7] =  {
+                1, 2, 3, 4, 10, 100, 1000
+            }
+            ;
+            int ix0;
+            int ix1;
+            int k;
+            int n = 32;
+            double r;
+            double t[33];
+            double variance;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_RANDOM_TEST:");
+            Console.WriteLine("  R8_RANDOM returns a random R8 value.");
+            Console.WriteLine("");
+            Console.WriteLine("               I       R8_RANDOM");
+            Console.WriteLine("");
+            //
+            //  Start the sequence.
+            //
+            ix0 = 0;
+            ix1 = 0;
+            r8_random_init(n, t, ix0, ix1);
+
+            k = 0;
+
+            for (i = 1; i <= 1000; i++)
+            {
+                r = r8_random(n, t, ix0, ix1);
+
+                if (i == i_value[k])
+                {
+                    Console.WriteLine("  " + setw(14) + i
+                        + "  " + setw(14) + r + "");
+                    k = k + 1;
+                }
+            }
+
+            //
+            //  Restart the sequence.
+            //
+            ix0 = 0;
+            ix1 = 0;
+            r8_random_init(n, t, ix0, ix1);
+
+            average = 0.0;
+            for (i = 1; i <= 1000000; i++)
+            {
+                r = r8_random(n, t, ix0, ix1);
+                average = average + r;
+            }
+
+            average = average / 1000000.0;
+            Console.WriteLine("");
+            Console.WriteLine("     Average =  "
+                 + "  " + setw(14) + average
+                 + "  " + setw(14) + 0.5 + "");
+            //
+            //  Restart the sequence.
+            //
+            ix0 = 0;
+            ix1 = 0;
+            r8_random_init(n, t, ix0, ix1);
+
+            variance = 0.0;
+            for (i = 1; i <= 1000000; i++)
+            {
+                r = r8_random(n, t, ix0, ix1);
+                variance = variance + pow(r - average, 2);
+            }
+
+            variance = variance / 1000000.0;
+            Console.WriteLine("     Variance = "
+                 + "  " + setw(14) + variance
+                 + "  " + setw(14) + 1.0 / 12.0 + "");
+
+        }
+
+        static void r8_ren_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_REN_TEST tests R8_REN.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    15 May 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double average;
+            int i;
+            int i_value[7] =  {
+                1, 2, 3, 4, 10, 100, 1000
+            }
+            ;
+            int k;
+            double r;
+            double r_value[7] =  {
+                0.470393,
+                0.799066,
+                0.883261,
+                0.407667,
+                0.955566,
+                0.173576,
+                0.0121733
+            }
+            ;
+            int seed;
+            double variance;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_REN_TEST:");
+            Console.WriteLine("  R8_REN returns a random R8 value.");
+            Console.WriteLine("");
+            Console.WriteLine("               I       R8_REN         Expected");
+            Console.WriteLine("");
+
+            seed = 100001;
+            k = 0;
+
+            for (i = 1; i <= 1000; i++)
+            {
+                r = r8_ren(seed);
+
+                if (i == i_value[k])
+                {
+                    Console.WriteLine("  " + setw(14) + i
+                        + "  " + setw(14) + r
+                        + "  " + setw(14) + r_value[k] + "");
+                    k = k + 1;
+                }
+            }
+
+            seed = 123456789;
+            average = 0.0;
+            for (i = 1; i <= 1000000; i++)
+            {
+                r = r8_ren(seed);
+                average = average + r;
+            }
+
+            average = average / 1000000.0;
+            Console.WriteLine("");
+            Console.WriteLine("     Average =  "
+                 + "  " + setw(14) + average
+                 + "  " + setw(14) + 0.5 + "");
+
+            seed = 123456789;
+            variance = 0.0;
+            for (i = 1; i <= 1000000; i++)
+            {
+                r = r8_ren(seed);
+                variance = variance + pow(r - average, 2);
+            }
+
+            variance = variance / 1000000.0;
+            Console.WriteLine("     Variance = "
+                 + "  " + setw(14) + variance
+                 + "  " + setw(14) + 1.0 / 12.0 + "");
+
+        }
+
+        static void r8_shi_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_SHI_TEST tests R8_SHI.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_SHI_TEST:");
+            Console.WriteLine("  Test R8_SHI.");
+            Console.WriteLine("");
+            Console.WriteLine("             X      SHI(X)  R8_SHI(X)         Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                shi_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_shi(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_si_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_SI_TEST tests R8_SI.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_SI_TEST:");
+            Console.WriteLine("  Test R8_SI.");
+            Console.WriteLine("");
+            Console.WriteLine("             X      SI(X)  R8_SI(X)         Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                si_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_si(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_sin_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_SIN_TEST tests R8_SIN.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    11 September 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_SIN_TEST:");
+            Console.WriteLine("  Test R8_SIN.");
+            Console.WriteLine("");
+            Console.WriteLine("             X      SIN(X)  R8_SIN(X)         Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                sin_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_sin(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_sin_deg_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_SIN_DEG_TEST tests R8_SIN_DEG.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_SIN_DEG_TEST:");
+            Console.WriteLine("  Test R8_SIN_DEG.");
+            Console.WriteLine("");
+            Console.WriteLine("             X      SIN_DEG(X)  R8_SIN_DEG(X)         Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                sin_degree_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_sin_deg(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_sinh_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_SINH_TEST tests R8_SINH.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    11 September 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_SINH_TEST:");
+            Console.WriteLine("  Test R8_SINH");
+            Console.WriteLine("");
+            Console.WriteLine("             X      SINH(X)  R8_SINH(X)        Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                sinh_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_sinh(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_spence_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_SPENCE_TEST tests R8_SPENCE.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_SPENCE_TEST:");
+            Console.WriteLine("  Test R8_SPENCE");
+            Console.WriteLine("");
+            Console.WriteLine("             X      SPENCE(X)  R8_SPENCE(X)        Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                dilogarithm_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_spence(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_sqrt_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_SQRT_TEST tests R8_SQRT.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_SQRT_TEST:");
+            Console.WriteLine("  Test R8_SQRT");
+            Console.WriteLine("");
+            Console.WriteLine("             X      SQRT(X)  R8_SQRT(X)        Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                sqrt_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_sqrt(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_tan_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_TAN_TEST tests R8_TAN.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_TAN_TEST:");
+            Console.WriteLine("  Test R8_TAN.");
+            Console.WriteLine("");
+            Console.WriteLine("             X      TAN(X)  R8_TAN(X)         Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                tan_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_tan(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_tanh_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_TANH_TEST tests R8_TANH.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx1;
+            double fx2;
+            int n_data;
+            double x;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_TANH_TEST:");
+            Console.WriteLine("  Test R8_TANH");
+            Console.WriteLine("");
+            Console.WriteLine("             X      TANH(X)  R8_TANH(X)        Diff");
+            Console.WriteLine("");
+
+            n_data = 0;
+
+            for (;;)
+            {
+                tanh_values(n_data, x, fx1);
+
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                fx2 = r8_tanh(x);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + fx1
+                    + "  " + setw(14) + fx2
+                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+            }
+
+        }
+
+        static void r8_upak_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_UPAK_TEST tests R8_UPAK.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    24 April 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            int i;
+            int n;
+            double x;
+            double x_test[11] =  {
+                64.0,
+                128.0,
+                -64.0,
+                96.0,
+                15.0,
+                0.5,
+                0.25,
+                0.625,
+                64.625,
+                3.141592653589793,
+                0.0
+            }
+            ;
+            double y;
+
+            Console.WriteLine("");
+            Console.WriteLine("R8_UPAK_TEST:");
+            Console.WriteLine("  R8_UPAK converts an R8 to a mantissa and base 2 exponent.");
+            Console.WriteLine("");
+            Console.WriteLine("             X         Mantissa     Exponent");
+            Console.WriteLine("");
+
+            for (i = 0; i < 11; i++)
+            {
+                x = x_test[i];
+
+                r8_upak(x, y, n);
+
+                Console.WriteLine("  " + setw(14) + x
+                    + "  " + setw(14) + y
+                    + "  " + setw(8) + n + "");
+            }
+
+        }
+    }
+}

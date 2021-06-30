@@ -194,6 +194,7 @@
     <projectFile>BurkhardtTest/FaureTest/FaureTest.csproj</projectFile>
     <projectFile>BurkhardtTest/FilonTest/FilonTest.csproj</projectFile>
     <projectFile>BurkhardtTest/FloydTest/FloydTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/FullertonTest/FullertonTest.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="" />
@@ -223,13 +224,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic_pia.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic_pia_inc.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic_pik.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic_pik_inc.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic_pim.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic_pim_inc.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Jacobi_cn.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Jacobi_dn.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Jacobi_sn.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/EllipticIntegralTest/Program.cs" />
@@ -274,6 +268,13 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/r8_e_.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/r8_p_.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/r8_s_.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/FullertonTest/Program.cs" />
+      <option value="$PROJECT_DIR$/TestValues/Class1.cs" />
+      <option value="$PROJECT_DIR$/TestValues/Abrams.cs" />
+      <option value="$PROJECT_DIR$/TestValues/AGM.cs" />
+      <option value="$PROJECT_DIR$/TestValues/Airy.cs" />
+      <option value="$PROJECT_DIR$/TestValues/arc.cs" />
+      <option value="$PROJECT_DIR$/TestValues/bei.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -2685,6 +2686,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="FullertonTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/FullertonTest/FullertonTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="GeoWranglerTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -4016,6 +4035,7 @@
       <item itemvalue=".NET Project.FaureTest" />
       <item itemvalue=".NET Project.FilonTest" />
       <item itemvalue=".NET Project.FloydTest" />
+      <item itemvalue=".NET Project.FullertonTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

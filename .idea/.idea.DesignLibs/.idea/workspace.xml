@@ -223,30 +223,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/BurkhardtTest/Ellipsoid/EllipsoidGridTest/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r83vec.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Hyper.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8po.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Ellipsoid/MonteCarlo.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/Ellipsoid/EllipsoidMonteCarloTest/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic._facs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Integral_Elliptic.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Jacobi_Elliptic.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic_FA_inc.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic_ea.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic_ea_inc.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic_ek.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic_ek_inc.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic_em.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic_em_inc.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic_fa.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic_fa_inc.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic_fk.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic_fk_inc.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic_fm.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic_fm_inc.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic_pia.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic_pia_inc.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Elliptic/Elliptic_pik.cs" />
@@ -274,6 +250,30 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/FilonTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Floyd.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/FloydTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/Complex.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/i4.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/r4_admp.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/r4_airy.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/r4.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/r4_bessel.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/r4_beta.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/r4_bi.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/r8_upak.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/r8_t_.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/r8_r_.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/r8_m_.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/r8_l_.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/r8_k_.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/r8_i_.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/r8_g_.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/r8_f_.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/r8_d_.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/r8_c_.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/r8_a_.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/r8_b_.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/r8_e_.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/r8_p_.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/r8_s_.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />

@@ -45,8 +45,8 @@ namespace TestValuesTest
                 }
 
                 Console.WriteLine("  "
-                                  +x.ToString().PadLeft(12) + "  "
-                    + fx.ToString().PadLeft(12) + "");
+                                  + x.ToString().PadLeft(12) + "  "
+                                  + fx.ToString().PadLeft(12) + "");
             }
         }
 
@@ -91,9 +91,9 @@ namespace TestValuesTest
                 }
 
                 Console.WriteLine("  "
-                                  +a.ToString().PadLeft(6) + "  "
-                    + x.ToString().PadLeft(8) + "  "
-                    + fx.ToString().PadLeft(12) + "");
+                                  + a.ToString().PadLeft(6) + "  "
+                                  + x.ToString().PadLeft(8) + "  "
+                                  + fx.ToString().PadLeft(12) + "");
             }
         }
 
@@ -138,9 +138,9 @@ namespace TestValuesTest
                 }
 
                 Console.WriteLine("  "
-                                  +df.ToString().PadLeft(8) + "  "
-                    + x.ToString().PadLeft(8) + "  "
-                    + fx.ToString().PadLeft(12) + "");
+                                  + df.ToString().PadLeft(8) + "  "
+                                  + x.ToString().PadLeft(8) + "  "
+                                  + fx.ToString().PadLeft(12) + "");
             }
         }
 
@@ -187,10 +187,57 @@ namespace TestValuesTest
                 }
 
                 Console.WriteLine("  "
-                                  +x.ToString().PadLeft(10) + "  "
-                    + lambda.ToString().PadLeft(8) + "  "
-                    + df.ToString().PadLeft(4) + "  "
-                    + fx.ToString().PadLeft(12) + "");
+                                  + x.ToString().PadLeft(10) + "  "
+                                  + lambda.ToString().PadLeft(8) + "  "
+                                  + df.ToString().PadLeft(4) + "  "
+                                  + fx.ToString().PadLeft(12) + "");
+            }
+        }
+
+        public static void inverse_chi_square_pdf_values_test()
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    INVERSE_CHI_SQUARE_PDF_VALUES_TEST tests INVERSE_CHI_SQUARE_PDF_VALUES.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    05 August 2015
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double df = 0;
+            double fx = 0;
+            int n_data;
+            double x = 0;
+            Console.WriteLine("");
+            Console.WriteLine("INVERSE_CHI_SQUARE_PDF_VALUES_TEST:");
+            Console.WriteLine("  INVERSE_CHI_SQUARE_PDF_VALUES returns values of ");
+            Console.WriteLine("  the inverse Chi-Square Probability Density Function.");
+            Console.WriteLine("");
+            Console.WriteLine("     DF        X    PDF");
+            Console.WriteLine("");
+            n_data = 0;
+            for (;;)
+            {
+                Chi.inverse_chi_square_pdf_values(ref n_data, ref df, ref x, ref fx);
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                Console.WriteLine("  "
+                                  + df.ToString().PadLeft(8) + "  "
+                                  + x.ToString().PadLeft(8) + "  "
+                                  + fx.ToString().PadLeft(12) + "");
             }
         }
 

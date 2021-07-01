@@ -428,5 +428,53 @@ namespace TestValuesTest
                     + fx.ToString("0.################").PadLeft(24) + "");
             }
         }
+        
+        public static void inverse_gamma_pdf_values_test ( )
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    INVERSE_GAMMA_PDF_VALUES_TEST tests INVERSE_GAMMA_PDF_VALUES.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    05 August 2015
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double alpha = 0;;
+            double beta = 0;
+            double fx = 0;
+            int n_data;
+            double x = 0;
+            Console.WriteLine("");
+            Console.WriteLine("INVERSE_GAMMA_PDF_VALUES_TEST:");
+            Console.WriteLine("  INVERSE_GAMMA_PDF_VALUES returns values of ");
+            Console.WriteLine("  the inverse gamma Probability Density Function.");
+            Console.WriteLine("");
+            Console.WriteLine("     ALPHA        BETA      X    PDF");
+            Console.WriteLine("");
+            n_data = 0;
+            for ( ; ; )
+            {
+                Gamma.inverse_gamma_pdf_values ( ref n_data, ref alpha, ref beta, ref x, ref fx );
+                if ( n_data == 0 )
+                {
+                    break;
+                }
+                Console.WriteLine("  "
+                                  + alpha.ToString().PadLeft(8) + "  "
+                    + beta.ToString().PadLeft(8) + "  "
+                    + x.ToString().PadLeft(8) + "  "
+                    + fx.ToString().PadLeft(12) + "");
+            }
+        }
     }
 }

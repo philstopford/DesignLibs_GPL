@@ -226,13 +226,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/TestValues/Prandtl.cs" />
-      <option value="$PROJECT_DIR$/TestValues/Prime.cs" />
-      <option value="$PROJECT_DIR$/TestValues/Psat.cs" />
-      <option value="$PROJECT_DIR$/TestValues/Psi.cs" />
-      <option value="$PROJECT_DIR$/TestValues/Rayleigh.cs" />
-      <option value="$PROJECT_DIR$/TestValues/Chi.cs" />
-      <option value="$PROJECT_DIR$/TestValues/SecVir.cs" />
       <option value="$PROJECT_DIR$/TestValues/Shi.cs" />
       <option value="$PROJECT_DIR$/TestValues/Sigma.cs" />
       <option value="$PROJECT_DIR$/TestValues/Sine.cs" />
@@ -276,6 +269,13 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/BernoulliTest.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/BernsteinTest.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/BetaTest.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/BinomialTest.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/BivariateTest.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/ComplexTest.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/CatalanTest.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/CauchyTest.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/CubeRootTest.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/ChebyshevTest.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/Program.cs" />
     </changedPaths>
   </component>

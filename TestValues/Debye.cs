@@ -1,6 +1,6 @@
 ﻿namespace TestValues
 {
-    public static class DebEye
+    public static class Debye
     {
         public static void debye1_values(ref int n_data, ref double x, ref double fx)
 

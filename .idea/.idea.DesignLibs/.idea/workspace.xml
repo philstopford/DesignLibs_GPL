@@ -226,11 +226,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/TestValues/Shi.cs" />
-      <option value="$PROJECT_DIR$/TestValues/Sigma.cs" />
-      <option value="$PROJECT_DIR$/TestValues/Sine.cs" />
-      <option value="$PROJECT_DIR$/TestValues/Sound.cs" />
-      <option value="$PROJECT_DIR$/TestValues/Sphere.cs" />
       <option value="$PROJECT_DIR$/TestValues/SphericalHarmonic.cs" />
       <option value="$PROJECT_DIR$/TestValues/Sqrt.cs" />
       <option value="$PROJECT_DIR$/TestValues/Stirling.cs" />
@@ -276,6 +271,11 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/CauchyTest.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/CubeRootTest.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/ChebyshevTest.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/ChiTest.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/CosineTest.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/ClausenTest.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/ClebschGordanTest.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/CollatzTest.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/Program.cs" />
     </changedPaths>
   </component>

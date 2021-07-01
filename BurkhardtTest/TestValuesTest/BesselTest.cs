@@ -3,7 +3,7 @@ using TestValues;
 
 namespace TestValuesTest
 {
-    public class BesselTest
+    public static class BesselTest
     {
         public static void bessel_i0_values_test()
             //****************************************************************************80
@@ -494,15 +494,15 @@ namespace TestValuesTest
             n_data = 0;
             for (;;)
             {
-                Bessel.bessel_j0_spherical_values(n_data, x, fx);
+                Bessel.bessel_j0_spherical_values(ref n_data, ref x, ref fx);
                 if (n_data == 0)
                 {
                     break;
                 }
 
                 Console.WriteLine("  "
-                     + setw(12) + x + "  "
-                     + setw(12) + fx + "");
+                     + x.ToString().PadLeft(12) + "  "
+                     + fx.ToString().PadLeft(12) + "");
             }
         }
 
@@ -527,7 +527,7 @@ namespace TestValuesTest
             //
         {
             double fx = 0;
-            int k;
+            int k = 0;
             int n_data;
             Console.WriteLine("");
             Console.WriteLine("BESSEL_J0_ZERO_VALUES_TEST:");
@@ -539,14 +539,14 @@ namespace TestValuesTest
             n_data = 0;
             for (;;)
             {
-                Bessel.bessel_j0_zero_values(n_data, k, fx);
+                Bessel.bessel_j0_zero_values(ref n_data, ref k, ref fx);
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                Console.WriteLine("  " + setw(6) + k
-                                  + "  " + setw(24) + fx + "");
+                Console.WriteLine("  " + k.ToString().PadLeft(6)
+                                  + "  " + fx.ToString().PadLeft(24) + "");
             }
         }
 
@@ -583,15 +583,15 @@ namespace TestValuesTest
             n_data = 0;
             for (;;)
             {
-                Bessel.bessel_j1_values(n_data, x, fx);
+                Bessel.bessel_j1_values(ref n_data, ref x, ref fx);
                 if (n_data == 0)
                 {
                     break;
                 }
 
                 Console.WriteLine("  "
-                     + setw(12) + x + "  "
-                     + setw(12) + fx + "");
+                     + x.ToString().PadLeft(12) + "  "
+                     + fx.ToString().PadLeft(12) + "");
             }
         }
 
@@ -628,15 +628,15 @@ namespace TestValuesTest
             n_data = 0;
             for (;;)
             {
-                Bessel.bessel_j1_spherical_values(n_data, x, fx);
+                Bessel.bessel_j1_spherical_values(ref n_data, ref x, ref fx);
                 if (n_data == 0)
                 {
                     break;
                 }
 
                 Console.WriteLine("  "
-                     + setw(12) + x + "  "
-                     + setw(12) + fx + "");
+                     + x.ToString().PadLeft(12) + "  "
+                     + fx.ToString().PadLeft(12) + "");
             }
         }
 
@@ -661,7 +661,7 @@ namespace TestValuesTest
             //
         {
             double fx = 0;
-            int n;
+            int n = 0;
             int n_data;
             double x = 0;
             Console.WriteLine("");
@@ -674,16 +674,16 @@ namespace TestValuesTest
             n_data = 0;
             for (;;)
             {
-                Bessel.bessel_jn_values(n_data, n, x, fx);
+                Bessel.bessel_jn_values(ref n_data, ref n, ref x, ref fx);
                 if (n_data == 0)
                 {
                     break;
                 }
 
                 Console.WriteLine("  "
-                     + setw(6) + n + "  "
-                     + setw(12) + x + "  "
-                     + setw(12) + fx + "");
+                     + n.ToString().PadLeft(6) + "  "
+                     + x.ToString().PadLeft(12) + "  "
+                     + fx.ToString().PadLeft(12) + "");
             }
         }
 
@@ -708,7 +708,7 @@ namespace TestValuesTest
             //
         {
             double fx = 0;
-            double nu;
+            double nu = 0;
             int n_data;
             double x = 0;
             Console.WriteLine("");
@@ -721,16 +721,16 @@ namespace TestValuesTest
             n_data = 0;
             for (;;)
             {
-                Bessel.bessel_jx_values(n_data, nu, x, fx);
+                Bessel.bessel_jx_values(ref n_data, ref nu, ref x, ref fx);
                 if (n_data == 0)
                 {
                     break;
                 }
 
                 Console.WriteLine("  "
-                     + setw(12) + nu + "  "
-                     + setw(12) + x + "  "
-                     + setw(12) + fx + "");
+                     + nu.ToString().PadLeft(12) + "  "
+                     + x.ToString().PadLeft(12) + "  "
+                     + fx.ToString().PadLeft(12) + "");
             }
         }
 
@@ -767,15 +767,15 @@ namespace TestValuesTest
             n_data = 0;
             for (;;)
             {
-                Bessel.bessel_k0_values(n_data, x, fx);
+                Bessel.bessel_k0_values(ref n_data, ref x, ref fx);
                 if (n_data == 0)
                 {
                     break;
                 }
 
                 Console.WriteLine("  "
-                     + setw(12) + x + "  "
-                     + setw(12) + fx + "");
+                     + x.ToString().PadLeft(12) + "  "
+                     + fx.ToString().PadLeft(12) + "");
             }
         }
 
@@ -799,7 +799,7 @@ namespace TestValuesTest
             //    John Burkardt
             //
         {
-            double bip;
+            double bip = 0;
             int n_data;
             double x = 0;
             Console.WriteLine("");
@@ -812,7 +812,7 @@ namespace TestValuesTest
             n_data = 0;
             for (;;)
             {
-                Bessel.bessel_k0_int_values(n_data, x, bip);
+                Bessel.bessel_k0_int_values(ref n_data, ref x, ref bip);
                 if (n_data == 0)
                 {
                     break;
@@ -857,15 +857,15 @@ namespace TestValuesTest
             n_data = 0;
             for (;;)
             {
-                Bessel.bessel_k1_values(n_data, x, fx);
+                Bessel.bessel_k1_values(ref n_data, ref x, ref fx);
                 if (n_data == 0)
                 {
                     break;
                 }
 
                 Console.WriteLine("  "
-                     + setw(12) + x + "  "
-                     + setw(12) + fx + "");
+                     + x.ToString().PadLeft(12) + "  "
+                     + fx.ToString().PadLeft(12) + "");
             }
         }
 
@@ -890,7 +890,7 @@ namespace TestValuesTest
             //
         {
             double fx = 0;
-            int n;
+            int n = 0;
             int n_data;
             double x = 0;
             Console.WriteLine("");
@@ -903,16 +903,16 @@ namespace TestValuesTest
             n_data = 0;
             for (;;)
             {
-                Bessel.bessel_kn_values(n_data, n, x, fx);
+                Bessel.bessel_kn_values(ref n_data, ref n, ref x, ref fx);
                 if (n_data == 0)
                 {
                     break;
                 }
 
                 Console.WriteLine("  "
-                     + setw(6) + n + "  "
-                     + setw(12) + x + "  "
-                     + setw(12) + fx + "");
+                     + n.ToString().PadLeft(6) + "  "
+                     + x.ToString().PadLeft(12) + "  "
+                     + fx.ToString().PadLeft(12) + "");
             }
         }
 

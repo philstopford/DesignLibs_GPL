@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt.FullertonFnLib;
+using TestValues;
 
 namespace FullertonTest
 {
@@ -206,7 +207,7 @@ namespace FullertonTest
 
             for (;;)
             {
-                arccos_values(n_data, x, fx1);
+                arc.arccos_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
@@ -244,10 +245,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_ACOSH_TEST:");
@@ -260,19 +261,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                arccosh_values(n_data, x, fx1);
+                arc.arccosh_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_acosh(x);
+                fx2 = FullertonLib.r8_acosh(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -298,10 +299,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_AI_TEST:");
@@ -314,19 +315,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                airy_ai_values(n_data, x, fx1);
+                Airy.airy_ai_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_ai(x);
+                fx2 = FullertonLib.r8_ai(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -352,10 +353,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_AID_TEST:");
@@ -367,20 +368,20 @@ namespace FullertonTest
 
             for (;;)
             {
-                airy_ai_prime_values(n_data, x, fx1);
+                Airy.airy_ai_prime_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_aid(x);
+                fx2 = FullertonLib.r8_aid(x);
 
                 Console.WriteLine("");
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -406,10 +407,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_AINT_TEST:");
@@ -422,19 +423,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                int_values(n_data, x, fx1);
+                Intgr.int_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_aint(x);
+                fx2 = FullertonLib.r8_aint(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -460,10 +461,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_ASIN_TEST:");
@@ -476,19 +477,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                arcsin_values(n_data, x, fx1);
+                arc.arcsin_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_asin(x);
+                fx2 = FullertonLib.r8_asin(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -514,10 +515,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_ASINH_TEST:");
@@ -530,19 +531,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                arcsinh_values(n_data, x, fx1);
+                arc.arcsinh_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_asinh(x);
+                fx2 = FullertonLib.r8_asinh(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -568,10 +569,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_ATAN_TEST:");
@@ -584,19 +585,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                arctan_values(n_data, x, fx1);
+                arc.arctan_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_atan(x);
+                fx2 = FullertonLib.r8_atan(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -622,11 +623,11 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
-            double y;
+            double x = 0;
+            double y = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_ATAN2_TEST:");
@@ -639,20 +640,20 @@ namespace FullertonTest
 
             for (;;)
             {
-                arctan2_values(n_data, x, y, fx1);
+                arc.arctan2_values(ref n_data, ref x, ref y, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_atan2(y, x);
+                fx2 = FullertonLib.r8_atan2(y, x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + y
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + y.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -678,10 +679,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_ATANH_TEST:");
@@ -694,19 +695,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                arctanh_values(n_data, x, fx1);
+                arc.arctanh_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_atanh(x);
+                fx2 = FullertonLib.r8_atanh(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -732,10 +733,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_BESI0_TEST:");
@@ -748,19 +749,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                bessel_i0_values(n_data, x, fx1);
+                Bessel.bessel_i0_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_besi0(x);
+                fx2 = FullertonLib.r8_besi0(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -786,10 +787,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_BESI1_TEST:");
@@ -802,19 +803,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                bessel_i1_values(n_data, x, fx1);
+                Bessel.bessel_i1_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_besi1(x);
+                fx2 = FullertonLib.r8_besi1(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -840,10 +841,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_BESJ0_TEST:");
@@ -856,19 +857,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                bessel_j0_values(n_data, x, fx1);
+                Bessel.bessel_j0_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_besj0(x);
+                fx2 = FullertonLib.r8_besj0(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -894,10 +895,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_BESJ1_TEST:");
@@ -910,19 +911,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                bessel_j1_values(n_data, x, fx1);
+                Bessel.bessel_j1_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_besj1(x);
+                fx2 = FullertonLib.r8_besj1(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -948,10 +949,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_BESK0_TEST:");
@@ -964,19 +965,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                bessel_k0_values(n_data, x, fx1);
+                Bessel.bessel_k0_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_besk0(x);
+                fx2 = FullertonLib.r8_besk0(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -1002,10 +1003,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_BESK1_TEST:");
@@ -1018,19 +1019,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                bessel_k1_values(n_data, x, fx1);
+                Bessel.bessel_k1_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_besk1(x);
+                fx2 = FullertonLib.r8_besk1(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -1056,10 +1057,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_BESY0_TEST:");
@@ -1072,19 +1073,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                bessel_y0_values(n_data, x, fx1);
+                Bessel.bessel_y0_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_besy0(x);
+                fx2 = FullertonLib.r8_besy0(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -1110,10 +1111,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_BESY1_TEST:");
@@ -1126,19 +1127,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                bessel_y1_values(n_data, x, fx1);
+                Bessel.bessel_y1_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_besy1(x);
+                fx2 = FullertonLib.r8_besy1(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -1164,9 +1165,9 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double a;
-            double b;
-            double fx1;
+            double a = 0;
+            double b = 0;
+            double fx1 = 0;
             double fx2;
             int n_data;
 
@@ -1181,21 +1182,21 @@ namespace FullertonTest
 
             for (;;)
             {
-                beta_values(n_data, a, b, fx1);
+                Beta.beta_values(ref n_data, ref a, ref b, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_beta(a, b);
+                fx2 = FullertonLib.r8_beta(a, b);
 
 
-                Console.WriteLine("  " + setw(14) + a
-                    + "  " + setw(14) + b
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + a.ToString().PadLeft(14)
+                    + "  " + b.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -1221,12 +1222,12 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double a;
-            double b;
-            double fx1;
+            double a = 0;
+            double b = 0;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_BETAI_TEST:");
@@ -1239,21 +1240,21 @@ namespace FullertonTest
 
             for (;;)
             {
-                beta_inc_values(n_data, a, b, x, fx1);
+                Beta.beta_inc_values(ref n_data, ref a, ref b, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_betai(x, a, b);
+                fx2 = FullertonLib.r8_betai(x, a, b);
 
-                Console.WriteLine("  " + setw(14) + a
-                    + "  " + setw(14) + b
-                    + "  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + a.ToString().PadLeft(14)
+                    + "  " + b.ToString().PadLeft(14)
+                    + "  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -1279,10 +1280,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_BI_TEST:");
@@ -1295,19 +1296,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                airy_bi_values(n_data, x, fx1);
+                Airy.airy_bi_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_bi(x);
+                fx2 = FullertonLib.r8_bi(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -1333,10 +1334,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_BID_TEST:");
@@ -1349,19 +1350,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                airy_bi_prime_values(n_data, x, fx1);
+                Airy.airy_bi_prime_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_bid(x);
+                fx2 = FullertonLib.r8_bid(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -1387,9 +1388,9 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            int a;
-            int b;
-            int fx1;
+            int a = 0;
+            int b = 0;
+            int fx1 = 0;
             double fx2;
             int n_data;
 
@@ -1404,20 +1405,20 @@ namespace FullertonTest
 
             for (;;)
             {
-                binomial_values(n_data, a, b, fx1);
+                Binomial.binomial_values(ref n_data, ref a, ref b, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_binom((double) a, (double) b);
+                fx2 = FullertonLib.r8_binom( a,  b);
 
-                Console.WriteLine("  " + setw(14) + a
-                    + "  " + setw(14) + b
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + a.ToString().PadLeft(14)
+                    + "  " + b.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -1443,10 +1444,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_CBRT_TEST:");
@@ -1459,19 +1460,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                cbrt_values(n_data, x, fx1);
+                CubeRoot.cbrt_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_cbrt(x);
+                fx2 = FullertonLib.r8_cbrt(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -1497,10 +1498,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_CHI_TEST:");
@@ -1513,19 +1514,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                chi_values(n_data, x, fx1);
+                Chi.chi_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_chi(x);
+                fx2 = FullertonLib.r8_chi(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -1551,12 +1552,12 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double a;
-            double b;
-            double fx1;
+            double a = 0;
+            double b = 0;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_CHU_TEST:");
@@ -1569,21 +1570,21 @@ namespace FullertonTest
 
             for (;;)
             {
-                hypergeometric_u_values(n_data, a, b, x, fx1);
+                Hypergeometric.hypergeometric_u_values(ref n_data, ref a, ref b, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_chu(a, b, x);
+                fx2 = FullertonLib.r8_chu(a, b, x);
 
-                Console.WriteLine("  " + setw(14) + a
-                    + "  " + setw(14) + b
-                    + "  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + a.ToString().PadLeft(14)
+                    + "  " + b.ToString().PadLeft(14)
+                    + "  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -1609,10 +1610,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_CI_TEST:");
@@ -1625,19 +1626,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                ci_values(n_data, x, fx1);
+                Cosine.ci_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_ci(x);
+                fx2 = FullertonLib.r8_ci(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -1663,10 +1664,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_CIN_TEST:");
@@ -1679,19 +1680,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                cin_values(n_data, x, fx1);
+                Cosine.cin_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_cin(x);
+                fx2 = FullertonLib.r8_cin(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -1717,10 +1718,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_CINH_TEST:");
@@ -1733,19 +1734,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                cinh_values(n_data, x, fx1);
+                Cosine.cinh_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_cinh(x);
+                fx2 = FullertonLib.r8_cinh(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -1771,10 +1772,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_COS_TEST:");
@@ -1787,19 +1788,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                cos_values(n_data, x, fx1);
+                Cosine.cos_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_cos(x);
+                fx2 = FullertonLib.r8_cos(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -1825,10 +1826,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_COS_DEG_TEST:");
@@ -1841,20 +1842,20 @@ namespace FullertonTest
 
             for (;;)
             {
-                cos_degree_values(n_data, x, fx1);
+                Cosine.cos_degree_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_cos_deg(x);
+                fx2 = FullertonLib.r8_cos_deg(x);
 
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -1880,10 +1881,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_COSH_TEST:");
@@ -1896,19 +1897,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                cosh_values(n_data, x, fx1);
+                Cosine.cosh_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_cosh(x);
+                fx2 = FullertonLib.r8_cosh(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -1934,10 +1935,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_COT_TEST:");
@@ -1950,19 +1951,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                cot_values(n_data, x, fx1);
+                Cot.cot_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_cot(x);
+                fx2 = FullertonLib.r8_cot(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -1991,7 +1992,7 @@ namespace FullertonTest
             double err;
             int i;
             int n;
-            double expcs[15] =  {
+            double[] expcs =  {
                 2.532131755504016,
                 1.130318207984970,
                 0.271495339534077,
@@ -2010,7 +2011,7 @@ namespace FullertonTest
             }
             ;
             double s;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_CSEVL_TEST:");
@@ -2029,13 +2030,13 @@ namespace FullertonTest
                 for (i = -10; i <= 10; i++)
                 {
                     x = (double) (i) / 10.0;
-                    s = r8_csevl(x, expcs, n);
-                    err = err + fabs(s - exp(x));
+                    s = FullertonLib.r8_csevl(x, expcs, n);
+                    err = err + Math.Abs(s - Math.Exp(x));
                 }
 
                 err = err / 21.0;
-                Console.WriteLine("  " + setw(2) + n
-                    + "  " + setw(14) + err + "");
+                Console.WriteLine("  " + n.ToString().PadLeft(2)
+                    + "  " + err.ToString().PadLeft(14) + "");
             }
 
         }
@@ -2061,10 +2062,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_DAWSON_TEST:");
@@ -2077,19 +2078,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                dawson_values(n_data, x, fx1);
+                Dawson.dawson_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_dawson(x);
+                fx2 = FullertonLib.r8_dawson(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -2115,10 +2116,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_E1_TEST:");
@@ -2131,19 +2132,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                e1_values(n_data, x, fx1);
+                ExpIntegral.e1_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_e1(x);
+                fx2 = FullertonLib.r8_e1(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -2169,10 +2170,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_EI_TEST:");
@@ -2185,19 +2186,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                ei_values(n_data, x, fx1);
+                ExpIntegral.ei_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_ei(x);
+                fx2 = FullertonLib.r8_ei(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -2223,10 +2224,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_ERF_TEST:");
@@ -2239,19 +2240,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                erf_values(n_data, x, fx1);
+                ErrorFunc.erf_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_erf(x);
+                fx2 = FullertonLib.r8_erf(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -2277,10 +2278,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_ERFC_TEST:");
@@ -2293,19 +2294,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                erfc_values(n_data, x, fx1);
+                ErrorFunc.erfc_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_erfc(x);
+                fx2 = FullertonLib.r8_erfc(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -2331,10 +2332,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_EXP_TEST:");
@@ -2347,19 +2348,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                exp_values(n_data, x, fx1);
+                Exponential.exp_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_exp(x);
+                fx2 = FullertonLib.r8_exp(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -2385,9 +2386,9 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
-            int n;
+            int n = 0;
             int n_data;
 
             Console.WriteLine("");
@@ -2401,19 +2402,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                r8_factorial_values(n_data, n, fx1);
+                Factorial.r8_factorial_values(ref n_data, ref n, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_fac(n);
+                fx2 = FullertonLib.r8_fac(n);
 
-                Console.WriteLine("  " + setw(14) + n
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + n.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -2439,11 +2440,11 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double a;
-            double fx1;
+            double a = 0;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_GAMIC_TEST:");
@@ -2456,20 +2457,20 @@ namespace FullertonTest
 
             for (;;)
             {
-                gamma_inc_values(n_data, a, x, fx1);
+                Gamma.gamma_inc_values(ref n_data, ref a, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_gamic(a, x);
+                fx2 = FullertonLib.r8_gamic(a, x);
 
-                Console.WriteLine("  " + setw(14) + a
-                    + "  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + a.ToString().PadLeft(14)
+                    + "  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -2495,11 +2496,11 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double a;
-            double fx1;
+            double a = 0;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_GAMIT_TEST:");
@@ -2512,20 +2513,20 @@ namespace FullertonTest
 
             for (;;)
             {
-                gamma_inc_tricomi_values(n_data, a, x, fx1);
+                Gamma.gamma_inc_tricomi_values(ref n_data, ref a, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_gamit(a, x);
+                fx2 = FullertonLib.r8_gamit(a, x);
 
-                Console.WriteLine("  " + setw(14) + a
-                    + "  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + a.ToString().PadLeft(14)
+                    + "  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -2551,14 +2552,14 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double xmax;
-            double xmin;
+            double xmax = 0;
+            double xmin = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_GAML_TEST:");
             Console.WriteLine("  R8_GAML returns bounds for the argument of the gamma function.");
 
-            r8_gaml(xmin, xmax);
+            FullertonLib.r8_gaml(ref xmin, ref xmax);
 
             Console.WriteLine("");
             Console.WriteLine("  Lower limit XMIN = " + xmin + "");
@@ -2587,10 +2588,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_GAMMA_TEST:");
@@ -2603,19 +2604,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                gamma_values(n_data, x, fx1);
+                Gamma.gamma_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_gamma(x);
+                fx2 = FullertonLib.r8_gamma(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -2641,11 +2642,11 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
-            double gx;
+            double gx = 0;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_GAMR_TEST:");
@@ -2658,7 +2659,7 @@ namespace FullertonTest
 
             for (;;)
             {
-                gamma_values(n_data, x, gx);
+                Gamma.gamma_values(ref n_data, ref x, ref gx);
 
                 if (n_data == 0)
                 {
@@ -2666,12 +2667,12 @@ namespace FullertonTest
                 }
 
                 fx1 = 1.0 / gx;
-                fx2 = r8_gamr(x);
+                fx2 = FullertonLib.r8_gamr(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -2699,7 +2700,7 @@ namespace FullertonTest
         {
             int i;
             int n;
-            double sincs[15] =  {
+            double[] sincs =  {
                 -0.374991154955873175839919279977323464,
                 -0.181603155237250201863830316158004754,
                 +0.005804709274598633559427341722857921,
@@ -2733,9 +2734,9 @@ namespace FullertonTest
             tol = 1.0;
             for (i = 1; i <= 18; i++)
             {
-                n = r8_inits(sincs, 15, tol);
-                Console.WriteLine("  " + setw(14) + tol
-                    + "  " + setw(4) + n + "");
+                n = FullertonLib.r8_inits(sincs, 15, tol);
+                Console.WriteLine("  " + tol.ToString().PadLeft(14)
+                    + "  " + n.ToString().PadLeft(4) + "");
                 tol = tol / 10.0;
             }
 
@@ -2762,10 +2763,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_INT_TEST:");
@@ -2778,19 +2779,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                int_values(n_data, x, fx1);
+                Intgr.int_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_int(x);
+                fx2 = FullertonLib.r8_int(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -2816,9 +2817,9 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double a;
-            double b;
-            double fx1;
+            double a = 0;
+            double b = 0;
+            double fx1 = 0;
             double fx2;
             int n_data;
 
@@ -2833,20 +2834,20 @@ namespace FullertonTest
 
             for (;;)
             {
-                beta_log_values(n_data, a, b, fx1);
+                Beta.beta_log_values(ref n_data, ref a, ref b, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_lbeta(a, b);
+                fx2 = FullertonLib.r8_lbeta(a, b);
 
-                Console.WriteLine("  " + setw(14) + a
-                    + "  " + setw(14) + b
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + a.ToString().PadLeft(14)
+                    + "  " + b.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -2872,11 +2873,11 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
-            double fx2;
+            double fx1 = 0;
+            double fx2 = 0;
             int n_data;
-            double slngam;
-            double x;
+            double slngam = 0;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_LGAMS_TEST:");
@@ -2890,20 +2891,20 @@ namespace FullertonTest
 
             for (;;)
             {
-                gamma_log_values(n_data, x, fx1);
+                Gamma.gamma_log_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                r8_lgams(x, fx2, slngam);
+                FullertonLib.r8_lgams(x, ref fx2, ref slngam);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + slngam
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + slngam.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
 
             }
 
@@ -2930,12 +2931,12 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
-            double gamma_log;
+            double gamma_log = 0;
             int n_data;
             const double r8_pi = 3.141592653589793;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_LGMC_TEST:");
@@ -2950,7 +2951,7 @@ namespace FullertonTest
 
             for (;;)
             {
-                gamma_log_values(n_data, x, gamma_log);
+                Gamma.gamma_log_values(ref n_data, ref x, ref gamma_log);
 
                 if (n_data == 0)
                 {
@@ -2962,12 +2963,12 @@ namespace FullertonTest
                 //
                 if (10.0 <= x)
                 {
-                    fx1 = gamma_log - log(sqrt(2.0 * r8_pi)) - (x - 0.5) * log(x) + x;
-                    fx2 = r8_lgmc(x);
-                    Console.WriteLine("  " + setw(14) + x
-                        + "  " + setw(14) + fx1
-                        + "  " + setw(14) + fx2
-                        + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                    fx1 = gamma_log - Math.Log(Math.Sqrt(2.0 * r8_pi)) - (x - 0.5) * Math.Log(x) + x;
+                    fx2 = FullertonLib.r8_lgmc(x);
+                    Console.WriteLine("  " + x.ToString().PadLeft(14)
+                        + "  " + fx1.ToString().PadLeft(14)
+                        + "  " + fx2.ToString().PadLeft(14)
+                        + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
                 }
             }
 
@@ -2994,10 +2995,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_LI_TEST:");
@@ -3010,19 +3011,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                logarithmic_integral_values(n_data, x, fx1);
+                Log.logarithmic_integral_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_li(x);
+                fx2 = FullertonLib.r8_li(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -3048,10 +3049,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_LNGAM_TEST:");
@@ -3063,20 +3064,20 @@ namespace FullertonTest
 
             for (;;)
             {
-                gamma_log_values(n_data, x, fx1);
+                Gamma.gamma_log_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_lngam(x);
+                fx2 = FullertonLib.r8_lngam(x);
 
                 Console.WriteLine("");
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -3102,10 +3103,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_LNREL_TEST:");
@@ -3118,7 +3119,7 @@ namespace FullertonTest
 
             for (;;)
             {
-                log_values(n_data, x, fx1);
+                Log.log_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
@@ -3127,12 +3128,12 @@ namespace FullertonTest
 
                 x = x - 1.0;
 
-                fx2 = r8_lnrel(x);
+                fx2 = FullertonLib.r8_lnrel(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -3158,10 +3159,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_LOG_TEST:");
@@ -3174,19 +3175,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                log_values(n_data, x, fx1);
+                Log.log_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_log(x);
+                fx2 = FullertonLib.r8_log(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -3212,10 +3213,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_LOG10_TEST:");
@@ -3227,19 +3228,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                log10_values(n_data, x, fx1);
+                Log.log10_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_log10(x);
+                fx2 = FullertonLib.r8_log10(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -3282,8 +3283,8 @@ namespace FullertonTest
 
             for (i = 1; i <= 5; i++)
             {
-                Console.WriteLine("  " + setw(4) + i
-                    + "  " + setw(14) + r8_mach(i) + "");
+                Console.WriteLine("  " + i.ToString().PadLeft(4)
+                    + "  " + FullertonLib.r8_mach(i).ToString().PadLeft(14) + "");
             }
 
         }
@@ -3311,13 +3312,13 @@ namespace FullertonTest
         {
             int i;
             int n;
-            int n_test[11] =  {
+            int[] n_test =  {
                 7, 8, 7, 7, 4, 0, -1, 0, 7, 2, 0
             }
             ;
-            double x;
+            double x = 0;
             double y;
-            double y_test[11] =  {
+            double[] y_test =  {
                 0.5,
                 0.5,
                 -0.5,
@@ -3344,10 +3345,10 @@ namespace FullertonTest
                 y = y_test[i];
                 n = n_test[i];
 
-                x = r8_pak(y, n);
-                Console.WriteLine("  " + setw(24) + y
-                    + "  " + setw(8) + n
-                    + "  " + setw(24) + x + "");
+                x = FullertonLib.r8_pak(y, n);
+                Console.WriteLine("  " + y.ToString().PadLeft(24)
+                    + "  " + n.ToString().PadLeft(8)
+                    + "  " + x.ToString().PadLeft(24) + "");
             }
 
         }
@@ -3373,12 +3374,12 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double a;
-            double fx1;
+            double a = 0;
+            double fx1 = 0;
             double fx2;
-            int n;
+            int n = 0;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_POCH_TEST:");
@@ -3390,7 +3391,7 @@ namespace FullertonTest
 
             for (;;)
             {
-                r8_rise_values(n_data, a, n, fx1);
+                Factorial.r8_rise_values(ref n_data, ref a, ref n, ref fx1);
 
                 if (n_data == 0)
                 {
@@ -3398,13 +3399,13 @@ namespace FullertonTest
                 }
 
                 x = (double) (n);
-                fx2 = r8_poch(a, x);
+                fx2 = FullertonLib.r8_poch(a, x);
 
-                Console.WriteLine("  " + setw(14) + a
-                    + "  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + a.ToString().PadLeft(14)
+                    + "  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -3430,10 +3431,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_PSI_TEST:");
@@ -3446,19 +3447,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                psi_values(n_data, x, fx1);
+                Psi.psi_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_psi(x);
+                fx2 = FullertonLib.r8_psi(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -3486,7 +3487,7 @@ namespace FullertonTest
         {
             double average;
             int i;
-            int i_value[7] =  {
+            int[] i_value  = {
                 1, 2, 3, 4, 10, 100, 1000
             }
             ;
@@ -3494,7 +3495,7 @@ namespace FullertonTest
             int ix1;
             int k;
             double r;
-            double r_value[7] =  {
+            double[] r_value =  {
                 0.0004127026,
                 0.6750836372,
                 0.1614754200,
@@ -3524,13 +3525,13 @@ namespace FullertonTest
 
             for (i = 1; i <= 1000; i++)
             {
-                r = r8_rand(s, ix0, ix1);
+                r = FullertonLib.r8_rand(s, ref ix0, ref ix1);
 
                 if (i == i_value[k])
                 {
-                    Console.WriteLine("  " + setw(14) + i
-                        + "  " + setw(14) + r
-                        + "  " + setw(14) + r_value[k] + "");
+                    Console.WriteLine("  " + i.ToString().PadLeft(14)
+                        + "  " + r.ToString().PadLeft(14)
+                        + "  " + r_value[k].ToString().PadLeft(14) + "");
                     k = k + 1;
                 }
             }
@@ -3545,15 +3546,15 @@ namespace FullertonTest
             average = 0.0;
             for (i = 1; i <= 1000000; i++)
             {
-                r = r8_rand(s, ix0, ix1);
+                r = FullertonLib.r8_rand(s, ref ix0, ref ix1);
                 average = average + r;
             }
 
             average = average / 1000000.0;
             Console.WriteLine("");
             Console.WriteLine("     Average =  "
-                 + "  " + setw(14) + average
-                 + "  " + setw(14) + 0.5 + "");
+                 + "  " + average.ToString().PadLeft(14)
+                 + "  " + 0.5.ToString().PadLeft(14) + "");
             //
             //  Restart the sequence.
             //
@@ -3564,14 +3565,14 @@ namespace FullertonTest
             variance = 0.0;
             for (i = 1; i <= 1000000; i++)
             {
-                r = r8_rand(s, ix0, ix1);
-                variance = variance + pow(r - average, 2);
+                r = FullertonLib.r8_rand(s, ref ix0, ref ix1);
+                variance = variance + Math.Pow(r - average, 2);
             }
 
             variance = variance / 1000000.0;
             Console.WriteLine("     Variance = "
-                 + "  " + setw(14) + variance
-                 + "  " + setw(14) + 1.0 / 12.0 + "");
+                 + "  " + variance.ToString().PadLeft(14)
+                 + "  " + (1.0 / 12.0).ToString().PadLeft(14) + "");
 
         }
 
@@ -3622,18 +3623,18 @@ namespace FullertonTest
 
             for (i = 1; i <= 1000; i++)
             {
-                r = r8_randgs(m, sd, seed);
+                r = FullertonLib.r8_randgs(m, sd, ref seed);
                 m2 = m2 + r;
-                sd2 = sd2 + pow(m - r, 2);
+                sd2 = sd2 + Math.Pow(m - r, 2);
                 if (i <= 10)
                 {
-                    Console.WriteLine("  " + setw(14) + i
-                        + "  " + setw(14) + r + "");
+                    Console.WriteLine("  " + i.ToString().PadLeft(14)
+                        + "  " + r.ToString().PadLeft(14) + "");
                 }
             }
 
             m2 = m2 / 1000.0;
-            sd2 = sqrt(sd2 / 1000.0);
+            sd2 = Math.Sqrt(sd2 / 1000.0);
 
             Console.WriteLine("");
             Console.WriteLine("  Sequence mean =  " + m2 + "");
@@ -3664,7 +3665,7 @@ namespace FullertonTest
         {
             double average;
             int i;
-            int i_value[7] =  {
+            int[] i_value =  {
                 1, 2, 3, 4, 10, 100, 1000
             }
             ;
@@ -3673,7 +3674,7 @@ namespace FullertonTest
             int k;
             int n = 32;
             double r;
-            double t[33];
+            double[] t = new double[33];
             double variance;
 
             Console.WriteLine("");
@@ -3687,18 +3688,18 @@ namespace FullertonTest
             //
             ix0 = 0;
             ix1 = 0;
-            r8_random_init(n, t, ix0, ix1);
+            FullertonLib.r8_random_init(n, ref t, ref ix0, ref ix1);
 
             k = 0;
 
             for (i = 1; i <= 1000; i++)
             {
-                r = r8_random(n, t, ix0, ix1);
+                r = FullertonLib.r8_random(n, ref t, ref ix0, ref ix1);
 
                 if (i == i_value[k])
                 {
-                    Console.WriteLine("  " + setw(14) + i
-                        + "  " + setw(14) + r + "");
+                    Console.WriteLine("  " + i.ToString().PadLeft(14)
+                        + "  " + r.ToString().PadLeft(14) + "");
                     k = k + 1;
                 }
             }
@@ -3708,38 +3709,38 @@ namespace FullertonTest
             //
             ix0 = 0;
             ix1 = 0;
-            r8_random_init(n, t, ix0, ix1);
+            FullertonLib.r8_random_init(n, ref t, ref ix0, ref ix1);
 
             average = 0.0;
             for (i = 1; i <= 1000000; i++)
             {
-                r = r8_random(n, t, ix0, ix1);
+                r = FullertonLib.r8_random(n, ref t, ref ix0, ref ix1);
                 average = average + r;
             }
 
             average = average / 1000000.0;
             Console.WriteLine("");
             Console.WriteLine("     Average =  "
-                 + "  " + setw(14) + average
-                 + "  " + setw(14) + 0.5 + "");
+                 + "  " + average.ToString().PadLeft(14)
+                 + "  " + 0.5.ToString().PadLeft(14) + "");
             //
             //  Restart the sequence.
             //
             ix0 = 0;
             ix1 = 0;
-            r8_random_init(n, t, ix0, ix1);
+            FullertonLib.r8_random_init(n, ref t, ref ix0, ref ix1);
 
             variance = 0.0;
             for (i = 1; i <= 1000000; i++)
             {
-                r = r8_random(n, t, ix0, ix1);
-                variance = variance + pow(r - average, 2);
+                r = FullertonLib.r8_random(n, ref t, ref ix0, ref ix1);
+                variance = variance + Math.Pow(r - average, 2);
             }
 
             variance = variance / 1000000.0;
             Console.WriteLine("     Variance = "
-                 + "  " + setw(14) + variance
-                 + "  " + setw(14) + 1.0 / 12.0 + "");
+                 + "  " + variance.ToString().PadLeft(14)
+                 + "  " + (1.0 / 12.0).ToString().PadLeft(14) + "");
 
         }
 
@@ -3766,13 +3767,13 @@ namespace FullertonTest
         {
             double average;
             int i;
-            int i_value[7] =  {
+            int[] i_value =  {
                 1, 2, 3, 4, 10, 100, 1000
             }
             ;
             int k;
             double r;
-            double r_value[7] =  {
+            double[] r_value =  {
                 0.470393,
                 0.799066,
                 0.883261,
@@ -3797,13 +3798,13 @@ namespace FullertonTest
 
             for (i = 1; i <= 1000; i++)
             {
-                r = r8_ren(seed);
+                r = FullertonLib.r8_ren(ref seed);
 
                 if (i == i_value[k])
                 {
-                    Console.WriteLine("  " + setw(14) + i
-                        + "  " + setw(14) + r
-                        + "  " + setw(14) + r_value[k] + "");
+                    Console.WriteLine("  " + i.ToString().PadLeft(14)
+                        + "  " + r.ToString().PadLeft(14)
+                        + "  " + r_value[k].ToString().PadLeft(14) + "");
                     k = k + 1;
                 }
             }
@@ -3812,28 +3813,28 @@ namespace FullertonTest
             average = 0.0;
             for (i = 1; i <= 1000000; i++)
             {
-                r = r8_ren(seed);
+                r = FullertonLib.r8_ren(ref seed);
                 average = average + r;
             }
 
             average = average / 1000000.0;
             Console.WriteLine("");
             Console.WriteLine("     Average =  "
-                 + "  " + setw(14) + average
-                 + "  " + setw(14) + 0.5 + "");
+                 + "  " + average.ToString().PadLeft(14)
+                 + "  " + 0.5.ToString().PadLeft(14) + "");
 
             seed = 123456789;
             variance = 0.0;
             for (i = 1; i <= 1000000; i++)
             {
-                r = r8_ren(seed);
-                variance = variance + pow(r - average, 2);
+                r = FullertonLib.r8_ren(ref seed);
+                variance = variance + Math.Pow(r - average, 2);
             }
 
             variance = variance / 1000000.0;
             Console.WriteLine("     Variance = "
-                 + "  " + setw(14) + variance
-                 + "  " + setw(14) + 1.0 / 12.0 + "");
+                 + "  " + variance.ToString().PadLeft(14)
+                 + "  " + (1.0 / 12.0).ToString().PadLeft(14) + "");
 
         }
 
@@ -3858,10 +3859,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_SHI_TEST:");
@@ -3874,19 +3875,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                shi_values(n_data, x, fx1);
+                Shi.shi_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_shi(x);
+                fx2 = FullertonLib.r8_shi(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -3912,10 +3913,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_SI_TEST:");
@@ -3928,19 +3929,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                si_values(n_data, x, fx1);
+                Sine.si_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_si(x);
+                fx2 = FullertonLib.r8_si(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -3966,10 +3967,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_SIN_TEST:");
@@ -3982,19 +3983,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                sin_values(n_data, x, fx1);
+                Sine.sin_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_sin(x);
+                fx2 = FullertonLib.r8_sin(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -4020,10 +4021,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_SIN_DEG_TEST:");
@@ -4036,19 +4037,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                sin_degree_values(n_data, x, fx1);
+                Sine.sin_degree_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_sin_deg(x);
+                fx2 = FullertonLib.r8_sin_deg(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -4074,10 +4075,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_SINH_TEST:");
@@ -4090,19 +4091,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                sinh_values(n_data, x, fx1);
+                Sine.sinh_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_sinh(x);
+                fx2 = FullertonLib.r8_sinh(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -4128,10 +4129,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_SPENCE_TEST:");
@@ -4144,19 +4145,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                dilogarithm_values(n_data, x, fx1);
+                Dilogarithm.dilogarithm_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_spence(x);
+                fx2 = FullertonLib.r8_spence(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -4182,10 +4183,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_SQRT_TEST:");
@@ -4198,19 +4199,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                sqrt_values(n_data, x, fx1);
+                Sqrt.sqrt_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_sqrt(x);
+                fx2 = FullertonLib.r8_sqrt(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -4236,10 +4237,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_TAN_TEST:");
@@ -4252,19 +4253,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                tan_values(n_data, x, fx1);
+                Tangent.tan_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_tan(x);
+                fx2 = FullertonLib.r8_tan(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -4290,10 +4291,10 @@ namespace FullertonTest
             //    John Burkardt
             //
         {
-            double fx1;
+            double fx1 = 0;
             double fx2;
             int n_data;
-            double x;
+            double x = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_TANH_TEST:");
@@ -4306,19 +4307,19 @@ namespace FullertonTest
 
             for (;;)
             {
-                tanh_values(n_data, x, fx1);
+                Tangent.tanh_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
                     break;
                 }
 
-                fx2 = r8_tanh(x);
+                fx2 = FullertonLib.r8_tanh(x);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + fx1
-                    + "  " + setw(14) + fx2
-                    + "  " + setw(14) + fabs(fx1 - fx2) + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + fx1.ToString().PadLeft(14)
+                    + "  " + fx2.ToString().PadLeft(14)
+                    + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
             }
 
         }
@@ -4345,9 +4346,9 @@ namespace FullertonTest
             //
         {
             int i;
-            int n;
-            double x;
-            double x_test[11] =  {
+            int n = 0;
+            double x = 0;
+            double[] x_test =  {
                 64.0,
                 128.0,
                 -64.0,
@@ -4361,7 +4362,7 @@ namespace FullertonTest
                 0.0
             }
             ;
-            double y;
+            double y = 0;
 
             Console.WriteLine("");
             Console.WriteLine("R8_UPAK_TEST:");
@@ -4374,11 +4375,11 @@ namespace FullertonTest
             {
                 x = x_test[i];
 
-                r8_upak(x, y, n);
+                FullertonLib.r8_upak(x, ref y, ref n);
 
-                Console.WriteLine("  " + setw(14) + x
-                    + "  " + setw(14) + y
-                    + "  " + setw(8) + n + "");
+                Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    + "  " + y.ToString().PadLeft(14)
+                    + "  " + n.ToString().PadLeft(8) + "");
             }
 
         }

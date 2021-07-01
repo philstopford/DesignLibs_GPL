@@ -233,5 +233,52 @@ namespace TestValuesTest
                                   + fx.ToString("0.################").PadLeft(24) + "");
             }
         }
+        
+        public static void polylogarithm_values_test()
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    POLYLOGARITHM_VALUES_TEST tests POLYLOGARITHM_VALUES.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    09 February 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double fx = 0;
+            int n = 0;
+            int n_data;
+            double z = 0;
+            Console.WriteLine("");
+            Console.WriteLine("POLYLOGARITHM_VALUES_TEST:");
+            Console.WriteLine("  POLYLOGARITHM_VALUES returns values of ");
+            Console.WriteLine("  the polylogarithm function.");
+            Console.WriteLine("");
+            Console.WriteLine("     N      Z          Fx");
+            Console.WriteLine("");
+            n_data = 0;
+            for (;;)
+            {
+                Log.polylogarithm_values(ref n_data, ref n, ref z, ref fx);
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                Console.WriteLine("  "
+                                  + n.ToString().PadLeft(6) + "  "
+                                  + z.ToString("0.################").PadLeft(24) + "  "
+                                  + fx.ToString("0.################").PadLeft(24) + "");
+            }
+        }
     }
 }

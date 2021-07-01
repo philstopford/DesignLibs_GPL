@@ -339,5 +339,52 @@ namespace TestValuesTest
                                   + weekday_name[weekday - 1] + "");
             }
         }
+        
+        public static void weekday_values_test ( )
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    WEEKDAY_VALUES_TEST tests WEEKDAY_VALUES.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    23 January 2015
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            int d = 0;
+            int m = 0;
+            int n_data;
+            int w = 0; int y = 0;
+            Console.WriteLine("");
+            Console.WriteLine("WEEKDAY_VALUES_TEST:");
+            Console.WriteLine("  WEEKDAY_VALUES returns values of ");
+            Console.WriteLine("  the weekday for a given Y/M/D date.");
+            Console.WriteLine("");
+            Console.WriteLine("     Y     M     D     W");
+            Console.WriteLine("");
+            n_data = 0;
+            for (;;)
+            {
+                Date.weekday_values(ref n_data, ref y, ref m, ref d, ref w);
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                Console.WriteLine("  " + y.ToString().PadLeft(4)
+                                       + "  " + m.ToString().PadLeft(4)
+                                       + "  " + d.ToString().PadLeft(4)
+                                       + "  " + w.ToString().PadLeft(4) + "");
+            }
+        }
     }
 }

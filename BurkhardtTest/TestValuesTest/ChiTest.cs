@@ -241,5 +241,52 @@ namespace TestValuesTest
             }
         }
 
+        public static void scaled_inverse_chi_square_pdf_values_test ( )
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    SCALED_INVERSE_CHI_SQUARE_PDF_VALUES_TEST tests SCALED_INVERSE_CHI_SQUARE_PDF_VALUES.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    05 August 2015
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double df = 0;
+            double fx = 0;
+            int n_data;
+            double x = 0;
+            double xi = 0;
+            Console.WriteLine("");
+            Console.WriteLine("SCALED_INVERSE_CHI_SQUARE_PDF_VALUES_TEST:");
+            Console.WriteLine("  SCALED_INVERSE_CHI_SQUARE_PDF_VALUES returns values of ");
+            Console.WriteLine("  the scaled inverse Chi-Square Probability Density Function.");
+            Console.WriteLine("");
+            Console.WriteLine("     DF        XI        X    PDF");
+            Console.WriteLine("");
+            n_data = 0;
+            for ( ; ; )
+            {
+                Chi.scaled_inverse_chi_square_pdf_values ( ref n_data, ref df, ref xi, ref x, ref fx );
+                if ( n_data == 0 )
+                {
+                    break;
+                }
+                Console.WriteLine("  "
+                                  + df.ToString().PadLeft(8) + "  "
+                    + xi.ToString().PadLeft(8) + "  "
+                    + x.ToString().PadLeft(8)  + "  "
+                    + fx.ToString().PadLeft(12) + "");
+            }
+        }
     }
 }

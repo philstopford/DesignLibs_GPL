@@ -47,8 +47,8 @@ namespace TestValuesTest
                 }
 
                 Console.WriteLine("  " + a.ToString().PadLeft(6)
-                                  + "  " + b.ToString().PadLeft(6)
-                                  + "  " + c.ToString("0.################").PadLeft(24) + "");
+                                       + "  " + b.ToString().PadLeft(6)
+                                       + "  " + c.ToString("0.################").PadLeft(24) + "");
             }
         }
 
@@ -147,6 +147,55 @@ namespace TestValuesTest
                                   + b.ToString("0.################").PadLeft(24) + "  "
                                   + x.ToString().PadLeft(4) + "  "
                                   + fx.ToString("0.################").PadLeft(24) + "");
+            }
+        }
+
+        public static void negative_binomial_cdf_values_test()
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    NEGATIVE_BINOMIAL_CDF_VALUES_TEST tests NEGATIVE_BINOMIAL_CDF_VALUES.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    13 June 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double cdf = 0;
+            int f = 0;
+            int n_data;
+            double p = 0;
+            int s = 0;
+            Console.WriteLine("");
+            Console.WriteLine("NEGATIVE_BINOMIAL_CDF_VALUES_TEST:");
+            Console.WriteLine("  NEGATIVE_BINOMIAL_CDF_VALUES stores values of");
+            Console.WriteLine("  the Negative Binomial Cumulative Density Function.");
+            Console.WriteLine("");
+            Console.WriteLine("     F     S         P         CDF(X)");
+            Console.WriteLine("");
+            n_data = 0;
+            for (;;)
+            {
+                Binomial.negative_binomial_cdf_values(ref n_data, ref f, ref s, ref p, ref cdf);
+                if (n_data == 0)
+                {
+                    break;
+                }
+
+                Console.WriteLine("  "
+                                  + f.ToString().PadLeft(6) + "  "
+                                  + s.ToString().PadLeft(6) + "  "
+                                  + p.ToString().PadLeft(12) + "  "
+                                  + cdf.ToString("0.################").PadLeft(24) + "");
             }
         }
 

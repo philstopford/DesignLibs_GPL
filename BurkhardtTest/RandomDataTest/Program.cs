@@ -10,6 +10,7 @@ using Normal = Burkardt.RandomNS.Normal;
 using Polygon = Burkardt.Uniform.Polygon;
 using Triangle = Burkardt.Uniform.Triangle;
 using Sphere = Burkardt.Uniform.Sphere;
+using Tetrahedron = Burkardt.Uniform.Tetrahedron;
 
 namespace RandomDataTest
 {

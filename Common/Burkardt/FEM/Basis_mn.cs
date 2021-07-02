@@ -1,4 +1,6 @@
 ﻿using System;
+using Burkardt.Types;
+using Burkardt.Uniform;
 
 namespace Burkardt.FEM
 {
@@ -962,5 +964,506 @@ namespace Burkardt.FEM
 
         }
 
+        public static void basis_mn_tet4(double[] t, int n, double[] p, ref double[] phi )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    BASIS_MN_TET4: all bases at N points for a TET4 element.
+        //
+        //  Discussion:
+        //
+        //    The routine is given the coordinates of the vertices of a tetrahedron.
+        //
+        //    It works directly with these coordinates, and does not refer to a
+        //    reference element.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    07 August 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Olgierd Zienkiewicz,
+        //    The Finite Element Method,
+        //    Sixth Edition,
+        //    Butterworth-Heinemann, 2005,
+        //    ISBN: 0750663200,
+        //    LC: TA640.2.Z54.
+        //
+        //  Parameters:
+        //
+        //    Input, double T[3*4], the coordinates of the vertices.
+        //
+        //    Input, int N, the number of evaluation points.
+        //
+        //    Input, double P[3*N], the points where the basis functions
+        //    are to be evaluated.
+        //
+        //    Output, double PHI[4*N], the value of the basis functions
+        //    at the evaluation points.
+        //
+        {
+            int j;
+            double volume;
+            //
+            //           | x1 x2 x3 x4 |
+            //  Volume = | y1 y2 y3 y4 |
+            //           | z1 z2 z3 z4 |
+            //           |  1  1  1  1 |
+            //
+            volume =
+                t[0 + 0 * 3] * (
+                    t[1 + 1 * 3] * (t[2 + 2 * 3] - t[2 + 3 * 3])
+                    - t[1 + 2 * 3] * (t[2 + 1 * 3] - t[2 + 3 * 3])
+                    + t[1 + 3 * 3] * (t[2 + 1 * 3] - t[2 + 2 * 3]))
+                - t[0 + 1 * 3] * (
+                    t[1 + 0 * 3] * (t[2 + 2 * 3] - t[2 + 3 * 3])
+                    - t[1 + 2 * 3] * (t[2 + 0 * 3] - t[2 + 3 * 3])
+                    + t[1 + 3 * 3] * (t[2 + 0 * 3] - t[2 + 2 * 3]))
+                + t[0 + 2 * 3] * (
+                    t[1 + 0 * 3] * (t[2 + 1 * 3] - t[2 + 3 * 3])
+                    - t[1 + 1 * 3] * (t[2 + 0 * 3] - t[2 + 3 * 3])
+                    + t[1 + 3 * 3] * (t[2 + 0 * 3] - t[2 + 1 * 3]))
+                - t[0 + 3 * 3] * (
+                    t[1 + 0 * 3] * (t[2 + 1 * 3] - t[2 + 2 * 3])
+                    - t[1 + 1 * 3] * (t[2 + 0 * 3] - t[2 + 2 * 3])
+                    + t[1 + 2 * 3] * (t[2 + 0 * 3] - t[2 + 1 * 3]));
+
+            if (volume == 0.0)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("BASIS_MN_TET4 - Fatal error!");
+                Console.WriteLine("  Element has zero volume.");
+                return;
+            }
+
+            //
+            //             | xp x2 x3 x4 |
+            //  Phi(1,P) = | yp y2 y3 y4 | / volume
+            //             | zp z2 z3 z4 |
+            //             |  1  1  1  1 |
+            //
+            for (j = 0; j < n; j++)
+            {
+                phi[0 + j * 4] = (
+                    p[0 + j * 3] * (
+                        t[1 + 1 * 3] * (t[2 + 2 * 3] - t[2 + 3 * 3])
+                        - t[1 + 2 * 3] * (t[2 + 1 * 3] - t[2 + 3 * 3])
+                        + t[1 + 3 * 3] * (t[2 + 1 * 3] - t[2 + 2 * 3]))
+                    - t[0 + 1 * 3] * (
+                        p[1 + j * 3] * (t[2 + 2 * 3] - t[2 + 3 * 3])
+                        - t[1 + 2 * 3] * (p[2 + j * 3] - t[2 + 3 * 3])
+                        + t[1 + 3 * 3] * (p[2 + j * 3] - t[2 + 2 * 3]))
+                    + t[0 + 2 * 3] * (
+                        p[1 + j * 3] * (t[2 + 1 * 3] - t[2 + 3 * 3])
+                        - t[1 + 1 * 3] * (p[2 + j * 3] - t[2 + 3 * 3])
+                        + t[1 + 3 * 3] * (p[2 + j * 3] - t[2 + 1 * 3]))
+                    - t[0 + 3 * 3] * (
+                        p[1 + j * 3] * (t[2 + 1 * 3] - t[2 + 2 * 3])
+                        - t[1 + 1 * 3] * (p[2 + j * 3] - t[2 + 2 * 3])
+                        + t[1 + 2 * 3] * (p[2 + j * 3] - t[2 + 1 * 3]))) / volume;
+                //
+                //             | x1 xp x3 x4 |
+                //  Phi(2,P) = | y1 yp y3 y4 | / volume
+                //             | z1 zp z3 z4 |
+                //             |  1  1  1  1 |
+                //
+                phi[1 + j * 4] = (
+                    t[0 + 0 * 3] * (
+                        p[1 + j * 3] * (t[2 + 2 * 3] - t[2 + 3 * 3])
+                        - t[1 + 2 * 3] * (p[2 + j * 3] - t[2 + 3 * 3])
+                        + t[1 + 3 * 3] * (p[2 + j * 3] - t[2 + 2 * 3]))
+                    - p[0 + j * 3] * (
+                        t[1 + 0 * 3] * (t[2 + 2 * 3] - t[2 + 3 * 3])
+                        - t[1 + 2 * 3] * (t[2 + 0 * 3] - t[2 + 3 * 3])
+                        + t[1 + 3 * 3] * (t[2 + 0 * 3] - t[2 + 2 * 3]))
+                    + t[0 + 2 * 3] * (
+                        t[1 + 0 * 3] * (p[2 + j * 3] - t[2 + 3 * 3])
+                        - p[1 + j * 3] * (t[2 + 0 * 3] - t[2 + 3 * 3])
+                        + t[1 + 3 * 3] * (t[2 + 0 * 3] - p[2 + j * 3]))
+                    - t[0 + 3 * 3] * (
+                        t[1 + 0 * 3] * (p[2 + j * 3] - t[2 + 2 * 3])
+                        - p[1 + j * 3] * (t[2 + 0 * 3] - t[2 + 2 * 3])
+                        + t[1 + 2 * 3] * (t[2 + 0 * 3] - p[2 + j * 3]))) / volume;
+                //
+                //             | x1 x2 xp x4 |
+                //  Phi(3,P) = | y1 y2 yp y4 | / volume
+                //             | z1 z2 zp z4 |
+                //             |  1  1  1  1 |
+                //
+                phi[2 + j * 4] = (
+                    t[0 + 0 * 3] * (
+                        t[1 + 1 * 3] * (p[2 + j * 3] - t[2 + 3 * 3])
+                        - p[1 + j * 3] * (t[2 + 1 * 3] - t[2 + 3 * 3])
+                        + t[1 + 3 * 3] * (t[2 + 1 * 3] - p[2 + j * 3]))
+                    - t[0 + 1 * 3] * (
+                        t[1 + 0 * 3] * (p[2 + j * 3] - t[2 + 3 * 3])
+                        - p[1 + j * 3] * (t[2 + 0 * 3] - t[2 + 3 * 3])
+                        + t[1 + 3 * 3] * (t[2 + 0 * 3] - p[2 + j * 3]))
+                    + p[0 + j * 3] * (
+                        t[1 + 0 * 3] * (t[2 + 1 * 3] - t[2 + 3 * 3])
+                        - t[1 + 1 * 3] * (t[2 + 0 * 3] - t[2 + 3 * 3])
+                        + t[1 + 3 * 3] * (t[2 + 0 * 3] - t[2 + 1 * 3]))
+                    - t[0 + 3 * 3] * (
+                        t[1 + 0 * 3] * (t[2 + 1 * 3] - p[2 + j * 3])
+                        - t[1 + 1 * 3] * (t[2 + 0 * 3] - p[2 + j * 3])
+                        + p[1 + j * 3] * (t[2 + 0 * 3] - t[2 + 1 * 3]))) / volume;
+                //
+                //             | x1 x2 x3 xp |
+                //  Phi(4,P) = | y1 y2 y3 yp | / volume
+                //             | z1 z2 z3 zp |
+                //             |  1  1  1  1 |
+                //
+                phi[3 + j * 4] = (
+                    t[0 + 0 * 3] * (
+                        t[1 + 1 * 3] * (t[2 + 2 * 3] - p[2 + j * 3])
+                        - t[1 + 2 * 3] * (t[2 + 1 * 3] - p[2 + j * 3])
+                        + p[1 + j * 3] * (t[2 + 1 * 3] - t[2 + 2 * 3]))
+                    - t[0 + 1 * 3] * (
+                        t[1 + 0 * 3] * (t[2 + 2 * 3] - p[2 + j * 3])
+                        - t[1 + 2 * 3] * (t[2 + 0 * 3] - p[2 + j * 3])
+                        + p[1 + j * 3] * (t[2 + 0 * 3] - t[2 + 2 * 3]))
+                    + t[0 + 2 * 3] * (
+                        t[1 + 0 * 3] * (t[2 + 1 * 3] - p[2 + j * 3])
+                        - t[1 + 1 * 3] * (t[2 + 0 * 3] - p[2 + j * 3])
+                        + p[1 + j * 3] * (t[2 + 0 * 3] - t[2 + 1 * 3]))
+                    - p[0 + j * 3] * (
+                        t[1 + 0 * 3] * (t[2 + 1 * 3] - t[2 + 2 * 3])
+                        - t[1 + 1 * 3] * (t[2 + 0 * 3] - t[2 + 2 * 3])
+                        + t[1 + 2 * 3] * (t[2 + 0 * 3] - t[2 + 1 * 3]))) / volume;
+            }
+        }
+
+        public static void basis_mn_tet4_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    BASIS_MN_T4_TEST verifies BASIS_MN_TET4.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    07 August 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            int NODE_NUM = 4;
+
+            double[] c;
+            double c_sum;
+            int i;
+            int j;
+            double[] p = new double[1];
+            double[] phi1 = new double[NODE_NUM * 1];
+            double phi1_sum;
+            double[] phi4 = new double[NODE_NUM * NODE_NUM];
+            int seed;
+            double[] t;
+            int test;
+            int test_num = 5;
+
+            seed = 123456789;
+
+            Console.WriteLine("");
+            Console.WriteLine("BASIS_MN_TET4_TEST:");
+            Console.WriteLine("  Verify basis functions for element TET4.");
+            Console.WriteLine("");
+            Console.WriteLine("  Number of nodes = " + NODE_NUM + "");
+
+            t = UniformRNG.r8mat_uniform_01_new(3, 4, ref seed);
+
+            Console.WriteLine("");
+            Console.WriteLine("  Tetrahedron Nodes:");
+            Console.WriteLine("");
+            for (j = 0; j < NODE_NUM; j++)
+            {
+                Console.WriteLine("  "
+                     + t[0 + j * 3].ToString().PadLeft(10) + "  "
+                     + t[1 + j * 3].ToString().PadLeft(10) + "");
+            }
+
+            Console.WriteLine("");
+            Console.WriteLine("  The basis function values at basis nodes");
+            Console.WriteLine("  should form the identity matrix.");
+            Console.WriteLine("");
+
+            basis_mn_tet4(t, NODE_NUM, t, ref phi4);
+
+            for (j = 0; j < NODE_NUM; j++)
+            {
+                string cout = "";
+                for (i = 0; i < NODE_NUM; i++)
+                {
+                    cout += "  " + phi4[i + j * NODE_NUM].ToString("0.####").PadLeft(10);
+                }
+
+                Console.WriteLine(cout);
+            }
+
+            Console.WriteLine("");
+            Console.WriteLine("  The basis function values at ANY point P");
+            Console.WriteLine("  should sum to 1:");
+            Console.WriteLine("");
+            Console.WriteLine("    ------------P-------------    "
+                + "-----------------PHI----------------   PHI_SUM");
+            Console.WriteLine("");
+
+            for (test = 1; test <= test_num; test++)
+            {
+                c = UniformRNG.r8vec_uniform_01_new(4, ref seed);
+
+                c_sum = typeMethods.r8vec_sum(4, c);
+                for (i = 0; i < 4; i++)
+                {
+                    c[i] = c[i] / c_sum;
+                }
+
+                typeMethods.r8mat_mv(3, 4, t, c, ref p);
+
+                basis_mn_tet4(t, 1, p, ref phi1);
+
+                phi1_sum = typeMethods.r8vec_sum(NODE_NUM, phi1);
+
+                Console.WriteLine("  " + p[0].ToString().PadLeft(8)
+                    + "  " + p[1].ToString().PadLeft(8)
+                    + "  " + p[2].ToString().PadLeft(8)
+                    + "  " + phi1[0].ToString().PadLeft(8)
+                    + "  " + phi1[1].ToString().PadLeft(8)
+                    + "  " + phi1[2].ToString().PadLeft(8)
+                    + "  " + phi1[3].ToString().PadLeft(8)
+                    + "  " + phi1_sum.ToString().PadLeft(8) + "");
+            }
+        }
+
+        public static void basis_mn_tet10(double[] t, int n, double[] p, ref double[] phi )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    BASIS_MN_TET10: all bases at N points for a TET10 element.
+        //
+        //  Discussion:
+        //
+        //    The routine is given the coordinates of the vertices of a tetrahedron.
+        //
+        //    It works directly with these coordinates, and does not refer to a
+        //    reference element.
+        //
+        //    P1 through P4 are vertices.
+        //
+        //    P1 <= P5  <= P2
+        //    P2 <= P6  <= P3
+        //    P1 <= P7  <= P3
+        //    P1 <= P8  <= P4
+        //    P2 <= P9  <= P4
+        //    P3 <= P10 <= P4
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    10 August 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Olgierd Zienkiewicz,
+        //    The Finite Element Method,
+        //    Sixth Edition,
+        //    Butterworth-Heinemann, 2005,
+        //    ISBN: 0750663200,
+        //    LC: TA640.2.Z54.
+        //
+        //  Parameters:
+        //
+        //    Input, double T[3*4], the coordinates of the vertices.
+        //
+        //    Input, int N, the number of evaluation points.
+        //
+        //    Input, double P[3*N], the points where the basis functions
+        //    are to be evaluated.
+        //
+        //    Output, double PHI[10*N], the value of the basis functions
+        //    at the evaluation points.
+        //
+        {
+            int j;
+            double[] phi_linear;
+
+            phi_linear = new double[4 * n];
+
+            basis_mn_tet4(t, n, p, ref phi_linear);
+
+            for (j = 0; j < n; j++)
+            {
+                phi[0 + j * 10] = (2.0 * phi_linear[0 + j * 4] - 1.0) * phi_linear[0 + j * 4];
+                phi[1 + j * 10] = (2.0 * phi_linear[1 + j * 4] - 1.0) * phi_linear[1 + j * 4];
+                phi[2 + j * 10] = (2.0 * phi_linear[2 + j * 4] - 1.0) * phi_linear[2 + j * 4];
+                phi[3 + j * 10] = (2.0 * phi_linear[3 + j * 4] - 1.0) * phi_linear[3 + j * 4];
+                phi[4 + j * 10] = 4.0 * phi_linear[0 + j * 4] * phi_linear[1 + j * 4];
+                phi[5 + j * 10] = 4.0 * phi_linear[1 + j * 4] * phi_linear[2 + j * 4];
+                phi[6 + j * 10] = 4.0 * phi_linear[0 + j * 4] * phi_linear[2 + j * 4];
+                phi[7 + j * 10] = 4.0 * phi_linear[0 + j * 4] * phi_linear[3 + j * 4];
+                phi[8 + j * 10] = 4.0 * phi_linear[1 + j * 4] * phi_linear[3 + j * 4];
+                phi[9 + j * 10] = 4.0 * phi_linear[2 + j * 4] * phi_linear[3 + j * 4];
+            }
+        }
+
+        public static void basis_mn_tet10_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    BASIS_MN_TET10_TEST verifies BASIS_MN_TET10.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    09 August 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    None
+            //
+        {
+            double[] c;
+            double c_sum;
+            int i;
+            int j;
+            double[] p = new double[1];
+            double[] p10 = new double[3 * 10];
+            double[] phi1 = new double[10 * 1];
+            double phi1_sum;
+            double[] phi10 = new double[10 * 10];
+            int seed;
+            double[] t;
+            int test;
+            int test_num = 5;
+
+            seed = 123456789;
+
+            Console.WriteLine("");
+            Console.WriteLine("BASIS_MN_TET10_TEST:");
+            Console.WriteLine("  Verify basis functions for element TET10.");
+            Console.WriteLine("");
+            Console.WriteLine("  Number of nodes = 10.");
+
+            t = UniformRNG.r8mat_uniform_01_new(3, 4, ref seed);
+
+            Console.WriteLine("");
+            Console.WriteLine("  Tetrahedron Nodes:");
+            Console.WriteLine("");
+            for (j = 0; j < 4; j++)
+            {
+                Console.WriteLine("  " + j.ToString().PadLeft(8) 
+                    + "  " + t[0 + j * 3].ToString().PadLeft(14) 
+                    + "  " + t[1 + j * 3].ToString().PadLeft(14)
+                    + "  " + t[2 + j * 3].ToString().PadLeft(14) + "");
+            }
+
+            Console.WriteLine("");
+            Console.WriteLine("  The basis function values at basis nodes");
+            Console.WriteLine("  should form the identity matrix.");
+            Console.WriteLine("");
+
+            for (i = 0; i < 3; i++)
+            {
+                p10[i + 0 * 3] = t[i + 0 * 3];
+                p10[i + 1 * 3] = t[i + 1 * 3];
+                p10[i + 2 * 3] = t[i + 2 * 3];
+                p10[i + 3 * 3] = t[i + 3 * 3];
+                p10[i + 4 * 3] = 0.5 * (t[i + 0 * 3] + t[i + 1 * 3]);
+                p10[i + 5 * 3] = 0.5 * (t[i + 1 * 3] + t[i + 2 * 3]);
+                p10[i + 6 * 3] = 0.5 * (t[i + 0 * 3] + t[i + 2 * 3]);
+                p10[i + 7 * 3] = 0.5 * (t[i + 0 * 3] + t[i + 3 * 3]);
+                p10[i + 8 * 3] = 0.5 * (t[i + 1 * 3] + t[i + 3 * 3]);
+                p10[i + 9 * 3] = 0.5 * (t[i + 2 * 3] + t[i + 3 * 3]);
+            }
+
+            basis_mn_tet10(t, 10, p10, ref phi10);
+
+            for (i = 0; i < 10; i++)
+            {
+                string cout = "";
+                for (j = 0; j < 10; j++)
+                {
+                    cout += "  " + phi10[i + j * 10].ToString("0.####").PadLeft(7);
+                }
+
+                Console.WriteLine(cout);
+            }
+
+            Console.WriteLine("");
+            Console.WriteLine("  The basis function values at ANY point P");
+            Console.WriteLine("  should sum to 1:");
+            Console.WriteLine("");
+            Console.WriteLine("    ------------P-------------    " + 
+                              "----------------------------------------------------" +
+                              "PHI-----------------------------------------   PHI_SUM");
+            Console.WriteLine("");
+
+            for (test = 1; test <= test_num; test++)
+            {
+                c = UniformRNG.r8vec_uniform_01_new(4, ref seed);
+
+                c_sum = typeMethods.r8vec_sum(4, c);
+                for (i = 0; i < 4; i++)
+                {
+                    c[i] = c[i] / c_sum;
+                }
+
+                typeMethods.r8mat_mv(3, 4, t, c, ref p);
+
+                Basis_mn.basis_mn_tet10(t, 1, p, ref phi1);
+                phi1_sum = typeMethods.r8vec_sum(10, phi1);
+
+                Console.WriteLine("  " + p[0].ToString().PadLeft(8)
+                    + "  " + p[1].ToString().PadLeft(8)
+                    + "  " + p[2].ToString().PadLeft(8)
+                    + "  " + phi1[0].ToString().PadLeft(8) 
+                    + "  " + phi1[1].ToString().PadLeft(8)
+                    + "  " + phi1[2].ToString().PadLeft(8)
+                    + "  " + phi1[3].ToString().PadLeft(8)
+                    + "  " + phi1[4].ToString().PadLeft(8)
+                    + "  " + phi1[5].ToString().PadLeft(8)
+                    + "  " + phi1[6].ToString().PadLeft(8)
+                    + "  " + phi1[7].ToString().PadLeft(8)
+                    + "  " + phi1[8].ToString().PadLeft(8)
+                    + "  " + phi1[9].ToString().PadLeft(8)
+                    + "  " + phi1_sum.ToString().PadLeft(8) + "");
+            }
+        }
     }
 }

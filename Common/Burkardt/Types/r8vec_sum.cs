@@ -51,7 +51,7 @@ namespace Burkardt.Types
             }
         }
 
-        public static double r8vec_asum ( int n, double[] a )
+        public static double r8vec_asum ( int n, double[] a, int aIndex = 0 )
 
             //****************************************************************************80
             //
@@ -89,12 +89,12 @@ namespace Burkardt.Types
             double value = 0.0;
             for ( i = 0; i < n; i++ )
             {
-                value = value + Math.Abs ( a[i] );
+                value = value + Math.Abs ( a[aIndex + i] );
             }
             return value;
         }
         
-        public static double r8vec_sum(int n, double[] a)
+        public static double r8vec_sum(int n, double[] a, int aIndex = 0)
             //****************************************************************************80
             //
             //  Purpose:
@@ -129,7 +129,7 @@ namespace Burkardt.Types
             double value = 0.0;
             for (int i = 0; i < n; i++)
             {
-                value = value + a[i];
+                value = value + a[aIndex + i];
             }
 
             return value;

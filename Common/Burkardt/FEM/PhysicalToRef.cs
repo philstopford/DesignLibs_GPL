@@ -1,4 +1,6 @@
-﻿namespace Burkardt.FEM
+﻿using Burkardt.Types;
+
+namespace Burkardt.FEM
 {
     public class PhysicalToRef
     {
@@ -80,6 +82,75 @@
                     / ((t[1 + 2 * 2] - t[1 + 0 * 2]) * (t[0 + 1 * 2] - t[0 + 0 * 2])
                        - (t[0 + 2 * 2] - t[0 + 0 * 2]) * (t[1 + 1 * 2] - t[1 + 0 * 2]));
             }
+        }
+        
+        public static double[] physical_to_reference_tet4 ( double[] t, int n, double[] phy )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    PHYSICAL_TO_REFERENCE_TET4 maps physical points to reference points.
+        //
+        //  Discussion:
+        //
+        //    Given the vertices of an order 4 physical tetrahedron and a point 
+        //    (X,Y,Z) in the physical tetrahedron, the routine computes the value 
+        //    of the corresponding point (R,S,T) in the reference tetrahedron.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    10 August 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double T[3*4], the coordinates of the vertices of the
+        //    physical tetrahedron.  The vertices are assumed to be the images of
+        //    (1,0,0), (0,1,0), (0,0,1) and (0,0,0) respectively.
+        //
+        //    Input, int N, the number of points to transform.
+        //
+        //    Input, double PHY[3*N], the coordinates of physical points
+        //    to be transformed.
+        //
+        //    Output, double PHYSICAL_TO_REFERENCE[3*N], the coordinates of the 
+        //    corresponding points in the reference tetrahedron.
+        //
+        {
+            double[] a = new double[3*3];
+            int i;
+            int j;
+            double[] ref_;
+
+            for ( j = 0; j < 3; j++ )
+            {
+                for ( i = 0; i < 3; i++ )
+                {
+                    a[i+j*3] = t[i+j*3] - t[i+3*3];
+                }
+            }
+
+            ref_ = new double[3*n];
+
+            for ( j = 0; j < n; j++ )
+            {
+                for ( i = 0; i < 3; i++ )
+                {
+                    ref_[i+j*3] = phy[i+j*3] - t[i+3*3];
+                }
+            }
+
+            typeMethods.r8ge_fss ( 3, ref a, n, ref ref_ );
+
+            return ref_;
         }
     }
 }

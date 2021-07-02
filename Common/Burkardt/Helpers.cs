@@ -6,6 +6,38 @@ namespace Burkardt
 {
     public static partial class Helpers
     {
+        public static double degrees_to_radians ( double angle )
+
+            //****************************************************************************80
+            //
+            //  Purpose: 
+            //
+            //    DEGREES_TO_RADIANS converts an angle from degrees to radians.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    31 March 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double ANGLE, an angle in degrees.
+            //
+            //    Output, double DEGREES_TO_RADIANS, the equivalent angle
+            //    in radians.
+            //
+        {
+            return ( angle * Math.PI / 180.0 );
+
+        }
+        
         public static double enorm ( int n, double[] x, int xIndex = 0 )
 
             //****************************************************************************80

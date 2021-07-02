@@ -1,4 +1,4 @@
-﻿namespace Burkardt.Triangle
+﻿namespace Burkardt.TriangleNS
 {
     public static class Grid
     {

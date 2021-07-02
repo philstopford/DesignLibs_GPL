@@ -2,7 +2,7 @@
 using Burkardt;
 using Burkardt.Types;
 
-using Integrals = Burkardt.Triangle.Integrals;
+using Integrals = Burkardt.TriangleNS.Integrals;
 
 namespace TriangleIntegralsTest
 {

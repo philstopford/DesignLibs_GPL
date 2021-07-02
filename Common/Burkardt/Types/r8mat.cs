@@ -8,7 +8,58 @@ namespace Burkardt.Types
     public static partial class typeMethods
     {
 
+        public static void r8mat_mm ( int n1, int n2, int n3, double[] a, double[] b, ref double[] c )
 
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8MAT_MM multiplies two matrices.
+        //
+        //  Discussion: 							    
+        //
+        //    An R8MAT is a doubly dimensioned array of R8 values,  stored as a vector 
+        //    in column-major order.
+        //
+        //    For this routine, the result is returned as the function value.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    27 February 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N1, N2, N3, the order of the matrices.
+        //
+        //    Input, double A[N1*N2], double B[N2*N3], the matrices to multiply.
+        //
+        //    Output, double C[N1*N3], the product matrix C = A * B.
+        //
+        {
+            int i;
+            int j;
+            int k;
+
+            for ( i = 0; i < n1; i ++ )
+            {
+                for ( j = 0; j < n3; j++ )
+                {
+                    c[i+j*n1] = 0.0;
+                    for ( k = 0; k < n2; k++ )
+                    {
+                        c[i+j*n1] = c[i+j*n1] + a[i+k*n1] * b[k+j*n2];
+                    }
+                }
+            }
+        }
 
         public static double[] r8mat_mm_new(int n1, int n2, int n3, double[] a, double[] b)
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using Burkardt;
 using Burkardt.Grid;
+using Burkardt.PDFLib;
 using Burkardt.Probability;
 using Burkardt.RandomNS;
 using Burkardt.Types;
@@ -8,6 +9,7 @@ using Burkardt.Uniform;
 using Normal = Burkardt.RandomNS.Normal;
 using Polygon = Burkardt.Uniform.Polygon;
 using Triangle = Burkardt.Uniform.Triangle;
+using Sphere = Burkardt.Uniform.Sphere;
 
 namespace RandomDataTest
 {

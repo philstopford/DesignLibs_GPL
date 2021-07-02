@@ -101,7 +101,7 @@ namespace FEM1DPackTest
             for (int j = 0; j < node_num; j++)
             {
                 x = node_x[j];
-                phi = FEM_1D_Pack.local_basis_1d(node_num, node_x, x);
+                phi = LocalBasis.local_basis_1d(node_num, node_x, x);
                 for (int i = 0; i < node_num; i++)
                 {
                     phi_matrix[i + j * node_num] = phi[i];
@@ -121,7 +121,7 @@ namespace FEM1DPackTest
             for (int j = 1; j <= 5; j++)
             {
                 x = UniformRNG.r8_uniform(1.0, 4.5, ref seed);
-                phi = FEM_1D_Pack.local_basis_1d(node_num, node_x, x);
+                phi = LocalBasis.local_basis_1d(node_num, node_x, x);
                 double s = typeMethods.r8vec_sum(node_num, phi);
                 Console.WriteLine("  " + x.ToString().PadLeft(14)
                     + "  " + s.ToString().PadLeft(14) + "");

@@ -1,6 +1,6 @@
 ﻿using Burkardt.Types;
 
-namespace Burkardt.Triangle
+namespace Burkardt.TriangleNS
 {
     public static class QuadratureRule
     {

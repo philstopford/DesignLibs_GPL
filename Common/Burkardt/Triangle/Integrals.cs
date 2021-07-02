@@ -1,7 +1,7 @@
 ﻿using Burkardt.TriangulationNS;
 using Burkardt.Types;
 
-namespace Burkardt.Triangle
+namespace Burkardt.TriangleNS
 {
     public static class Integrals
     {

@@ -4,6 +4,185 @@ namespace Burkardt
 {
     public static class NavierStokes
     {
+        public static int ns_t6_var_count(int element_num, int[] element_node, int node_num,
+                ref int[] var_node)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    NS_T6_VAR_COUNT counts the Navier Stokes variables on a T6 grid.
+            //
+            //  Discussion:
+            //
+            //    We are given a mesh of T6 elements, and asked to count, in advance,
+            //    the number of Navier-Stokes variables associated with the grid.
+            //    In particular, every node has two velocity variables associated with
+            //    it, but only a node that is a vertex of the element will also have
+            //    an associated pressure variable.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    03 September 2006
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int ELEMENT_NUM, the number of elements.
+            //
+            //    Input, int ELEMENT_NODE[ELEMENT_ORDER*ELEMENT_NUM]; 
+            //    ELEMENT_NODE(I,J) is the global index of local node I in element J.
+            //
+            //    Input, int NODE_NUM, the number of nodes.
+            //
+            //    Output, int VAR_NODE[NODE_NUM+1], used to find the variables 
+            //    associated with a given node, which are in VAR in locations 
+            //    VAR_NODE(NODE) to VAR_NODE(NODE+1)-1.  Note that the last entry of
+            //    this array points to the location just after the last location in VAR.
+            //
+            //    Output, int NS_T6_VAR_COUNT, the number of variables.
+            //
+        {
+            int count;
+            int element;
+            int element_order = 6;
+            int node;
+            int num;
+            int order;
+            int var_num;
+            //
+            //  Our job is easy once we determine which nodes are vertices.
+            //  So to begin with, let VAR_NODE count the number of variables
+            //  associated with each node.
+            //
+            for (node = 0; node < node_num; node++)
+            {
+                var_node[node] = 2;
+            }
+
+            for (element = 0; element < element_num; element++)
+            {
+                for (order = 0; order < 3; order++)
+                {
+                    node = element_node[order + element * element_order];
+                    var_node[node - 1] = 3;
+                }
+            }
+
+            //
+            //  Count them.
+            //
+            var_num = 0;
+            for (node = 0; node < node_num; node++)
+            {
+                var_num = var_num + var_node[node];
+            }
+
+            //
+            //  Make pointers.
+            //
+            count = 1;
+
+            for (node = 0; node < node_num; node++)
+            {
+                num = var_node[node];
+                var_node[node] = count;
+                count = count + num;
+            }
+
+            var_node[node_num] = count;
+
+            return var_num;
+        }
+
+        public static int[] ns_t6_var_set(int element_num, int[] element_node, int node_num,
+                int[] var_node, int var_num)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    NS_T6_VAR_SET sets the Navier Stokes variables on a T6 grid.
+            //
+            //  Discussion:
+            //
+            //    We are given a mesh of T6 elements, and asked to create the natural
+            //    list of indices for Navier-Stokes variables associated with each node.
+            //    In particular, every node has two velocity variables associated with
+            //    it, but only a node that is a vertex of the element will also have
+            //    an associated pressure variable.
+            //
+            //    The hard work has been done for us alread, because the variables
+            //    have been counted, and the pointers to the occurrence of the
+            //    first variable associated with each node have been created.
+            //
+            //    The indexing of the nodes can be arbitrary, although a bad
+            //    indexing will result in a miserably large bandwidth (if band
+            //    storage is being tried for the stiffness matrix).  Here, we
+            //    simply try to natural ordering, that is, the variables are
+            //    numbered in order of the node with which they are associated.
+            //
+            //    For the Navier Stokes problem on a T6 grid, we take it as
+            //    understood that each node has either 2 or 3 variables associated
+            //    with it, that the first two are always the horizontal and
+            //    then vertical velocity coefficients, and that the third, if
+            //    present, is a pressure coefficient.
+            //
+            //    In other settings, it might be necessary not merely to assign
+            //    the variables an index, but also to identify them as to type.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    03 September 2006
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int ELEMENT_NUM, the number of elements.
+            //
+            //    Input, int ELEMENT_NODE[ELEMENT_ORDER*ELEMENT_NUM]; 
+            //    ELEMENT_NODE(I,J) is the global index of local node I in element J.
+            //
+            //    Input, int NODE_NUM, the number of nodes.
+            //
+            //    Input, int VAR_NODE[NODE_NUM+1], used to find the variables 
+            //    associated with a given node, which are in VAR in locations 
+            //    VAR_NODE(NODE) to VAR_NODE(NODE+1)-1.  Note that the last entry of
+            //    this array points to the location just after the last location in VAR.
+            //
+            //    Input, int VAR_NUM, the number of variables.
+            //
+            //    Output, int NS_T6_VAR_SET[VAR_NUM], the indexes of the variables, which
+            //    are simply 1, 2, 3, ..., VAR_NUM.
+            //
+        {
+            int i;
+            int[] var;
+
+            var = new int[var_num];
+
+            for (i = 0; i < var_num; i++)
+            {
+                var[i] = i + 1;
+            }
+
+            return var;
+        }
+
         public static int ns_adj_col_set(int node_num, int triangle_num, int variable_num,
             int[] triangle_node, int[] triangle_neighbor, int[] node_u_variable,
         int[] node_v_variable, int[] node_p_variable, ref int[] adj_col )

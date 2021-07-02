@@ -2,6 +2,10 @@
 {
     public static partial class typeMethods
     {
+        public static bool s_eqi(string a, string b)
+        {
+            return a.ToLower() == b.ToLower();
+        }
         public static int s_len_trim(string line)
         {
             //****************************************************************************80

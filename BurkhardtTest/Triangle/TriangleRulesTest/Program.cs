@@ -1,7 +1,7 @@
 ﻿using System;
 using Burkardt;
 using Burkardt.Types;
-using QuadratureRule = Burkardt.Triangle.QuadratureRule;
+using QuadratureRule = Burkardt.TriangleNS.QuadratureRule;
 
 namespace TriangleRulesTest
 {

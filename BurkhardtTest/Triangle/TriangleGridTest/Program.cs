@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Grid = Burkardt.Triangle.Grid;
+using Grid = Burkardt.TriangleNS.Grid;
 
 namespace TriangleGridTest
 {

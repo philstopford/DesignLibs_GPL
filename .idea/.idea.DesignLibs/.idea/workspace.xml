@@ -226,25 +226,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/HermiteTest.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/GammaTest.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/JacobiTest.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/LobattoTest.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/GegenbauerTest.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/GeometricTest.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/GoodwinTest.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/GudTest.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/GudermannianTest.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/ITest.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/JedTest.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/KelvinTest.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/IntgrTest.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/LaguerreTest.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/LambertTest.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/LaplaceTest.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/NormalTest.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/DateTest.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/StruveTest.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/PolyominoTest.cs" />
       <option value="$PROJECT_DIR$/TestValues/Log.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/LogarithmTest.cs" />
@@ -276,6 +257,25 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/PrimeTest.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/PsatTest.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/PsiTest.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/RayleighTest.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/SineTest.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/SecVirTest.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/ShiTest.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/SigmaTest.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/SoundTest.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/SqrtTest.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/StromgenTest.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/SurtenTest.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/SurfTensionTest.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/TauTest.cs" />
+      <option value="$PROJECT_DIR$/TestValues/ThermCond.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/ThermCondTest.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/TrigammaTest.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/TsatTest.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/VanDerCorputTest.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/ViscosityTest.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/VonMises.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/VonMisesTest.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/Program.cs" />
     </changedPaths>
   </component>

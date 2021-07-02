@@ -1,6 +1,6 @@
 ﻿namespace TestValues
 {
-    public static class Thercon
+    public static class ThermCond
     {
         public static void thercon_values(ref int n_data, ref double tc, ref double p, ref double lambda)
 

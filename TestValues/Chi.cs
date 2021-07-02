@@ -746,7 +746,7 @@
             //    Output, ref double FX, the value of the function.
             //
         {
-            int N_MAX = 18;
+            int N_MAX = 17;
 
             double[] df_vec =
             {

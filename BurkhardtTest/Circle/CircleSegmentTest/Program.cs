@@ -716,7 +716,7 @@ namespace CircleSegmentTest
             x = new double[n];
             w = new double[n];
 
-            Gauss.gauss(n, alpha, beta, ref x, ref w);
+            GaussQuadrature.gauss(n, alpha, beta, ref x, ref w);
 
             Console.WriteLine("");
             Console.WriteLine("  LEGENDRE RULE");
@@ -752,7 +752,7 @@ namespace CircleSegmentTest
             x = new double[n];
             w = new double[n];
 
-            Gauss.gauss(n, alpha, beta, ref x, ref w);
+            GaussQuadrature.gauss(n, alpha, beta, ref x, ref w);
 
             Console.WriteLine("");
             Console.WriteLine("  HERMITE RULE");
@@ -788,7 +788,7 @@ namespace CircleSegmentTest
             x = new double[n];
             w = new double[n];
 
-            Gauss.gauss(n, alpha, beta, ref x, ref w);
+            GaussQuadrature.gauss(n, alpha, beta, ref x, ref w);
 
             Console.WriteLine("");
             Console.WriteLine("  LAGUERRE RULE");

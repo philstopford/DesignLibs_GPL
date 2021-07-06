@@ -768,7 +768,7 @@ namespace DivDifTest
             Console.WriteLine("  ncc_rule() computes closed Newton Cotes formulas;");
             Console.WriteLine("");
 
-            NewtonCotes.ncc_rule(NORDER, ref xtab, ref weight);
+            NewtonCotesQuadrature.ncc_rule(NORDER, ref xtab, ref weight);
 
             Console.WriteLine("");
             Console.WriteLine("  Newton-Cotes Closed Quadrature Rule:");
@@ -817,7 +817,7 @@ namespace DivDifTest
             Console.WriteLine("  nco_rule() computes open Newton Cotes formulas.");
             Console.WriteLine("");
 
-            NewtonCotes.nco_rule(NORDER, ref xtab, ref weight);
+            NewtonCotesQuadrature.nco_rule(NORDER, ref xtab, ref weight);
 
             Console.WriteLine("");
             Console.WriteLine("  Newton-Cotes Open Quadrature Rule:");

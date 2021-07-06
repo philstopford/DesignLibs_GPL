@@ -2,7 +2,7 @@
 
 namespace Burkardt
 {
-    public static class Gauss
+    public static class GaussQuadrature
     {
         public static void gauss(int n, double[] alpha, double[] beta, ref double[] x, ref double[] w )
 

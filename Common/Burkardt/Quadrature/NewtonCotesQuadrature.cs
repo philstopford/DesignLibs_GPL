@@ -2,7 +2,7 @@
 
 namespace Burkardt
 {
-    public static class NewtonCotes
+    public static class NewtonCotesQuadrature
     {
         public static void nc_rule(int norder, double a, double b, double[] xtab, ref double[] weight )
 

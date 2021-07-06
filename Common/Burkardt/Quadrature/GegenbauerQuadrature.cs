@@ -2,7 +2,7 @@
 
 namespace Burkardt
 {
-    public static class Gegenbauer
+    public static class GegenbauerQuadrature
     {
         public static void gegenbauer_ss_compute(int order, double alpha, ref double[] xtab,
         ref double[] weight )

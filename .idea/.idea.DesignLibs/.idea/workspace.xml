@@ -199,6 +199,7 @@
     <projectFile>BurkhardtTest/FEM/FEM2DPackTest/FEM2DPackTest.csproj</projectFile>
     <projectFile>BurkhardtTest/FEM/FEM3DPackTest/FEM3DPackTest.csproj</projectFile>
     <projectFile>BurkhardtTest/EdgeTest/EdgeTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/FastGaussLegendreTest/FastGaussLegendreTest.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="" />
@@ -229,10 +230,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/BurkhardtTest/TestValuesTest/Program.cs" />
-      <option value="$PROJECT_DIR$/TestValues/Bei.cs" />
-      <option value="$PROJECT_DIR$/TestValues/Chi.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/FEM/FEM_3D_Pack.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/FEM/FEM_2D_Pack.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/FEM/Bandwidth.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/FEM/Basis.cs" />
@@ -280,6 +277,10 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Edge/TwoD.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Edge/OneD.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/EdgeTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CompassSearch.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Paths.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Quadrature/FastGaussLegendre.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/FastGaussLegendreTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -2691,6 +2692,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="FastGaussLegendreTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/FastGaussLegendreTest/FastGaussLegendreTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="FaureTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -4117,6 +4136,7 @@
       <item itemvalue=".NET Project.FEM2DPackTest" />
       <item itemvalue=".NET Project.FEM3DPackTest" />
       <item itemvalue=".NET Project.EdgeTest" />
+      <item itemvalue=".NET Project.FastGaussLegendreTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

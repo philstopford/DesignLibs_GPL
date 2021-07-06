@@ -99,8 +99,6 @@ namespace Burkardt
             command_unit.Add("quit");
             File.WriteAllLines(command_filename, command_unit);
             Console.WriteLine("  Created command file \"" + command_filename + "\".");
-
-            return;
         }
     }
 }

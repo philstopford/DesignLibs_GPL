@@ -1,9 +1,158 @@
 ﻿using System;
+using Burkardt.Types;
 
 namespace Burkardt.ChebyshevNS
 {
     public static class Chebyshev
     {
+        public static double[] chebyshev_even1 ( int n, Func<double, double> f )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    CHEBYSHEV_EVEN1 returns the even Chebyshev coefficients of F.
+            //
+            //  Discussion:
+            //
+            //    The coefficients are calculated using the extreme points of Tn(x).
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    15 January 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    D B Hunter, H V Smith,
+            //    A quadrature formula of Clenshaw-Curtis type for the Gegenbauer 
+            //    weight function,
+            //    Journal of Computational and Applied Mathematics,
+            //    Volume 177, 2005, pages 389-400.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of points to use.
+            //    1 <= N.
+            //
+            //    Input, double F ( double x ), the function to be 
+            //    integrated with the Gegenbauer weight.
+            //
+            //    Output, double CHEBYSHEV_EVEN1[1+N/2], the even Chebyshev coefficients of F.
+            //
+        {
+            double[] a2;
+            int j;
+            int r;
+            int rh;
+            double r8_n;
+            const double r8_pi = 3.141592653589793E+00;
+            int s;
+            double total;
+
+            s = ( n / 2 );
+
+            r8_n = ( double ) ( n );
+
+            a2 = new double[s+1];
+
+            for ( r = 0; r <= 2 * s; r = r + 2 )
+            {
+                total = 0.5 * f ( 1.0 );
+                for ( j = 1; j < n; j++ )
+                {
+                    total = total + f ( Math.Cos ( j * r8_pi / r8_n ) ) 
+                        * Math.Cos ( r * j * r8_pi / r8_n );
+                }
+                total = total + 0.5 * typeMethods.r8_mop ( r ) * f ( -1.0 );
+                rh = r / 2;
+                a2[rh] = ( 2.0 / r8_n ) * total;
+            }
+
+            return a2;
+        }
+        
+        public static double[] chebyshev_even2 ( int n, Func<double, double > f )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    CHEBYSHEV_EVEN2 returns the even Chebyshev coefficients of F.
+            //
+            //  Discussion:
+            //
+            //    The coefficients are calculated using the zeros of Tn(x).
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    15 January 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    D B Hunter, H V Smith,
+            //    A quadrature formula of Clenshaw-Curtis type for the Gegenbauer 
+            //    weight function,
+            //    Journal of Computational and Applied Mathematics,
+            //    Volume 177, 2005, pages 389-400.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of points to use.
+            //    1 <= N.
+            //
+            //    Input, double F ( double x ), the function to be 
+            //    integrated with the Gegenbauer weight.
+            //
+            //    Output, double CHEBYSHEV_EVEN2(0:N/2), the even Chebyshev coefficients of F.
+            //
+        {
+            double[] b2;
+            int j;
+            int r;
+            const double r8_pi = 3.141592653589793E+00;
+            int rh;
+            int s;
+            double total;
+            double x1;
+            double x2;
+
+            s = ( n / 2 );
+
+            b2 = new double[s+1];
+
+            for ( r = 0; r <= 2 * s; r = r + 2 )
+            {
+                total = 0.0;
+                for ( j = 0; j <= n; j++ )
+                {
+                    x1 = ( double ) ( 2 * j + 1 ) * r8_pi / 2.0 / ( double ) ( n + 1 );
+                    x2 = ( double ) ( r * ( 2 * j + 1 ) ) * r8_pi 
+                         / 2.0 / ( double ) ( n + 1 );
+                    total = total + f ( Math.Cos ( x1 ) ) * Math.Cos ( x2 );
+                }
+                rh = r / 2;
+                b2[rh] = ( 2.0 / ( double ) ( n + 1 ) ) * total;
+            }
+
+            return b2;
+        }
+        
         public static double[] chebyshev_coefficients(double a, double b, int n,
                 Func<double,double> f )
 

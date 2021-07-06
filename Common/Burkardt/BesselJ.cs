@@ -4,6 +4,54 @@ namespace Burkardt
 {
     public static class BesselJ
     {
+        public static double besselj ( double order, double x )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    BESSELJ evaluates the Bessel J function at an arbitrary real order.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    15 January 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double ORDER, the order.
+            //    0.0 <= ORDER.
+            //
+            //    Input, double, X, the evaluation point. 
+            //
+            //    Output, double BESSELJ, the value.
+            //
+        {
+            double alpha;
+            double[] b;
+            int n;
+            int nb;
+            int ncalc = 0;
+            double value;
+
+            n = ( int ) ( order );
+            nb = n + 1;
+            alpha = order - ( double ) ( n );
+            b = new double[nb];
+
+            rjbesl ( x, alpha, nb, ref b, ref ncalc );
+
+            value = b[n];
+
+            return value;
+        }
         public static void bessel_jx_values(ref int n_data, ref double nu, ref double x, ref double fx )
 
         //****************************************************************************80

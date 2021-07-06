@@ -201,6 +201,7 @@
     <projectFile>BurkhardtTest/EdgeTest/EdgeTest.csproj</projectFile>
     <projectFile>BurkhardtTest/FastGaussLegendreTest/FastGaussLegendreTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Integral/GegenbauerCCTest/GegenbauerCCTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Polynomial/GegenbauerPolynomialTest/GegenbauerPolynomialTest.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="" />
@@ -231,13 +232,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/FEM/Basis11.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/FEM/Derivative.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/FEM/Div.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Quadrature/Legendre.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/FEM/NextBoundaryNode.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/FEM/NodeReference.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/NavierStokes.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/FEM/Order.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/FEM/Element.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Polynomial.cs" />
@@ -246,7 +240,6 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Interpolation/Serene.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/strings.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/FEM/Shape.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/FEM/Interp.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Sphere.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangle/Grid.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangle.cs" />
@@ -258,7 +251,6 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8mat.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Helpers.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/FEM/Map.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Map.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/FEM/FEM2DPackTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_sum.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/FEM/Basis_mn.cs" />
@@ -282,6 +274,15 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Chebyshev/Chebyshev.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Integral/Gegenbauer.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Integral/GegenbauerCCTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Polynomial/Polynomial.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/FEM/Interp.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Interpolation/MultivariateLagrange.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Legendre.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Map.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Interpolation/MultivariateLagrangeTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Polynomial/Gegenbauer.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Quadrature/Gegenbauer.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Polynomial/GegenbauerPolynomialTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -2801,6 +2802,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="GegenbauerPolynomialTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Polynomial/GegenbauerPolynomialTest/GegenbauerPolynomialTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="GeoWranglerTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -4157,6 +4176,7 @@
       <item itemvalue=".NET Project.EdgeTest" />
       <item itemvalue=".NET Project.FastGaussLegendreTest" />
       <item itemvalue=".NET Project.GegenbauerCCTest" />
+      <item itemvalue=".NET Project.GegenbauerPolynomialTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

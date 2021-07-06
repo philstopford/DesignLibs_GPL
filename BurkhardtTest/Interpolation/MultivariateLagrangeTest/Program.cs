@@ -2,6 +2,7 @@
 using Burkardt;
 using Burkardt.Interpolation;
 using Burkardt.Types;
+using Burkardt.PolynomialNS;
 
 namespace MultivariateLagrangeTest
 {

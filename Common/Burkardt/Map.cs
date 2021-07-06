@@ -1,6 +1,7 @@
 ﻿using System;
 using Burkardt.FEM;
 using Burkardt.Types;
+using Burkardt.PolynomialNS;
 
 namespace Burkardt
 {

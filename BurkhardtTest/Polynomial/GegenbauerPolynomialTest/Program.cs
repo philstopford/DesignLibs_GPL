@@ -1,10 +1,10 @@
 ﻿using System;
 using Burkardt;
 using Burkardt.IntegralNS;
+using Burkardt.PolynomialNS;
 using Burkardt.Types;
 using Burkardt.Uniform;
 using TestValues;
-using Gegenbauer = Burkardt.PolynomialNS.Gegenbauer;
 
 namespace GegenbauerPolynomialTest
 {
@@ -89,7 +89,7 @@ namespace GegenbauerPolynomialTest
             for (n = 1; n <= 10; n++)
             {
                 alpha = UniformRNG.r8_uniform_ab(-5.0, +5.0, ref seed);
-                check = Gegenbauer.gegenbauer_alpha_check(alpha);
+                check = GegenbauerPolynomial.gegenbauer_alpha_check(alpha);
                 Console.WriteLine("  " + alpha.ToString().PadLeft(10)
                                        + "       " + check.ToString().PadLeft(1) + "");
             }
@@ -143,7 +143,7 @@ namespace GegenbauerPolynomialTest
                 w = new double[n];
                 x = new double[n];
 
-                Gegenbauer.gegenbauer_ek_compute(n, alpha, ref x, ref w);
+                GegenbauerPolynomial.gegenbauer_ek_compute(n, alpha, ref x, ref w);
 
                 for (i = 0; i < n; i++)
                 {
@@ -239,7 +239,7 @@ namespace GegenbauerPolynomialTest
 
             for (;;)
             {
-                Gegenbauer.gegenbauer_polynomial_values(ref n_data, ref m, ref alpha, ref xscalar, ref fx);
+                GegenbauerPolynomial.gegenbauer_polynomial_values(ref n_data, ref m, ref alpha, ref xscalar, ref fx);
 
                 if (n_data == 0)
                 {
@@ -252,7 +252,7 @@ namespace GegenbauerPolynomialTest
                 //
                 n = 1;
                 x[0] = xscalar;
-                c = Gegenbauer.gegenbauer_polynomial_value(m, n, alpha, x);
+                c = GegenbauerPolynomial.gegenbauer_polynomial_value(m, n, alpha, x);
                 Console.WriteLine("  " + m.ToString("0.################").PadLeft(6)
                                        + "  " + alpha.ToString("0.################").PadLeft(8)
                                        + "  " + x[0].ToString("0.################").PadLeft(8)

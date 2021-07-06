@@ -3,7 +3,7 @@ using Burkardt.Types;
 
 namespace Burkardt.PolynomialNS
 {
-    public static class Gegenbauer
+    public static class GegenbauerPolynomial
     {
         public static bool gegenbauer_alpha_check(double alpha)
 

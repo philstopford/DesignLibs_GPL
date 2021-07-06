@@ -306,7 +306,7 @@ namespace GegenbauerPolynomialTest
                 w = new double[n];
                 x = new double[n];
 
-                Burkardt.GegenbauerQuadrature.gegenbauer_ss_compute(n, alpha, ref x, ref w);
+                GegenbauerQuadrature.gegenbauer_ss_compute(n, alpha, ref x, ref w);
 
                 for (i = 0; i < n; i++)
                 {

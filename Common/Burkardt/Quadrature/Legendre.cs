@@ -169,10 +169,6 @@ namespace Burkardt
                 xtab[i] = -xtab[norder - 1 - i];
                 weight[i] = weight[norder - 1 - i];
             }
-
-            return;
-
-# undef PI
         }
 
         public static void legendre_set(int n, ref double[] x, ref double[] w)

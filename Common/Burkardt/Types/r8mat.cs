@@ -2442,5 +2442,69 @@ namespace Burkardt.Types
             }
         }
         
+        public static double r8mat_dif_fro ( int m, int n, double[] a, double[] b )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8MAT_DIF_FRO returns the Frobenius norm of the difference of R8MAT's.
+        //
+        //  Discussion: 							    
+        //
+        //    An R8MAT is a doubly dimensioned array of double precision values, which
+        //    may be stored as a vector in column-major order.
+        //
+        //    The Frobenius norm is defined as
+        //
+        //      R8MAT_NORM_FRO = sqrt (
+        //        sum ( 1 <= I <= M ) sum ( 1 <= j <= N ) A(I,J)^2 )
+        //
+        //    The matrix Frobenius norm is not derived from a vector norm, but
+        //    is compatible with the vector L2 norm, so that:
+        //
+        //      r8vec_norm_l2 ( A * x ) <= r8mat_norm_fro ( A ) * r8vec_norm_l2 ( x ).
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    14 September 2006
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int M, the number of rows in A.
+        //
+        //    Input, int N, the number of columns in A.
+        //
+        //    Input, double A[M*N], double B[M*N], the matrices for which we
+        //    want the Frobenius norm of the difference.
+        //
+        //    Output, double R8MAT_DIF_FRO, the Frobenius norm of ( A - B ).
+        //
+        {
+            int i;
+            int j;
+            double value;
+
+            value = 0.0;
+            for ( j = 0; j < n; j++ )
+            {
+                for ( i = 0; i < m; i++ )
+                {
+                    value = value + Math.Pow ( a[i+j*m] - b[i+j*m], 2 );
+                }
+            }
+            value = Math.Sqrt ( value );
+
+            return value;
+        }
+        
     }
 }

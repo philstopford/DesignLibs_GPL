@@ -238,7 +238,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Helpers.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/FEM/Map.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/FEM/FEM2DPackTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_sum.cs" />
@@ -289,6 +288,7 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/GMeshIOText/Program.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/GMeshIOTest/Program.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/GmeshToFEM/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Grf/IO.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -2934,6 +2934,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="GrfIOTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/GrfIOTest/GrfIOTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="HistoTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/HistoTest/Debug/net5.0/HistoTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -4278,6 +4296,7 @@
       <item itemvalue=".NET Project.GlominTest" />
       <item itemvalue=".NET Project.GMeshIOText" />
       <item itemvalue=".NET Project.GmeshToFEM" />
+      <item itemvalue=".NET Project.GrfIOTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

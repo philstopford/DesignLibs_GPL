@@ -5,6 +5,298 @@ namespace Burkardt
 {
     public static class Hammersley
     {
+        public static double[] hammersley(int i, int m, int n)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    HAMMERSLEY computes an element of a Hammersley sequence.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    20 August 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    John Hammersley,
+            //    Monte Carlo methods for solving multivariable problems,
+            //    Proceedings of the New York Academy of Science,
+            //    Volume 86, 1960, pages 844-874.
+            //
+            //  Parameters:
+            //
+            //    Input, int I, the index of the element of the sequence.
+            //    0 <= I.
+            //
+            //    Input, int M, the spatial dimension.
+            //
+            //    Input, int N, the "base" for the first component.
+            //    1 <= N.
+            //
+            //    Output, double HAMMERSLEY[M], the element of the sequence with index I.
+            //
+        {
+            int d;
+            int j;
+            double[] prime_inv;
+            double[] r;
+            int[] t;
+
+            t = new int[m];
+
+            t[0] = 0;
+            for (j = 1; j < m; j++)
+            {
+                t[j] = i;
+            }
+
+            //
+            //  Carry out the computation.
+            //
+            prime_inv = new double[m];
+
+            prime_inv[0] = 1.0;
+            for (j = 1; j < m; j++)
+            {
+                prime_inv[j] = 1.0 / (double) (Prime.prime(j));
+            }
+
+            r = new double[m];
+
+            r[0] = (double) (i % (n + 1)) / (double) (n);
+            for (j = 1; j < m; j++)
+            {
+                r[j] = 0.0;
+            }
+
+            while (0 < typeMethods.i4vec_sum(m, t))
+            {
+                for (j = 1; j < m; j++)
+                {
+                    d = (t[j] % Prime.prime(j));
+                    r[j] = r[j] + (double) (d) * prime_inv[j];
+                    prime_inv[j] = prime_inv[j] / (double) (Prime.prime(j));
+                    t[j] = (t[j] / Prime.prime(j));
+                }
+            }
+
+            return r;
+        }
+
+        public static int hammersley_inverse(double[] r, int m, int n)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    HAMMERSLEY_INVERSE inverts an element of the Hammersley sequence.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    20 August 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double R[M], the I-th element of the Hammersley sequence.
+            //    0 <= R < 1.0
+            //
+            //    Input, int M, the spatial dimension.
+            //
+            //    Input, int N, the "base" for the first component.
+            //    1 <= N.
+            //
+            //    Output, int HAMMERSLEY_INVERSE, the index of the element of the sequence.
+            //
+        {
+            int d;
+            int i;
+            int j;
+            int p;
+            double t;
+
+            for (j = 0; j < m; j++)
+            {
+                if (r[j] < 0.0 || 1.0 < r[j])
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("HAMMERSLEY_INVERSE - Fatal error!");
+                    Console.WriteLine("  0 <= R <= 1.0 is required.");
+                    return (1);
+                }
+            }
+
+            if (m < 1)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("HAMMERSLEY_INVERSE - Fatal error!");
+                Console.WriteLine("  1 <= M is required.");
+                return (1);
+            }
+
+            if (n < 1)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("HAMMERSLEY_INVERSE - Fatal error!'");
+                Console.WriteLine("  1 <= N is required.");
+                return (1);
+            }
+
+            //
+            //  Invert using the second component only, because working with base
+            //  2 is accurate.
+            //
+            if (2 <= m)
+            {
+                i = 0;
+                t = r[1];
+                p = 1;
+
+                while (t != 0.0)
+                {
+                    t = t * 2.0;
+                    d = (int) (t);
+                    i = i + d * p;
+                    p = p * 2;
+                    t = t - (double) (d);
+                }
+            }
+            else
+            {
+                i = (int) (Math.Round((double) (n) * r[0]));
+            }
+
+            return i;
+        }
+
+        public static double[] hammersley_sequence(int i1, int i2, int m, int n)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    HAMMERSLEY_SEQUENCE computes elements I1 through I2 of a Hammersley sequence.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    20 August 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    John Hammersley,
+            //    Monte Carlo methods for solving multivariable problems,
+            //    Proceedings of the New York Academy of Science,
+            //    Volume 86, 1960, pages 844-874.
+            //
+            //  Parameters:
+            //
+            //    Input, int I1, I2, the indices of the first and last 
+            //    elements of the sequence.  0 <= I1, I2.
+            //
+            //    Input, int M, the spatial dimension.
+            //
+            //    Input, int N, the "base" for the first component.
+            //    1 <= N.
+            //
+            //    Output, double HAMMERSLEY_SEQUENCE[M*(abs(I1-I2)+1)], the elements of 
+            //    the sequence with indices I1 through I2.
+            //
+        {
+            int d;
+            int i;
+            int i3;
+            int j;
+            int k;
+            int l;
+            double[] prime_inv;
+            double[] r;
+            int[] t;
+
+            if (i1 <= i2)
+            {
+                i3 = +1;
+            }
+            else
+            {
+                i3 = -1;
+            }
+
+            prime_inv = new double[m];
+            prime_inv[0] = 1.0;
+
+            l = Math.Abs(i2 - i1) + 1;
+            r = new double[m * l];
+
+            for (k = 0; k < l; k++)
+            {
+                for (j = 0; j < m; j++)
+                {
+                    r[j + k * m] = 0.0;
+                }
+            }
+
+            i = i1;
+
+            t = new int[m];
+            for (k = 0; k < l; k++)
+            {
+                t[0] = 0;
+                for (j = 1; j < m; j++)
+                {
+                    t[j] = i;
+                }
+
+                //
+                //  Carry out the computation.
+                //
+                for (j = 1; j < m; j++)
+                {
+                    prime_inv[j] = 1.0 / (double) (Prime.prime(j));
+                }
+
+                r[0 + k * m] = (double) (i % (n + 1)) / (double) (n);
+
+                while (0 < typeMethods.i4vec_sum(m, t))
+                {
+                    for (j = 1; j < m; j++)
+                    {
+                        d = (t[j] % Prime.prime(j));
+                        r[j + k * m] = r[j + k * m] + (double) (d) * prime_inv[j];
+                        prime_inv[j] = prime_inv[j] / (double) (Prime.prime(j));
+                        t[j] = (t[j] / Prime.prime(j));
+                    }
+                }
+
+                i = i + i3;
+            }
+
+            return r;
+        }
+
         public static bool hammersley_base_check(int dim_num, int[] base_)
 
             //****************************************************************************80
@@ -439,8 +731,6 @@ namespace Burkardt
                     }
                 }
             }
-
-            return;
         }
 
     }

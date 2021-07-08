@@ -552,6 +552,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sequence", "Sequence", "{C5
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HaltonTest", "BurkhardtTest\Sequence\HaltonTest\HaltonTest.csproj", "{F5518468-8697-4ACF-815D-02C78E3ACF74}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HammersleyTest", "BurkhardtTest\Sequence\HammersleyTest\HammersleyTest.csproj", "{DE49957A-BABB-4644-B6E3-D830CCF4CCBF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -3406,6 +3408,18 @@ Global
 		{F5518468-8697-4ACF-815D-02C78E3ACF74}.Release|x64.Build.0 = Release|Any CPU
 		{F5518468-8697-4ACF-815D-02C78E3ACF74}.Release|x86.ActiveCfg = Release|Any CPU
 		{F5518468-8697-4ACF-815D-02C78E3ACF74}.Release|x86.Build.0 = Release|Any CPU
+		{DE49957A-BABB-4644-B6E3-D830CCF4CCBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE49957A-BABB-4644-B6E3-D830CCF4CCBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE49957A-BABB-4644-B6E3-D830CCF4CCBF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DE49957A-BABB-4644-B6E3-D830CCF4CCBF}.Debug|x64.Build.0 = Debug|Any CPU
+		{DE49957A-BABB-4644-B6E3-D830CCF4CCBF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DE49957A-BABB-4644-B6E3-D830CCF4CCBF}.Debug|x86.Build.0 = Debug|Any CPU
+		{DE49957A-BABB-4644-B6E3-D830CCF4CCBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE49957A-BABB-4644-B6E3-D830CCF4CCBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE49957A-BABB-4644-B6E3-D830CCF4CCBF}.Release|x64.ActiveCfg = Release|Any CPU
+		{DE49957A-BABB-4644-B6E3-D830CCF4CCBF}.Release|x64.Build.0 = Release|Any CPU
+		{DE49957A-BABB-4644-B6E3-D830CCF4CCBF}.Release|x86.ActiveCfg = Release|Any CPU
+		{DE49957A-BABB-4644-B6E3-D830CCF4CCBF}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -3680,6 +3694,7 @@ Global
 		{C73E08FA-CA8E-4711-86A0-90B50FB7A005} = {81814E0B-EB80-4BDC-A58E-1D9218D1DC37}
 		{C56AFC02-8E5D-4266-B758-A74913CE19A7} = {B14C0D74-30A0-4540-8100-2FFA1C84CA6D}
 		{F5518468-8697-4ACF-815D-02C78E3ACF74} = {C56AFC02-8E5D-4266-B758-A74913CE19A7}
+		{DE49957A-BABB-4644-B6E3-D830CCF4CCBF} = {C56AFC02-8E5D-4266-B758-A74913CE19A7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B449416C-C504-4FA8-9E10-10857263A64A}

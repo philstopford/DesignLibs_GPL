@@ -1,9 +1,346 @@
 ﻿using System;
+using Burkardt.Types;
 
 namespace Burkardt
 {
     public static class Halton
     {
+        public static double[] halton(int i, int m)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    HALTON computes an element of a Halton sequence.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    12 August 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    John Halton,
+            //    On the efficiency of certain quasi-random sequences of points
+            //    in evaluating multi-dimensional integrals,
+            //    Numerische Mathematik,
+            //    Volume 2, pages 84-90, 1960.
+            //
+            //  Parameters:
+            //
+            //    Input, int I, the index of the element of the sequence.
+            //    0 <= I.
+            //
+            //    Input, int M, the spatial dimension.
+            //
+            //    Output, double HALTON[M], the element of the sequence with index I.
+            //
+        {
+            int d;
+            int j;
+            double[] prime_inv;
+            double[] r;
+            int[] t;
+
+            prime_inv = new double[m];
+            r = new double[m];
+            t = new int[m];
+
+            for (j = 0; j < m; j++)
+            {
+                t[j] = i;
+            }
+
+            //
+            //  Carry out the computation.
+            //
+            for (j = 0; j < m; j++)
+            {
+                prime_inv[j] = 1.0 / (double) (Prime.prime(j + 1));
+            }
+
+            for (j = 0; j < m; j++)
+            {
+                r[j] = 0.0;
+            }
+
+            while (0 < typeMethods.i4vec_sum(m, t))
+            {
+                for (j = 0; j < m; j++)
+                {
+                    d = (t[j] % Prime.prime(j + 1));
+                    r[j] = r[j] + (double) (d) * prime_inv[j];
+                    prime_inv[j] = prime_inv[j] / (double) (Prime.prime(j + 1));
+                    t[j] = (t[j] / Prime.prime(j + 1));
+                }
+            }
+
+            return r;
+        }
+
+        public static double[] halton_base(int i, int m, int[] b)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    HALTON_BASE computes an element of a Halton sequence with user bases.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    12 August 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    John Halton,
+            //    On the efficiency of certain quasi-random sequences of points
+            //    in evaluating multi-dimensional integrals,
+            //    Numerische Mathematik,
+            //    Volume 2, pages 84-90, 1960.
+            //
+            //  Parameters:
+            //
+            //    Input, int I, the index of the element of the sequence.
+            //    0 <= I.
+            //
+            //    Input, int M, the spatial dimension.
+            //
+            //    Input, int B[M], the bases to use for each dimension.
+            //
+            //    Output, double HALTON_BASE[M], the element of the sequence with index I.
+            //
+        {
+            double[] b_inv;
+            int d;
+            int j;
+            double[] r;
+            int[] t;
+
+            b_inv = new double[m];
+            r = new double[m];
+            t = new int[m];
+
+            for (j = 0; j < m; j++)
+            {
+                t[j] = i;
+            }
+
+            //
+            //  Carry out the computation.
+            //
+            for (j = 0; j < m; j++)
+            {
+                b_inv[j] = 1.0 / (double) (b[j]);
+            }
+
+            for (j = 0; j < m; j++)
+            {
+                r[j] = 0.0;
+            }
+
+            while (0 < typeMethods.i4vec_sum(m, t))
+            {
+                for (j = 0; j < m; j++)
+                {
+                    d = (t[j] % b[j]);
+                    r[j] = r[j] + (double) (d) * b_inv[j];
+                    b_inv[j] = b_inv[j] / (double) (b[j]);
+                    t[j] = (t[j] / b[j]);
+                }
+            }
+
+            return r;
+        }
+
+        public static int halton_inverse(double[] r, int m)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    HALTON_INVERSE inverts an element of the Halton sequence.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    12 August 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double R[M], the I-th element of the Halton sequence.
+            //    0 <= R < 1.0
+            //
+            //    Input, int M, the spatial dimension.
+            //
+            //    Output, int HALTON_INVERSE, the index of the element of the sequence.
+            //
+        {
+            int d;
+            int i;
+            int j;
+            int p;
+            double t;
+
+            for (j = 0; j < m; j++)
+            {
+                if (r[j] < 0.0 || 1.0 <= r[j])
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("HALTON_INVERSE - Fatal error");
+                    Console.WriteLine("  0 <= R < 1.0 is required.");
+                    return (1);
+                }
+            }
+
+            //
+            //  Invert using the first component only, because working with base
+            //  2 is accurate.
+            //
+            i = 0;
+            t = r[0];
+            p = 1;
+
+            while (t != 0.0)
+            {
+                t = t * 2.0;
+                d = (int) (t);
+                i = i + d * p;
+                p = p * 2;
+                t = (t % 1.0);
+            }
+
+            return i;
+        }
+
+        public static double[] halton_sequence(int i1, int i2, int m)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    HALTON_SEQUENCE computes elements I1 through I2 of a Halton sequence.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    19 August 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    John Halton,
+            //    On the efficiency of certain quasi-random sequences of points
+            //    in evaluating multi-dimensional integrals,
+            //    Numerische Mathematik,
+            //    Volume 2, pages 84-90, 1960.
+            //
+            //  Parameters:
+            //
+            //    Input, int I1, I2, the indices of the first and last 
+            //    elements of the sequence.  0 <= I1, I2.
+            //
+            //    Input, int M, the spatial dimension.
+            //    1 <= M <= 100.
+            //
+            //    Output, double HALTON_SEQUENCE[M*(abs(I1-I2)+1)], the elements of the 
+            //    sequence with indices I1 through I2.
+            //
+        {
+            int d;
+            int i;
+            int i3;
+            int j;
+            int k;
+            int n;
+            double[] prime_inv;
+            double[] r;
+            int[] t;
+
+            prime_inv = new double[m];
+            r = new double[m * (Math.Abs(i1 - i2) + 1)];
+            t = new int[m];
+
+            if (i1 <= i2)
+            {
+                i3 = +1;
+            }
+            else
+            {
+                i3 = -1;
+            }
+
+            n = Math.Abs(i2 - i1) + 1;
+
+            for (j = 0; j < n; j++)
+            {
+                for (i = 0; i < m; i++)
+                {
+                    r[i + j * m] = 0.0;
+                }
+            }
+
+            i = i1;
+
+            for (k = 0; k < n; k++)
+            {
+                for (j = 0; j < m; j++)
+                {
+                    t[j] = i;
+                }
+
+                //
+                //  Carry out the computation.
+                //
+                for (j = 0; j < m; j++)
+                {
+                    prime_inv[j] = 1.0 / (double) (Prime.prime(j + 1));
+                }
+
+                while (0 < typeMethods.i4vec_sum(m, t))
+                {
+                    for (j = 0; j < m; j++)
+                    {
+                        d = (t[j] % Prime.prime(j + 1));
+                        r[j + k * m] = r[j + k * m] + (double) (d) * prime_inv[j];
+                        prime_inv[j] = prime_inv[j] / (double) (Prime.prime(j + 1));
+                        t[j] = (t[j] / Prime.prime(j + 1));
+                    }
+                }
+
+                i = i + i3;
+            }
+
+            return r;
+        }
+
         public static bool halton_base_check(int dim_num, int[] base_)
 
             //****************************************************************************80
@@ -573,8 +910,6 @@ namespace Burkardt
                     }
                 }
             }
-
-            return;
-        }
+       }
     }
 }

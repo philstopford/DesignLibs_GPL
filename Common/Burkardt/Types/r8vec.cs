@@ -7,6 +7,56 @@ namespace Burkardt.Types
 {
     public static partial class typeMethods
     {
+        public static void r8vec_reverse ( int n, ref double[] a )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8VEC_REVERSE reverses the elements of an R8VEC.
+            //
+            //  Discussion:
+            //
+            //    An R8VEC is a vector of double precision values.
+            //
+            //    Input:
+            //
+            //      N = 5,
+            //      A = ( 11.0, 12.0, 13.0, 14.0, 15.0 )
+            //
+            //    Output:
+            //
+            //      A = ( 15.0, 14.0, 13.0, 12.0, 11.0 )
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    30 April 2006
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in the array.
+            //
+            //    Input/output, double A[N], the array to be reversed.
+            //
+        {
+            int i;
+            double temp;
+
+            for ( i = 0; i < n / 2; i++ )
+            {
+                temp     = a[i];
+                a[i]     = a[n-1-i];
+                a[n-1-i] = temp;
+            }
+        }
 
         public static void r8vec_indicator ( int n, ref double[] a )
 

@@ -1,7 +1,7 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.Types;
 using Burkardt.Uniform;
+using HankelCholeskyNS;
 
 namespace HankelCholeskyTest
 {

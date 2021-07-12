@@ -4,6 +4,76 @@ namespace Burkardt.Types
 {
     public static partial class typeMethods
     {
+        public static double[] r8vec_chebyshev_new ( int n, double a_first, double a_last )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8VEC_CHEBYSHEV_NEW creates a vector of Chebyshev spaced values.
+            //
+            //  Discussion:
+            //
+            //    An R8VEC is a vector of R8's.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    08 June 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in the vector.
+            //
+            //    Input, double A_FIRST, A_LAST, the first and last entries.
+            //
+            //    Output, double R8VEC_CHEBYSHEV_NEW[N], a vector of Chebyshev spaced data.
+            //
+        {
+            double[] a;
+            double c;
+            int i;
+            double pi = 3.141592653589793;
+            double theta;
+
+            a = new double[n];
+
+            if ( n == 1 )
+            {
+                a[0] = ( a_first + a_last ) / 2.0;
+            }
+            else
+            {
+                for ( i = 0; i < n; i++ )
+                {
+                    theta = ( double ) ( n - i - 1 ) * pi / ( double ) ( n - 1 );
+
+                    c = Math.Cos ( theta );
+
+                    if ( ( n % 2 ) == 1 )
+                    {
+                        if ( 2 * i + 1 == n )
+                        {
+                            c = 0.0;
+                        }
+                    }
+
+                    a[i] = ( ( 1.0 - c ) * a_first  
+                             + ( 1.0 + c ) * a_last ) 
+                           /   2.0;
+
+                }
+            }
+
+            return a;
+        }
         public static double[] r8vec_cheby_extreme_new(int n, double a, double b)
 
             //****************************************************************************80

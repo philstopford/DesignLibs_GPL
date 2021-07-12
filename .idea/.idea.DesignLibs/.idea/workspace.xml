@@ -220,6 +220,9 @@
     <projectFile>BurkhardtTest/Polynomial/HermitePolynomialTest/HermitePolynomialTest.csproj</projectFile>
     <projectFile>BurkhardtTest/HilbertTest/HilbertTest.csproj</projectFile>
     <projectFile>BurkhardtTest/HumpsTest/HumpsTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Hyper/HyperballIntegralsTest/HyperballIntegralsTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Hyper/HyperballMonteCarloTest/HyperballMonteCarloTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Hyper/HyperballVolumeMonteCarloTest/HyperballVolumeMonteCarloTest.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="" />
@@ -251,11 +254,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/BurkhardtTest/GlominTest/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/GMesh/GMeshIO.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/GMesh/Mesh1D.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/GMesh/Mesh2D.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/GMesh/Mesh3D.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/GMeshIOText/Program.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/GMeshIOTest/Program.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/GmeshToFEM/Program.cs" />
@@ -302,6 +300,11 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/strings.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Humps.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/HumpsTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/HyperGeometry/Hyperball/Integrals.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Hyper/HyperballIntegralsTest/Program.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Hyper/HyperballMonteCarloTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/HyperGeometry/Hyperball/MonteCarlo.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Hyper/HyperballVolumeMonteCarloTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -3217,6 +3220,60 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="HyperballIntegralsTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Hyper/HyperballIntegralsTest/HyperballIntegralsTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="HyperballMonteCarloTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Hyper/HyperballMonteCarloTest/HyperballMonteCarloTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="HyperballVolumeMonteCarloTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Hyper/HyperballVolumeMonteCarloTest/HyperballVolumeMonteCarloTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="IHSTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -4538,6 +4595,9 @@
       <item itemvalue=".NET Project.HermitePolynomialTest" />
       <item itemvalue=".NET Project.HilbertTest" />
       <item itemvalue=".NET Project.HumpsTest" />
+      <item itemvalue=".NET Project.HyperballIntegralsTest" />
+      <item itemvalue=".NET Project.HyperballMonteCarloTest" />
+      <item itemvalue=".NET Project.HyperballVolumeMonteCarloTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

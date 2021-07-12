@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt.Types;
+using Burkardt.Uniform;
 
 namespace Burkardt
 {
@@ -11,6 +12,442 @@ namespace Burkardt
 
     public static class Comp
     {
+        public static int comp_enum(int n, int k)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    COMP_ENUM returns the number of compositions of the integer N into K parts.
+            //
+            //  Discussion:
+            //
+            //    A composition of the integer N into K parts is an ordered sequence
+            //    of K nonnegative integers which sum to N.  The compositions (1,2,1)
+            //    and (1,1,2) are considered to be distinct.
+            //
+            //    The 28 compositions of 6 into three parts are:
+            //
+            //      6 0 0,  5 1 0,  5 0 1,  4 2 0,  4 1 1,  4 0 2,
+            //      3 3 0,  3 2 1,  3 1 2,  3 0 3,  2 4 0,  2 3 1,
+            //      2 2 2,  2 1 3,  2 0 4,  1 5 0,  1 4 1,  1 3 2,
+            //      1 2 3,  1 1 4,  1 0 5,  0 6 0,  0 5 1,  0 4 2,
+            //      0 3 3,  0 2 4,  0 1 5,  0 0 6.
+            //
+            //    The formula for the number of compositions of N into K parts is
+            //
+            //      Number = ( N + K - 1 )! / ( N! * ( K - 1 )! )
+            //
+            //    Describe the composition using N '1's and K-1 dividing lines '|'.
+            //    The number of distinct permutations of these symbols is the number
+            //    of compositions.  This is equal to the number of permutations of
+            //    N+K-1 things, with N identical of one kind and K-1 identical of another.
+            //
+            //    Thus, for the above example, we have:
+            //
+            //      Number = ( 6 + 3 - 1 )! / ( 6! * (3-1)! ) = 28
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    05 December 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Albert Nijenhuis, Herbert Wilf,
+            //    Combinatorial Algorithms for Computers and Calculators,
+            //    Second Edition,
+            //    Academic Press, 1978,
+            //    ISBN: 0-12-519260-6,
+            //    LC: QA164.N54.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the integer whose compositions are desired.
+            //
+            //    Input, int K, the number of parts in the composition.
+            //
+            //    Output, int COMP_ENUM, the number of compositions of N
+            //    into K parts.
+            //
+        {
+            int number;
+
+            number = typeMethods.i4_choose(n + k - 1, n);
+
+            return number;
+        }
+
+        public static void comp_next_grlex(int kc, ref int[] xc)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    COMP_NEXT_GRLEX returns the next composition in grlex order.
+            //
+            //  Discussion:
+            //
+            //    Example:
+            //
+            //    KC = 3
+            //
+            //    #   XC(1) XC(2) XC(3)  Degree
+            //      +------------------------
+            //    1 |  0     0     0        0
+            //      |
+            //    2 |  0     0     1        1
+            //    3 |  0     1     0        1
+            //    4 |  1     0     0        1
+            //      |
+            //    5 |  0     0     2        2
+            //    6 |  0     1     1        2
+            //    7 |  0     2     0        2
+            //    8 |  1     0     1        2
+            //    9 |  1     1     0        2
+            //   10 |  2     0     0        2
+            //      |
+            //   11 |  0     0     3        3
+            //   12 |  0     1     2        3
+            //   13 |  0     2     1        3
+            //   14 |  0     3     0        3
+            //   15 |  1     0     2        3
+            //   16 |  1     1     1        3
+            //   17 |  1     2     0        3
+            //   18 |  2     0     1        3
+            //   19 |  2     1     0        3
+            //   20 |  3     0     0        3
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    11 December 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int KC, the number of parts of the composition.
+            //    1 <= KC.
+            //
+            //    Input/output, int XC[KC], the current composition.
+            //    Each entry of XC must be nonnegative.
+            //    On return, XC has been replaced by the next composition in the
+            //    grlex order.
+            //
+        {
+            int i;
+            int im1 = 0;
+            int j;
+            int t = 0;
+            //
+            //  Ensure that 1 <= KC.
+            //
+            if (kc < 1)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("COMP_NEXT_GRLEX - Fatal error!");
+                Console.WriteLine("  KC < 1");
+                return;
+            }
+
+            //
+            //  Ensure that 0 <= XC(I).
+            //
+            for (i = 0; i < kc; i++)
+            {
+                if (xc[i] < 0)
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("COMP_NEXT_GRLEX - Fatal error!");
+                    Console.WriteLine("  XC[I] < 0");
+                    return;
+                }
+            }
+
+            //
+            //  Find I, the index of the rightmost nonzero entry of X.
+            //
+            i = 0;
+            for (j = kc; 1 <= j; j--)
+            {
+                if (0 < xc[j - 1])
+                {
+                    i = j;
+                    break;
+                }
+            }
+
+            //
+            //  set T = X(I)
+            //  set XC(I) to zero,
+            //  increase XC(I-1) by 1,
+            //  increment XC(KC) by T-1.
+            //
+            if (i == 0)
+            {
+                xc[kc - 1] = 1;
+                return;
+            }
+            else if (i == 1)
+            {
+                t = xc[0] + 1;
+                im1 = kc;
+            }
+            else if (1 < i)
+            {
+                t = xc[i - 1];
+                im1 = i - 1;
+            }
+
+            xc[i - 1] = 0;
+            xc[im1 - 1] = xc[im1 - 1] + 1;
+            xc[kc - 1] = xc[kc - 1] + t - 1;
+        }
+
+        public static int[] comp_random_grlex(int kc, int rank1, int rank2, ref int seed, ref int rank )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    COMP_RANDOM_GRLEX: random composition with degree less than or equal to NC.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    09 September 2014
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int KC, the number of parts in the composition.
+        //
+        //    Input, int RANK1, RANK2, the minimum and maximum ranks.
+        //    1 <= RANK1 <= RANK2.
+        //
+        //    Input/output, int &SEED, the random number seed.
+        //
+        //    Output, int &RANK, the rank of the composition.
+        //
+        //    Output, int COMP_RANDOM_GRLEX[KC], the random composition.
+        //
+        {
+            int[] xc;
+
+            //
+            //  Ensure that 1 <= KC.
+            //
+            if (kc < 1)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("COMP_RANDOM_GRLEX - Fatal error!");
+                Console.WriteLine("  KC < 1");
+                return null;
+            }
+
+            //
+            //  Ensure that 1 <= RANK1.
+            //
+            if (rank1 < 1)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("COMP_RANDOM_GRLEX - Fatal error!");
+                Console.WriteLine("  RANK1 < 1");
+                return null;
+            }
+
+            //
+            //  Ensure that RANK1 <= RANK2.
+            //
+            if (rank2 < rank1)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("COMP_RANDOM_GRLEX - Fatal error!");
+                Console.WriteLine("  RANK2 < RANK1");
+                return null;
+            }
+
+            //
+            //  Choose RANK between RANK1 and RANK2.
+            //
+            rank = UniformRNG.i4_uniform_ab(rank1, rank2, ref seed);
+            //
+            //  Recover the composition of given RANK.
+            //
+            xc = comp_unrank_grlex(kc, rank);
+
+            return xc;
+        }
+
+        public static int comp_rank_grlex(int kc, int[] xc)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    COMP_RANK_GRLEX computes the graded lexicographic rank of a composition.
+            //
+            //  Discussion:
+            //
+            //    The graded lexicographic ordering is used, over all KC-compositions
+            //    for NC = 0, 1, 2, ...
+            //
+            //    For example, if KC = 3, the ranking begins:
+            //
+            //    Rank  Sum    1  2  3
+            //    ----  ---   -- -- --
+            //       1    0    0  0  0
+            //
+            //       2    1    0  0  1
+            //       3    1    0  1  0
+            //       4    1    1  0  1
+            //
+            //       5    2    0  0  2
+            //       6    2    0  1  1
+            //       7    2    0  2  0
+            //       8    2    1  0  1
+            //       9    2    1  1  0
+            //      10    2    2  0  0
+            //
+            //      11    3    0  0  3
+            //      12    3    0  1  2
+            //      13    3    0  2  1
+            //      14    3    0  3  0
+            //      15    3    1  0  2
+            //      16    3    1  1  1
+            //      17    3    1  2  0
+            //      18    3    2  0  1
+            //      19    3    2  1  0
+            //      20    3    3  0  0
+            //
+            //      21    4    0  0  4
+            //      ..   ..   .. .. ..
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    11 December 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int KC, the number of parts in the composition.
+            //    1 <= KC.
+            //
+            //    Input, int XC[KC], the composition.
+            //    For each 1 <= I <= KC, we have 0 <= XC(I).
+            //
+            //    Output, int COMP_RANK_GRLEX, the rank of the composition.
+            //
+        {
+            int i;
+            int j;
+            int ks;
+            int n;
+            int nc;
+            int ns;
+            int rank;
+            int tim1;
+            int[] xs;
+            //
+            //  Ensure that 1 <= KC.
+            //
+            if (kc < 1)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("COMP_RANK_GRLEX - Fatal error!");
+                Console.WriteLine("  KC < 1");
+                return (1);
+            }
+
+            //
+            //  Ensure that 0 <= XC(I).
+            //
+            for (i = 0; i < kc; i++)
+            {
+                if (xc[i] < 0)
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("COMP_RANK_GRLEX - Fatal error!");
+                    Console.WriteLine("  XC[I] < 0");
+                    return (1);
+                }
+            }
+
+            //
+            //  NC = sum ( XC )
+            //
+            nc = typeMethods.i4vec_sum(kc, xc);
+            //
+            //  Convert to KSUBSET format.
+            //
+            ns = nc + kc - 1;
+            ks = kc - 1;
+            xs = new int[ks];
+            xs[0] = xc[0] + 1;
+            for (i = 2; i < kc; i++)
+            {
+                xs[i - 1] = xs[i - 2] + xc[i - 1] + 1;
+            }
+
+            //
+            //  Compute the rank.
+            //
+            rank = 1;
+
+            for (i = 1; i <= ks; i++)
+            {
+                if (i == 1)
+                {
+                    tim1 = 0;
+                }
+                else
+                {
+                    tim1 = xs[i - 2];
+                }
+
+                if (tim1 + 1 <= xs[i - 1] - 1)
+                {
+                    for (j = tim1 + 1; j <= xs[i - 1] - 1; j++)
+                    {
+                        rank = rank + typeMethods.i4_choose(ns - j, ks - i);
+                    }
+                }
+            }
+
+            for (n = 0; n < nc; n++)
+            {
+                rank = rank + typeMethods.i4_choose(n + kc - 1, n);
+            }
+
+            return rank;
+        }
+
         public static int[] comp_unrank_grlex(int kc, int rank)
 
             //****************************************************************************80
@@ -137,7 +574,7 @@ namespace Burkardt
             }
 
             xc[kc - 1] = ns - xs[ks - 1];
-            
+
             return xc;
         }
 
@@ -415,59 +852,60 @@ namespace Burkardt
 
     public static class SubComp
     {
-        public static void subcomp_next(ref SubCompData data, int n, int k, ref int[] a, ref bool more, ref int h, ref int t )
+        public static void subcomp_next(ref SubCompData data, int n, int k, ref int[] a, ref bool more, ref int h,
+                ref int t)
 
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    SUBCOMP_NEXT computes the next subcomposition of N into K parts.
-        //
-        //  Discussion:
-        //
-        //    A composition of the integer N into K parts is an ordered sequence
-        //    of K nonnegative integers which sum to a value of N.
-        //
-        //    A subcomposition of the integer N into K parts is a composition
-        //    of M into K parts, where 0 <= M <= N.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license. 
-        //
-        //  Modified:
-        //
-        //    02 July 2008
-        //
-        //  Author:
-        //
-        //    Original FORTRAN77 version by Albert Nijenhuis, Herbert Wilf.
-        //    C++ version by John Burkardt.
-        //
-        //  Reference:
-        //
-        //    Albert Nijenhuis, Herbert Wilf,
-        //    Combinatorial Algorithms for Computers and Calculators,
-        //    Second Edition,
-        //    Academic Press, 1978,
-        //    ISBN: 0-12-519260-6,
-        //    LC: QA164.N54.
-        //
-        //  Parameters:
-        //
-        //    Input, int N, the integer whose subcompositions are desired.
-        //
-        //    Input, int K, the number of parts in the subcomposition.
-        //
-        //    Input/output, int A[K], the parts of the subcomposition.
-        //
-        //    Input/output, bool *MORE, set by the user to start the computation,
-        //    and by the routine to terminate it.
-        //
-        //    Input/output, int *H, *T, two internal parameters needed for the
-        //    computation.  The user should allocate space for these in the calling
-        //    program, include them in the calling sequence, but never alter them!
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    SUBCOMP_NEXT computes the next subcomposition of N into K parts.
+            //
+            //  Discussion:
+            //
+            //    A composition of the integer N into K parts is an ordered sequence
+            //    of K nonnegative integers which sum to a value of N.
+            //
+            //    A subcomposition of the integer N into K parts is a composition
+            //    of M into K parts, where 0 <= M <= N.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    02 July 2008
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Albert Nijenhuis, Herbert Wilf.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Albert Nijenhuis, Herbert Wilf,
+            //    Combinatorial Algorithms for Computers and Calculators,
+            //    Second Edition,
+            //    Academic Press, 1978,
+            //    ISBN: 0-12-519260-6,
+            //    LC: QA164.N54.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the integer whose subcompositions are desired.
+            //
+            //    Input, int K, the number of parts in the subcomposition.
+            //
+            //    Input/output, int A[K], the parts of the subcomposition.
+            //
+            //    Input/output, bool *MORE, set by the user to start the computation,
+            //    and by the routine to terminate it.
+            //
+            //    Input/output, int *H, *T, two internal parameters needed for the
+            //    computation.  The user should allocate space for these in the calling
+            //    program, include them in the calling sequence, but never alter them!
+            //
         {
             int i;
             //

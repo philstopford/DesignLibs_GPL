@@ -20,6 +20,39 @@ namespace Burkardt.Types
 
     public static partial class typeMethods
     {
+        public static double r8_square ( double x )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    r8_square returns the square of an R8.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    05 August 2019
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Input:
+            //
+            //    double x: the argument.
+            //
+            //  Output:
+            //
+            //    double r8_square: the square of x.
+            //
+        {
+            double value = x * x;
+
+            return value;
+        }
         public static bool r8_is_integer ( double r )
 
             //****************************************************************************80

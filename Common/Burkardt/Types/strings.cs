@@ -564,6 +564,98 @@ namespace Burkardt.Types
 
             return r;
         }
+        
+        public static string s_escape_tex ( string s1 )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    S_ESCAPE_TEX de-escapes TeX escape sequences.
+            //
+            //  Discussion:
+            //
+            //    In particular, every occurrence of the characters '\', '_',
+            //    '^', '{' and '}' will be replaced by '\\', '\_', '\^',
+            //    '\{' and '\}'.  A TeX interpreter, on seeing these character
+            //    strings, is then likely to return the original characters.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    29 August 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, string S1, the string to be de-escaped.
+            //
+            //    Output, string S_ESCAPE_TEX, a copy of the string,
+            //    modified to avoid TeX escapes.
+            //
+        {
+            char ch;
+            int s1_length;
+            int s1_pos;
+            char[] s2;
+            int s2_pos;
+            string s3;
+            int slash_count;
+
+            s1_length = s1.Length;
+
+            slash_count = 0;
+            for ( s1_pos = 0; s1_pos < s1_length; s1_pos++ )
+            {
+                ch = s1[s1_pos];
+
+                if ( ch == '\\' ||
+                     ch == '_' ||
+                     ch == '^' ||
+                     ch == '{' ||
+                     ch == '}' )
+                {
+                    slash_count = slash_count + 1;
+                }
+            }
+            s2 = new char[s1_length + slash_count + 1];
+            //
+            //  Now copy S1 into S2.
+            //
+            s1_pos = 0;
+            s2_pos = 0;
+
+            for ( s1_pos = 0; s1_pos < s1_length; s1_pos++ )
+            {
+                ch = s1[s1_pos];
+
+                if ( ch == '\\' ||
+                     ch == '_' ||
+                     ch == '^' ||
+                     ch == '{' ||
+                     ch == '}' )
+                {
+                    s2[s2_pos] = '\\';
+                    s2_pos = s2_pos + 1;
+                }
+
+                s2[s2_pos] = ch;
+                s2_pos = s2_pos + 1;
+            }
+
+            s2[s2_pos] = '\0';
+            s2_pos = s2_pos + 1;
+
+            s3 = s2.ToString();
+
+            return s3;
+        }
 
     }
 }

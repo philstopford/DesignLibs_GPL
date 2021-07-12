@@ -1,9 +1,9 @@
 ﻿using System;
 using Burkardt.Uniform;
 
-namespace Burkardt.HyperCubeMonteCarloNS
+namespace Burkardt.HyperGeometry.Hypercube
 {
-    public static class HyperCubeMonteCarlo
+    public static class MonteCarlo
     {
         
         public static double hypercube01_monomial_integral ( int m, int[] e )

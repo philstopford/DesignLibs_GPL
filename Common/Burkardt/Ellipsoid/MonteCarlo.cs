@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.HyperGeometry.HypersphereNS;
 using Burkardt.Types;
 
 namespace Burkardt.Ellipsoid
@@ -195,7 +196,7 @@ namespace Burkardt.Ellipsoid
                 sqrt_det = sqrt_det * u[i + i * m];
             }
 
-            volume = Math.Pow(r, m) * Hyper.hypersphere_unit_volume(m) / sqrt_det;
+            volume = Math.Pow(r, m) * Hypersphere.hypersphere_unit_volume(m) / sqrt_det;
             
             return volume;
         }

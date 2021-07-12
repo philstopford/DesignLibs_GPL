@@ -1,9 +1,9 @@
 ﻿using System;
-using Burkardt.HyperCubeMonteCarloNS;
 using Burkardt.Types;
 
 namespace HyperCubeMonteCarloTest
 {
+    using MonteCarlo = Burkardt.HyperGeometry.Hypercube.MonteCarlo;
     class Program
     {
         static void Main(string[] args)
@@ -106,7 +106,7 @@ namespace HyperCubeMonteCarloTest
 
             while ( n <= 65536 )
             {
-                double[] x = HyperCubeMonteCarlo.hypercube01_sample ( m, n, ref seed );
+                double[] x = MonteCarlo.hypercube01_sample ( m, n, ref seed );
                 cout = "  " + n.ToString().PadLeft(8);
                 for (int j = 0; j < 10; j++ )
                 {
@@ -117,7 +117,7 @@ namespace HyperCubeMonteCarloTest
 
                     double[] value = typeMethods.monomial_value ( m, n, e, x );
 
-                    double result = HyperCubeMonteCarlo.hypercube01_volume ( m ) * typeMethods.r8vec_sum ( n, value ) / ( double ) ( n );
+                    double result = MonteCarlo.hypercube01_volume ( m ) * typeMethods.r8vec_sum ( n, value ) / ( double ) ( n );
                     cout += "  " +result.ToString().PadLeft(14);
                 }
                 Console.WriteLine(cout);
@@ -133,7 +133,7 @@ namespace HyperCubeMonteCarloTest
                 {
                     e[i] = e_test[i+j*m];
                 }
-                double exact = HyperCubeMonteCarlo.hypercube01_monomial_integral ( m, e );
+                double exact = MonteCarlo.hypercube01_monomial_integral ( m, e );
                 cout += "  " +exact.ToString().PadLeft(14);
             }
             Console.WriteLine(cout);
@@ -194,7 +194,7 @@ namespace HyperCubeMonteCarloTest
 
             while ( n <= 65536 )
             {
-                double[] x = HyperCubeMonteCarlo.hypercube01_sample ( m, n, ref seed );
+                double[] x = MonteCarlo.hypercube01_sample ( m, n, ref seed );
                 cout = "  " +n.ToString().PadLeft(8);
                 for (int j = 0; j < 7; j++ )
                 {
@@ -205,7 +205,7 @@ namespace HyperCubeMonteCarloTest
 
                     double[] value = typeMethods.monomial_value ( m, n, e, x );
 
-                    double result = HyperCubeMonteCarlo.hypercube01_volume ( m ) * typeMethods.r8vec_sum ( n, value ) / ( double ) ( n );
+                    double result = MonteCarlo.hypercube01_volume ( m ) * typeMethods.r8vec_sum ( n, value ) / ( double ) ( n );
                     cout += "  " + result.ToString().PadLeft(14);
                 }
                 Console.WriteLine(cout);
@@ -221,7 +221,7 @@ namespace HyperCubeMonteCarloTest
                 {
                     e[i] = e_test[i+j*m];
                 }
-                double exact = HyperCubeMonteCarlo.hypercube01_monomial_integral ( m, e );
+                double exact = MonteCarlo.hypercube01_monomial_integral ( m, e );
                 cout += "  " +exact.ToString().PadLeft(14);
             }
             Console.WriteLine(cout);

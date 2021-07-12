@@ -127,35 +127,35 @@ namespace HermiteIntegrandsTest
         {
             if (problem == 1)
             {
-                Problem01.p01_fun(option, n, x, f);
+                Problem01.p01_fun(option, n, x, ref f);
             }
             else if (problem == 2)
             {
-                Problem02.p02_fun(option, n, x, f);
+                Problem02.p02_fun(option, n, x, ref f);
             }
             else if (problem == 3)
             {
-                Problem03.p03_fun(option, n, x, f);
+                Problem03.p03_fun(option, n, x, ref f);
             }
             else if (problem == 4)
             {
-                Problem04.p04_fun(option, n, x, f);
+                Problem04.p04_fun(option, n, x, ref f);
             }
             else if (problem == 5)
             {
-                Problem05.p05_fun(option, n, x, f);
+                Problem05.p05_fun(option, n, x, ref f);
             }
             else if (problem == 6)
             {
-                Problem06.p06_fun(option, n, x, f);
+                Problem06.p06_fun(option, n, x, ref f);
             }
             else if (problem == 7)
             {
-                Problem07.p07_fun(option, n, x, f);
+                Problem07.p07_fun(option, n, x, ref f);
             }
             else if (problem == 8)
             {
-                Problem08.p08_fun(option, n, x, f);
+                Problem08.p08_fun(option, n, x, ref f);
             }
             else
             {

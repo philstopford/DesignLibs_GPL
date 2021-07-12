@@ -8,9 +8,4 @@
       <ProjectReference Include="..\entropyRNG\entropyRNG.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="HyperGeometry\Hypercube" />
-      <Folder Include="HyperGeometry\Hypersphere" />
-    </ItemGroup>
-
 </Project>

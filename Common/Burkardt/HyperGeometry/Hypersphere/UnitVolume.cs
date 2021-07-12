@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Burkardt
+namespace Burkardt.HyperGeometry.HypersphereNS
 {
-    public static class Hyper
+    public static class Hypersphere
     {
         public static double hypersphere_unit_volume ( int m )
 

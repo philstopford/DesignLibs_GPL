@@ -687,6 +687,93 @@ namespace Burkardt.Types
             return ivec.Take(n).Min();
         }
 
+        public static void i4vec_negone ( int n, ref int[] a )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_NEGONE sets an I4VEC to -1.
+            //
+            //  Discussion:
+            //
+            //    An I4VEC is a vector of I4's.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    12 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in the vector.
+            //
+            //    Output, int A[N], a vector of -1's.
+            //
+        {
+            int i;
+
+            for ( i = 0; i < n; i++ )
+            {
+                a[i] = -1;
+            }
+        }
+
+        public static int[] i4vec_negone_new ( int n )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_NEGONE_NEW creates an I4VEC and sets it to -1.
+            //
+            //  Discussion:
+            //
+            //    An I4VEC is a vector of I4's.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    12 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in the vector.
+            //
+            //    Output, int I4VEC_NEGONE_NEW[N], a vector of -1's.
+            //
+        {
+            int[] a;
+            int i;
+
+            a = new int[n];
+
+            for ( i = 0; i < n; i++ )
+            {
+                a[i] = -1;
+            }
+            return a;
+        }
+        
+        public static void i4vec_zero(int n, ref int[] a)
+        {
+            i4vec_zeros(n, ref a);
+        }
+        
         public static void i4vec_zeros(int n, ref int[] a)
 
             //****************************************************************************80

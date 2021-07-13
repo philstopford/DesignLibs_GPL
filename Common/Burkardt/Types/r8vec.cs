@@ -261,6 +261,106 @@ namespace Burkardt.Types
                 a2[i] = a2[i] + a1[i];
             }
         }
+        
+        public static bool r8vec_all_nonpositive ( int n, double[] a )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8VEC_ALL_NONPOSITIVE: ( all ( A <= 0 ) ) for R8VEC's.
+            //
+            //  Discussion:
+            //
+            //    An R8VEC is a vector of R8's.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    08 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries.
+            //
+            //    Input, double A[N], the vector to check.
+            //
+            //    Output, bool R8VEC_ALL_NONPOSITIVE is TRUE if all entries
+            //    of A are less than or equal to zero.
+            //
+        {
+            int i;
+            bool value;
+
+            for ( i = 0; i < n; i++ )
+            {
+                if ( 0.0 < a[i] )
+                {
+                    value = false;
+                    return value;
+                }
+            }
+            value = true;
+
+            return value;
+        }
+
+        public static bool r8vec_any_negative ( int n, double[] a )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8VEC_ANY_NEGATIVE: ( any ( A < 0 ) ) for R8VEC's.
+            //
+            //  Discussion:
+            //
+            //    An R8VEC is a vector of R8's.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    09 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries.
+            //
+            //    Input, double A[N], the vector to check.
+            //
+            //    Output, bool R8VEC_ANY_NEGATIVE is TRUE if any entry
+            //    of A is less than zero.
+            //
+        {
+            int i;
+            bool value;
+
+            for ( i = 0; i < n; i++ )
+            {
+                if ( a[i] < 0.0 )
+                {
+                    value = true;
+                    return value;
+                }
+            }
+            value = false;
+
+            return value;
+        }
 
         public static int r8vec_compare(int n, double[] a, double[] b)
 
@@ -1100,7 +1200,61 @@ namespace Burkardt.Types
             return x;
         }
 
+        public static int r8vec_min_index ( int n, double[] a )
 
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8VEC_MIN_INDEX returns the index of the minimum value in an R8VEC.
+            //
+            //  Discussion:
+            //
+            //    An R8VEC is a vector of R8's.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 August 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in the array.
+            //
+            //    Input, double A[N], the array.
+            //
+            //    Output, int R8VEC_MIN_INDEX, the index of the smallest entry.
+            //
+        {
+            int i;
+            int min_index;
+
+            if ( n <= 0 )
+            {
+                min_index = -1;
+            }
+            else
+            {
+                min_index = 0;
+
+                for ( i = 1; i < n; i++ )
+                {
+                    if ( a[i] < a[min_index] )
+                    {
+                        min_index = i;
+                    }
+                }
+            }
+
+            return min_index;
+        }
 
         public static bool r8vec_eq(int n, double[] a1, int startIndexA1, double[] a2)
 
@@ -2139,6 +2293,46 @@ namespace Burkardt.Types
             }
 
             return a;
+        }
+
+        public static void r8vec_zero ( int n, ref double[] a )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8VEC_ZERO zeroes an R8VEC.
+            //
+            //  Discussion:
+            //
+            //    An R8VEC is a vector of R8's.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    03 July 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in the vector.
+            //
+            //    Output, double A[N], a vector of zeroes.
+            //
+        {
+            int i;
+
+            for ( i = 0; i < n; i++ )
+            {
+                a[i] = 0.0;
+            }
+            return;
         }
 
     }

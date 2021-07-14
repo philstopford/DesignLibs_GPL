@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Sampling;
 using Burkardt.Types;
 using Burkardt.Uniform;
 
@@ -6,6 +7,94 @@ namespace Burkardt
 {
     public static class Cluster
     {
+        public static double cluster_energy (ref RegionData data, int dim_num, int n, double[] cell_generator,
+  int sample_num_cvt, int sample_function_cvt, ref int seed )
+
+//****************************************************************************80
+//
+//  Purpose:
+//
+//    CLUSTER_ENERGY returns the energy of a dataset.
+//
+//  Discussion:
+//
+//    The energy is the integral of the square of the distance from each point
+//    in the region to its nearest generator.
+//
+//  Licensing:
+//
+//    This code is distributed under the GNU LGPL license.
+//
+//  Modified:
+//
+//    08 September 2006
+//
+//  Author:
+//
+//    John Burkardt
+//
+//  Parameters:
+//
+//    Input, int DIM_NUM, the spatial dimension.
+//
+//    Input, int N, the number of generators.
+//
+//    Input, double CELL_GENERATOR[DIM_NUM*N], the coordinates of the points.
+//
+//    Input, int SAMPLE_NUM_CVT, the number of sample points to use.
+//
+//    Input, int SAMPLE_FUNCTION_CVT, specifies how the sampling is done.
+//    -1, 'RANDOM', using C++ RANDOM function;
+//     0, 'UNIFORM', using a simple uniform RNG;
+//     1, 'HALTON', from a Halton sequence;
+//     2, 'GRID', points from a grid;
+//     3, 'USER', call "user" routine.
+//
+//    Input/output, int *SEED, a seed for the random number generator.
+//
+//    Output, double CLUSTER_ENERGY, the estimated energy.
+//
+{
+  double energy;
+  int i;
+  int j;
+  int nearest;
+  bool reset;
+  double[] x;
+
+  x = new double [dim_num];
+
+  energy = 0.0;
+  reset = true;
+
+  for ( j = 0; j < sample_num_cvt; j++ )
+  {
+//
+//  Generate a sampling point X.
+//
+    Region.region_sampler (ref data, dim_num, 1, sample_num_cvt, x, sample_function_cvt,
+      reset, ref seed );
+
+    reset = false;
+//
+//  Find the nearest cell generator.
+//
+    nearest = find_closest ( dim_num, n, x, cell_generator );
+
+    for ( i = 0; i < dim_num; i++ )
+    {
+      energy = energy
+        + Math.Pow ( x[i] - cell_generator[i+nearest*dim_num], 2 );
+    }
+  }
+//
+//  Add the contribution to the energy.
+//
+  energy = energy / ( double ) ( sample_num_cvt );
+  
+  return energy;
+}
+        
         public static double[] cluster_energy_compute(int dim_num, int point_num, int cluster_num,
             double[] point, int[] cluster, double[] cluster_center )
 
@@ -681,5 +770,74 @@ namespace Burkardt
             
             return cluster_variance;
         }
+        
+        public static int find_closest ( int m, int n, double[] x, double[] generator )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    FIND_CLOSEST finds the Voronoi cell generator closest to a point X.
+            //
+            //  Discussion:
+            //
+            //    This routine finds the closest Voronoi cell generator by checking every
+            //    one.  For problems with many cells, this process can take the bulk
+            //    of the CPU time.  Other approaches, which group the cell generators into
+            //    bins, can run faster by a large factor.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    24 September 2006
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, the spatial dimension.
+            //
+            //    Input, int N, the number of cell generators.
+            //
+            //    Input, double X[M], the point to be checked.
+            //
+            //    Input, double GENERATOR[M*N], the cell generators.
+            //
+            //    Output, int FIND_CLOSEST, the index of the nearest cell generators.
+            //
+        {
+            double dist_min;
+            double dist;
+            int i;
+            int j;
+            int nearest;
+
+            nearest = 0;
+            dist_min = 0.0;
+
+            for ( j = 0; j < n; j++ )
+            {
+                dist = 0.0;
+                for ( i = 0; i < m; i++ )
+                {
+                    dist = dist + Math.Pow ( x[i] - generator[i+j*m], 2 );
+                }
+
+                if ( j == 0 || dist < dist_min )
+                {
+                    dist_min = dist;
+                    nearest = j;
+                }
+
+            }
+
+            return nearest;
+        }
+        
     }
 }

@@ -639,6 +639,81 @@ namespace Burkardt
 
             return x;
         }
+        
+        public static void i4_to_halton ( int seed, int[] base_, int ndim, ref double[] r, int rIndex = 0 )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    I4_TO_HALTON computes an element of a Halton sequence.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    28 February 2003
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    John Halton,
+        //    On the efficiency of certain quasi-random sequences of points
+        //    in evaluating multi-dimensional integrals,
+        //    Numerische Mathematik,
+        //    Volume 2, pages 84-90, 1960.
+        //
+        //  Parameters:
+        //
+        //    Input, int SEED, the index of the desired element.
+        //    SEED = 0 is allowed, and returns R = 0.
+        //
+        //    Input, int BASE[NDIM], the Halton bases, which are usually
+        //    distinct prime numbers.  Each base must be greater than 1.
+        //
+        //    Input, int NDIM, the dimension of the elements of the sequence.
+        //
+        //    Output, double R[NDIM], the SEED-th element of the Halton sequence
+        //    for the given bases.
+        //
+        {
+            double base_inv;
+            int digit;
+            int i;
+            int seed2;
+
+            for ( i = 0; i < ndim; i++ )
+            {
+                if ( base_[i] <= 1 )
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("I4_TO_HALTON - Fatal error!");
+                    Console.WriteLine("  An input base is less than or equal to 1.");
+                    Console.WriteLine("  BASE[" + i + "] = " + base_[i] + "");
+                    return;
+                }
+            }
+
+            for ( i = 0; i < ndim; i++ )
+            {
+                seed2 = seed;
+                base_inv = 1.0 / ( ( double ) base_[i] );
+                r[rIndex + i] = 0.0;
+
+                while ( seed2 != 0 )
+                {
+                    digit = seed2 % base_[i];
+                    r[rIndex + i] = r[rIndex + i] + ( ( double ) digit ) * base_inv;
+                    base_inv = base_inv / ( ( double ) base_[i] );
+                    seed2 = seed2 / base_[i];
+                }
+            }
+        }
 
         public static void i4_to_halton(int dim_num, int step, int[] seed, int[] leap, int[] base_,
                 ref double[] r)

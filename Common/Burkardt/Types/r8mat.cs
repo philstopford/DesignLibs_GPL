@@ -8,6 +8,58 @@ namespace Burkardt.Types
     public static partial class typeMethods
     {
 
+        public static double[] r8mat_sub_new ( int m, int n, double[] a, double[] b )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8MAT_SUB_NEW computes C = A - B.
+        //
+        //  Discussion:
+        //
+        //    An R8MAT is a doubly dimensioned array of R8 values, stored as a vector
+        //    in column-major order.
+        //
+        //    For this routine, the result is returned as the function value.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    30 October 2013
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int M, N, the order of the matrices.
+        //
+        //    Input, double A[M*N], double B[M*N], the matrices.
+        //
+        //    Output, double R8MAT_SUB_NEW[M*N], the value of A-B.
+        //
+        {
+            double[] c;
+            int i;
+            int j;
+
+            c = new double[m*n];
+
+            for ( j = 0; j < n; j++ )
+            {
+                for ( i = 0; i < n; i++ )
+                {
+                    c[i+j*m] = a[i+j*m] - b[i+j*m];
+                }
+            }
+
+            return c;
+        }
         public static void r8mat_mm ( int n1, int n2, int n3, double[] a, double[] b, ref double[] c )
 
         //****************************************************************************80

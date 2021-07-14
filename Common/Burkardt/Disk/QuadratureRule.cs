@@ -219,7 +219,7 @@ namespace Burkardt.Disk
             xr = new double[nr];
             wr = new double[nr];
 
-            Legendre.legendre_ek_compute(nr, ref xr, ref wr);
+            Legendre.QuadratureRule.legendre_ek_compute(nr, ref xr, ref wr);
             //
             //  Shift the rule to [0,1].
             //

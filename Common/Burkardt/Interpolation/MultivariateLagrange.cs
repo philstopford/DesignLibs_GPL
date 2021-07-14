@@ -1820,7 +1820,7 @@ namespace Burkardt.Interpolation
                 else if (option == 1)
                 {
                     lpp = Comp.comp_unrank_grlex(d, k + 1);
-                    Legendre.lpp_to_polynomial(d, lpp, r, ref o, ref c, ref e);
+                    PolynomialNS.Legendre.lpp_to_polynomial(d, lpp, r, ref o, ref c, ref e);
                 }
 
                 qo[k] = o;

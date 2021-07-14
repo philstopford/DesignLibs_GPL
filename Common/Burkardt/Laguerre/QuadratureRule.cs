@@ -1,8 +1,9 @@
-﻿using Burkardt.Types;
+﻿using System;
+using Burkardt.Types;
 
 namespace Burkardt.Laguerre
 {
-    public static class QuadratureRule
+    public static partial class QuadratureRule
     {
         public static void laguerre_compute(int order, ref double[] xtab, ref double[] weight,
                 double alpha)
@@ -162,5 +163,80 @@ namespace Burkardt.Laguerre
                 weight[i] = (cc / dp2) / p1;
             }
         }
+        
+        public static void l_quadrature_rule ( int n, ref double[] x, ref double[] w )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    L_QUADRATURE_RULE: Gauss-Laguerre quadrature based on L(n,x).
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    10 March 2012
+        //
+        //  Author:
+        //
+        //    John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Sylvan Elhay, Jaroslav Kautsky,
+        //    Algorithm 655: IQPACK, FORTRAN Subroutines for the Weights of
+        //    Interpolatory Quadrature,
+        //    ACM Transactions on Mathematical Software,
+        //    Volume 13, Number 4, December 1987, pages 399-415.
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order.
+        //
+        //    Output, double X[N], the abscissas.
+        //
+        //    Output, double W[N], the weights.
+        //
+        {
+            double[] bj;
+            int i;
+            double zemu;
+            //
+            //  Define the zero-th moment.
+            //
+            zemu = 1.0;
+            //
+            //  Define the Jacobi matrix.
+            //
+            bj = new double[n];
+            for ( i = 0; i < n; i++ )
+            {
+                bj[i] = ( double ) ( i + 1 );
+            }
+
+            for ( i = 0; i < n; i++ )
+            {
+                x[i] = ( double ) ( 2 * i + 1 );
+            }
+
+            w[0] = Math.Sqrt ( zemu );
+            for ( i = 1; i < n; i++ )
+            {
+                w[i] = 0.0;
+            }
+            //
+            //  Diagonalize the Jacobi matrix.
+            //
+            IMTQLX.imtqlx ( n, ref x, ref bj, ref w );
+
+            for ( i = 0; i < n; i++ )
+            {
+                w[i] = w[i] * w[i];
+            }
+        }
+
     }
 }

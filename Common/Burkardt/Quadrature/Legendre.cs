@@ -2550,5 +2550,63 @@ namespace Burkardt
                 Console.WriteLine("  Legal values are 1 through 33, 63, 64, 65, 127 or 255.");
             }
         }
+        
+        public static void p_quadrature_rule ( int nt, ref double[] t, ref double[] wts )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    P_QUADRATURE_RULE: quadrature for Legendre function P(n,x).
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    14 March 2012
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int NT, the order of the rule.
+        //
+        //    Output, double T[NT], WTS[NT], the points and weights
+        //    of the rule.
+        //
+        {
+            double[] bj;
+            int i;
+  
+            for ( i = 0; i < nt; i++ )
+            {
+                t[i] = 0.0;
+            }
+
+            bj = new double[nt];
+            for ( i = 0; i < nt; i++ )
+            {
+                bj[i] = ( double ) ( ( i + 1 ) * ( i + 1 ) ) 
+                        / ( double ) ( 4 *  ( i + 1 ) * ( i + 1 ) - 1 );
+                bj[i] = Math.Sqrt ( bj[i] );
+            }
+
+            wts[0] = Math.Sqrt ( 2.0 );
+            for ( i = 1; i < nt; i++ )
+            {
+                wts[i] = 0.0;
+            }
+
+            IMTQLX.imtqlx ( nt, ref t, ref bj, ref wts );
+
+            for ( i = 0; i < nt; i++ )
+            {
+                wts[i] = Math.Pow ( wts[i], 2 );
+            }
+        }
     }
 }

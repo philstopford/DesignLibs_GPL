@@ -265,9 +265,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Laguerre/p06.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Laguerre/p07.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Laguerre/p08.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Laguerre/p09.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Laguerre/p10.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Laguerre/p11.cs" />
@@ -316,6 +313,9 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/TriangulationTest/Program.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/TriangulationTest/QuadConvexRandom.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/LebesgueTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Quadrature/Legendre.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Polynomial/Legendre.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Polynomial/LegendrePolynomialTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />

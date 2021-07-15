@@ -265,16 +265,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Polynomial/Legendre.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Laguerre/Integrands.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Disk/QuadratureRule.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Interpolation/MultivariateLagrange.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Legendre/QuadratureRule.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Laguerre/p01.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Laguerre/p02.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Laguerre/p03.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Laguerre/p04.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Laguerre/p05.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Laguerre/p06.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Laguerre/p07.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Laguerre/p08.cs" />
@@ -304,7 +294,6 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Laplacian/L1NN.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Laplacian/L1PP.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Laplacian/LU.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8mat.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Cholesky.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Error/Inverse.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Error/Eigen.cs" />
@@ -315,7 +304,18 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Sampling/Region.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Tessellation/LatinCentroidalVoronoi.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Cluster.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_sort.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8mat.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Tessellation/LatinCentroidalVoronoiTessellationTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Points/Points.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Chebyshev/Chebyshev.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Points/Chebyshev.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Points/Equidistant.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Points/Fejer.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Lebesgue.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/TriangulationTest/Program.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/TriangulationTest/QuadConvexRandom.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/LebesgueTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />

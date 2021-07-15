@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt;
+using Burkardt.PointsNS;
 using Burkardt.TriangulationNS;
 using Burkardt.Types;
 

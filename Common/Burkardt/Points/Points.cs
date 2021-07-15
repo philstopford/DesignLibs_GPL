@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Burkardt
+namespace Burkardt.PointsNS
 {
     public static partial class Points
     {

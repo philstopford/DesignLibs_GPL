@@ -5,7 +5,7 @@ namespace Burkardt.ChebyshevNS
 {
     public static class Chebyshev
     {
-        public static double[] chebyshev_even1 ( int n, Func<double, double> f )
+        public static double[] chebyshev_even1(int n, Func<double, double> f)
 
             //****************************************************************************80
             //
@@ -57,29 +57,30 @@ namespace Burkardt.ChebyshevNS
             int s;
             double total;
 
-            s = ( n / 2 );
+            s = (n / 2);
 
-            r8_n = ( double ) ( n );
+            r8_n = (double) (n);
 
-            a2 = new double[s+1];
+            a2 = new double[s + 1];
 
-            for ( r = 0; r <= 2 * s; r = r + 2 )
+            for (r = 0; r <= 2 * s; r = r + 2)
             {
-                total = 0.5 * f ( 1.0 );
-                for ( j = 1; j < n; j++ )
+                total = 0.5 * f(1.0);
+                for (j = 1; j < n; j++)
                 {
-                    total = total + f ( Math.Cos ( j * r8_pi / r8_n ) ) 
-                        * Math.Cos ( r * j * r8_pi / r8_n );
+                    total = total + f(Math.Cos(j * r8_pi / r8_n))
+                        * Math.Cos(r * j * r8_pi / r8_n);
                 }
-                total = total + 0.5 * typeMethods.r8_mop ( r ) * f ( -1.0 );
+
+                total = total + 0.5 * typeMethods.r8_mop(r) * f(-1.0);
                 rh = r / 2;
-                a2[rh] = ( 2.0 / r8_n ) * total;
+                a2[rh] = (2.0 / r8_n) * total;
             }
 
             return a2;
         }
-        
-        public static double[] chebyshev_even2 ( int n, Func<double, double > f )
+
+        public static double[] chebyshev_even2(int n, Func<double, double> f)
 
             //****************************************************************************80
             //
@@ -132,29 +133,30 @@ namespace Burkardt.ChebyshevNS
             double x1;
             double x2;
 
-            s = ( n / 2 );
+            s = (n / 2);
 
-            b2 = new double[s+1];
+            b2 = new double[s + 1];
 
-            for ( r = 0; r <= 2 * s; r = r + 2 )
+            for (r = 0; r <= 2 * s; r = r + 2)
             {
                 total = 0.0;
-                for ( j = 0; j <= n; j++ )
+                for (j = 0; j <= n; j++)
                 {
-                    x1 = ( double ) ( 2 * j + 1 ) * r8_pi / 2.0 / ( double ) ( n + 1 );
-                    x2 = ( double ) ( r * ( 2 * j + 1 ) ) * r8_pi 
-                         / 2.0 / ( double ) ( n + 1 );
-                    total = total + f ( Math.Cos ( x1 ) ) * Math.Cos ( x2 );
+                    x1 = (double) (2 * j + 1) * r8_pi / 2.0 / (double) (n + 1);
+                    x2 = (double) (r * (2 * j + 1)) * r8_pi
+                         / 2.0 / (double) (n + 1);
+                    total = total + f(Math.Cos(x1)) * Math.Cos(x2);
                 }
+
                 rh = r / 2;
-                b2[rh] = ( 2.0 / ( double ) ( n + 1 ) ) * total;
+                b2[rh] = (2.0 / (double) (n + 1)) * total;
             }
 
             return b2;
         }
-        
+
         public static double[] chebyshev_coefficients(double a, double b, int n,
-                Func<double,double> f )
+                Func<double, double> f)
 
             //****************************************************************************80
             //
@@ -231,57 +233,57 @@ namespace Burkardt.ChebyshevNS
         }
 
         public static double[] chebyshev_interpolant(double a, double b, int n, double[] c, int m,
-        double[] x )
+                double[] x)
 
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    CHEBYSHEV_INTERPOLANT evaluates a Chebyshev interpolant.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    14 September 2011
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Reference:
-        //
-        //    Roger Broucke,
-        //    Algorithm 446:
-        //    Ten Subroutines for the Manipulation of Chebyshev Series,
-        //    Communications of the ACM,
-        //    Volume 16, Number 4, April 1973, pages 254-256.
-        //
-        //    William Press, Brian Flannery, Saul Teukolsky, William Vetterling,
-        //    Numerical Recipes in FORTRAN: The Art of Scientific Computing,
-        //    Second Edition,
-        //    Cambridge University Press, 1992,
-        //    ISBN: 0-521-43064-X,
-        //    LC: QA297.N866.
-        //
-        //  Parameters:
-        //
-        //    Input, double A, B, the domain of definition.
-        //
-        //    Input, int N, the order of the polynomial.
-        //
-        //    Input, double C[N], the Chebyshev coefficients.
-        //
-        //    Input, int M, the number of points.
-        //
-        //    Input, double X[M], the point at which the polynomial is
-        //    to be evaluated.
-        //
-        //    Output, double CHEBYSHEF_INTERPOLANT[M], the value of the Chebyshev
-        //    polynomial at X.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    CHEBYSHEV_INTERPOLANT evaluates a Chebyshev interpolant.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    14 September 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Roger Broucke,
+            //    Algorithm 446:
+            //    Ten Subroutines for the Manipulation of Chebyshev Series,
+            //    Communications of the ACM,
+            //    Volume 16, Number 4, April 1973, pages 254-256.
+            //
+            //    William Press, Brian Flannery, Saul Teukolsky, William Vetterling,
+            //    Numerical Recipes in FORTRAN: The Art of Scientific Computing,
+            //    Second Edition,
+            //    Cambridge University Press, 1992,
+            //    ISBN: 0-521-43064-X,
+            //    LC: QA297.N866.
+            //
+            //  Parameters:
+            //
+            //    Input, double A, B, the domain of definition.
+            //
+            //    Input, int N, the order of the polynomial.
+            //
+            //    Input, double C[N], the Chebyshev coefficients.
+            //
+            //    Input, int M, the number of points.
+            //
+            //    Input, double X[M], the point at which the polynomial is
+            //    to be evaluated.
+            //
+            //    Output, double CHEBYSHEF_INTERPOLANT[M], the value of the Chebyshev
+            //    polynomial at X.
+            //
         {
             double[] cf = new double[m];
 
@@ -345,6 +347,5 @@ namespace Burkardt.ChebyshevNS
 
             return x;
         }
-
     }
 }

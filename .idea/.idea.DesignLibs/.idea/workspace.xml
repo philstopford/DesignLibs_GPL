@@ -265,7 +265,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/BurkhardtTest/KnapsackTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Polynomial/Legendre.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Laguerre/Integrands.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Disk/QuadratureRule.cs" />
@@ -313,9 +312,10 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/LaplacianTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Sequences/Halham.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Sequences/Halton.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Sampling/Region.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Tessellation/LatinCentroidalVoronoi.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Cluster.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Sampling/Region.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Tessellation/LatinCentroidalVoronoiTessellationTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />

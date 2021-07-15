@@ -2558,5 +2558,64 @@ namespace Burkardt.Types
             return value;
         }
         
+        public static void r8mat_latinize ( int m, int n, ref double[] table )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8MAT_LATINIZE "Latinizes" an R8MAT.
+            //
+            //  Discussion:
+            //
+            //    It is assumed, though not necessary, that the input dataset
+            //    has points that lie in the unit hypercube.
+            //
+            //    In any case, the output dataset will have this property.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    06 December 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, the spatial dimension.
+            //
+            //    Input, int N, the number of cells.
+            //
+            //    Input/output, double TABLE[M*N].  On input, the dataset to
+            //    be "Latinized".  On output, the Latinized dataset.
+            //
+        {
+            double[] column;
+            int i;
+            int[] indx;
+            int j;
+
+            column = new double[n];
+
+            for ( i = 0; i < m; i++ )
+            {
+                for ( j = 0; j < n; j++ )
+                {
+                    column[j] = table[i+j*m];
+                }
+                indx = r8vec_sort_heap_index_a ( n, column );
+
+                for ( j = 0; j < n; j++ )
+                {
+                    table[i+indx[j]*m] = ( double ) ( 2 * j + 1 ) / ( double ) ( 2 * n );
+                }
+            }
+        }
+        
     }
 }

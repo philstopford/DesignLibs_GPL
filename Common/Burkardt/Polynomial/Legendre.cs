@@ -124,6 +124,285 @@ namespace Burkardt.PolynomialNS
             }
         }
 
+        public static double[] lp_value(int n, int o, double[] x)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    LP_VALUE evaluates the Legendre polynomials P(n,x).
+            //
+            //  Discussion:
+            //
+            //    P(n,1) = 1.
+            //    P(n,-1) = (-1)^N.
+            //    | P(n,x) | <= 1 in [-1,1].
+            //
+            //    The N zeroes of P(n,x) are the abscissas used for Gauss-Legendre
+            //    quadrature of the integral of a function F(X) with weight function 1
+            //    over the interval [-1,1].
+            //
+            //    The Legendre polynomials are orthogonal under the inner product defined
+            //    as integration from -1 to 1:
+            //
+            //      Integral ( -1 <= X <= 1 ) P(I,X) * P(J,X) dX
+            //        = 0 if I =/= J
+            //        = 2 / ( 2*I+1 ) if I = J.
+            //
+            //    Except for P(0,X), the integral of P(I,X) from -1 to 1 is 0.
+            //
+            //    A function F(X) defined on [-1,1] may be approximated by the series
+            //      C0*P(0,x) + C1*P(1,x) + ... + CN*P(n,x)
+            //    where
+            //      C(I) = (2*I+1)/(2) * Integral ( -1 <= X <= 1 ) F(X) P(I,x) dx.
+            //
+            //    The formula is:
+            //
+            //      P(n,x) = (1/2^N) * sum ( 0 <= M <= N/2 ) C(N,M) C(2N-2M,N) X^(N-2*M)
+            //
+            //  Differential equation:
+            //
+            //    (1-X*X) * P(n,x)'' - 2 * X * P(n,x)' + N * (N+1) = 0
+            //
+            //  First terms:
+            //
+            //    P( 0,x) =      1
+            //    P( 1,x) =      1 X
+            //    P( 2,x) = (    3 X^2 -       1)/2
+            //    P( 3,x) = (    5 X^3 -     3 X)/2
+            //    P( 4,x) = (   35 X^4 -    30 X^2 +     3)/8
+            //    P( 5,x) = (   63 X^5 -    70 X^3 +    15 X)/8
+            //    P( 6,x) = (  231 X^6 -   315 X^4 +   105 X^2 -     5)/16
+            //    P( 7,x) = (  429 X^7 -   693 X^5 +   315 X^3 -    35 X)/16
+            //    P( 8,x) = ( 6435 X^8 - 12012 X^6 +  6930 X^4 -  1260 X^2 +   35)/128
+            //    P( 9,x) = (12155 X^9 - 25740 X^7 + 18018 X^5 -  4620 X^3 +  315 X)/128
+            //    P(10,x) = (46189 X^10-109395 X^8 + 90090 X^6 - 30030 X^4 + 3465 X^2-63)/256
+            //
+            //  Recursion:
+            //
+            //    P(0,x) = 1
+            //    P(1,x) = x
+            //    P(n,x) = ( (2*n-1)*x*P(n-1,x)-(n-1)*P(n-2,x) ) / n
+            //
+            //    P'(0,x) = 0
+            //    P'(1,x) = 1
+            //    P'(N,x) = ( (2*N-1)*(P(N-1,x)+X*P'(N-1,x)-(N-1)*P'(N-2,x) ) / N
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    11 September 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Milton Abramowitz, Irene Stegun,
+            //    Handbook of Mathematical Functions,
+            //    National Bureau of Standards, 1964,
+            //    ISBN: 0-486-61272-4,
+            //    LC: QA47.A34.
+            //
+            //    Daniel Zwillinger, editor,
+            //    CRC Standard Mathematical Tables and Formulae,
+            //    30th Edition,
+            //    CRC Press, 1996.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of evaluation points.
+            //
+            //    Input, int O, the degree of the polynomial.
+            //
+            //    Input, double X[N], the evaluation points.
+            //
+            //    Output, double LP_VALUE[N], the value of the Legendre polynomial 
+            //    of degree N at the points X.
+            //
+        {
+            int i;
+            int j;
+            double[] v;
+            double[] vtable;
+
+            vtable = new double[n * (o + 1)];
+
+            for (i = 0; i < n; i++)
+            {
+                vtable[i + 0 * n] = 1.0;
+            }
+
+            if (1 <= o)
+            {
+                for (i = 0; i < n; i++)
+                {
+                    vtable[i + 1 * n] = x[i];
+                }
+
+                for (j = 2; j <= o; j++)
+                {
+                    for (i = 0; i < n; i++)
+                    {
+                        vtable[i + j * n] =
+                            ((double) (2 * j - 1) * x[i] * vtable[i + (j - 1) * n]
+                             - (double) (j - 1) * vtable[i + (j - 2) * n])
+                            / (double) (j);
+                    }
+                }
+            }
+
+            v = new double[n];
+
+            for (i = 0; i < n; i++)
+            {
+                v[i] = vtable[i + o * n];
+            }
+
+            return v;
+        }
+
+        public static void lp_values(ref int n_data, ref int n, ref double x, ref double fx)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    LP_VALUES returns values of the Legendre polynomials P(n,x).
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    11 September 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Milton Abramowitz, Irene Stegun,
+            //    Handbook of Mathematical Functions,
+            //    National Bureau of Standards, 1964,
+            //    ISBN: 0-486-61272-4,
+            //    LC: QA47.A34.
+            //
+            //    Stephen Wolfram,
+            //    The Mathematica Book,
+            //    Fourth Edition,
+            //    Cambridge University Press, 1999,
+            //    ISBN: 0-521-64314-7,
+            //    LC: QA76.95.W65.
+            //
+            //  Parameters:
+            //
+            //    Input/output, int &N_DATA.  The user sets N_DATA to 0 before the
+            //    first call.  On each call, the routine increments N_DATA by 1, and
+            //    returns the corresponding data; when there is no more data, the
+            //    output value of N_DATA will be 0 again.
+            //
+            //    Output, int &N, the order of the function.
+            //
+            //    Output, double &X, the point where the function is evaluated.
+            //
+            //    Output, double &FX, the value of the function.
+            //
+        {
+            int N_MAX = 22;
+
+            double[] fx_vec =
+            {
+                0.1000000000000000E+01,
+                0.2500000000000000E+00,
+                -0.4062500000000000E+00,
+                -0.3359375000000000E+00,
+                0.1577148437500000E+00,
+                0.3397216796875000E+00,
+                0.2427673339843750E-01,
+                -0.2799186706542969E+00,
+                -0.1524540185928345E+00,
+                0.1768244206905365E+00,
+                0.2212002165615559E+00,
+                0.0000000000000000E+00,
+                -0.1475000000000000E+00,
+                -0.2800000000000000E+00,
+                -0.3825000000000000E+00,
+                -0.4400000000000000E+00,
+                -0.4375000000000000E+00,
+                -0.3600000000000000E+00,
+                -0.1925000000000000E+00,
+                0.8000000000000000E-01,
+                0.4725000000000000E+00,
+                0.1000000000000000E+01
+            };
+
+            int[] n_vec =
+            {
+                0, 1, 2,
+                3, 4, 5,
+                6, 7, 8,
+                9, 10, 3,
+                3, 3, 3,
+                3, 3, 3,
+                3, 3, 3,
+                3
+            };
+
+            double[] x_vec =
+            {
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.00E+00,
+                0.10E+00,
+                0.20E+00,
+                0.30E+00,
+                0.40E+00,
+                0.50E+00,
+                0.60E+00,
+                0.70E+00,
+                0.80E+00,
+                0.90E+00,
+                1.00E+00
+            };
+
+            if (n_data < 0)
+            {
+                n_data = 0;
+            }
+
+            n_data = n_data + 1;
+
+            if (N_MAX < n_data)
+            {
+                n_data = 0;
+                n = 0;
+                x = 0.0;
+                fx = 0.0;
+            }
+            else
+            {
+                n = n_vec[n_data - 1];
+                x = x_vec[n_data - 1];
+                fx = fx_vec[n_data - 1];
+            }
+        }
+
         public static void lpp_to_polynomial(int m, int[] l, int o_max, ref int o, ref double[] c, ref int[] e)
 
             //****************************************************************************80
@@ -242,7 +521,7 @@ namespace Burkardt.PolynomialNS
                     }
                 }
 
-                Polynomial.polynomial_sort(o, c, e);
+                Polynomial.polynomial_sort(o, ref c, ref e);
                 Polynomial.polynomial_compress(o, c, e, ref o, ref c, ref e);
 
                 o1 = o;
@@ -252,6 +531,72 @@ namespace Burkardt.PolynomialNS
                     e1[i1] = e[i1];
                 }
             }
+        }
+        
+        public static double[] lpp_value ( int m, int n, int[] o, double[] x )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    LPP_VALUE evaluates a Legendre Product Polynomial at several points X.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    11 September 2014
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int M, the spatial dimension.
+        //
+        //    Input, int N, the number of evaluation points.
+        //
+        //    Input, int O[M], the degree of the polynomial factors.
+        //    0 <= O(*).
+        //
+        //    Input, double X[M*N], the evaluation points.
+        //
+        //    Output, double LPP_VALUE[N], the value of the Legendre Product 
+        //    Polynomial of degree O at the points X.
+        //
+        {
+            int i;
+            int j;
+            double[] v;
+            double[] vi;
+            double[] xi;
+
+            v = new double[n];
+
+            for ( j = 0; j < n; j++ )
+            {
+                v[j] = 1.0;
+            }
+
+            xi = new double[n];
+
+            for ( i = 0; i < m; i++ )
+            {
+                for ( j = 0; j < n; j++ )
+                {
+                    xi[j] = x[i+j*m];
+                }
+                vi = lp_value ( n, o[i], xi );
+                for ( j = 0; j < n; j++ )
+                {
+                    v[j] = v[j] * vi[j];
+                }
+            }
+
+            return v;
         }
 
         public static double[] p_exponential_product(int p, double b)

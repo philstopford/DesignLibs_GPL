@@ -1038,7 +1038,7 @@ namespace Burkardt.PolynomialNS
                     }
                 }
 
-                Polynomial.polynomial_sort(o, c, e);
+                Polynomial.polynomial_sort(o, ref c, ref e);
                 Polynomial.polynomial_compress(o, c, e, ref o, ref c, ref e);
 
                 o1 = o;

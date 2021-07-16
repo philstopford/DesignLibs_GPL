@@ -234,6 +234,10 @@
     <projectFile>BurkhardtTest/Laguerre/LaguerreIntegrandsTest/LaguerreIntegrandsTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Polynomial/LaguerrePolynomialTest/LaguerrePolynomialTest.csproj</projectFile>
     <projectFile>BurkhardtTest/LaplacianTest/LaplacianTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Tessellation/LatinCentroidalVoronoiTessellationTest/LatinCentroidalVoronoiTessellationTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/LebesgueTest/LebesgueTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Polynomial/LegendrePolynomialTest/LegendrePolynomialTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Polynomial/LegendreProductPolynomialTest/LegendreProductPolynomialTest.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="" />
@@ -265,21 +269,8 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Laguerre/p09.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Laguerre/p10.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Laguerre/p11.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Laguerre/p12.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Laguerre/p20.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Laguerre/p19.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Laguerre/p18.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Laguerre/p17.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Laguerre/p16.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Laguerre/p15.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Laguerre/p14.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Laguerre/p13.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Laguerre/p00.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Laguerre/LaguerreIntegrandsTest/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Polynomial/Laguerre.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Laguerre/QuadratureRule.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Laguerre/Functions.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Laguerre/Lf.cs" />
@@ -314,8 +305,21 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/TriangulationTest/QuadConvexRandom.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/LebesgueTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Quadrature/Legendre.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Polynomial/Legendre.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Polynomial/LegendrePolynomialTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Polynomial/Laguerre.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Monomial.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Polynomial/LegendreProductPolynomialTest/comp.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Polynomial/LegendreProductPolynomialTest/i4.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Polynomial/LegendreProductPolynomialTest/lp.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Polynomial/LegendreProductPolynomialTest/lpp.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Polynomial/LegendreProductPolynomialTest/mono.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Polynomial/Polynomial.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Polynomial/LegendreProductPolynomialTest/poly.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Polynomial/LegendreProductPolynomialTest/perm.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Polynomial/LegendreProductPolynomialTest/r8.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Polynomial/LegendreProductPolynomialTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Polynomial/Hermite.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Polynomial/Legendre.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -3699,6 +3703,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="LatinCentroidalVoronoiTessellationTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Tessellation/LatinCentroidalVoronoiTessellationTest/LatinCentroidalVoronoiTessellationTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="LatinCoverTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/LatinCoverTest/Debug/net5.0/LatinCoverTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -3767,6 +3789,60 @@
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
       <option name="PROJECT_TFM" value="net5.0" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="LebesgueTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/LebesgueTest/LebesgueTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="LegendrePolynomialTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Polynomial/LegendrePolynomialTest/LegendrePolynomialTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="LegendreProductPolynomialTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Polynomial/LegendreProductPolynomialTest/LegendreProductPolynomialTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
       <method v="2">
         <option name="Build" />
       </method>
@@ -4818,6 +4894,10 @@
       <item itemvalue=".NET Project.LaguerreIntegrandsTest" />
       <item itemvalue=".NET Project.LaguerrePolynomialTest" />
       <item itemvalue=".NET Project.LaplacianTest" />
+      <item itemvalue=".NET Project.LatinCentroidalVoronoiTessellationTest" />
+      <item itemvalue=".NET Project.LebesgueTest" />
+      <item itemvalue=".NET Project.LegendrePolynomialTest" />
+      <item itemvalue=".NET Project.LegendreProductPolynomialTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

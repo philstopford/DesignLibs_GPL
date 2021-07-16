@@ -1,10 +1,59 @@
 ﻿using System;
 using Burkardt.Types;
+using Burkardt.Uniform;
 
 namespace Burkardt
 {
     public static class Monomial
     {
+        public static void mono_print ( int m, int[] f, string title )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    MONO_PRINT prints a monomial.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    10 December 2013
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int M, the spatial dimension.
+        //
+        //    Input, int F[M], the exponents.
+        //
+        //    Input, string TITLE, a title.
+        //
+        {
+            int i;
+
+            string cout = title;
+            cout += "x^(";
+            for ( i = 0; i < m; i++ )
+            {
+                cout += f[i];
+                if ( i < m - 1 )
+                {
+                    cout += ",";
+                }
+                else
+                {
+                    cout += ").";
+                    Console.WriteLine(cout);
+                }
+            }
+        }
+        
         public static double[] monomial_value(int m, int n, int[] e, double[] x)
 
             //****************************************************************************80
@@ -869,6 +918,160 @@ namespace Burkardt
             int value = typeMethods.i4_choose(n + d, n);
 
             return value;
+        }
+
+        public static void mono_upto_next_grlex(int m, int n, ref int[] x)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    MONO_UPTO_NEXT_GRLEX: grlex next monomial with total degree up to N.
+            //
+            //  Discussion:
+            //
+            //    We consider all monomials in a M dimensional space, with total
+            //    degree up to N.
+            //
+            //    For example:
+            //
+            //    M = 3
+            //    N = 3
+            //
+            //    #  X(1)  X(2)  X(3)  Degree
+            //      +------------------------
+            //    1 |  0     0     0        0
+            //      |
+            //    2 |  0     0     1        1
+            //    3 |  0     1     0        1
+            //    4 |  1     0     0        1
+            //      |
+            //    5 |  0     0     2        2
+            //    6 |  0     1     1        2
+            //    7 |  0     2     0        2
+            //    8 |  1     0     1        2
+            //    9 |  1     1     0        2
+            //   10 |  2     0     0        2
+            //      |
+            //   11 |  0     0     3        3
+            //   12 |  0     1     2        3
+            //   13 |  0     2     1        3
+            //   14 |  0     3     0        3
+            //   15 |  1     0     2        3
+            //   16 |  1     1     1        3
+            //   17 |  1     2     0        3
+            //   18 |  2     0     1        3
+            //   19 |  2     1     0        3
+            //   20 |  3     0     0        3
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    08 December 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, the spatial dimension.
+            //
+            //    Input, int N, the maximum degree.
+            //    0 <= N.
+            //
+            //    Input/output, int X[M], the current monomial.
+            //    To start the sequence, set X = [ 0, 0, ..., 0, 0 ].
+            //    The last value in the sequence is X = [ N, 0, ..., 0, 0 ].
+            //
+        {
+            if (n < 0)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("MONO_UPTO_NEXT_GRLEX - Fatal error!");
+                Console.WriteLine("  N < 0.");
+                return;
+            }
+
+            if (typeMethods.i4vec_sum(m, x) < 0)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("MONO_UPTO_NEXT_GRLEX - Fatal error!");
+                Console.WriteLine("  Input X sums to less than 0.");
+                return;
+            }
+
+            if (n < typeMethods.i4vec_sum(m, x))
+            {
+                Console.WriteLine("");
+                Console.WriteLine("MONO_UPTO_NEXT_GRLEX - Fatal error!");
+                Console.WriteLine("  Input X sums to more than N.");
+                return;
+            }
+
+            if (n == 0)
+            {
+                return;
+            }
+
+            if (x[0] == n)
+            {
+                x[0] = 0;
+                x[m - 1] = n;
+            }
+            else
+            {
+                mono_next_grlex(m, ref x);
+            }
+        }
+
+        public static int[] mono_upto_random(int m, int n, ref int seed, ref int rank)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    MONO_UPTO_RANDOM: random monomial with total degree less than or equal to N.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    21 November 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, the spatial dimension.
+            //
+            //    Input, int N, the degree.
+            //    0 <= N.
+            //
+            //    Input/output, int &SEED, the random number seed.
+            //
+            //    Output, int &RANK, the rank of the monomial.
+            //
+            //    Output, int MONO_UPTO_RANDOM[M], the random monomial.
+            //
+        {
+            int rank_max;
+            int rank_min;
+            int[] x;
+
+            rank_min = 1;
+            rank_max = mono_upto_enum(m, n);
+            rank = UniformRNG.i4_uniform_ab(rank_min, rank_max, ref seed);
+            x = mono_unrank_grlex(m, rank);
+
+            return x;
         }
 
         public static double[] mono_value(int d, int nx, int[] f, double[] x, int xIndex = 0 )

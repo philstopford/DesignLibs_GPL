@@ -76,7 +76,7 @@ namespace Burkardt.PolynomialNS
             typeMethods.r8vec_concatenate(o1, sc1, o2, c2, ref c3);
             typeMethods.i4vec_concatenate(o1, e1, o2, e2, ref e3);
 
-            polynomial_sort(o3, c3, e3);
+            polynomial_sort(o3, ref c3, ref e3);
             polynomial_compress(o3, c3, e3, ref o, ref c, ref e);
         }
 
@@ -248,7 +248,7 @@ namespace Burkardt.PolynomialNS
             }
         }
 
-        public static void polynomial_sort(int o, double[] c, int[] e)
+        public static void polynomial_sort(int o, ref double[] c, ref int[] e)
 
             //****************************************************************************80
             //

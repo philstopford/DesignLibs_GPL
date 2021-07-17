@@ -6,6 +6,7 @@ using Burkardt.Types;
 
 namespace TriangulationTest
 {
+    using Plot = Burkardt.TriangulationNS.Plot;
     class Program
     {
         static void Main(string[] args)

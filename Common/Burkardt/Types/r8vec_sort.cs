@@ -4,6 +4,66 @@ namespace Burkardt.Types
 {
     public static partial class typeMethods
     {
+        public static void r8vec_sort_insert_a ( int n, ref double[] a )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8VEC_SORT_INSERT_A ascending sorts an R8VEC using an insertion sort.
+            //
+            //  Discussion:
+            //
+            //    An R8VEC is a vector of R8's.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    13 April 1999
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Donald Kreher, Douglas Simpson,
+            //    Algorithm 1.1,
+            //    Combinatorial Algorithms,
+            //    CRC Press, 1998, page 11.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of items in the vector.
+            //    N must be positive.
+            //
+            //    Input/output, double A[N].
+            //
+            //    On input, A contains data to be sorted.
+            //    On output, the entries of A have been sorted in ascending order.
+            //
+        {
+            int i;
+            int j;
+            double x;
+
+            for ( i = 1; i < n; i++ )
+            {
+                x = a[i];
+
+                j = i;
+
+                while ( 1 <= j && x < a[j-1] )
+                {
+                    a[j] = a[j-1];
+                    j = j - 1;
+                }
+                a[j] = x;
+            }
+        }
         public static int[] r8vec_sort_heap_index_a(int n, double[] a)
 
             //****************************************************************************80

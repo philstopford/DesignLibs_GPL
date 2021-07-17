@@ -239,6 +239,8 @@
     <projectFile>BurkhardtTest/Polynomial/LegendrePolynomialTest/LegendrePolynomialTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Polynomial/LegendreProductPolynomialTest/LegendreProductPolynomialTest.csproj</projectFile>
     <projectFile>BurkhardtTest/LengendreRuleTest/LengendreRuleTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/LegendreRuleTest/LegendreRuleTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Legendre/LegendreRuleFastTest/LegendreRuleFastTest.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="" />
@@ -270,9 +272,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/BurkhardtTest/Laguerre/LaguerreIntegrandsTest/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Laguerre/QuadratureRule.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Laguerre/Functions.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Laguerre/Lf.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Laguerre/Lm.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Polynomial/LaguerrePolynomialTest/Program.cs" />
@@ -321,6 +320,9 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Polynomial/Hermite.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Polynomial/Legendre.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/LengendreRuleTest/Program.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Legendre/LegendreRuleFastTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Legendre/QuadratureRule.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Legendre/QuadratureRuleFast.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -3848,6 +3850,42 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="LegendreRuleFastTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Legendre/LegendreRuleFastTest/LegendreRuleFastTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="LegendreRuleTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/LegendreRuleTest/LegendreRuleTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="LengendreRuleTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -3856,7 +3894,7 @@
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/LengendreRuleTest/LengendreRuleTest.csproj" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/LengendreRuleTest/LegendreRuleTest.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
@@ -4918,6 +4956,8 @@
       <item itemvalue=".NET Project.LegendrePolynomialTest" />
       <item itemvalue=".NET Project.LegendreProductPolynomialTest" />
       <item itemvalue=".NET Project.LengendreRuleTest" />
+      <item itemvalue=".NET Project.LegendreRuleTest" />
+      <item itemvalue=".NET Project.LegendreRuleFastTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -4932,7 +4972,7 @@
       <workItem from="1621900695362" duration="4048000" />
       <workItem from="1622310656797" duration="5974000" />
       <workItem from="1622317536881" duration="284000" />
-      <workItem from="1626535344861" duration="571000" />
+      <workItem from="1626535344861" duration="2187000" />
     </task>
     <servers />
   </component>

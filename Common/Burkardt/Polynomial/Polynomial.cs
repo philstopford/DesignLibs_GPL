@@ -5,6 +5,53 @@ namespace Burkardt.PolynomialNS
 {
     public static class Polynomial
     {
+        public static double ts_mult ( double[] u, double h, int n )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TS_MULT evaluates a polynomial.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    17 May 2013
+            //
+            //  Author:
+            //
+            //    Original C++ version by Nick Hale.
+            //    This C++ version by John Burkardt.
+            //
+            //  Parameters:
+            //
+            //    Input, double U[N+1], the polynomial coefficients.
+            //    U[0] is ignored.
+            //
+            //    Input, double H, the polynomial argument.
+            //
+            //    Input, int N, the number of terms to compute.
+            //
+            //    Output, double TS_MULT, the value of the polynomial.
+            //
+        {
+            double hk;
+            int k;
+            double ts;
+  
+            ts = 0.0;
+            hk = 1.0;
+            for ( k = 1; k<= n; k++ )
+            {
+                ts = ts + u[k] * hk;
+                hk = hk * h;
+            }
+            return ts;
+        }
+        
         public static void polynomial_axpy(double s, int o1, double[] c1, int[] e1, int o2,
                 double[] c2, int[] e2, ref int o, ref double[] c, ref int[] e)
 

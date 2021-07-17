@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Types;
 
 namespace Burkardt.Legendre
 {
@@ -264,6 +265,5 @@ namespace Burkardt.Legendre
 
             return;
         }
-
     }
 }

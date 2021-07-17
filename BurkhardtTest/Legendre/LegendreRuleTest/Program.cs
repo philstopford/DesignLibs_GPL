@@ -1,7 +1,7 @@
 ﻿using System;
 using Burkardt;
 
-namespace LengendreRuleTest
+namespace LegendreRuleTest
 {
     class Program
     {

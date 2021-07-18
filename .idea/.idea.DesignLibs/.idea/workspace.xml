@@ -285,10 +285,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/DGBCO.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/DGECO.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/DGEFA.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/DGESL.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/DGTSL.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/DPBDI.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/DPBFA.cs" />
@@ -336,6 +332,10 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZHIDI.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZHIFA.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZHICO.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZHISL.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZHPDI.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZHPFA.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZHPCO.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />

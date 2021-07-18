@@ -1125,6 +1125,60 @@ namespace Burkardt
             return v;
         }
 
+        public static double[] monomial_value_1d ( int n, int e, double[] x )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    MONOMIAL_VALUE_1D evaluates a monomial in 1D.
+            //
+            //  Discussion:
+            //
+            //    This routine evaluates a monomial of the form
+            //
+            //      product ( 1 <= i <= m ) x(i)^e(i)
+            //
+            //    where the exponents are nonnegative integers.  Note that
+            //    if the combination 0^0 is encountered, it should be treated
+            //    as 1.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    17 January 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of points at which the
+            //    monomial is to be evaluated.
+            //
+            //    Input, int E, the exponents.
+            //
+            //    Input, double X[N], the point coordinates.
+            //
+            //    Output, double MONOMIAL_VALUE_1D[N], the value of the monomial.
+            //
+        {
+            int j;
+            double[] v;
+
+            v = new double[n];
+
+            for ( j = 0; j < n; j++ )
+            {
+                v[j] = Math.Pow ( x[j], e );
+            }
+
+            return v;
+        }
 
     }
 }

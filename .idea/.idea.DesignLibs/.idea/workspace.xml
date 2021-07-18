@@ -245,6 +245,12 @@
     <projectFile>BurkhardtTest/LevenshteinTest/LevenshteinTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Tessellation/LloydCVT_LineTest/LloydCVT_LineTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Line/LineFeketeTest/LineFeketeTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Line/LineFelippaTest/LineFelippaTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Line/LineGridTest/LineGridTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Line/LineIntegralsTest/LineIntegralsTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Line/LineMonteCarloTest/LineMonteCarloTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Line/LineNewtonCotesQuadratureTest/LineNewtonCotesQuadratureTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Line/LineNewtonCotesOpenQuadratureTest/LineNewtonCotesOpenQuadratureTest.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -279,22 +285,8 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Tessellation/LatinCentroidalVoronoi.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_sort.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8mat.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/Tessellation/LatinCentroidalVoronoiTessellationTest/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Points/Points.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Chebyshev/Chebyshev.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Points/Chebyshev.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Points/Equidistant.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Points/Fejer.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Lebesgue.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/TriangulationTest/QuadConvexRandom.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/LebesgueTest/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Quadrature/Legendre.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Polynomial/LegendrePolynomialTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Polynomial/Laguerre.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Monomial.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Polynomial/LegendreProductPolynomialTest/comp.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Polynomial/LegendreProductPolynomialTest/i4.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Polynomial/LegendreProductPolynomialTest/lp.cs" />
@@ -330,6 +322,20 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Matrix/Vandermonde.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Line/LineFekete.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Line/LineFeketeTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Line/Felippe.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Line/Felippa.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Line/LineFelippaTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Line/Grid.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Line/Integrals.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Monomial.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Line/LineIntegralsTest/Program.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Line/LineGridTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Line/MonteCarlo.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Line/LineMonteCarloTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Line/NewtonCotesQuadrature.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Line/LineNewtonCotesQuadratureTest/Program.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Line/LineNewtonCotesOpenQuadratureTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -3965,6 +3971,114 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="LineFelippaTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Line/LineFelippaTest/LineFelippaTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="LineGridTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Line/LineGridTest/LineGridTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="LineIntegralsTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Line/LineIntegralsTest/LineIntegralsTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="LineMonteCarloTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Line/LineMonteCarloTest/LineMonteCarloTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="LineNewtonCotesOpenQuadratureTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Line/LineNewtonCotesOpenQuadratureTest/LineNewtonCotesOpenQuadratureTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="LineNewtonCotesQuadratureTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Line/LineNewtonCotesQuadratureTest/LineNewtonCotesQuadratureTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="LloydCVT_LineTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -5041,6 +5155,12 @@
       <item itemvalue=".NET Project.LevenshteinTest" />
       <item itemvalue=".NET Project.LloydCVT_LineTest" />
       <item itemvalue=".NET Project.LineFeketeTest" />
+      <item itemvalue=".NET Project.LineFelippaTest" />
+      <item itemvalue=".NET Project.LineGridTest" />
+      <item itemvalue=".NET Project.LineIntegralsTest" />
+      <item itemvalue=".NET Project.LineMonteCarloTest" />
+      <item itemvalue=".NET Project.LineNewtonCotesQuadratureTest" />
+      <item itemvalue=".NET Project.LineNewtonCotesOpenQuadratureTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

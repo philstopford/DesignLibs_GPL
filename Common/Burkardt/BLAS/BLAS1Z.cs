@@ -595,7 +595,7 @@ namespace Burkardt.BLAS
         }
 
         public static Complex zdotu(int n, Complex[] cx, int incx,
-                Complex[] cy, int incy)
+                Complex[] cy, int incy, int xIndex = 0, int yIndex = 0)
 
             //****************************************************************************80
             //
@@ -663,7 +663,7 @@ namespace Burkardt.BLAS
             {
                 for (i = 0; i < n; i++)
                 {
-                    value = value + cx[i] * cy[i];
+                    value = value + cx[xIndex + i] * cy[yIndex + i];
                 }
             }
             else
@@ -688,7 +688,7 @@ namespace Burkardt.BLAS
 
                 for (i = 0; i < n; i++)
                 {
-                    value = value + cx[ix] * cy[iy];
+                    value = value + cx[xIndex + ix] * cy[yIndex + iy];
                     ix = ix + incx;
                     iy = iy + incy;
                 }

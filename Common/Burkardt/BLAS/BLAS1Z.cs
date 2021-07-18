@@ -5,7 +5,7 @@ namespace Burkardt.BLAS
 {
     public static class BLAS1Z
     {
-        public static double dzasum(int n, Complex[] x, int startIndexX, int incx)
+        public static double dzasum(int n, Complex[] x, int incx, int index = 0)
 
             //****************************************************************************80
             //
@@ -66,8 +66,8 @@ namespace Burkardt.BLAS
             {
                 for (i = 0; i < n; i++)
                 {
-                    value = value + Math.Abs(x[startIndexX + (i)].Real)
-                                  + Math.Abs(x[startIndexX + (i)].Imaginary);
+                    value = value + Math.Abs(x[index + (i)].Real)
+                                  + Math.Abs(x[index + (i)].Imaginary);
                 }
             }
             else
@@ -75,8 +75,8 @@ namespace Burkardt.BLAS
                 ix = 0;
                 for (i = 0; i < n; i++)
                 {
-                    value = value + Math.Abs(x[startIndexX = (ix)].Real)
-                                  + Math.Abs(x[startIndexX + (ix)].Imaginary);
+                    value = value + Math.Abs(x[index = (ix)].Real)
+                                  + Math.Abs(x[index + (ix)].Imaginary);
                     ix = ix + incx;
                 }
             }
@@ -189,7 +189,7 @@ namespace Burkardt.BLAS
             return value;
         }
 
-        public static int izamax(int n, Complex[] x, int incx)
+        public static int izamax(int n, Complex[] x, int incx, int index = 0)
 
             //****************************************************************************80
             //
@@ -260,15 +260,15 @@ namespace Burkardt.BLAS
             if (incx != 1)
             {
                 ix = 0;
-                smax = BLAS0.zabs1(x[0]);
+                smax = BLAS0.zabs1(x[index + 0]);
                 ix = ix + incx;
 
                 for (i = 1; i < n; i++)
                 {
-                    if (smax < BLAS0.zabs1(x[ix]))
+                    if (smax < BLAS0.zabs1(x[index + ix]))
                     {
                         value = i + 1;
-                        smax = BLAS0.zabs1(x[ix]);
+                        smax = BLAS0.zabs1(x[index + ix]);
                     }
 
                     ix = ix + incx;
@@ -276,13 +276,13 @@ namespace Burkardt.BLAS
             }
             else
             {
-                smax = BLAS0.zabs1(x[0]);
+                smax = BLAS0.zabs1(x[index + 0]);
                 for (i = 1; i < n; i++)
                 {
-                    if (smax < BLAS0.zabs1(x[i]))
+                    if (smax < BLAS0.zabs1(x[index + i]))
                     {
                         value = i + 1;
-                        smax = BLAS0.zabs1(x[i]);
+                        smax = BLAS0.zabs1(x[index + i]);
                     }
                 }
             }
@@ -968,7 +968,7 @@ namespace Burkardt.BLAS
             }
         }
 
-        public static void zscal(int n, Complex ca, ref Complex[] cx, int incx)
+        public static void zscal(int n, Complex ca, ref Complex[] cx, int incx, int index = 0)
 
             //****************************************************************************80
             //
@@ -1026,18 +1026,16 @@ namespace Burkardt.BLAS
             {
                 for (i = 0; i < n; i++)
                 {
-                    cx[i] = ca * cx[i];
+                    cx[index + i] = ca * cx[index + i];
                 }
             }
             else
             {
                 for (i = 0; i < n; i++)
                 {
-                    cx[i * incx] = ca * cx[i * incx];
+                    cx[index + (i * incx)] = ca * cx[index + (i * incx)];
                 }
             }
-
-            return;
         }
 
         public static void zswap(int n, ref Complex[] cx, int incx, ref Complex[] cy,

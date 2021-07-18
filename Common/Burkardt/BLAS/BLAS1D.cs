@@ -190,7 +190,7 @@ namespace Burkardt.BLAS
             }
         }
 
-        public static void dcopy(int n, double[] dx, int incx, ref double[] dy, int incy)
+        public static void dcopy(int n, double[] dx, int incx, ref double[] dy, int incy, int xIndex = 0, int yIndex = 0)
 
             //****************************************************************************80
             //
@@ -261,19 +261,19 @@ namespace Burkardt.BLAS
                 {
                     for (i = 0; i < m; i++)
                     {
-                        dy[i] = dx[i];
+                        dy[yIndex + i] = dx[xIndex + i];
                     }
                 }
 
                 for (i = m; i < n; i = i + 7)
                 {
-                    dy[i] = dx[i];
-                    dy[i + 1] = dx[i + 1];
-                    dy[i + 2] = dx[i + 2];
-                    dy[i + 3] = dx[i + 3];
-                    dy[i + 4] = dx[i + 4];
-                    dy[i + 5] = dx[i + 5];
-                    dy[i + 6] = dx[i + 6];
+                    dy[yIndex + i] = dx[xIndex + i];
+                    dy[yIndex + i + 1] = dx[xIndex + i + 1];
+                    dy[yIndex + i + 2] = dx[xIndex + i + 2];
+                    dy[yIndex + i + 3] = dx[xIndex + i + 3];
+                    dy[yIndex + i + 4] = dx[xIndex + i + 4];
+                    dy[yIndex + i + 5] = dx[xIndex + i + 5];
+                    dy[yIndex + i + 6] = dx[xIndex + i + 6];
                 }
             }
             else
@@ -298,14 +298,12 @@ namespace Burkardt.BLAS
 
                 for (i = 0; i < n; i++)
                 {
-                    dy[iy] = dx[ix];
+                    dy[yIndex + iy] = dx[xIndex + ix];
                     ix = ix + incx;
                     iy = iy + incy;
                 }
 
             }
-
-            return;
         }
 
         public static double ddot(int n, double[] dx, int incx, double[] dy,

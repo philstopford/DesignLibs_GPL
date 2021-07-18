@@ -285,13 +285,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Chebyshev/Van.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Chebyshev/Vandermonde.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Legendre/Vandermonde.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Matrix/Vandermonde.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Line/LineFekete.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/Line/LineFeketeTest/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Line/Felippe.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Line/Felippa.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Line/LineFelippaTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Line/Grid.cs" />
@@ -333,9 +326,16 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/DPPCO.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/DPPSL.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/DPTSL.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/BLAS/BLAS1D.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/DQRDC.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/DQRSL.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/BLAS/BLAS1D.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/DSIDI.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/DSICO.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/DSISL.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/DSIFA.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/DSPDI.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/DSPFA.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/DSPCO.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />

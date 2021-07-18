@@ -5,7 +5,7 @@ namespace Burkardt.BLAS
 {
     public static partial class BLAS1D
     {
-        public static double dasum(int n, double[] x, int incx, int startIndex = 0)
+        public static double dasum(int n, double[] x, int incx, int index = 0)
 
             //****************************************************************************80
             //
@@ -60,7 +60,7 @@ namespace Burkardt.BLAS
 
             for (i = 0; i < n; i++)
             {
-                value = value + Math.Abs(x[startIndex + j]);
+                value = value + Math.Abs(x[index + j]);
                 j = j + incx;
             }
 
@@ -68,7 +68,7 @@ namespace Burkardt.BLAS
         }
 
         public static void daxpy(int n, double da, double[] dx, int incx, ref double[] dy,
-                int incy, int xindex = 0, int yindex = 0)
+                int incy, int xIndex = 0, int yIndex = 0)
 
             //****************************************************************************80
             //
@@ -162,7 +162,7 @@ namespace Burkardt.BLAS
 
                 for (int i = 0; i < n; i++)
                 {
-                    dy[iy + yindex] = dy[iy + yindex] + da * dx[ix + xindex];
+                    dy[iy + yIndex] = dy[iy + yIndex] + da * dx[ix + xIndex];
                     ix = ix + incx;
                     iy = iy + incy;
                 }
@@ -176,15 +176,15 @@ namespace Burkardt.BLAS
 
                 for (int i = 0; i < m; i++)
                 {
-                    dy[i + yindex] = dy[i + yindex] + da * dx[i + xindex];
+                    dy[i + yIndex] = dy[i + yIndex] + da * dx[i + xIndex];
                 }
 
                 for (int i = m; i < n; i = i + 4)
                 {
-                    dy[i + yindex] = dy[i + yindex] + da * dx[i + xindex];
-                    dy[i + 1 + yindex] = dy[i + 1 + yindex] + da * dx[i + 1 + xindex];
-                    dy[i + 2 + yindex] = dy[i + 2 + yindex] + da * dx[i + 2 + xindex];
-                    dy[i + 3 + yindex] = dy[i + 3 + yindex] + da * dx[i + 3 + xindex];
+                    dy[i + yIndex] = dy[i + yIndex] + da * dx[i + xIndex];
+                    dy[i + 1 + yIndex] = dy[i + 1 + yIndex] + da * dx[i + 1 + xIndex];
+                    dy[i + 2 + yIndex] = dy[i + 2 + yIndex] + da * dx[i + 2 + xIndex];
+                    dy[i + 3 + yIndex] = dy[i + 3 + yIndex] + da * dx[i + 3 + xIndex];
                 }
 
             }
@@ -309,7 +309,7 @@ namespace Burkardt.BLAS
         }
 
         public static double ddot(int n, double[] dx, int incx, double[] dy,
-                int incy, int startIndexDX = 0, int startIndexDY = 0)
+                int incy, int xIndex = 0, int yIndex = 0)
 
             //****************************************************************************80
             //
@@ -404,7 +404,7 @@ namespace Burkardt.BLAS
 
                 for (i = 0; i < n; i++)
                 {
-                    dtemp = dtemp + dx[startIndexDX + ix] * dy[startIndexDY + iy];
+                    dtemp = dtemp + dx[xIndex + ix] * dy[yIndex + iy];
                     ix = ix + incx;
                     iy = iy + incy;
                 }
@@ -418,16 +418,16 @@ namespace Burkardt.BLAS
 
                 for (i = 0; i < m; i++)
                 {
-                    dtemp = dtemp + dx[startIndexDX + i] * dy[startIndexDY + i];
+                    dtemp = dtemp + dx[xIndex + i] * dy[yIndex + i];
                 }
 
                 for (i = m; i < n; i = i + 5)
                 {
-                    dtemp = dtemp + dx[startIndexDX + i] * dy[startIndexDY + i]
-                                  + dx[startIndexDX + (i + 1)] * dy[startIndexDY + (i + 1)]
-                                  + dx[startIndexDX + (i + 2)] * dy[startIndexDY + (i + 2)]
-                                  + dx[startIndexDX + (i + 3)] * dy[startIndexDY + (i + 3)]
-                                  + dx[startIndexDX + (i + 4)] * dy[startIndexDY + (i + 4)];
+                    dtemp = dtemp + dx[xIndex + i] * dy[yIndex + i]
+                                  + dx[xIndex + (i + 1)] * dy[yIndex + (i + 1)]
+                                  + dx[xIndex + (i + 2)] * dy[yIndex + (i + 2)]
+                                  + dx[xIndex + (i + 3)] * dy[yIndex + (i + 3)]
+                                  + dx[xIndex + (i + 4)] * dy[yIndex + (i + 4)];
                 }
 
             }
@@ -435,7 +435,7 @@ namespace Burkardt.BLAS
             return dtemp;
         }
 
-        public static double dnrm2(int n, double[] x, int incx, int startIndex)
+        public static double dnrm2(int n, double[] x, int incx, int startIndex = 0)
             //****************************************************************************80
             //
             //  Purpose:
@@ -1491,7 +1491,7 @@ namespace Burkardt.BLAS
         }
 
 
-        public static void dswap(int n, ref double[] x, int incx, ref double[] y, int incy, int xindex = 0, int yindex = 0)
+        public static void dswap(int n, ref double[] x, int incx, ref double[] y, int incy, int xIndex = 0, int yIndex = 0)
 
             //****************************************************************************80
             //
@@ -1555,24 +1555,24 @@ namespace Burkardt.BLAS
 
                 for (i = 0; i < m; i++)
                 {
-                    temp = x[i + xindex];
-                    x[i + xindex] = y[i + yindex];
-                    y[i + yindex] = temp;
+                    temp = x[i + xIndex];
+                    x[i + xIndex] = y[i + yIndex];
+                    y[i + yIndex] = temp;
                 }
 
                 for (i = m; i < n; i = i + 3)
                 {
-                    temp = x[i + xindex];
-                    x[i + xindex] = y[i + yindex];
-                    y[i + yindex] = temp;
+                    temp = x[i + xIndex];
+                    x[i + xIndex] = y[i + yIndex];
+                    y[i + yIndex] = temp;
 
-                    temp = x[i + 1 + xindex];
-                    x[i + 1 + xindex] = y[i + 1 + yindex];
-                    y[i + 1 + yindex] = temp;
+                    temp = x[i + 1 + xIndex];
+                    x[i + 1 + xIndex] = y[i + 1 + yIndex];
+                    y[i + 1 + yIndex] = temp;
 
-                    temp = x[i + 2 + xindex];
-                    x[i + 2 + xindex] = y[i + 2] + yindex;
-                    y[i + 2 + yindex] = temp;
+                    temp = x[i + 2 + xIndex];
+                    x[i + 2 + xIndex] = y[i + 2] + yIndex;
+                    y[i + 2 + yIndex] = temp;
                 }
             }
             else
@@ -1597,9 +1597,9 @@ namespace Burkardt.BLAS
 
                 for (i = 0; i < n; i++)
                 {
-                    temp = x[ix + xindex];
-                    x[ix + xindex] = y[iy + yindex];
-                    y[iy + yindex] = temp;
+                    temp = x[ix + xIndex];
+                    x[ix + xIndex] = y[iy + yIndex];
+                    y[iy + yIndex] = temp;
                     ix = ix + incx;
                     iy = iy + incy;
                 }

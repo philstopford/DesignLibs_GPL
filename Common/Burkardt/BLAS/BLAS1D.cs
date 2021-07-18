@@ -435,7 +435,7 @@ namespace Burkardt.BLAS
             return dtemp;
         }
 
-        public static double dnrm2(int n, double[] x, int incx, int startIndex = 0)
+        public static double dnrm2(int n, double[] x, int incx, int index = 0)
             //****************************************************************************80
             //
             //  Purpose:
@@ -498,7 +498,7 @@ namespace Burkardt.BLAS
             }
             else if (n == 1)
             {
-                norm = Math.Abs(x[startIndex + 0]);
+                norm = Math.Abs(x[index + 0]);
             }
             else
             {
@@ -508,9 +508,9 @@ namespace Burkardt.BLAS
 
                 for (i = 0; i < n; i++)
                 {
-                    if (x[startIndex + ix] != 0.0)
+                    if (x[index + ix] != 0.0)
                     {
-                        absxi = Math.Abs(x[startIndex + ix]);
+                        absxi = Math.Abs(x[index + ix]);
                         if (scale < absxi)
                         {
                             ssq = 1.0 + ssq * (scale / absxi) * (scale / absxi);

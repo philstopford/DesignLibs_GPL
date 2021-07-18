@@ -285,10 +285,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/DPPSL.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/DPTSL.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/DQRDC.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/DQRSL.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/BLAS/BLAS1D.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/DSIDI.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/DSICO.cs" />
@@ -308,7 +304,6 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZCHEX.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZCHUD.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZGBDI.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/BLAS/BLAS1Z.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZGBCO.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZGBFA.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZGBSL.cs" />
@@ -336,6 +331,11 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZPPDI.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZPPCO.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZPPFA.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZPPSL.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZPTSL.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/BLAS/BLAS1Z.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZQRDC.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZQRSL.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />

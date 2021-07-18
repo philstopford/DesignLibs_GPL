@@ -84,7 +84,7 @@ namespace Burkardt.BLAS
             return value;
         }
 
-        public static double dznrm2(int n, Complex[] x, int incx)
+        public static double dznrm2(int n, Complex[] x, int incx, int index = 0)
 
             //****************************************************************************80
             //
@@ -152,9 +152,9 @@ namespace Burkardt.BLAS
 
                 for (i = 0; i < n; i++)
                 {
-                    if (x[ix].Real != 0.0)
+                    if (x[index + ix].Real != 0.0)
                     {
-                        temp = Math.Abs(x[ix].Real);
+                        temp = Math.Abs(x[index + ix].Real);
                         if (scale < temp)
                         {
                             ssq = 1.0 + ssq * Math.Pow(scale / temp, 2);
@@ -166,9 +166,9 @@ namespace Burkardt.BLAS
                         }
                     }
 
-                    if (x[ix].Imaginary != 0.0)
+                    if (x[index + ix].Imaginary != 0.0)
                     {
-                        temp = Math.Abs(x[ix].Imaginary);
+                        temp = Math.Abs(x[index + ix].Imaginary);
                         if (scale < temp)
                         {
                             ssq = 1.0 + ssq * Math.Pow(scale / temp, 2);

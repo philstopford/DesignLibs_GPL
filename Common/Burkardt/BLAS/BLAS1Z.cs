@@ -291,7 +291,7 @@ namespace Burkardt.BLAS
         }
 
         public static void zaxpy(int n, Complex ca, Complex[] cx,
-                int incx, ref Complex[] cy, int incy)
+                int incx, ref Complex[] cy, int incy, int xIndex = 0, int yIndex = 0)
 
             //****************************************************************************80
             //
@@ -379,7 +379,7 @@ namespace Burkardt.BLAS
 
                 for (i = 0; i < n; i++)
                 {
-                    cy[iy] = cy[iy] + ca * cx[ix];
+                    cy[yIndex + iy] = cy[yIndex + iy] + ca * cx[xIndex + ix];
                     ix = ix + incx;
                     iy = iy + incy;
                 }
@@ -388,12 +388,10 @@ namespace Burkardt.BLAS
             {
                 for (i = 0; i < n; i++)
                 {
-                    cy[i] = cy[i] + ca * cx[i];
+                    cy[yIndex + i] = cy[yIndex + i] + ca * cx[xIndex + i];
                 }
 
             }
-
-            return;
         }
 
         public static void zcopy(int n, Complex[] cx, int incx, ref Complex[] cy,
@@ -494,7 +492,7 @@ namespace Burkardt.BLAS
         }
 
         public static Complex zdotc(int n, Complex[] cx, int incx,
-                Complex[] cy, int incy)
+                Complex[] cy, int incy, int xIndex = 0, int yIndex = 0)
 
             //****************************************************************************80
             //
@@ -562,7 +560,7 @@ namespace Burkardt.BLAS
             {
                 for (i = 0; i < n; i++)
                 {
-                    value = value + Complex.Conjugate(cx[i]) * cy[i];
+                    value = value + Complex.Conjugate(cx[xIndex + i]) * cy[yIndex + i];
                 }
             }
             else
@@ -587,7 +585,7 @@ namespace Burkardt.BLAS
 
                 for (i = 0; i < n; i++)
                 {
-                    value = value + Complex.Conjugate(cx[ix]) * cy[iy];
+                    value = value + Complex.Conjugate(cx[xIndex + ix]) * cy[yIndex + iy];
                     ix = ix + incx;
                     iy = iy + incy;
                 }
@@ -1043,7 +1041,7 @@ namespace Burkardt.BLAS
         }
 
         public static void zswap(int n, ref Complex[] cx, int incx, ref Complex[] cy,
-                int incy)
+                int incy, int xIndex = 0, int yIndex = 0)
 
             //****************************************************************************80
             //
@@ -1106,9 +1104,9 @@ namespace Burkardt.BLAS
             {
                 for (i = 0; i < n; i++)
                 {
-                    ctemp = cx[i];
-                    cx[i] = cy[i];
-                    cy[i] = ctemp;
+                    ctemp = cx[xIndex + i];
+                    cx[xIndex + i] = cy[yIndex + i];
+                    cy[yIndex + i] = ctemp;
                 }
             }
             else
@@ -1133,9 +1131,9 @@ namespace Burkardt.BLAS
 
                 for (i = 0; i < n; i++)
                 {
-                    ctemp = cx[ix];
-                    cx[ix] = cy[iy];
-                    cy[iy] = ctemp;
+                    ctemp = cx[xIndex + ix];
+                    cx[xIndex + ix] = cy[yIndex + iy];
+                    cy[yIndex + iy] = ctemp;
                     ix = ix + incx;
                     iy = iy + incy;
                 }

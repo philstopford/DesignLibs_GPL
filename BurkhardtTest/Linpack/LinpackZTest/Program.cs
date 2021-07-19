@@ -2210,8 +2210,6 @@ namespace LinpackZTest
 
             Console.WriteLine("");
             Console.WriteLine("  Reciprocal condition  = " + rcond + "");
-
-# undef M
         }
 
         static void test18()

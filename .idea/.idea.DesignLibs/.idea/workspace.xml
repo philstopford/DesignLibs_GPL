@@ -252,6 +252,7 @@
     <projectFile>BurkhardtTest/Line/LineNewtonCotesQuadratureTest/LineNewtonCotesQuadratureTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Line/LineNewtonCotesOpenQuadratureTest/LineNewtonCotesOpenQuadratureTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Linpack/LinpackDTest/LinpackDTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Linpack/LinpackZTest/LinpackZTest.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -286,9 +287,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZCHUD.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZGBDI.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZGBCO.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZGBFA.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZGBSL.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZGEDI.cs" />
@@ -298,13 +296,10 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZGTSL.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZHIDI.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZHIFA.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZHICO.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZHISL.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZHPDI.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZHPFA.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZHPCO.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZHPSL.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZPBDI.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZPBFA.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZPBCO.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZPBSL.cs" />
@@ -320,7 +315,6 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZQRDC.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZQRSL.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZSIDI.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZSICO.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZSIFA.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZSISL.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZSPDI.cs" />
@@ -337,6 +331,13 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/DGTSL.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/DGBDI.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Linpack/LinpackDTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZGBCO.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZHICO.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZHPSL.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZPBDI.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZSICO.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZSPSL.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Linpack/LinpackZTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -345,7 +346,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.18795888" />
+    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.18787277" />
     <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.0" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
@@ -4098,6 +4099,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="LinpackZTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Linpack/LinpackZTest/LinpackZTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="LloydCVT_LineTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -5181,6 +5200,7 @@
       <item itemvalue=".NET Project.LineNewtonCotesQuadratureTest" />
       <item itemvalue=".NET Project.LineNewtonCotesOpenQuadratureTest" />
       <item itemvalue=".NET Project.LinpackDTest" />
+      <item itemvalue=".NET Project.LinpackZTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

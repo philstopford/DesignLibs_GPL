@@ -4,34 +4,20 @@ using Burkardt.BLAS;
 
 namespace Burkardt.Linpack
 {
-    public static class ZHPSL
+    public static class ZSPSL
     {
-        public static void zhpsl(Complex[] ap, int n, int[] ipvt, ref Complex[] b)
+        public static void zspsl(Complex[] ap, int n, int[] ipvt, ref Complex[] b)
 
             //****************************************************************************80
             //
             //  Purpose:
             //
-            //    ZHPSL solves a complex hermitian system factored by ZHPFA.
+            //    ZSPSL solves a complex symmetric system factored by ZSPFA.
             //
             //  Discussion:
             //
-            //    A division by zero may occur if ZHPCO set RCOND to 0.0
-            //    or ZHPFA set INFO nonzero.
-            //
-            //    To compute
-            //
-            //      inverse ( A ) * C
-            //
-            //    where C is a matrix with P columns
-            //
-            //      call zhpfa(ap,n,ipvt,info)
-            //
-            //      if ( info == 0 )
-            //        do j = 1, p
-            //          call zhpsl(ap,n,ipvt,c(1,j))
-            //        end do
-            //      }
+            //    A division by zero may occur if ZSPCO has set RCOND == 0.0
+            //    or ZSPFA has set INFO != 0.
             //
             //  Licensing:
             //
@@ -55,11 +41,11 @@ namespace Burkardt.Linpack
             //
             //  Parameters:
             //
-            //    Input, Complex AP[N*(N+1)/2], the output from ZHPFA.
+            //    Input, Complex AP[N*(N+1)/2], the output from ZSPFA.
             //
             //    Input, int N, the order of the matrix.
             //
-            //    Input, int IPVT[N], the pivot vector from ZHPFA.
+            //    Input, int IPVT[N], the pivot vector from ZSPFA.
             //
             //    Input/output, Complex B[N].  On input, the right hand side.
             //    On output, the solution.
@@ -80,7 +66,7 @@ namespace Burkardt.Linpack
             int kp;
             Complex t;
             //
-            //  Loop backward applying the transformations and inverse ( D ) to B.
+            //  Loop backward applying the transformations and d inverse to b.
             //
             k = n;
             ik = (n * (n - 1)) / 2;
@@ -88,15 +74,14 @@ namespace Burkardt.Linpack
             while (0 < k)
             {
                 kk = ik + k;
-                //
-                //  1 x 1 pivot block.
-                //
                 if (0 <= ipvt[k - 1])
                 {
+                    //
+                    //  1 x 1 pivot block.
+                    //
                     if (k != 1)
                     {
                         kp = ipvt[k - 1];
-
                         if (kp != k)
                         {
                             t = b[k - 1];
@@ -114,11 +99,11 @@ namespace Burkardt.Linpack
                     k = k - 1;
                     ik = ik - k;
                 }
+                //
+                //  2 x 2 pivot block.
+                //
                 else
                 {
-                    //
-                    //  2 x 2 pivot block.
-                    //
                     ikm1 = ik - (k - 1);
 
                     if (k != 2)
@@ -129,7 +114,7 @@ namespace Burkardt.Linpack
                         {
                             t = b[k - 2];
                             b[k - 2] = b[kp - 1];
-                            b[kp - 1] = t;
+                            b[kp - 2] = t;
                         }
 
                         BLAS1Z.zaxpy(k - 2, b[k - 1], ap, 1, ref b, 1, xIndex: +ik);
@@ -141,10 +126,10 @@ namespace Burkardt.Linpack
                     //
                     km1k = ik + k - 1;
                     kk = ik + k;
-                    ak = ap[kk - 1] / Complex.Conjugate(ap[km1k - 1]);
+                    ak = ap[kk - 1] / ap[km1k - 1];
                     km1km1 = ikm1 + k - 1;
                     akm1 = ap[km1km1 - 1] / ap[km1k - 1];
-                    bk = b[k - 1] / Complex.Conjugate(ap[km1k - 1]);
+                    bk = b[k - 1] / ap[km1k - 1];
                     bkm1 = b[k - 2] / ap[km1k - 1];
                     denom = ak * akm1 - new Complex(1.0, 0.0);
                     b[k - 1] = (akm1 * bk - bkm1) / denom;
@@ -169,9 +154,8 @@ namespace Burkardt.Linpack
                 {
                     if (k != 1)
                     {
-                        b[k - 1] = b[k - 1] + BLAS1Z.zdotc(k - 1, ap, 1, b, 1, xIndex: +ik);
+                        b[k - 1] = b[k - 1] + BLAS1Z.zdotu(k - 1, ap, 1, b, 1, xIndex: +ik);
                         kp = ipvt[k - 1];
-
                         if (kp != k)
                         {
                             t = b[k - 1];
@@ -190,9 +174,9 @@ namespace Burkardt.Linpack
                 {
                     if (k != 1)
                     {
-                        b[k - 1] = b[k - 1] + BLAS1Z.zdotc(k - 1, ap, 1, b, 1, xIndex: +ik);
+                        b[k - 1] = b[k - 1] + BLAS1Z.zdotu(k - 1, ap, 1, b, 1, xIndex: +ik);
                         ikp1 = ik + k;
-                        b[k] = b[k] + BLAS1Z.zdotc(k - 1, ap, 1, b, 1, xIndex: +ikp1);
+                        b[k] = b[k] + BLAS1Z.zdotu(k - 1, ap, 1, b, 1, xIndex: +ikp1);
                         kp = Math.Abs(ipvt[k - 1]);
 
                         if (kp != k)
@@ -208,6 +192,5 @@ namespace Burkardt.Linpack
                 }
             }
         }
-
     }
 }

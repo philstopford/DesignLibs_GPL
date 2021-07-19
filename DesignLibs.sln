@@ -642,6 +642,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Linpack", "Linpack", "{F33D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinpackDTest", "BurkhardtTest\Linpack\LinpackDTest\LinpackDTest.csproj", "{371E4F55-A0C0-4B6B-A091-55122BAF197A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinpackZTest", "BurkhardtTest\Linpack\LinpackZTest\LinpackZTest.csproj", "{BBDED5EC-EEA4-4DDE-82B3-9AEC0718C4E1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -3976,6 +3978,18 @@ Global
 		{371E4F55-A0C0-4B6B-A091-55122BAF197A}.Release|x64.Build.0 = Release|Any CPU
 		{371E4F55-A0C0-4B6B-A091-55122BAF197A}.Release|x86.ActiveCfg = Release|Any CPU
 		{371E4F55-A0C0-4B6B-A091-55122BAF197A}.Release|x86.Build.0 = Release|Any CPU
+		{BBDED5EC-EEA4-4DDE-82B3-9AEC0718C4E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBDED5EC-EEA4-4DDE-82B3-9AEC0718C4E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBDED5EC-EEA4-4DDE-82B3-9AEC0718C4E1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BBDED5EC-EEA4-4DDE-82B3-9AEC0718C4E1}.Debug|x64.Build.0 = Debug|Any CPU
+		{BBDED5EC-EEA4-4DDE-82B3-9AEC0718C4E1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BBDED5EC-EEA4-4DDE-82B3-9AEC0718C4E1}.Debug|x86.Build.0 = Debug|Any CPU
+		{BBDED5EC-EEA4-4DDE-82B3-9AEC0718C4E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBDED5EC-EEA4-4DDE-82B3-9AEC0718C4E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBDED5EC-EEA4-4DDE-82B3-9AEC0718C4E1}.Release|x64.ActiveCfg = Release|Any CPU
+		{BBDED5EC-EEA4-4DDE-82B3-9AEC0718C4E1}.Release|x64.Build.0 = Release|Any CPU
+		{BBDED5EC-EEA4-4DDE-82B3-9AEC0718C4E1}.Release|x86.ActiveCfg = Release|Any CPU
+		{BBDED5EC-EEA4-4DDE-82B3-9AEC0718C4E1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -4295,6 +4309,7 @@ Global
 		{DE8D0222-DDA6-429C-B281-B36B8071DB25} = {F0292892-269C-4F3D-8302-81A29E5CD5BC}
 		{F33D610F-26A3-4085-83ED-71E3828BF48D} = {B14C0D74-30A0-4540-8100-2FFA1C84CA6D}
 		{371E4F55-A0C0-4B6B-A091-55122BAF197A} = {F33D610F-26A3-4085-83ED-71E3828BF48D}
+		{BBDED5EC-EEA4-4DDE-82B3-9AEC0718C4E1} = {F33D610F-26A3-4085-83ED-71E3828BF48D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B449416C-C504-4FA8-9E10-10857263A64A}

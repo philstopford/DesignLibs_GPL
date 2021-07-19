@@ -7,8 +7,8 @@ namespace Burkardt.Linpack
 {
     public static class ZGBCO
     {
-        public static double zgbco(Complex[] abd, int lda, int n, int ml, int mu,
-                int[] ipvt)
+        public static double zgbco(ref Complex[] abd, int lda, int n, int ml, int mu,
+                ref int[] ipvt)
 
             //****************************************************************************80
             //

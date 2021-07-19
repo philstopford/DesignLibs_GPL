@@ -4,7 +4,7 @@ namespace Burkardt.Linpack
 {
     public static class ZPBDI
     {
-        public static void zpbdi ( Complex[] abd, int lda, int n, int m, double[] det )
+        public static void zpbdi ( Complex[] abd, int lda, int n, int m, ref double[] det )
 
         //****************************************************************************80
         //

@@ -7,7 +7,7 @@ namespace Burkardt.Linpack
 {
     public static class ZSICO
     {
-        public static double zsico(ref Complex[] a, int lda, int n, int[] ipvt)
+        public static double zsico(ref Complex[] a, int lda, int n, ref int[] ipvt)
 
             //****************************************************************************80
             //

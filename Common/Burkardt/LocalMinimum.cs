@@ -258,5 +258,305 @@ namespace Burkardt
             return fx;
         }
 
+        public class LocalMinimumData
+        {
+            public double arg;
+            public double c;
+            public double d;
+            public double e;
+            public double eps;
+            public double fu;
+            public double fv;
+            public double fw;
+            public double fx;
+            public double midpoint;
+            public double p;
+            public double q;
+            public double r;
+            public double tol;
+            public double tol1;
+            public double tol2;
+            public double u;
+            public double v;
+            public double w;
+            public double x;
+            
+        }
+
+        public static double local_min_rc (ref LocalMinimumData data, ref double a, ref double b, ref int status, double value )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    local_min_rc() seeks a minimizer of a scalar function of a scalar variable.
+        //
+        //  Discussion:
+        //
+        //    This routine seeks an approximation to the point where a function
+        //    F attains a minimum on the interval (A,B).
+        //
+        //    The method used is a combination of golden section search and
+        //    successive parabolic interpolation.  Convergence is never much
+        //    slower than that for a Fibonacci search.  If F has a continuous
+        //    second derivative which is positive at the minimum (which is not
+        //    at A or B), then convergence is superlinear, and usually of the
+        //    order of about 1.324...
+        //
+        //    The routine is a revised version of the Brent local minimization
+        //    algorithm, using reverse communication.
+        //
+        //    It is worth stating explicitly that this routine will NOT be
+        //    able to detect a minimizer that occurs at either initial endpoint
+        //    A or B.  If this is a concern to the user, then the user must
+        //    either ensure that the initial interval is larger, or to check
+        //    the function value at the returned minimizer against the values
+        //    at either endpoint.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    29 May 2021
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Richard Brent,
+        //    Algorithms for Minimization Without Derivatives,
+        //    Dover, 2002,
+        //    ISBN: 0-486-41998-3,
+        //    LC: QA402.5.B74.
+        //
+        //    David Kahaner, Cleve Moler, Steven Nash,
+        //    Numerical Methods and Software,
+        //    Prentice Hall, 1989,
+        //    ISBN: 0-13-627258-4,
+        //    LC: TA345.K34.
+        //
+        //  Parameters
+        //
+        //    Input/output, double &A, &B.  On input, the left and right
+        //    endpoints of the initial interval.  On output, the lower and upper
+        //    bounds for an interval containing the minimizer.  It is required
+        //    that A < B.
+        //
+        //    Input/output, int &STATUS, used to communicate between
+        //    the user and the routine.  The user only sets STATUS to zero on the first
+        //    call, to indicate that this is a startup call.  The routine returns STATUS
+        //    positive to request that the function be evaluated at ARG, or returns
+        //    STATUS as 0, to indicate that the iteration is complete and that
+        //    ARG is the estimated minimizer.
+        //
+        //    Input, double VALUE, the function value at ARG, as requested
+        //    by the routine on the previous call.
+        //
+        //    Output, double LOCAL_MIN_RC, the currently considered point.
+        //    On return with STATUS positive, the user is requested to evaluate the
+        //    function at this point, and return the value in VALUE.  On return with
+        //    STATUS zero, this is the routine's estimate for the function minimizer.
+        //
+        //  Local:
+        //
+        //    double C: the squared inverse of the golden ratio.
+        //
+        //    double EPS: the square root of the relative machine precision.
+        //
+        {
+        //
+        //  STATUS (INPUT) = 0, startup.
+        //
+        if ( status == 0 )
+        {
+        if ( b <= a )
+        {
+        Console.WriteLine("");
+        Console.WriteLine("local_min_rc(): Fatal error!");
+        Console.WriteLine("  A < B is required, but");
+        Console.WriteLine("  A = " + a + "");
+        Console.WriteLine("  B = " + b + "");
+        status = -1;
+        return ( 1 );
+        }
+        data.c = 0.5 * ( 3.0 - Math.Sqrt ( 5.0 ) );
+
+        data.eps = Math.Sqrt ( double.Epsilon );
+        data.tol = double.Epsilon;
+
+        data.v = a + data.c * ( b - a );
+        data.w = data.v;
+        data.x = data.v;
+        data.e = 0.0;
+
+        status = 1;
+        data.arg = data.x;
+
+        return data.arg;
+        }
+        //
+        //  STATUS (INPUT) = 1, return with initial function value of FX.
+        //
+        else if ( status == 1 )
+        {
+            data.fx = value;
+            data.fv = data.fx;
+        data.fw = data.fx;
+        }
+        //
+        //  STATUS (INPUT) = 2 or more, update the data.
+        //
+        else if ( 2 <= status )
+        {
+            data.fu = value;
+
+        if ( data.fu <= data.fx )
+        {
+        if ( data.x <= data.u )
+        {
+        a = data.x;
+        }
+        else
+        {
+        b = data.x;
+        }
+        data.v = data.w;
+        data.fv = data.fw;
+        data.w = data.x;
+        data.fw = data.fx;
+        data.x = data.u;
+        data.fx = data.fu;
+        }
+        else
+        {
+        if ( data.u < data.x )
+        {
+        a = data.u;
+        }
+        else
+        {
+        b = data.u;
+        }
+
+        if ( data.fu <= data.fw || data.w == data.x )
+        {
+            data.v = data.w;
+            data.fv = data.fw;
+            data.w = data.u;
+            data.fw = data.fu;
+        }
+        else if ( data.fu <= data.fv || data.v == data.x || data.v == data.w )
+        {
+            data.v = data.u;
+            data.fv = data.fu;
+        }
+        }
+        }
+        //
+        //  Take the next step.
+        //
+        data.midpoint = 0.5 * ( a + b );
+        data.tol1 = data.eps * Math.Abs ( data.x ) + data.tol / 3.0;
+        data.tol2 = 2.0 * data.tol1;
+        //
+        //  If the stopping criterion is satisfied, we can exit.
+        //
+        if ( Math.Abs ( data.x - data.midpoint ) <= ( data.tol2 - 0.5 * ( b - a ) ) )
+        {
+        status = 0;
+        return data.arg;
+        }
+        //
+        //  Is golden-section necessary?
+        //
+        if ( Math.Abs ( data.e ) <= data.tol1 )
+        {
+        if ( data.midpoint <= data.x )
+        {
+            data.e = a - data.x;
+        }
+        else
+        {
+            data.e = b - data.x;
+        }
+        data.d = data.c * data.e;
+        }
+        //
+        //  Consider fitting a parabola.
+        //
+        else
+        {
+            data.r = ( data.x - data.w ) * ( data.fx - data.fv );
+            data.q = ( data.x - data.v ) * ( data.fx - data.fw );
+            data.p = ( data.x - data.v ) * data.q - ( data.x - data.w ) * data.r;
+            data.q = 2.0 * ( data.q - data.r );
+        if ( 0.0 < data.q )
+        {
+            data.p = - data.p;
+        }
+        data.q = Math.Abs ( data.q );
+        data.r = data.e;
+        data.e = data.d;
+        //
+        //  Choose a golden-section step if the parabola is not advised.
+        //
+        if (
+        ( Math.Abs ( 0.5 * data.q * data.r ) <= Math.Abs ( data.p ) ) ||
+        ( data.p <= data.q * ( a - data.x ) ) ||
+        ( data.q * ( b - data.x ) <= data.p ) )
+        {
+        if ( data.midpoint <= data.x )
+        {
+            data.e = a - data.x;
+        }
+        else
+        {
+            data.e = b - data.x;
+        }
+        data.d = data.c * data.e;
+        }
+        //
+        //  Choose a parabolic interpolation step.
+        //
+        else
+        {
+            data.d = data.p / data.q;
+            data.u = data.x + data.d;
+
+        if ( ( data.u - a ) < data.tol2 )
+        {
+            data.d = Math.CopySign ( data.tol1, data.midpoint - data.x );
+        }
+
+        if ( ( b - data.u ) < data.tol2 )
+        {
+            data.d = Math.CopySign ( data.tol1, data.midpoint - data.x );
+        }
+        }
+        }
+        //
+        //  F must not be evaluated too close to X.
+        //
+        if ( data.tol1 <= Math.Abs ( data.d ) )
+        {
+            data.u = data.x + data.d;
+        }
+        if ( Math.Abs ( data.d ) < data.tol1 )
+        {
+            data.u = data.x + Math.CopySign ( data.tol1, data.d );
+        }
+        //
+        //  Request value of F(U).
+        //
+        data.arg = data.u;
+        status = status + 1;
+
+        return data.arg;
+        }
+
     }
 }

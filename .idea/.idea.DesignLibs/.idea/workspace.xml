@@ -254,6 +254,7 @@
     <projectFile>BurkhardtTest/Linpack/LinpackDTest/LinpackDTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Linpack/LinpackZTest/LinpackZTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Linpack/LinpackBench/LinpackBench.csproj</projectFile>
+    <projectFile>BurkhardtTest/LinearLeastSquares/LLSQTest/LLSQTest.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -288,10 +289,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZGBSL.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZGEDI.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZGEFA.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZGECO.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZGESL.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZGTSL.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZHIDI.cs" />
@@ -338,7 +335,11 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZSICO.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZSPSL.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Linpack/LinpackZTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8mat.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Linpack/LinpackBench/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/LinearLeastSquares.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/LinearLeastSquares/LLSQTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -355,7 +356,7 @@
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C#" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunManager" selected=".NET Project.LinpackZTest">
+  <component name="RunManager" selected=".NET Project.LinpackBench">
     <configuration name="ASA005Test" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -3578,6 +3579,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="LLSQTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/LinearLeastSquares/LLSQTest/LLSQTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="LagrangeApprox1DTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/LagrangeApprox1DTest/Debug/net5.0/LagrangeApprox1DTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -5221,6 +5240,7 @@
       <item itemvalue=".NET Project.LinpackDTest" />
       <item itemvalue=".NET Project.LinpackZTest" />
       <item itemvalue=".NET Project.LinpackBench" />
+      <item itemvalue=".NET Project.LLSQTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

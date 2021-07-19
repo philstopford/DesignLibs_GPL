@@ -698,7 +698,7 @@ namespace Burkardt.BLAS
         }
 
         public static void zdrot(int n, ref Complex[] cx, int incx, ref Complex[] cy,
-                int incy, double c, double s)
+                int incy, double c, double s, int xIndex = 0, int yIndex = 0)
 
             //****************************************************************************80
             //
@@ -766,9 +766,9 @@ namespace Burkardt.BLAS
             {
                 for (i = 0; i < n; i++)
                 {
-                    ctemp = c * cx[i] + s * cy[i];
-                    cy[i] = c * cy[i] - s * cx[i];
-                    cx[i] = ctemp;
+                    ctemp = c * cx[xIndex + i] + s * cy[yIndex + i];
+                    cy[yIndex + i] = c * cy[yIndex + i] - s * cx[xIndex + i];
+                    cx[xIndex + i] = ctemp;
                 }
             }
             else
@@ -793,9 +793,9 @@ namespace Burkardt.BLAS
 
                 for (i = 0; i < n; i++)
                 {
-                    ctemp = c * cx[ix] + s * cy[iy];
-                    cy[iy] = c * cy[iy] - s * cx[ix];
-                    cx[ix] = ctemp;
+                    ctemp = c * cx[xIndex + ix] + s * cy[yIndex + iy];
+                    cy[yIndex + iy] = c * cy[yIndex + iy] - s * cx[xIndex + ix];
+                    cx[xIndex + ix] = ctemp;
                     ix = ix + incx;
                     iy = iy + incy;
                 }

@@ -650,6 +650,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LinearLeastSquares", "Linea
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LLSQTest", "BurkhardtTest\LinearLeastSquares\LLSQTest\LLSQTest.csproj", "{9EA7ECE4-7FC6-43F0-B889-E77A109F4E52}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LobattoPolynomialTest", "BurkhardtTest\Polynomial\LobattoPolynomialTest\LobattoPolynomialTest.csproj", "{F16B9821-A023-496E-A837-A96DFB70BF52}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -4020,6 +4022,18 @@ Global
 		{9EA7ECE4-7FC6-43F0-B889-E77A109F4E52}.Release|x64.Build.0 = Release|Any CPU
 		{9EA7ECE4-7FC6-43F0-B889-E77A109F4E52}.Release|x86.ActiveCfg = Release|Any CPU
 		{9EA7ECE4-7FC6-43F0-B889-E77A109F4E52}.Release|x86.Build.0 = Release|Any CPU
+		{F16B9821-A023-496E-A837-A96DFB70BF52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F16B9821-A023-496E-A837-A96DFB70BF52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F16B9821-A023-496E-A837-A96DFB70BF52}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F16B9821-A023-496E-A837-A96DFB70BF52}.Debug|x64.Build.0 = Debug|Any CPU
+		{F16B9821-A023-496E-A837-A96DFB70BF52}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F16B9821-A023-496E-A837-A96DFB70BF52}.Debug|x86.Build.0 = Debug|Any CPU
+		{F16B9821-A023-496E-A837-A96DFB70BF52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F16B9821-A023-496E-A837-A96DFB70BF52}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F16B9821-A023-496E-A837-A96DFB70BF52}.Release|x64.ActiveCfg = Release|Any CPU
+		{F16B9821-A023-496E-A837-A96DFB70BF52}.Release|x64.Build.0 = Release|Any CPU
+		{F16B9821-A023-496E-A837-A96DFB70BF52}.Release|x86.ActiveCfg = Release|Any CPU
+		{F16B9821-A023-496E-A837-A96DFB70BF52}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -4343,6 +4357,7 @@ Global
 		{3BA833DE-1396-4EFD-93CE-4CBA7741C73E} = {F33D610F-26A3-4085-83ED-71E3828BF48D}
 		{6EFF71C7-22B7-4F7A-8CF8-CB26621CA785} = {B14C0D74-30A0-4540-8100-2FFA1C84CA6D}
 		{9EA7ECE4-7FC6-43F0-B889-E77A109F4E52} = {6EFF71C7-22B7-4F7A-8CF8-CB26621CA785}
+		{F16B9821-A023-496E-A837-A96DFB70BF52} = {56E40B9C-5838-477A-822B-2D63932E27D4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B449416C-C504-4FA8-9E10-10857263A64A}

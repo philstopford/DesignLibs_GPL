@@ -4,7 +4,7 @@ namespace Burkardt.Linpack
 {
     public static class DPOSL
     {
-        public static void dposl(double[] a, int lda, int n, double[] b )
+        public static void dposl(double[] a, int lda, int n, ref double[] b )
 
         //****************************************************************************80
         //

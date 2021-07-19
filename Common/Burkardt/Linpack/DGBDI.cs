@@ -5,7 +5,7 @@ namespace Burkardt.Linpack
     public static class DGBDI
     {
         public static void dgbdi(double[] abd, int lda, int n, int ml, int mu, int[] ipvt,
-        double[] det )
+        ref double[] det )
 
         //****************************************************************************80
         //

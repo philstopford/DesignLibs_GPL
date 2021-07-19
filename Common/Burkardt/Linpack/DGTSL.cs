@@ -4,7 +4,7 @@ namespace Burkardt.Linpack
 {
     public static class DGTSL
     {
-        public static int dgtsl(int n, double[] c, double[] d, double[] e, double[] b)
+        public static int dgtsl(int n, ref double[] c, ref double[] d, ref double[] e, ref double[] b)
 
             //****************************************************************************80
             //

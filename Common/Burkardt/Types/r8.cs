@@ -20,7 +20,535 @@ namespace Burkardt.Types
 
     public static partial class typeMethods
     {
-        public static double r8_square ( double x )
+        public static double r8_abs(double x)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_ABS returns the absolute value of an R8.
+            //
+            //  Discussion:
+            //
+            //    The C++ math library provides the function fabs() which is preferred.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    14 November 2006
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the quantity whose absolute value is desired.
+            //
+            //    Output, double R8_ABS, the absolute value of X.
+            //
+        {
+            double value;
+
+            if (0.0 <= x)
+            {
+                value = +x;
+            }
+            else
+            {
+                value = -x;
+            }
+
+            return value;
+        }
+
+        public static double r8_acos(double c)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_ACOS computes the arc cosine function, with argument truncation.
+            //
+            //  Discussion:
+            //
+            //    If you call your system ACOS routine with an input argument that is
+            //    outside the range [-1.0, 1.0 ], you may get an unpleasant surprise.
+            //    This routine truncates arguments outside the range.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    13 June 2002
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double C, the argument, the cosine of an angle.
+            //
+            //    Output, double R8_ACOS, an angle whose cosine is C.
+            //
+        {
+            const double r8_pi = 3.141592653589793;
+            double value;
+
+            if (c <= -1.0)
+            {
+                value = r8_pi;
+            }
+            else if (1.0 <= c)
+            {
+                value = 0.0;
+            }
+            else
+            {
+                value = Math.Acos(c);
+            }
+
+            return value;
+        }
+
+        public static double r8_acosh(double x)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_ACOSH returns the inverse hyperbolic cosine of a number.
+            //
+            //  Discussion:
+            //
+            //    Applying the inverse function
+            //
+            //      Y = R8_ACOSH(X)
+            //
+            //    implies that
+            //
+            //      X = COSH(Y) = 0.5 * ( EXP(Y) + EXP(-Y) ).
+            //
+            //    For every X greater than or equal to 1, there are two possible
+            //    choices Y such that X = COSH(Y), differing only in sign.  It
+            //    is usual to resolve this choice by taking the value of ACOSH(X)
+            //    to be nonnegative.
+            //
+            //  Method:
+            //
+            //    One formula is:
+            //
+            //      R8_ACOSH = LOG ( X + SQRT ( X^2 - 1.0 ) )
+            //
+            //    but this formula suffers from roundoff and overflow problems.
+            //    The formula used here was recommended by W Kahan, as discussed
+            //    by Moler.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    09 May 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Cleve Moler,
+            //    Trigonometry is a Complex Subject,
+            //    MATLAB News and Notes,
+            //    Summer 1998.
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the number whose inverse hyperbolic cosine is desired.
+            //    X should be greater than or equal to 1.
+            //
+            //    Output, double R8_ACOSH, the inverse hyperbolic cosine of X.  The
+            //    principal value (that is, the positive value of the two ) is returned.
+            //
+        {
+            double value;
+
+            if (x < 1.0)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("R8_ACOSH - Fatal error!");
+                Console.WriteLine("  Argument X must satisfy 1 <= X.");
+                Console.WriteLine("  The input X = " + x + "");
+                return (1);
+            }
+
+            value = 2.0 * Math.Log(
+                Math.Sqrt(0.5 * (x + 1.0)) + Math.Sqrt(0.5 * (x - 1.0)));
+
+            return value;
+        }
+
+        public static double r8_add(double x, double y)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_ADD adds two R8's.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    11 August 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double X, Y, the numbers to be added.
+            //
+            //    Output, double R8_ADD, the sum of X and Y.
+            //
+        {
+            double value;
+
+            value = x + y;
+
+            return value;
+        }
+
+        public static double r8_atanh(double x)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_ATANH returns the inverse hyperbolic tangent of a number.
+            //
+            //  Discussion:
+            //
+            //    Y = R8_ATANH ( X )
+            //
+            //    implies that
+            //
+            //    X = TANH(Y) = ( EXP(Y) - EXP(-Y) ) / ( EXP(Y) + EXP(-Y) )
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    29 November 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the number whose inverse hyperbolic 
+            //    tangent is desired.  The absolute value of X should be less than 
+            //    or equal to 1.
+            //
+            //    Output, double R8_ATANH, the inverse hyperbolic tangent of X.
+            //
+        {
+            const double r8_huge = 1.79769313486231571E+308;
+            double value;
+
+            if (x <= -1.0)
+            {
+                value = -r8_huge;
+            }
+            else if (1.0 <= x)
+            {
+                value = +r8_huge;
+            }
+            else
+            {
+                value = 0.5 * Math.Log((1.0 + x) / (1.0 - x));
+            }
+
+            return value;
+        }
+
+
+        public static double r8_agm(double a, double b)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_AGM computes the arithmetic-geometric mean of A and B.
+            //
+            //  Discussion:
+            //
+            //    The AGM is defined for nonnegative A and B.
+            //
+            //    The AGM of numbers A and B is defined by setting
+            //
+            //      A(0) = A,
+            //      B(0) = B
+            //
+            //      A(N+1) = ( A(N) + B(N) ) / 2
+            //      B(N+1) = sqrt ( A(N) * B(N) )
+            //
+            //    The two sequences both converge to AGM(A,B).
+            //
+            //    In Mathematica, the AGM can be evaluated by
+            //
+            //      ArithmeticGeometricMean [ a, b ]
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    27 July 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Stephen Wolfram,
+            //    The Mathematica Book,
+            //    Fourth Edition,
+            //    Cambridge University Press, 1999,
+            //    ISBN: 0-521-64314-7,
+            //    LC: QA76.95.W65.
+            //
+            //  Parameters:
+            //
+            //    Input, double A, B, the arguments whose AGM is to be computed.
+            //    0 <= A, 0 <= B.
+            //
+            //    Output, double R8_AGM, the arithmetic-geometric mean of A and B.
+            //
+        {
+            double a1;
+            double a2;
+            double b1;
+            double b2;
+            int it;
+            int it_max = 1000;
+            double tol;
+            double value;
+
+            if (a < 0.0)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("R8_AGM - Fatal error!");
+                Console.WriteLine("  A < 0.");
+                return 1;
+            }
+
+            if (b < 0.0)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("R8_AGM - Fatal error!");
+                Console.WriteLine("  B < 0.");
+                return 1;
+            }
+
+            if (a == 0.0 || b == 0.0)
+            {
+                value = 0.0;
+                return value;
+            }
+
+            if (a == b)
+            {
+                value = a;
+                return value;
+            }
+
+            a1 = a;
+            b1 = b;
+
+            it = 0;
+            tol = 100.0 * double.Epsilon;
+
+            for (;;)
+            {
+                it = it + 1;
+
+                a2 = (a1 + b1) / 2.0;
+                b2 = Math.Sqrt(a1 * b1);
+
+                if (Math.Abs(a2 - b2) <= tol * (a2 + b2))
+                {
+                    break;
+                }
+
+                if (it_max < it)
+                {
+                    break;
+                }
+
+                a1 = a2;
+                b1 = b2;
+            }
+
+            value = a2;
+
+            return value;
+        }
+
+        public static double r8_aint(double x)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_AINT truncates an R8 argument to an integer.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    1 September 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt.
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the argument.
+            //
+            //    Output, double R8_AINT, the truncated version of X.
+            //
+        {
+            double value;
+
+            if (x < 0.0)
+            {
+                value = -(double) ((int) (Math.Abs(x)));
+            }
+            else
+            {
+                value = (double) ((int) (Math.Abs(x)));
+            }
+
+            return value;
+        }
+
+        public static double r8_asin(double s)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_ASIN computes the arc sine function, with argument truncation.
+            //
+            //  Discussion:
+            //
+            //    If you call your system ASIN routine with an input argument that is
+            //    outside the range [-1.0, 1.0 ], you may get an unpleasant surprise.
+            //    This routine truncates arguments outside the range.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    13 June 2002
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double S, the argument, the sine of an angle.
+            //
+            //    Output, double R8_ASIN, an angle whose sine is S.
+            //
+        {
+            double angle;
+            const double r8_pi = 3.141592653589793;
+
+            if (s <= -1.0)
+            {
+                angle = -r8_pi / 2.0;
+            }
+            else if (1.0 <= s)
+            {
+                angle = r8_pi / 2.0;
+            }
+            else
+            {
+                angle = Math.Asin(s);
+            }
+
+            return angle;
+        }
+
+        public static double r8_asinh(double x)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_ASINH returns the inverse hyperbolic sine of a number.
+            //
+            //  Discussion:
+            //
+            //    The assertion that:
+            //
+            //      Y = R8_ASINH ( X )
+            //
+            //    implies that
+            //
+            //      X = SINH(Y) = 0.5 * ( EXP(Y) - EXP(-Y) ).
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    29 November 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the number whose inverse hyperbolic 
+            //    sine is desired.
+            //
+            //    Output, double R8_ASINH, the inverse hyperbolic sine of X.
+            //
+        {
+            double value;
+
+            value = Math.Log(x + Math.Sqrt(x * x + 1.0));
+
+            return value;
+        }
+
+        public static double r8_square(double x)
 
             //****************************************************************************80
             //
@@ -53,7 +581,8 @@ namespace Burkardt.Types
 
             return value;
         }
-        public static bool r8_is_integer ( double r )
+
+        public static bool r8_is_integer(double r)
 
             //****************************************************************************80
             //
@@ -83,15 +612,15 @@ namespace Burkardt.Types
             const int i4_huge = 2147483647;
             bool value;
 
-            if ( ( double ) ( i4_huge ) < r )
+            if ((double) (i4_huge) < r)
             {
                 value = false;
             }
-            else if ( r < - ( double ) ( i4_huge ) )
+            else if (r < -(double) (i4_huge))
             {
                 value = false;
             }
-            else if ( r == ( double ) ( ( int ) ( r ) ) )
+            else if (r == (double) ((int) (r)))
             {
                 value = true;
             }
@@ -99,9 +628,10 @@ namespace Burkardt.Types
             {
                 value = false;
             }
+
             return value;
         }
-        
+
         public static r8 s_to_r8(string s)
             //****************************************************************************80
             //
@@ -745,7 +1275,7 @@ namespace Burkardt.Types
             return value;
         }
 
-        
+
         public static double[] r8col_variance(int m, int n, double[] a)
             //****************************************************************************80
             //
@@ -1120,7 +1650,7 @@ namespace Burkardt.Types
         }
 
 
-        public static double r8_big ( )
+        public static double r8_big()
 
             //****************************************************************************80
             //
@@ -1157,7 +1687,180 @@ namespace Burkardt.Types
 
             return value;
         }
-        
+
+        public static double r8_chop(int place, double x)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_CHOP chops an R8 to a given number of binary places.
+            //
+            //  Example:
+            //
+            //    3.875 = 2 + 1 + 1/2 + 1/4 + 1/8.
+            //
+            //    The following values would be returned for the 'chopped' value of
+            //    3.875:
+            //
+            //    PLACE  Value
+            //
+            //       1      2
+            //       2      3     = 2 + 1
+            //       3      3.5   = 2 + 1 + 1/2
+            //       4      3.75  = 2 + 1 + 1/2 + 1/4
+            //       5+     3.875 = 2 + 1 + 1/2 + 1/4 + 1/8
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    01 April 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int PLACE, the number of binary places to preserve.
+            //    PLACE = 0 means return the integer part of X.
+            //    PLACE = 1 means return the value of X, correct to 1/2.
+            //    PLACE = 2 means return the value of X, correct to 1/4.
+            //    PLACE = -1 means return the value of X, correct to 2.
+            //
+            //    Input, double X, the number to be chopped.
+            //
+            //    Output, double R8_CHOP, the chopped number.
+            //
+        {
+            double fac;
+            int temp;
+            double value;
+
+            temp = (int) (r8_log_2(x));
+            fac = Math.Pow(2.0, (temp - place + 1));
+            value = (double) ((int) (x / fac)) * fac;
+
+            return value;
+        }
+
+        public static double r8_cosd(double degrees)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_COSD returns the cosine of an angle given in degrees.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    27 July 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double DEGREES, the angle in degrees.
+            //
+            //    Output, double R8_COSD, the cosine of the angle.
+            //
+        {
+            const double r8_pi = 3.141592653589793;
+            double radians;
+            double value;
+
+            radians = r8_pi * (degrees / 180.0);
+
+            value = Math.Cos(radians);
+
+            return value;
+        }
+
+        public static double r8_cot(double angle)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_COT returns the cotangent of an angle.
+            //
+            //  Discussion:
+            //
+            //    R8_COT ( THETA ) = COS ( THETA ) / SIN ( THETA )
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    12 May 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double ANGLE, the angle, in radians.
+            //
+            //    Output, double R8_COT, the cotangent of the angle.
+            //
+        {
+            double value;
+
+            value = Math.Cos(angle) / Math.Sin(angle);
+
+            return value;
+        }
+
+        public static double r8_cotd(double degrees)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_COTD returns the cotangent of an angle given in degrees.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    27 July 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double DEGREES, the angle in degrees.
+            //
+            //    Output, double R8_COTD, the cotangent of the angle.
+            //
+        {
+            const double r8_pi = 3.141592653589793;
+            double radians;
+            double value;
+
+            radians = r8_pi * (degrees / 180.0);
+
+            value = Math.Cos(radians) / Math.Sin(radians);
+
+            return value;
+        }
+
 
         public static double r8_csc(double theta)
             //****************************************************************************80
@@ -1204,85 +1907,7 @@ namespace Burkardt.Types
 
             return value;
         }
-
-        public static double r8_sign(double x)
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_SIGN returns the sign of an R8.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    18 October 2004
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, double X, the number whose sign is desired.
-            //
-            //    Output, double R8_SIGN, the sign of X.
-            //
-        {
-            if (x < 0.0)
-            {
-                return (-1.0);
-            }
-            else
-            {
-                return (1.0);
-            }
-        }
         
-        public static double r8_sign2 ( double x, double y )
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_SIGN2 returns the first argument with the sign of the second.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    08 January 2002
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, double X, Y, the input arguments.
-            //
-            //    Output, double R8_SIGN2, is equal to the absolute value of X, and
-            //    has the sign of Y.
-            //
-        {
-            double value;
-
-            if ( 0.0 <= y )
-            {
-                value = Math.Abs ( x );
-            } 
-            else
-            {
-                value = - Math.Abs ( x );
-            }
-            return value;
-        }
-
-
         public static double r8_modp(double x, double y)
             //****************************************************************************80
             //
@@ -1355,7 +1980,511 @@ namespace Burkardt.Types
             return value;
         }
 
+        public static double r8_cscd(double degrees)
 
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_CSCD returns the cosecant of an angle given in degrees.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    27 July 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double DEGREES, the angle in degrees.
+            //
+            //    Output, double R8_CSCD, the cosecant of the angle.
+            //
+        {
+            const double r8_pi = 3.141592653589793;
+            double radians;
+            double value;
+
+            radians = r8_pi * (degrees / 180.0);
+
+            value = 1.0 / Math.Sin(radians);
+
+            return value;
+        }
+
+        public static double r8_cube_root(double x)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_CUBE_ROOT returns the cube root of an R8.
+            //
+            //  Discussion:
+            //
+            //    This routine is designed to avoid the possible problems that can occur
+            //    when formulas like 0.0^(1/3) or (-1.0)^(1/3) are to be evaluated.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    01 April 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input double X, the number whose cube root is desired.
+            //
+            //    Output, double R8_CUBE_ROOT, the cube root of X.
+            //
+        {
+            double value;
+
+            if (0.0 < x)
+            {
+                value = Math.Pow((double) x, (1.0 / 3.0));
+            }
+            else if (x == 0.0)
+            {
+                value = 0.0;
+            }
+            else
+            {
+                value = -Math.Pow((double) (Math.Abs(x)), (1.0 / 3.0));
+            }
+
+            return value;
+        }
+
+        public static double r8_degrees(double radians)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_DEGREES converts an angle from radian to degree measure.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    15 May 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double RADIANS, the angle measurement in radians.
+            //
+            //    Output, double R8_DEGREES, the angle measurement in degrees.
+            //
+        {
+            const double r8_pi = 3.1415926535897932384626434;
+            double value;
+
+            value = radians * 180.0 / r8_pi;
+
+            return value;
+        }
+
+        public static double r8_diff(double x, double y, int n)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_DIFF computes (X-Y) to a specified accuracy.
+            //
+            //  Discussion:
+            //
+            //    The user controls how many binary digits of accuracy
+            //    are to be used.
+            //
+            //    N determines the accuracy of the value.  If N = 10,
+            //    for example, only 11 binary places will be used in the arithmetic.
+            //    In general, only N+1 binary places will be used.
+            //
+            //    N may be zero.  However, a negative value of N should
+            //    not be used, since this will cause both X and Y to look like 0.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    15 April 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double X, Y, the two values whose difference is desired.
+            //
+            //    Input, int N, the number of binary digits to use.
+            //
+            //    Output, double R8_DIFF, the value of X-Y.
+            //
+        {
+            double cx;
+            double cy;
+            double pow2;
+            double size;
+            double value;
+
+            if (x == y)
+            {
+                value = 0.0;
+                return value;
+            }
+
+            pow2 = Math.Pow(2.0, n);
+            //
+            //  Compute the magnitude of X and Y, and take the larger of the
+            //  two.  At least one of the two values is not zero//
+            //
+            size = Math.Max(Math.Abs(x), Math.Abs(y));
+            //
+            //  Make normalized copies of X and Y.  One of the two values will
+            //  actually be equal to 1.
+            //
+            cx = x / size;
+            cy = y / size;
+            //
+            //  Here's where rounding comes in.  We know that the larger of the
+            //  the two values equals 1.  We multiply both values by 2^N,
+            //  where N+1 is the number of binary digits of accuracy we want
+            //  to use, truncate the values, and divide back by 2^N.
+            //
+            cx = (double) ((int) (cx * pow2 + 0.5 * r8_sign(cx))) / pow2;
+            cy = (double) ((int) (cy * pow2 + 0.5 * r8_sign(cy))) / pow2;
+            //
+            //  Take the difference now.
+            //
+            value = cx - cy;
+            //
+            //  Undo the scaling.
+            //
+            value = value * size;
+
+            return value;
+        }
+
+        public static int r8_digit(double x, int idigit)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_DIGIT returns a particular decimal digit of an R8.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    11 April 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the number whose IDIGIT-th decimal digit is desired.
+            //    Note that if X is zero, all digits will be returned as 0.
+            //
+            //    Input, int IDIGIT, the position of the desired decimal digit.
+            //    A value of 1 means the leading digit, a value of 2 the second digit
+            //    and so on.
+            //
+            //    Output, int R8_DIGIT, the value of the IDIGIT-th decimal digit of X.
+            //
+        {
+            int digit;
+            int i;
+            int ival = 0;
+
+            if (x == 0.0)
+            {
+                digit = 0;
+                return digit;
+            }
+
+            if (idigit <= 0)
+            {
+                digit = 0;
+                return digit;
+            }
+
+            //
+            //  Force X to lie between 1 and 10.
+            //
+            x = Math.Abs(x);
+
+            while (x < 1.0)
+            {
+                x = x * 10.0;
+            }
+
+            while (10.0 <= x)
+            {
+                x = x / 10.0;
+            }
+
+            for (i = 1; i <= idigit; i++)
+            {
+                ival = (int) (x);
+                x = (x - (double) ival) * 10.0;
+            }
+
+            digit = ival;
+
+            return digit;
+        }
+
+        public static double r8_divide_i4(int i, int j)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_DIVIDE_I4 returns an I4 fraction as an R8.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    05 June 2012
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int I, J, the numerator and denominator.
+            //
+            //    Output, double R8_DIVIDE_I4, the value of (I/J).
+            //
+        {
+            double value;
+
+            value = (double) (i) / (double) (j);
+
+            return value;
+        }
+
+        public static double r8_e()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_E returns the value of the base of the natural logarithm system.
+            //
+            //  Definition:
+            //
+            //    E = Limit ( N -> +oo ) ( 1 + 1 / N )^N
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    12 May 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Output, double R8_E, the base of the natural logarithm system.
+            //
+        {
+            const double r8_e_save = 2.718281828459045235360287;
+            double value;
+
+            value = r8_e_save;
+
+            return value;
+        }
+
+        public static double r8_epsilon()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_EPSILON returns the R8 roundoff unit.
+            //
+            //  Discussion:
+            //
+            //    The roundoff unit is a number R which is a power of 2 with the
+            //    property that, to the precision of the computer's arithmetic,
+            //      1 < 1 + R
+            //    but
+            //      1 = ( 1 + R / 2 )
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    01 September 2012
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Output, double R8_EPSILON, the R8 round-off unit.
+            //
+        {
+            return double.Epsilon;
+        }
+
+        public static double r8_epsilon_compute()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_EPSILON_COMPUTE computes the R8 roundoff unit.
+            //
+            //  Discussion:
+            //
+            //    The roundoff unit is a number R which is a power of 2 with the
+            //    property that, to the precision of the computer's arithmetic,
+            //      1 < 1 + R
+            //    but
+            //      1 = ( 1 + R / 2 )
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    01 September 2012
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Output, double R8_EPSILON_COMPUTE, the R8 round-off unit.
+            //
+        {
+            double one;
+            double temp;
+            double test;
+            double value = 0.0;
+
+            if (value == 0.0)
+            {
+                one = (double) (1);
+
+                value = one;
+                temp = value / 2.0;
+                test = r8_add(one, temp);
+
+                while (one < test)
+                {
+                    value = temp;
+                    temp = value / 2.0;
+                    test = r8_add(one, temp);
+                }
+            }
+
+            return value;
+        }
+
+        public static double r8_exp(double x)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_EXP computes the exponential function, avoiding overflow and underflow.
+            //
+            //  Discussion:
+            //
+            //    For arguments of very large magnitude, the evaluation of the
+            //    exponential function can cause computational problems.  Some languages
+            //    and compilers may return an infinite value or a "Not-a-Number".  
+            //    An alternative, when dealing with a wide range of inputs, is simply
+            //    to truncate the calculation for arguments whose magnitude is too large.
+            //    Whether this is the right or convenient approach depends on the problem
+            //    you are dealing with, and whether or not you really need accurate
+            //    results for large magnitude inputs, or you just want your code to
+            //    stop crashing.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    19 September 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the argument of the exponential function.
+            //
+            //    Output, double R8_EXP, the value of exp ( X ).
+            //
+        {
+            const double r8_big = 1.0E+30;
+            const double r8_log_max = +69.0776;
+            const double r8_log_min = -69.0776;
+            double value;
+
+            if (x <= r8_log_min)
+            {
+                value = 0.0;
+            }
+            else if (x < r8_log_max)
+            {
+                value = Math.Exp(x);
+            }
+            else
+            {
+                value = r8_big;
+            }
+
+            return value;
+        }
 
         public static double r8_fraction(int i, int j)
             //****************************************************************************80
@@ -1404,7 +2533,7 @@ namespace Burkardt.Types
 
             return value;
         }
-        
+
 
         public static double r8_mach(int i)
             //****************************************************************************80
@@ -1489,6 +2618,108 @@ namespace Burkardt.Types
 
             return value;
         }
+
+
+        public static double r8_cas(double x)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_CAS returns the "casine" of an R8.
+            //
+            //  Discussion:
+            //
+            //    The "casine", used in the discrete Hartley transform, is abbreviated
+            //    CAS(X), and defined by:
+            //
+            //      CAS(X) = cos ( X ) + sin( X )
+            //             = sqrt ( 2 ) * sin ( X + pi/4 )
+            //             = sqrt ( 2 ) * cos ( X - pi/4 )
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    01 April 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the number whose casine is desired.
+            //
+            //    Output, double R8_CAS, the casine of X, which will be between
+            //    plus or minus the square root of 2.
+            //
+        {
+            double value;
+
+            value = Math.Cos(x) + Math.Sin(x);
+
+            return value;
+        }
+
+        public static double r8_ceiling(double x)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_CEILING rounds an R8 up to the nearest integral R8.
+            //
+            //  Example:
+            //
+            //    X        R8_CEILING(X)
+            //
+            //   -1.1      -1.0
+            //   -1.0      -1.0
+            //   -0.9       0.0
+            //   -0.1       0.0
+            //    0.0       0.0
+            //    0.1       1.0
+            //    0.9       1.0
+            //    1.0       1.0
+            //    1.1       2.0
+            //    2.9       3.0
+            //    3.0       3.0
+            //    3.14159   4.0
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    10 November 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the number whose ceiling is desired.
+            //
+            //    Output, double R8_CEILING, the ceiling of X.
+            //
+        {
+            double value;
+
+            value = (double) ((int) x);
+
+            if (value < x)
+            {
+                value = value + 1.0;
+            }
+
+            return value;
+        }
+
 
         public static double r8_choose(int n, int k)
 
@@ -1755,47 +2986,47 @@ namespace Burkardt.Types
             return bin;
         }
 
-        public static void r8slmat_print ( int m, int n, double[] a, string title )
+        public static void r8slmat_print(int m, int n, double[] a, string title)
 
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    R8SLMAT_PRINT prints a strict lower triangular R8MAT.
-        //
-        //  Example:
-        //
-        //    M = 5, N = 5
-        //    A = (/ 21, 31, 41, 51, 32, 42, 52, 43, 53, 54 /)
-        //
-        //    21
-        //    31 32
-        //    41 42 43
-        //    51 52 53 54
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    21 October 2005
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int M, the number of rows in A.
-        //
-        //    Input, int N, the number of columns in A.
-        //
-        //    Input, double A[*], the M by N matrix.  Only the strict
-        //    lower triangular elements are stored, in column major order.
-        //
-        //    Input, string TITLE, a title.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8SLMAT_PRINT prints a strict lower triangular R8MAT.
+            //
+            //  Example:
+            //
+            //    M = 5, N = 5
+            //    A = (/ 21, 31, 41, 51, 32, 42, 52, 43, 53, 54 /)
+            //
+            //    21
+            //    31 32
+            //    41 42 43
+            //    51 52 53 54
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    21 October 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, the number of rows in A.
+            //
+            //    Input, int N, the number of columns in A.
+            //
+            //    Input, double A[*], the M by N matrix.  Only the strict
+            //    lower triangular elements are stored, in column major order.
+            //
+            //    Input, string TITLE, a title.
+            //
         {
             int i;
             int indx;
@@ -1841,54 +3072,54 @@ namespace Burkardt.Types
             return;
         }
 
-        public static void r8_mant ( double x, ref int s, ref double r, ref int l )
+        public static void r8_mant(double x, ref int s, ref double r, ref int l)
 
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    R8_MANT computes the "mantissa" or "fraction part" of an R8.
-        //
-        //  Discussion:
-        //
-        //    X = S * R * 2^L
-        //
-        //    S is +1 or -1,
-        //    R is a real between 1.0 and 2.0,
-        //    L is an integer.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    06 January 2013
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, double X, the real number to be decomposed.
-        //
-        //    Output, int &S, the "sign" of the number.
-        //    S will be -1 if X is less than 0, and +1 if X is greater
-        //    than or equal to zero.
-        //
-        //    Output, double &R, the mantissa of X.  R will be greater
-        //    than or equal to 1, and strictly less than 2.  The one
-        //    exception occurs if X is zero, in which case R will also
-        //    be zero.
-        //
-        //    Output, int &L, the integer part of the logarithm (base 2) of X.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_MANT computes the "mantissa" or "fraction part" of an R8.
+            //
+            //  Discussion:
+            //
+            //    X = S * R * 2^L
+            //
+            //    S is +1 or -1,
+            //    R is a real between 1.0 and 2.0,
+            //    L is an integer.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    06 January 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the real number to be decomposed.
+            //
+            //    Output, int &S, the "sign" of the number.
+            //    S will be -1 if X is less than 0, and +1 if X is greater
+            //    than or equal to zero.
+            //
+            //    Output, double &R, the mantissa of X.  R will be greater
+            //    than or equal to 1, and strictly less than 2.  The one
+            //    exception occurs if X is zero, in which case R will also
+            //    be zero.
+            //
+            //    Output, int &L, the integer part of the logarithm (base 2) of X.
+            //
         {
             //
             //  Determine the sign.
             //
-            if ( x < 0.0 )
+            if (x < 0.0)
             {
                 s = -1;
             }
@@ -1896,11 +3127,12 @@ namespace Burkardt.Types
             {
                 s = 1;
             }
+
             //
             //  Set R to the absolute value of X, and L to zero.
             //  Then force R to lie between 1 and 2.
             //
-            if ( x < 0.0 )
+            if (x < 0.0)
             {
                 r = -x;
             }
@@ -1913,24 +3145,58 @@ namespace Burkardt.Types
             //
             //  Time to bail out if X is zero.
             //
-            if ( x == 0.0 )
+            if (x == 0.0)
             {
                 return;
             }
 
-            while ( 2.0 <= r )
+            while (2.0 <= r)
             {
                 r = r / 2.0;
                 l = l + 1;
             }
 
-            while ( r < 1.0 )
+            while (r < 1.0)
             {
                 r = r * 2.0;
                 l = l - 1;
             }
 
             return;
+        }
+
+        public static double r8_fractional(double x)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_FRACTIONAL returns the fractional part of an R8.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    05 October 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the argument.
+            //
+            //    Output, double R8_FRACTIONAL, the fractional part of X.
+            //
+        {
+            double value;
+
+            value = Math.Abs(x) - (double) ((int) Math.Abs(x));
+
+            return value;
         }
 
         public static double r8_haversine(double a)
@@ -2201,7 +3467,7 @@ namespace Burkardt.Types
 
             return value;
         }
-        
+
         public static bool r8_is_nan(double r)
 
             //****************************************************************************80
@@ -2235,8 +3501,8 @@ namespace Burkardt.Types
 
             return value;
         }
-        
-        public static double r8_wrap ( double r, double rlo, double rhi )
+
+        public static double r8_wrap(double r, double rlo, double rhi)
 
             //****************************************************************************80
             //
@@ -2301,7 +3567,7 @@ namespace Burkardt.Types
             //
             //  Guarantee RLO2 < RHI2.
             //
-            if ( rlo <= rhi )
+            if (rlo <= rhi)
             {
                 rlo2 = rlo;
                 rhi2 = rhi;
@@ -2311,6 +3577,7 @@ namespace Burkardt.Types
                 rlo2 = rhi;
                 rhi2 = rlo;
             }
+
             //
             //  Find the width.
             //
@@ -2319,32 +3586,33 @@ namespace Burkardt.Types
             //  Add enough copies of (RHI2-RLO2) to R so that the
             //  result ends up in the interval RLO2 - RHI2.
             //
-            if ( rwide == 0.0 )
+            if (rwide == 0.0)
             {
                 value = rlo;
             }
-            else if ( r < rlo2 )
+            else if (r < rlo2)
             {
-                n = ( int ) ( ( rlo2 - r ) / rwide ) + 1;
+                n = (int) ((rlo2 - r) / rwide) + 1;
                 value = r + n * rwide;
-                if ( value == rhi )
+                if (value == rhi)
                 {
                     value = rlo;
                 }
             }
             else
             {
-                n = ( int ) ( ( r - rlo2 ) / rwide );
+                n = (int) ((r - rlo2) / rwide);
                 value = r - n * rwide;
-                if ( value == rlo )
+                if (value == rlo)
                 {
                     value = rhi;
                 }
             }
+
             return value;
         }
-        
-        public static double[] r8block_zero_new ( int l, int m, int n )
+
+        public static double[] r8block_zero_new(int l, int m, int n)
 
             //****************************************************************************80
             //
@@ -2381,18 +3649,19 @@ namespace Burkardt.Types
             int j;
             int k;
 
-            a = new double[l*m*n];
+            a = new double[l * m * n];
 
-            for ( k = 0; k < n; k++ )
+            for (k = 0; k < n; k++)
             {
-                for ( j = 0; j < m; j++ )
+                for (j = 0; j < m; j++)
                 {
-                    for ( i = 0; i < l; i++ )
+                    for (i = 0; i < l; i++)
                     {
-                        a[i+j*l+k*l*m] = 0.0;
+                        a[i + j * l + k * l * m] = 0.0;
                     }
                 }
             }
+
             return a;
         }
 
@@ -2505,67 +3774,232 @@ namespace Burkardt.Types
             return theta;
         }
 
-        public static void r8col_separation ( int m, int n, double[] a, ref double d_min, ref double d_max )
+        public static void r8col_separation(int m, int n, double[] a, ref double d_min, ref double d_max)
 
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    R8COL_SEPARATION returns the "separation" of an R8COL.
-        //
-        //  Discussion:
-        //
-        //    D_MIN is the minimum distance between two columns,
-        //    D_MAX is the maximum distance between two columns.
-        //
-        //    The distances are measured using the Loo norm.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    24 February 2014
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int M, N, the number of rows and columns 
-        //    in the array.  If N < 2, it does not make sense to call this routine.
-        //
-        //    Input, double A[M*N], the array whose variances are desired.
-        //
-        //    Output, double &D_MIN, &D_MAX, the minimum and maximum distances.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8COL_SEPARATION returns the "separation" of an R8COL.
+            //
+            //  Discussion:
+            //
+            //    D_MIN is the minimum distance between two columns,
+            //    D_MAX is the maximum distance between two columns.
+            //
+            //    The distances are measured using the Loo norm.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    24 February 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns 
+            //    in the array.  If N < 2, it does not make sense to call this routine.
+            //
+            //    Input, double A[M*N], the array whose variances are desired.
+            //
+            //    Output, double &D_MIN, &D_MAX, the minimum and maximum distances.
+            //
         {
             double d;
             int i;
             int j1;
             int j2;
 
-            d_min = r8_huge ( );
+            d_min = r8_huge();
             d_max = 0.0;
 
-            for ( j1 = 0; j1 < n; j1++ )
+            for (j1 = 0; j1 < n; j1++)
             {
-                for ( j2 = j1 + 1; j2 < n; j2++ )
+                for (j2 = j1 + 1; j2 < n; j2++)
                 {
                     d = 0.0;
-                    for ( i = 0; i < m; i++ )
+                    for (i = 0; i < m; i++)
                     {
-                        d = Math.Max ( d, Math.Abs ( a[i+j1*m] - a[i+j2*m] ) );
+                        d = Math.Max(d, Math.Abs(a[i + j1 * m] - a[i + j2 * m]));
                     }
-                    d_min = Math.Min ( d_min, d );
-                    d_max = Math.Max ( d_max, d );
+
+                    d_min = Math.Min(d_min, d);
+                    d_max = Math.Max(d_max, d);
                 }
             }
         }
         
-        public static void r8_print ( double r, string title )
+        public static double r8_nth_root ( double x, int n )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_NTH_ROOT returns the nth-root of an R8.
+            //
+            //  Discussion:
+            //
+            //    The nth root of X is x^(1/n)
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    03 August 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, real X, the number whose nth root is desired.
+            //
+            //    Input, integer N, the index of the root.
+            //
+            //    Output, real VALUE, the Nth root of X.
+            //
+        {
+            double e;
+            double value;
+            //
+            //  Potential Error 1: 0^0
+            //  But we will use it as 1.
+            //
+            if ( x == 0.0 && n == 0 )
+            {
+                value = 1.0;
+                return value;
+            }
+            //
+            //  Error 2: 0^(negative power)
+            //
+            if ( x == 0.0 && n < 0 )
+            {
+                value = double.NaN;
+                return value;
+            }
+            //
+            //  Error 3: (negative)^(even strictly positive root)
+            //
+            if ( x < 0.0 && ( n % 2 ) == 0 && 0 < n )
+            {
+                value = double.NaN;
+                return value;
+            }
+            //
+            //  X^0 = 1
+            //
+            if ( n == 0 )
+            {
+                value = 1.0;
+            }
+            //
+            //  X^1 = X
+            //
+            else if ( n == 1 )
+            {
+                value = x;
+            }
+            //
+            //  X^(-1) = 1/X
+            //
+            else if ( n == -1 )
+            {
+                value = 1.0 / x;
+            }
+            else
+            {
+                e = 1.0 / ( double ) ( Math.Abs ( n ) );
+
+                if ( 0.0 < x )
+                {
+                    value = Math.Pow ( x, e );
+                }
+                else if ( x == 0.0 )
+                {
+                    value = 0.0;
+                }
+                else
+                {
+                    value = - Math.Pow ( - x, e );
+                }
+
+                if ( n < 0 )
+                {
+                    value = 1.0 / value;
+                }
+            }
+
+            return value;
+        }
+
+        public static double r8_pi ( )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_PI returns the value of PI as an R8.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    17 August 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Output, double R8_PI, the value of PI.
+            //
+        {
+            return Math.PI;
+        }
+
+        public static double r8_pi_sqrt ( )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_PI_SQRT returns the square root of PI as an R8.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    11 September 2012
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Output, double R8_PI_SQRT, the square root of PI.
+            //
+        {
+            return Math.Sqrt(Math.PI);
+        }
+
+
+        public static void r8_print(double r, string title)
 
             //****************************************************************************80
             //
@@ -2592,38 +4026,38 @@ namespace Burkardt.Types
             //    Input, string TITLE, a title.
             //
         {
-            Console.WriteLine(title + "  " + r + "\n");
+            Console.WriteLine(title + "  " + r + "");
         }
-        
-        public static double r8_random ( int[] iseed )
 
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    R8_RANDOM returns a uniformly distributed random number between 0 and 1.
-        //
-        //  Discussion:
-        //
-        //    This routine uses a multiplicative congruential method with modulus
-        //    2**48 and multiplier 33952834046453 (see G.S.Fishman,
-        //    'Multiplicative congruential random number generators with modulus
-        //    2**b: an exhaustive analysis for b = 32 and a partial analysis for
-        //    b = 48', Math. Comp. 189, pp 331-344, 1990).
-        //
-        //    48-bit integers are stored in 4 integer array elements with 12 bits
-        //    per element. Hence the routine is portable across machines with
-        //    integers of 32 bits or more.
-        //
-        //  Parameters:
-        //
-        //    Input/output, integer ISEED(4).
-        //    On entry, the seed of the random number generator; the array
-        //    elements must be between 0 and 4095, and ISEED(4) must be odd.
-        //    On exit, the seed is updated.
-        //
-        //    Output, double R8_RANDOM, the next pseudorandom number.
-        //
+        public static double r8_random(int[] iseed)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_RANDOM returns a uniformly distributed random number between 0 and 1.
+            //
+            //  Discussion:
+            //
+            //    This routine uses a multiplicative congruential method with modulus
+            //    2**48 and multiplier 33952834046453 (see G.S.Fishman,
+            //    'Multiplicative congruential random number generators with modulus
+            //    2**b: an exhaustive analysis for b = 32 and a partial analysis for
+            //    b = 48', Math. Comp. 189, pp 331-344, 1990).
+            //
+            //    48-bit integers are stored in 4 integer array elements with 12 bits
+            //    per element. Hence the routine is portable across machines with
+            //    integers of 32 bits or more.
+            //
+            //  Parameters:
+            //
+            //    Input/output, integer ISEED(4).
+            //    On entry, the seed of the random number generator; the array
+            //    elements must be between 0 and 4095, and ISEED(4) must be odd.
+            //    On exit, the seed is updated.
+            //
+            //    Output, double R8_RANDOM, the next pseudorandom number.
+            //
         {
             int ipw2 = 4096;
             int it1;
@@ -2649,7 +4083,7 @@ namespace Burkardt.Types
             it1 = it2 / ipw2;
             it2 = it2 - ipw2 * it1;
             it1 = it1 + iseed[0] * m4 + iseed[1] * m3 + iseed[2] * m2 + iseed[3] * m1;
-            it1 = ( it1 % ipw2 );
+            it1 = (it1 % ipw2);
             //
             //  Return updated seed
             //
@@ -2660,11 +4094,11 @@ namespace Burkardt.Types
             //
             //  Convert 48-bit integer to a real number in the interval (0,1)
             //
-            value = 
-                r * ( ( double ) ( it1 ) 
-                      + r * ( ( double ) ( it2 ) 
-                              + r * ( ( double ) ( it3 ) 
-                                      + r * ( ( double ) ( it4 ) ) ) ) );
+            value =
+                r * ((double) (it1)
+                     + r * ((double) (it2)
+                            + r * ((double) (it3)
+                                   + r * ((double) (it4)))));
 
             return value;
         }

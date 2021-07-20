@@ -180,54 +180,6 @@ namespace Burkardt.Types
             return x.Take(n).Average();
         }
         
-        public static double r8vec_variance(int n, double[] x)
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8VEC_VARIANCE returns the variance of an R8VEC.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    01 May 1999
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the number of entries in the vector.
-            //
-            //    Input, double X[N], the vector whose variance is desired.
-            //
-            //    Output, double R8VEC_VARIANCE, the variance of the vector entries.
-            //
-        {
-            double mean = r8vec_mean(n, x);
-
-            double variance = 0.0;
-            for (int i = 0; i < n; i++)
-            {
-                variance = variance + (x[i] - mean) * (x[i] - mean);
-            }
-
-            if (1 < n)
-            {
-                variance = variance / (double) (n - 1);
-            }
-            else
-            {
-                variance = 0.0;
-            }
-
-            return variance;
-        }
-
         public static double r8vec_circular_variance(int n, double[] x)
             //****************************************************************************80
             //

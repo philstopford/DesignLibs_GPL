@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Burkardt.Uniform;
@@ -2464,6 +2465,61 @@ namespace Burkardt.Types
             }
 
             return a;
+        }
+
+        public static void r8vec_write ( int n, double[] r, string output_file )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8VEC_WRITE writes an R8VEC to a file.
+        //
+        //  Discussion:
+        //
+        //    An R8VEC is a vector of R8's.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    23 August 2010
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order of the matrix.
+        //
+        //    Input, double R[N], the vector to be written.
+        //
+        //    Input, string OUTPUT_FILE, the name of the file to which
+        //    the information is to be written.
+        //
+        {
+            int i;
+            List<string> output = new List<string>();
+
+
+            for ( i = 0; i < n; i++ )
+            {
+                output.Add("  " + r[i].ToString().PadLeft(16) + "");
+            }
+
+            try
+            {
+                File.WriteAllLines(output_file, output);
+            }
+            catch
+            {
+                Console.WriteLine("");
+                Console.WriteLine("R8VEC_WRITE - Fatal error!");
+                Console.WriteLine("  Could not open the output file.");
+            }
         }
 
         public static void r8vec_zero ( int n, ref double[] a )

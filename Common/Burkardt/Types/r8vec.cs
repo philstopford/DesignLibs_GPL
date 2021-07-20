@@ -1939,7 +1939,7 @@ namespace Burkardt.Types
             return fraction;
         }
 
-        public static bool r8vec_gt(int n, double[] a1, double[] a2 )
+        public static bool r8vec_gt(int n, double[] a1, double[] a2, int a1Index = 0, int a2Index = 0 )
 
         //****************************************************************************80
         //
@@ -1984,11 +1984,11 @@ namespace Burkardt.Types
             for (i = 0; i < n; i++)
             {
 
-                if (a2[i] < a1[i])
+                if (a2[a2Index + i] < a1[a1Index + i])
                 {
                     return true;
                 }
-                else if (a1[i] < a2[i])
+                else if (a1[a1Index + i] < a2[a2Index + i])
                 {
                     return false;
                 }

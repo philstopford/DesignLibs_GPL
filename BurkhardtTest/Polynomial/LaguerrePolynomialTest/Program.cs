@@ -444,9 +444,6 @@ namespace LaguerrePolynomialTest
                     }
                 }
             }
-
-            return;
-# undef N
         }
 
         public static void laguerre_polynomial_test07(int p, double b)

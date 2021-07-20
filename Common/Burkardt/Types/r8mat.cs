@@ -2447,7 +2447,116 @@ namespace Burkardt.Types
                 }
             }
         }
-        
+
+        public static void r8mat_add(int m, int n, double alpha, double[] a, double beta,
+                double[] b, double[] c)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8MAT_ADD computes C = alpha * A + beta * B for R8MAT's.
+            //
+            //  Discussion:
+            //
+            //    An R8MAT is an array of R8 values.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    09 November 2012
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns.
+            //
+            //    Input, double ALPHA, the multiplier for A.
+            //
+            //    Input, double A[M*N], the first matrix.
+            //
+            //    Input, double BETA, the multiplier for A.
+            //
+            //    Input, double B[M*N], the second matrix.
+            //
+            //    Output, double C[M*N], the sum of alpha*A+beta*B.
+            //
+        {
+            int i;
+            int j;
+
+            for (j = 0; j < n; j++)
+            {
+                for (i = 0; i < m; i++)
+                {
+                    c[i + j * m] = alpha * a[i + j * m] + beta * b[i + j * m];
+                }
+            }
+        }
+
+        public static double[] r8mat_add_new(int m, int n, double alpha, double[] a, double beta,
+                double[] b)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8MAT_ADD_NEW computes C = alpha * A + beta * B for R8MAT's.
+            //
+            //  Discussion:
+            //
+            //    An R8MAT is an array of R8 values.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    01 December 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns.
+            //
+            //    Input, double ALPHA, the multiplier for A.
+            //
+            //    Input, double A[M*N], the first matrix.
+            //
+            //    Input, double BETA, the multiplier for A.
+            //
+            //    Input, double B[M*N], the second matrix.
+            //
+            //    Output, double R8MAT_ADD_NEW[M*N], the sum of alpha*A+beta*B.
+            //
+        {
+            double[] c;
+            int i;
+            int j;
+
+            c = new double[m * n];
+
+            for (j = 0; j < n; j++)
+            {
+                for (i = 0; i < m; i++)
+                {
+                    c[i + j * m] = alpha * a[i + j * m] + beta * b[i + j * m];
+                }
+            }
+
+            return c;
+        }
+
         public static void r8mat_divide ( int m, int n, double s, ref double[] a )
 
             //****************************************************************************80

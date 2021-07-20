@@ -134,6 +134,68 @@ namespace Burkardt.Types
 
             return value;
         }
+        
+        public static int r8vec2_sum_max_index ( int n, double[] a, double[] b )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8VEC2_SUM_MAX_INDEX returns the index of the maximum sum of two R8VEC's.
+        //
+        //  Discussion:
+        //
+        //    An R8VEC2 is a dataset consisting of N pairs of real values, stored
+        //    as two separate vectors A1 and A2.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    17 October 2005
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number of entries in the array.
+        //
+        //    Input, double A[N], B[N], two arrays whose sum
+        //    is to be examined.
+        //
+        //    Output, int R8VEC2_SUM_MAX_INDEX, the index of the largest entry in A+B.
+        //
+        {
+            int i;
+            double sum_max;
+            int sum_max_index;
+
+            if ( n <= 0 )
+            {
+                sum_max_index = -1;
+            }
+            else
+            {
+                sum_max_index = 1;
+                sum_max = a[0] + b[0];
+
+                for ( i = 2; i <= n; i++ )
+                {
+                    if ( sum_max < a[i-1] + b[i-1] )
+                    {
+                        sum_max = a[i-1] + b[i-1];
+                        sum_max_index = i;
+                    }
+                }
+            }
+            return sum_max_index;
+        }
+
+
 
     }
 }

@@ -471,6 +471,77 @@ namespace Burkardt.Types
 
             return value;
         }
+        
+        public static int r8vec2_compare ( int n, double[] a1, double[] a2, int i, int j )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8VEC2_COMPARE compares two elements of an R8VEC2.
+        //
+        //  Discussion:
+        //
+        //    An R8VEC2 is a dataset consisting of N pairs of real values, stored
+        //    as two separate vectors A1 and A2.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    16 October 2005
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number of data items.
+        //
+        //    Input, double A1[N], A2[N], contain the two components of each item.
+        //
+        //    Input, int I, J, the items to be compared.  These values will be
+        //    1-based indices for the arrays A1 and A2.
+        //
+        //    Output, int R8VEC2_COMPARE, the results of the comparison:
+        //    -1, item I < item J,
+        //     0, item I = item J,
+        //    +1, item J < item I.
+        //
+        {
+            int isgn;
+
+            isgn = 0;
+
+            if ( a1[i-1] < a1[j-1] )
+            {
+                isgn = -1;
+            }
+            else if ( a1[i-1] == a1[j-1] )
+            {
+                if ( a2[i-1] < a2[j-1] )
+                {
+                    isgn = -1;
+                }
+                else if ( a2[i-1] < a2[j-1] )
+                {
+                    isgn = 0;
+                }
+                else if ( a2[j-1] < a2[i-1] )
+                {
+                    isgn = +1;
+                }
+            }
+            else if ( a1[j-1] < a1[i-1] )
+            {
+                isgn = +1;
+            }
+
+            return isgn;
+        }
 
         public static double r8vec_distance(int dim_num, double[] v1, double[] v2)
 

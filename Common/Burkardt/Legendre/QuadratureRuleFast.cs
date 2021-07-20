@@ -308,7 +308,7 @@ namespace Burkardt.Legendre
             {
                 xp = x[j];
 
-                h = RK2.rk2_leg(Math.PI / 2.0, -Math.PI / 2.0, xp, n) - xp;
+                h = RungeKutta.rk2_leg(Math.PI / 2.0, -Math.PI / 2.0, xp, n) - xp;
 
                 u[0] = 0.0;
                 u[1] = 0.0;
@@ -404,7 +404,7 @@ namespace Burkardt.Legendre
             double[] up;
 
             t = 0.0;
-            x1 = RK2.rk2_leg(t, -Math.PI / 2.0, 0.0, n);
+            x1 = RungeKutta.rk2_leg(t, -Math.PI / 2.0, 0.0, n);
 
             u = new double[m + 2];
             up = new double[m + 1];

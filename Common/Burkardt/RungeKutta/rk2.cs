@@ -2,7 +2,7 @@
 
 namespace Burkardt
 {
-    public static class RK2
+    public static partial class RungeKutta
     {
         public static double rk2_leg ( double t1, double t2, double x, int n )
 

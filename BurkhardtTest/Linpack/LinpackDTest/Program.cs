@@ -3182,7 +3182,7 @@ namespace LinpackDTest
             Console.WriteLine("");
             Console.WriteLine("  Solve the linear system.");
 
-            DSISL.dsisl(ref a, LDA, N, ipvt, ref b);
+            DSISL.dsisl(a, LDA, N, ipvt, ref b);
             //
             //  Print the result.
             //

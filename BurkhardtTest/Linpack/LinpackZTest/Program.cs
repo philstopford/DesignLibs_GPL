@@ -2198,7 +2198,7 @@ namespace LinpackZTest
             Console.WriteLine("");
             Console.WriteLine("  Estimate the condition.");
 
-            rcond = ZPBCO.zpbco(a, lda, N, M, ref info);
+            rcond = ZPBCO.zpbco(ref a, lda, N, M, ref info);
 
             if (info != 0)
             {
@@ -3163,7 +3163,7 @@ namespace LinpackZTest
                 //
                 //  Ask ZQRSL to tell us what Q*Y is.
                 //
-                info = ZQRSL.zqrsl(a, lda, N, P, qraux, ref y, ref qy, ref qty, ref b, ref rsd, ref xb, job);
+                info = ZQRSL.zqrsl(a, lda, N, P, qraux, y, ref qy, ref qty, ref b, ref rsd, ref xb, job);
 
                 if (info != 0)
                 {

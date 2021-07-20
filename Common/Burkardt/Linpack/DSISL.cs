@@ -5,7 +5,7 @@ namespace Burkardt.Linpack
 {
     public static class DSISL
     {
-        public static void dsisl(ref double[] a, int lda, int n, int[] kpvt, ref double[] b)
+        public static void dsisl(double[] a, int lda, int n, int[] kpvt, ref double[] b)
 
             //****************************************************************************80
             //

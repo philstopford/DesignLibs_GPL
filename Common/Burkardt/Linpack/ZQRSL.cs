@@ -8,7 +8,7 @@ namespace Burkardt.Linpack
     public static class ZQRSL
     {
         public static int zqrsl(Complex[] x, int ldx, int n, int k,
-                Complex[] qraux, ref Complex[] y, ref Complex[] qy,
+                Complex[] qraux, Complex[] y, ref Complex[] qy,
                 ref Complex[] qty, ref Complex[] b, ref Complex[] rsd,
                 ref Complex[] xb, int job)
 

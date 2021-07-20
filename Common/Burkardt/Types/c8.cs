@@ -447,7 +447,7 @@ namespace Burkardt.Types
             return c2;
         }
 
-        public static void c8_copy(Complex c1, Complex c2)
+        public static void c8_copy(ref Complex c1, Complex c2)
 
             //****************************************************************************80
             //

@@ -2737,7 +2737,7 @@ namespace LinpackDTest
             job = 0;
             for (j = 1; j <= P; j++)
             {
-                ipvt[j] = 0;
+                ipvt[j - 1] = 0;
             }
 
             DQRDC.dqrdc(ref a, LDA, N, P, ref qraux, ref ipvt, work, job);

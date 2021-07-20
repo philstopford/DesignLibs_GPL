@@ -292,7 +292,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZHPDI.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZHPFA.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZHPCO.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZPBFA.cs" />
@@ -325,7 +324,6 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/DPOSL.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/DGTSL.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/DGBDI.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/Linpack/LinpackDTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZGBCO.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZHICO.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZHPSL.cs" />
@@ -343,6 +341,8 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/LocalMinimum/LocalMinimumTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/LocalMinimum.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/LocalMinimum/LocalMinimumRCTest/Program.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Linpack/LinpackDTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/DSICO.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -351,15 +351,16 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.18787277" />
+    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.31916538" />
     <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.0" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="XThreadsFramesViewSplitterKey" value="0.49394673" />
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C#" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunManager" selected=".NET Project.LinpackBench">
+  <component name="RunManager" selected=".NET Project.LinpackDTest">
     <configuration name="ASA005Test" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />

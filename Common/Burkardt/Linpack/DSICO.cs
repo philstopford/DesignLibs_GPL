@@ -140,7 +140,7 @@ namespace Burkardt.Linpack
 
             k = n;
 
-            while (k != 0)
+            while (k != 2)
             {
                 if (kpvt[k - 1] < 0)
                 {

@@ -293,8 +293,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZPPCO.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZPPFA.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZPPSL.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZPTSL.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZQRDC.cs" />
@@ -344,6 +342,8 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/CDF/lognormal.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/PDF/normal.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/LogNormalTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/PDF/lognormaltruncated.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/lognormaltruncated.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -4232,6 +4232,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="LogNormalTruncatedABTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/LogNormalTruncatedABTest/LogNormalTruncatedABTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="MatrixConditionTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -5303,6 +5321,7 @@
       <item itemvalue=".NET Project.LocalMinimumTest" />
       <item itemvalue=".NET Project.LocalMinimumRCTest" />
       <item itemvalue=".NET Project.LogNormalTest" />
+      <item itemvalue=".NET Project.LogNormalTruncatedABTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

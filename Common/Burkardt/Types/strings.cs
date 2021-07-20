@@ -4,6 +4,83 @@ namespace Burkardt.Types
 {
     public static partial class typeMethods
     {
+        public static void s_word_extract_first ( string s, ref string s1, ref string s2 )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    S_WORD_EXTRACT_FIRST extracts the first word from a string.
+        //
+        //  Discussion:
+        //
+        //    A "word" is a string of characters terminated by a blank or
+        //    the end of the string.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    25 October 2010
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, string S, the string.
+        //
+        //    Output, string &S1, the first word (initial blanks removed).
+        //
+        //    Output, string &S2, the remainder of the string, after removing
+        //    the first word (initial blanks removed).
+        //
+        {
+            int i;
+            int mode;
+            int s_len;
+
+            s_len = s.Length;
+            s1 = "";
+            s2 = "";
+            mode = 1;
+
+            for ( i = 0; i < s_len; i++ )
+            {
+                if ( mode == 1 )
+                {
+                    if ( s[i] != ' ' )
+                    {
+                        mode = 2;
+                    }
+                }
+                else if ( mode == 2 )
+                {
+                    if ( s[i] == ' ' )
+                    {
+                        mode = 3;
+                    }
+                }
+                else if ( mode == 3 )
+                {
+                    if ( s[i] != ' ' )
+                    {
+                        mode = 4;
+                    }
+                }
+                if ( mode == 2 )
+                {
+                    s1 = s1 + s[i];
+                }
+                else if ( mode == 4 )
+                {
+                    s2 = s2 + s[i];
+                }
+            }
+        }
         public static bool s_eqi(string a, string b)
         {
             return a.ToLower() == b.ToLower();

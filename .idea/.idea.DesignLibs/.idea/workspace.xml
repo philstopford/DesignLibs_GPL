@@ -261,6 +261,8 @@
     <projectFile>BurkhardtTest/LogNormalTest/LogNormalTest.csproj</projectFile>
     <projectFile>BurkhardtTest/LogNormalTruncatedABTest/LogNormalTruncatedABTest.csproj</projectFile>
     <projectFile>BurkhardtTest/LorenzODETest/LorenzODETest.csproj</projectFile>
+    <projectFile>BurkhardtTest/MandelbrotPMMASCIITest/MandelbrotPMMASCIITest.csproj</projectFile>
+    <projectFile>BurkhardtTest/PPMAASCIIIOTest/PPMAASCIIIOTest.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -295,9 +297,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZSPFA.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZSPCO.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZLPSL.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/BLAS/BLAS1Z.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZSVDC.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Linpack/ZTRCO.cs" />
@@ -345,7 +344,10 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Lorenz.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/RungeKutta/rk4.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/LorenzODETest/Program.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/MandelbrotPMMASCIITest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/strings.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/PPM_ASCII.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/PPMAASCIIIOTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -4378,6 +4380,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="PPMAASCIIIOTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/PPMAASCIIIOTest/PPMAASCIIIOTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="ProbabilityTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -5362,6 +5382,7 @@
       <item itemvalue=".NET Project.LogNormalTruncatedABTest" />
       <item itemvalue=".NET Project.LorenzODETest" />
       <item itemvalue=".NET Project.MandelbrotPMMASCIITest" />
+      <item itemvalue=".NET Project.PPMAASCIIIOTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

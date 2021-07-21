@@ -8,6 +8,93 @@ namespace Burkardt.Types
     public static partial class typeMethods
     {
 
+        public static double[] r8mat_vand2 ( int n, ref double[] x )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8MAT_VAND2 returns the N by N row Vandermonde matrix A.
+            //
+            //  Discussion:
+            //
+            //    An R8MAT is a doubly dimensioned array of R8 values, stored as a vector
+            //    in column-major order.
+            //
+            //    The row Vandermonde matrix returned by this routine reads "across"
+            //    rather than down.  In particular, each row begins with a 1, followed by
+            //    some value X, followed by successive powers of X.
+            //
+            //    The formula for the matrix entries is:
+            //
+            //      A(I,J) = X(I)^(J-1)
+            //
+            //  Properties:
+            //
+            //    A is nonsingular if, and only if, the X values are distinct.
+            //
+            //    The determinant of A is
+            //
+            //      det(A) = product ( 2 <= I <= N ) (
+            //        product ( 1 <= J <= I-1 ) ( ( X(I) - X(J) ) ) ).
+            //
+            //    The matrix A is generally ill-conditioned.
+            //
+            //  Example:
+            //
+            //    N = 5, X = (2, 3, 4, 5, 6)
+            //
+            //    1 2  4   8   16
+            //    1 3  9  27   81
+            //    1 4 16  64  256
+            //    1 5 25 125  625
+            //    1 6 36 216 1296
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    12 September 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order of the matrix desired.
+            //
+            //    Input, double X[N], the values that define A.
+            //
+            //    Output, double R8MAT_VAND2[N*N], the N by N row Vandermonde matrix.
+            //
+        {
+            double[] a;
+            int i;
+            int j;
+
+            a = new double[n*n];
+
+            for ( i = 0; i < n; i++ )
+            {
+                for ( j = 0; j < n; j++ )
+                {
+                    if ( j == 0 && x[i] == 0.0 )
+                    {
+                        a[i+j*n] = 1.0;
+                    }
+                    else
+                    {
+                        a[i+j*n] = Math.Pow ( x[i], j );
+                    }
+                }
+            }
+
+            return a;
+        }
+
         public static double[] r8mat_sub_new ( int m, int n, double[] a, double[] b )
 
         //****************************************************************************80
@@ -2314,93 +2401,6 @@ namespace Burkardt.Types
             return r_norm;
         }
 
-        public static double r8mat_is_eigen_right ( int n, int k, double[] a, double[] x,
-        double[] lambda )
-
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    R8MAT_IS_EIGEN_RIGHT determines the error in a (right) eigensystem.
-        //
-        //  Discussion:
-        //
-        //    An R8MAT is a matrix of doubles.
-        //
-        //    This routine computes the Frobenius norm of
-        //
-        //      A * X - X * LAMBDA
-        //
-        //    where
-        //
-        //      A is an N by N matrix,
-        //      X is an N by K matrix (each of K columns is an eigenvector)
-        //      LAMBDA is a K by K diagonal matrix of eigenvalues.
-        //
-        //    This routine assumes that A, X and LAMBDA are all real.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license. 
-        //
-        //  Modified:
-        //
-        //    07 October 2010
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int N, the order of the matrix.
-        //
-        //    Input, int K, the number of eigenvectors.
-        //    K is usually 1 or N.
-        //
-        //    Input, double A[N*N], the matrix.
-        //
-        //    Input, double X[N*K], the K eigenvectors.
-        //
-        //    Input, double LAMBDA[K], the K eigenvalues.
-        //
-        //    Output, double R8MAT_IS_EIGEN_RIGHT, the Frobenius norm
-        //    of the difference matrix A * X - X * LAMBDA, which would be exactly zero
-        //    if X and LAMBDA were exact eigenvectors and eigenvalues of A.
-        //
-        {
-            double[] c;
-            double error_frobenius;
-            int i;
-            int j;
-            int l;
-
-            c = new double[n*k];
-
-            for ( j = 0; j < k; j++ )
-            {
-                for ( i = 0; i < n; i++ )
-                {
-                    c[i+j*n] = 0.0;
-                    for ( l = 0; l < n; l++ )
-                    {
-                        c[i+j*n] = c[i+j*n] + a[i+l*n] * x[l+j*n];
-                    }
-                }
-            }
-
-            for ( j = 0; j < k; j++ )
-            {
-                for ( i = 0; i < n; i++ )
-                {
-                    c[i+j*n] = c[i+j*n] - lambda[j] * x[i+j*n];
-                }
-            }
-
-            error_frobenius = r8mat_norm_fro ( n, k, c );
-            
-            return error_frobenius;
-        }
         
         public static void r8mat_add ( int m, int n, double[] a, ref double[] b )
 

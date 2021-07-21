@@ -65,6 +65,45 @@ namespace Burkardt.Types
             return b;
         }
         
+        public static void r8rmat_delete ( int m, int n, ref double[][] a )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8RMAT_DELETE frees memory associated with an R8RMAT.
+            //
+            //  Discussion:
+            //
+            //    This function releases the memory associated with an R8RMAT.
+            // 
+            //    An R8RMAT is a row-major array that was created by a 
+            //    command like:
+            //
+            //      double **a;
+            //      a = r8rmat_new ( m, n );
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    09 September 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns in the array.
+            //
+            //    Input, double **A, the pointer to the array.
+            //
+        {
+            a = null;
+        }
 
         public static double[] r8rmat_fs_new(int n, double[][] a, double[] b)
 

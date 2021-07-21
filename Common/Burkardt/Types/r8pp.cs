@@ -4,6 +4,47 @@ namespace Burkardt.Types
 {
     public static partial class typeMethods
     {
+        public static void r8pp_delete ( int m, int n, ref double[][] a )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8PP_DELETE frees the memory set aside by R8PP_NEW.
+            //
+            //  Discussion:
+            //
+            //    An R8PP is a pointer to pointers to R8's, and is a sort of
+            //    variably-dimensioned matrix.
+            //
+            //    This function releases the memory associated with an array that was 
+            //    created by a command like:
+            //
+            //      double **a;
+            //      a = r8pp_new ( m, n );
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    07 November 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns in the array.
+            //
+            //    Input, double **A, the pointer to the pointers.
+            //
+        {
+            a = null;
+        }
+
         public static void r8pp_print(int n, double[] a, string title)
             //****************************************************************************80
             //

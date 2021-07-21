@@ -4,6 +4,107 @@ namespace Burkardt.Types
 {
     public static partial class typeMethods
     {
+        public static double r8poly_value(int n, double[] a, double x)
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8POLY_VALUE evaluates a double precision polynomial.
+            //
+            //  Discussion:
+            //
+            //    For sanity's sake, the value of N indicates the NUMBER of 
+            //    coefficients, or more precisely, the ORDER of the polynomial,
+            //    rather than the DEGREE of the polynomial.  The two quantities
+            //    differ by 1, but cause a great deal of confusion.
+            //
+            //    Given N and A, the form of the polynomial is:
+            //
+            //      p(x) = a[0] + a[1] * x + ... + a[n-2] * x^(n-2) + a[n-1] * x^(n-1)
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    13 August 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order of the polynomial.
+            //
+            //    Input, double A[N], the coefficients of the polynomial.
+            //    A[0] is the constant term.
+            //
+            //    Input, double X, the point at which the polynomial is to be evaluated.
+            //
+            //    Output, double R8POLY_VALUE, the value of the polynomial at X.
+            //
+        {
+            double value = 0.0;
+
+            for (int i = n - 1; 0 <= i; i--)
+            {
+                value = value * x + a[i];
+            }
+
+            return value;
+        }
+
+        public static double r8poly_value_horner(int m, double[] c, double x)
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8POLY_VALUE_HORNER evaluates a polynomial using Horner's method.
+            //
+            //  Discussion:
+            //
+            //    The polynomial 
+            //
+            //      p(x) = c0 + c1 * x + c2 * x^2 + ... + cm * x^m
+            //
+            //    is to be evaluated at the value X.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    02 January 2015
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, the degree of the polynomial.
+            //
+            //    Input, double C[M+1], the coefficients of the polynomial.
+            //    A[0] is the constant term.
+            //
+            //    Input, double X, the point at which the polynomial is to be evaluated.
+            //
+            //    Output, double R8POLY_VALUE_HORNER, the value of the polynomial at X.
+            //
+        {
+            double value = c[m];
+
+            for (int i = m - 1; 0 <= i; i--)
+            {
+                value = value * x + c[i];
+            }
+
+            return value;
+        }
+
         public static void r8poly_ant_cof(int n, double[] poly_cof, ref double[] poly_cof2 )
 
         //****************************************************************************80

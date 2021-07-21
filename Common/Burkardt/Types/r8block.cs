@@ -356,11 +356,9 @@ namespace Burkardt.Types
                     }
                 }
             }
-
-            return;
         }
 
-        public static double[] r8block_zeros_new(int l, int m, int n)
+        public static double[] r8block_zero_new(int l, int m, int n)
 
             //****************************************************************************80
             //

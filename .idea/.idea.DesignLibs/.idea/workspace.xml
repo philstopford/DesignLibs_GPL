@@ -264,6 +264,7 @@
     <projectFile>BurkhardtTest/MandelbrotPMMASCIITest/MandelbrotPMMASCIITest.csproj</projectFile>
     <projectFile>BurkhardtTest/PPMAASCIIIOTest/PPMAASCIIIOTest.csproj</projectFile>
     <projectFile>BurkhardtTest/MeshBandwidthTest/MeshBandwidthTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/RestartedGeneralizedMinimumResidualTest/RestartedGeneralizedMinimumResidualTest.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -298,18 +299,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_sum.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_stutter.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_order.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_permute.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8_linspace.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_sort.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_range.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_polarize.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_rsquared.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_shift.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_scale.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_nint.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_mm.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_mirror.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_min.cs" />
@@ -349,6 +338,18 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Mesh.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Table/TableMisc.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/MeshBandwidthTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/SparseTriplet/ATX.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CompressedRow/DiagonalPointer.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CompressedRow/ILU.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/SparseTriplet/AX.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_dot_product.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Helpers.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CompressedRow/AX.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CompressedRow/ATX.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CompressedRow/LUS.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CompressedRow/Rearrange.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Solve/RestartedGeneralizedMinimumResidual.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/RestartedGeneralizedMinimumResidualTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -4471,6 +4472,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="RestartedGeneralizedMinimumResidualTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/RestartedGeneralizedMinimumResidualTest/RestartedGeneralizedMinimumResidualTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="Shepard1DTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/Shepard1DTest/Debug/net5.0/Shepard1DTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -5403,6 +5422,7 @@
       <item itemvalue=".NET Project.MandelbrotPMMASCIITest" />
       <item itemvalue=".NET Project.PPMAASCIIIOTest" />
       <item itemvalue=".NET Project.MeshBandwidthTest" />
+      <item itemvalue=".NET Project.RestartedGeneralizedMinimumResidualTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

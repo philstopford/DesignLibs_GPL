@@ -6,6 +6,71 @@ namespace Burkardt
 {
     public static partial class Helpers
     {
+        public static void mult_givens ( double c, double s, int k, ref double[] g )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    MULT_GIVENS applies a Givens rotation to two successive entries of a vector.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    08 August 2006
+            //
+            //  Author:
+            //
+            //    Original C version by Lili Ju.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Richard Barrett, Michael Berry, Tony Chan, James Demmel,
+            //    June Donato, Jack Dongarra, Victor Eijkhout, Roidan Pozo,
+            //    Charles Romine, Henk van der Vorst,
+            //    Templates for the Solution of Linear Systems:
+            //    Building Blocks for Iterative Methods,
+            //    SIAM, 1994,
+            //    ISBN: 0898714710,
+            //    LC: QA297.8.T45.
+            //
+            //    Tim Kelley,
+            //    Iterative Methods for Linear and Nonlinear Equations,
+            //    SIAM, 2004,
+            //    ISBN: 0898713528,
+            //    LC: QA297.8.K45.
+            //
+            //    Yousef Saad,
+            //    Iterative Methods for Sparse Linear Systems,
+            //    Second Edition,
+            //    SIAM, 2003,
+            //    ISBN: 0898715342,
+            //    LC: QA188.S17.
+            //
+            //  Parameters:
+            //
+            //    Input, double C, S, the cosine and sine of a Givens
+            //    rotation.
+            //
+            //    Input, int K, indicates the location of the first vector entry.
+            //
+            //    Input/output, double G[K+2], the vector to be modified.  On output,
+            //    the Givens rotation has been applied to entries G(K) and G(K+1).
+            //
+        {
+            double g1;
+            double g2;
+
+            g1 = c * g[k] - s * g[k+1];
+            g2 = s * g[k] + c * g[k+1];
+
+            g[k]   = g1;
+            g[k+1] = g2;
+        }
         public static double degrees_to_radians ( double angle )
 
             //****************************************************************************80

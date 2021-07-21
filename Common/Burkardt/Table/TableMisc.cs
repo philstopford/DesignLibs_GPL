@@ -9,6 +9,13 @@ namespace Burkardt.Table
     
     public static partial class TableMisc
     {
+        public static void readHeader(string input_filename, ref int m, ref int n)
+        {
+            TableHeader ret = readHeader(input_filename);
+
+            m = ret.m;
+            n = ret.n;
+        }
         public static TableHeader readHeader(string input_filename)
         {
             TableHeader ret = new TableHeader {m = TableMisc.file_column_count(input_filename), n = TableMisc.file_row_count ( input_filename )};

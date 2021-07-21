@@ -266,6 +266,7 @@
     <projectFile>BurkhardtTest/MeshBandwidthTest/MeshBandwidthTest.csproj</projectFile>
     <projectFile>BurkhardtTest/RestartedGeneralizedMinimumResidualTest/RestartedGeneralizedMinimumResidualTest.csproj</projectFile>
     <projectFile>BurkhardtTest/MidpointExplicitTest/MidpointExplicitTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/MultiGridPoisson1DTest/MultiGridPoisson1DTest.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -300,10 +301,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_stats.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_minmax.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_print.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_is.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_indicator.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_index.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_comparison.cs" />
@@ -332,7 +329,6 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Polynomial/Legendre.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_legendre.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/DREAM/Dream.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8block.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Mesh.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Table/TableMisc.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/MeshBandwidthTest/Program.cs" />
@@ -351,6 +347,11 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Midpoint.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/MidpointExplicit.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/MidpointExplicitTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8block.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/GaussSeidel.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Grid/Transfer.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Grid/Poisson.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/MultiGridPoisson1DTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -359,7 +360,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.31916538" />
+    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.3195212" />
     <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.0" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
@@ -4383,6 +4384,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="MultiGridPoisson1DTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/MultiGridPoisson1DTest/MultiGridPoisson1DTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="MultivariateLangrageTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -5443,6 +5462,7 @@
       <item itemvalue=".NET Project.MeshBandwidthTest" />
       <item itemvalue=".NET Project.RestartedGeneralizedMinimumResidualTest" />
       <item itemvalue=".NET Project.MidpointExplicitTest" />
+      <item itemvalue=".NET Project.MultiGridPoisson1DTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

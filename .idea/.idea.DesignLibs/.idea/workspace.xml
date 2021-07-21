@@ -263,6 +263,7 @@
     <projectFile>BurkhardtTest/LorenzODETest/LorenzODETest.csproj</projectFile>
     <projectFile>BurkhardtTest/MandelbrotPMMASCIITest/MandelbrotPMMASCIITest.csproj</projectFile>
     <projectFile>BurkhardtTest/PPMAASCIIIOTest/PPMAASCIIIOTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/MeshBandwidthTest/MeshBandwidthTest.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -297,11 +298,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r82col.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r82.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_variance.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_unique.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Uniform/UniformRNG_r8.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_sum.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_stutter.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_order.cs" />
@@ -341,13 +337,18 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8mat_border.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8interval.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8cmat.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8block.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r83row.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r83col.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r83.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8_is.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Polynomial/Legendre.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_legendre.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/DREAM/Dream.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8block.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Mesh.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Table/TableMisc.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/MeshBandwidthTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -4308,6 +4309,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="MeshBandwidthTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/MeshBandwidthTest/MeshBandwidthTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="MinPackTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -5383,6 +5402,7 @@
       <item itemvalue=".NET Project.LorenzODETest" />
       <item itemvalue=".NET Project.MandelbrotPMMASCIITest" />
       <item itemvalue=".NET Project.PPMAASCIIIOTest" />
+      <item itemvalue=".NET Project.MeshBandwidthTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

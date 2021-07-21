@@ -271,11 +271,11 @@ namespace Burkardt.Types
             int i;
             int j;
 
-            a = new double[][][l];
+            a = new double[l][][];
             
             for (i = 0; i < l; i++)
             {
-                a[i] = new double[][m];
+                a[i] = new double[m][];
             }
 
             for (i = 0; i < l; i++)

@@ -672,6 +672,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeshBandwidthTest", "Burkha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestartedGeneralizedMinimumResidualTest", "BurkhardtTest\RestartedGeneralizedMinimumResidualTest\RestartedGeneralizedMinimumResidualTest.csproj", "{A1D86A1E-6655-41C0-9F97-CC7D460F5D1C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MidpointExplicitTest", "BurkhardtTest\MidpointExplicitTest\MidpointExplicitTest.csproj", "{19A9D17B-1051-4272-ABE8-A727CAB8A184}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -4162,6 +4164,18 @@ Global
 		{A1D86A1E-6655-41C0-9F97-CC7D460F5D1C}.Release|x64.Build.0 = Release|Any CPU
 		{A1D86A1E-6655-41C0-9F97-CC7D460F5D1C}.Release|x86.ActiveCfg = Release|Any CPU
 		{A1D86A1E-6655-41C0-9F97-CC7D460F5D1C}.Release|x86.Build.0 = Release|Any CPU
+		{19A9D17B-1051-4272-ABE8-A727CAB8A184}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19A9D17B-1051-4272-ABE8-A727CAB8A184}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19A9D17B-1051-4272-ABE8-A727CAB8A184}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{19A9D17B-1051-4272-ABE8-A727CAB8A184}.Debug|x64.Build.0 = Debug|Any CPU
+		{19A9D17B-1051-4272-ABE8-A727CAB8A184}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{19A9D17B-1051-4272-ABE8-A727CAB8A184}.Debug|x86.Build.0 = Debug|Any CPU
+		{19A9D17B-1051-4272-ABE8-A727CAB8A184}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19A9D17B-1051-4272-ABE8-A727CAB8A184}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19A9D17B-1051-4272-ABE8-A727CAB8A184}.Release|x64.ActiveCfg = Release|Any CPU
+		{19A9D17B-1051-4272-ABE8-A727CAB8A184}.Release|x64.Build.0 = Release|Any CPU
+		{19A9D17B-1051-4272-ABE8-A727CAB8A184}.Release|x86.ActiveCfg = Release|Any CPU
+		{19A9D17B-1051-4272-ABE8-A727CAB8A184}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -4496,6 +4510,7 @@ Global
 		{AADA612C-0D56-407E-B6CA-660644F93F91} = {B14C0D74-30A0-4540-8100-2FFA1C84CA6D}
 		{8D0F2268-7B36-40EC-B88A-6A237F72B933} = {B14C0D74-30A0-4540-8100-2FFA1C84CA6D}
 		{A1D86A1E-6655-41C0-9F97-CC7D460F5D1C} = {B14C0D74-30A0-4540-8100-2FFA1C84CA6D}
+		{19A9D17B-1051-4272-ABE8-A727CAB8A184} = {B14C0D74-30A0-4540-8100-2FFA1C84CA6D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B449416C-C504-4FA8-9E10-10857263A64A}

@@ -166,7 +166,6 @@ namespace Burkardt.Types
 
             return xval;
         }
-        //****************************************************************************80
 
         public static void r8vec_even2(int maxval, int[] nfill, int nold, double[] xold,
         ref int nval, ref double[] xval )

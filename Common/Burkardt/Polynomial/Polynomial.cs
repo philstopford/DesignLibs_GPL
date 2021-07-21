@@ -333,7 +333,7 @@ namespace Burkardt.PolynomialNS
             int[] indx = typeMethods.i4vec_sort_heap_index_a(o, e);
 
             typeMethods.i4vec_permute(o, indx, ref e);
-            typeMethods.r8vec_permute(o, indx, c);
+            typeMethods.r8vec_permute(o, indx, ref c);
         }
 
         public static double[] polynomial_value(int d, int o, double[] c, int[] e, int nx,

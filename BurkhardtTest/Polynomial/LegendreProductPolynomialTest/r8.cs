@@ -168,7 +168,7 @@ namespace LegendreProductPolynomialTest
 
             typeMethods.i4vec_print(n, p, "  Permutation Vector P[]:");
 
-            typeMethods.r8vec_permute(n, p, x);
+            typeMethods.r8vec_permute(n, p, ref x);
 
             typeMethods.r8vec_print(n, x, "  Permuted array X[P[]]:");
         }

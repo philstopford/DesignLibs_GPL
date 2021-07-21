@@ -80,6 +80,49 @@
             return value;
         }
         
+        public static double r8vec_dot_product_affine ( int n, double[] v0, double[] v1, double[] v2 )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8VEC_DOT_PRODUCT_AFFINE computes the affine dot product.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    27 October 2010
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number of entries in the vectors.
+        //
+        //    Input, double V0[N], the base vector.
+        //
+        //    Input, double V1[N], V2[N], the two vectors to be considered.
+        //
+        //    Output, double R8VEC_DOT_PRODUCT_AFFINE, the dot product of the vectors.
+        //
+        {
+            int i;
+            double value;
+
+            value = 0.0;
+            for ( i = 0; i < n; i++ )
+            {
+                value = value + ( v1[i] - v0[i] ) * ( v2[i] - v0[i] );
+            }
+            return value;
+        }
+
+        
         public static double r8vec_i4vec_dot_product(int n, double[] r8vec, int[] i4vec)
             //****************************************************************************80
             //

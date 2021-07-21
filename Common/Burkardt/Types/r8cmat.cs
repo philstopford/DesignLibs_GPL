@@ -4,6 +4,45 @@ namespace Burkardt.Types
 {
     public static partial class typeMethods
     {
+        public static void r8cmat_delete ( int m, int n, ref double[][] a )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8CMAT_DELETE frees memory associated with an R8CMAT.
+            //
+            //  Discussion:
+            //
+            //    This function releases the memory associated with an R8CMAT.
+            //
+            //    An R8CMAT is a column-major array, storing element (I,J)
+            //    as A[J][I], and can be created by a command like:
+            //      double **a;
+            //      a = r8cmat_new ( m, n );
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    09 September 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns in the array.
+            //
+            //    Input, double **A, the pointer to the array.
+            //
+        {
+            a = null;
+        }
+
         public static double[][] r8cmat_new(int m, int n)
 
             //****************************************************************************80

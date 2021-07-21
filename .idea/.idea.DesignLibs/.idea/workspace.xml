@@ -297,10 +297,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/c8vec.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Matrix/Exponential.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/cmplx.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8_power.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8_round.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8_sign.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8_rise.cs" />
@@ -341,13 +337,17 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/Polynomial/LegendreProductPolynomialTest/r8.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8poly.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8_col.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8col.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8rmat.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8pp.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8mat.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8mat_is.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8mat_border.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8interval.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8cmat.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8block.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r83row.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />

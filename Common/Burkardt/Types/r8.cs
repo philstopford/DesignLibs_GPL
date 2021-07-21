@@ -3387,60 +3387,7 @@ namespace Burkardt.Types
 
             return value;
         }
-
-        public static double[] r8block_zero_new(int l, int m, int n)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8BLOCK_ZERO_NEW returns a new zeroed R8BLOCK.
-            //
-            //  Discussion:
-            //
-            //    An R8BLOCK is a triple dimensioned array of R8 values, stored as a vector
-            //    in column-major order.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    13 April 2013
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int L, M, N, the number of rows and columns.
-            //
-            //    Output, double R8BLOCK_ZERO_NEW[L*M*N], the new zeroed matrix.
-            //
-        {
-            double[] a;
-            int i;
-            int j;
-            int k;
-
-            a = new double[l * m * n];
-
-            for (k = 0; k < n; k++)
-            {
-                for (j = 0; j < m; j++)
-                {
-                    for (i = 0; i < l; i++)
-                    {
-                        a[i + j * l + k * l * m] = 0.0;
-                    }
-                }
-            }
-
-            return a;
-        }
-
+        
         public static double r8_atan(double y, double x)
 
             //****************************************************************************80

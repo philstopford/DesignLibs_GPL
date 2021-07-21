@@ -548,6 +548,424 @@ namespace Burkardt.Types
             return value;
         }
 
+        public static double r8_radians(double degrees)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_RADIANS converts an angle from degree to radian measure.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    15 May 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double DEGREES, the angle measurement in degrees.
+            //
+            //    Output, double R8_RADIANS, the angle measurement in radians.
+            //
+        {
+            const double r8_pi = 3.1415926535897932384626434;
+            double value;
+
+            value = degrees * r8_pi / 180.0;
+
+            return value;
+        }
+
+        public static double r8_relu(double x)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_RELU evaluates the ReLU function of an R8.
+            //
+            //  Discussion:
+            //
+            //    An R8 is a double precision real value.
+            //
+            //    The ReLU function is max(x,0.0).
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    10 January 2019
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the argument.
+            //
+            //    Output, double VALUE, the function value.
+            //
+        {
+            double value;
+
+            if (x <= 0.0)
+            {
+                value = 0.0;
+            }
+            else
+            {
+                value = x;
+            }
+
+            return value;
+        }
+
+        public static double r8_reverse_bytes ( double x )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8_REVERSE_BYTES reverses the bytes in an R8.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    12 May 2007
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double X, a value whose bytes are to be reversed.
+        //
+        //    Output, R8_REVERSE_BYTES, a value with bytes in reverse order;
+        //
+        {
+            byte[] t = BitConverter.GetBytes(x);
+            Array.Reverse(t);
+            return BitConverter.ToDouble(t);
+        }
+
+        public static double r8_secd(double degrees)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_SECD returns the secant of an angle given in degrees.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    27 July 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double DEGREES, the angle in degrees.
+            //
+            //    Output, double R8_SECD, the secant of the angle.
+            //
+        {
+            const double r8_pi = 3.141592653589793;
+            double radians;
+            double value;
+
+            radians = r8_pi * (degrees / 180.0);
+
+            value = 1.0 / Math.Cos(radians);
+
+            return value;
+        }
+
+        public static double r8_sech(double x)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_SECH evaluates the hyperbolic secant, while avoiding COSH overflow.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    21 December 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the argument of the function.
+            //
+            //    Output, double R8_SECH, the value of the function.
+            //
+        {
+            const double log_huge = 80.0;
+            double value;
+
+            if (log_huge < Math.Abs(x))
+            {
+                value = 0.0;
+            }
+            else
+            {
+                value = 1.0 / Math.Cosh(x);
+            }
+
+            return value;
+        }
+
+        public static double r8_sigmoid(double l, double b, double m, double x)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    r8_sigmoid evaluates the sigmoid or logistic function.
+            //
+            //  Discussion:
+            //
+            //    An R8 is a double value.
+            //
+            //    The sigmoid function is useful for classification problems in
+            //    machine learning.  Its value is always between 0 and 1.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    11 October 2019
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Input:
+            //
+            //    double l, the maximum value of the function.  This is often 1.
+            //
+            //    double b, the cutoff value, where the function equals l/2.
+            //    This is often 0.
+            //
+            //    double m, the slope, which determines the steepness of the curve
+            //    and the width of the uncertainty interval.  This is often 1.
+            //
+            //    double x, the argument.
+            //
+            //  Output:
+            //
+            //    double r8_sigmoid, the value.
+            //
+        {
+            double value;
+
+            value = l / (1.0 + Math.Exp(-m * (x - b)));
+
+            return value;
+        }
+
+
+        public static void r8_sincos_sum(double a, double b, ref double d, ref double e, ref double f)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_SINCOS_SUM simplifies a*sin(cx)+b*cos(cx).
+            //
+            //  Discussion:
+            //
+            //    The expression
+            //      a * sin ( c * x ) + b * cos ( c * x )
+            //    can be rewritten as
+            //      d * sin ( c * x + e )
+            //    or
+            //      d * cos ( c * x + f ) 
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    19 January 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double A, B, the coefficients in the linear combination.
+            //
+            //    Output, double &D, &E, &F, the new coefficient, and the shift for
+            //    sine or for cosine.
+            //
+        {
+            const double r8_pi = 3.141592653589793E+00;
+
+            d = Math.Sqrt(a * a + b * b);
+            e = Math.Atan2(b, a);
+            f = Math.Atan2(b, a) - r8_pi / 2.0E+00;
+            if (f < -r8_pi)
+            {
+                f = f + 2.0E+00 * r8_pi;
+            }
+        }
+
+        public static double r8_sind(double degrees)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_SIND returns the sine of an angle given in degrees.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    27 July 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double DEGREES, the angle in degrees.
+            //
+            //    Output, double R8_SIND, the sine of the angle.
+            //
+        {
+            const double r8_pi = 3.141592653589793;
+            double radians;
+            double value;
+
+            radians = r8_pi * (degrees / 180.0);
+
+            value = Math.Sin(radians);
+
+            return value;
+        }
+
+        public static double r8_softplus(double x)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_SOFTPLUS evaluates the softplus function of an R8.
+            //
+            //  Discussion:
+            //
+            //    An R8 is a double precision real value.
+            //
+            //    The softplus function is a smoothed (differentiable) version of max(x,0.0).
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    07 September 2018
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the argument.
+            //
+            //    Output, double VALUE, the function value.
+            //
+        {
+            double value;
+
+            if (x <= -36.841)
+            {
+                value = 0.0;
+            }
+            else if (+36.841 <= x)
+            {
+                value = x;
+            }
+            else
+            {
+                value = Math.Log(1.0 + Math.Exp(x));
+            }
+
+            return value;
+        }
+
+        public static double r8_sqrt_i4(int i)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_SQRT_I4 returns the square root of an I4 as an R8.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    05 June 2012
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int I, the number whose square root is desired.
+            //
+            //    Output, double R8_SQRT_I4, the value of sqrt(I).
+            //
+        {
+            double value;
+
+            value = Math.Sqrt((double) (i));
+
+            return value;
+        }
+
+
         public static double r8_square(double x)
 
             //****************************************************************************80
@@ -581,57 +999,7 @@ namespace Burkardt.Types
 
             return value;
         }
-
-        public static bool r8_is_integer(double r)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_IS_INTEGER determines if an R8 represents an integer value.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    15 April 2004
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, double R, the number to be checked.
-            //
-            //    Output, bool R8_IS_INTEGER, is TRUE if R is an integer value.
-            //
-        {
-            const int i4_huge = 2147483647;
-            bool value;
-
-            if ((double) (i4_huge) < r)
-            {
-                value = false;
-            }
-            else if (r < -(double) (i4_huge))
-            {
-                value = false;
-            }
-            else if (r == (double) ((int) (r)))
-            {
-                value = true;
-            }
-            else
-            {
-                value = false;
-            }
-
-            return value;
-        }
-
+        
         public static r8 s_to_r8(string s)
             //****************************************************************************80
             //
@@ -2623,6 +2991,321 @@ namespace Burkardt.Types
             return value;
         }
 
+        public static void r8_to_dhms(double r, ref int d, ref int h, ref int m, ref int s)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_TO_DHMS converts an R8 day value into days, hours, minutes, seconds.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    17 April 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double R, a real number representing a time period measured in days.
+            //
+            //    Output, int &D, &H, &M, &S, the equivalent number of days, hours,
+            //    minutes and seconds.
+            //
+        {
+            int sign;
+
+            if (0.0 <= r)
+            {
+                sign = 1;
+            }
+            else
+            {
+                sign = -1;
+                r = -r;
+            }
+
+            d = (int) r;
+
+            r = r - (double) d;
+            r = 24.0 * r;
+            h = (int) r;
+
+            r = r - (double) h;
+            r = 60.0 * r;
+            m = (int) r;
+
+            r = r - (double) m;
+            r = 60.0 * r;
+            s = (int) r;
+
+            if (sign == -1)
+            {
+                d = -d;
+                h = -h;
+                m = -m;
+                s = -s;
+            }
+        }
+
+        public static int r8_to_i4(double xmin, double xmax, double x, int ixmin, int ixmax)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_TO_I4 maps real X in [XMIN, XMAX] to integer IX in [IXMIN, IXMAX].
+            //
+            //  Discussion:
+            //
+            //    IX := IXMIN + ( IXMAX - IXMIN ) * ( X - XMIN ) / ( XMAX - XMIN )
+            //    IX := min ( IX, max ( IXMIN, IXMAX ) )
+            //    IX := max ( IX, min ( IXMIN, IXMAX ) )
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    19 April 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double XMIN, XMAX, the real range.  XMAX and XMIN must not be
+            //    equal.  It is not necessary that XMIN be less than XMAX.
+            //
+            //    Input, double X, the real number to be converted.
+            //
+            //    Input, int IXMIN, IXMAX, the allowed range of the output
+            //    variable.  IXMAX corresponds to XMAX, and IXMIN to XMIN.
+            //    It is not necessary that IXMIN be less than IXMAX.
+            //
+            //    Output, int R8_TO_I4, the value in the range [IXMIN,IXMAX] that
+            //    corresponds to X.
+            //
+        {
+            int ix;
+            double temp;
+
+            if (xmax == xmin)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("R8_TO_I4 - Fatal error!");
+                Console.WriteLine("  XMAX = XMIN, making a zero divisor.");
+                Console.WriteLine("  XMAX = " + xmax + "");
+                Console.WriteLine("  XMIN = " + xmin + "");
+                return (1);
+            }
+
+            temp =
+                ((xmax - x) * (double) ixmin
+                 + (x - xmin) * (double) ixmax)
+                / (xmax - xmin);
+
+            if (0.0 <= temp)
+            {
+                temp = temp + 0.5;
+            }
+            else
+            {
+                temp = temp - 0.5;
+            }
+
+            ix = (int) temp;
+
+            return ix;
+        }
+
+        public static double r8_sum(double x, double y)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_SUM returns the sum of two R8's.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    20 April 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double X, Y, the quantities to add.
+            //
+            //    Output, double R8_SUM, the sum of X and Y.
+            //
+        {
+            double value;
+
+            value = x + y;
+
+            return value;
+        }
+
+        public static void r8_swap(ref double x, ref double y)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_SWAP switches two R8's.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    29 August 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input/output, double &X, &Y.  On output, the values of X and
+            //    Y have been interchanged.
+            //
+        {
+            double z;
+
+            z = x;
+            x = y;
+            y = z;
+        }
+
+        public static void r8_swap3(ref double x, ref double y, ref double z)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_SWAP3 swaps three R8's.
+            //
+            //  Example:
+            //
+            //    Input:
+            //
+            //      X = 1, Y = 2, Z = 3
+            //
+            //    Output:
+            //
+            //      X = 2, Y = 3, Z = 1
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    06 January 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input/output, double &X, &Y, &Z, three values to be swapped.
+            //
+        {
+            double w;
+
+            w = x;
+            x = y;
+            y = z;
+            z = w;
+        }
+
+        public static double r8_tand(double degrees)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_TAND returns the tangent of an angle given in degrees.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    27 July 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double DEGREES, the angle in degrees.
+            //
+            //    Output, double R8_TAND, the tangent of the angle.
+            //
+        {
+            const double r8_pi = 3.141592653589793;
+            double radians;
+            double value;
+
+            radians = r8_pi * (degrees / 180.0);
+
+            value = Math.Sin(radians) / Math.Cos(radians);
+
+            return value;
+        }
+
+        public static double r8_tiny()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_TINY returns a "tiny" R8.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    08 March 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Output, double R8_TINY, a "tiny" R8 value.
+            //
+        {
+            const double value = 0.4450147717014E-307;
+
+            return value;
+        }
+
+
         public static int r8_to_bin_even(int nbin, double a, double b, double c)
 
             //****************************************************************************80
@@ -2761,6 +3444,134 @@ namespace Burkardt.Types
 
             return bin;
         }
+
+        public static double r8_to_r8_discrete(double r, double rmin, double rmax, int nr)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_TO_R8_DISCRETE maps R to RD in [RMIN, RMAX] with NR possible values.
+            //
+            //  Discussion:
+            //
+            //    if ( R < RMIN ) then
+            //      RD = RMIN
+            //    else if ( RMAX < R ) then
+            //      RD = RMAX
+            //    else
+            //      T = nint ( ( NR - 1 ) * ( R - RMIN ) / ( RMAX - RMIN ) )
+            //      RD = RMIN + T * ( RMAX - RMIN ) / real ( NR - 1 )
+            //
+            //    In the special case where NR = 1, when
+            //
+            //      XD = 0.5 * ( RMAX + RMIN )
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    11 September 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double R, the number to be converted.
+            //
+            //    Input, double RMAX, RMIN, the maximum and minimum
+            //    values for RD.
+            //
+            //    Input, int NR, the number of allowed values for XD.
+            //    NR should be at least 1.
+            //
+            //    Output, double RD, the corresponding discrete value.
+            //
+        {
+            int f;
+            double rd;
+            //
+            //  Check for errors.
+            //
+            if (nr < 1)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("R8_TO_R8_DISCRETE - Fatal error!");
+                Console.WriteLine("  NR = " + nr + "");
+                Console.WriteLine("  but NR must be at least 1.");
+                return (1);
+            }
+
+            if (nr == 1)
+            {
+                rd = 0.5 * (rmin + rmax);
+                return rd;
+            }
+
+            if (rmax == rmin)
+            {
+                rd = rmax;
+                return rd;
+            }
+
+            f = (int)((double) (nr) * (rmax - r) / (rmax - rmin));
+            f = Math.Max(f, 0);
+            f = Math.Min(f, nr);
+
+            rd = ((double) (f) * rmin
+                  + (double) (nr - f) * rmax)
+                 / (double) (nr);
+
+            return rd;
+        }
+
+        public static void r8_unswap3(ref double x, ref double y, ref double z)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_UNSWAP3 unswaps three R8's.
+            //
+            //  Example:
+            //
+            //    Input:
+            //
+            //      X = 2, Y = 3, Z = 1
+            //
+            //    Output:
+            //
+            //      X = 1, Y = 2, Z = 3
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    17 April 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input/output, double &X, &Y, &Z, three values to be swapped.
+            //
+        {
+            double w;
+
+            w = z;
+            z = y;
+            y = x;
+            x = w;
+        }
+
 
         public static void r8slmat_print(int m, int n, double[] a, string title)
 
@@ -3121,13 +3932,22 @@ namespace Burkardt.Types
             return value;
         }
 
-        public static bool r8_is_in_01(double a)
+
+        public static double r8_walsh_1d ( double x, int digit )
 
             //****************************************************************************80
             //
             //  Purpose:
             //
-            //    R8_IN_01 is TRUE if an R8 is in the range [0,1].
+            //    R8_WALSH_1D evaluates the Walsh function of a real scalar argument.
+            //
+            //  Discussion:
+            //
+            //    Consider the binary representation of X, and number the digits
+            //    in descending order, from leading to lowest, with the units digit
+            //    being numbered 0.
+            //
+            //    The Walsh function W(J)(X) is equal to the J-th binary digit of X.
             //
             //  Licensing:
             //
@@ -3135,7 +3955,7 @@ namespace Burkardt.Types
             //
             //  Modified:
             //
-            //    13 June 2009
+            //    17 April 2004
             //
             //  Author:
             //
@@ -3143,137 +3963,41 @@ namespace Burkardt.Types
             //
             //  Parameters:
             //
-            //    Input, double A, the value.
+            //    Input, double X, the argument of the Walsh function.
             //
-            //    Output, bool R8_IS_IN_01, is TRUE if A is between 0 and 1.
+            //    Input, int DIGIT, the index of the Walsh function.
             //
-        {
-            bool value;
-
-            value = (0.0 <= a && a <= 1.0);
-
-            return value;
-        }
-
-        public static bool r8_is_inf(double r)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_IS_INF determines if an R8 represents an infinite value.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    14 May 2016
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, double R, the number to be checked.
-            //
-            //    Output, bool R8_IS_INF, is TRUE if R is an infinite value.
+            //    Output, double R8_WALSH_1D, the value of the Walsh function.
             //
         {
-            const double r8_huge = 1.79769313486231571E+308;
-            bool value;
-
-            if (r < 0.0)
+            int n;
+            double value;
+            //
+            //  Hide the effect of the sign of X.
+            //
+            x = Math.Abs ( x );
+            //
+            //  If DIGIT is positive, divide by 2 DIGIT times.
+            //  If DIGIT is negative, multiply by 2 (-DIGIT) times.
+            //
+            x = x / Math.Pow ( 2.0, digit );
+            //
+            //  Make it an integer.
+            //  Because it's positive, and we're using INT, we don't change the
+            //  units digit.
+            //
+            n = ( int ) x;
+            //
+            //  Is the units digit odd or even?
+            //
+            if ( ( n % 2 ) == 0 )
             {
-                value = (r < -r8_huge);
+                value = 0.0;
             }
             else
             {
-                value = (r8_huge < r);
+                value = 1.0;
             }
-
-            return value;
-        }
-
-        public static bool r8_is_insignificant(double r, double s)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_IS_INSIGNIFICANT determines if an R8 is insignificant.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    26 November 2011
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, double R, the number to be compared against.
-            //
-            //    Input, double S, the number to be compared.
-            //
-            //    Output, bool R8_IS_INSIGNIFICANT, is TRUE if S is insignificant
-            //    compared to R.
-            //
-        {
-            double t;
-            double tol;
-            bool value;
-
-            value = true;
-
-            t = r + s;
-            tol = double.Epsilon * Math.Abs(r);
-
-            if (tol < Math.Abs(r - t))
-            {
-                value = false;
-            }
-
-            return value;
-        }
-
-        public static bool r8_is_nan(double r)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8_IS_NAN determines if an R8 represents a NaN value.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    14 May 2016
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, double R, the number to be checked.
-            //
-            //    Output, bool R8_IS_NAN, is TRUE if R is a NaN
-            //
-        {
-            bool value;
-
-            value = (r != r);
 
             return value;
         }

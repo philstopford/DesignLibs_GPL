@@ -648,6 +648,43 @@ namespace Burkardt.Types
             return r;
         }
 
+        public static double r83_norm ( double x, double y, double z )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R83_NORM returns the Euclidean norm of an R83.
+            //
+            //  Discussion:
+            //
+            //    An R83 is a vector of 3 R8's.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    10 November 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double X, Y, Z, the vector.
+            //
+            //    Output, double R83_NORM, the norm of the vector.
+            //
+        {
+            double value;
+
+            value = Math.Sqrt ( x * x + y * y + z * z );
+
+            return value;
+        }
         public static int r83_np_fa(int n, ref double[] a)
             //****************************************************************************80
             //

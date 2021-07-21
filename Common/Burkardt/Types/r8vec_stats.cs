@@ -180,6 +180,156 @@ namespace Burkardt.Types
             return x.Take(n).Average();
         }
         
+        public static double r8vec_mean_geometric ( int n, double[] x )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8VEC_MEAN_GEOMETRIC returns the geometric mean of an R8VEC.
+            //
+            //  Discussion:
+            //
+            //    An R8VEC is a vector of R8's.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    27 April 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in the vector.
+            //
+            //    Input, double X[N], the vector whose geometric mean is desired.
+            //    All entries should be nonnegative.
+            //
+            //    Output, double R8VEC_MEAN_GEOMETRIC, the geometric mean of the 
+            //    vector entries.
+            //
+        {
+            int i;
+            double mean;
+
+            mean = 0.0;
+            for ( i = 0; i < n; i++ )
+            {
+                mean = mean + Math.Log ( x[i] );
+            }
+
+            mean = mean / ( double ) n;
+            mean = Math.Exp ( mean );
+
+            return mean;
+        }
+
+        public static double[] r8vec_mean_running ( int n, double[] v )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8VEC_MEAN_RUNNING computes the running means of an R8VEC.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    23 February 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of items.
+            //
+            //    Input, double V(N), the data.
+            //
+            //    Output, double R8VEC_MEAN_RUNNING[N+1], the running averages.  A[i] is 
+            //    the average value of the first I-1 values in V.
+            //
+        {
+            double[] a;
+            int i;
+
+            a = new double[n+1];
+            //
+            //  Sum.
+            //
+            a[0] = 0.0;
+            for ( i = 1; i < n + 1; i++ )
+            {
+                a[i] = a[i-1] + v[i-1];
+            }
+            //
+            //  Average.
+            //
+            for ( i = 1; i < n + 1; i++ )
+            {
+                a[i] = a[i] / ( double ) ( i );
+            }
+
+            return a;
+        }
+        
+        public static double r8vec_median ( int n, ref double[] a )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8VEC_MEDIAN returns the median of an unsorted R8VEC.
+            //
+            //  Discussion:
+            //
+            //    An R8VEC is a vector of R8's.
+            //
+            //    Hoare's algorithm is used.  The values of the vector are
+            //    rearranged by this routine.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    15 September 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of elements of A.
+            //
+            //    Input/output, double A[N], the array to search.  On output,
+            //    the order of the elements of A has been somewhat changed.
+            //
+            //    Output, double R8VEC_MEDIAN, the value of the median of A.
+            //
+        {
+            int k;
+            double median;
+
+            k = ( n + 1 ) / 2;
+
+            median = r8vec_frac ( n, ref a, k );
+
+            return median;
+        }
+
         public static double r8vec_circular_variance(int n, double[] x)
             //****************************************************************************80
             //

@@ -225,8 +225,198 @@ namespace Burkardt.Types
                                        + ": " + a[i].ToString().PadLeft(14)
                                        + "  " + "...more entries...");
             }
+        }
 
-            return;
+        public static void r8vec_print_16 ( int n, double[] a, string title )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8VEC_PRINT_16 prints an R8VEC to 16 decimal places.
+        //
+        //  Discussion:
+        //
+        //    An R8VEC is a vector of R8's.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    29 May 2014
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number of components of the vector.
+        //
+        //    Input, double A[N], the vector to be printed.
+        //
+        //    Input, string TITLE, a title.
+        //
+        {
+            int i;
+
+            Console.WriteLine("");
+            Console.WriteLine(title + "");
+            Console.WriteLine("");
+            for ( i = 0; i < n; i++ )
+            {
+                Console.WriteLine("  " + i.ToString().PadLeft(8)
+                    + ": " + a[i].ToString("0.################").PadLeft(24)  + "");
+            }
+        }
+
+        public static void r8vec_print_some ( int n, double[] a, int max_print, string title )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8VEC_PRINT_SOME prints "some" of an R8VEC.
+        //
+        //  Discussion:
+        //
+        //    The user specifies MAX_PRINT, the maximum number of lines to print.
+        //
+        //    If N, the size of the vector, is no more than MAX_PRINT, then
+        //    the entire vector is printed, one entry per line.
+        //
+        //    Otherwise, if possible, the first MAX_PRINT-2 entries are printed,
+        //    followed by a line of periods suggesting an omission,
+        //    and the last entry.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    27 February 2010
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number of entries of the vector.
+        //
+        //    Input, double A[N], the vector to be printed.
+        //
+        //    Input, int MAX_PRINT, the maximum number of lines
+        //    to print.
+        //
+        //    Input, string TITLE, a title.
+        //
+        {
+            int i;
+
+            if ( max_print <= 0 )
+            {
+                return;
+            }
+
+            if ( n <= 0 )
+            {
+                return;
+            }
+
+            Console.WriteLine("");
+            Console.WriteLine(title + "");
+            Console.WriteLine("");
+
+            if ( n <= max_print )
+            {
+                for ( i = 0; i < n; i++ )
+                {
+                    Console.WriteLine("  " + i.ToString().PadLeft(8)
+                        + "  " + a[i].ToString().PadLeft(14) + "");
+                }
+            }
+            else if ( 3 <= max_print )
+            {
+                for ( i = 0; i < max_print - 2; i++ )
+                {
+                    Console.WriteLine("  " + i.ToString().PadLeft(8)
+                        + ": " + a[i].ToString().PadLeft(14) + "");
+                }
+                Console.WriteLine("  ........  ..............");
+                i = n - 1;
+                Console.WriteLine("  " + i.ToString().PadLeft(8)
+                    + ": " + a[i].ToString().PadLeft(14) + "");
+            }
+            else
+            {
+                for ( i = 0; i < max_print - 1; i++ )
+                {
+                    Console.WriteLine("  " + i.ToString().PadLeft(8)
+                        + ": " + a[i].ToString().PadLeft(14) + "");
+                }
+                i = max_print - 1;
+                Console.WriteLine("  " + i.ToString().PadLeft(8)
+                    + ": " + a[i].ToString().PadLeft(14)
+                    + "  " + "...more entries...");
+            }
+        }
+        
+        public static void r8vec_mask_print ( int n, double[] a, int mask_num, int[] mask,
+        string title )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8VEC_MASK_PRINT prints a masked R8VEC.
+        //
+        //  Discussion:
+        //
+        //    An R8VEC is a vector of R8's.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    19 September 2005
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number of components of the vector.
+        //
+        //    Input, double A[N], the vector to be printed.
+        //
+        //    Input, int MASK_NUM, the number of masked elements.
+        //
+        //    Input, int MASK[MASK_NUM], the indices of the vector to be printed.
+        //
+        //    Input, string TITLE, a title.
+        //
+        {
+            int i;
+
+            Console.WriteLine("");
+            Console.WriteLine("  Masked vector printout:");
+
+            Console.WriteLine("");
+            Console.WriteLine(title + "");
+            Console.WriteLine("");
+            for ( i = 0; i < mask_num; i++ )
+            {
+                Console.WriteLine("  " + i.ToString().PadLeft(6)
+                    + ": " + mask[i].ToString().PadLeft(6)
+                    + "  " + a[mask[i]-1].ToString().PadLeft(12) + "");
+            }
         }
 
         public static void r8vec2_print_some(int n, double[] x1, double[] x2, int max_print,

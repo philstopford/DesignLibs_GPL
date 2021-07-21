@@ -59,40 +59,6 @@ namespace Burkardt.Types
             }
         }
 
-        public static void r8vec_indicator ( int n, ref double[] a )
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8VEC_INDICATOR sets an R8VEC to the indicator vector {1,2,3...}.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    20 August 2002
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the number of elements of A.
-            //
-            //    Output, double A[N], the array to be initialized.
-            //
-        {
-            int i;
-
-            for ( i = 0; i <= n - 1; i++ )
-            {
-                a[i] = ( double ) ( i + 1 );
-            }
-        }
         
         public static bool r8vec_distinct ( int n, double[] x )
 
@@ -717,221 +683,6 @@ namespace Burkardt.Types
             return value;
         }
 
-        public static bool r8vec_is_integer ( int n, double[] a )
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8VEC_IS_INTEGER is TRUE if an R8VEC is integral.
-            //
-            //  Discussion:
-            //
-            //    An R8VEC is a vector of R8's.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    03 October 2005
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the number of entries in A.
-            //
-            //    Input, double A[N], the vector
-            //
-            //    Output, bool R8VEC_IS_INTEGER, is TRUE if every entry is an integer.
-            //
-        {
-            int i;
-            bool value;
-
-            value = true;
-
-            for ( i = 0; i < n; i++ )
-            {
-                if ( a[i] != ( double ) ( int ) a[i] )
-                {
-                    value = false;
-                    break;
-                }
-            }
-            return value;
-        }
-        
-        public static void r8vec_linspace ( int n, double a_first, double a_last, ref double[] a )
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8VEC_LINSPACE creates a vector of linearly spaced values.
-            //
-            //  Discussion:
-            //
-            //    An R8VEC is a vector of R8's.
-            //
-            //    4 points evenly spaced between 0 and 12 will yield 0, 4, 8, 12.
-            //
-            //    In other words, the interval is divided into N-1 even subintervals,
-            //    and the endpoints of intervals are used as the points.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    10 April 2014
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the number of entries in the vector.
-            //
-            //    Input, double A_FIRST, A_LAST, the first and last entries.
-            //
-            //    Output, double A[N], a vector of linearly spaced data.
-            //
-        {
-            int i;
-
-            if ( n == 1 )
-            {
-                a[0] = ( a_first + a_last ) / 2.0;
-            }
-            else
-            {
-                for ( i = 0; i < n; i++ )
-                {
-                    a[i] = ( ( double ) ( n - 1 - i ) * a_first 
-                             + ( double ) (         i ) * a_last ) 
-                           / ( double ) ( n - 1     );
-                }
-            }
-        }
-
-        public static double[] r8vec_linspace_new(int n, double a_first, double a_last)
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8VEC_LINSPACE_NEW creates a vector of linearly spaced values.
-            //
-            //  Discussion:
-            //
-            //    An R8VEC is a vector of R8's.
-            //
-            //    4 points evenly spaced between 0 and 12 will yield 0, 4, 8, 12.
-            //
-            //    In other words, the interval is divided into N-1 even subintervals,
-            //    and the endpoints of intervals are used as the points.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    29 March 2011
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the number of entries in the vector.
-            //
-            //    Input, double A_FIRST, A_LAST, the first and last entries.
-            //
-            //    Output, double R8VEC_LINSPACE_NEW[N], a vector of linearly spaced data.
-            //
-        {
-            double[] a = new double[n];
-
-            if (n == 1)
-            {
-                a[0] = (a_first + a_last) / 2.0;
-            }
-            else
-            {
-                for (int i = 0; i < n; i++)
-                {
-                    a[i] = ((double) (n - 1 - i) * a_first
-                            + (double) (i) * a_last)
-                           / (double) (n - 1);
-                }
-            }
-
-            return a;
-        }
-
-        public static void r8vec_linspace2 ( int n, double a_first, double a_last, ref double[] a )
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8VEC_LINSPACE creates a vector of linearly spaced values.
-            //
-            //  Discussion:
-            //
-            //    An R8VEC is a vector of R8's.
-            //
-            //    4 points evenly spaced between 0 and 12 will yield 2, 4, 6, 8, 10.
-            //
-            //    In other words, the interval is divided into N+1 even subintervals,
-            //    and the endpoints of internal intervals are used as the points.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    18 September 2012
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the number of entries in the vector.
-            //
-            //    Input, double A_FIRST, A_LAST, the first and last entries.
-            //
-            //    Output, double A[N], a vector of linearly spaced data.
-            //
-        {
-            int i;
-
-            if ( n == 1 )
-            {
-                a[0] = ( a_first + a_last ) / 2.0;
-            }
-            else
-            {
-                for ( i = 0; i < n; i++ )
-                {
-                    a[i] = ( ( double ) ( n - i     ) * a_first 
-                             + ( double ) (     i + 1 ) * a_last ) 
-                           / ( double ) ( n     + 1 );
-                }
-            }
-        }
-
         public static void r8vec_mesh_2d(int nx, int ny, double[] xvec, double[] yvec,
                 ref double[] xmat, ref double[] ymat)
             //****************************************************************************80
@@ -993,141 +744,6 @@ namespace Burkardt.Types
             }
         }
 
-        public static void r8vec_permute(int n, int[] p, double[] a)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8VEC_PERMUTE permutes an R8VEC in place.
-            //
-            //  Discussion:
-            //
-            //    An R8VEC is a vector of R8's.
-            //
-            //    This routine permutes an array of real "objects", but the same
-            //    logic can be used to permute an array of objects of any arithmetic
-            //    type, or an array of objects of any complexity.  The only temporary
-            //    storage required is enough to store a single object.  The number
-            //    of data movements made is N + the number of cycles of order 2 or more,
-            //    which is never more than N + N/2.
-            //
-            //  Example:
-            //
-            //    Input:
-            //
-            //      N = 5
-            //      P = (   1,   3,   4,   0,   2 )
-            //      A = ( 1.0, 2.0, 3.0, 4.0, 5.0 )
-            //
-            //    Output:
-            //
-            //      A    = ( 2.0, 4.0, 5.0, 1.0, 3.0 ).
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    30 October 2008
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the number of objects.
-            //
-            //    Input, int P[N], the permutation.
-            //
-            //    Input/output, double A[N], the array to be permuted.
-            //
-        {
-            double a_temp;
-            int i;
-            int iget;
-            int iput;
-            int istart;
-
-            perm_check0(n, p);
-            //
-            //  In order for the sign negation trick to work, we need to assume that the
-            //  entries of P are strictly positive.  Presumably, the lowest number is 0.
-            //  So temporarily add 1 to each entry to force positivity.
-            //
-            for (i = 0; i < n; i++)
-            {
-                p[i] = p[i] + 1;
-            }
-
-            //
-            //  Search for the next element of the permutation that has not been used.
-            //
-            for (istart = 1; istart <= n; istart++)
-            {
-                if (p[istart - 1] < 0)
-                {
-                    continue;
-                }
-                else if (p[istart - 1] == istart)
-                {
-                    p[istart - 1] = -p[istart - 1];
-                    continue;
-                }
-                else
-                {
-                    a_temp = a[istart - 1];
-                    iget = istart;
-                    //
-                    //  Copy the new value into the vacated entry.
-                    //
-                    for (;;)
-                    {
-                        iput = iget;
-                        iget = p[iget - 1];
-
-                        p[iput - 1] = -p[iput - 1];
-
-                        if (iget < 1 || n < iget)
-                        {
-                            Console.WriteLine("");
-                            Console.WriteLine("R8VEC_PERMUTE - Fatal error!");
-                            Console.WriteLine("  A permutation index is out of range.");
-                            Console.WriteLine("  P(" + iput + ") = " + iget + "");
-                            return;
-                        }
-
-                        if (iget == istart)
-                        {
-                            a[iput - 1] = a_temp;
-                            break;
-                        }
-
-                        a[iput - 1] = a[iget - 1];
-                    }
-                }
-            }
-
-            //
-            //  Restore the signs of the entries.
-            //
-            for (i = 0; i < n; i++)
-            {
-                p[i] = -p[i];
-            }
-
-            //
-            //  Restore the entries.
-            //
-            for (i = 0; i < n; i++)
-            {
-                p[i] = p[i] - 1;
-            }
-
-            return;
-        }
         
         public static void r8vec_transpose_print ( int n, double[] a, string title )
 
@@ -1197,127 +813,7 @@ namespace Burkardt.Types
             }
         }
 
-        public static double r8vec_product(int n, double[] a)
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8VEC_PRODUCT returns the product of the entries of an R8VEC.
-            //
-            //  Discussion:
-            //
-            //    An R8VEC is a vector of R8's.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    17 September 2003
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the number of entries in the vector.
-            //
-            //    Input, double A[N], the vector.
-            //
-            //    Output, double R8VEC_PRODUCT, the product of the vector.
-            //
-        {
-            int i;
-            double product;
-
-            product = 1.0;
-            for (i = 0; i < n; i++)
-            {
-                product = product * a[i];
-            }
-
-            return product;
-        }
         
-        public static void r8vec_sort_heap_a ( int n, ref double[] a )
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8VEC_SORT_HEAP_A ascending sorts an R8VEC using heap sort.
-            //
-            //  Discussion:
-            //
-            //    An R8VEC is a vector of R8's.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    30 April 1999
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Reference:
-            //
-            //    Albert Nijenhuis, Herbert Wilf,
-            //    Combinatorial Algorithms,
-            //    Academic Press, 1978, second edition,
-            //    ISBN 0-12-519260-6.
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the number of entries in the array.
-            //
-            //    Input/output, double A[N].
-            //    On input, the array to be sorted;
-            //    On output, the array has been sorted.
-            //
-        {
-            int n1;
-            double temp;
-
-            if ( n <= 1 )
-            {
-                return;
-            }
-            //
-            //  1: Put A into descending heap form.
-            //
-            r8vec_heap_d ( n, ref a );
-            //
-            //  2: Sort A.
-            //
-            //  The largest object in the heap is in A[0].
-            //  Move it to position A[N-1].
-            //
-            temp = a[0];
-            a[0] = a[n-1];
-            a[n-1] = temp;
-            //
-            //  Consider the diminished heap of size N1.
-            //
-            for ( n1 = n-1; 2 <= n1; n1-- )
-            {
-                //
-                //  Restore the heap structure of the initial N1 entries of A.
-                //
-                r8vec_heap_d ( n1, ref a );
-                //
-                //  Take the largest object from A[0] and move it to A[N1-1].
-                //
-                temp = a[0];
-                a[0] = a[n1-1];
-                a[n1-1] = temp;
-            }
-        }
 
         public static double[] r8vec_midspace_new(int n, double a, double b)
 
@@ -1370,62 +866,6 @@ namespace Burkardt.Types
             }
 
             return x;
-        }
-
-        public static int r8vec_min_index ( int n, double[] a )
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8VEC_MIN_INDEX returns the index of the minimum value in an R8VEC.
-            //
-            //  Discussion:
-            //
-            //    An R8VEC is a vector of R8's.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license.
-            //
-            //  Modified:
-            //
-            //    02 August 2005
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the number of entries in the array.
-            //
-            //    Input, double A[N], the array.
-            //
-            //    Output, int R8VEC_MIN_INDEX, the index of the smallest entry.
-            //
-        {
-            int i;
-            int min_index;
-
-            if ( n <= 0 )
-            {
-                min_index = -1;
-            }
-            else
-            {
-                min_index = 0;
-
-                for ( i = 1; i < n; i++ )
-                {
-                    if ( a[i] < a[min_index] )
-                    {
-                        min_index = i;
-                    }
-                }
-            }
-
-            return min_index;
         }
 
         public static bool r8vec_eq(int n, double[] a1, int startIndexA1, double[] a2)
@@ -2423,49 +1863,7 @@ namespace Burkardt.Types
             }
         }
         
-        public static double[] r8vec_indicator_new ( int n )
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    R8VEC_INDICATOR_NEW sets an R8VEC to the indicator vector {1,2,3...}.
-            //
-            //  Discussion:
-            //
-            //    An R8VEC is a vector of R8's.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    20 September 2005
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the number of elements of A.
-            //
-            //    Output, double R8VEC_INDICATOR_NEW[N], the indicator array.
-            //
-        {
-            double[] a;
-            int i;
-
-            a = new double[n];
-
-            for ( i = 0; i <= n-1; i++ ) 
-            {
-                a[i] = ( double ) ( i + 1 );
-            }
-
-            return a;
-        }
 
         public static void r8vec_write ( int n, double[] r, string output_file )
 
@@ -2561,6 +1959,616 @@ namespace Burkardt.Types
             }
             return;
         }
+        
+        public static void r8vec_step ( double x0, int n, ref double[] x, ref double[] fx )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8VEC_STEP evaluates a unit step function.
+        //
+        //  Discussion:
+        //
+        //    F(X) = 0 if X < X0
+        //           1 if     X0 <= X
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    30 May 2013
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double X0, the location of the jump.
+        //
+        //    Input, int N, the number of argument values.
+        //
+        //    Output, double X[N], the arguments.
+        //
+        //    Output, double FX[N], the function values.
+        //
+        {
+            int i;
+
+            for ( i = 0; i < n; i++ )
+            {
+                if ( x[i] < x0 )
+                {
+                    fx[i] = 0.0;
+                }
+                else
+                {
+                    fx[i] = 1.0;
+                }
+            }
+        }
+
+        public static int r8vec_split(int n, double[] a, double split)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8VEC_SPLIT "splits" an unsorted R8VEC based on a splitting value.
+            //
+            //  Discussion:
+            //
+            //    An R8VEC is a vector of R8's.
+            //
+            //    If the vector is already sorted, it is simpler to do a binary search
+            //    on the data than to call this routine.
+            //
+            //    The vector is not assumed to be sorted before input, and is not
+            //    sorted during processing.  If sorting is not needed, then it is
+            //    more efficient to use this routine.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    16 October 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of elements of A.
+            //
+            //    Input/output, double A[N], the array to split.  On output,
+            //    all the entries of A that are less than or equal to SPLIT
+            //    are in A(1:ISPLIT).
+            //
+            //    Input, double SPLIT, the value used to split the vector.
+            //    It is not necessary that any value of A actually equal SPLIT.
+            //
+            //    Output, int R8VEC_SPLIT, indicates the position of the last
+            //    entry of the split vector that is less than or equal to SPLIT.
+            //
+        {
+            int i;
+            //int i1;
+            int i2;
+            int i3;
+            int isplit;
+            int j1;
+            int j2;
+            //int j3;
+            double temp;
+            //
+            //  Partition the vector into A1, A2, A3, where
+            //    A1 = A(I1:J1) holds values <= SPLIT,
+            //    A2 = A(I2:J2) holds untested values,
+            //    A3 = A(I3:J3) holds values > SPLIT.
+            //
+            //i1 = 1;
+            j1 = 0;
+
+            i2 = 1;
+            j2 = n;
+
+            i3 = n + 1;
+            //j3 = n;
+            //
+            //  Pick the next item from A2, and move it into A1 or A3.
+            //  Adjust indices appropriately.
+            //
+            for (i = 1; i <= n; i++)
+            {
+                if (a[i2 - 1] <= split)
+                {
+                    i2 = i2 + 1;
+                    j1 = j1 + 1;
+                }
+                else
+                {
+                    temp = a[i2 - 1];
+                    a[i2 - 1] = a[i3 - 2];
+                    a[i3 - 2] = temp;
+                    i3 = i3 - 1;
+                    j2 = j2 - 1;
+                }
+            }
+
+            isplit = j1;
+
+            return isplit;
+        }
+
+        public static double[] r8vec_standardize(int n, double[] x)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8VEC_STANDARDIZE standarizes an R8VEC.
+            //
+            //  Discussion:
+            //
+            //    The output vector will have 0 mean and unit standard deviation.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    10 October 2018
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in the vector.
+            //
+            //    Input, double X[N], the vector to be standardized.
+            //
+            //    Output, double R8VEC_STANDARDIZE[N], the standardized vector.
+            //
+        {
+            int i;
+            double mu;
+            double sigma;
+            double[] xs;
+
+            mu = r8vec_mean(n, x);
+            sigma = r8vec_std_sample(n, x);
+
+            xs = new double[n];
+
+            if (sigma != 0.0)
+            {
+                for (i = 0; i < n; i++)
+                {
+                    xs[i] = (x[i] - mu) / sigma;
+                }
+            }
+            else
+            {
+                for (i = 0; i < n; i++)
+                {
+                    xs[i] = 0.0;
+                }
+            }
+
+            return xs;
+        }
+
+        public static double[] r8vec_softmax ( int n, double[] x )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8VEC_SOFTMAX evaluates the SOFTMAX function.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    24 August 2018
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the size of the vector.
+            //
+            //    Input, double X[N], the vector.
+            //
+            //    Output, double R8VEC_SOFTMAX[N], the function values.
+            //
+        {
+            double bottom;
+            int i;
+            int max_index;
+            double[] s;
+
+            max_index = r8vec_max_index ( n, x );
+
+            bottom = 0.0;
+            for ( i = 0; i < n; i++ )
+            {
+                bottom = bottom + Math.Exp ( x[i] - x[max_index] );
+            }
+            s = new double[n];
+            for ( i = 0; i < n; i++ )
+            {
+                s[i] = Math.Exp ( x[i] - x[max_index] ) / bottom;
+            }
+
+            return s;
+        }
+
+        public static int r8vec_search_binary_a(int n, double[] a, double aval)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8VEC_SEARCH_BINARY_A searches an ascending sorted R8VEC.
+            //
+            //  Discussion:
+            //
+            //    An R8VEC is a vector of R8's.
+            //
+            //    Binary search is used.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    18 September 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Donald Kreher, Douglas Simpson,
+            //    Algorithm 1.9,
+            //    Combinatorial Algorithms,
+            //    CRC Press, 1998, page 26.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of elements in the array.
+            //
+            //    Input, double A[N], the array to be searched.  The array must
+            //    be sorted in ascending order.
+            //
+            //    Input, double AVAL, the value to be searched for.
+            //
+            //    Output, int R8VEC_SEARCH_BINARY_A, the result of the search.
+            //    -1, AVAL does not occur in the array.
+            //    I, A(I) = AVAL.
+            //
+        {
+            int high;
+            int indx;
+            int low;
+            int mid;
+
+            indx = -1;
+
+            low = 1;
+            high = n;
+
+            while (low <= high)
+            {
+                mid = (low + high) / 2;
+
+                if (a[mid - 1] == aval)
+                {
+                    indx = mid;
+                    break;
+                }
+                else if (a[mid - 1] < aval)
+                {
+                    low = mid + 1;
+                }
+                else if (aval < a[mid - 1])
+                {
+                    high = mid - 1;
+                }
+            }
+
+            return indx;
+        }
+
+        public static double[] r8vec_sign3_running(int n, double[] v)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8VEC_SIGN3_RUNNING computes the running threeway sign of an R8VEC.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    23 February 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of items.
+            //
+            //    Input, double V(N), the data.
+            //
+            //    Output, double R8VEC_SIGN3_RUNNING[N+1], the running threeway sign.  
+            //    S[i] is:
+            //    -1.0, if the sum of the first I-1 values in V is negative
+            //     0.0, if zero
+            //    +1.0, if positive.
+            //
+        {
+            int i;
+            double[] s;
+
+            s = new double[n + 1];
+            //
+            //  Sum.
+            //
+            s[0] = 0.0;
+            for (i = 1; i < n + 1; i++)
+            {
+                s[i] = s[i - 1] + v[i - 1];
+            }
+
+            for (i = 0; i < n + 1; i++)
+            {
+                if (s[i] < 0.0)
+                {
+                    s[i] = -1.0;
+                }
+                else if (s[i] == 0.0)
+                {
+                    s[i] = 0.0;
+                }
+                else if (0.0 < s[i])
+                {
+                    s[i] = +1.0;
+                }
+            }
+
+            return s;
+        }
+
+        public static double[] r8vec_smooth(int n, double[] x, int s)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    r8vec_smooth smooths an R8VEC.
+            //
+            //  Discussion:
+            //
+            //    An R8VEC is a vector of R8's.
+            //
+            //    Except for the beginning and ending entries, the vector values
+            //    are replaced by averages of 2*S+1 neighbors.
+            //
+            //  Example:
+            //
+            //    S = 2
+            //
+            //    Z(1)   =                     X(1)
+            //    Z(2)   = (          X(1)   + X(2)   + X(3) ) / 3
+            //    Z(3)   = ( X(1)   + X(2)   + X(3)   + X(4)   + X(5) ) / 5
+            //    Z(4)   = ( X(2)   + X(3)   + X(4)   + X(5)   + X(6) ) / 5
+            //    ...
+            //    Z(N-2) = ( X(N-4) + X(N-3) + X(N-2) + X(N-1) + X(N) ) / 5
+            //    Z(N-1) =          ( X(N-2) + X(N-1) + X(N) ) / 3
+            //    Z(N) =                       X(N)
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    23 April 2019
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the dimension of X.
+            //
+            //    Input, double X[N], the vector to be smoothed.
+            //
+            //    Output, double Z[N], the smoothed vector.
+            //
+        {
+            int i;
+            int j;
+            double t;
+            double[] z;
+
+            z = new double[n];
+
+            for (j = 1; j <= s; j++)
+            {
+                t = 0.0;
+                for (i = 1; i <= 2 * j - 1; i++)
+                {
+                    t = t + x[i - 1];
+                }
+
+                z[j - 1] = t / (double) (2 * j - 1);
+            }
+
+            for (j = s + 1; j <= n - s; j++)
+            {
+                t = 0.0;
+                for (i = j - s; i <= j + s; i++)
+                {
+                    t = t + x[i - 1];
+                }
+
+                z[j - 1] = t / (double) (2 * s + 1);
+            }
+
+            for (j = s; 1 <= j; j--)
+            {
+                t = 0.0;
+                for (i = n + 1 - (2 * j - 1); i <= n; i++)
+                {
+                    t = t + x[i - 1];
+                }
+
+                z[n - j] = t / (double) (2 * j - 1);
+            }
+
+            return z;
+        }
+
+        public static void r8vec_rotate(int n, ref double[] a, int m)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8VEC_ROTATE "rotates" the entries of an R8VEC in place.
+            //
+            //  Discussion:
+            //
+            //    An R8VEC is a vector of R8's.
+            //
+            //    This routine rotates an array of real "objects", but the same
+            //    logic can be used to permute an array of objects of any arithmetic
+            //    type, or an array of objects of any complexity.  The only temporary
+            //    storage required is enough to store a single object.  The number
+            //    of data movements made is N + the number of cycles of order 2 or more,
+            //    which is never more than N + N/2.
+            //
+            //  Example:
+            //
+            //    Input:
+            //
+            //      N = 5, M = 2
+            //      A    = ( 1.0, 2.0, 3.0, 4.0, 5.0 )
+            //
+            //    Output:
+            //
+            //      A    = ( 4.0, 5.0, 1.0, 2.0, 3.0 ).
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    18 September 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of objects.
+            //
+            //    Input, int M, the number of positions to the right that
+            //    each element should be moved.  Elements that shift pass position
+            //    N "wrap around" to the beginning of the array.
+            //
+            //    Input/output, double A[N], the array to be rotated.
+            //
+        {
+            int iget;
+            int iput;
+            int istart;
+            int mcopy;
+            int nset;
+            double temp;
+            //
+            //  Force M to be positive, between 0 and N-1.
+            //
+            mcopy = i4_modp(m, n);
+
+            if (mcopy == 0)
+            {
+                return;
+            }
+
+            istart = 0;
+            nset = 0;
+
+            for (;;)
+            {
+                istart = istart + 1;
+
+                if (n < istart)
+                {
+                    break;
+                }
+
+                temp = a[istart - 1];
+                iget = istart;
+                //
+                //  Copy the new value into the vacated entry.
+                //
+                for (;;)
+                {
+                    iput = iget;
+
+                    iget = iget - mcopy;
+                    if (iget < 1)
+                    {
+                        iget = iget + n;
+                    }
+
+                    if (iget == istart)
+                    {
+                        break;
+                    }
+
+                    a[iput - 1] = a[iget - 1];
+                    nset = nset + 1;
+                }
+
+                a[iput - 1] = temp;
+                nset = nset + 1;
+
+                if (n <= nset)
+                {
+                    break;
+                }
+            }
+
+        }
+
 
     }
 }

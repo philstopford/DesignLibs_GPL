@@ -195,6 +195,52 @@ namespace Burkardt.Types
             return sum_max_index;
         }
 
+        public static double[] r8vec_sum_running ( int n, double[] v )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8VEC_SUM_RUNNING computes the running sums of an R8VEC.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    23 February 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of items.
+            //
+            //    Input, double V(N), the data.
+            //
+            //    Output, double R8VEC_SUM_RUNNING[N+1], the running sums.  S[i] is the sum
+            //    of the first I-1 values in V.
+            //
+        {
+            int i;
+            double[] s;
+
+            s = new double[n+1];
+            //
+            //  Sum.
+            //
+            s[0] = 0.0;
+            for ( i = 1; i < n + 1; i++ )
+            {
+                s[i] = s[i-1] + v[i-1];
+            }
+
+            return s;
+        }
+
 
 
     }

@@ -107,7 +107,7 @@ namespace Burkardt.Types
             return v;
         }
 
-        public static double r8vec_norm_l2(int n, double[] a, int index)
+        public static double r8vec_norm_l2(int n, double[] a, int index = 0)
 
             //****************************************************************************80
             //

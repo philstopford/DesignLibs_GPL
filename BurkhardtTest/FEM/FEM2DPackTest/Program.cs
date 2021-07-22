@@ -1,6 +1,7 @@
 ﻿using System;
 using Burkardt;
 using Burkardt.FEM;
+using Burkardt.NavierStokesNS;
 using Burkardt.Types;
 using Burkardt.Uniform;
 using Sphere = Burkardt.Sphere;

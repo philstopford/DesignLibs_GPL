@@ -2,7 +2,7 @@
 {
     public static partial class typeMethods
     {
-                public static void r8vec_linspace ( int n, double a_first, double a_last, ref double[] a )
+                public static void r8vec_linspace ( int n, double a_first, double a_last, ref double[] a, int index = 0 )
 
             //****************************************************************************80
             //
@@ -44,15 +44,15 @@
 
             if ( n == 1 )
             {
-                a[0] = ( a_first + a_last ) / 2.0;
+                a[index + 0] = ( a_first + a_last ) / 2.0;
             }
             else
             {
                 for ( i = 0; i < n; i++ )
                 {
-                    a[i] = ( ( double ) ( n - 1 - i ) * a_first 
-                             + ( double ) (         i ) * a_last ) 
-                           / ( double ) ( n - 1     );
+                    a[index + i] = ( ( double ) ( n - 1 - i ) * a_first 
+                                     + ( double ) (         i ) * a_last ) 
+                                   / ( double ) ( n - 1     );
                 }
             }
         }

@@ -680,6 +680,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NavierStokes", "NavierStoke
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NavierStokes2DExactTest", "BurkhardtTest\NavierStokes\NavierStokes2DExactTest\NavierStokes2DExactTest.csproj", "{9477DA2F-74E8-42DE-95E8-159263DCB19C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NavierStokes3DExactTest", "BurkhardtTest\NavierStokes\NavierStokes3DExactTest\NavierStokes3DExactTest.csproj", "{345F7CEB-A09B-4331-98D1-14BBE711F54A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -4206,6 +4208,18 @@ Global
 		{9477DA2F-74E8-42DE-95E8-159263DCB19C}.Release|x64.Build.0 = Release|Any CPU
 		{9477DA2F-74E8-42DE-95E8-159263DCB19C}.Release|x86.ActiveCfg = Release|Any CPU
 		{9477DA2F-74E8-42DE-95E8-159263DCB19C}.Release|x86.Build.0 = Release|Any CPU
+		{345F7CEB-A09B-4331-98D1-14BBE711F54A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{345F7CEB-A09B-4331-98D1-14BBE711F54A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{345F7CEB-A09B-4331-98D1-14BBE711F54A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{345F7CEB-A09B-4331-98D1-14BBE711F54A}.Debug|x64.Build.0 = Debug|Any CPU
+		{345F7CEB-A09B-4331-98D1-14BBE711F54A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{345F7CEB-A09B-4331-98D1-14BBE711F54A}.Debug|x86.Build.0 = Debug|Any CPU
+		{345F7CEB-A09B-4331-98D1-14BBE711F54A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{345F7CEB-A09B-4331-98D1-14BBE711F54A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{345F7CEB-A09B-4331-98D1-14BBE711F54A}.Release|x64.ActiveCfg = Release|Any CPU
+		{345F7CEB-A09B-4331-98D1-14BBE711F54A}.Release|x64.Build.0 = Release|Any CPU
+		{345F7CEB-A09B-4331-98D1-14BBE711F54A}.Release|x86.ActiveCfg = Release|Any CPU
+		{345F7CEB-A09B-4331-98D1-14BBE711F54A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -4544,6 +4558,7 @@ Global
 		{51FDADFD-68C8-4292-A662-50DF45CFC15C} = {B14C0D74-30A0-4540-8100-2FFA1C84CA6D}
 		{0F88B86D-5E67-4A86-B9EF-76DBC19553C9} = {B14C0D74-30A0-4540-8100-2FFA1C84CA6D}
 		{9477DA2F-74E8-42DE-95E8-159263DCB19C} = {0F88B86D-5E67-4A86-B9EF-76DBC19553C9}
+		{345F7CEB-A09B-4331-98D1-14BBE711F54A} = {0F88B86D-5E67-4A86-B9EF-76DBC19553C9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B449416C-C504-4FA8-9E10-10857263A64A}

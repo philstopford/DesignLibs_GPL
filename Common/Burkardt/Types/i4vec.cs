@@ -859,6 +859,185 @@ namespace Burkardt.Types
             return a;
         }
 
+        public static int i4vec_frac(int n, ref int[] a, int k)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_FRAC searches for the K-th smallest entry in an I4VEC.
+            //
+            //  Discussion:
+            //
+            //    An I4VEC is a vector of I4's.
+            //
+            //    Hoare's algorithm is used.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    18 September 2005
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of elements of A.
+            //
+            //    Input/output, int A[N].
+            //    On input, A is the array to search.
+            //    On output, the elements of A have been somewhat rearranged.
+            //
+            //    Input, int K, the fractile to be sought.  If K = 1, the minimum
+            //    entry is sought.  If K = N, the maximum is sought.  Other values
+            //    of K search for the entry which is K-th in size.  K must be at
+            //    least 1, and no greater than N.
+            //
+            //    Output, double I4VEC_FRAC, the value of the K-th fractile of A.
+            //
+        {
+            int frac;
+            int i;
+            int iryt;
+            int j;
+            int left;
+            int temp;
+            int x;
+
+            if (n <= 0)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("I4VEC_FRAC - Fatal error!");
+                Console.WriteLine("  Illegal nonpositive value of N = " + n + "");
+                return (1);
+            }
+
+            if (k <= 0)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("I4VEC_FRAC - Fatal error!");
+                Console.WriteLine("  Illegal nonpositive value of K = " + k + "");
+                return (1);
+            }
+
+            if (n < k)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("I4VEC_FRAC - Fatal error!");
+                Console.WriteLine("  Illegal N < K, K = " + k + "");
+                return (1);
+            }
+
+            left = 1;
+            iryt = n;
+
+            for (;;)
+            {
+                if (iryt <= left)
+                {
+                    frac = a[k - 1];
+                    break;
+                }
+
+                x = a[k - 1];
+                i = left;
+                j = iryt;
+
+                for (;;)
+                {
+                    if (j < i)
+                    {
+                        if (j < k)
+                        {
+                            left = i;
+                        }
+
+                        if (k < i)
+                        {
+                            iryt = j;
+                        }
+
+                        break;
+                    }
+
+                    //
+                    //  Find I so that X <= A(I).
+                    //
+                    while (a[i - 1] < x)
+                    {
+                        i = i + 1;
+                    }
+
+                    //
+                    //  Find J so that A(J) <= X.
+                    //
+                    while (x < a[j - 1])
+                    {
+                        j = j - 1;
+                    }
+
+                    if (i <= j)
+                    {
+                        temp = a[i - 1];
+                        a[i - 1] = a[j - 1];
+                        a[j - 1] = temp;
+                        i = i + 1;
+                        j = j - 1;
+                    }
+                }
+            }
+
+            return frac;
+        }
+
+        public static int i4vec_median(int n, ref int[] a)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_MEDIAN returns the median of an unsorted I4VEC.
+            //
+            //  Discussion:
+            //
+            //    An I4VEC is a vector of I4's.
+            //
+            //    Hoare's algorithm is used.  The values of the vector are
+            //    rearranged by this routine.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    18 September 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of elements of A.
+            //
+            //    Input/output, int A[N], the array to search.  On output,
+            //    the order of the elements of A has been somewhat changed.
+            //
+            //    Output, int I4VEC_MEDIAN, the value of the median of A.
+            //
+        {
+            int k;
+            int median;
+
+            k = (n + 1) / 2;
+
+            median = i4vec_frac(n, ref a, k);
+
+            return median;
+        }
+
         public static void i4vec_heap_d(int n, ref int[] a, int aIndex = 0)
 
             //****************************************************************************80

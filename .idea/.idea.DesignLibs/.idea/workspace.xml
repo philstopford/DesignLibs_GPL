@@ -268,6 +268,10 @@
     <projectFile>BurkhardtTest/MidpointExplicitTest/MidpointExplicitTest.csproj</projectFile>
     <projectFile>BurkhardtTest/MultiGridPoisson1DTest/MultiGridPoisson1DTest.csproj</projectFile>
     <projectFile>BurkhardtTest/NavierStokes/NavierStokes2DExactTest/NavierStokes2DExactTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/NavierStokes/NavierStokes3DExactTest/NavierStokes3DExactTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Interpolation/Nearest1DTest/Nearest1DTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Interpolation/Newton1DTest/Newton1DTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/WavefrontOBJTest/WavefrontOBJTest.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -302,9 +306,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8_is.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Polynomial/Legendre.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_legendre.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/DREAM/Dream.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Mesh.cs" />
@@ -353,6 +354,9 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/Interpolation/Nearest1DTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Interpolation/Newton1D.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Interpolation/Newton1DTest/Program.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/NeighborsToMetis/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/WavefrontOBJ.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/WavefrontOBJTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -4439,6 +4443,60 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="NavierStokes3DExactTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/NavierStokes/NavierStokes3DExactTest/NavierStokes3DExactTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="Nearest1DTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Interpolation/Nearest1DTest/Nearest1DTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="Newton1DTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Interpolation/Newton1DTest/Newton1DTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="PDFLibTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -5015,6 +5073,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="WavefrontOBJTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/WavefrontOBJTest/WavefrontOBJTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="WaveletTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -5483,6 +5559,10 @@
       <item itemvalue=".NET Project.MidpointExplicitTest" />
       <item itemvalue=".NET Project.MultiGridPoisson1DTest" />
       <item itemvalue=".NET Project.NavierStokes2DExactTest" />
+      <item itemvalue=".NET Project.NavierStokes3DExactTest" />
+      <item itemvalue=".NET Project.Nearest1DTest" />
+      <item itemvalue=".NET Project.Newton1DTest" />
+      <item itemvalue=".NET Project.WavefrontOBJTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

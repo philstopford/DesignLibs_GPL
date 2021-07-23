@@ -7,6 +7,124 @@ namespace Burkardt.Types
 {
     public static partial class typeMethods
     {
+        public static int i4mat_max ( int m, int n, int[] a )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4MAT_MAX returns the maximum of an I4MAT.
+            //
+            //  Discussion:
+            //
+            //    An I4MAT is an MxN array of I4's, stored by (I,J) -> [I+J*M].
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    05 June 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, the number of rows in A.
+            //
+            //    Input, int N, the number of columns in A.
+            //
+            //    Input, int A[M*N], the M by N matrix.
+            //
+            //    Output, int I4MAT_MAX, the maximum entry of A.
+            //
+        {
+            int i;
+            int j;
+            int value;
+
+            value = - i4_huge ( );
+
+            for ( j = 0; j < n; j++ )
+            {
+                for ( i = 0; i < m; i++ )
+                {
+                    if ( value < a[i+j*m] )
+                    {
+                        value = a[i+j*m];
+                    }
+                }
+            }
+            return value;
+        }
+        
+        public static int[] i4mat_histogram ( int m, int n, int[] a, int histo_num )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    I4MAT_HISTOGRAM computes a histogram of the elements of an I4MAT.
+        //
+        //  Discussion:
+        //
+        //    An I4MAT is an array of I4's.
+        //
+        //    It is assumed that the entries in the vector A are nonnegative.
+        //    Only values between 0 and HISTO_NUM will be histogrammed.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    04 June 2010
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number of elements of A.
+        //
+        //    Input, int A[M*N], the array to examine.
+        //
+        //    Input, int HISTO_NUM, the maximum value for which a
+        //    histogram entry will be computed.
+        //
+        //    Output, int I4MAT_HISTOGRAM[HISTO_NUM+1], contains the number of
+        //    entries of A with the values of 0 through HISTO_NUM.
+        //
+        {
+            int[] histo_gram;
+            int i;
+            int j;
+
+            histo_gram = new int[histo_num+1];
+
+            for ( i = 0; i <= histo_num; i++ )
+            {
+                histo_gram[i] = 0;
+            }
+
+            for ( j = 0; j < n; j++ )
+            {
+                for ( i = 0; i < m; i++ )
+                {
+                    if ( 0 <= a[i+j*m] && a[i+j*m] <= histo_num )
+                    {
+                        histo_gram[a[i+j*m]] = histo_gram[a[i+j*m]] + 1;
+                    }
+                }
+            }
+
+            return histo_gram;
+        }
         public static int[] i4mat_border_add(int m, int n, int[] table)
 
             //****************************************************************************80

@@ -315,15 +315,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/NavierStokes/NavierStokes2DExact.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/NavierStokes/Residual_GMS.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/NavierStokes/GMS.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/NavierStokes/LukasBystricky.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/NavierStokes/Poiseuille.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/NavierStokes/Spiral.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/NavierStokes/Taylor.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/NavierStokes/Vortex.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_norm.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_linspace.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/NavierStokes/NavierStokes2DExactTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/NavierStokes/Burgers.cs" />
@@ -366,6 +357,15 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Integral/Monomial.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Quadrature/Monomial.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/nIntExactnessTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/StochasticDifferentialEquations/BrownianPath.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/StochasticDifferentialEquations/MilsteinString.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/StochasticDifferentialEquations/ChainRule.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/StochasticDifferentialEquations/EulerMaruyamaStrong.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/StochasticDifferentialEquations/Integrals.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/StochasticDifferentialEquations/MilsteinStrong.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/StochasticDifferentialEquations/EulerMaruyamaWeak.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/StochasticDifferentialEquations/EulerMaruyama.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/StochasticDifferentialEquations/Stability.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />

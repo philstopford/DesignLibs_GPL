@@ -281,6 +281,8 @@
     <projectFile>BurkhardtTest/Niederreiter/Niederreiter2Test/Niederreiter2Test.csproj</projectFile>
     <projectFile>BurkhardtTest/Integral/nIntTest/nIntTest.csproj</projectFile>
     <projectFile>BurkhardtTest/nIntExactnessTest/nIntExactnessTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/StochasticDifferentialEquationsTest/StochasticDifferentialEquationsTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/IO/GMeshIOTest/GMeshIOTest.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -304,7 +306,6 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/BurkhardtTest/GMeshIOTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Common/Burkardt/Types/r8mat.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Common/Burkardt/Sobol/SobolData.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/TestValuesTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
@@ -315,10 +316,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_linspace.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/NavierStokes/NavierStokes2DExactTest/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/NavierStokes/Burgers.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/NavierStokes/Ethier.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/NavierStokes/NavierStokes3DExactTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Interpolation/NearestInterp1D.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Interpolation/Nearest.cs" />
@@ -366,6 +363,10 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/StochasticDifferentialEquations/EulerMaruyamaWeak.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/StochasticDifferentialEquations/EulerMaruyama.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/StochasticDifferentialEquations/Stability.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/StochasticDifferentialEquationsTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/RungeKutta/rk45.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/IO/PBMB.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -2868,6 +2869,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="GMeshIOTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/IO/GMeshIOTest/GMeshIOTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="GMeshIOText" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -4920,6 +4939,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="StochasticDifferentialEquationsTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/StochasticDifferentialEquationsTest/StochasticDifferentialEquationsTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="StochasticDiffusionTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -5743,6 +5780,8 @@
       <item itemvalue=".NET Project.Niederreiter2Test" />
       <item itemvalue=".NET Project.nIntTest" />
       <item itemvalue=".NET Project.nIntExactnessTest" />
+      <item itemvalue=".NET Project.StochasticDifferentialEquationsTest" />
+      <item itemvalue=".NET Project.GMeshIOTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

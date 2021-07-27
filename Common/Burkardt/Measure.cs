@@ -293,6 +293,139 @@ namespace Burkardt
             }
         }
 
+        public static void area_measure(int n, double[] z, int triangle_order, int triangle_num,
+                int[] triangle_node, ref double area_min, ref double area_max, ref double area_ratio,
+                ref double area_ave, ref double area_std, ref int area_negative, ref int area_zero)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    AREA_MEASURE determines the area ratio quality measure.
+            //
+            //  Discusion:
+            //
+            //    This measure computes the area of every triangle, and returns
+            //    the ratio of the minimum to the maximum triangle.  A value of
+            //    1 is "perfect", indicating that all triangles have the same area.
+            //    A value of 0 is the worst possible result.
+            //
+            //    The code has been modified to 'allow' 6-node triangulations.
+            //    However, no effort is made to actually process the midside nodes.
+            //    Only information from the vertices is used.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    22 November 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of points.
+            //
+            //    Input, double Z[2*N], the points.
+            //
+            //    Input, int TRIANGLE_ORDER, the order of the triangles.
+            //
+            //    Input, int TRIANGLE_NUM, the number of triangles.
+            //
+            //    Input, int TRIANGLE_NODE[TRIANGLE_ORDER*TRIANGLE_NUM],
+            //    the triangulation.
+            //
+            //    Output, double &AREA_MIN, &AREA_MAX, the minimum and maximum 
+            //    areas.
+            //
+            //    Output, double &AREA_RATIO, the ratio of the minimum to the
+            //    maximum area.
+            //
+            //    Output, double &AREA_AVE, the average area.
+            //
+            //    Output, double &AREA_STD, the standard deviation of the areas.
+            //
+            //    Output, int &AREA_NEGATIVE, the number of triangles with negative area.
+            //
+            //    Output, int &AREA_ZERO, the number of triangles with zero area.
+        {
+            double area;
+            int triangle;
+            double x1;
+            double x2;
+            double x3;
+            double y1;
+            double y2;
+            double y3;
+
+            area_max = 0.0;
+            area_min = typeMethods.r8_huge();
+            area_ave = 0.0;
+            area_negative = 0;
+            area_zero = 0;
+
+            for (triangle = 0; triangle < triangle_num; triangle++)
+            {
+                x1 = z[0 + (triangle_node[0 + triangle * triangle_order] - 1) * 2];
+                y1 = z[1 + (triangle_node[0 + triangle * triangle_order] - 1) * 2];
+                x2 = z[0 + (triangle_node[1 + triangle * triangle_order] - 1) * 2];
+                y2 = z[1 + (triangle_node[1 + triangle * triangle_order] - 1) * 2];
+                x3 = z[0 + (triangle_node[2 + triangle * triangle_order] - 1) * 2];
+                y3 = z[1 + (triangle_node[2 + triangle * triangle_order] - 1) * 2];
+
+                area = 0.5 * Math.Abs(x1 * (y2 - y3)
+                                      + x2 * (y3 - y1)
+                                      + x3 * (y1 - y2));
+
+                area_min = Math.Min(area_min, Math.Abs(area));
+                area_max = Math.Max(area_max, Math.Abs(area));
+                area_ave = area_ave + Math.Abs(area);
+
+                if (area < 0.0)
+                {
+                    area_negative = area_negative + 1;
+                }
+
+                if (area == 0.0)
+                {
+                    area_zero = area_zero + 1;
+                }
+            }
+
+            area_ave = area_ave / (double) (triangle_num);
+            area_std = 0.0;
+            for (triangle = 0; triangle < triangle_num; triangle++)
+            {
+                x1 = z[0 + (triangle_node[0 + triangle * triangle_order] - 1) * 2];
+                y1 = z[1 + (triangle_node[0 + triangle * triangle_order] - 1) * 2];
+                x2 = z[0 + (triangle_node[1 + triangle * triangle_order] - 1) * 2];
+                y2 = z[1 + (triangle_node[1 + triangle * triangle_order] - 1) * 2];
+                x3 = z[0 + (triangle_node[2 + triangle * triangle_order] - 1) * 2];
+                y3 = z[1 + (triangle_node[2 + triangle * triangle_order] - 1) * 2];
+
+                area = 0.5 * Math.Abs(x1 * (y2 - y3)
+                                      + x2 * (y3 - y1)
+                                      + x3 * (y1 - y2));
+
+                area_std = area_std + Math.Pow(area - area_ave, 2);
+            }
+
+            area_std = Math.Sqrt(area_std / (double) (triangle_num));
+
+            if (0.0 < area_max)
+            {
+                area_ratio = area_min / area_max;
+            }
+            else
+            {
+                area_ratio = 0.0;
+            }
+        }
+
         public static void q_measure(int n, double[] z, int triangle_order, int triangle_num,
         int[] triangle_node, ref double q_min, ref double q_max, ref double q_ave,
         ref double q_area )

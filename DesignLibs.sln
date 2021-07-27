@@ -730,6 +730,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TriangulationNodeToElementT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TriangulationOrientTest", "BurkhardtTest\Triangulation\TriangulationOrientTest\TriangulationOrientTest.csproj", "{417409B0-96B5-47EA-BABC-1A60AF438759}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TriangulationPlotTest", "BurkhardtTest\Triangulation\TriangulationPlotTest\TriangulationPlotTest.csproj", "{2D871A77-D4AB-4182-BFD6-C58CC37DDEFB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -4520,6 +4522,18 @@ Global
 		{417409B0-96B5-47EA-BABC-1A60AF438759}.Release|x64.Build.0 = Release|Any CPU
 		{417409B0-96B5-47EA-BABC-1A60AF438759}.Release|x86.ActiveCfg = Release|Any CPU
 		{417409B0-96B5-47EA-BABC-1A60AF438759}.Release|x86.Build.0 = Release|Any CPU
+		{2D871A77-D4AB-4182-BFD6-C58CC37DDEFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D871A77-D4AB-4182-BFD6-C58CC37DDEFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D871A77-D4AB-4182-BFD6-C58CC37DDEFB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2D871A77-D4AB-4182-BFD6-C58CC37DDEFB}.Debug|x64.Build.0 = Debug|Any CPU
+		{2D871A77-D4AB-4182-BFD6-C58CC37DDEFB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2D871A77-D4AB-4182-BFD6-C58CC37DDEFB}.Debug|x86.Build.0 = Debug|Any CPU
+		{2D871A77-D4AB-4182-BFD6-C58CC37DDEFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D871A77-D4AB-4182-BFD6-C58CC37DDEFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D871A77-D4AB-4182-BFD6-C58CC37DDEFB}.Release|x64.ActiveCfg = Release|Any CPU
+		{2D871A77-D4AB-4182-BFD6-C58CC37DDEFB}.Release|x64.Build.0 = Release|Any CPU
+		{2D871A77-D4AB-4182-BFD6-C58CC37DDEFB}.Release|x86.ActiveCfg = Release|Any CPU
+		{2D871A77-D4AB-4182-BFD6-C58CC37DDEFB}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -4883,6 +4897,7 @@ Global
 		{27D0780E-C850-486A-9BBC-0F1068A1B3CA} = {05811672-8397-4D2C-95E8-331C97F02E10}
 		{AA693FAC-7F3B-486D-A1BA-95FA14ED6D7A} = {05811672-8397-4D2C-95E8-331C97F02E10}
 		{417409B0-96B5-47EA-BABC-1A60AF438759} = {05811672-8397-4D2C-95E8-331C97F02E10}
+		{2D871A77-D4AB-4182-BFD6-C58CC37DDEFB} = {05811672-8397-4D2C-95E8-331C97F02E10}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B449416C-C504-4FA8-9E10-10857263A64A}

@@ -291,6 +291,8 @@
     <projectFile>BurkhardtTest/Triangulation/TriangulationMaskTest/TriangulationMaskTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Triangulation/TriangulationNodeToElementTest/TriangulationNodeToElementTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Triangulation/TriangulationOrientTest/TriangulationOrientTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Triangulation/TriangulationPlotTest/TriangulationPlotTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Triangulation/TriangulationQ2LTest/TriangulationQ2LTest.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -324,8 +326,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/BurkhardtTest/PGMAIOTest/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/PBMA.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/NEWS.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/i4mat.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ImageEdgeTest/Program.cs" />
@@ -375,6 +375,8 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/Triangulation/TriangulationMaskTest/Program.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Triangulation/TriangulationNodeToElementTest/Program.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Triangulation/TriangulationOrientTest/Program.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Triangulation/TriangulationPlotTest/Program.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Triangulation/TriangulationQ2LTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -5361,6 +5363,42 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="TriangulationPlotTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Triangulation/TriangulationPlotTest/TriangulationPlotTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="TriangulationQ2LTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Triangulation/TriangulationQ2LTest/TriangulationQ2LTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="TriangulationTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -5942,6 +5980,8 @@
       <item itemvalue=".NET Project.TriangulationMaskTest" />
       <item itemvalue=".NET Project.TriangulationNodeToElementTest" />
       <item itemvalue=".NET Project.TriangulationOrientTest" />
+      <item itemvalue=".NET Project.TriangulationPlotTest" />
+      <item itemvalue=".NET Project.TriangulationQ2LTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

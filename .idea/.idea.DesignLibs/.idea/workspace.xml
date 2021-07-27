@@ -298,6 +298,7 @@
     <projectFile>BurkhardtTest/Triangulation/TriangulationRefineTest/TriangulationRefineTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Triangulation/TriangulationSVGTest/TriangulationSVGTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Triangulation/TriangulationT3toT4Test/TriangulationT3toT4Test.csproj</projectFile>
+    <projectFile>BurkhardtTest/Triangulation/TriangulationTriangleNeighborsTest/TriangulationTriangleNeighborsTest.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -331,7 +332,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/BurkhardtTest/KronrodTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/IO.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Niederreiter/CALCC.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Niederreiter/Niederreiter.cs" />
@@ -382,6 +382,7 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/Triangulation/TriangulationSVGTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangulation/Plot.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Triangulation/TriangulationT3toT4Test/Program.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Triangulation/TriangulationTriangleNeighborsTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -5512,6 +5513,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="TriangulationTriangleNeighborsTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Triangulation/TriangulationTriangleNeighborsTest/TriangulationTriangleNeighborsTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="WathenMatrixTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -6082,6 +6101,7 @@
       <item itemvalue=".NET Project.TriangulationRefineTest" />
       <item itemvalue=".NET Project.TriangulationSVGTest" />
       <item itemvalue=".NET Project.TriangulationT3toT4Test" />
+      <item itemvalue=".NET Project.TriangulationTriangleNeighborsTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

@@ -718,6 +718,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TriangulationBoundaryNodesT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TriangulationCornerTest", "BurkhardtTest\Triangulation\TriangulationCornerTest\TriangulationCornerTest.csproj", "{775895B8-A3DB-45AD-958D-D6A2389DD1F3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TriangulationDelauneyDiscrepancyTest", "BurkhardtTest\Triangulation\TriangulationDelauneyDiscrepancyTest\TriangulationDelauneyDiscrepancyTest.csproj", "{52DD2354-D923-4416-BC59-CC228FE8D0DD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -4436,6 +4438,18 @@ Global
 		{775895B8-A3DB-45AD-958D-D6A2389DD1F3}.Release|x64.Build.0 = Release|Any CPU
 		{775895B8-A3DB-45AD-958D-D6A2389DD1F3}.Release|x86.ActiveCfg = Release|Any CPU
 		{775895B8-A3DB-45AD-958D-D6A2389DD1F3}.Release|x86.Build.0 = Release|Any CPU
+		{52DD2354-D923-4416-BC59-CC228FE8D0DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52DD2354-D923-4416-BC59-CC228FE8D0DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52DD2354-D923-4416-BC59-CC228FE8D0DD}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{52DD2354-D923-4416-BC59-CC228FE8D0DD}.Debug|x64.Build.0 = Debug|Any CPU
+		{52DD2354-D923-4416-BC59-CC228FE8D0DD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{52DD2354-D923-4416-BC59-CC228FE8D0DD}.Debug|x86.Build.0 = Debug|Any CPU
+		{52DD2354-D923-4416-BC59-CC228FE8D0DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52DD2354-D923-4416-BC59-CC228FE8D0DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52DD2354-D923-4416-BC59-CC228FE8D0DD}.Release|x64.ActiveCfg = Release|Any CPU
+		{52DD2354-D923-4416-BC59-CC228FE8D0DD}.Release|x64.Build.0 = Release|Any CPU
+		{52DD2354-D923-4416-BC59-CC228FE8D0DD}.Release|x86.ActiveCfg = Release|Any CPU
+		{52DD2354-D923-4416-BC59-CC228FE8D0DD}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -4793,6 +4807,7 @@ Global
 		{EC1839FF-B9A3-4AA3-998C-37CADCBEB54A} = {05811672-8397-4D2C-95E8-331C97F02E10}
 		{246B6214-087F-47A1-8348-60278AFBAD3E} = {05811672-8397-4D2C-95E8-331C97F02E10}
 		{775895B8-A3DB-45AD-958D-D6A2389DD1F3} = {05811672-8397-4D2C-95E8-331C97F02E10}
+		{52DD2354-D923-4416-BC59-CC228FE8D0DD} = {05811672-8397-4D2C-95E8-331C97F02E10}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B449416C-C504-4FA8-9E10-10857263A64A}

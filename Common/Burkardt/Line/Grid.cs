@@ -1,4 +1,4 @@
-﻿namespace Burkardt.Line
+﻿namespace Burkardt.LineNS
 {
     public static class Grid
     {

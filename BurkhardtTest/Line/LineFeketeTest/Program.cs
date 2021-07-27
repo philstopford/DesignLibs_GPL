@@ -1,5 +1,5 @@
 ﻿using System;
-using Burkardt.Line;
+using Burkardt.LineNS;
 using Burkardt.Types;
 
 namespace LineFeketeTest

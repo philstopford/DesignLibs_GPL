@@ -1,7 +1,7 @@
 ﻿using System;
 using Burkardt.Uniform;
 
-namespace Burkardt.Line
+namespace Burkardt.LineNS
 {
     public static class MonteCarlo
     {

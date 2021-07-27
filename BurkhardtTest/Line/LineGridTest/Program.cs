@@ -3,7 +3,7 @@ using Burkardt.Types;
 
 namespace LineGridTest
 {
-    using Grid = Burkardt.Line.Grid;
+    using Grid = Burkardt.LineNS.Grid;
     class Program
     {
         static void Main(string[] args)

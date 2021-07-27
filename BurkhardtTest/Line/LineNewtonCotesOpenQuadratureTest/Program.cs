@@ -3,7 +3,7 @@ using Burkardt;
 
 namespace LineNewtonCotesOpenQuadratureTest
 {
-    using NewtonCotesQuadrature = Burkardt.Line.NewtonCotesQuadrature;
+    using NewtonCotesQuadrature = Burkardt.LineNS.NewtonCotesQuadrature;
 
     class Program
     {

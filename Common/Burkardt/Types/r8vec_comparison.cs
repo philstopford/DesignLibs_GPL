@@ -74,7 +74,7 @@
         }
 
 
-        public static bool r8vec_eq(int n, double[] a1, int startIndexA1, double[] a2)
+        public static bool r8vec_eq(int n, double[] a1, double[] a2, int startIndexA1 = 0, int startIndexA2 = 0)
 
             //****************************************************************************80
             //
@@ -109,7 +109,7 @@
 
             for (i = 0; i < n; i++)
             {
-                if (a1[startIndexA1 + i] != a2[i])
+                if (a1[startIndexA1 + i] != a2[startIndexA2 + i])
                 {
                     return false;
                 }
@@ -173,7 +173,7 @@
             return false;
         }
 
-        public static bool r8vec_lt(int n, double[] a1, int startIndexA1, double[] a2)
+        public static bool r8vec_lt(int n, double[] a1, double[] a2, int startIndexA1 = 0, int startIndexA2 = 0)
 
             //****************************************************************************80
             //
@@ -215,11 +215,11 @@
 
             for (i = 0; i < n; i++)
             {
-                if (a1[startIndexA1 + i] < a2[i])
+                if (a1[startIndexA1 + i] < a2[startIndexA2 + i])
                 {
                     return true;
                 }
-                else if (a2[i] < a1[startIndexA1 + i])
+                else if (a2[startIndexA2 + i] < a1[startIndexA1 + i])
                 {
                     return false;
                 }

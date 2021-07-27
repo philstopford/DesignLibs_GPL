@@ -3,7 +3,7 @@ using Burkardt.Types;
 
 namespace LineMonteCarloTest
 {
-    using MonteCarlo = Burkardt.Line.MonteCarlo;
+    using MonteCarlo = Burkardt.LineNS.MonteCarlo;
     using Monomial = Burkardt.Monomial;
 
     class Program

@@ -101,15 +101,15 @@ namespace Burkardt.Types
                 if (r8vec_gt(2, a, startIndexA + (2 * ll), key))
                 {
                     rr = rr - 1;
-                    r8vec_swap(2, ref a, startIndexA + (2 * (rr - 1)), ref a, startIndexA + (2 * ll));
+                    r8vec_swap(2, ref a, ref a, startIndexA + (2 * (rr - 1)), startIndexA + (2 * ll));
                 }
-                else if (r8vec_eq(2, a, startIndexA + (2 * ll), key))
+                else if (r8vec_eq(2, a, key, startIndexA + (2 * ll)))
                 {
                     m = m + 1;
-                    r8vec_swap(2, ref a, startIndexA + (2 * (m - 1)), ref a, startIndexA + (2 * ll));
+                    r8vec_swap(2, ref a, ref a, startIndexA + (2 * (m - 1)), startIndexA + (2 * ll));
                     ll = ll + 1;
                 }
-                else if (r8vec_lt(2, a, startIndexA + (2 * ll), key))
+                else if (r8vec_lt(2, a, key, startIndexA + (2 * ll)))
                 {
                     ll = ll + 1;
                 }

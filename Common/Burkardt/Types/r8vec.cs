@@ -924,7 +924,7 @@ namespace Burkardt.Types
         }
 
 
-        public static void r8vec_swap(int n, ref double[] a1, int startIndexA1, ref double[] a2, int startIndexA2)
+        public static void r8vec_swap(int n, ref double[] a1, ref double[] a2, int startIndexA1 = 0, int startIndexA2 = 0)
 
             //****************************************************************************80
             //

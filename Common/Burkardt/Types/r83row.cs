@@ -205,15 +205,15 @@ namespace Burkardt.Types
                 if (r8vec_gt(3, a, key, a1Index: index + (+3 * ll)))
                 {
                     rr = rr - 1;
-                    r8vec_swap(3, ref a, index + (+3 * (rr - 1)), ref a, index + (+3 * ll));
+                    r8vec_swap(3, ref a, ref a, index + (+3 * (rr - 1)), index + (+3 * ll));
                 }
-                else if (r8vec_eq(3, a, index + (+3 * ll), key))
+                else if (r8vec_eq(3, a, key, index + (+3 * ll)))
                 {
                     m = m + 1;
-                    r8vec_swap(3, ref a, index + (+3 * (m - 1)), ref a, index + (+3 * ll));
+                    r8vec_swap(3, ref a, ref a, index + (+3 * (m - 1)), index + (+3 * ll));
                     ll = ll + 1;
                 }
-                else if (r8vec_lt(3, a, index + (+3 * ll), key))
+                else if (r8vec_lt(3, a, key, index + (+3 * ll)))
                 {
                     ll = ll + 1;
                 }

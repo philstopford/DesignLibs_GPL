@@ -1,7 +1,7 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.Line
+namespace Burkardt.LineNS
 {
     public static class Felippa
     {

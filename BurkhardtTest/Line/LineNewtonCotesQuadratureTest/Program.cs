@@ -2,7 +2,7 @@
 
 namespace LineNewtonCotesQuadratureTest
 {
-    using NewtonCotesQuadrature = Burkardt.Line.NewtonCotesQuadrature;
+    using NewtonCotesQuadrature = Burkardt.LineNS.NewtonCotesQuadrature;
 
     class Program
     {

@@ -420,9 +420,6 @@ namespace TriangleFeketeRuleTest
 
                 Console.WriteLine("  Rule " + rule + " plotted in \"" + file_name + "\".");
             }
-
-            return;
-# undef NODE_NUM
         }
 
         static void test06()

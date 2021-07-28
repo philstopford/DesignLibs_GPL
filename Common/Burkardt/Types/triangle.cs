@@ -1447,5 +1447,694 @@ namespace Burkardt.Types
             }
 
         }
+
+        public static void triangle_element_data_example(int element_num, int element_order,
+                int element_att_num, ref int[] element_node, ref double[] element_att)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TRIANGLE_ELEMENT_DATA_EXAMPLE returns the element information for the example.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    07 December 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int ELEMENT_NUM, the number of elements.
+            //
+            //    Input, int ELEMENT_ORDER, the order of the elements.
+            //
+            //    Input, int ELEMENT_ATT_NUM, the number of element attributes.
+            //
+            //    Output, int ELEMENT_NODE[ELEMENT_ORDER*ELEMENT_NUM], the indices of the
+            //    nodes that make up each element.
+            //
+            //    Output, double ELEMENT_ATT[ELEMENT_ATT_NUM*ELEMENT_NUM], the attributes
+            //    of each element.
+            //
+        {
+            int[] element_node_save =
+                {
+                    1, 2, 6,
+                    7, 6, 2,
+                    2, 3, 7,
+                    8, 7, 3,
+                    3, 4, 8,
+                    9, 8, 4,
+                    4, 5, 9,
+                    10, 9, 5,
+                    6, 7, 11,
+                    12, 11, 7,
+                    7, 8, 12,
+                    13, 12, 8,
+                    8, 9, 13,
+                    14, 13, 9,
+                    9, 10, 14,
+                    15, 14, 10,
+                    11, 12, 16,
+                    17, 16, 12,
+                    12, 13, 17,
+                    18, 17, 13,
+                    16, 17, 19,
+                    20, 19, 17,
+                    17, 18, 20,
+                    21, 20, 18
+                }
+                ;
+
+            i4mat_copy(element_order, element_num, element_node_save, ref element_node);
+
+        }
+
+        public static void triangle_element_data_read(string element_file, int element_num,
+                int element_order, int element_att_num, ref int[] element_node,
+                ref double[] element_att)
+
+            //*****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TRIANGLE_ELEMENT_DATA_READ reads the header information from an element file.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    07 December 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, string ELEMENT_FILE, the name of the file to be read.
+            //
+            //    Input, int ELEMENT_NUM, the number of elements.
+            //
+            //    Input, int ELEMENT_ORDER, the order of the elements.
+            //
+            //    Input, int ELEMENT_ATT_NUM, number of element attributes listed on each 
+            //    node record.
+            //
+            //    Output, int ELEMENT_NODE[ELEMENT_ORDER*ELEMENT_NUM], the indices of the
+            //    nodes that make up each element.
+            //
+            //    Output, double ELEMENT_ATT[ELEMENT_ATT_NUM*ELEMENT_NUM], the attributes
+            //    of each element.
+            //
+        {
+            int element;
+            int i;
+            int i1;
+            int i2;
+            int i3;
+            string[] inputlines;
+            int ival;
+            double value;
+
+            element = -1;
+
+            try
+            {
+                inputlines = File.ReadAllLines(element_file);
+            }
+            catch
+            {
+                Console.WriteLine("");
+                Console.WriteLine("TRIANGLE_ELEMENT_DATA_READ - Fatal error!");
+                Console.WriteLine("  Could not open file.");
+                return;
+            }
+
+            foreach (string input in inputlines)
+            {
+                string[] tokens = input.Split(new[] {' '});
+                /*
+                Read, but ignore, dimension line.
+                */
+                if (element == -1)
+                {
+                    i1 = Convert.ToInt32(tokens[0]);
+                    i2 = Convert.ToInt32(tokens[1]);
+                    i3 = Convert.ToInt32(tokens[2]);
+                }
+                else
+                {
+                    int index = 0;
+                    ival = Convert.ToInt32(tokens[index]);
+                    index++;
+
+                    for (i = 0; i < element_order; i++)
+                    {
+                        ival = Convert.ToInt32(tokens[index]);
+                        index++;
+                        element_node[i + element * element_order] = ival;
+                    }
+
+                    for (i = 0; i < element_att_num; i++)
+                    {
+                        value = Convert.ToInt32(tokens[index]);
+                        index++;
+                        element_att[i + element * element_att_num] = value;
+                    }
+                }
+
+                element = element + 1;
+
+                if (element_num <= element)
+                {
+                    break;
+                }
+            }
+        }
+
+        public static void triangle_element_size_example(ref int element_num, ref int element_order,
+                ref int element_att_num)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TRIANGLE_ELEMENT_SIZE_EXAMPLE returns the element size information for the example.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    07 December 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Output, int *ELEMENT_NUM, the number of elements.
+            //
+            //    Output, int *ELEMENT_ORDER, the order of the elements.
+            //
+            //    Output, int *ELEMENT_ATT_NUM, the number of element attributes.
+            //
+        {
+            element_num = 24;
+            element_order = 3;
+            element_att_num = 0;
+        }
+
+        public static void triangle_element_size_read(string element_file, ref int element_num,
+                ref int element_order, ref int element_att_num)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TRIANGLE_ELEMENT_SIZE_READ reads the header information from an element file.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    07 December 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, string ELEMENT_FILE, the name of the file to be read.
+            //
+            //    Output, int *ELEMENT_NUM, the number of elements.
+            //
+            //    Output, int *ELEMENT_ORDER, the order of the elements.
+            //
+            //    Output, int *ELEMENT_ATT_NUM, the number of element attributes.
+            //
+        {
+
+            try
+            {
+                string input = File.ReadAllLines(element_file)[0];
+                string[] tokens = input.Split(new[] {' '});
+                element_num = Convert.ToInt32(tokens[0]);
+                element_order = Convert.ToInt32(tokens[2]);
+                element_att_num = Convert.ToInt32(tokens[3]);
+            }
+            catch
+            {
+                Console.WriteLine("");
+                Console.WriteLine("TRIANGLE_ELEMENT_SIZE_READ - Fatal error!");
+                Console.WriteLine("  Could not open file.");
+            }
+        }
+
+        public static void triangle_element_write(string element_file, int element_num,
+                int element_order, int element_att_num, int[] element_node,
+                double[] element_att)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TRIANGLE_ELEMENT_WRITE writes a TRIANGLE ".ele" file.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    07 December 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, string ELEMENT_FILE, the name of the file to be written.
+            //
+            //    Input, int ELEMENT_NUM, the number of elements.
+            //
+            //    Input, int ELEMENT_ORDER, the order of the elements.
+            //
+            //    Input, int ELEMENT_ATT_NUM, the number of element attributes.
+            //
+            //    Input, int ELEMENT_NODE[ELEMENT_ORDER*ELEMENT_NUM], the indices of the
+            //    nodes that make up each element.
+            //
+            //    Input, double ELEMENT_ATT[ELEMENT_ATT_NUM*ELEMENT_NUM], the attributes
+            //    of each element.
+            //
+        {
+            int att;
+            int element;
+            int order;
+            List<string> output = new List<string>();
+
+
+            output.Add("  " + element_num
+                            + "  " + element_order
+                            + "  " + element_att_num + "");
+
+            for (element = 0; element < element_num; element++)
+            {
+                string tmp = "  " + element + 1;
+                for (order = 0; order < element_order; order++)
+                {
+                    tmp += "  " + element_node[order + element * element_order];
+                }
+
+                for (att = 0; att < element_att_num; att++)
+                {
+                    tmp += element_att[att + element * element_att_num];
+                }
+
+                output.Add(tmp);
+            }
+
+            File.WriteAllLines(element_file, output);
+        }
+
+        public static void triangle_node_data_example(int node_num, int node_dim, int node_att_num,
+                int node_marker_num, ref double[] node_coord, ref double[] node_att,
+                ref int[] node_marker)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TRIANGLE_NODE_DATA_EXAMPLE returns the node information for the example.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    07 December 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int NODE_NUM, the number of nodes.
+            //
+            //    Input, int NODE_DIM, the spatial dimension.
+            //
+            //    Input, int NODE_ATT_NUM, number of node attributes listed on each 
+            //    node record.
+            //
+            //    Input, int NODE_MARKER_NUM, 1 if every node record includes a final
+            //    boundary marker value.
+            //
+            //    Output, double NODE_COORD[NODE_DIM*NODE_NUM], the nodal coordinates.
+            //
+            //    Output, double NODE_ATT[NODE_ATT_NUM*NODE_NUM], the nodal attributes.
+            //
+            //    Output, int NODE_MARKER[NODE_MARKER_NUM*NODE_NUM], the node markers.
+            //
+        {
+            double[] node_coord_save =
+                {
+                    0.0, 0.0,
+                    1.0, 0.0,
+                    2.0, 0.0,
+                    3.0, 0.0,
+                    4.0, 0.0,
+                    0.0, 1.0,
+                    1.0, 1.0,
+                    2.0, 1.0,
+                    3.0, 1.0,
+                    4.0, 1.0,
+                    0.0, 2.0,
+                    1.0, 2.0,
+                    2.0, 2.0,
+                    3.0, 2.0,
+                    4.0, 2.0,
+                    0.0, 3.0,
+                    1.0, 3.0,
+                    2.0, 3.0,
+                    0.0, 4.0,
+                    1.0, 4.0,
+                    2.0, 4.0
+                }
+                ;
+            int[] node_marker_save =
+                {
+                    1, 1, 1, 1, 1, 1, 0, 0, 0, 1,
+                    1, 0, 0, 1, 1, 1, 0, 1, 1, 1,
+                    1
+                }
+                ;
+
+            r8mat_copy(2, 21, node_coord_save, ref node_coord);
+            i4vec_copy(21, node_marker_save, ref node_marker);
+
+        }
+
+        public static void triangle_node_data_read(string node_file, int node_num, int node_dim,
+                int node_att_num, int node_marker_num, ref double[] node_coord, ref double[] node_att,
+                ref int[] node_marker)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TRIANGLE_NODE_HEADER_READ reads the header information from a node file.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    07 December 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, string NODE_FILE, the name of the node file to be read.
+            //
+            //    Input, int NODE_NUM, the number of nodes.
+            //
+            //    Input, int NODE_DIM, the spatial dimension.
+            //
+            //    Input, int NODE_ATT_NUM, number of node attributes listed on each 
+            //    node record.
+            //
+            //    Input, int NODE_MARKER_NUM, 1 if every node record includes a final
+            //    boundary marker value.
+            //
+            //    Output, double NODE_COORD[NODE_DIM*NODE_NUM], the nodal coordinates.
+            //
+            //    Output, double NODE_ATT[NODE_ATT_NUM*NODE_NUM], the nodal attributes.
+            //
+            //    Output, int NODE_MARKER[NODE_MARKER_NUM*NODE_NUM], the node markers.
+            //
+        {
+            int i;
+            int i1;
+            int i2;
+            int i3;
+            int i4;
+            string[] inputlines;
+            int ival;
+            int node;
+            double value;
+
+            node = -1;
+
+            try
+            {
+                inputlines = File.ReadAllLines(node_file);
+            }
+            catch
+            {
+                Console.WriteLine("");
+                Console.WriteLine("TRIANGLE_NODE_DATA_READ - Fatal error!");
+                Console.WriteLine("  Could not open file.");
+                return;
+            }
+
+            foreach (string input in inputlines)
+            {
+                string[] tokens = input.Split(new[] {' '});
+                //
+                //  Read, but ignore, dimension line.
+                //
+                if (node == -1)
+                {
+                    i1 = Convert.ToInt32(tokens[0]);
+                    i2 = Convert.ToInt32(tokens[1]);
+                    i3 = Convert.ToInt32(tokens[2]);
+                    i4 = Convert.ToInt32(tokens[3]);
+                }
+                else
+                {
+                    int index = 0;
+                    ival = Convert.ToInt32(tokens[index]);
+                    index++;
+
+                    for (i = 0; i < node_dim; i++)
+                    {
+                        value = Convert.ToInt32(tokens[index]);
+                        index++;
+                        node_coord[i + node * node_dim] = value;
+                    }
+
+                    for (i = 0; i < node_att_num; i++)
+                    {
+                        value = Convert.ToInt32(tokens[index]);
+                        index++;
+                        node_att[i + node * node_att_num] = value;
+                    }
+
+                    for (i = 0; i < node_marker_num; i++)
+                    {
+                        ival = Convert.ToInt32(tokens[index]);
+                        index++;
+                        node_marker[i + node * node_marker_num] = ival;
+                    }
+                }
+
+                node = node + 1;
+
+                if (node_num <= node)
+                {
+                    break;
+                }
+            }
+        }
+
+        public static void triangle_node_size_example(ref int node_num, ref int node_dim,
+                ref int node_att_num, ref int node_marker_num)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TRIANGLE_NODE_SIZE_EXAMPLE returns the sizes of node information for the example.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    07 December 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Output, int *NODE_NUM, the number of nodes.
+            //
+            //    Output, int *NODE_DIM, the spatial dimension.
+            //
+            //    Output, int *NODE_ATT_NUM, number of node attributes listed on each 
+            //    node record.
+            //
+            //    Output, int *NODE_MARKER_NUM, 1 if every node record includes a final
+            //    boundary marker value.
+            //
+        {
+            node_num = 21;
+            node_dim = 2;
+            node_att_num = 0;
+            node_marker_num = 1;
+        }
+
+        public static void triangle_node_size_read(string node_file, ref int node_num, ref int node_dim,
+                ref int node_att_num, ref int node_marker_num)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TRIANGLE_NODE_SIZE_READ reads the header information from a node file.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    07 December 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, string NODE_FILE, the name of the node file to be read.
+            //
+            //    Output, int *NODE_NUM, the number of nodes.
+            //
+            //    Output, int *NODE_DIM, the spatial dimension.
+            //
+            //    Output, int *NODE_ATT_NUM, number of node attributes listed on each 
+            //    node record.
+            //
+            //    Output, int *NODE_MARKER_NUM, 1 if every node record includes a final
+            //    boundary marker value.
+            //
+        {
+            string input;
+
+            input = File.ReadAllLines(node_file)[0];
+
+            string[] tokens = input.Split(new[] {' '});
+
+            node_num = Convert.ToInt32(tokens[0]);
+            node_dim = Convert.ToInt32(tokens[1]);
+            node_att_num = Convert.ToInt32(tokens[2]);
+            node_marker_num = Convert.ToInt32(tokens[3]);
+
+        }
+
+        public static void triangle_node_write(string node_file, int node_num, int node_dim,
+                int node_att_num, int node_marker_num, ref double[] node_coord,
+                ref double[] node_att, ref int[] node_marker)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TRIANGLE_NODE_WRITE writes a TRIANGLE ".node" file.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    07 December 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, string NODE_FILE, the name of the node file to be written.
+            //
+            //    Input, int NODE_NUM, the number of nodes.
+            //
+            //    Input, int NODE_DIM, the spatial dimension.
+            //
+            //    Input, int NODE_ATT_NUM, number of node attributes listed on each 
+            //    node record.
+            //
+            //    Input, int NODE_MARKER_NUM, 1 if every node record includes a final
+            //    boundary marker value.
+            //
+            //    Output, double NODE_COORD[NODE_DIM*NODE_NUM], the nodal coordinates.
+            //
+            //    Output, double NODE_ATT[NODE_ATT_NUM*NODE_NUM], the nodal attributes.
+            //
+            //    Output, int NODE_MARKER[NODE_MARKER_NUM*NODE_NUM], the node markers.
+            //
+        {
+            int att;
+            int dim;
+            int node;
+            List<string> output = new List<string>();
+
+            output.Add("  " + node_num
+                            + "  " + node_dim
+                            + "  " + node_att_num
+                            + "  " + node_marker_num + "");
+
+            for (node = 0; node < node_num; node++)
+            {
+                string tmp = "  " + node + 1;
+                for (dim = 0; dim < node_dim; dim++)
+                {
+                    tmp += "  " + node_coord[dim + node * node_dim];
+                }
+
+                for (att = 0; att < node_att_num; att++)
+                {
+                    tmp += "  " + node_att[att + node * node_att_num];
+                }
+
+                if (node_marker_num == 1)
+                {
+                    tmp += "  " + node_marker[node];
+                }
+
+                output.Add(tmp);
+            }
+
+            File.WriteAllLines(node_file, output);
+
+        }
     }
 }

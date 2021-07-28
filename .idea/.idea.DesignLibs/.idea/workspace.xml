@@ -305,6 +305,7 @@
     <projectFile>BurkhardtTest/Triangle/TriangleFeketeRuleTest/TriangleFeketeRuleTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Triangle/TriangleHistogramTest/TriangleHistogramTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Triangle/TriangleInterpolateTest/TriangleInterpolateTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Triangle/TriangleIOTest/TriangleIOTest.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -338,8 +339,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/StochasticDifferentialEquations/Stability.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/StochasticDifferentialEquationsTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/RungeKutta/rk45.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/IO/PBMB.cs" />
@@ -383,12 +382,14 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/Triangle/TriangleExactnessTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangle/FeketeRule_sub.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangle/FeketeRule.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/triangle.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Triangle/TriangleFeketeRuleTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/i4vec.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Triangle/TriangleHistogramTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangle/Interpolate.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Triangle/TriangleInterpolateTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/i4mat.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Types/triangle.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Triangle/TriangleIOTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -5285,6 +5286,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="TriangleIOTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Triangle/TriangleIOTest/TriangleIOTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="TriangleIntegralsTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -6222,6 +6241,7 @@
       <item itemvalue=".NET Project.TriangleFeketeRuleTest" />
       <item itemvalue=".NET Project.TriangleHistogramTest" />
       <item itemvalue=".NET Project.TriangleInterpolateTest" />
+      <item itemvalue=".NET Project.TriangleIOTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

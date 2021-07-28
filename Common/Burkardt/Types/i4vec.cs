@@ -423,6 +423,66 @@ namespace Burkardt.Types
             return a;
         }
 
+        public static double i4vec_std ( int n, int[] x )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_STD returns the standard deviation of an I4VEC.
+            //
+            //  Discussion:
+            //
+            //    An I4VEC is a vector of I4's.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    14 August 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in the vector.
+            //
+            //    Input, int X[N], the vector whose variance is desired.
+            //
+            //    Output, double I4VEC_STD, the standard deviation of the vector entries.
+            //
+        {
+            int i;
+            double mean;
+            double std;
+
+            if ( n < 2 )
+            {
+                std = 0.0;
+            }
+            else
+            {
+                mean = 0.0;
+                for ( i = 0; i < n; i++ )
+                {
+                    mean = mean + ( double ) x[i];
+                }
+                mean = mean / ( double ) n;
+
+                std = 0.0;
+                for ( i = 0; i < n; i++ )
+                {
+                    std = std + Math.Pow ( ( double ) x[i] - mean, 2 );
+                }
+                std = Math.Sqrt ( std / ( double ) ( n - 1 ) );
+            }
+
+            return std;
+        }
         public static int i4vec_sum(int n, int[] a)
             //****************************************************************************80
             //

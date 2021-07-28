@@ -300,6 +300,7 @@
     <projectFile>BurkhardtTest/Triangulation/TriangulationT3toT4Test/TriangulationT3toT4Test.csproj</projectFile>
     <projectFile>BurkhardtTest/Triangulation/TriangulationTriangleNeighborsTest/TriangulationTriangleNeighborsTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Triangle/TriangleAnalyzeTest/TriangleAnalyzeTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Triangle/TriangleDunavantRuleTest/TriangleDunavantRuleTest.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -333,7 +334,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Integral/Monomial.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Quadrature/Monomial.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/nIntExactnessTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/StochasticDifferentialEquations/BrownianPath.cs" />
@@ -384,6 +384,7 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/triangle.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Triangle/TriangleAnalyzeTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangle/DunavantRule.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Triangle/TriangleDunavantRuleTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -5190,6 +5191,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="TriangleDunavantRuleTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Triangle/TriangleDunavantRuleTest/TriangleDunavantRuleTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="TriangleGridTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -6122,6 +6141,7 @@
       <item itemvalue=".NET Project.TriangulationT3toT4Test" />
       <item itemvalue=".NET Project.TriangulationTriangleNeighborsTest" />
       <item itemvalue=".NET Project.TriangleAnalyzeTest" />
+      <item itemvalue=".NET Project.TriangleDunavantRuleTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

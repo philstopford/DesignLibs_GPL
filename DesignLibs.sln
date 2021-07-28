@@ -760,6 +760,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TriangleInterpolateTest", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TriangleIOTest", "BurkhardtTest\Triangle\TriangleIOTest\TriangleIOTest.csproj", "{A4EFE25C-1EC9-40A6-85FD-4D07300E8842}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TriangleLynessRuleTest", "BurkhardtTest\Triangle\TriangleLynessRuleTest\TriangleLynessRuleTest.csproj", "{366589A5-1CB7-4D1A-A8FC-FFA5863B7CAF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -4730,6 +4732,18 @@ Global
 		{A4EFE25C-1EC9-40A6-85FD-4D07300E8842}.Release|x64.Build.0 = Release|Any CPU
 		{A4EFE25C-1EC9-40A6-85FD-4D07300E8842}.Release|x86.ActiveCfg = Release|Any CPU
 		{A4EFE25C-1EC9-40A6-85FD-4D07300E8842}.Release|x86.Build.0 = Release|Any CPU
+		{366589A5-1CB7-4D1A-A8FC-FFA5863B7CAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{366589A5-1CB7-4D1A-A8FC-FFA5863B7CAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{366589A5-1CB7-4D1A-A8FC-FFA5863B7CAF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{366589A5-1CB7-4D1A-A8FC-FFA5863B7CAF}.Debug|x64.Build.0 = Debug|Any CPU
+		{366589A5-1CB7-4D1A-A8FC-FFA5863B7CAF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{366589A5-1CB7-4D1A-A8FC-FFA5863B7CAF}.Debug|x86.Build.0 = Debug|Any CPU
+		{366589A5-1CB7-4D1A-A8FC-FFA5863B7CAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{366589A5-1CB7-4D1A-A8FC-FFA5863B7CAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{366589A5-1CB7-4D1A-A8FC-FFA5863B7CAF}.Release|x64.ActiveCfg = Release|Any CPU
+		{366589A5-1CB7-4D1A-A8FC-FFA5863B7CAF}.Release|x64.Build.0 = Release|Any CPU
+		{366589A5-1CB7-4D1A-A8FC-FFA5863B7CAF}.Release|x86.ActiveCfg = Release|Any CPU
+		{366589A5-1CB7-4D1A-A8FC-FFA5863B7CAF}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -5108,6 +5122,7 @@ Global
 		{0C8F48E1-695E-4924-9523-EB624150ACDD} = {C6B4837E-2F54-48F5-AAD5-BBE63CA09D9B}
 		{0625D739-B379-4224-9D61-A190EB22BC30} = {C6B4837E-2F54-48F5-AAD5-BBE63CA09D9B}
 		{A4EFE25C-1EC9-40A6-85FD-4D07300E8842} = {C6B4837E-2F54-48F5-AAD5-BBE63CA09D9B}
+		{366589A5-1CB7-4D1A-A8FC-FFA5863B7CAF} = {C6B4837E-2F54-48F5-AAD5-BBE63CA09D9B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B449416C-C504-4FA8-9E10-10857263A64A}

@@ -598,6 +598,5 @@ namespace Burkardt.TriangleNS
 
             return volume;
         }
-
     }
 }

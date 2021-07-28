@@ -1,4 +1,5 @@
-﻿using Burkardt.TriangulationNS;
+﻿using System;
+using Burkardt.TriangulationNS;
 using Burkardt.Types;
 
 namespace Burkardt.TriangleNS
@@ -360,6 +361,143 @@ namespace Burkardt.TriangleNS
             }
 
             return q;
+        }
+        
+        public static double triangle01_monomial_integral ( int dim_num, int[]  expon)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TRIANGLE01_MONOMIAL_INTEGRAL integrates a monomial over the unit triangle.
+            //
+            //  Discussion:
+            //
+            //    This routine evaluates a monomial of the form
+            //
+            //      product ( 1 <= dim <= dim_num ) x(dim)^expon(dim)
+            //
+            //    where the exponents are nonnegative integers.  Note that
+            //    if the combination 0^0 is encountered, it should be treated
+            //    as 1.
+            //
+            //    Integral ( over unit triangle ) x^m y^n dx dy = m! * n! / ( m + n + 2 )!
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    04 July 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int DIM_NUM, the spatial dimension.
+            //
+            //    Input, int EXPON[DIM_NUM], the exponents.
+            //
+            //    Output, double TRIANGLE01_MONOMIAL_INTEGRAL, the value of the integral 
+            //    of the monomial.
+            //
+        {
+            int i;
+            int k;
+            double value;
+            //
+            //  The first computation ends with VALUE = 1.0;
+            //
+            value = 1.0;
+
+            k = 0;
+
+            for ( i = 1; i <= expon[0]; i++ )
+            {
+                k = k + 1;
+                //  value = value * ( double ) ( i ) / ( double ) ( k );
+            }
+
+            for ( i = 1; i <= expon[1]; i++ )
+            {
+                k = k + 1;
+                value = value * ( double ) ( i ) / ( double ) ( k );
+            }
+
+            k = k + 1;
+            value = value / ( double ) ( k );
+
+            k = k + 1;
+            value = value / ( double ) ( k );
+
+            return value;
+        }
+
+        public static double triangle01_monomial_quadrature ( int dim_num, int[] expon, 
+        int point_num, double[] x, double[] weight )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    TRANGLE01_MONOMIAL_QUADRATURE applies quadrature to a monomial in a triangle.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    04 July 2007
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int DIM_NUM, the spatial dimension.
+        //
+        //    Input, int EXPON[DIM_NUM], the exponents.
+        //
+        //    Input, int POINT_NUM, the number of points in the rule.
+        //
+        //    Input, double X[DIM_NUM*POINT_NUM], the quadrature points.
+        //
+        //    Input, double WEIGHT[POINT_NUM], the quadrature weights.
+        //
+        //    Output, double TRIANGLE01_MONOMIAL_QUADRATURE, the quadrature error.
+        //
+        {
+            double area;
+            double exact;
+            double quad;
+            double quad_error;
+            double scale;
+            double[] value;
+            //
+            //  Get the exact value of the integral of the unscaled monomial.
+            //
+            scale = triangle01_monomial_integral ( dim_num, expon );
+            //
+            //  Evaluate the monomial at the quadrature points.
+            //
+            value = Monomial.monomial_value ( dim_num, point_num, expon, x );
+            //
+            //  Compute the weighted sum and divide by the exact value.
+            //
+            area = 0.5;
+            quad = area * typeMethods.r8vec_dot_product ( point_num, weight, value ) / scale;
+            //
+            //  Error:
+            //
+            exact = 1.0;
+            quad_error = Math.Abs ( quad - exact );
+            
+            return quad_error;
         }
 
         public static double triangle01_poly_integral(int d, double[] p)

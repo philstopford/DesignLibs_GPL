@@ -635,6 +635,101 @@ namespace Burkardt.Types
 
             return true;
         }
+        
+        public static double triangle_diameter_2d ( double[] t )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    TRIANGLE_DIAMETER computes the diameter of a triangle in 2D.
+        //
+        //  Discussion:
+        //
+        //    The diameter of a triangle is the diameter of the smallest circle
+        //    that can be drawn around the triangle.  At least two of the vertices
+        //    of the triangle will intersect the circle, but not necessarily
+        //    all three!
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    09 November 2015
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double T[2*3], the triangle vertices.
+        //
+        //    Output, double TRIANGLE_DIAMETER, the diameter of the triangle.
+        //
+        {
+            double a;
+            double b;
+            double c;
+            double diam;
+            double s;
+            //
+            //  Compute the (squares of) the lengths of the sides.
+            //
+            a = Math.Sqrt ( Math.Pow ( t[0+1*2] - t[0+0*2], 2 ) + Math.Pow ( t[1+1*2] - t[1+0*2], 2 ) );
+            b = Math.Sqrt ( Math.Pow ( t[0+2*2] - t[0+1*2], 2 ) + Math.Pow ( t[1+2*2] - t[1+1*2], 2 ) );
+            c = Math.Sqrt ( Math.Pow ( t[0+0*2] - t[0+2*2], 2 ) + Math.Pow ( t[1+0*2] - t[1+2*2], 2 ) );
+            //
+            //  Take care of a zero side.
+            //
+            if ( a == 0.0 )
+            {
+                return Math.Sqrt ( b );
+            }
+            else if ( b == 0.0 )
+            {
+                return Math.Sqrt ( c );
+            }
+            else if ( c == 0.0 )
+            {
+                return Math.Sqrt ( a );
+            }
+            //
+            //  Make A the largest.
+            //
+            if ( a < b )
+            {
+                s = a;
+                a = b;
+                b = s;
+            }
+
+            if ( a < c )
+            {
+                s = a;
+                a = c;
+                c = s;
+            }
+            //
+            //  If A is very large...
+            //
+            if ( b + c < a )
+            {
+                diam = Math.Sqrt ( a );
+            }
+            else
+            {
+                a = Math.Sqrt ( a );
+                b = Math.Sqrt ( b );
+                c = Math.Sqrt ( c );
+                diam = 2.0 * a * b * c / Math.Sqrt ( ( a + b + c ) * ( - a + b + c ) 
+                                                              * ( a - b + c ) * ( a + b - c ) );
+            }
+
+            return diam;
+        }
 
         public static double[] triangle_edge_length_2d(double[] t)
 
@@ -984,6 +1079,111 @@ namespace Burkardt.Types
             return value;
         }
 
+        public static double triangle_point_dist ( double[] t, double[] p )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    TRIANGLE_POINT_DIST: distance ( triangle, point ) in 2D.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    01 June 2010
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double T[2*3], the triangle vertices.
+        //
+        //    Input, double P[2], the point which is to be checked.
+        //
+        //    Output, double TRIANGLE_POINT_DIST, the distance from the point to the triangle.
+        //    DIST is zero if the point lies exactly on the triangle.
+        //
+        {
+            double value;
+
+            value =                 Line.segment_point_dist ( t, t, p, p1Index:+0*2, p2Index:+1*2 );
+            value = Math.Min ( value, Line.segment_point_dist ( t, t, p, p1Index:+1*2, p2Index:+2*2 ) );
+            value = Math.Min ( value, Line.segment_point_dist ( t, t, p, p1Index:+2*2, p2Index:+0*2 ) );
+
+            return value;
+        }
+        
+        public static void triangle_point_near ( double[] t, double[] p, ref double[] pn, 
+        ref double dist )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    TRIANGLE_POINT_NEAR computes the nearest triangle point to a point in 2D.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    01 June 2010
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double T[2*3], the triangle vertices.
+        //
+        //    Input, double P[2], the point whose nearest neighbor
+        //    on the line is to be determined.
+        //
+        //    Output, double PN[2], the nearest point to P.
+        //
+        //    Output, double &DIST, the distance from the point to the triangle.
+        //
+        {
+            double dist12 = 0;
+            double dist23 = 0;
+            double dist31 = 0;
+            double tval = 0;
+            double[] pn12 = new double[2];
+            double[] pn23 = new double[2];
+            double[] pn31 = new double[2];
+            //
+            //  Find the distance to each of the line segments that make up the edges
+            //  of the triangle.
+            //
+            Line.segment_point_near ( t, t, p, ref pn12, ref dist12, ref tval, p1Index:+0*2, p2Index:+1*2 );
+
+            Line.segment_point_near ( t, t, p, ref pn23, ref dist23, ref tval, p1Index:+1*2, p2Index:+2*2 );
+
+            Line.segment_point_near ( t, t, p, ref pn31, ref dist31, ref tval, p1Index:+2*2, p2Index:+0*2 );
+
+            if ( dist12 <= dist23 && dist12 <= dist31 )
+            {
+                dist = dist12;
+                r8vec_copy ( 2, pn12, ref pn );
+            }
+            else if ( dist23 <= dist12 && dist23 <= dist31 )
+            {
+                dist = dist23;
+                r8vec_copy ( 2, pn23, ref pn );
+            }
+            else
+            {
+                dist = dist31;
+                r8vec_copy ( 2, pn31, ref pn );
+            }
+        }
         public static void triangle_points_plot(string file_name, double[] node_xy, int node_show,
                 int point_num, double[] point_xy, int point_show)
 
@@ -2135,6 +2335,93 @@ namespace Burkardt.Types
 
             File.WriteAllLines(node_file, output);
 
+        }
+        
+        public static double[] triangle_xsi_to_xy ( double[] t, double[] xsi )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    TRIANGLE_XSI_TO_XY converts from barycentric to XY coordinates in 2D.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    04 July 2005
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double T[2*3], the triangle vertices.
+        //
+        //    Input, double XSI[3], the barycentric coordinates of a point.
+        //
+        //    Output, double TRIANGLE_XSI_TO_XY[2], the Cartesian coordinates of the point.
+        //
+        {
+            double[] p;
+
+            p = new double[2];
+
+            p[0] = xsi[0] * t[0+0*2] + xsi[1] * t[0+1*2] + xsi[2] * t[0+2*2];
+            p[1] = xsi[0] * t[1+0*2] + xsi[1] * t[1+1*2] + xsi[2] * t[1+2*2];
+
+            return p;
+        }
+
+        public static double[] triangle_xy_to_xsi ( double[] t, double[] p )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    TRIANGLE_XY_TO_XSI converts from XY to barycentric in 2D.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    04 July 2005
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double T[2*3], the triangle vertices.
+        //
+        //    Input, double P[2], the XY coordinates of a point.
+        //
+        //    Output, double TRIANGLE_XY_TO_XSI[3], the barycentric coordinates of the point.
+        //
+        {
+            double det;
+            double[] xsi;
+
+            xsi = new double[3];
+
+            det = ( t[0+0*2] - t[0+2*2] ) * ( t[1+1*2] - t[1+2*2] )
+                  - ( t[0+1*2] - t[0+2*2] ) * ( t[1+0*2] - t[1+2*2] );
+
+            xsi[0] = (   ( t[1+1*2] - t[1+2*2] ) * ( p[0] - t[0+2*2] )
+                         - ( t[0+1*2] - t[0+2*2] ) * ( p[1] - t[1+2*2] ) ) / det;
+
+            xsi[1] = ( - ( t[1+0*2] - t[1+2*2] ) * ( p[0] - t[0+2*2] )
+                       + ( t[0+0*2] - t[0+2*2] ) * ( p[1] - t[1+2*2] ) ) / det;
+
+            xsi[2] = 1.0 - xsi[0] - xsi[1];
+
+            return xsi;
         }
     }
 }

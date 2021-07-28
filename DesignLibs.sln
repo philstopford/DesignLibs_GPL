@@ -768,6 +768,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TriangleNewtonCotesClosedTe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TriangleNewtonCotesOpenTest", "BurkhardtTest\Triangle\TriangleNewtonCotesOpenTest\TriangleNewtonCotesOpenTest.csproj", "{8BD58A2D-C3A8-4D85-BB46-6EAF0A3DCC9B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrianglePropertiesTest", "BurkhardtTest\Triangle\TrianglePropertiesTest\TrianglePropertiesTest.csproj", "{8D9E8D04-AACF-4FFF-933C-66B072F616F4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -4786,6 +4788,18 @@ Global
 		{8BD58A2D-C3A8-4D85-BB46-6EAF0A3DCC9B}.Release|x64.Build.0 = Release|Any CPU
 		{8BD58A2D-C3A8-4D85-BB46-6EAF0A3DCC9B}.Release|x86.ActiveCfg = Release|Any CPU
 		{8BD58A2D-C3A8-4D85-BB46-6EAF0A3DCC9B}.Release|x86.Build.0 = Release|Any CPU
+		{8D9E8D04-AACF-4FFF-933C-66B072F616F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D9E8D04-AACF-4FFF-933C-66B072F616F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D9E8D04-AACF-4FFF-933C-66B072F616F4}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8D9E8D04-AACF-4FFF-933C-66B072F616F4}.Debug|x64.Build.0 = Debug|Any CPU
+		{8D9E8D04-AACF-4FFF-933C-66B072F616F4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8D9E8D04-AACF-4FFF-933C-66B072F616F4}.Debug|x86.Build.0 = Debug|Any CPU
+		{8D9E8D04-AACF-4FFF-933C-66B072F616F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D9E8D04-AACF-4FFF-933C-66B072F616F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D9E8D04-AACF-4FFF-933C-66B072F616F4}.Release|x64.ActiveCfg = Release|Any CPU
+		{8D9E8D04-AACF-4FFF-933C-66B072F616F4}.Release|x64.Build.0 = Release|Any CPU
+		{8D9E8D04-AACF-4FFF-933C-66B072F616F4}.Release|x86.ActiveCfg = Release|Any CPU
+		{8D9E8D04-AACF-4FFF-933C-66B072F616F4}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -5168,6 +5182,7 @@ Global
 		{95A71A22-8682-4BB5-8233-061770148CB2} = {C6B4837E-2F54-48F5-AAD5-BBE63CA09D9B}
 		{299F9704-7C10-468B-8A45-7B28EDC7EE76} = {C6B4837E-2F54-48F5-AAD5-BBE63CA09D9B}
 		{8BD58A2D-C3A8-4D85-BB46-6EAF0A3DCC9B} = {C6B4837E-2F54-48F5-AAD5-BBE63CA09D9B}
+		{8D9E8D04-AACF-4FFF-933C-66B072F616F4} = {C6B4837E-2F54-48F5-AAD5-BBE63CA09D9B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B449416C-C504-4FA8-9E10-10857263A64A}

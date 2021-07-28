@@ -2593,5 +2593,444 @@ namespace Burkardt.Types
             Console.WriteLine("");
             Console.WriteLine("  Graphics data written to file \"" + plot_filename + "\"");
         }
+
+        public static double triangle_area(double[] vert1, double[] vert2, double[] vert3)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TRIANGLE_AREA returns the area of a triangle.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU GPL license.
+            //
+            //  Modified:
+            //
+            //    30 June 2014
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Hong Xiao, Zydrunas Gimbutas.
+            //    This C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Hong Xiao, Zydrunas Gimbutas,
+            //    A numerical algorithm for the construction of efficient quadrature
+            //    rules in two and higher dimensions,
+            //    Computers and Mathematics with Applications,
+            //    Volume 59, 2010, pages 663-676.
+            //
+            //  Parameters:
+            //
+            //    Input, double VERT1[2], VERT2[2], VERT3[2], the vertices of
+            //    the triangle.
+            //
+            //    Output, double TRIANGLE_AREA, the area of the triangle.
+            //
+        {
+            double value;
+
+            value = 0.5 *
+                    (
+                        (vert2[0] - vert1[0]) * (vert3[1] - vert1[1])
+                        - (vert3[0] - vert1[0]) * (vert2[1] - vert1[1])
+                    );
+
+            return value;
+        }
+
+        public static double[] triangle_to_ref(double[] tvert1, double[] tvert2,
+                double[] tvert3, double[] t)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TRIANGLE_TO_REF maps points from any triangle to the reference triangle.
+            //
+            //  Discussion:
+            //
+            //    The reference triangle has vertices:
+            //
+            //      ( -1, -1/sqrt(3) )
+            //      ( +1, -1/sqrt(3) )
+            //      (  0, +2/sqrt(3) )
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    30 June 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double TVERT1[2], TVERT2[2], TVERT3[2], the coordinates
+            //    of the vertices of the triangle.  These vertices will be taken
+            //    to be the images of (0,0), (1,0) and (0,1) respectively.
+            //
+            //    Input, double T[2], the coordinates of a point in the triangle.
+            //
+            //    Output, double TRIANGLE_TO_REF[2], the coordinates of a point in the
+            //    reference triangle.
+            //
+        {
+            double[] r;
+            double[] rvert1 = new double[2];
+            double[] rvert2 = new double[2];
+            double[] rvert3 = new double[2];
+            double[] s;
+
+            s = triangle_to_simplex(tvert1, tvert2, tvert3, t);
+
+            rvert1[0] = -1.0;
+            rvert1[1] = -1.0 / Math.Sqrt(3.0);
+            rvert2[0] = +1.0;
+            rvert2[1] = -1.0 / Math.Sqrt(3.0);
+            rvert3[0] = 0.0;
+            rvert3[1] = 2.0 / Math.Sqrt(3.0);
+
+            r = Burkardt.SimplexNS.Simplex.simplex_to_triangle(rvert1, rvert2, rvert3, s);
+
+            return r;
+        }
+
+        public static double[] triangle_to_simplex(double[] tvert1, double[] tvert2,
+                double[] tvert3, double[] t)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TRIANGLE_TO_SIMPLEX maps points from any triangle to the simplex.
+            //
+            //  Discussion:
+            //
+            //    The simplex has vertices:
+            //
+            //      (  0, 0 )
+            //      (  1, 0 )
+            //      (  0, 1 )
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    30 June 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double TVERT1[2], TVERT2[2], TVERT3[2], the coordinates
+            //    of the vertices of the triangle.  These vertices will be taken
+            //    to be the images of (0,0), (1,0) and (0,1) respectively.
+            //
+            //    Input, double T[2]), the coordinates of a point in the triangle.
+            //
+            //    Output, double TRIANGLE_TO_SIMPLEX[2], the coordinates of the
+            //    point in the simplex.
+            //
+        {
+            double[] s;
+
+            s = new double[2];
+
+            s[0] = ((tvert3[1] - tvert1[1]) * (t[0] - tvert1[0])
+                    - (tvert3[0] - tvert1[0]) * (t[1] - tvert1[1]))
+                   / ((tvert3[1] - tvert1[1]) * (tvert2[0] - tvert1[0])
+                      - (tvert3[0] - tvert1[0]) * (tvert2[1] - tvert1[1]));
+
+            s[1] = ((tvert2[0] - tvert1[0]) * (t[1] - tvert1[1])
+                    - (tvert2[1] - tvert1[1]) * (t[0] - tvert1[0]))
+                   / ((tvert3[1] - tvert1[1]) * (tvert2[0] - tvert1[0])
+                      - (tvert3[0] - tvert1[0]) * (tvert2[1] - tvert1[1]));
+
+            return s;
+        }
+
+        public static void trianmap(int numnodes, double[] vert1, double[] vert2, double[] vert3,
+                ref double[] rnodes, ref double[] whts)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TRIANMAP maps rules from the reference triangle to the user triangle.
+            //
+            //  Discussion:
+            //
+            //    This routine maps the quadrature nodes on the reference
+            //    triangle into a user-defined triangle specified by its vertices.
+            //
+            //    The weights are rescaled accordingly, so that
+            //    the resulting quadrature will integrate correctly constants, i.e.
+            //    the sum of the weights is the area of the user-defined triangle.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU GPL license.
+            //
+            //  Modified:
+            //
+            //    30 June 2014
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Hong Xiao, Zydrunas Gimbutas.
+            //    This C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Hong Xiao, Zydrunas Gimbutas,
+            //    A numerical algorithm for the construction of efficient quadrature
+            //    rules in two and higher dimensions,
+            //    Computers and Mathematics with Applications,
+            //    Volume 59, 2010, pages 663-676.
+            //
+            //  Parameters:
+            //
+            //    Input, int NUMNODES, the number of nodes.
+            //
+            //    Input, double VERT1[2], VERT2[2], VERT3[2], the vertices of
+            //    the triangle on which the quadrature rule is to be constructed.
+            //
+            //    Input/output, double RNODES[2*NUMNODES], the nodes.
+            //
+            //    Input/output, double WHTS[NUMNODES], the weights.
+            //
+        {
+            double area;
+            int j;
+            double scale;
+            double u = 0;
+            double v = 0;
+            double x;
+            double y;
+
+            area = Math.Abs(triangle_area(vert1, vert2, vert3));
+
+            scale = r8vec_sum(numnodes, whts);
+
+            scale = area / scale;
+
+            for (j = 0; j < numnodes; j++)
+            {
+                x = rnodes[0 + j * 2];
+                y = rnodes[1 + j * 2];
+                triasimp(x, y, ref u, ref v);
+                x = (vert2[0] - vert1[0]) * u
+                    + (vert3[0] - vert1[0]) * v + vert1[0];
+                y = (vert2[1] - vert1[1]) * u
+                    + (vert3[1] - vert1[1]) * v + vert1[1];
+                rnodes[0 + j * 2] = x;
+                rnodes[1 + j * 2] = y;
+                whts[j] = whts[j] * scale;
+            }
+
+        }
+
+        public static void triasimp(double x, double y, ref double uout, ref double vout)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TRIASIMP maps a point from the reference triangle to the simplex.
+            //
+            //  Discussion:
+            //
+            //    Map the reference triangle with vertices
+            //      (-1,-1/sqrt(3)), (1,-1/sqrt(3)), (0,2/sqrt(3))
+            //    to the simplex with vertices
+            //      (0,0), (1,0), (0,1).
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU GPL license.
+            //
+            //  Modified:
+            //
+            //    30 June 2014
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Hong Xiao, Zydrunas Gimbutas.
+            //    This C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Hong Xiao, Zydrunas Gimbutas,
+            //    A numerical algorithm for the construction of efficient quadrature
+            //    rules in two and higher dimensions,
+            //    Computers and Mathematics with Applications,
+            //    Volume 59, 2010, pages 663-676.
+            //
+            //  Parameters:
+            //
+            //    Input, double X, Y, the coordinates of a point in the
+            //    reference triangle.
+            //
+            //    Output, double &UOUT, &VOUT, the coordinates of the corresponding
+            //    point in the simplex.
+            //
+        {
+            double scale;
+
+            scale = 1.0 / Math.Sqrt(3.0);
+
+            uout = 0.5 * (x + 1.0) - 0.5 * scale * (y + scale);
+            vout = 1.0 * scale * (y + scale);
+
+        }
+
+        public static double[] ref_to_koorn(double[] r)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    REF_TO_KOORN maps points from the reference to Koornwinder's triangle.
+            //
+            //  Discussion:
+            //
+            //    The reference triangle has vertices:
+            //
+            //      ( -1, -1/sqrt(3) )
+            //      ( +1, -1/sqrt(3) )
+            //      (  0, +2/sqrt(3) )
+            //
+            //    Koornwinder's triangle has vertices:
+            //
+            //      ( -1, -1 )
+            //      ( +1, -1 )
+            //      ( -1, +1 )
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    30 June 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double R[2], the coordinates of a point in the
+            //    reference triangle.
+            //
+            //    Output, double REF_TO_KOORN[2], the coordinates of the point in
+            //    the Koornwinder triangle.
+            //
+        {
+            double a10;
+            //double a11;
+            double a12;
+            double a20;
+            //double a21;
+            double a22;
+            double[] u;
+
+            u = new double[2];
+
+            a10 = -1.0 / 3.0;
+            //a11 =  1.0;
+            a12 = -1.0 / Math.Sqrt(3.0);
+
+            a20 = -1.0 / 3.0;
+            //a21 =   0.0;
+            a22 = 2.0 * Math.Sqrt(3.0) / 3.0;
+
+            u[0] = a10 + r[0] + a12 * r[1];
+            u[1] = a20 + a22 * r[1];
+
+            return u;
+        }
+
+        public static double[] ref_to_triangle(double[] tvert1, double[] tvert2, double[] tvert3,
+                double[] r)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    REF_TO_TRIANGLE maps points from the reference triangle to a triangle.
+            //
+            //  Discussion:
+            //
+            //    The reference triangle has vertices:
+            //
+            //      ( -1, -1/sqrt(3) )
+            //      ( +1, -1/sqrt(3) )
+            //      (  0, +2/sqrt(3) )
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    30 June 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double TVERT1[2], TVERT2[2], TVERT3[2], the coordinates
+            //    of the vertices of the triangle.  These vertices will be taken
+            //    to be the images of (0,0), (1,0) and (0,1) respectively.
+            //
+            //    Input, double R[2], the coordinates of a point in the
+            //    reference triangle.
+            //
+            //    Output, double T(2), the coordinates of the point in
+            //    the triangle.
+            //
+        {
+            int i;
+            double[] s;
+            double[] t;
+            double[] rvert1 = new double[2];
+            double[] rvert2 = new double[2];
+            double[] rvert3 = new double[2];
+
+            rvert1[0] = -1.0;
+            rvert1[1] = -1.0 / Math.Sqrt(3.0);
+            rvert2[0] = +1.0;
+            rvert2[1] = -1.0 / Math.Sqrt(3.0);
+            rvert3[0] = 0.0;
+            rvert3[1] = 2.0 / Math.Sqrt(3.0);
+
+            s = triangle_to_simplex(rvert1, rvert2, rvert3, r);
+
+            t = new double[2];
+
+            for (i = 0; i < 2; i++)
+            {
+                t[i] = tvert1[i] * (1.0 - s[0] - s[1])
+                       + tvert2[i] * s[0]
+                       + tvert3[i] * s[1];
+            }
+
+            return t;
+        }
     }
 }

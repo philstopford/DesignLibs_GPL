@@ -1169,5 +1169,202 @@ namespace Burkardt
                 w[i] = w[i] * w[i];
             }
         }
+
+        public static void kjacopols(double x, double a, double b, int n, ref double[] pols, int polsIndex = 0)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    KJACOPOLS evaluates Jacobi polynomials.
+            //
+            //  Discussion:
+            //
+            //    This routine evaluates Jacobi polynomials.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU GPL license.
+            //
+            //  Modified:
+            //
+            //    30 June 2014
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Hong Xiao, Zydrunas Gimbutas.
+            //    This C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Hong Xiao, Zydrunas Gimbutas,
+            //    A numerical algorithm for the construction of efficient quadrature
+            //    rules in two and higher dimensions,
+            //    Computers and Mathematics with Applications,
+            //    Volume 59, 2010, pages 663-676.
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the evaluation point.
+            //
+            //    Input, double A, B, the parameter values.
+            //
+            //    Input, int N, the highest degree to be evaluated.
+            //
+            //    Output, double POLS[N+1], the polynomial values.
+            //
+        {
+            double alpha;
+            double beta;
+            int k;
+            double pk;
+            double pkm1;
+            double pkp1;
+
+            pkp1 = 1.0;
+            pols[polsIndex + 0] = pkp1;
+
+            if (n == 0)
+            {
+                return;
+            }
+
+            pk = pkp1;
+            pkp1 = (a / 2.0 - b / 2.0)
+                   + (1.0 + a / 2.0 + b / 2.0) * x;
+            pols[polsIndex + 1] = pkp1;
+
+            if (n == 1)
+            {
+                return;
+            }
+
+            for (k = 2; k <= n; k++)
+            {
+                pkm1 = pk;
+                pk = pkp1;
+
+                alpha = (2.0 * k + a + b - 1.0)
+                        * (a * a - b * b + (2.0 * k + a + b - 2.0)
+                            * (2.0 * k + a + b) * x);
+
+                beta = 2.0 * (k + a - 1.0) * (k + b - 1.0)
+                       * (2.0 * k + a + b);
+
+                pkp1 = (alpha * pk - beta * pkm1)
+                       / (2.0 * k * (k + a + b)
+                          * (2.0 * k + a + b - 2.0));
+
+                pols[polsIndex + k] = pkp1;
+            }
+        }
+
+        public static void kjacopols2(double x, double a, double b, int n, ref double[] pols,
+                ref double[] ders)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    KJACOPOLS2 evaluates Jacobi polynomials and derivatives.
+            //
+            //  Discussion:
+            //
+            //    This routine evaluates Jacobi polynomials and  derivatives.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU GPL license.
+            //
+            //  Modified:
+            //
+            //    30 June 2014
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Hong Xiao, Zydrunas Gimbutas.
+            //    This C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Hong Xiao, Zydrunas Gimbutas,
+            //    A numerical algorithm for the construction of efficient quadrature
+            //    rules in two and higher dimensions,
+            //    Computers and Mathematics with Applications,
+            //    Volume 59, 2010, pages 663-676.
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the evaluation point.
+            //
+            //    Input, double A, B, the parameter values.
+            //
+            //    Input, int N, the highest degree to be evaluated.
+            //
+            //    Output, double POLS[N+1], the polynomial values.
+            //
+            //    Output, double DERS[N+1], the polynomial derivative values.
+            //
+        {
+            double alpha1;
+            double alpha2;
+            double beta;
+            double dk;
+            double dkm1;
+            double dkp1;
+            double gamma;
+            int k;
+            double pk;
+            double pkm1;
+            double pkp1;
+
+            pkp1 = 1.0;
+            pols[0] = pkp1;
+
+            dkp1 = 0.0;
+            ders[0] = dkp1;
+
+            if (n == 0)
+            {
+                return;
+            }
+
+            pk = pkp1;
+            pkp1 = (a / 2.0 - b / 2.0)
+                   + (1.0 + a / 2.0 + b / 2.0) * x;
+            pols[1] = pkp1;
+
+            dk = dkp1;
+            dkp1 = (1.0 + a / 2.0 + b / 2.0);
+            ders[1] = dkp1;
+
+            if (n == 1)
+            {
+                return;
+            }
+
+            for (k = 2; k <= n; k++)
+            {
+                pkm1 = pk;
+                pk = pkp1;
+                dkm1 = dk;
+                dk = dkp1;
+
+                alpha1 = (2.0 * k + a + b - 1.0) * (a * a - b * b);
+                alpha2 = (2.0 * k + a + b - 1.0)
+                         * ((2.0 * k + a + b - 2.0)
+                            * (2.0 * k + a + b));
+                beta = 2.0 * (k + a - 1.0) * (k + b - 1.0)
+                       * (2.0 * k + a + b);
+                gamma = (2.0 * k * (k + a + b)
+                         * (2.0 * k + a + b - 2.0));
+                pkp1 = ((alpha1 + alpha2 * x) * pk - beta * pkm1) / gamma;
+                dkp1 = ((alpha1 + alpha2 * x) * dk
+                    - beta * dkm1 + alpha2 * pk) / gamma;
+
+                pols[k] = pkp1;
+                ders[k] = dkp1;
+            }
+        }
     }
 }

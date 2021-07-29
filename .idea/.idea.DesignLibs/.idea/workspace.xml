@@ -318,6 +318,7 @@
     <projectFile>BurkhardtTest/Triangle/TriangleTWBRuleTest/TriangleTWBRuleTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Triangle/TriangleWandzuraRuleTest/TriangleWandzuraRuleTest.csproj</projectFile>
     <projectFile>BurkhardtTest/IO/TriSurfaceTest/TriSurfaceTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/TreepackTest/TreepackTest.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -352,8 +353,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Triangle/Interpolate.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/Triangle/TriangleInterpolateTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/i4mat.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Triangle/TriangleIOTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangle/LynessRule_sub.cs" />
@@ -403,6 +402,8 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Treepack/Graph.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Treepack/Pruefer.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Treepack/Tree.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Treepack/Vec.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/TreepackTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -5191,6 +5192,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="TreepackTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/TreepackTest/TreepackTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="TriSurfaceTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -6483,6 +6502,7 @@
       <item itemvalue=".NET Project.TriangleTWBRuleTest" />
       <item itemvalue=".NET Project.TriangleWandzuraRuleTest" />
       <item itemvalue=".NET Project.TriSurfaceTest" />
+      <item itemvalue=".NET Project.TreepackTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

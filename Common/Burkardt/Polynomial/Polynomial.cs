@@ -1078,5 +1078,67 @@ namespace Burkardt.PolynomialNS
             sexp[9] = 0;
         }
 
+        public static double[] r8poly_values ( int m, double[] c, int n, double[] x )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    r8poly_values evaluates a polynomial using a naive method.
+        //
+        //  Discussion:
+        //
+        //    The polynomial 
+        //
+        //      p(x) = c0 + c1 * x + c2 * x^2 + ... + cm * x^m
+        //
+        //    is to be evaluated at the values X.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    09 April 2020
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Input:
+        //
+        //    int M, the degree of the polynomial.
+        //
+        //    double C[M+1], the coefficients of the polynomial.
+        //    A[0] is the constant term.
+        //
+        //    double X[N], the points at which the polynomial is to be evaluated.
+        //
+        //  Output:
+        //
+        //    double R8POLY_VALUE[N], the values of the polynomial at X.
+        //
+        {
+            int i;
+            int j;
+            double[] value;
+            double xi;
+
+            value = new double[n];
+
+            for ( j = 0; j < n; j++ )
+            {
+                value[j] = c[0];
+                xi = 1.0;
+                for ( i = 1; i <= m; i++ )
+                {
+                    xi = xi * x[j];
+                    value[j] = value[j] + c[i] * xi;
+                }
+            }
+
+            return value;
+        }
     }
 }

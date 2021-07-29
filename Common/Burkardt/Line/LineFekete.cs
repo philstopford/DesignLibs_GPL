@@ -72,7 +72,7 @@ namespace Burkardt.LineNS
             //
             //  Compute the Chebyshev-Vandermonde matrix.
             //
-            v = Vandermonde.cheby_van1(m, a, b, n, x);
+            v = VandermondeMatrix.cheby_van1(m, a, b, n, x);
             //
             //  MOM(I) = Integral ( A <= x <= B ) Tab(A,B,I;x) dx
             //
@@ -174,7 +174,7 @@ namespace Burkardt.LineNS
             //
             //  Compute the Legendre-Vandermonde matrix.
             //
-            v = Vandermonde.legendre_van(m, a, b, n, x);
+            v = VandermondeMatrix.legendre_van(m, a, b, n, x);
             //
             //  MOM(i) = integral ( A <= X <= B ) Lab(A,B,I;X) dx
             //

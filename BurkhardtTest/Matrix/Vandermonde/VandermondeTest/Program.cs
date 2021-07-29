@@ -86,7 +86,7 @@ namespace VandermondeTest
             typeMethods.r8vec_print(n, alpha, "  Vandermonde vector ALPHA:");
             typeMethods.r8vec_print(n, beta, "  Vandermonde vector BETA:");
 
-            a = Vandermonde.bivand1(n, alpha, beta);
+            a = VandermondeMatrix.bivand1(n, alpha, beta);
 
             n2 = (n * (n + 1)) / 2;
             typeMethods.r8mat_print(n2, n2, a, "  Bidimensional Vandermonde matrix:");
@@ -130,7 +130,7 @@ namespace VandermondeTest
             typeMethods.r8vec_print(n, alpha, "  Vandermonde vector ALPHA:");
             typeMethods.r8vec_print(n, beta, "  Vandermonde vector BETA:");
 
-            a = Vandermonde.bivand2(n, alpha, beta);
+            a = VandermondeMatrix.bivand2(n, alpha, beta);
 
             n2 = n * n;
             typeMethods.r8mat_print(n2, n2, a, "  Bidimensional Vandermonde matrix:");
@@ -187,13 +187,13 @@ namespace VandermondeTest
 
                 typeMethods.r8vec_print(n, alpha, "  Vandermonde vector ALPHA:");
 
-                a = Vandermonde.vand1(n, alpha);
+                a = VandermondeMatrix.vand1(n, alpha);
 
                 x = typeMethods.r8vec_copy_new(n, x1);
                 b = typeMethods.r8mat_mtv_new(n, n, a, x);
                 typeMethods.r8vec_print(n, b, "  Right hand side B:");
 
-                x = Vandermonde.dvand(n, alpha, b);
+                x = VandermondeMatrix.dvand(n, alpha, b);
                 typeMethods.r8vec_print(n, x, "  Solution X:");
             }
         }
@@ -255,7 +255,7 @@ namespace VandermondeTest
 
                 typeMethods.r8vec_print(n, alpha, "  Vandermonde vector ALPHA:");
 
-                a = Vandermonde.vand1(n, alpha);
+                a = VandermondeMatrix.vand1(n, alpha);
 
                 x = typeMethods.r8vec_copy_new(n, x1);
                 b = typeMethods.r8mat_mtv_new(n, n, a, x);
@@ -267,7 +267,7 @@ namespace VandermondeTest
 
                 for (nsub = 1; nsub <= n; nsub++)
                 {
-                    Vandermonde.dvandprg(nsub, alpha, b, ref x, ref c, ref m);
+                    VandermondeMatrix.dvandprg(nsub, alpha, b, ref x, ref c, ref m);
                     typeMethods.r8vec_print(nsub, x, "  Solution X:");
                 }
             }
@@ -324,13 +324,13 @@ namespace VandermondeTest
 
                 typeMethods.r8vec_print(n, alpha, "  Vandermonde vector ALPHA:");
 
-                a = Vandermonde.vand1(n, alpha);
+                a = VandermondeMatrix.vand1(n, alpha);
 
                 x = typeMethods.r8vec_copy_new(n, x1);
                 b = typeMethods.r8mat_mv_new(n, n, a, x);
                 typeMethods.r8vec_print(n, b, "  Right hand side B:");
 
-                x = Vandermonde.pvand(n, alpha, b);
+                x = VandermondeMatrix.pvand(n, alpha, b);
                 typeMethods.r8vec_print(n, x, "  Solution X:");
 
             }
@@ -390,7 +390,7 @@ namespace VandermondeTest
 
                 typeMethods.r8vec_print(n, alpha, "  Vandermonde vector ALPHA:");
 
-                a = Vandermonde.vand1(n, alpha);
+                a = VandermondeMatrix.vand1(n, alpha);
 
                 x = typeMethods.r8vec_copy_new(n, x1);
                 b = typeMethods.r8mat_mv_new(n, n, a, x);
@@ -402,7 +402,7 @@ namespace VandermondeTest
 
                 for (nsub = 1; nsub <= n; nsub++)
                 {
-                    Vandermonde.pvandprg(nsub, alpha, b, ref x, ref c, ref m);
+                    VandermondeMatrix.pvandprg(nsub, alpha, b, ref x, ref c, ref m);
                     typeMethods.r8vec_print(nsub, x, "  Solution X:");
                 }
             }

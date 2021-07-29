@@ -323,6 +323,7 @@
     <projectFile>BurkhardtTest/Transform/WalshTest/WalshTest.csproj</projectFile>
     <projectFile>BurkhardtTest/ZeroTest/ZeroTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Matrix/Vandermonde/VandermondeTest/VandermondeTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Vandermonde/VandermondeApprox1DTest/VandermondeApprox1DTest.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -357,9 +358,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Line/Line.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/Triangle/TrianglePropertiesTest/Program.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/Triangle/TriangleSVGTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Polynomial/LegendreScaled.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Jacobi.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Polynomial/Orthogonal.cs" />
@@ -407,7 +405,10 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Zero.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/ZeroTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Matrix/Vandermonde.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Polynomial/Vandermonde.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Matrix/Vandermonde/VandermondeTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Line/LineFekete.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Vandermonde/VandermondeApprox1DTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -5916,6 +5917,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="VandermondeApprox1DTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Vandermonde/VandermondeApprox1DTest/VandermondeApprox1DTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="VandermondeTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -6583,6 +6602,7 @@
       <item itemvalue=".NET Project.WalshTest" />
       <item itemvalue=".NET Project.ZeroTest" />
       <item itemvalue=".NET Project.VandermondeTest" />
+      <item itemvalue=".NET Project.VandermondeApprox1DTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

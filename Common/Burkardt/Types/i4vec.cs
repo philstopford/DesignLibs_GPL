@@ -1579,6 +1579,64 @@ namespace Burkardt.Types
 
             return unique_num;
         }
+        
+        public static int i4vec_sorted_unique_count ( int n, int[] a )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_SORTED_UNIQUE_COUNT counts unique elements in a sorted I4VEC.
+            //
+            //  Discussion:
+            //
+            //    An I4VEC is a vector of I4's.
+            //
+            //    Because the array is sorted, this algorithm is O(N).
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    29 April 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of elements of A.
+            //
+            //    Input, int A[N], the sorted array to examine.
+            //
+            //    Output, int I4VEC_SORTED_UNIQUE_COUNT, the number of unique elements of A.
+            //
+        {
+            int i;
+            int unique_num;
+
+            unique_num = 0;
+
+            if ( n < 1 )
+            {
+                return unique_num;
+            }
+
+            unique_num = 1;
+
+            for ( i = 1; i < n; i++ )
+            {
+                if ( a[i-1] != a[i] )
+                {
+                    unique_num = unique_num + 1;
+                }
+            }
+
+            return unique_num;
+        }
 
         public static int i4vec2_compare(int n, int[] a1, int[] a2, int i, int j)
 

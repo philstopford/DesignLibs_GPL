@@ -1180,5 +1180,72 @@ namespace Burkardt
             return v;
         }
 
+        public static double[] monomial_value_2d ( int n, int ex, int ey, double[] x, double[] y )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    monomial_value_2d evaluates a monomial in x and y.
+        //
+        //  Discussion:
+        //
+        //    This routine evaluates a monomial of the form
+        //
+        //      x^ex * y^ey
+        //
+        //    The combination 0.0^0 is encountered is treated as 1.0.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    16 April 2019
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number of evaluation points.
+        //
+        //    Input, int EX, EY, the exponents.
+        //
+        //    Input, double X[N], Y[N], the point coordinates.
+        //
+        //    Output, double MONOMIAL_VALUE_2D[N], the monomial values.
+        //
+        {
+            int j;
+            double[] v;
+
+            v = new double[n];
+
+            for ( j = 0; j < n; j++ )
+            {
+                v[j] = 1.0;
+            }
+
+            if ( 0 != ex )
+            {
+                for ( j = 0; j < n; j++ )
+                {
+                    v[j] = v[j] * Math.Pow ( x[j], ex );
+                }
+            }
+
+            if ( 0 != ey )
+            {
+                for ( j = 0; j < n; j++ )
+                {
+                    v[j] = v[j] * Math.Pow ( y[j], ey );
+                }
+            }
+
+            return v;
+        }
     }
 }

@@ -1140,5 +1140,82 @@ namespace Burkardt.PolynomialNS
 
             return value;
         }
+        
+        public static double[] r8poly_values_2d ( int m, double[] c, int n, double[] x, double[] y )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8POLY_VALUES_2D evaluates a polynomial in 2 variables, X and Y.
+        //
+        //  Discussion:
+        //
+        //    We assume the polynomial is of total degree M, and has the form:
+        //
+        //      p(x,y) = c00 
+        //             + c10 * x                + c01 * y
+        //             + c20 * x^2   + c11 * xy + c02 * y^2
+        //             + ...
+        //             + cm0 * x^(m) + ...      + c0m * y^m.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    23 September 2012
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int M, the degree of the polynomial.
+        //
+        //    Input, double C[T(M+1)], the polynomial coefficients.  
+        //    C[0] is the constant term.  T(M+1) is the M+1-th triangular number.
+        //    The coefficients are stored consistent with the following ordering
+        //    of monomials: 1, X, Y, X^2, XY, Y^2, X^3, X^2Y, XY^2, Y^3, X^4, ...
+        //
+        //    Input, int N, the number of evaluation points.
+        //
+        //    Input, double X[N], Y[N], the evaluation points.
+        //
+        //    Output, double R8POLY_VALUE_2D[N], the value of the polynomial at the 
+        //    evaluation points.
+        //
+        {
+            int ex;
+            int ey;
+            int i;
+            int j;
+            double[] p;
+            int s;
+
+            p = new double[n];
+
+            for ( i = 0; i < n; i++ )
+            {
+                p[i] = 0.0;
+            }
+
+            j = 0;
+            for ( s = 0; s <= m; s++ )
+            {
+                for ( ex = s; 0 <= ex; ex-- )
+                {
+                    ey = s - ex;
+                    for ( i = 0; i < n; i++ )
+                    {
+                        p[i] = p[i] + c[j] * Math.Pow ( x[i], ex ) * Math.Pow ( y[i], ey );
+                    }
+                    j = j + 1;
+                }
+            }
+            return p;
+        }
     }
 }

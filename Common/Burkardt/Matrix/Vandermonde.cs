@@ -5,47 +5,47 @@ namespace Burkardt
 {
     public static class VandermondeMatrix
     {
-        public static double[] bivand1(int n, double[] alpha, double[] beta )
+        public static double[] bivand1(int n, double[] alpha, double[] beta)
 
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    BIVAND1 returns a bidimensional Vandermonde1 matrix.
-        //
-        //  Discussion:
-        //
-        //    N = 3, ALPHA = ( 1, 2, 3 ), BETA = ( 10, 20, 30 )
-        //
-        //    (x,y)   | (1,10)  (2,10)  (3,10)  (1,20)  (2,20)  (1,30)
-        //    --------+-----------------------------------------------
-        //    1       |     1       1       1       1       1       1  
-        //    x       |     1       2       3       1       2       1
-        //       y    |    10      10      10      20      20      30
-        //    x^2     |     1       4       9       1       4       1
-        //    x  y    |    10      20      30      20      40      30
-        //    x^2y^2  |   100     100     100     400     400     900
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    23 February 2014
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int N, the order of the data vectors.
-        //
-        //    Input, double ALPHA[N], BETA[N], the values that define A.
-        //
-        //    Output, double BIVAND1[((N+1)*N)/2*((N+1)*N)/2], the matrix.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    BIVAND1 returns a bidimensional Vandermonde1 matrix.
+            //
+            //  Discussion:
+            //
+            //    N = 3, ALPHA = ( 1, 2, 3 ), BETA = ( 10, 20, 30 )
+            //
+            //    (x,y)   | (1,10)  (2,10)  (3,10)  (1,20)  (2,20)  (1,30)
+            //    --------+-----------------------------------------------
+            //    1       |     1       1       1       1       1       1  
+            //    x       |     1       2       3       1       2       1
+            //       y    |    10      10      10      20      20      30
+            //    x^2     |     1       4       9       1       4       1
+            //    x  y    |    10      20      30      20      40      30
+            //    x^2y^2  |   100     100     100     400     400     900
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    23 February 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order of the data vectors.
+            //
+            //    Input, double ALPHA[N], BETA[N], the values that define A.
+            //
+            //    Output, double BIVAND1[((N+1)*N)/2*((N+1)*N)/2], the matrix.
+            //
         {
             double[] a;
             int e;
@@ -106,50 +106,50 @@ namespace Burkardt
             return a;
         }
 
-        public static double[] bivand2(int n, double[] alpha, double[] beta )
+        public static double[] bivand2(int n, double[] alpha, double[] beta)
 
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    BIVAND2 returns a bidimensional Vandermonde1 matrix.
-        //
-        //  Discussion:
-        //
-        //    N = 3, ALPHA = ( 1, 2, 3 ), BETA = ( 10, 20, 30 )
-        //
-        //    (x,y)   | (1,10) (2,10) (3,10) (1,20) (2,20) (3,20) (1,30) (2,30) (3,30)
-        //    --------+---------------------------------------------------------------
-        //    1       |     1      1      1      1      1      1      1      1      1  
-        //    x       |     1      2      3      1      2      1      1      2      3
-        //    x^2     |     1      4      9      1      4      1      1      4      9
-        //       y    |    10     10     10     20     20     20     30     30     30
-        //    x  y    |    10     20     30     20     40     60     30     60     90
-        //    x^2y    |    10     40     90     20     80    180     30    120    270
-        //       y^2  |   100    100    100    400    400    400    900    900    900
-        //    x  y^2  |   100    200    300    400    800   1200    900   1800   2700
-        //    x^2y^2  |   100    400    900    400   1600   3600    900   3600   8100
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    01 May 2014
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int N, the order of the data vectors.
-        //
-        //    Input, double ALPHA[N], BETA[N], the values that define A.
-        //
-        //    Output, double BIVAND1[(N*N)*(N*N)], the matrix.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    BIVAND2 returns a bidimensional Vandermonde1 matrix.
+            //
+            //  Discussion:
+            //
+            //    N = 3, ALPHA = ( 1, 2, 3 ), BETA = ( 10, 20, 30 )
+            //
+            //    (x,y)   | (1,10) (2,10) (3,10) (1,20) (2,20) (3,20) (1,30) (2,30) (3,30)
+            //    --------+---------------------------------------------------------------
+            //    1       |     1      1      1      1      1      1      1      1      1  
+            //    x       |     1      2      3      1      2      1      1      2      3
+            //    x^2     |     1      4      9      1      4      1      1      4      9
+            //       y    |    10     10     10     20     20     20     30     30     30
+            //    x  y    |    10     20     30     20     40     60     30     60     90
+            //    x^2y    |    10     40     90     20     80    180     30    120    270
+            //       y^2  |   100    100    100    400    400    400    900    900    900
+            //    x  y^2  |   100    200    300    400    800   1200    900   1800   2700
+            //    x^2y^2  |   100    400    900    400   1600   3600    900   3600   8100
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    01 May 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order of the data vectors.
+            //
+            //    Input, double ALPHA[N], BETA[N], the values that define A.
+            //
+            //    Output, double BIVAND1[(N*N)*(N*N)], the matrix.
+            //
         {
             double[] a;
             int i;
@@ -183,44 +183,44 @@ namespace Burkardt
             return a;
         }
 
-        public static double[] dvand(int n, double[] alpha, double[] b )
+        public static double[] dvand(int n, double[] alpha, double[] b)
 
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    DVAND solves a Vandermonde system A' * x = b.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    23 February 2014
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Reference:
-        //
-        //    Ake Bjorck, Victor Pereyra,
-        //    Solution of Vandermonde Systems of Equations,
-        //    Mathematics of Computation,
-        //    Volume 24, Number 112, October 1970, pages 893-903.
-        //
-        //  Parameters:
-        //
-        //    Input, int N, the order of the matrix.
-        //
-        //    Input, double ALPHA[N], the parameters that define the matrix.
-        //    The values should be distinct.
-        //
-        //    Input, double B[N], the right hand side of the linear system.
-        //
-        //    Output, double DVAND[N], the solution of the linear system.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    DVAND solves a Vandermonde system A' * x = b.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    23 February 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Ake Bjorck, Victor Pereyra,
+            //    Solution of Vandermonde Systems of Equations,
+            //    Mathematics of Computation,
+            //    Volume 24, Number 112, October 1970, pages 893-903.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order of the matrix.
+            //
+            //    Input, double ALPHA[N], the parameters that define the matrix.
+            //    The values should be distinct.
+            //
+            //    Input, double B[N], the right hand side of the linear system.
+            //
+            //    Output, double DVAND[N], the solution of the linear system.
+            //
         {
             int j;
             int k;
@@ -248,62 +248,62 @@ namespace Burkardt
         }
 
         public static void dvandprg(int n, double[] alpha, double[] b, ref double[] x, ref double[] c,
-        ref double[] m )
+                ref double[] m)
 
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    DVANDPRG solves a Vandermonde system A' * x = f progressively.
-        //
-        //  Discussion:
-        //
-        //    This function receives the solution to the system of equations A' * x = f
-        //    where A is a Vandermonde matrix for alpha(0) through alpha(n-1),
-        //    and new values alpha(n) and f(n).  It updates the solution.
-        //
-        //    To solve a system of Nbig equations, this function may be called 
-        //    repeatedly, with N = 1, 2, ..., Nbig.  Each time, a solution to the 
-        //    current subsystem is returned.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    18 April 2014
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Reference:
-        //
-        //    Ake Bjorck, Victor Pereyra,
-        //    Solution of Vandermonde Systems of Equations,
-        //    Mathematics of Computation,
-        //    Volume 24, Number 112, October 1970, pages 893-903.
-        //
-        //  Parameters:
-        //
-        //    Input, int N, the new order of the matrix, which is 1 
-        //    larger than on the previous call.  For the first call, N must be 1.
-        //
-        //    Input, double ALPHA[N], the parameters that define the matrix.
-        //    The values should be distinct.  The value ALPHA(N) has just been
-        //    added to the system.
-        //
-        //    Input, double B[N], the right hand side of the linear system.
-        //
-        //    Input/output, double X[N].  On input, the first N-1 entries 
-        //    contain the solution of the N-1xN-1 linear system.  On output, the 
-        //    solution to the NxN linear system.
-        //
-        //    Input/output, double C[N], M[N].  On input, the first N-1 
-        //    entries contain factorization data for the N-1xN-1 linear system.  On 
-        //    output, factorization data for the NxN linear system.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    DVANDPRG solves a Vandermonde system A' * x = f progressively.
+            //
+            //  Discussion:
+            //
+            //    This function receives the solution to the system of equations A' * x = f
+            //    where A is a Vandermonde matrix for alpha(0) through alpha(n-1),
+            //    and new values alpha(n) and f(n).  It updates the solution.
+            //
+            //    To solve a system of Nbig equations, this function may be called 
+            //    repeatedly, with N = 1, 2, ..., Nbig.  Each time, a solution to the 
+            //    current subsystem is returned.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    18 April 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Ake Bjorck, Victor Pereyra,
+            //    Solution of Vandermonde Systems of Equations,
+            //    Mathematics of Computation,
+            //    Volume 24, Number 112, October 1970, pages 893-903.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the new order of the matrix, which is 1 
+            //    larger than on the previous call.  For the first call, N must be 1.
+            //
+            //    Input, double ALPHA[N], the parameters that define the matrix.
+            //    The values should be distinct.  The value ALPHA(N) has just been
+            //    added to the system.
+            //
+            //    Input, double B[N], the right hand side of the linear system.
+            //
+            //    Input/output, double X[N].  On input, the first N-1 entries 
+            //    contain the solution of the N-1xN-1 linear system.  On output, the 
+            //    solution to the NxN linear system.
+            //
+            //    Input/output, double C[N], M[N].  On input, the first N-1 
+            //    entries contain factorization data for the N-1xN-1 linear system.  On 
+            //    output, factorization data for the NxN linear system.
+            //
         {
             double cn;
             int j;
@@ -333,44 +333,44 @@ namespace Burkardt
             }
         }
 
-        public static double[] pvand(int n, double[] alpha, double[] b )
+        public static double[] pvand(int n, double[] alpha, double[] b)
 
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    PVAND solves a Vandermonde system A * x = b.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    23 February 2014
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Reference:
-        //
-        //    Ake Bjorck, Victor Pereyra,
-        //    Solution of Vandermonde Systems of Equations,
-        //    Mathematics of Computation,
-        //    Volume 24, Number 112, October 1970, pages 893-903.
-        //
-        //  Parameters:
-        //
-        //    Input, int N, the order of the matrix.
-        //
-        //    Input, double ALPHA[N], the parameters that define the matrix.
-        //    The values should be distinct.
-        //
-        //    Input, double B[N], the right hand side of the linear system.
-        //
-        //    Output, double PVAND[N], the solution of the linear system.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    PVAND solves a Vandermonde system A * x = b.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    23 February 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Ake Bjorck, Victor Pereyra,
+            //    Solution of Vandermonde Systems of Equations,
+            //    Mathematics of Computation,
+            //    Volume 24, Number 112, October 1970, pages 893-903.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order of the matrix.
+            //
+            //    Input, double ALPHA[N], the parameters that define the matrix.
+            //    The values should be distinct.
+            //
+            //    Input, double B[N], the right hand side of the linear system.
+            //
+            //    Output, double PVAND[N], the solution of the linear system.
+            //
         {
             int j;
             int k;
@@ -403,68 +403,68 @@ namespace Burkardt
         }
 
         public static void pvandprg(int n, double[] alpha, double[] b, ref double[] x, ref double[] d,
-        ref double[] u )
+                ref double[] u)
 
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    PVANDPRG solves a Vandermonde system A * x = f progressively.
-        //
-        //  Discussion:
-        //
-        //    This function receives the solution to the system of equations A * x = f
-        //    where A is a Vandermonde matrix for alpha(0) through alpha(n-1),
-        //    and new values alpha(n) and f(n).  It updates the solution.
-        //
-        //    To solve a system of Nbig equations, this function may be called 
-        //    repeatedly, with N = 1, 2, ..., Nbig.  Each time, a solution to the 
-        //    current subsystem is returned.
-        //
-        //    Note that the reference, which lists an Algol version of this algorithm, 
-        //    omits a minus sign, writing
-        //      u[j] := u[j] x delta;
-        //    where
-        //      u[j] := - u[j] x delta;
-        //    is actually necessary.  
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    18 April 2014
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Reference:
-        //
-        //    Ake Bjorck, Victor Pereyra,
-        //    Solution of Vandermonde Systems of Equations,
-        //    Mathematics of Computation,
-        //    Volume 24, Number 112, October 1970, pages 893-903.
-        //
-        //  Parameters:
-        //
-        //    Input, int N, the new order of the matrix, which is 1 
-        //    larger than on the previous call.  For the first call, N must be 1.
-        //
-        //    Input, double ALPHA[N], the parameters that define the matrix.
-        //    The values should be distinct.  The value ALPHA(N) has just been
-        //    added to the system.
-        //
-        //    Input, double B[N], the right hand side of the linear system.
-        //
-        //    Input/output, double X[N]; on input, the solution of the 
-        //    N-1xN-1 linear system.  On output, the solution of the NxN linear system.
-        //
-        //    Input/output, double D[N], U[N]; on input, factorization data 
-        //    for the N-1xN-1 linear system.  On output, factorization data for the
-        //    NxN linear system.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    PVANDPRG solves a Vandermonde system A * x = f progressively.
+            //
+            //  Discussion:
+            //
+            //    This function receives the solution to the system of equations A * x = f
+            //    where A is a Vandermonde matrix for alpha(0) through alpha(n-1),
+            //    and new values alpha(n) and f(n).  It updates the solution.
+            //
+            //    To solve a system of Nbig equations, this function may be called 
+            //    repeatedly, with N = 1, 2, ..., Nbig.  Each time, a solution to the 
+            //    current subsystem is returned.
+            //
+            //    Note that the reference, which lists an Algol version of this algorithm, 
+            //    omits a minus sign, writing
+            //      u[j] := u[j] x delta;
+            //    where
+            //      u[j] := - u[j] x delta;
+            //    is actually necessary.  
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    18 April 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Ake Bjorck, Victor Pereyra,
+            //    Solution of Vandermonde Systems of Equations,
+            //    Mathematics of Computation,
+            //    Volume 24, Number 112, October 1970, pages 893-903.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the new order of the matrix, which is 1 
+            //    larger than on the previous call.  For the first call, N must be 1.
+            //
+            //    Input, double ALPHA[N], the parameters that define the matrix.
+            //    The values should be distinct.  The value ALPHA(N) has just been
+            //    added to the system.
+            //
+            //    Input, double B[N], the right hand side of the linear system.
+            //
+            //    Input/output, double X[N]; on input, the solution of the 
+            //    N-1xN-1 linear system.  On output, the solution of the NxN linear system.
+            //
+            //    Input/output, double D[N], U[N]; on input, factorization data 
+            //    for the N-1xN-1 linear system.  On output, factorization data for the
+            //    NxN linear system.
+            //
         {
             double delta;
             double dn;
@@ -669,8 +669,8 @@ namespace Burkardt
 
             return v;
         }
-        
-        public static double[] vand1 ( int n, double[] x )
+
+        public static double[] vand1(int n, double[] x)
 
             //****************************************************************************80
             //
@@ -742,27 +742,27 @@ namespace Burkardt
             int i;
             int j;
 
-            a = new double[n*n];
+            a = new double[n * n];
 
-            for ( i = 0; i < n; i++ )
+            for (i = 0; i < n; i++)
             {
-                for ( j = 0; j < n; j++ )
+                for (j = 0; j < n; j++)
                 {
-                    if ( i == 0 && x[j] == 0.0 )
+                    if (i == 0 && x[j] == 0.0)
                     {
-                        a[i+j*n] = 1.0;
+                        a[i + j * n] = 1.0;
                     }
                     else
                     {
-                        a[i+j*n] = Math.Pow ( x[j], i );
+                        a[i + j * n] = Math.Pow(x[j], i);
                     }
                 }
             }
 
             return a;
         }
-        
-        public static double[] vandermonde_approx_1d_matrix ( int n, int m, double[] x )
+
+        public static double[] vandermonde_approx_1d_matrix(int n, int m, double[] x)
 
             //****************************************************************************80
             //
@@ -815,18 +815,107 @@ namespace Burkardt
             int i;
             int j;
 
-            a = new double[n*(m+1)];
+            a = new double[n * (m + 1)];
 
-            for ( i = 0; i < n; i++ )
+            for (i = 0; i < n; i++)
             {
-                a[i+0*n] = 1.0;
+                a[i + 0 * n] = 1.0;
             }
 
-            for ( j = 1; j <= m; j++ )
+            for (j = 1; j <= m; j++)
             {
-                for ( i = 0; i < n; i++ )
+                for (i = 0; i < n; i++)
                 {
-                    a[i+j*n] = a[i+(j-1)*n] * x[i];
+                    a[i + j * n] = a[i + (j - 1) * n] * x[i];
+                }
+            }
+
+            return a;
+        }
+
+        public static double[] vandermonde_approx_2d_matrix(int n, int m, int tm, double[] x,
+        double[] y )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    VANDERMONDE_APPROX_2D_MATRIX computes a Vandermonde 2D approximation matrix.
+        //
+        //  Discussion:
+        //
+        //    We assume the approximating function has the form of a polynomial
+        //    in X and Y of total degree M.
+        //
+        //      p(x,y) = c00 
+        //             + c10 * x                + c01 * y
+        //             + c20 * x^2   + c11 * xy + c02 * y^2
+        //             + ...
+        //             + cm0 * x^(m) + ...      + c0m * y^m.
+        //
+        //    If we let T(K) = the K-th triangular number 
+        //            = sum ( 1 <= I <= K ) I
+        //    then the number of coefficients in the above polynomial is T(M+1).
+        //
+        //    We have n data locations (x(i),y(i)) and values z(i) to approximate:
+        //
+        //      p(x(i),y(i)) = z(i)
+        //
+        //    This can be cast as an NxT(M+1) linear system for the polynomial
+        //    coefficients:
+        //
+        //      [ 1 x1 y1  x1^2 ... y1^m ] [ c00 ] = [  z1 ]
+        //      [ 1 x2 y2  x2^2 ... y2^m ] [ c10 ] = [  z2 ]
+        //      [ 1 x3 y3  x3^2 ... y3^m ] [ c01 ] = [  z3 ]
+        //      [ ...................... ] [ ... ] = [ ... ]
+        //      [ 1 xn yn  xn^2 ... yn^m ] [ c0m ] = [  zn ]
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    12 October 2012
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number of data points.
+        //
+        //    Input, int M, the degree of the polynomial.
+        //
+        //    Input, int TM, the M+1st triangular number.
+        //
+        //    Input, double X[N], Y[N], the data locations.
+        //
+        //    Output, double VANDERMONDE_APPROX_2D_MATRIX[N*TM], the Vandermonde matrix for X.
+        //
+        {
+            double[] a;
+            int ex;
+            int ey;
+            int i;
+            int j;
+            int s;
+
+            a = new double[n * tm];
+            j = 0;
+
+            for (s = 0; s <= m; s++)
+            {
+                for (ex = s; 0 <= ex; ex--)
+                {
+                    ey = s - ex;
+                    for (i = 0; i < n; i++)
+                    {
+                        a[i + j * n] = Math.Pow(x[i], ex) * Math.Pow(y[i], ey);
+                    }
+
+                    j = j + 1;
                 }
             }
 

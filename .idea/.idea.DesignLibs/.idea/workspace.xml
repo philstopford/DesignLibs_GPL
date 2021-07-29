@@ -358,9 +358,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Polynomial/Orthogonal.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Quadrature/QuadratureRule.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Quadrature/Quae.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Simplex.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangle/SymmetricQuadrature.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Triangle/TriangleSymmetricQuadratureTest/Program.cs" />
@@ -403,12 +400,15 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/ZeroTest/Program.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Matrix/Vandermonde/VandermondeTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Line/LineFekete.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Polynomial/Polynomial.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/triangle.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Polynomial/Vandermonde.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Matrix/Vandermonde.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Vandermonde/VandermondeApprox1DTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Polynomial/Polynomial.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Vandermonde/VandermondeApprox2DTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Interpolation/Vandermonde.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Vandermonde/VadermondeInterp1D/Program.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Vandermonde/VadermondeInterp2D/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />

@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt.TriangulationNS;
 using Burkardt.Types;
 
 namespace Burkardt.TriangleNS
@@ -485,7 +484,7 @@ namespace Burkardt.TriangleNS
             //
             //  Evaluate the monomial at the quadrature points.
             //
-            value = Monomial.monomial_value ( dim_num, point_num, expon, x );
+            value = Burkardt.Monomial.monomial_value ( dim_num, point_num, expon, x );
             //
             //  Compute the weighted sum and divide by the exact value.
             //

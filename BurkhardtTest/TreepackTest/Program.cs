@@ -299,9 +299,6 @@ namespace TreepackTest
                                            + "  " + itree[2].ToString().PadLeft(2) + "");
                 }
             }
-
-            return;
-# undef NNODE
         }
 
         static void test03()
@@ -760,9 +757,11 @@ namespace TreepackTest
 
             more = false;
 
+            TreeNextData data = new TreeNextData();
+            
             for (;;)
             {
-                Tree.tree_parent_next(nnode, ref icode, ref itree, ref more);
+                Tree.tree_parent_next(ref data, nnode, ref icode, ref itree, ref more);
 
                 Console.WriteLine("  " + icode[0]
                                        + "  " + icode[1]

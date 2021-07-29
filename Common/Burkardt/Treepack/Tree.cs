@@ -4,6 +4,15 @@ using Burkardt.Uniform;
 
 namespace Burkardt.Treepack
 {
+    public class TreeNextData
+    {
+        public VecNextData vData { get; set; }
+
+        public TreeNextData()
+        {
+            vData = new VecNextData();
+        }
+    }
     public static class Tree
     {
         public static void tree_arc_center(int nnode, int[] inode, int[] jnode, ref int[] center,
@@ -815,7 +824,7 @@ namespace Burkardt.Treepack
             return ntree;
         }
 
-        public static void tree_parent_next(int nnode, ref int[] code, ref int[] itree, ref bool more)
+        public static void tree_parent_next(ref TreeNextData data, int nnode, ref int[] code, ref int[] itree, ref bool more)
 
             //****************************************************************************80
             //
@@ -873,7 +882,11 @@ namespace Burkardt.Treepack
                 }
             }
 
-            Vec.vec_next(nnode - 2, nnode, ref code, ref more);
+            VecNextData vData = data.vData;
+            
+            Vec.vec_next(ref vData, nnode - 2, nnode, ref code, ref more);
+
+            data.vData = vData;
 
             for (i = 0; i < nnode - 2; i++)
             {

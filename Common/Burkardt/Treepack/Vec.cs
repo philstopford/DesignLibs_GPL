@@ -3,9 +3,20 @@ using Burkardt.Uniform;
 
 namespace Burkardt.Treepack
 {
+    public class VecNextData
+    {
+        public int kount { get; set; }
+        public int last { get; set; }
+
+        public VecNextData()
+        {
+            kount = 0;
+            last = 0;
+        }
+    }
     public static class Vec
     {
-        public static void vec_next(int n, int ibase, ref int[] iarray, ref bool more)
+        public static void vec_next(ref VecNextData data, int n, int ibase, ref int[] iarray, ref bool more)
 
             //****************************************************************************80
             //
@@ -42,14 +53,12 @@ namespace Burkardt.Treepack
             //
         {
             int i;
-            int kount = 0;
-            int last = 0;
             int nn;
 
             if (!more)
             {
-                kount = 1;
-                last = (int) Math.Pow(ibase, n);
+                data.kount = 1;
+                data.last = (int) Math.Pow(ibase, n);
                 more = true;
                 for (i = 0; i < n; i++)
                 {
@@ -58,9 +67,9 @@ namespace Burkardt.Treepack
             }
             else
             {
-                kount = kount + 1;
+                data.kount = data.kount + 1;
 
-                if (kount == last)
+                if (data.kount == data.last)
                 {
                     more = false;
                 }

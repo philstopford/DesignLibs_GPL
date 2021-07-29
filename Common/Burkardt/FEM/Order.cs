@@ -1,6 +1,6 @@
 ﻿namespace Burkardt.FEM
 {
-    public class Order
+    public static class Order
     {
         public static int order_code ( string code )
 

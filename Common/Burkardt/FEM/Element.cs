@@ -5,7 +5,7 @@ using Burkardt.Types;
 
 namespace Burkardt.FEM
 {
-    public class Element
+    public static class Element
     {
         public static string element_code(int i)
 
@@ -100,55 +100,55 @@ namespace Burkardt.FEM
         }
 
         public static void elements_eps(string file_name, int node_num, double[] node_xy, string code,
-        int element_num, bool[] element_mask, int[] element_node, int node_show,
-        int element_show )
+                int element_num, bool[] element_mask, int[] element_node, int node_show,
+                int element_show)
 
-        //****************************************************************************80
-        //
-        //  Purpose: 
-        //
-        //    ELEMENTS_EPS creates an EPS file image of the elements of a grid.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license. 
-        //
-        //  Modified:
-        //
-        //    05 April 2005
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, string FILE_NAME, the name of the file to create.
-        //
-        //    Input, int NODE_NUM, the number of nodes.
-        //
-        //    Input, double NODE_XY[2*NODE_NUM], the coordinates of the nodes.
-        //
-        //    Input, string CODE, the code for the element.
-        //
-        //    Input, int ELEMENT_NUM, the number of elements.
-        //
-        //    Input, bool ELEMENT_MASK[ELEMENT_NUM], a mask for the elements.
-        //    Only elements with a TRUE mask will be shown.
-        //
-        //    Input, int ELEMENT_NODE[ELEMENT_ORDER*ELEMENT_NUM], the nodes making up
-        //    each element.
-        //
-        //    Input, int NODE_SHOW:
-        //    0, do not show nodes;
-        //    1, show nodes;
-        //    2, show nodes and label them.
-        //
-        //    Input, int TRIANGLE_SHOW:
-        //    0, do not show triangles;
-        //    1, show triangles;
-        //    2, show triangles and label them.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose: 
+            //
+            //    ELEMENTS_EPS creates an EPS file image of the elements of a grid.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    05 April 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, string FILE_NAME, the name of the file to create.
+            //
+            //    Input, int NODE_NUM, the number of nodes.
+            //
+            //    Input, double NODE_XY[2*NODE_NUM], the coordinates of the nodes.
+            //
+            //    Input, string CODE, the code for the element.
+            //
+            //    Input, int ELEMENT_NUM, the number of elements.
+            //
+            //    Input, bool ELEMENT_MASK[ELEMENT_NUM], a mask for the elements.
+            //    Only elements with a TRUE mask will be shown.
+            //
+            //    Input, int ELEMENT_NODE[ELEMENT_ORDER*ELEMENT_NUM], the nodes making up
+            //    each element.
+            //
+            //    Input, int NODE_SHOW:
+            //    0, do not show nodes;
+            //    1, show nodes;
+            //    2, show nodes and label them.
+            //
+            //    Input, int TRIANGLE_SHOW:
+            //    0, do not show triangles;
+            //    1, show triangles;
+            //    2, show triangles and label them.
+            //
         {
             double ave_x;
             double ave_y;
@@ -177,7 +177,7 @@ namespace Burkardt.FEM
             int y_ps_min_clip = 108;
             double y_scale;
 
-            element_order = Order.order_code(code);
+            element_order = FEM.Order.order_code(code);
             //
             //  Determine which nodes are visible, controlled by which elements are visible.
             //
@@ -266,7 +266,7 @@ namespace Burkardt.FEM
 
             if (x_scale < y_scale)
             {
-                delta = (int)((double) (x_ps_max - x_ps_min)
+                delta = (int) ((double) (x_ps_max - x_ps_min)
                     * (y_scale - x_scale) / (2.0 * y_scale));
 
                 x_ps_max = x_ps_max - delta;
@@ -279,7 +279,7 @@ namespace Burkardt.FEM
             }
             else if (y_scale < x_scale)
             {
-                delta = (int)((double) (y_ps_max - y_ps_min)
+                delta = (int) ((double) (y_ps_max - y_ps_min)
                     * (x_scale - y_scale) / (2.0 * x_scale));
 
                 y_ps_max = y_ps_max - delta;
@@ -290,17 +290,17 @@ namespace Burkardt.FEM
 
                 y_scale = x_scale;
             }
-            
+
             file_unit.Add("%!PS-Adobe-3.0 EPSF-3.0");
             file_unit.Add("%%Creator: elements_eps.C");
             file_unit.Add("%%Title: " + file_name + "");
 
             file_unit.Add("%%Pages: 1");
             file_unit.Add("%%BoundingBox:  "
-                     + x_ps_min + "  "
-                     + y_ps_min + "  "
-                     + x_ps_max + "  "
-                     + y_ps_max + "");
+                          + x_ps_min + "  "
+                          + y_ps_min + "  "
+                          + x_ps_max + "  "
+                          + y_ps_max + "");
             file_unit.Add("%%Document-Fonts: Times-Roman");
             file_unit.Add("%%LanguageLevel: 1");
             file_unit.Add("%%EndComments");
@@ -318,15 +318,15 @@ namespace Burkardt.FEM
             file_unit.Add("%");
             file_unit.Add("newpath");
             file_unit.Add(x_ps_min + "  "
-                              + y_ps_min + "  moveto");
+                                   + y_ps_min + "  moveto");
             file_unit.Add(x_ps_max + "  "
-                              + y_ps_min + "  lineto");
+                                   + y_ps_min + "  lineto");
             file_unit.Add(x_ps_max + "  "
-                              + y_ps_max + "  lineto");
+                                   + y_ps_max + "  lineto");
             file_unit.Add(x_ps_min + "  "
-                              + y_ps_max + "  lineto");
+                                   + y_ps_max + "  lineto");
             file_unit.Add(x_ps_min + "  "
-                              + y_ps_min + "  lineto");
+                                   + y_ps_min + "  lineto");
             file_unit.Add("stroke");
             file_unit.Add("%");
             file_unit.Add("% Set RGB line color to black.");
@@ -348,15 +348,15 @@ namespace Burkardt.FEM
             file_unit.Add("%");
             file_unit.Add("newpath");
             file_unit.Add(x_ps_min_clip + "  "
-                                   + y_ps_min_clip + "  moveto");
+                                        + y_ps_min_clip + "  moveto");
             file_unit.Add(x_ps_max_clip + "  "
-                                   + y_ps_min_clip + "  lineto");
+                                        + y_ps_min_clip + "  lineto");
             file_unit.Add(x_ps_max_clip + "  "
-                                   + y_ps_max_clip + "  lineto");
+                                        + y_ps_max_clip + "  lineto");
             file_unit.Add(x_ps_min_clip + "  "
-                                   + y_ps_max_clip + "  lineto");
+                                        + y_ps_max_clip + "  lineto");
             file_unit.Add(x_ps_min_clip + "  "
-                                   + y_ps_min_clip + "  lineto");
+                                        + y_ps_min_clip + "  lineto");
             file_unit.Add("clip newpath");
             //
             //  Draw the nodes.
@@ -386,9 +386,9 @@ namespace Burkardt.FEM
                             / (y_max - y_min));
 
                         file_unit.Add("newpath  "
-                                 + x_ps + "  "
-                                 + y_ps + "  "
-                                 + circle_size + " 0 360 arc closepath fill");
+                                      + x_ps + "  "
+                                      + y_ps + "  "
+                                      + circle_size + " 0 360 arc closepath fill");
                     }
                 }
             }
@@ -425,9 +425,9 @@ namespace Burkardt.FEM
                             / (y_max - y_min));
 
                         file_unit.Add("newpath  "
-                                 + x_ps + "  "
-                                 + y_ps + 5 + "  moveto ("
-                                 + node + 1 + ") show");
+                                      + x_ps + "  "
+                                      + y_ps + 5 + "  moveto ("
+                                      + node + 1 + ") show");
                     }
                 }
             }
@@ -458,8 +458,8 @@ namespace Burkardt.FEM
                         / (y_max - y_min));
 
                     file_unit.Add("newpath  "
-                             + x_ps + "  "
-                             + y_ps + "  moveto");
+                                  + x_ps + "  "
+                                  + y_ps + "  moveto");
 
                     for (;;)
                     {
@@ -477,8 +477,8 @@ namespace Burkardt.FEM
                             / (y_max - y_min));
 
                         file_unit.Add("  "
-                                 + x_ps + "  "
-                                 + y_ps + "  lineto");
+                                      + x_ps + "  "
+                                      + y_ps + "  lineto");
 
                         if (local == 1)
                         {
@@ -529,9 +529,9 @@ namespace Burkardt.FEM
                         / (y_max - y_min));
 
                     file_unit.Add("newpath  "
-                             + x_ps + "  "
-                             + y_ps + 5 + "  moveto ("
-                             + element + 1 + ") show");
+                                  + x_ps + "  "
+                                  + y_ps + 5 + "  moveto ("
+                                  + element + 1 + ") show");
                 }
             }
 
@@ -556,7 +556,164 @@ namespace Burkardt.FEM
                 Console.WriteLine("ELEMENTS_EPS - Fatal error!");
                 Console.WriteLine("  Could not open the output EPS file.");
             }
-            
+
+        }
+
+        public static void element_data_read(string element_file, int element_num, int element_order,
+                int element_att_num, ref int[] element_node, ref double[] element_att)
+
+            //*****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    ELEMENT_DATA_READ reads the header information from an element file.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    07 December 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, string ELEMENT_FILE, the name of the file to be read.
+            //
+            //    Input, int ELEMENT_NUM, the number of elements.
+            //
+            //    Input, int ELEMENT_ORDER, the order of the elements.
+            //
+            //    Input, int ELEMENT_ATT_NUM, number of element attributes listed on each 
+            //    node record.
+            //
+            //    Output, int ELEMENT_NODE[ELEMENT_ORDER*ELEMENT_NUM], the indices of the
+            //    nodes that make up each element.
+            //
+            //    Output, double ELEMENT_ATT[ELEMENT_ATT_NUM*ELEMENT_NUM], the attributes
+            //    of each element.
+            //
+        {
+            int element;
+            int i;
+            int i1;
+            int i2;
+            int i3;
+            string[] inputlines;
+            int ival;
+            double value;
+
+            element = -1;
+
+            try
+            {
+                inputlines = File.ReadAllLines(element_file);
+            }
+            catch
+            {
+                Console.WriteLine("");
+                Console.WriteLine("ELEMENT_DATA_READ - Fatal error!");
+                Console.WriteLine("  Could not open file.");
+                return;
+            }
+
+            foreach (string input in inputlines)
+            {
+                /*
+                Read, but ignore, dimension line.
+                */
+                string[] tokens = input.Split(new[] {' '});
+                if (element == -1)
+                {
+                    i1 = Convert.ToInt32(tokens[0]);
+                    i2 = Convert.ToInt32(tokens[1]);
+                    i3 = Convert.ToInt32(tokens[2]);
+                }
+                else
+                {
+                    int index = 0;
+                    ival = Convert.ToInt32(tokens[index]);
+                    index++;
+
+                    for (i = 0; i < element_order; i++)
+                    {
+                        ival = Convert.ToInt32(tokens[index]);
+                        index++;
+                        element_node[i + element * element_order] = ival;
+                    }
+
+                    for (i = 0; i < element_att_num; i++)
+                    {
+                        value = Convert.ToInt32(tokens[index]);
+                        index++;
+                        element_att[i + element * element_att_num] = value;
+                    }
+                }
+
+                element = element + 1;
+
+                if (element_num <= element)
+                {
+                    break;
+                }
+            }
+
+        }
+
+        public static void element_size_read(string element_file, ref int element_num,
+                ref int element_order, ref int element_att_num)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    ELEMENT_SIZE_READ reads the header information from an element file.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    07 December 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, string ELEMENT_FILE, the name of the file to be read.
+            //
+            //    Output, int *ELEMENT_NUM, the number of elements.
+            //
+            //    Output, int *ELEMENT_ORDER, the order of the elements.
+            //
+            //    Output, int *ELEMENT_ATT_NUM, the number of element attributes.
+            //
+        {
+            string input;
+
+            try
+            {
+                input = File.ReadAllLines(element_file)[0];
+                string[] tokens = input.Split(new[] {' '});
+                element_num = Convert.ToInt32(tokens[0]);
+                element_order = Convert.ToInt32(tokens[1]);
+                element_att_num = Convert.ToInt32(tokens[2]);
+            }
+            catch
+            {
+                Console.WriteLine("");
+                Console.WriteLine("ELEMENT_SIZE_READ - Fatal error!");
+                Console.WriteLine("  Could not open file.");
+            }
+
+
         }
 
     }

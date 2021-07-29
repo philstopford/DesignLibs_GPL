@@ -145,6 +145,55 @@ namespace Burkardt
             value = Math.Sqrt ( value );
             return value;
         }
+        
+        public static void normalize ( int n, ref double[] x )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    NORMALIZE scales a vector X so its entries sum to 1.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    19 February 2016
+        //
+        //  Author:
+        //
+        //    Original C version by Warren Smith.
+        //    This C++ version by John Burkardt.
+        //
+        //  Parameters:
+        //
+        //    Input, unsigned int N, indicates the size of X.
+        //
+        //    Input/output, double X[N+2], the vector to be normalized.
+        //    Entries X[1] through X[N] will sum to 1 on output.
+        //
+        {
+            int i;
+            double sum;
+            //
+            //  Sum X.
+            //
+            sum = 0.0;
+            for ( i = 1; i <= n; i++ )
+            {
+                sum = sum + Math.Abs ( x[i] );
+            }
+            //
+            //  Normalize so that the new sum of X will be 1.
+            //
+            sum = 1.0 / sum;
+            for ( i = 1; i <= n; i++ )
+            {
+                x[i] = x[i] * sum; 
+            }
+        }
 
         public static int points_point_near_naive_nd ( int dim_num, int nset, double[] pset,
         double[] ptest, ref double d_min )

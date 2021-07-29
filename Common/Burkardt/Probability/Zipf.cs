@@ -281,6 +281,61 @@ namespace Burkardt.Probability
 
             return pdf;
         }
+        
+        public static double[] zipf_probability ( int n, double p )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    ZIPF_PROBABILITY sets up a Zipf probability vector.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    19 February 2016
+        //
+        //  Author:
+        //
+        //    Original C version by Warren Smith.
+        //    This C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    George Zipf,
+        //    The Psychobiology of Language,
+        //    1935.
+        //
+        //  Parameters:
+        //
+        //    Input, unsigned int N, indicates the size of X.
+        //
+        //    Input, double P, the Zipf parameter.
+        //    1.0 < P.
+        //
+        //    Output, double ZIPF_PROBABILITY[N+2], contains in X[1] through X[N] the
+        //    probabilities of outcomes 1 through N.
+        //
+        {
+            int i;
+            double[] x;
+
+            x = new double[n+2];
+
+            x[0] = 0.0;
+            for ( i = 1; i <= n; i++ )
+            {
+                x[i] = Math.Pow ( i, - p );
+            }
+            x[n+1] = 0.0;
+
+            Helpers.normalize ( n, ref x );
+
+            return x;
+        }
 
         public static int zipf_sample(double a, ref int seed)
         //****************************************************************************80

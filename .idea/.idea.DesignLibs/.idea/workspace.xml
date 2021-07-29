@@ -321,6 +321,7 @@
     <projectFile>BurkhardtTest/TreepackTest/TreepackTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Sampling/WalkerTest/WalkerTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Transform/WalshTest/WalshTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/ZeroTest/ZeroTest.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -355,8 +356,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/BurkhardtTest/Triangle/TriangleNewtonCotesClosedTest/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Triangle/NewtonCotesOpen_sub.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangle/NewtonCotesOpen.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Triangle/TriangleNewtonCotesOpenTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Line/Line.cs" />
@@ -406,6 +405,8 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Transform/Haar.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Transform/Walsh.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Transform/WalshTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Zero.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/ZeroTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -423,7 +424,7 @@
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C#" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunManager" selected=".NET Project.TreepackTest">
+  <component name="RunManager" selected=".NET Project.ZeroTest">
     <configuration name="ASA005Test" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -6112,6 +6113,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="ZeroTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/ZeroTest/ZeroTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="gdsTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -6543,6 +6562,7 @@
       <item itemvalue=".NET Project.TreepackTest" />
       <item itemvalue=".NET Project.WalkerTest" />
       <item itemvalue=".NET Project.WalshTest" />
+      <item itemvalue=".NET Project.ZeroTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

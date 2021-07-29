@@ -320,6 +320,7 @@
     <projectFile>BurkhardtTest/IO/TriSurfaceTest/TriSurfaceTest.csproj</projectFile>
     <projectFile>BurkhardtTest/TreepackTest/TreepackTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Sampling/WalkerTest/WalkerTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Transform/WalshTest/WalshTest.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -354,9 +355,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/BurkhardtTest/Triangle/TriangleMonteCarloTest/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Triangle/NewtonCotesClosed_sub.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Triangle/NewtonCotesClosed.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Triangle/TriangleNewtonCotesClosedTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangle/NewtonCotesOpen_sub.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Triangle/NewtonCotesOpen.cs" />
@@ -405,6 +403,9 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Random/rand48.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Sampling/Walker.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Sampling/WalkerTest/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Transform/Haar.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Transform/Walsh.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/Transform/WalshTest/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -5931,6 +5932,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="WalshTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Transform/WalshTest/WalshTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="WathenMatrixTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -6523,6 +6542,7 @@
       <item itemvalue=".NET Project.TriSurfaceTest" />
       <item itemvalue=".NET Project.TreepackTest" />
       <item itemvalue=".NET Project.WalkerTest" />
+      <item itemvalue=".NET Project.WalshTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

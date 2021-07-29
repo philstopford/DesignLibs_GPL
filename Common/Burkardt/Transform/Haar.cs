@@ -1,9 +1,206 @@
 ﻿using System;
+using Burkardt.Types;
 
 namespace Burkardt.Transform
 {
     public static class Haar
     {
+        public static void haar(int n, ref double[] x)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    HAAR performs a Haar transform.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    16 March 2011
+            //
+            //  Author:
+            //
+            //    Ken Beauchamp
+            //
+            //  Reference:
+            //
+            //    Ken Beauchamp,
+            //    Walsh functions and their applications,
+            //    Academic Press, 1975,
+            //    ISBN: 0-12-084050-2,
+            //    LC: QA404.5.B33.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of items in X.
+            //    N must be a power of 2.
+            //
+            //    Input/output, double X[N], the data to be transformed.
+            //
+        {
+            int i;
+            int j;
+            int jj;
+            int k;
+            int l;
+            int l2;
+            int l3;
+            double[] y;
+
+            y = new double[n];
+
+            k = (int)Math.Log2(n);
+
+            for (i = 1; i <= k; i++)
+            {
+                l = k + 1 - i;
+                l2 = (int)Math.Pow(2, l - 1);
+
+                typeMethods.r8vec_copy(2 * l2, x, ref y);
+
+                for (j = 1; j <= l2; j++)
+                {
+                    l3 = l2 + j;
+                    jj = 2 * j - 1;
+                    x[j - 1] = y[jj - 1] + y[jj];
+                    x[l3 - 1] = y[jj - 1] - y[jj];
+                }
+            }
+        }
+
+        public static void haarin(int n, ref double[] x)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    HAARIN inverts a Haar transform.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    16 March 2011
+            //
+            //  Author:
+            //
+            //    Ken Beauchamp
+            //
+            //  Reference:
+            //
+            //    Ken Beauchamp,
+            //    Walsh functions and their applications,
+            //    Academic Press, 1975,
+            //    ISBN: 0-12-084050-2,
+            //    LC: QA404.5.B33.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of items in X.
+            //    N must be a power of 2.
+            //
+            //    Input/output, double X[N], the data to be transformed.
+            //
+        {
+            int i;
+            int j;
+            int jj;
+            int jj1;
+            int k;
+            int l;
+            int lj;
+            double[] y;
+
+            y = new double[n];
+
+            k = (int) Math.Log2(n);
+
+            for (i = 1; i <= k; i++)
+            {
+                l = (int) Math.Pow(2, i - 1);
+                typeMethods.r8vec_copy(2 * l, x, ref y);
+                for (j = 1; j <= l; j++)
+                {
+                    lj = l + j;
+                    jj = 2 * j;
+                    jj1 = jj - 1;
+                    x[jj - 1] = y[j - 1] - y[lj - 1];
+                    x[jj1 - 1] = y[j - 1] + y[lj - 1];
+                }
+            }
+        }
+
+        public static void hnorm(int n, ref double[] x)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    HNORM computes normalization factors for a forward or inverse Haar transform.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    16 March 2011
+            //
+            //  Author:
+            //
+            //    Ken Beauchamp
+            //
+            //  Reference:
+            //
+            //    Ken Beauchamp,
+            //    Walsh functions and their applications,
+            //    Academic Press, 1975,
+            //    ISBN: 0-12-084050-2,
+            //    LC: QA404.5.B33.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of items in X.
+            //    N must be a power of 2.
+            //
+            //    Input/output, double X[N], the data to be transformed.
+            //
+        {
+            int i;
+            int ii;
+            int j;
+            int jmax;
+            int jmin;
+            int k;
+            double wlk;
+
+            k = (int) Math.Log2(n);
+
+            x[0] = x[0] / Math.Pow(2.0, k);
+
+            if (1 <= k)
+            {
+                x[1] = x[1] / Math.Pow(2.0, k);
+            }
+
+            for (ii = 2; ii <= k; ii++)
+            {
+                i = ii - 1;
+                wlk = 1.0 / Math.Pow(2.0, k - i);
+                jmin = (int) Math.Pow(2, i);
+                jmax = (int) Math.Pow(2, ii) - 1;
+                for (j = jmin; j <= jmax; j++)
+                {
+                    x[j] = x[j] * wlk;
+                }
+            }
+        }
+
         public static void haar_1d(int n, ref double[] x)
 
             //****************************************************************************80

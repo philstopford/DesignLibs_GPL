@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.AppliedStatistics;
 using Burkardt.RankingNS;
 using Burkardt.Types;
 
@@ -90,7 +91,7 @@ namespace ComboTest
 
             for ( ; ; )
             {
-                Ranking.gamma_log_values ( ref n_data, ref x, ref fx1 );
+                Algorithms.gamma_log_values ( ref n_data, ref x, ref fx1 );
 
                 if ( n_data == 0 )
                 {

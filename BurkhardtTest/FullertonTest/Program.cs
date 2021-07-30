@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.AppliedStatistics;
 using Burkardt.FullertonFnLib;
 using TestValues;
 
@@ -2891,7 +2892,7 @@ namespace FullertonTest
 
             for (;;)
             {
-                Gamma.gamma_log_values(ref n_data, ref x, ref fx1);
+                Algorithms.gamma_log_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
@@ -2951,7 +2952,7 @@ namespace FullertonTest
 
             for (;;)
             {
-                Gamma.gamma_log_values(ref n_data, ref x, ref gamma_log);
+                Algorithms.gamma_log_values(ref n_data, ref x, ref gamma_log);
 
                 if (n_data == 0)
                 {
@@ -3064,7 +3065,7 @@ namespace FullertonTest
 
             for (;;)
             {
-                Gamma.gamma_log_values(ref n_data, ref x, ref fx1);
+                Algorithms.gamma_log_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {

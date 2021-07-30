@@ -467,6 +467,73 @@ namespace Burkardt.Types
             return table2;
         }
 
+        public static void i4mat_shortest_path ( int n, ref int[] m )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4MAT_SHORTEST_PATH computes the shortest distance between all pairs of points.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    01 March 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Robert Floyd,
+            //    Algorithm 97, Shortest Path,
+            //    Communications of the ACM,
+            //    Volume 5, Number 6, June 1962, page 345.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of points.
+            //
+            //    Input/output, int M[N*N].
+            //    On input, M(I,J) contains the length of the direct link between 
+            //    nodes I and J, or HUGE if there is no direct link.
+            //    On output, M(I,J) contains the distance between nodes I and J,
+            //    that is, the length of the shortest path between them.  If there
+            //    is no such path, then M(I,J) will remain HUGE.
+            //
+        {
+            int i;
+            const int i4_inf = 2147483647;
+            int j;
+            int k;
+            int s;
+
+            for ( i = 0; i < n; i++ )
+            {
+                for ( j = 0; j < n; j++ )
+                {
+                    if ( m[j+i*n] < i4_inf )
+                    {
+                        for ( k = 0; k < n; k++ )
+                        {
+                            if ( m[i+k*n] < i4_inf )
+                            {
+                                s = m[j+i*n] + m[i+k*n];
+                                if ( s < m[j+k*n] )
+                                {
+                                    m[j+k*n] = s;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
         public static void i4mat_transpose_print(int m, int n, int[] a, string title)
 
             //****************************************************************************80

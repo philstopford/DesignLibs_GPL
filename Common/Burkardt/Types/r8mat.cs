@@ -94,7 +94,74 @@ namespace Burkardt.Types
 
             return a;
         }
+        
+        public static void r8mat_shortest_path ( int n, ref double[] m )
 
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8MAT_SHORTEST_PATH computes the shortest distance between all pairs of points.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    01 March 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Robert Floyd,
+            //    Algorithm 97, Shortest Path,
+            //    Communications of the ACM,
+            //    Volume 5, Number 6, June 1962, page 345.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of points.
+            //
+            //    Input/output, double M[N*N].
+            //    On input, M(I,J) contains the length of the direct link between 
+            //    nodes I and J, or HUGE if there is no direct link.
+            //    On output, M(I,J) contains the distance between nodes I and J,
+            //    that is, the length of the shortest path between them.  If there
+            //    is no such path, then M(I,J) will remain HUGE.
+            //
+        {
+            int i;
+            int j;
+            int k;
+            const double r8_inf = 1.0E+30;
+            double s;
+
+            for ( i = 0; i < n; i++ )
+            {
+                for ( j = 0; j < n; j++ )
+                {
+                    if ( m[j+i*n] < r8_inf )
+                    {
+                        for ( k = 0; k < n; k++ )
+                        {
+                            if ( m[i+k*n] < r8_inf )
+                            {
+                                s = m[j+i*n] + m[i+k*n];
+                                if ( s < m[j+k*n] )
+                                {
+                                    m[j+k*n] = s;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return;
+        }
         public static double[] r8mat_sub_new ( int m, int n, double[] a, double[] b )
 
         //****************************************************************************80

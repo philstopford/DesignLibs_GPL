@@ -1,5 +1,5 @@
 ﻿using System;
-using Burkardt.TOMS;
+using Burkardt.TOMSNS;
 using Burkardt.Types;
 
 namespace TOMS112Test

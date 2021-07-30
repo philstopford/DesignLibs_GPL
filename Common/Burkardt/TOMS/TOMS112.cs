@@ -1,4 +1,4 @@
-﻿namespace Burkardt.TOMS
+﻿namespace Burkardt.TOMSNS
 {
     public static partial class TOMS
     {

@@ -44,6 +44,74 @@ namespace Burkardt.FullertonFnLib
 
             return value;
         }
+        
+        public static int i4_binom ( int n, int k )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    BINOM computes the binomial coefficient.
+            //
+            //  Discussion:
+            //
+            //    This is ACM algorithm 160 translated to Fortran.
+            //
+            //    It calculates the number of combinations of N things taken K at a time.
+            //
+            //  Modified:
+            //
+            //    01 April 2016
+            //
+            //  Author:
+            //
+            //    Bill Buckles, Matthew Lybanon
+            //
+            //  Reference:
+            //
+            //    Bill Buckles, Matthew Lybanon,
+            //    Algorithm 515: Generation of a Vector from the Lexicographical Index,
+            //    ACM Transactions on Mathematical Software,
+            //    Volume 3, Number 2, June 1977, pages 180-182.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, K, the parameters for the binomial 
+            //    coefficient.
+            //
+            //    Output, int BINOM, the binomial coefficient.
+            //
+        {
+            int i;
+            int k1;
+            int p;
+            int r;
+
+            k1 = k;
+            p = n - k1;
+
+            if ( k1 < p )
+            {
+                p = k1;
+                k1 = n - p;
+            }
+
+            if ( p == 0 )
+            {
+                r = 1;
+            }
+            else
+            {
+                r = k1 + 1;
+            }
+
+            for ( i = 2; i <= p; i++ )
+            {
+                r = ( r * ( k1 + i ) ) / i;
+            }
+
+            return r;
+        }
 
         public static int i4_mach(int i)
 

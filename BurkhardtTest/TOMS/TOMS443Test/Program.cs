@@ -6,9 +6,7 @@ namespace TOMS443Test
     class Program
     {
         static void Main(string[] args)
-
-        int main()
-
+            
             //****************************************************************************80
             //
             //  Purpose:

@@ -5,6 +5,119 @@ namespace Burkardt.ChebyshevNS
 {
     public static class Chebyshev
     {
+        public static double[] cheby(int nf, int npl, Func<double, double[]> functn)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    CHEBY carries out the Chebyshev analysis of one or more functions.
+            //
+            //  Discussion:
+            //
+            //    This routine carries out the simultaneous Chebyshev analysis of 
+            //    NF functions.
+            //
+            //    The output is a matrix containing one Chebyshev series per column.
+            //
+            //    An example of a routine to compute the function values is:
+            //
+            //      double *functn ( double a )
+            //      {
+            //        double *val;
+            //        val = new double[2];
+            //        val[0] = sin(a);
+            //        val[1] = cos(a);
+            //        return val;
+            //      }
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    22 September 2011
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Roger Broucke.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Roger Broucke,
+            //    Algorithm 446:
+            //    Ten Subroutines for the Manipulation of Chebyshev Series,
+            //    Communications of the ACM,
+            //    October 1973, Volume 16, Number 4, pages 254-256.
+            //
+            //  Parameters:
+            //
+            //    Input, int NF, the number of functions to be analyzed.
+            //
+            //    Input, int NPL, the number of terms in the 
+            //    Chebyshev series.
+            //
+            //    Input, int NPLMAX, the leading dimension of X.
+            //
+            //    Input, external FUNCTN, the name of a routine which computes
+            //    the function values at any given point.
+            //
+            //    Output, double CHEBY[NPL*NF], the Chebyshev series.
+            //
+        {
+            double enn;
+            double fk;
+            double[] fxj;
+            double[] gc;
+            int j;
+            int k;
+            int l;
+            int lm;
+            int n;
+            double pen;
+            double[] x;
+            double xj;
+
+            x = typeMethods.r8vec_zero_new(npl * nf);
+
+            n = npl - 1;
+            enn = (double) (n);
+            pen = 3.1415926535897932 / enn;
+
+            gc = new double[2 * n];
+            for (k = 1; k <= 2 * n; k++)
+            {
+                fk = (double) (k - 1);
+                gc[k - 1] = Math.Cos(fk * pen);
+            }
+
+            for (j = 0; j < npl; j++)
+            {
+                xj = gc[j];
+                fxj = functn(xj);
+
+                if (j == 0 || j == npl - 1)
+                {
+                    typeMethods.r8vec_scale(0.5, nf, ref fxj);
+                }
+
+                for (l = 0; l < npl; l++)
+                {
+                    lm = (l * j) % (2 * n);
+                    for (k = 0; k < nf; k++)
+                    {
+                        x[l + k * npl] = x[l + k * npl] + fxj[k] * gc[lm];
+                    }
+                }
+            }
+
+            typeMethods.r8vec_scale(2.0 / enn, npl * nf, ref x);
+
+            return x;
+        }
+
         public static double[] chebyshev_even1(int n, Func<double, double> f)
 
             //****************************************************************************80

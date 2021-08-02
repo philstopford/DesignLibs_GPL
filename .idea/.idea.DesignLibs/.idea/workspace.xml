@@ -368,9 +368,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/BurkhardtTest/Triangle/TriangleWandzuraRuleTest/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/IO/TriSurface.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/IO/TriSurfaceTest/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Treepack/Catalan.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Treepack/CompleteBinaryTree.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/i4vec.cs" />
@@ -418,7 +415,10 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/TOMS/TOMS243Test/Program.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/TOMS/TOMS291Test/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Lmbert.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Lambert.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/TOMS/TOMS443Test/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Chebyshev/Chebyshev.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Chebyshev/ChebyshevSeries.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />

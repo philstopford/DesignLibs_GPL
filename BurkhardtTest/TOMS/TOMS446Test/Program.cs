@@ -83,11 +83,10 @@ namespace TOMS446Test
             Console.WriteLine("");
             Console.WriteLine("          Sin(x)          Cos(x)        Sin(2x)         Cos(2x)           X^5");
             Console.WriteLine("");
-
-            string cout = "";
-
+            
             for (i = 0; i < npl; i++)
             {
+                string cout = "";
                 for (j = 0; j < nf; j++)
                 {
                     cout += "  " + x[i + j * npl].ToString().PadLeft(14);
@@ -153,11 +152,10 @@ namespace TOMS446Test
             Console.WriteLine("");
             Console.WriteLine("        Sin(x)      Cos(x)    Sin(2x)     Cos(2x)       X^5");
             Console.WriteLine("");
-
-            string cout = "";
-
+            
             for (i = 0; i < npl; i++)
             {
+                string cout = "";
                 for (j = 0; j < nf; j++)
                 {
                     cout += "  " + x[i + j * npl].ToString().PadLeft(14);
@@ -463,9 +461,9 @@ namespace TOMS446Test
             Console.WriteLine("        Sin(x)      Cos(x)    Sin(2x)     Cos(2x)       X^5");
             Console.WriteLine("");
 
-            string cout = "";
             for (i = 0; i < npl; i++)
             {
+                string cout = "";
                 for (j = 0; j < nf; j++)
                 {
                     cout += "  " + x[i + j * npl].ToString().PadLeft(14);

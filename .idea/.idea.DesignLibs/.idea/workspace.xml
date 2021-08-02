@@ -338,6 +338,7 @@
     <projectFile>BurkhardtTest/TOMS/TOMS462Test/TOMS462Test.csproj</projectFile>
     <projectFile>BurkhardtTest/TOMS/TOMS515Test/TOMS515Test.csproj</projectFile>
     <projectFile>BurkhardtTest/TOMS/TOMS577Test/TOMS577Test.csproj</projectFile>
+    <projectFile>BurkhardtTest/TOMS/TOMS655Test/TOMS655Test.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -372,9 +373,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/BurkhardtTest/Vandermonde/VandermondeApprox2DTest/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Interpolation/Vandermonde.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/Vandermonde/VadermondeInterp1D/Program.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/Vandermonde/VadermondeInterp2D/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/i4mat.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Types/r8mat.cs" />
@@ -405,10 +403,7 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/TOMS/TOMS446Test/Program.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/TOMS/TOMS515Test/Program.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/TOMS/TOMS577Test/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Quadrature/CEGQFS.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Quadrature/CEIQF.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Quadrature/CGQF.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Quadrature/CHKQFS.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Quadrature/CIQFS.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Quadrature/CLIQF.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Quadrature/CLIQFS.cs" />
@@ -420,9 +415,15 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Quadrature/EIQFS.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Quadrature/CEGQF.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Quadrature/CHKQF.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/SCMM.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/SCT.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Quadrature/CIQF.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/WM.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Quadrature/CHKQFS.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/SCMM.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Quadrature/CEGQFS.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Quadrature/CEIQF.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/WTFN.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/TOMS/TOMS655Test/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -5229,6 +5230,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="TOMS655Test" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/TOMS/TOMS655Test/TOMS655Test.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="TableTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/TableTest/Debug/net5.0/TableTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -6883,6 +6902,7 @@
       <item itemvalue=".NET Project.TOMS462Test" />
       <item itemvalue=".NET Project.TOMS515Test" />
       <item itemvalue=".NET Project.TOMS577Test" />
+      <item itemvalue=".NET Project.TOMS655Test" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

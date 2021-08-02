@@ -335,6 +335,7 @@
     <projectFile>BurkhardtTest/TOMS/TOMS291Test/TOMS291Test.csproj</projectFile>
     <projectFile>BurkhardtTest/TOMS/TOMS443Test/TOMS443Test.csproj</projectFile>
     <projectFile>BurkhardtTest/TOMS/TOMS446Test/TOMS446Test.csproj</projectFile>
+    <projectFile>BurkhardtTest/TOMS/TOMS462Test/TOMS462Test.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -369,9 +370,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/Treepack/CompleteBinaryTree.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Types/i4vec.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/Treepack/Graph.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Treepack/Pruefer.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Treepack/Vec.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Treepack/Tree.cs" />
@@ -420,6 +418,9 @@
       <option value="$PROJECT_DIR$/Common/Burkardt/Chebyshev/ChebyshevSeries.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/TOMS/TOMS443Test/Program.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/TOMS/TOMS446Test/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/Gauss.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/CDF/bivariatenormal.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/TOMS/TOMS462Test/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -5172,6 +5173,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="TOMS462Test" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/TOMS/TOMS462Test/TOMS462Test.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="TableTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/TableTest/Debug/net5.0/TableTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -6823,6 +6842,7 @@
       <item itemvalue=".NET Project.TOMS291Test" />
       <item itemvalue=".NET Project.TOMS443Test" />
       <item itemvalue=".NET Project.TOMS446Test" />
+      <item itemvalue=".NET Project.TOMS462Test" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

@@ -341,6 +341,7 @@
     <projectFile>BurkhardtTest/TOMS/TOMS655Test/TOMS655Test.csproj</projectFile>
     <projectFile>BurkhardtTest/TOMS/TOMS743Test/TOMS743Test.csproj</projectFile>
     <projectFile>BurkhardtTest/TOMS/TOMS886Test/TOMS886Test.csproj</projectFile>
+    <projectFile>BurkhardtTest/TOMS/TOMS917Test/TOMS917Test.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -375,10 +376,6 @@
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
-      <option value="$PROJECT_DIR$/Common/Burkardt/TOMS/TOMS179.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/TOMS/TOMS179Test/Program.cs" />
-      <option value="$PROJECT_DIR$/Common/Burkardt/TOMS/TOMS243.cs" />
-      <option value="$PROJECT_DIR$/BurkhardtTest/TOMS/TOMS243Test/Program.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/TOMS/TOMS291Test/Program.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Lmbert.cs" />
       <option value="$PROJECT_DIR$/Common/Burkardt/Lambert.cs" />
@@ -426,6 +423,10 @@
       <option value="$PROJECT_DIR$/BurkhardtTest/TOMS/TOMS886Test/Rectangle.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/TOMS/TOMS886Test/Triangle.cs" />
       <option value="$PROJECT_DIR$/BurkhardtTest/TOMS/TOMS886Test/Program.cs" />
+      <option value="$PROJECT_DIR$/Common/Burkardt/WrightOmega.cs" />
+      <option value="$PROJECT_DIR$/Common/utility/utility.cs" />
+      <option value="$PROJECT_DIR$/Common/utility/NextAfter.cs" />
+      <option value="$PROJECT_DIR$/BurkhardtTest/TOMS/TOMS917Test/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
@@ -5286,6 +5287,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="TOMS917Test" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/TOMS/TOMS917Test/TOMS917Test.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="TableTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/TableTest/Debug/net5.0/TableTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -6943,6 +6962,7 @@
       <item itemvalue=".NET Project.TOMS655Test" />
       <item itemvalue=".NET Project.TOMS743Test" />
       <item itemvalue=".NET Project.TOMS886Test" />
+      <item itemvalue=".NET Project.TOMS917Test" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

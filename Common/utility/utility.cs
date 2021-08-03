@@ -7,7 +7,7 @@ using System.Security.Cryptography;
 
 namespace utility
 {
-    public static class Utils
+    public static partial class Utils
     {
         public static string friendlyNumber(Int32 number)
         {

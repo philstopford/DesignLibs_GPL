@@ -87,9 +87,11 @@ namespace ASA159Test
             typeMethods.i4vec_print ( m, r, "  The rowsum vector:" );
             typeMethods.i4vec_print ( n, c, "  The columnsum vector:" );
 
+            Algorithms.RCont2Data data = new Algorithms.RCont2Data();
+
             for (int i = 1; i <= ntest; i++ )
             {
-                Algorithms.rcont2 ( m, n, r, c, ref key, ref seed, ref a, ref ierror );
+                Algorithms.rcont2 (ref data, m, n, r, c, ref key, ref seed, ref a, ref ierror );
 
                 if ( ierror != 0 )
                 {

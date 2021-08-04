@@ -4,7 +4,13 @@ namespace Burkardt.AppliedStatistics
 {
     public static partial class Algorithms
     {
-        public static void rcont(int nrow, int ncol, int[] nrowt, int[] ncolt, ref int[] nsubt,
+        public class RContData
+        {
+            public int ntotal = 0;
+            public int[] nvect = new int[1];
+            public int seed =  0;
+        }
+        public static void rcont(ref RContData data, int nrow, int ncol, int[] nrowt, int[] ncolt, ref int[] nsubt,
                             ref int[] matrix, ref bool key, ref int ifault )
         //****************************************************************************80
         //
@@ -70,9 +76,6 @@ namespace Burkardt.AppliedStatistics
         //    4, some entry of NCOLT is less than 0.
         //
         {
-            int ntotal = 0;
-            int[] nvect = new int[1];
-            int seed =  0;
 
             ifault = 0;
 
@@ -82,7 +85,7 @@ namespace Burkardt.AppliedStatistics
                 //  Set KEY for subsequent calls.
                 //
                 key = true;
-                seed = 123456789;
+                data.seed = 123456789;
                 //
                 //  Check for faults and prepare for future calls.
                 //
@@ -126,37 +129,37 @@ namespace Burkardt.AppliedStatistics
                     nsubt[j] = nsubt[j - 1] + ncolt[j];
                 }
 
-                ntotal = nsubt[ncol - 1];
+                data.ntotal = nsubt[ncol - 1];
 
-                nvect = new int[ntotal];
+                data.nvect = new int[data.ntotal];
                 //
                 //  Initialize vector to be permuted.
                 //
-                for (int i = 0; i < ntotal; i++)
+                for (int i = 0; i < data.ntotal; i++)
                 {
-                    nvect[i] = i + 1;
+                    data.nvect[i] = i + 1;
                 }
             }
 
             //
             //  Initialize vector to be permuted.
             //
-            int[] nnvect = new int[ntotal];
+            int[] nnvect = new int[data.ntotal];
 
-            for (int i = 0; i < ntotal; i++)
+            for (int i = 0; i < data.ntotal; i++)
             {
-                nnvect[i] = nvect[i];
+                nnvect[i] = data.nvect[i];
             }
 
             //
             //  Permute vector.
             //
-            int ntemp = ntotal;
+            int ntemp = data.ntotal;
 
-            for (int i = 0; i < ntotal; i++)
+            for (int i = 0; i < data.ntotal; i++)
             {
-                int noct = (int) (UniformRNG.r8_uniform_01(ref seed) * (double) (ntemp) + 1.0);
-                nvect[i] = nnvect[noct - 1];
+                int noct = (int) (UniformRNG.r8_uniform_01(ref data.seed) * (double) (ntemp) + 1.0);
+                data.nvect[i] = nnvect[noct - 1];
                 nnvect[noct - 1] = nnvect[ntemp - 1];
                 ntemp = ntemp - 1;
             }
@@ -182,7 +185,7 @@ namespace Burkardt.AppliedStatistics
                 {
                     for (int j = 0; j < ncol; j++)
                     {
-                        if (nvect[ii] <= nsubt[j])
+                        if (data.nvect[ii] <= nsubt[j])
                         {
                             ii = ii + 1;
                             matrix[i + j * nrow] = matrix[i + j * nrow] + 1;

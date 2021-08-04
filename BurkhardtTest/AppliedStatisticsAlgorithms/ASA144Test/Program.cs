@@ -89,9 +89,11 @@ namespace ASA144Test
 
             key = false;
 
+            Algorithms.RContData data = new Algorithms.RContData();
+
             for (test = 1; test <= test_num; test++)
             {
-                Algorithms.rcont(NROW, NCOL, nrowt, ncolt, ref nsubt, ref matrix, ref key, ref ifault);
+                Algorithms.rcont(ref data, NROW, NCOL, nrowt, ncolt, ref nsubt, ref matrix, ref key, ref ifault);
 
                 if (ifault != 0)
                 {

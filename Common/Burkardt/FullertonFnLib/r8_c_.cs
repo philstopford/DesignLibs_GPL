@@ -161,7 +161,7 @@ namespace Burkardt.FullertonFnLib
             return value;
         }
 
-        public static double r8_chu(double a, double b, double x)
+        public static double r8_chu(ref r8GammaData gdata, double a, double b, double x)
 
             //****************************************************************************80
             //
@@ -252,7 +252,7 @@ namespace Burkardt.FullertonFnLib
                     return (1);
                 }
 
-                value = r8_gamma(1.0 - b) / r8_gamma(1.0 + a - b);
+                value = r8_gamma(ref gdata, 1.0 - b) / r8_gamma(ref gdata, 1.0 + a - b);
                 return value;
             }
 
@@ -297,7 +297,7 @@ namespace Burkardt.FullertonFnLib
                     sum = sum + t;
                 }
 
-                sum = r8_poch(1.0 + a - b, -a) * sum;
+                sum = r8_poch(ref gdata, 1.0 + a - b, -a) * sum;
             }
             //
             //  Now consider the case 1 <= b.
@@ -319,7 +319,7 @@ namespace Burkardt.FullertonFnLib
                         sum = sum + t;
                     }
 
-                    sum = r8_gamma(b - 1.0) * r8_gamr(a)
+                    sum = r8_gamma(ref gdata, b - 1.0) * r8_gamr(ref gdata, a)
                                             * r8_power(x, (double) (1 - n)) * xtoeps * sum;
                 }
             }
@@ -338,28 +338,28 @@ namespace Burkardt.FullertonFnLib
 
             xi = (double) (istrt);
 
-            factor = r8_mop(n) * r8_gamr(1.0 + a - b) * r8_power(x, xi);
+            factor = r8_mop(n) * r8_gamr(ref gdata, 1.0 + a - b) * r8_power(x, xi);
 
             if (beps != 0.0)
             {
                 factor = factor * beps * pi / Math.Sin(beps * pi);
             }
 
-            pochai = r8_poch(a, xi);
-            gamri1 = r8_gamr(xi + 1.0);
-            gamrni = r8_gamr(aintb + xi);
-            b0 = factor * r8_poch(a, xi - beps)
-                        * gamrni * r8_gamr(xi + 1.0 - beps);
+            pochai = r8_poch(ref gdata, a, xi);
+            gamri1 = r8_gamr(ref gdata, xi + 1.0);
+            gamrni = r8_gamr(ref gdata, aintb + xi);
+            b0 = factor * r8_poch(ref gdata, a, xi - beps)
+                        * gamrni * r8_gamr(ref gdata, xi + 1.0 - beps);
             //
             //  x^(-beps) is close to 1.0, so we must be careful in evaluating the
             //  differences.
             //
             if (Math.Abs(xtoeps - 1.0) <= 0.5)
             {
-                pch1ai = r8_poch1(a + xi, -beps);
-                pch1i = r8_poch1(xi + 1.0 - beps, beps);
+                pch1ai = r8_poch1(ref gdata, a + xi, -beps);
+                pch1i = r8_poch1(ref gdata, xi + 1.0 - beps, beps);
                 c0 = factor * pochai * gamrni * gamri1 * (
-                    -r8_poch1(b + xi, -beps) + pch1ai
+                    -r8_poch1(ref gdata, b + xi, -beps) + pch1ai
                     - pch1i + beps * pch1ai * pch1i);
                 //
                 //  xeps1 = (1.0 - x^(-beps))/beps = (x^(-beps) - 1.0)/(-beps)
@@ -397,7 +397,7 @@ namespace Burkardt.FullertonFnLib
             //  x^(-beps) is very different from 1.0, so the straightforward
             //  formulation is stable.
             //
-            a0 = factor * pochai * r8_gamr(b + xi) * gamri1 / beps;
+            a0 = factor * pochai * r8_gamr(ref gdata, b + xi) * gamri1 / beps;
             b0 = xtoeps * b0 / beps;
 
             value = sum + a0 - b0;

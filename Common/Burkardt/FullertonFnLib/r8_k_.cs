@@ -4,7 +4,21 @@ namespace Burkardt.FullertonFnLib
 {
     public static partial class FullertonLib
     {
-        public static void r8_knus(double xnu, double x, ref double bknu, ref double bknu1, ref int iswtch )
+        public class r8KnusData
+        {
+            public double aln2 = 0.69314718055994530941723212145818;
+            public double alnbig = 0;
+            public double alneps = 0;
+            public double alnsml = 0;
+            public int ntc0k = 0;
+            public int ntznu1 = 0;
+            public double euler = 0.57721566490153286060651209008240;
+            public double sqpi2 = +1.2533141373155002512078826424055;
+            public double xnusml = 0.0;
+            public double xsml = 0.0;
+
+        }
+        public static void r8_knus(ref r8GammaData gdata, ref r8KnusData data, double xnu, double x, ref double bknu, ref double bknu1, ref int iswtch )
 
         //****************************************************************************80
         //
@@ -57,10 +71,6 @@ namespace Burkardt.FullertonFnLib
         {
             double[] a = new double[32];
             double a0;
-            const double aln2 = 0.69314718055994530941723212145818;
-            double alnbig = 0;
-            double alneps = 0;
-            double alnsml = 0;
             double alnz;
             double[] alpha = new double[32];
             double an;
@@ -103,21 +113,17 @@ namespace Burkardt.FullertonFnLib
             }
             ;
             double eta;
-            const double euler = 0.57721566490153286060651209008240;
             double expx;
             int i;
             int ii;
             int inu;
             int n;
-            int ntc0k = 0;
             int nterms;
-            int ntznu1 = 0;
             double p1;
             double p2;
             double p3;
             double qq;
             double result;
-            const double sqpi2 = +1.2533141373155002512078826424055;
             double sqrtx;
             double v;
             double vlnz;
@@ -125,8 +131,6 @@ namespace Burkardt.FullertonFnLib
             double x2tov;
             double xi;
             double xmu;
-            double xnusml = 0.0;
-            double xsml = 0.0;
             double z;
             double[] znu1cs = {
                 +0.203306756994191729674444001216911,
@@ -153,16 +157,16 @@ namespace Burkardt.FullertonFnLib
             ;
             double ztov;
 
-            if (ntc0k == 0)
+            if (data.ntc0k == 0)
             {
                 eta = 0.1 * r8_mach(3);
-                ntc0k = r8_inits(c0kcs, 29, eta);
-                ntznu1 = r8_inits(znu1cs, 20, eta);
-                xnusml = Math.Sqrt(r8_mach(3) / 8.0);
-                xsml = 0.1 * r8_mach(3);
-                alnsml = Math.Log(r8_mach(1));
-                alnbig = Math.Log(r8_mach(2));
-                alneps = Math.Log(0.1 * r8_mach(3));
+                data.ntc0k = r8_inits(c0kcs, 29, eta);
+                data.ntznu1 = r8_inits(znu1cs, 20, eta);
+                data.xnusml = Math.Sqrt(r8_mach(3) / 8.0);
+                data.xsml = 0.1 * r8_mach(3);
+                data.alnsml = Math.Log(r8_mach(1));
+                data.alnbig = Math.Log(r8_mach(2));
+                data.alneps = Math.Log(0.1 * r8_mach(3));
             }
 
             if (xnu < 0.0 || 1.0 <= xnu)
@@ -202,11 +206,11 @@ namespace Burkardt.FullertonFnLib
                 //
                 //  carefully find (x/2)^xnu and z^xnu where z = x*x/4.
                 //
-                alnz = 2.0 * (Math.Log(x) - aln2);
+                alnz = 2.0 * (Math.Log(x) - data.aln2);
 
                 if (x <= xnu)
                 {
-                    if (alnbig < -0.5 * xnu * alnz - aln2 - Math.Log(xnu))
+                    if (data.alnbig < -0.5 * xnu * alnz - data.aln2 - Math.Log(xnu))
                     {
                         Console.WriteLine("");
                         Console.WriteLine("R8_KNUS - Fatal error!");
@@ -218,7 +222,7 @@ namespace Burkardt.FullertonFnLib
                 vlnz = v * alnz;
                 x2tov = Math.Exp(0.5 * vlnz);
 
-                if (vlnz <= alnsml)
+                if (vlnz <= data.alnsml)
                 {
                     ztov = 0.0;
                 }
@@ -227,13 +231,13 @@ namespace Burkardt.FullertonFnLib
                     ztov = x2tov * x2tov;
                 }
 
-                a0 = 0.5 * r8_gamma(1.0 + v);
-                b0 = 0.5 * r8_gamma(1.0 - v);
-                c0 = -euler;
+                a0 = 0.5 * r8_gamma(ref gdata, 1.0 + v);
+                b0 = 0.5 * r8_gamma(ref gdata, 1.0 - v);
+                c0 = -data.euler;
 
-                if (0.5 <= ztov && xnusml < v)
+                if (0.5 <= ztov && data.xnusml < v)
                 {
-                    c0 = -0.75 + r8_csevl((8.0 * v) * v - 1.0, c0kcs, ntc0k);
+                    c0 = -0.75 + r8_csevl((8.0 * v) * v - 1.0, c0kcs, data.ntc0k);
                 }
 
                 if (ztov <= 0.5)
@@ -243,12 +247,12 @@ namespace Burkardt.FullertonFnLib
                 else
                 {
                     alpha[0] = c0 - alnz * (0.75 +
-                                            r8_csevl(vlnz / 0.35 + 1.0, znu1cs, ntznu1)) * b0;
+                                            r8_csevl(vlnz / 0.35 + 1.0, znu1cs, data.ntznu1)) * b0;
                 }
 
                 beta[0] = -0.5 * (a0 + ztov * b0);
 
-                if (x <= xsml)
+                if (x <= data.xsml)
                 {
                     z = 0.0;
                 }
@@ -258,7 +262,7 @@ namespace Burkardt.FullertonFnLib
                 }
 
                 nterms = i4_max(2, (int) (11.0
-                                          + (8.0 * alnz - 25.19 - alneps) / (4.28 - alnz)));
+                                          + (8.0 * alnz - 25.19 - data.alneps) / (4.28 - alnz)));
 
                 for (i = 2; i <= nterms; i++)
                 {
@@ -282,7 +286,7 @@ namespace Burkardt.FullertonFnLib
                 expx = Math.Exp(x);
                 bknu = expx * bknu / x2tov;
 
-                if (alnbig < -0.5 * (xnu + 1.0) * alnz - 2.0 * aln2)
+                if (data.alnbig < -0.5 * (xnu + 1.0) * alnz - 2.0 * data.aln2)
                 {
                     iswtch = 1;
                     return;
@@ -308,22 +312,22 @@ namespace Burkardt.FullertonFnLib
             {
                 sqrtx = Math.Sqrt(x);
 
-                if (1.0 / xsml < x)
+                if (1.0 / data.xsml < x)
                 {
-                    bknu = sqpi2 / sqrtx;
+                    bknu = data.sqpi2 / sqrtx;
                     bknu1 = bknu;
                     return;
                 }
 
                 an = -0.60 - 1.02 / x;
                 bn = -0.27 - 0.53 / x;
-                nterms = i4_min(32, i4_max(3, (int) (an + bn * alneps)));
+                nterms = i4_min(32, i4_max(3, (int) (an + bn * data.alneps)));
 
                 for (inu = 1; inu <= 2; inu++)
                 {
                     if (inu == 1)
                     {
-                        if (xnu <= xnusml)
+                        if (xnu <= data.xnusml)
                         {
                             xmu = 0.0;
                         }
@@ -343,7 +347,7 @@ namespace Burkardt.FullertonFnLib
 
                     if (a[1] == 0.0)
                     {
-                        result = sqpi2 * (16.0 * x + xmu + 7.0) / (16.0 * x * sqrtx);
+                        result = data.sqpi2 * (16.0 * x + xmu + 7.0) / (16.0 * x * sqrtx);
                     }
                     else
                     {
@@ -380,7 +384,7 @@ namespace Burkardt.FullertonFnLib
 
                         }
 
-                        result = sqpi2 * beta[nterms - 1] / (sqrtx * alpha[nterms - 1]);
+                        result = data.sqpi2 * beta[nterms - 1] / (sqrtx * alpha[nterms - 1]);
                     }
 
                     if (inu == 1)

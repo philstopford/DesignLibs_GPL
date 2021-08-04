@@ -4,7 +4,7 @@ namespace Burkardt.FullertonFnLib
 {
     public static partial class FullertonLib
     {
-        public static double r8_lbeta(double a, double b)
+        public static double r8_lbeta(ref r8GammaData gdata, double a, double b)
 
             //****************************************************************************80
             //
@@ -62,13 +62,13 @@ namespace Burkardt.FullertonFnLib
             }
             else if (p < 10.0 && q <= 10.0)
             {
-                value = Math.Log(r8_gamma(p) * (r8_gamma(q) / r8_gamma(p + q)));
+                value = Math.Log(r8_gamma(ref gdata, p) * (r8_gamma(ref gdata, q) / r8_gamma(ref gdata, p + q)));
             }
             else if (p < 10.0)
             {
                 corr = r8_lgmc(q) - r8_lgmc(p + q);
 
-                value = r8_lngam(p) + corr + p - p * Math.Log(p + q) +
+                value = r8_lngam(ref gdata, p) + corr + p - p * Math.Log(p + q) +
                         (q - 0.5) * r8_lnrel(-p / (p + q));
             }
             else
@@ -83,7 +83,7 @@ namespace Burkardt.FullertonFnLib
             return value;
         }
         
-        public static void r8_lgams(double x, ref double algam, ref double sgngam )
+        public static void r8_lgams(ref r8GammaData gdata, double x, ref double algam, ref double sgngam )
 
         //****************************************************************************80
         //
@@ -127,7 +127,7 @@ namespace Burkardt.FullertonFnLib
         {
             int k;
 
-            algam = r8_lngam(x);
+            algam = r8_lngam(ref gdata, x);
             sgngam = 1.0;
 
             if (x <= 0.0)
@@ -522,7 +522,7 @@ namespace Burkardt.FullertonFnLib
             return value;
         }
 
-        public static double r8_lngam(double x)
+        public static double r8_lngam(ref r8GammaData gdata, double x)
 
             //****************************************************************************80
             //
@@ -581,7 +581,7 @@ namespace Burkardt.FullertonFnLib
 
             if (y <= 10.0)
             {
-                value = Math.Log(Math.Abs(r8_gamma(x)));
+                value = Math.Log(Math.Abs(r8_gamma(ref gdata, x)));
                 return value;
             }
 

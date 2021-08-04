@@ -1199,7 +1199,7 @@ namespace FullertonTest
                     break;
                 }
 
-                fx2 = FullertonLib.r8_beta(ref data, a, b);
+                fx2 = FullertonLib.r8_beta(ref data.gdata, ref data, a, b);
 
 
                 Console.WriteLine("  " + a.ToString().PadLeft(14)
@@ -1258,7 +1258,7 @@ namespace FullertonTest
                     break;
                 }
 
-                fx2 = FullertonLib.r8_betai(ref data, x, a, b);
+                fx2 = FullertonLib.r8_betai(ref data.gdata, ref data, x, a, b);
 
                 Console.WriteLine("  " + a.ToString().PadLeft(14)
                     + "  " + b.ToString().PadLeft(14)
@@ -1579,6 +1579,8 @@ namespace FullertonTest
 
             n_data = 0;
 
+            FullertonLib.r8GammaData gdata = new FullertonLib.r8GammaData();
+
             for (;;)
             {
                 Hypergeometric.hypergeometric_u_values(ref n_data, ref a, ref b, ref x, ref fx1);
@@ -1588,7 +1590,7 @@ namespace FullertonTest
                     break;
                 }
 
-                fx2 = FullertonLib.r8_chu(a, b, x);
+                fx2 = FullertonLib.r8_chu(ref gdata, a, b, x);
 
                 Console.WriteLine("  " + a.ToString().PadLeft(14)
                     + "  " + b.ToString().PadLeft(14)
@@ -2465,6 +2467,7 @@ namespace FullertonTest
             Console.WriteLine("");
 
             n_data = 0;
+            FullertonLib.r8GammaData gdata = new FullertonLib.r8GammaData();
 
             for (;;)
             {
@@ -2475,7 +2478,7 @@ namespace FullertonTest
                     break;
                 }
 
-                fx2 = FullertonLib.r8_gamic(a, x);
+                fx2 = FullertonLib.r8_gamic(ref gdata, a, x);
 
                 Console.WriteLine("  " + a.ToString().PadLeft(14)
                     + "  " + x.ToString().PadLeft(14)
@@ -2521,6 +2524,7 @@ namespace FullertonTest
             Console.WriteLine("");
 
             n_data = 0;
+            FullertonLib.r8GammaData gdata = new FullertonLib.r8GammaData();
 
             for (;;)
             {
@@ -2531,7 +2535,7 @@ namespace FullertonTest
                     break;
                 }
 
-                fx2 = FullertonLib.r8_gamit(a, x);
+                fx2 = FullertonLib.r8_gamit(ref gdata, a, x);
 
                 Console.WriteLine("  " + a.ToString().PadLeft(14)
                     + "  " + x.ToString().PadLeft(14)
@@ -2612,6 +2616,7 @@ namespace FullertonTest
             Console.WriteLine("");
 
             n_data = 0;
+            FullertonLib.r8GammaData gdata = new FullertonLib.r8GammaData();
 
             for (;;)
             {
@@ -2622,7 +2627,7 @@ namespace FullertonTest
                     break;
                 }
 
-                fx2 = FullertonLib.r8_gamma(x);
+                fx2 = FullertonLib.r8_gamma(ref gdata, x);
 
                 Console.WriteLine("  " + x.ToString().PadLeft(14)
                     + "  " + fx1.ToString().PadLeft(14)
@@ -2667,6 +2672,7 @@ namespace FullertonTest
             Console.WriteLine("");
 
             n_data = 0;
+            FullertonLib.r8GammaData gdata = new FullertonLib.r8GammaData();
 
             for (;;)
             {
@@ -2678,7 +2684,7 @@ namespace FullertonTest
                 }
 
                 fx1 = 1.0 / gx;
-                fx2 = FullertonLib.r8_gamr(x);
+                fx2 = FullertonLib.r8_gamr(ref gdata, x);
 
                 Console.WriteLine("  " + x.ToString().PadLeft(14)
                     + "  " + fx1.ToString().PadLeft(14)
@@ -2842,6 +2848,7 @@ namespace FullertonTest
             Console.WriteLine("");
 
             n_data = 0;
+            FullertonLib.r8GammaData gdata = new FullertonLib.r8GammaData();
 
             for (;;)
             {
@@ -2852,7 +2859,7 @@ namespace FullertonTest
                     break;
                 }
 
-                fx2 = FullertonLib.r8_lbeta(a, b);
+                fx2 = FullertonLib.r8_lbeta(ref gdata, a, b);
 
                 Console.WriteLine("  " + a.ToString().PadLeft(14)
                     + "  " + b.ToString().PadLeft(14)
@@ -2899,6 +2906,7 @@ namespace FullertonTest
             Console.WriteLine("");
 
             n_data = 0;
+            FullertonLib.r8GammaData gdata = new FullertonLib.r8GammaData();
 
             for (;;)
             {
@@ -2909,7 +2917,7 @@ namespace FullertonTest
                     break;
                 }
 
-                FullertonLib.r8_lgams(x, ref fx2, ref slngam);
+                FullertonLib.r8_lgams(ref gdata, x, ref fx2, ref slngam);
 
                 Console.WriteLine("  " + x.ToString().PadLeft(14)
                     + "  " + fx1.ToString().PadLeft(14)
@@ -3072,6 +3080,7 @@ namespace FullertonTest
             Console.WriteLine("             X        LNGAM(X)  R8_LNGAM(X)        Diff");
 
             n_data = 0;
+            FullertonLib.r8GammaData gdata = new FullertonLib.r8GammaData();
 
             for (;;)
             {
@@ -3082,7 +3091,7 @@ namespace FullertonTest
                     break;
                 }
 
-                fx2 = FullertonLib.r8_lngam(x);
+                fx2 = FullertonLib.r8_lngam(ref gdata, x);
 
                 Console.WriteLine("");
                 Console.WriteLine("  " + x.ToString().PadLeft(14)
@@ -3399,6 +3408,7 @@ namespace FullertonTest
             Console.WriteLine("             X        POCH(A,X)  R8_POCH(A,X)       Diff");
 
             n_data = 0;
+            FullertonLib.r8GammaData gdata = new FullertonLib.r8GammaData();
 
             for (;;)
             {
@@ -3410,7 +3420,7 @@ namespace FullertonTest
                 }
 
                 x = (double) (n);
-                fx2 = FullertonLib.r8_poch(a, x);
+                fx2 = FullertonLib.r8_poch(ref gdata, a, x);
 
                 Console.WriteLine("  " + a.ToString().PadLeft(14)
                     + "  " + x.ToString().PadLeft(14)

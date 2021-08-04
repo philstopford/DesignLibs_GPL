@@ -96,7 +96,7 @@ namespace Burkardt.FullertonFnLib
             return value;
         }
 
-        public static double r8_poch(double a, double x)
+        public static double r8_poch(ref r8GammaData gdata, double a, double x)
 
             //****************************************************************************80
             //
@@ -236,14 +236,14 @@ namespace Burkardt.FullertonFnLib
 
             if (r8_max(absax, absa) <= 20.0)
             {
-                value = r8_gamma(a + x) * r8_gamr(a);
+                value = r8_gamma(ref gdata, a + x) * r8_gamr(ref gdata, a);
                 return value;
             }
 
             if (0.5 * absa < Math.Abs(x))
             {
-                r8_lgams(a + x, ref alngax, ref sgngax);
-                r8_lgams(a, ref alnga, ref sgnga);
+                r8_lgams(ref gdata, a + x, ref alngax, ref sgngax);
+                r8_lgams(ref gdata, a, ref alnga, ref sgnga);
                 value = sgngax * sgnga * Math.Exp(alngax - alnga);
                 return value;
             }
@@ -288,7 +288,7 @@ namespace Burkardt.FullertonFnLib
             return value;
         }
 
-        public static double r8_poch1(double a, double x)
+        public static double r8_poch1(ref r8GammaData gdata, double a, double x)
 
             //****************************************************************************80
             //
@@ -415,7 +415,7 @@ namespace Burkardt.FullertonFnLib
 
             if (0.1 * absa < absx || 0.1 < absx * Math.Log(r8_max(absa, 2.0)))
             {
-                value = r8_poch(a, x);
+                value = r8_poch(ref gdata, a, x);
                 value = (value - 1.0) / x;
                 return value;
             }

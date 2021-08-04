@@ -176,6 +176,7 @@ namespace RandomDataTest
             string output_filename = "brownian.txt";
             int seed = 123456789;
             double[] x;
+            typeMethods.r8NormalData data = new typeMethods.r8NormalData();
 
             Console.WriteLine("");
             Console.WriteLine("TEST01:");
@@ -185,7 +186,7 @@ namespace RandomDataTest
             Console.WriteLine("  Number of points N =         " + N + "");
             Console.WriteLine("  Initial random number SEED = " + seed + "");
 
-            x = BRandom.brownian(DIM_NUM, N, ref seed);
+            x = BRandom.brownian(DIM_NUM, N, ref data, ref seed);
 
             Console.WriteLine("  Final random number SEED =   " + seed + "");
 
@@ -223,6 +224,7 @@ namespace RandomDataTest
             int seed = 123456789;
             int seed_in;
             double x;
+            typeMethods.r8NormalData data = new typeMethods.r8NormalData();
 
             Console.WriteLine("");
             Console.WriteLine("R8_NORMAL_01_TEST:");
@@ -236,7 +238,7 @@ namespace RandomDataTest
             for (i = 1; i <= 10; i++)
             {
                 seed_in = seed;
-                x = typeMethods.r8_normal_01(ref seed);
+                x = typeMethods.r8_normal_01(ref data, ref seed);
 
                 Console.WriteLine("  "
                      + seed_in.ToString().PadLeft(12) + "  "

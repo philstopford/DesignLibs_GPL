@@ -595,6 +595,8 @@ namespace ASA266Test
             int rep_num = 5;
             int test_num = 5;
 
+            typeMethods.r8NormalData data = new typeMethods.r8NormalData();
+
             Console.WriteLine("");
             Console.WriteLine("TEST085");
             Console.WriteLine("  GAMMA_SAMPLE samples a Gamma distribution.");
@@ -609,7 +611,7 @@ namespace ASA266Test
                 Console.WriteLine("  A = " + a + ", B = " + b + "");
                 for (int rep = 1; rep <= rep_num; rep++)
                 {
-                    double x = Algorithms.gamma_sample(a, b, ref seed);
+                    double x = Algorithms.gamma_sample(a, b, ref data, ref seed);
                     Console.WriteLine("  " + rep.ToString().PadLeft(2)
                                            + "  " + x.ToString().PadLeft(14) + "");
                 }
@@ -659,6 +661,7 @@ namespace ASA266Test
             double vari;
 
             int seed = 123456789;
+            typeMethods.r8NormalData data = new typeMethods.r8NormalData();
 
             Console.WriteLine("");
             Console.WriteLine("TEST09");
@@ -696,7 +699,7 @@ namespace ASA266Test
 
             for (int sample_i = 0; sample_i < sample_num; sample_i++)
             {
-                double[] x = Algorithms.dirichlet_sample(elem_num, alpha, ref seed);
+                double[] x = Algorithms.dirichlet_sample(elem_num, alpha, ref data, ref seed);
 
                 for (int elem_i = 0; elem_i < elem_num; elem_i++)
                 {
@@ -852,6 +855,8 @@ namespace ASA266Test
 
             int seed = 123456789;
 
+            typeMethods.r8NormalData data = new typeMethods.r8NormalData();
+
             Console.WriteLine("");
             Console.WriteLine("TEST10");
             Console.WriteLine("  For a Dirichlet mixture distribution,");
@@ -902,7 +907,7 @@ namespace ASA266Test
             {
                 int comp_i = 0;
                 x = Algorithms.dirichlet_mix_sample(comp_max, comp_num, elem_num, alpha,
-                    comp_weight, ref seed, ref comp_i);
+                    comp_weight, ref data, ref seed, ref comp_i);
 
                 for (int elem_i = 0; elem_i < elem_num; elem_i++)
                 {

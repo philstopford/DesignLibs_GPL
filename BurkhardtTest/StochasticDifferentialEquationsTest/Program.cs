@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt.StochasticDifferentialEquations;
+using Burkardt.Types;
 
 namespace StochasticDifferentialEquationsTest
 {
@@ -383,6 +384,7 @@ namespace StochasticDifferentialEquationsTest
             int n = 1000;
             int p_max = 3;
             int seed;
+            typeMethods.r8NormalData data = new typeMethods.r8NormalData();
 
             Console.WriteLine("");
             Console.WriteLine("TEST08:");
@@ -394,7 +396,7 @@ namespace StochasticDifferentialEquationsTest
 
             seed = 123456789;
 
-            Stability.stab_asymptotic(ref seed, n, p_max);
+            Stability.stab_asymptotic(ref data, ref seed, n, p_max);
         }
 
         static void test09()

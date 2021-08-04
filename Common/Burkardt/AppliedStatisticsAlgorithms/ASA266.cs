@@ -746,7 +746,7 @@ namespace Burkardt.AppliedStatistics
         }
 
         public static double[] dirichlet_mix_sample(int comp_max, int comp_num, int elem_num,
-            double[] a, double[] comp_weight, ref int seed, ref int comp)
+            double[] a, double[] comp_weight, ref typeMethods.r8NormalData data, ref int seed, ref int comp)
         //****************************************************************************80
         //
         //  Purpose:
@@ -849,7 +849,7 @@ namespace Burkardt.AppliedStatistics
 
             for (int elem_i = 0; elem_i < elem_num; elem_i++)
             {
-                x[elem_i] = gamma_sample(a[comp + elem_i * comp_max], 1.0, ref seed);
+                x[elem_i] = gamma_sample(a[comp + elem_i * comp_max], 1.0, ref data, ref seed);
             }
 
             //
@@ -865,7 +865,7 @@ namespace Burkardt.AppliedStatistics
             return x;
         }
 
-        public static double[] dirichlet_sample(int n, double[] a, ref int seed)
+        public static double[] dirichlet_sample(int n, double[] a, ref typeMethods.r8NormalData data, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -911,7 +911,7 @@ namespace Burkardt.AppliedStatistics
 
             for (int i = 0; i < n; i++)
             {
-                x[i] = gamma_sample(a[i], 1.0, ref seed);
+                x[i] = gamma_sample(a[i], 1.0, ref data, ref seed);
             }
 
             //
@@ -1058,7 +1058,7 @@ namespace Burkardt.AppliedStatistics
             return x;
         }
 
-        public static double gamma_sample(double a, double b, ref int seed)
+        public static double gamma_sample(double a, double b, ref typeMethods.r8NormalData data, ref int seed)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1177,7 +1177,7 @@ namespace Burkardt.AppliedStatistics
                 double s = Math.Sqrt(a - 0.5);
                 double d = Math.Sqrt(32.0) - 12.0 * Math.Sqrt(a - 0.5);
 
-                double t = typeMethods.r8_normal_01(ref seed);
+                double t = typeMethods.r8_normal_01(ref data, ref seed);
                 x = Math.Pow(Math.Sqrt(a - 0.5) + 0.5 * t, 2);
 
                 if (0.0 <= t)

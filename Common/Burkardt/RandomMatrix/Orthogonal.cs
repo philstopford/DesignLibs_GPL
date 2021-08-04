@@ -4,7 +4,7 @@ namespace Burkardt.RandomMatrix
 {
     public class Orthogonal
     {
-        public static double[] orth_random(int n, ref int seed)
+        public static double[] orth_random(int n, ref typeMethods.r8NormalData data, ref int seed)
 
             //****************************************************************************80
             //
@@ -126,7 +126,7 @@ namespace Burkardt.RandomMatrix
 
                 for (i = j; i < n; i++)
                 {
-                    x[i] = typeMethods.r8_normal_01(ref seed);
+                    x[i] = typeMethods.r8_normal_01(ref data, ref seed);
                 }
 
                 //

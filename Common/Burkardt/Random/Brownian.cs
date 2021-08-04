@@ -6,7 +6,7 @@ namespace Burkardt.RandomNS
 {
     public static partial class BRandom
     {
-        public static double[] brownian ( int dim_num, int n, ref int seed )
+        public static double[] brownian ( int dim_num, int n, ref typeMethods.r8NormalData data, ref int seed )
 
             //****************************************************************************80
             //
@@ -66,7 +66,7 @@ namespace Burkardt.RandomNS
             //
             for ( j = 1; j < n; j++ )
             {
-                r = typeMethods.r8_normal_01 ( ref seed );
+                r = typeMethods.r8_normal_01 ( ref data, ref seed );
                 r = Math.Abs ( r );
 
                 direction_uniform_nd ( dim_num, ref seed, ref direction );

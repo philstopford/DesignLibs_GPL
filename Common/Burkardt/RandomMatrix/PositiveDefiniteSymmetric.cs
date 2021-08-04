@@ -1,10 +1,11 @@
-﻿using Burkardt.Uniform;
+﻿using Burkardt.Types;
+using Burkardt.Uniform;
 
 namespace Burkardt.RandomMatrix
 {
     public class PositiveDefiniteSymmetric
     {
-        public static double[] pds_random ( int n, ref int seed )
+        public static double[] pds_random ( int n, ref typeMethods.r8NormalData data, ref int seed )
 
             //****************************************************************************80
             //
@@ -63,7 +64,7 @@ namespace Burkardt.RandomMatrix
             //
             //  Get a random orthogonal matrix Q.
             //
-            q = Orthogonal.orth_random ( n, ref seed );
+            q = Orthogonal.orth_random ( n, ref data, ref seed );
             //
             //  Set A = Q * Lambda * Q'.
             //

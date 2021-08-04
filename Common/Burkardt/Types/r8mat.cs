@@ -1352,7 +1352,7 @@ namespace Burkardt.Types
             return nullspace_size;
         }
 
-        public static double[] r8mat_orth_uniform_new(int n, ref int seed)
+        public static double[] r8mat_orth_uniform_new(int n, ref r8NormalData data, ref int seed)
 
             //****************************************************************************80
             //
@@ -1475,7 +1475,7 @@ namespace Burkardt.Types
 
                 for (i = j; i <= n; i++)
                 {
-                    a_col[i - 1] = r8_normal_01(ref seed);
+                    a_col[i - 1] = r8_normal_01(ref data, ref seed);
                 }
 
                 //

@@ -6,7 +6,7 @@ namespace Burkardt.Noise
 {
     public static class Colored
     {
-        public static double[] f_alpha(int n, double q_d, double alpha, ref int seed)
+        public static double[] f_alpha(int n, double q_d, double alpha, ref typeMethods.r8NormalData data, ref int seed)
 
             //****************************************************************************80
             //
@@ -68,6 +68,7 @@ namespace Burkardt.Noise
             double wr;
             double[] x;
             double[] x2;
+            
             //
             //  Set the deviation of the noise.
             //
@@ -95,7 +96,7 @@ namespace Burkardt.Noise
 
             for (i = 0; i < n; i++)
             {
-                wfa[i] = q_d * typeMethods.r8_normal_01(ref seed);
+                wfa[i] = q_d * typeMethods.r8_normal_01(ref data, ref seed);
             }
 
             for (i = n; i < 2 * n; i++)

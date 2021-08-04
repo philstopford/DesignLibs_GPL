@@ -7,7 +7,7 @@ namespace Burkardt.StochasticDifferentialEquations
 {
     public static class Stability
     {
-        public static void stab_asymptotic(ref int seed, int n, int p_max)
+        public static void stab_asymptotic(ref typeMethods.r8NormalData data, ref int seed, int n, int p_max)
 
             //****************************************************************************80
             //
@@ -68,7 +68,7 @@ namespace Burkardt.StochasticDifferentialEquations
             List<string> command = new List<string>();
             string data_filename;
             string data_filename0 = "stab_asymptotic0_data.txt";
-            List<string> data = new List<string>();
+            List<string> out_data = new List<string>();
             double dt;
             double[] dtvals;
             int i;
@@ -147,7 +147,7 @@ namespace Burkardt.StochasticDifferentialEquations
 
                 for (j = 1; j <= nval; j++)
                 {
-                    winc = Math.Sqrt(dt) * typeMethods.r8_normal_01(ref seed);
+                    winc = Math.Sqrt(dt) * typeMethods.r8_normal_01(ref data, ref seed);
                     xtemp = xtemp + dt * lambda * xtemp + mu * xtemp * winc;
                     xemabs[j] = Math.Abs(xtemp);
                 }
@@ -165,11 +165,11 @@ namespace Burkardt.StochasticDifferentialEquations
                 for (i = 0; i <= nval; i++)
                 {
                     t = tmax * (double) (i) / (double) (nval);
-                    data.Add("  " + t
+                    out_data.Add("  " + t
                                   + "  " + Math.Max(xemabs[i], xmin) + "");
                 }
 
-                File.WriteAllLines(data_filename, data);
+                File.WriteAllLines(data_filename, out_data);
 
                 Console.WriteLine("");
                 Console.WriteLine("  Data for DT = " + dt + " stored in \"" + data_filename + "\"");

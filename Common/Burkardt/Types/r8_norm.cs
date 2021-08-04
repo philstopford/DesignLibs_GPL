@@ -5,7 +5,14 @@ namespace Burkardt.Types
 {
     public static partial class typeMethods
     {
-        public static double r8_normal_01(ref int seed)
+        public class r8NormalData
+        {
+            public int seed2 = 0;
+            public int used = 0;
+            public double y = 0.0;
+
+        }
+        public static double r8_normal_01(ref r8NormalData data, ref int seed)
             //****************************************************************************80
             //
             //  Purpose:
@@ -39,30 +46,27 @@ namespace Burkardt.Types
             //    Output, double R8_NORMAL_01, a normally distributed random value.
             //
         {
-            int seed2 = 0;
-            int used = 0;
             double x;
-            double y = 0.0;
             //
             //  If we've used an even number of values so far, generate two more, 
             //  return one, and save one.
             //
-            if ((used % 2) == 0)
+            if ((data.used % 2) == 0)
             {
                 double r1 = UniformRNG.r8_uniform_01(ref seed);
-                seed2 = seed;
-                double r2 = UniformRNG.r8_uniform_01(ref seed2);
+                data.seed2 = seed;
+                double r2 = UniformRNG.r8_uniform_01(ref data.seed2);
 
                 x = Math.Sqrt(-2.0 * Math.Log(r1)) * Math.Cos(2.0 * Math.PI * r2);
-                y = Math.Sqrt(-2.0 * Math.Log(r1)) * Math.Sin(2.0 * Math.PI * r2);
+                data.y = Math.Sqrt(-2.0 * Math.Log(r1)) * Math.Sin(2.0 * Math.PI * r2);
             }
             else
             {
-                seed = seed2;
-                x = y;
+                seed = data.seed2;
+                x = data.y;
             }
 
-            used = used + 1;
+            data.used = data.used + 1;
 
             return x;
         }        

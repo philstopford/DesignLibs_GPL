@@ -81,6 +81,7 @@ namespace ConjugateGradientTest
             int seed;
             double[] x1;
             double[] x2;
+            typeMethods.r8NormalData data = new typeMethods.r8NormalData();
 
             Console.WriteLine("");
             Console.WriteLine("R8GE_CG_TEST");
@@ -91,7 +92,7 @@ namespace ConjugateGradientTest
             //  Let A be the -1 2 -1 matrix.
             //
             seed = 123456789;
-            a = PositiveDefiniteSymmetric.pds_random(n, ref seed);
+            a = PositiveDefiniteSymmetric.pds_random(n, ref data, ref seed);
             //
             //  Choose a random solution.
             //

@@ -95,6 +95,7 @@ namespace ColoredNoiseTest
             List<string> output_unit = new List<string>();
             int seed;
             double[] x;
+            typeMethods.r8NormalData data = new typeMethods.r8NormalData();
 
             output_filename = "alpha_" + alpha.ToString("0000.##") + ".txt";
             //
@@ -109,7 +110,7 @@ namespace ColoredNoiseTest
 
             seed = seed_init;
 
-            x = Colored.f_alpha(n, q_d, alpha, ref seed);
+            x = Colored.f_alpha(n, q_d, alpha, ref data, ref seed);
             //
             //  Print no more than 10 entries of the data.
             //

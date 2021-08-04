@@ -165,6 +165,7 @@ namespace DiskMonteCarloTest
                                                 + ") and radius " + r + "");
 
             seed = 123456789;
+            typeMethods.r8vecNormalData data = new typeMethods.r8vecNormalData();
 
             Console.WriteLine("");
             Console.WriteLine("         N        1              X^2             Y^2" 
@@ -175,7 +176,7 @@ namespace DiskMonteCarloTest
 
             while (n <= 65536)
             {
-                x = MonteCarlo.disk_sample(center, r, n, ref seed);
+                x = MonteCarlo.disk_sample(center, r, n, ref data, ref seed);
 
                 string cout = "  " + n.ToString().PadLeft(8);
                 for (j = 0; j < 7; j++)

@@ -7,7 +7,7 @@ namespace Burkardt.StochasticDifferentialEquations
 {
     public static class MilsteinStrong
     {
-        public static void milstrong(ref int seed, int p_max, ref double[] dtvals, ref double[] xerr)
+        public static void milstrong(ref typeMethods.r8vecNormalData data, ref int seed, int p_max, ref double[] dtvals, ref double[] xerr)
 
             //****************************************************************************80
             //
@@ -119,7 +119,7 @@ namespace Burkardt.StochasticDifferentialEquations
             //
             //  Define the increments dW.
             //
-            dw = typeMethods.r8mat_normal_01_new(m, n, ref seed);
+            dw = typeMethods.r8mat_normal_01_new(m, n, ref data, ref seed);
             for (j = 0; j < n; j++)
             {
                 for (i = 0; i < m; i++)

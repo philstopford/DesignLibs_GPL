@@ -156,7 +156,7 @@ namespace Burkardt.HyperGeometry.Hypersphere
             return integral;
         }
 
-        public static double[] hypersphere01_sample(int m, int n, ref int seed)
+        public static double[] hypersphere01_sample(int m, int n, ref typeMethods.r8vecNormalData data, ref int seed)
 
             //****************************************************************************80
             //
@@ -208,7 +208,7 @@ namespace Burkardt.HyperGeometry.Hypersphere
             double norm;
             double[] x;
 
-            x = typeMethods.r8mat_normal_01_new(m, n, ref seed);
+            x = typeMethods.r8mat_normal_01_new(m, n, ref data, ref seed);
 
             for (j = 0; j < n; j++)
             {

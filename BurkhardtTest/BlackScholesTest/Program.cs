@@ -85,6 +85,7 @@ namespace BlackScholesTest
             sigma = 0.3;
             t1 = 1.0;
             seed = 123456789;
+            typeMethods.r8vecNormalData data = new typeMethods.r8vecNormalData();
 
             Console.WriteLine("");
             Console.WriteLine("  The asset price at time 0      S0    = " + s0 + "");
@@ -94,7 +95,7 @@ namespace BlackScholesTest
             Console.WriteLine("  The number of time steps       N     = " + n + "");
             Console.WriteLine("  The random number seed was     SEED  = " + seed + "");
 
-            s = BlackScholes.asset_path(s0, mu, sigma, t1, n, ref seed);
+            s = BlackScholes.asset_path(s0, mu, sigma, t1, n, ref data, ref seed);
 
             typeMethods.r8vec_print_part(n + 1, s, 10, "  Partial results:");
 
@@ -331,6 +332,7 @@ namespace BlackScholesTest
             t1 = 3.0;
             m = 1000000;
             seed = 123456789;
+            typeMethods.r8vecNormalData data = new typeMethods.r8vecNormalData();
 
             Console.WriteLine("");
             Console.WriteLine("  The asset price at time 0, S0    = " + s0 + "");
@@ -341,7 +343,7 @@ namespace BlackScholesTest
             Console.WriteLine("  The number of simulations  M     = " + m + "");
             Console.WriteLine("  The random number seed was SEED  = " + seed + "");
 
-            conf = BlackScholes.mc(s0, e, r, sigma, t1, m, ref seed);
+            conf = BlackScholes.mc(s0, e, r, sigma, t1, m, ref data, ref seed);
 
             Console.WriteLine("");
             Console.WriteLine("  The confidence interval is [" + conf[0] + ", " + conf[1] + "].");

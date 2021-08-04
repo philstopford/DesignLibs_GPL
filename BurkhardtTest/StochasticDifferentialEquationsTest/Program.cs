@@ -82,8 +82,9 @@ namespace StochasticDifferentialEquationsTest
             Console.WriteLine("  BPATH generates a sample Brownian motion path.");
 
             seed = 123456789;
+            typeMethods.r8vecNormalData data = new typeMethods.r8vecNormalData();
 
-            w = BrownianPath.bpath(ref seed, n);
+            w = BrownianPath.bpath(ref data, ref seed, n);
 
             BrownianPath.bpath_gnuplot(n, w);
         }
@@ -122,10 +123,11 @@ namespace StochasticDifferentialEquationsTest
             Console.WriteLine("  and averages them.");
 
             seed = 123456789;
+            typeMethods.r8vecNormalData data = new typeMethods.r8vecNormalData();
             u = new double[m * (n + 1)];
             umean = new double[n + 1];
 
-            BrownianPath.bpath_average(ref seed, m, n, ref u, ref umean, ref error);
+            BrownianPath.bpath_average(ref data, ref seed, m, n, ref u, ref umean, ref error);
 
             BrownianPath.bpath_average_gnuplot(m, n, u, umean);
         }
@@ -166,9 +168,10 @@ namespace StochasticDifferentialEquationsTest
             Console.WriteLine("  an SDE for V, and solve that.");
 
             seed = 123456789;
+            typeMethods.r8vecNormalData data = new typeMethods.r8vecNormalData();
             xem = new double[n + 1];
             vem = new double[n + 1];
-            ChainRule.chain(ref seed, n, ref xem, ref vem, ref diff);
+            ChainRule.chain(ref data, ref seed, n, ref xem, ref vem, ref diff);
 
             Console.WriteLine("");
             Console.WriteLine("  Maximum | Sqrt(X) - V | = " + diff + "");
@@ -211,13 +214,14 @@ namespace StochasticDifferentialEquationsTest
             Console.WriteLine("  using the Euler-Maruyama method.");
 
             seed = 123456789;
+            typeMethods.r8vecNormalData data = new typeMethods.r8vecNormalData();
 
             t = new double[n + 1];
             t2 = new double[1 + n / 4];
             xem = new double[1 + n / 4];
             xtrue = new double[n + 1];
 
-            EulerMaruyama.em(ref seed, n, ref t, ref xtrue, ref t2, ref xem, ref diff);
+            EulerMaruyama.em(ref data, ref seed, n, ref t, ref xtrue, ref t2, ref xem, ref diff);
 
             Console.WriteLine("");
             Console.WriteLine("  | Exact X(T) - EM X(T) | = " + diff + "");
@@ -262,8 +266,9 @@ namespace StochasticDifferentialEquationsTest
             Console.WriteLine("  of the Euler-Maruyama method.");
 
             seed = 123456789;
+            typeMethods.r8vecNormalData data = new typeMethods.r8vecNormalData();
 
-            EulerMaruyamaStrong.emstrong(ref seed, m, n, p_max, ref dtvals, ref xerr);
+            EulerMaruyamaStrong.emstrong(ref data, ref seed, m, n, p_max, ref dtvals, ref xerr);
 
             EulerMaruyamaStrong.emstrong_gnuplot(p_max, dtvals, xerr);
         }
@@ -306,15 +311,16 @@ namespace StochasticDifferentialEquationsTest
 
             seed = 123456789;
             method = 0;
+            typeMethods.r8vecNormalData data = new typeMethods.r8vecNormalData();
 
-            EulerMaruyamaWeak.emweak(ref seed, method, m, p_max, ref dtvals, ref xerr);
+            EulerMaruyamaWeak.emweak(ref data, ref seed, method, m, p_max, ref dtvals, ref xerr);
 
             EulerMaruyamaWeak.emweak_gnuplot(p_max, dtvals, xerr, method);
 
             seed = 123456789;
             method = 1;
 
-            EulerMaruyamaWeak.emweak(ref seed, method, m, p_max, ref dtvals, ref xerr);
+            EulerMaruyamaWeak.emweak(ref data, ref seed, method, m, p_max, ref dtvals, ref xerr);
 
             EulerMaruyamaWeak.emweak_gnuplot(p_max, dtvals, xerr, method);
         }
@@ -354,8 +360,9 @@ namespace StochasticDifferentialEquationsTest
             Console.WriteLine("  of the Milstein method.");
 
             seed = 123456789;
+            typeMethods.r8vecNormalData data = new typeMethods.r8vecNormalData();
 
-            MilsteinStrong.milstrong(ref seed, p_max, ref dtvals, ref xerr);
+            MilsteinStrong.milstrong(ref data, ref seed, p_max, ref dtvals, ref xerr);
 
             MilsteinStrong.milstrong_gnuplot(p_max, dtvals, xerr);
         }
@@ -395,8 +402,9 @@ namespace StochasticDifferentialEquationsTest
             Console.WriteLine("  in the same routine as the computations.");
 
             seed = 123456789;
+            typeMethods.r8vecNormalData vdata = new typeMethods.r8vecNormalData();
 
-            Stability.stab_asymptotic(ref data, ref seed, n, p_max);
+            Stability.stab_asymptotic(ref vdata, ref data, ref seed, n, p_max);
         }
 
         static void test09()
@@ -431,8 +439,9 @@ namespace StochasticDifferentialEquationsTest
             Console.WriteLine("  in the same routine as the computations.");
 
             seed = 123456789;
+            typeMethods.r8vecNormalData data = new typeMethods.r8vecNormalData();
 
-            Stability.stab_meansquare(seed);
+            Stability.stab_meansquare(ref data, ref seed);
 
         }
 
@@ -474,10 +483,11 @@ namespace StochasticDifferentialEquationsTest
 
             n = 100;
             seed = 123456789;
+            typeMethods.r8vecNormalData data = new typeMethods.r8vecNormalData();
 
             for (i = 1; i <= 7; i++)
             {
-                Integrals.stochastic_integral_ito(n, ref seed, ref estimate, ref exact, ref error);
+                Integrals.stochastic_integral_ito(n, ref data, ref seed, ref estimate, ref exact, ref error);
 
                 Console.WriteLine("  " + n.ToString().PadLeft(8)
                                        + "  " + exact.ToString().PadLeft(16)
@@ -527,10 +537,11 @@ namespace StochasticDifferentialEquationsTest
 
             n = 100;
             seed = 123456789;
+            typeMethods.r8vecNormalData data = new typeMethods.r8vecNormalData();
 
             for (i = 1; i <= 7; i++)
             {
-                Integrals.stochastic_integral_strat(n, ref seed, ref estimate, ref exact, ref error);
+                Integrals.stochastic_integral_strat(n, ref data, ref seed, ref estimate, ref exact, ref error);
 
                 Console.WriteLine("  " + n.ToString().PadLeft(8)
                                        + "  " + exact.ToString().PadLeft(16)

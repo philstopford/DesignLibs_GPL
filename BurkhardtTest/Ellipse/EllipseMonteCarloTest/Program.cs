@@ -198,6 +198,7 @@ namespace EllipseMonteCarloTest
             Console.WriteLine("  in the ellipse x' * A * x <= r^2.");
 
             seed = 123456789;
+            typeMethods.r8vecNormalData data = new typeMethods.r8vecNormalData();
 
             Console.WriteLine("");
             Console.WriteLine("         N        1              X               Y  "
@@ -209,7 +210,7 @@ namespace EllipseMonteCarloTest
             while (n <= 65536)
             {
 
-                x = MonteCarlo.ellipse_sample(n, a, r, ref seed);
+                x = MonteCarlo.ellipse_sample(n, a, r, ref data, ref seed);
 
                 string cout = "  " + n.ToString().PadLeft(8);
 

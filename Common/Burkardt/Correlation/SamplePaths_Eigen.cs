@@ -6,7 +6,7 @@ namespace Burkardt.CorrelationNS
     public static partial class SamplePaths
     {
         public static double[] sample_paths_eigen(int n, int n2, double rhomax, double rho0,
-                Func<int, double[], double, double[]> correlation, ref int seed)
+                Func<int, double[], double, double[]> correlation, ref typeMethods.r8vecNormalData data, ref int seed)
 
             //****************************************************************************80
             //
@@ -153,7 +153,7 @@ namespace Burkardt.CorrelationNS
             //
             //  Compute N by N2 independent random normal values.
             //
-            r = typeMethods.r8mat_normal_01_new(n, n2, ref seed);
+            r = typeMethods.r8mat_normal_01_new(n, n2, ref data, ref seed);
             //
             //  Multiply to get the variables X which have correlation COR.
             //
@@ -163,7 +163,7 @@ namespace Burkardt.CorrelationNS
         }
 
         public static double[] sample_paths2_eigen(int n, int n2, double rhomin, double rhomax,
-                double rho0, Func<int, int, double[], double[], double, double[]> correlation2, ref int seed)
+                double rho0, Func<int, int, double[], double[], double, double[]> correlation2, ref typeMethods.r8vecNormalData data, ref int seed)
 
             //****************************************************************************80
             //
@@ -286,7 +286,7 @@ namespace Burkardt.CorrelationNS
             //
             //  Compute N by N2 independent random normal values.
             //
-            r = typeMethods.r8mat_normal_01_new(n, n2, ref seed);
+            r = typeMethods.r8mat_normal_01_new(n, n2, ref data, ref seed);
             //
             //  Multiply to get the variables X which have correlation COR.
             //

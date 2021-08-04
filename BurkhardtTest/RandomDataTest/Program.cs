@@ -1019,6 +1019,7 @@ namespace RandomDataTest
             double r = 1.0;
             double r2;
             int seed = 123456789;
+            typeMethods.r8vecNormalData data = new typeMethods.r8vecNormalData();
             int success_num;
             double[] x;
 
@@ -1031,7 +1032,7 @@ namespace RandomDataTest
             Console.WriteLine("  Number of points N =         " + N + "");
             Console.WriteLine("  Initial random number SEED = " + seed + "");
 
-            x = Ellipsoid.uniform_in_ellipsoid_map(DIM_NUM, N, a, r, ref seed);
+            x = Ellipsoid.uniform_in_ellipsoid_map(DIM_NUM, N, a, r, ref data, ref seed);
 
             Console.WriteLine("  Final random number SEED =   " + seed + "");
 
@@ -1342,6 +1343,7 @@ namespace RandomDataTest
 
             string output_filename = "uniform_in_sphere01_map.txt";
             int seed = 123456789;
+            typeMethods.r8vecNormalData data = new typeMethods.r8vecNormalData();
             double[] x;
 
             Console.WriteLine("");
@@ -1353,7 +1355,7 @@ namespace RandomDataTest
             Console.WriteLine("  Number of points N =         " + N + "");
             Console.WriteLine("  Initial random number SEED = " + seed + "");
 
-            x = Sphere.uniform_in_sphere01_map(DIM_NUM, N, ref seed);
+            x = Sphere.uniform_in_sphere01_map(DIM_NUM, N, ref data, ref seed);
 
             Console.WriteLine("  Final random number SEED =   " + seed + "");
 
@@ -1672,6 +1674,7 @@ namespace RandomDataTest
             string output_filename = "uniform_on_ellipsoid_map.txt";
             double r = 1.0;
             int seed = 123456789;
+            typeMethods.r8vecNormalData data = new typeMethods.r8vecNormalData();
             double[] x;
 
             Console.WriteLine("");
@@ -1683,7 +1686,7 @@ namespace RandomDataTest
             Console.WriteLine("  Number of points N =         " + N + "");
             Console.WriteLine("  Initial random number SEED = " + seed + "");
 
-            x = Ellipsoid.uniform_on_ellipsoid_map(DIM_NUM, N, a, r, ref seed);
+            x = Ellipsoid.uniform_on_ellipsoid_map(DIM_NUM, N, a, r, ref data, ref seed);
 
             Console.WriteLine("  Final random number SEED =   " + seed + "");
 
@@ -1815,6 +1818,7 @@ namespace RandomDataTest
 
             string output_filename = "uniform_on_sphere01_map.txt";
             int seed = 123456789;
+            typeMethods.r8vecNormalData data = new typeMethods.r8vecNormalData();
             double[] x;
 
             Console.WriteLine("");
@@ -1826,7 +1830,7 @@ namespace RandomDataTest
             Console.WriteLine("  Number of points N =         " + N + "");
             Console.WriteLine("  Initial random number SEED = " + seed + "");
 
-            x = Sphere.uniform_on_sphere01_map(DIM_NUM, N, ref seed);
+            x = Sphere.uniform_on_sphere01_map(DIM_NUM, N, ref data, ref seed);
 
             Console.WriteLine("  Final random number SEED =   " + seed + "");
 
@@ -1982,6 +1986,7 @@ namespace RandomDataTest
 
             string output_filename = "uniform_on_sphere01_triangle_xyz.txt";
             int seed = 123456789;
+            typeMethods.r8vecNormalData data = new typeMethods.r8vecNormalData();
             double[] v1;
             double[] v2;
             double[] v3;
@@ -1998,9 +2003,9 @@ namespace RandomDataTest
 
             if (true)
             {
-                v1 = Sphere.uniform_on_sphere01_map(3, 1, ref seed);
-                v2 = Sphere.uniform_on_sphere01_map(3, 1, ref seed);
-                v3 = Sphere.uniform_on_sphere01_map(3, 1, ref seed);
+                v1 = Sphere.uniform_on_sphere01_map(3, 1, ref data, ref seed);
+                v2 = Sphere.uniform_on_sphere01_map(3, 1, ref data, ref seed);
+                v3 = Sphere.uniform_on_sphere01_map(3, 1, ref data, ref seed);
             }
             else
             {

@@ -6,7 +6,7 @@ namespace Burkardt.CorrelationNS
     public static partial class SamplePaths
     {
         public static double[] sample_paths_cholesky(int n, int n2, double rhomax, double rho0,
-            Func< int, double[], double, double[] > correlation, ref int seed )
+            Func< int, double[], double, double[] > correlation, ref typeMethods.r8vecNormalData data, ref int seed )
 
         //****************************************************************************80
         //
@@ -111,7 +111,7 @@ namespace Burkardt.CorrelationNS
             //
             //  Compute a matrix of N by N2 normally distributed values.
             //
-            r = typeMethods.r8mat_normal_01_new(n, n2, ref seed);
+            r = typeMethods.r8mat_normal_01_new(n, n2, ref data, ref seed);
             //
             //  Compute the sample path.
             //
@@ -121,7 +121,7 @@ namespace Burkardt.CorrelationNS
         }
 
         public static double[] sample_paths2_cholesky(int n, int n2, double rhomin, double rhomax,
-                double rho0, Func<int, int, double[], double[], double, double[]> correlation2, ref int seed)
+                double rho0, Func<int, int, double[], double[], double, double[]> correlation2, ref typeMethods.r8vecNormalData data, ref int seed)
 
             //****************************************************************************80
             //
@@ -199,7 +199,7 @@ namespace Burkardt.CorrelationNS
             //
             //  Compute a matrix of N by N2 normally distributed values.
             //
-            r = typeMethods.r8mat_normal_01_new(n, n2, ref seed);
+            r = typeMethods.r8mat_normal_01_new(n, n2, ref data, ref seed);
             //
             //  Compute the sample path.
             //

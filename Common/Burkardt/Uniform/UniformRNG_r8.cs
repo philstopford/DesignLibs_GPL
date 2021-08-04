@@ -1009,7 +1009,7 @@ namespace Burkardt.Uniform
             return r;
         }
         
-        public static double[] r8vec_uniform_unit_new ( int m, ref int seed )
+        public static double[] r8vec_uniform_unit_new ( int m, ref typeMethods.r8vecNormalData data, ref int seed )
 
             //****************************************************************************80
             //
@@ -1045,7 +1045,7 @@ namespace Burkardt.Uniform
             //
             //  Take M random samples from the normal distribution.
             //
-            a = typeMethods.r8vec_normal_01_new ( m, ref seed );
+            a = typeMethods.r8vec_normal_01_new ( m, ref data, ref seed );
             //
             //  Compute the norm.
             //

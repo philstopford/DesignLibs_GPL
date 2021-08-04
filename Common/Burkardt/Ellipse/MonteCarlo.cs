@@ -91,7 +91,7 @@ namespace Burkardt.Ellipse
             return value;
         }
 
-        public static double[] ellipse_sample(int n, double[] a, double r, ref int seed )
+        public static double[] ellipse_sample(int n, double[] a, double r, ref typeMethods.r8vecNormalData data, ref int seed )
 
         //****************************************************************************80
         //
@@ -178,7 +178,7 @@ namespace Burkardt.Ellipse
             //
             //  Get the points Y that satisfy Y' * Y <= R * R.
             //
-            x = Uniform.Sphere.uniform_in_sphere01_map(m, n, ref seed);
+            x = Uniform.Sphere.uniform_in_sphere01_map(m, n, ref data, ref seed);
 
             for (j = 0; j < n; j++)
             {

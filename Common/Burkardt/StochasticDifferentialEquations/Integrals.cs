@@ -5,7 +5,7 @@ namespace Burkardt.StochasticDifferentialEquations
 {
     public static class Integrals
     {
-        public static void stochastic_integral_ito(int n, ref int seed, ref double estimate,
+        public static void stochastic_integral_ito(int n, ref typeMethods.r8vecNormalData data, ref int seed, ref double estimate,
                 ref double exact, ref double error)
 
             //****************************************************************************80
@@ -68,7 +68,7 @@ namespace Burkardt.StochasticDifferentialEquations
             //
             //  Define the increments dW.
             //
-            dw = typeMethods.r8vec_normal_01_new(n, ref seed);
+            dw = typeMethods.r8vec_normal_01_new(n, ref data, ref seed);
             for (j = 0; j < n; j++)
             {
                 dw[j] = Math.Sqrt(dt) * dw[j];
@@ -95,7 +95,7 @@ namespace Burkardt.StochasticDifferentialEquations
             error = Math.Abs(estimate - exact);
         }
 
-        public static void stochastic_integral_strat(int n, ref int seed, ref double estimate,
+        public static void stochastic_integral_strat(int n, ref typeMethods.r8vecNormalData data, ref int seed, ref double estimate,
                 ref double exact, ref double error)
 
             //****************************************************************************80
@@ -160,7 +160,7 @@ namespace Burkardt.StochasticDifferentialEquations
             //
             //  Define the increments dW.
             //
-            dw = typeMethods.r8vec_normal_01_new(n, ref seed);
+            dw = typeMethods.r8vec_normal_01_new(n, ref data, ref seed);
 
             for (j = 0; j < n; j++)
             {
@@ -180,7 +180,7 @@ namespace Burkardt.StochasticDifferentialEquations
             //
             //  Approximate the Stratonovich integral.
             //
-            u = typeMethods.r8vec_normal_01_new(n, ref seed);
+            u = typeMethods.r8vec_normal_01_new(n, ref data, ref seed);
 
             v = new double[n];
             for (j = 0; j < n; j++)

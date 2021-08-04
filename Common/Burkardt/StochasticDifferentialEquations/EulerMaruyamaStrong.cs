@@ -7,7 +7,7 @@ namespace Burkardt.StochasticDifferentialEquations
 {
     public static class EulerMaruyamaStrong
     {
-        public static void emstrong(ref int seed, int m, int n, int p_max, ref double[] dtvals,
+        public static void emstrong(ref typeMethods.r8vecNormalData data, ref int seed, int m, int n, int p_max, ref double[] dtvals,
                 ref double[] xerr)
 
             //****************************************************************************80
@@ -133,7 +133,7 @@ namespace Burkardt.StochasticDifferentialEquations
                 //
                 //  Define the increments dW.
                 //
-                dw = typeMethods.r8vec_normal_01_new(n, ref seed);
+                dw = typeMethods.r8vec_normal_01_new(n, ref data, ref seed);
 
                 for (j = 0; j < n; j++)
                 {

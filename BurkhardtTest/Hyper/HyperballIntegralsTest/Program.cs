@@ -89,7 +89,8 @@ namespace HyperballIntegralsTest
             //  Get sample points.
             //
             seed = 123456789;
-            x = Integral.hyperball01_sample(m, n, ref seed);
+            typeMethods.r8vecNormalData data = new typeMethods.r8vecNormalData();
+            x = Integral.hyperball01_sample(m, n, ref data, ref seed);
             Console.WriteLine("");
             Console.WriteLine("  Number of sample points used is " + n + "");
             //
@@ -175,7 +176,8 @@ namespace HyperballIntegralsTest
             //  Get sample points.
             //
             seed = 123456789;
-            x = Integral.hyperball01_sample(m, n, ref seed);
+            typeMethods.r8vecNormalData data = new typeMethods.r8vecNormalData();
+            x = Integral.hyperball01_sample(m, n, ref data, ref seed);
             Console.WriteLine("");
             Console.WriteLine("  Number of sample points used is " + n + "");
             //

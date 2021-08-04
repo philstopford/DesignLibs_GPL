@@ -348,7 +348,7 @@ namespace Burkardt.HyperGeometry.HypersphereNS
             }
         }
 
-        public static double[] hypersphere_01_interior_uniform(int m, int n, ref int seed)
+        public static double[] hypersphere_01_interior_uniform(int m, int n, ref typeMethods.r8vecNormalData data, ref int seed)
 
             //****************************************************************************80
             //
@@ -421,7 +421,7 @@ namespace Burkardt.HyperGeometry.HypersphereNS
                 //
                 //  Fill a vector with normally distributed values.
                 //
-                v = typeMethods.r8vec_normal_01_new(m, ref seed);
+                v = typeMethods.r8vec_normal_01_new(m, ref data, ref seed);
                 //
                 //  Compute the length of the vector.
                 //
@@ -454,7 +454,7 @@ namespace Burkardt.HyperGeometry.HypersphereNS
             return x;
         }
 
-        public static double[] hypersphere_01_surface_uniform(int m, int n, ref int seed)
+        public static double[] hypersphere_01_surface_uniform(int m, int n, ref typeMethods.r8vecNormalData data, ref int seed)
 
             //****************************************************************************80
             //
@@ -519,7 +519,7 @@ namespace Burkardt.HyperGeometry.HypersphereNS
             //
             //  Fill a matrix with normally distributed values.
             //
-            x = typeMethods.r8mat_normal_01_new(m, n, ref seed);
+            x = typeMethods.r8mat_normal_01_new(m, n, ref data, ref seed);
             //
             //  Normalize each column.
             //
@@ -931,7 +931,7 @@ namespace Burkardt.HyperGeometry.HypersphereNS
         }
 
         public static double[] hypersphere_surface_uniform(int m, int n, double r, double[] c,
-        ref int seed )
+                ref typeMethods.r8vecNormalData data, ref int seed )
 
         //****************************************************************************80
         //
@@ -988,7 +988,7 @@ namespace Burkardt.HyperGeometry.HypersphereNS
             int j;
             double[] x;
 
-            x = hypersphere_01_surface_uniform(m, n, ref seed);
+            x = hypersphere_01_surface_uniform(m, n, ref data, ref seed);
             //
             //  Scale by the radius.
             //

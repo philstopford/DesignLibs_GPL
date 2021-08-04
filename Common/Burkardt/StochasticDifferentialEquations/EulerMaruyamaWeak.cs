@@ -7,7 +7,7 @@ namespace Burkardt.StochasticDifferentialEquations
 {
     public static class EulerMaruyamaWeak
     {
-        public static void emweak(ref int seed, int method, int m, int p_max, ref double[] dtvals,
+        public static void emweak(ref typeMethods.r8vecNormalData data, ref int seed, int method, int m, int p_max, ref double[] dtvals,
                 ref double[] xerr)
 
             //****************************************************************************80
@@ -129,7 +129,7 @@ namespace Burkardt.StochasticDifferentialEquations
 
                 for (j = 0; j < l; j++)
                 {
-                    winc = typeMethods.r8vec_normal_01_new(m, ref seed);
+                    winc = typeMethods.r8vec_normal_01_new(m, ref data, ref seed);
                     if (method == 0)
                     {
                         for (i = 0; i < m; i++)

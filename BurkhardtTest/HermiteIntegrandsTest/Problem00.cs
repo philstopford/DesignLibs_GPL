@@ -265,7 +265,8 @@ namespace HermiteIntegrandsTest
             double[] x_vec;
 
             seed = 123456789;
-            x_vec = typeMethods.r8vec_normal_01_new(order, ref seed);
+            typeMethods.r8vecNormalData data = new typeMethods.r8vecNormalData();
+            x_vec = typeMethods.r8vec_normal_01_new(order, ref data, ref seed);
 
             option = 2;
             f_vec = new double[order];

@@ -7,7 +7,7 @@ namespace Burkardt.StochasticDifferentialEquations
 {
     public static class BrownianPath
     {
-        public static double[] bpath(ref int seed, int n)
+        public static double[] bpath(ref typeMethods.r8vecNormalData data, ref int seed, int n)
 
             //****************************************************************************80
             //
@@ -64,7 +64,7 @@ namespace Burkardt.StochasticDifferentialEquations
             //
             //  Define the increments dW.
             //
-            dw = typeMethods.r8vec_normal_01_new(n, ref seed);
+            dw = typeMethods.r8vec_normal_01_new(n, ref data, ref seed);
 
             for (j = 0; j < n; j++)
             {
@@ -160,7 +160,7 @@ namespace Burkardt.StochasticDifferentialEquations
             Console.WriteLine("  BPATH plot commands stored in \"" + command_filename + "\".");
         }
 
-        public static void bpath_average(ref int seed, int m, int n, ref double[] u, ref double[] umean,
+        public static void bpath_average(ref typeMethods.r8vecNormalData data, ref int seed, int m, int n, ref double[] u, ref double[] umean,
                 ref double error)
 
             //****************************************************************************80
@@ -253,7 +253,7 @@ namespace Burkardt.StochasticDifferentialEquations
                 //
                 //  Define the increments dW.
                 //
-                dw = typeMethods.r8vec_normal_01_new(n, ref seed);
+                dw = typeMethods.r8vec_normal_01_new(n, ref data, ref seed);
 
                 for (j = 0; j < n; j++)
                 {

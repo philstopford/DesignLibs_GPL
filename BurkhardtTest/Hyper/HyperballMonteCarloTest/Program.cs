@@ -96,6 +96,7 @@ namespace HyperballMonteCarloTest
             Console.WriteLine("  Spatial dimension M = " + m + "");
 
             seed = 123456789;
+            typeMethods.r8vecNormalData data = new typeMethods.r8vecNormalData();
 
             Console.WriteLine("");
             Console.WriteLine("         N        1              X^2             Y^2 " 
@@ -106,7 +107,7 @@ namespace HyperballMonteCarloTest
 
             while (n <= 65536)
             {
-                x = MonteCarlo.hyperball01_sample(m, n, ref seed);
+                x = MonteCarlo.hyperball01_sample(m, n, ref data, ref seed);
 
                 cout = "  " + n.ToString().PadLeft(8);
                 for (j = 0; j < 7; j++)
@@ -195,6 +196,7 @@ namespace HyperballMonteCarloTest
             Console.WriteLine("  Spatial dimension M = " + m + "");
 
             seed = 123456789;
+            typeMethods.r8vecNormalData data = new typeMethods.r8vecNormalData();
 
             Console.WriteLine("");
             Console.WriteLine("         N"
@@ -211,7 +213,7 @@ namespace HyperballMonteCarloTest
 
             while (n <= 65536)
             {
-                x = MonteCarlo.hyperball01_sample(m, n, ref seed);
+                x = MonteCarlo.hyperball01_sample(m, n, ref data, ref seed);
 
                 cout = "  " + n.ToString().PadLeft(8);
                 for (j = 0; j < 7; j++)

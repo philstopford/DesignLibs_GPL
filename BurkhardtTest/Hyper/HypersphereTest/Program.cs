@@ -148,13 +148,14 @@ namespace HypersphereTest
             Console.WriteLine("  surface of the unit hypersphere");
 
             seed = 123456789;
+            typeMethods.r8vecNormalData data = new typeMethods.r8vecNormalData();
 
             n = 1;
             for (m = 1; m <= 5; m++)
             {
                 for (test = 1; test <= 3; test++)
                 {
-                    x = Hypersphere.hypersphere_01_surface_uniform(m, n, ref seed);
+                    x = Hypersphere.hypersphere_01_surface_uniform(m, n, ref data, ref seed);
                     typeMethods.r8vec_transpose_print(m, x, "  Random hypersphere point:");
                 }
             }
@@ -369,6 +370,7 @@ namespace HypersphereTest
             Console.WriteLine("  M    || X1 - X3 ||");
 
             seed = 123456789;
+            typeMethods.r8vecNormalData data = new typeMethods.r8vecNormalData();
 
             n = 1;
             for (m = 2; m <= 5; m++)
@@ -376,7 +378,7 @@ namespace HypersphereTest
                 Console.WriteLine("");
                 for (test = 1; test <= 5; test++)
                 {
-                    x1 = Hypersphere.hypersphere_01_surface_uniform(m, n, ref seed);
+                    x1 = Hypersphere.hypersphere_01_surface_uniform(m, n, ref data, ref seed);
                     x2 = Hypersphere.hypersphere_stereograph(m, n, x1);
                     x3 = Hypersphere.hypersphere_stereograph_inverse(m, n, x2);
                     err = typeMethods.r8mat_norm_fro_affine(m, n, x1, x3);

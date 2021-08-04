@@ -6,7 +6,7 @@ namespace Burkardt.Uniform
     public static class Ellipsoid
     {
         public static double[] uniform_in_ellipsoid_map(int dim_num, int n, double[] a, double r,
-                ref int seed)
+                ref typeMethods.r8vecNormalData data, ref int seed)
 
             //****************************************************************************80
             //
@@ -104,7 +104,7 @@ namespace Burkardt.Uniform
             //
             //  Get the points Y that satisfy Y' * Y <= R * R.
             //
-            x = Sphere.uniform_in_sphere01_map(dim_num, n, ref seed);
+            x = Sphere.uniform_in_sphere01_map(dim_num, n, ref data, ref seed);
 
             for (j = 0; j < n; j++)
             {
@@ -126,7 +126,7 @@ namespace Burkardt.Uniform
         }
 
         public static double[] uniform_on_ellipsoid_map(int dim_num, int n, double[] a,
-        double r, ref int seed )
+        double r, ref typeMethods.r8vecNormalData data, ref int seed )
 
         //****************************************************************************80
         //
@@ -224,7 +224,7 @@ namespace Burkardt.Uniform
             //
             //  Get the points Y that satisfy Y' * Y = R * R.
             //
-            x = Sphere.uniform_on_sphere01_map(dim_num, n, ref seed);
+            x = Sphere.uniform_on_sphere01_map(dim_num, n, ref data, ref seed);
 
             for (j = 0; j < n; j++)
             {

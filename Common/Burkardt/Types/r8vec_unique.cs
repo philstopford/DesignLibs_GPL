@@ -4,7 +4,7 @@ namespace Burkardt.Types
 {
     public static partial class typeMethods
     {
-        public static double[] r8vec_uniform_unit_new(int m, ref int seed)
+        public static double[] r8vec_uniform_unit_new(int m, ref typeMethods.r8vecNormalData data, ref int seed)
 
             //****************************************************************************80
             //
@@ -40,7 +40,7 @@ namespace Burkardt.Types
             //
             //  Take M random samples from the normal distribution.
             //
-            a = r8vec_normal_01_new(m, ref seed);
+            a = r8vec_normal_01_new(m, ref data, ref seed);
             //
             //  Compute the norm.
             //

@@ -97,7 +97,7 @@ namespace Burkardt.HyperGeometry.Hyperball
             return integral;
         }
 
-        public static double[] hyperball01_sample(int m, int n, ref int seed)
+        public static double[] hyperball01_sample(int m, int n, ref typeMethods.r8vecNormalData data, ref int seed)
 
             //****************************************************************************80
             //
@@ -153,7 +153,7 @@ namespace Burkardt.HyperGeometry.Hyperball
 
             exponent = 1.0 / (double) (m);
 
-            x = typeMethods.r8mat_normal_01_new(m, n, ref seed);
+            x = typeMethods.r8mat_normal_01_new(m, n, ref data, ref seed);
 
             for (j = 0; j < n; j++)
             {

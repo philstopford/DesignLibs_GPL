@@ -116,6 +116,7 @@ namespace EllipsoidMonteCarloTest
             typeMethods.r8_print(volume, "  Ellipsoid volume:");
 
             seed = 123456789;
+            typeMethods.r8vecNormalData data = new typeMethods.r8vecNormalData();
 
             Console.WriteLine("");
             Console.WriteLine("         N        1              X               Y  " +
@@ -126,7 +127,7 @@ namespace EllipsoidMonteCarloTest
 
             while (n <= 65536)
             {
-                x = MonteCarlo.ellipsoid_sample(m, n, a, v, r, ref seed);
+                x = MonteCarlo.ellipsoid_sample(m, n, a, v, r, ref data, ref seed);
 
                 string cout = n.ToString().PadLeft(10) + "  ";
                 for (j = 0; j < 7; j++)
@@ -217,6 +218,7 @@ namespace EllipsoidMonteCarloTest
             typeMethods.r8_print(volume, "  Ellipsoid volume:");
 
             seed = 123456789;
+            typeMethods.r8vecNormalData data = new typeMethods.r8vecNormalData();
 
             Console.WriteLine("");
             Console.WriteLine("         N        1              X               Y  " + 
@@ -227,7 +229,7 @@ namespace EllipsoidMonteCarloTest
 
             while (n <= 65536)
             {
-                x = MonteCarlo.ellipsoid_sample(m, n, a, v, r, ref seed);
+                x = MonteCarlo.ellipsoid_sample(m, n, a, v, r, ref data, ref seed);
 
                 string cout = n.ToString().PadLeft(10) + "  ";
                 for (j = 0; j < 7; j++)
@@ -319,6 +321,7 @@ namespace EllipsoidMonteCarloTest
             typeMethods.r8_print(volume, "  Ellipsoid volume:");
 
             seed = 123456789;
+            typeMethods.r8vecNormalData data = new typeMethods.r8vecNormalData();
 
             Console.WriteLine("");
             Console.WriteLine("         N        1              X               Y  " +
@@ -329,7 +332,7 @@ namespace EllipsoidMonteCarloTest
 
             while (n <= 65536)
             {
-                x = MonteCarlo.ellipsoid_sample(m, n, a, v, r, ref seed);
+                x = MonteCarlo.ellipsoid_sample(m, n, a, v, r, ref data, ref seed);
 
                 string cout = n.ToString().PadLeft(10) + "  ";
                 for (j = 0; j < 7; j++)

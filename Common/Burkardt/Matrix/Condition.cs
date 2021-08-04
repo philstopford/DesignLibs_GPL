@@ -487,9 +487,11 @@ namespace Burkardt
             ainv_norm = 0.0;
             seed = 123456789;
 
+            typeMethods.r8vecNormalData data = new typeMethods.r8vecNormalData();
+
             for (i = 1; i <= m; i++)
             {
-                x = UniformRNG.r8vec_uniform_unit_new(n, ref seed);
+                x = UniformRNG.r8vec_uniform_unit_new(n, ref data, ref seed);
                 x_norm = typeMethods.r8vec_norm_l1(n, x);
                 ax = typeMethods.r8mat_mv_new(n, n, a, x);
                 ax_norm = typeMethods.r8vec_norm_l1(n, ax);

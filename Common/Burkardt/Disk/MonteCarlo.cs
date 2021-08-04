@@ -45,7 +45,7 @@ namespace Burkardt.Disk
             return area;
         }
 
-        public static double[] disk_sample(double[] center, double r, int n, ref int seed )
+        public static double[] disk_sample(double[] center, double r, int n, ref typeMethods.r8vecNormalData data, ref int seed )
 
         //****************************************************************************80
         //
@@ -91,7 +91,7 @@ namespace Burkardt.Disk
 
             for (j = 0; j < n; j++)
             {
-                v = typeMethods.r8vec_normal_01_new(2, ref seed);
+                v = typeMethods.r8vec_normal_01_new(2, ref data, ref seed);
                 //
                 //  Compute the length of the vector.
                 //

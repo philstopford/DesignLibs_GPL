@@ -552,7 +552,14 @@ namespace Burkardt.Types
             return;
         }
 
-        public static double[] r8vec_normal_01_new(int n, ref int seed)
+        public class r8vecNormalData
+        {
+            public int made = 0;
+            public int saved = 0;
+            public double y = 0.0;
+        }
+        
+        public static double[] r8vec_normal_01_new(int n, ref r8vecNormalData data, ref int seed)
             //****************************************************************************80
             //
             //  Purpose:
@@ -566,13 +573,26 @@ namespace Burkardt.Types
             //    The standard normal probability distribution function (PDF) has
             //    mean 0 and standard deviation 1.
             //
+            //    This routine can generate a vector of values on one call.  It
+            //    has the feature that it should provide the same results
+            //    in the same order no matter how we break up the task.
+            //
+            //    Before calling this routine, the user may call RANDOM_SEED
+            //    in order to set the seed of the random number generator.
+            //
+            //    The Box-Muller method is used, which is efficient, but
+            //    generates an even number of values each time.  On any call
+            //    to this routine, an even number of new values are generated.
+            //    Depending on the situation, one value may be left over.
+            //    In that case, it is saved for the next call.
+            //
             //  Licensing:
             //
             //    This code is distributed under the GNU LGPL license.
             //
             //  Modified:
             //
-            //    06 August 2013
+            //    02 February 2005
             //
             //  Author:
             //
@@ -580,7 +600,11 @@ namespace Burkardt.Types
             //
             //  Parameters:
             //
-            //    Input, int N, the number of values desired.
+            //    Input, int N, the number of values desired.  If N is negative,
+            //    then the code will flush its internal memory; in particular,
+            //    if there is a saved value to be used on the next call, it is
+            //    instead discarded.  This is useful if the user has reset the
+            //    random number seed, for instance.
             //
             //    Input/output, int &SEED, a seed for the random number generator.
             //
@@ -588,20 +612,52 @@ namespace Burkardt.Types
             //
             //  Local parameters:
             //
+            //    Local, int MADE, records the number of values that have
+            //    been computed.  On input with negative N, this value overwrites
+            //    the return value of N, so the user can get an accounting of
+            //    how much work has been done.
+            //
             //    Local, double R[N+1], is used to store some uniform random values.
             //    Its dimension is N+1, but really it is only needed to be the
             //    smallest even number greater than or equal to N.
             //
+            //    Local, int SAVED, is 0 or 1 depending on whether there is a
+            //    single saved value left over from the previous call.
+            //
             //    Local, int X_LO, X_HI, records the range of entries of
-            //    X that we need to compute.
+            //    X that we need to compute.  This starts off as 1:N, but is adjusted
+            //    if we have a saved value that can be immediately stored in X(1),
+            //    and so on.
+            //
+            //    Local, double Y, the value saved from the previous call, if
+            //    SAVED is 1.
             //
         {
             int i;
             int m;
+            const double pi = 3.141592653589793;
             double[] r;
             double[] x;
             int x_hi;
             int x_lo;
+            //
+            //  I'd like to allow the user to reset the internal data.
+            //  But this won't work properly if we have a saved value Y.
+            //  I'm making a crock option that allows the user to signal
+            //  explicitly that any internal memory should be flushed,
+            //  by passing in a negative value for N.
+            //
+            if (n < 0)
+            {
+                data.made = 0;
+                data.saved = 0;
+                data.y = 0.0;
+                return null;
+            }
+            else if (n == 0)
+            {
+                return null;
+            }
 
             x = new double[n];
             //
@@ -610,14 +666,34 @@ namespace Burkardt.Types
             x_lo = 1;
             x_hi = n;
             //
+            //  Use up the old value, if we have it.
+            //
+            if (data.saved == 1)
+            {
+                x[0] = data.y;
+                data.saved = 0;
+                x_lo = 2;
+            }
+
+            //
+            //  Maybe we don't need any more values.
+            //
+            if (x_hi - x_lo + 1 == 0)
+            {
+            }
+            //
             //  If we need just one new value, do that here to avoid null arrays.
             //
-            if (x_hi - x_lo + 1 == 1)
+            else if (x_hi - x_lo + 1 == 1)
             {
                 r = UniformRNG.r8vec_uniform_01_new(2, ref seed);
 
-                x[x_hi - 1] = Math.Sqrt(-2.0 * Math.Log(r[0])) * Math.Cos(2.0 * Math.PI * r[1]);
+                x[x_hi - 1] = Math.Sqrt(-2.0 * Math.Log(r[0])) * Math.Cos(2.0 * pi * r[1]);
+                data.y = Math.Sqrt(-2.0 * Math.Log(r[0])) * Math.Sin(2.0 * pi * r[1]);
 
+                data.saved = 1;
+
+                data.made = data.made + 2;
             }
             //
             //  If we require an even number of values, that's easy.
@@ -630,10 +706,11 @@ namespace Burkardt.Types
 
                 for (i = 0; i <= 2 * m - 2; i = i + 2)
                 {
-                    x[x_lo + i - 1] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Cos(2.0 * Math.PI * r[i + 1]);
-                    x[x_lo + i] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Sin(2.0 * Math.PI * r[i + 1]);
+                    x[x_lo + i - 1] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Cos(2.0 * pi * r[i + 1]);
+                    x[x_lo + i] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Sin(2.0 * pi * r[i + 1]);
                 }
 
+                data.made = data.made + x_hi - x_lo + 1;
             }
             //
             //  If we require an odd number of values, we generate an even number,
@@ -650,13 +727,18 @@ namespace Burkardt.Types
 
                 for (i = 0; i <= 2 * m - 4; i = i + 2)
                 {
-                    x[x_lo + i - 1] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Cos(2.0 * Math.PI * r[i + 1]);
-                    x[x_lo + i] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Sin(2.0 * Math.PI * r[i + 1]);
+                    x[x_lo + i - 1] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Cos(2.0 * pi * r[i + 1]);
+                    x[x_lo + i] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Sin(2.0 * pi * r[i + 1]);
                 }
 
                 i = 2 * m - 2;
 
-                x[x_lo + i - 1] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Cos(2.0 * Math.PI * r[i + 1]);
+                x[x_lo + i - 1] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Cos(2.0 * pi * r[i + 1]);
+                data.y = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Sin(2.0 * pi * r[i + 1]);
+
+                data.saved = 1;
+
+                data.made = data.made + x_hi - x_lo + 2;
 
             }
 

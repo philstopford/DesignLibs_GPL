@@ -7,7 +7,7 @@ namespace Burkardt.Ellipsoid
     public static class MonteCarlo
     {
         public static double[] ellipsoid_sample(int m, int n, double[] a, double[] v, double r,
-        ref int seed )
+                ref typeMethods.r8vecNormalData data, ref int seed )
 
         //****************************************************************************80
         //
@@ -103,7 +103,7 @@ namespace Burkardt.Ellipsoid
             //
             //  Get the points Y that satisfy Y' * Y <= 1.
             //
-            x = Uniform.Sphere.uniform_in_sphere01_map(m, n, ref seed);
+            x = Uniform.Sphere.uniform_in_sphere01_map(m, n, ref data, ref seed);
             //
             //  Get the points Y that satisfy Y' * Y <= R * R.
             //

@@ -7,7 +7,7 @@ namespace Burkardt.StochasticDifferentialEquations
 {
     public static class Stability
     {
-        public static void stab_asymptotic(ref typeMethods.r8NormalData data, ref int seed, int n, int p_max)
+        public static void stab_asymptotic(ref typeMethods.r8vecNormalData vdata, ref typeMethods.r8NormalData data, ref int seed, int n, int p_max)
 
             //****************************************************************************80
             //
@@ -132,7 +132,7 @@ namespace Burkardt.StochasticDifferentialEquations
                 //
                 Console.WriteLine("");
                 Console.WriteLine("  dt = " + dt + "");
-                u = typeMethods.r8vec_normal_01_new(1000, ref seed);
+                u = typeMethods.r8vec_normal_01_new(1000, ref vdata, ref seed);
                 for (i = 0; i < 1000; i++)
                 {
                     u[i] = Math.Log(Math.Abs(1.0 + lambda * dt - Math.Sqrt(dt) * mu * u[i]));
@@ -211,7 +211,7 @@ namespace Burkardt.StochasticDifferentialEquations
             Console.WriteLine("  STAB_ASYMPTOTIC plot stored in \"" + command_filename + "\".");
         }
 
-        public static void stab_meansquare(int seed)
+        public static void stab_meansquare(ref typeMethods.r8vecNormalData vdata, ref int seed)
 
             //****************************************************************************80
             //
@@ -341,7 +341,7 @@ namespace Burkardt.StochasticDifferentialEquations
 
                 for (j = 0; j <= n; j++)
                 {
-                    winc = typeMethods.r8vec_normal_01_new(m, ref seed);
+                    winc = typeMethods.r8vec_normal_01_new(m, ref vdata, ref seed);
                     for (i = 0; i < m; i++)
                     {
                         winc[i] = Math.Sqrt(dt) * winc[i];

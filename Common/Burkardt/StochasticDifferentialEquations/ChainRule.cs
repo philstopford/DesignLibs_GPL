@@ -7,7 +7,7 @@ namespace Burkardt.StochasticDifferentialEquations
 {
     public static class ChainRule
     {
-        public static void chain(ref int seed, int n, ref double[] xem, ref double[] vem, ref double diff)
+        public static void chain(ref typeMethods.r8vecNormalData data, ref int seed, int n, ref double[] xem, ref double[] vem, ref double diff)
 
             //****************************************************************************80
             //
@@ -101,7 +101,7 @@ namespace Burkardt.StochasticDifferentialEquations
             //
             //  Define the increments dW.
             //
-            dw = typeMethods.r8vec_normal_01_new(n, ref seed);
+            dw = typeMethods.r8vec_normal_01_new(n, ref data, ref seed);
 
             for (i = 0; i < n; i++)
             {

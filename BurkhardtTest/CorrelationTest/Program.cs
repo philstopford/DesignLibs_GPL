@@ -260,106 +260,107 @@ namespace CorrelationTest
             //  Use EIGEN, because CHOLESKY fails.
             //
             seed = 123456789;
-            x = SamplePaths.sample_paths_eigen(n, n2, rhomax, rho0, Correlation.correlation_besselj, ref seed);
+            typeMethods.r8vecNormalData data = new typeMethods.r8vecNormalData();
+            x = SamplePaths.sample_paths_eigen(n, n2, rhomax, rho0, Correlation.correlation_besselj, ref data, ref seed);
             Paths.paths_plot(n, n2, rho, x, "besselj", "Bessel J correlation");
             //
             //  besselk
             //
             seed = 123456789;
-            x = SamplePaths.sample_paths_cholesky(n, n2, rhomax, rho0, Correlation.correlation_besselk, ref seed);
+            x = SamplePaths.sample_paths_cholesky(n, n2, rhomax, rho0, Correlation.correlation_besselk, ref data, ref seed);
             Paths.paths_plot(n, n2, rho, x, "besselk", "Bessel K correlation");
             //
             //  circular
             //
             seed = 123456789;
-            x = SamplePaths.sample_paths_cholesky(n, n2, rhomax, rho0, Correlation.correlation_circular, ref seed);
+            x = SamplePaths.sample_paths_cholesky(n, n2, rhomax, rho0, Correlation.correlation_circular, ref data, ref seed);
             Paths.paths_plot(n, n2, rho, x, "circular", "Circular correlation");
             //
             //  constant
             //
             seed = 123456789;
-            x = SamplePaths.sample_paths_cholesky(n, n2, rhomax, rho0, Correlation.correlation_constant, ref seed);
+            x = SamplePaths.sample_paths_cholesky(n, n2, rhomax, rho0, Correlation.correlation_constant, ref data, ref seed);
             Paths.paths_plot(n, n2, rho, x, "constant", "Constant correlation");
             //
             //  cubic
             //
             seed = 123456789;
-            x = SamplePaths.sample_paths_cholesky(n, n2, rhomax, rho0, Correlation.correlation_cubic, ref seed);
+            x = SamplePaths.sample_paths_cholesky(n, n2, rhomax, rho0, Correlation.correlation_cubic, ref data, ref seed);
             Paths.paths_plot(n, n2, rho, x, "cubic", "Cubic correlation");
             //
             //  damped_cosine
             //
             seed = 123456789;
-            x = SamplePaths.sample_paths_cholesky(n, n2, rhomax, rho0, Correlation.correlation_damped_cosine, ref seed);
+            x = SamplePaths.sample_paths_cholesky(n, n2, rhomax, rho0, Correlation.correlation_damped_cosine, ref data, ref seed);
             Paths.paths_plot(n, n2, rho, x, "damped_cosine", "Damped cosine correlation");
             //
             //  damped_sine
             //  Use EIGEN, because CHOLESKY fails.
             //
             seed = 123456789;
-            x = SamplePaths.sample_paths_eigen(n, n2, rhomax, rho0, Correlation.correlation_damped_sine, ref seed);
+            x = SamplePaths.sample_paths_eigen(n, n2, rhomax, rho0, Correlation.correlation_damped_sine, ref data, ref seed);
             Paths.paths_plot(n, n2, rho, x, "damped_sine", "Damped sine correlation");
             //
             //  exponential
             //
             seed = 123456789;
-            x = SamplePaths.sample_paths_cholesky(n, n2, rhomax, rho0, Correlation.correlation_exponential, ref seed);
+            x = SamplePaths.sample_paths_cholesky(n, n2, rhomax, rho0, Correlation.correlation_exponential, ref data, ref seed);
             Paths.paths_plot(n, n2, rho, x, "exponential", "Exponential correlation");
             //
             //  gaussian
             //  Use EIGEN, because CHOLESKY fails.
             //
             seed = 123456789;
-            x = SamplePaths.sample_paths_eigen(n, n2, rhomax, rho0, Correlation.correlation_gaussian, ref seed);
+            x = SamplePaths.sample_paths_eigen(n, n2, rhomax, rho0, Correlation.correlation_gaussian, ref data, ref seed);
             Paths.paths_plot(n, n2, rho, x, "gaussian", "Gaussian correlation");
             //
             //  hole
             //
             seed = 123456789;
-            x = SamplePaths.sample_paths_cholesky(n, n2, rhomax, rho0, Correlation.correlation_hole, ref seed);
+            x = SamplePaths.sample_paths_cholesky(n, n2, rhomax, rho0, Correlation.correlation_hole, ref data, ref seed);
             Paths.paths_plot(n, n2, rho, x, "hole", "Hole correlation");
             //
             //  linear
             //
             seed = 123456789;
-            x = SamplePaths.sample_paths_cholesky(n, n2, rhomax, rho0, Correlation.correlation_linear, ref seed);
+            x = SamplePaths.sample_paths_cholesky(n, n2, rhomax, rho0, Correlation.correlation_linear, ref data, ref seed);
             Paths.paths_plot(n, n2, rho, x, "linear", "Linear correlation");
             //
             //  matern ( nu = 2.5 )
             //
             seed = 123456789;
-            x = SamplePaths.sample_paths_cholesky(n, n2, rhomax, rho0, Correlation.correlation_matern, ref seed);
+            x = SamplePaths.sample_paths_cholesky(n, n2, rhomax, rho0, Correlation.correlation_matern, ref data, ref seed);
             Paths.paths_plot(n, n2, rho, x, "matern", "Matern correlation (nu=2.5)");
             //
             //  pentaspherical
             //
             seed = 123456789;
-            x = SamplePaths.sample_paths_cholesky(n, n2, rhomax, rho0, Correlation.correlation_pentaspherical, ref seed);
+            x = SamplePaths.sample_paths_cholesky(n, n2, rhomax, rho0, Correlation.correlation_pentaspherical, ref data, ref seed);
             Paths.paths_plot(n, n2, rho, x, "pentaspherical", "Pentaspherical correlation");
             //
             //  power ( e = 2.0 )
             //
             seed = 123456789;
-            x = SamplePaths.sample_paths_cholesky(n, n2, rhomax, rho0, Correlation.correlation_power, ref seed);
+            x = SamplePaths.sample_paths_cholesky(n, n2, rhomax, rho0, Correlation.correlation_power, ref data, ref seed);
             Paths.paths_plot(n, n2, rho, x, "power", "Power correlation (e=2.0)");
             //
             //  rational_quadratic
             //  Use EIGEN, because CHOLESKY fails.
             //
             seed = 123456789;
-            x = SamplePaths.sample_paths_eigen(n, n2, rhomax, rho0, Correlation.correlation_rational_quadratic, ref seed);
+            x = SamplePaths.sample_paths_eigen(n, n2, rhomax, rho0, Correlation.correlation_rational_quadratic, ref data, ref seed);
             Paths.paths_plot(n, n2, rho, x, "rational_quadratic", "Rational quadratic correlation");
             //
             //  spherical
             //
             seed = 123456789;
-            x = SamplePaths.sample_paths_cholesky(n, n2, rhomax, rho0, Correlation.correlation_spherical, ref seed);
+            x = SamplePaths.sample_paths_cholesky(n, n2, rhomax, rho0, Correlation.correlation_spherical, ref data, ref seed);
             Paths.paths_plot(n, n2, rho, x, "spherical", "Spherical correlation");
             //
             //  white_noise
             //
             seed = 123456789;
-            x = SamplePaths.sample_paths_cholesky(n, n2, rhomax, rho0, Correlation.correlation_white_noise, ref seed);
+            x = SamplePaths.sample_paths_cholesky(n, n2, rhomax, rho0, Correlation.correlation_white_noise, ref data, ref seed);
             Paths.paths_plot(n, n2, rho, x, "white_noise", "White noise correlation");
 
 
@@ -981,7 +982,8 @@ namespace CorrelationTest
             rhomax = 10.0;
             rho0 = 1.0;
             seed = 123456789;
-            x = SamplePaths.sample_paths2_cholesky(n, n2, rhomin, rhomax, rho0, Correlation.correlation_brownian, ref seed);
+            typeMethods.r8vecNormalData data = new typeMethods.r8vecNormalData();
+            x = SamplePaths.sample_paths2_cholesky(n, n2, rhomin, rhomax, rho0, Correlation.correlation_brownian, ref data, ref seed);
             rho = typeMethods.r8vec_linspace_new(n, rhomin, rhomax);
             Paths.paths_plot(n, n2, rho, x, "brownian", "Brownian correlation");
         }

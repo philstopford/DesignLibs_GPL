@@ -264,7 +264,7 @@ namespace Burkardt.Types
             return value;
         }
 
-        public static double[] r8mat_normal_01_new(int m, int n, ref int seed)
+        public static double[] r8mat_normal_01_new(int m, int n, ref typeMethods.r8vecNormalData data, ref int seed)
 
             //****************************************************************************80
             //
@@ -314,7 +314,7 @@ namespace Burkardt.Types
         {
             double[] r;
 
-            r = r8vec_normal_01_new(m * n, ref seed);
+            r = r8vec_normal_01_new(m * n, ref data, ref seed);
 
             return r;
         }

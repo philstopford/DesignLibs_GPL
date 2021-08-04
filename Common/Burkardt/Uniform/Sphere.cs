@@ -6,7 +6,7 @@ namespace Burkardt.Uniform
 {
     public static class Sphere
     {
-        public static double[] uniform_in_sphere01_map(int m, int n, ref int seed)
+        public static double[] uniform_in_sphere01_map(int m, int n, ref typeMethods.r8vecNormalData data, ref int seed)
 
             //****************************************************************************80
             //
@@ -76,7 +76,7 @@ namespace Burkardt.Uniform
                 //
                 //  Fill a vector with normally distributed values.
                 //
-                v = typeMethods.r8vec_normal_01_new(m, ref seed);
+                v = typeMethods.r8vec_normal_01_new(m, ref data, ref seed);
                 //
                 //  Compute the length of the vector.
                 //
@@ -184,7 +184,7 @@ namespace Burkardt.Uniform
             return x;
         }
 
-        public static double[] uniform_on_sphere01_map(int dim_num, int n, ref int seed)
+        public static double[] uniform_on_sphere01_map(int dim_num, int n, ref typeMethods.r8vecNormalData data, ref int seed)
 
             //****************************************************************************80
             //
@@ -239,7 +239,7 @@ namespace Burkardt.Uniform
             double norm;
             double[] x;
 
-            x = typeMethods.r8mat_normal_01_new(dim_num, n, ref seed);
+            x = typeMethods.r8mat_normal_01_new(dim_num, n, ref data, ref seed);
 
             for (j = 0; j < n; j++)
             {

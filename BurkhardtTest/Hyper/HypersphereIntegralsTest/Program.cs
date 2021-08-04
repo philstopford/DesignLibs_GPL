@@ -88,7 +88,8 @@ namespace HypersphereIntegralsTest
             //  Get sample points.
             //
             seed = 123456789;
-            x = Integrals.hypersphere01_sample(m, n, ref seed);
+            typeMethods.r8vecNormalData data = new typeMethods.r8vecNormalData();
+            x = Integrals.hypersphere01_sample(m, n, ref data, ref seed);
 
             Console.WriteLine("");
             Console.WriteLine("  Number of sample points used is " + n + "");
@@ -170,7 +171,8 @@ namespace HypersphereIntegralsTest
             //  Get sample points.
             //
             seed = 123456789;
-            x = Integrals.hypersphere01_sample(m, n, ref seed);
+            typeMethods.r8vecNormalData data = new typeMethods.r8vecNormalData();
+            x = Integrals.hypersphere01_sample(m, n, ref data, ref seed);
 
             Console.WriteLine("");
             Console.WriteLine("  Number of sample points used is " + n + "");

@@ -6,7 +6,7 @@ namespace Burkardt
     public static class BlackScholes
     {
         public static double[] asset_path(double s0, double mu, double sigma, double t1, int n,
-                ref int seed)
+                ref typeMethods.r8vecNormalData data, ref int seed)
 
             //****************************************************************************80
             //
@@ -60,7 +60,7 @@ namespace Burkardt
 
             dt = t1 / (double) (n);
 
-            r = typeMethods.r8vec_normal_01_new(n, ref seed);
+            r = typeMethods.r8vec_normal_01_new(n, ref data, ref seed);
 
             s = new double[n + 1];
 
@@ -367,6 +367,7 @@ namespace Burkardt
         }
 
         public static double[] mc(double s0, double e, double r, double sigma, double t1, int m,
+                ref typeMethods.r8vecNormalData data,
                 ref int seed)
 
             //****************************************************************************80
@@ -424,7 +425,7 @@ namespace Burkardt
             double[] u;
             double width;
 
-            u = typeMethods.r8vec_normal_01_new(m, ref seed);
+            u = typeMethods.r8vec_normal_01_new(m, ref data, ref seed);
 
             svals = new double[m];
 

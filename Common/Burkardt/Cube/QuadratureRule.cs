@@ -3391,6 +3391,7 @@ namespace Burkardt.Cube
             double[] w_1d;
             double[] x_1d;
             typeMethods.r8vecDPData data = new typeMethods.r8vecDPData();
+            typeMethods.r8vecDPData data2 = new typeMethods.r8vecDPData();
 
             order = typeMethods.i4vec_product(3, order_1d);
 
@@ -3445,7 +3446,7 @@ namespace Burkardt.Cube
                 //
                 typeMethods.r8vec_direct_product(ref data, i, o, x_1d, 3, order, ref xyz);
 
-                typeMethods.r8vec_direct_product2(i, o, w_1d, 3, order, ref w);
+                typeMethods.r8vec_direct_product2(ref data2, i, o, w_1d, 3, order, ref w);
 
             }
         }

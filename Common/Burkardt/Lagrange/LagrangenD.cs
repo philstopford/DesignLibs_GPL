@@ -283,6 +283,7 @@ namespace Burkardt.Lagrange
             double[] w;
             double[] x_1d;
             double[] zi;
+            typeMethods.r8vecDPData data = new typeMethods.r8vecDPData();
 
             w = new double[nd];
             zi = new double[ni];
@@ -305,7 +306,7 @@ namespace Burkardt.Lagrange
                     }
 
                     value = Lagrange1D.lagrange_base_1d(n, x_1d, 1, xi, xiIndex: + i + j * m);
-                    typeMethods.r8vec_direct_product2(i, n, value, m, nd, ref w);
+                    typeMethods.r8vec_direct_product2(ref data, i, n, value, m, nd, ref w);
                 }
 
                 zi[j] = typeMethods.r8vec_dot_product(nd, w, zd);
@@ -366,6 +367,7 @@ namespace Burkardt.Lagrange
             double[] w;
             double[] x_1d;
             double[] zi;
+            typeMethods.r8vecDPData data = new typeMethods.r8vecDPData();
 
             w = new double[nd];
             zi = new double[ni];
@@ -388,7 +390,7 @@ namespace Burkardt.Lagrange
                     }
 
                     value = Lagrange1D.lagrange_base_1d(n, x_1d, 1, xi, xiIndex: + i + j * m);
-                    typeMethods.r8vec_direct_product2(i, n, value, m, nd, ref w);
+                    typeMethods.r8vec_direct_product2(ref data, i, n, value, m, nd, ref w);
                 }
 
                 zi[j] = typeMethods.r8vec_dot_product(nd, w, zd);

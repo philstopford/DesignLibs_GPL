@@ -174,7 +174,7 @@
             data.contig = data.contig * factor_order;
         }
 
-        public static void r8vec_direct_product2(int factor_index, int factor_order,
+        public static void r8vec_direct_product2(ref r8vecDPData data, int factor_index, int factor_order,
                 double[] factor_value, int factor_num, int point_num, ref double[] w)
 
             //****************************************************************************80
@@ -298,15 +298,6 @@
             //    Local, integer REP, the number of blocks of values to set.
             //
         {
-            /*
-            public static int contig = 0;
-            public static int rep = 0;
-            public static int skip = 0;
-            */
-            int contig = 0;
-            int rep = 0;
-            int skip = 0;
-
             int i;
             int j;
             int k;
@@ -314,36 +305,34 @@
 
             if (factor_index == 0)
             {
-                contig = 1;
-                skip = 1;
-                rep = point_num;
+                data.contig = 1;
+                data.skip = 1;
+                data.rep = point_num;
                 for (i = 0; i < point_num; i++)
                 {
                     w[i] = 1.0;
                 }
             }
 
-            rep = rep / factor_order;
-            skip = skip * factor_order;
+            data.rep = data.rep / factor_order;
+            data.skip = data.skip * factor_order;
 
             for (j = 0; j < factor_order; j++)
             {
-                start = 0 + j * contig;
+                start = 0 + j * data.contig;
 
-                for (k = 1; k <= rep; k++)
+                for (k = 1; k <= data.rep; k++)
                 {
-                    for (i = start; i < start + contig; i++)
+                    for (i = start; i < start + data.contig; i++)
                     {
                         w[i] = w[i] * factor_value[j];
                     }
 
-                    start = start + skip;
+                    start = start + data.skip;
                 }
             }
 
-            contig = contig * factor_order;
-
-            return;
+            data.contig = data.contig * factor_order;
         }
 
     }

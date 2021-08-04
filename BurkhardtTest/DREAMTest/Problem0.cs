@@ -39,7 +39,7 @@ namespace DREAMTest
 
         }
         
-        static double prior_density(int par_num, double[] zp, int zpIndex = 0)
+        static Dream.DensityResult prior_density(int par_num, double[] zp, int zpIndex = 0)
 
             //****************************************************************************80
             //
@@ -88,10 +88,10 @@ namespace DREAMTest
                 value = value * PDF.r8_uniform_pdf(a[i], b[i], zp[zpIndex + i]);
             }
 
-            return value;
+            return new Dream.DensityResult() { result = value };
         }
 
-        static double[] prior_sample(int par_num)
+        static Dream.SampleResult prior_sample(int par_num)
 
             //****************************************************************************80
             //
@@ -137,7 +137,7 @@ namespace DREAMTest
                 zp[i] = PDF.r8_uniform_sample(a[i], b[i]);
             }
 
-            return zp;
+            return new Dream.SampleResult() {result = zp};
         }
 
         static double sample_likelihood(int par_num, double[] zp)

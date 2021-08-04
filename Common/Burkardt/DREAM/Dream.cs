@@ -38,10 +38,32 @@ namespace Burkardt.DREAM
     
     public static class Dream
     {
+        public class SampleData
+        {
+            public double zp_mean_1d;
+            public double zp_sd_1d;
+        }
+        public class SampleResult
+        {
+            public double[] result;
+            public SampleData data;
+        }
+
+        public class DensityData
+        {
+            public double zp_mean_1d;
+            public double zp_sd_1d;
+        }
+        public class DensityResult
+        {
+            public double result;
+            public DensityData data;
+        }
+        
         public static void dream(ref ProblemSize problem_size,
                 ref ProblemValue problem_value_data,
-                Func<int, double[]> prior_sample,
-                Func<int, double[], int, double> prior_density,
+                Func<int, SampleResult> prior_sample,
+                Func<int, double[], int, DensityResult> prior_density,
                 Func<int, double[], double> sample_likelihood)
             //****************************************************************************80
             //
@@ -294,7 +316,7 @@ namespace Burkardt.DREAM
         double[] gr, ref bool gr_conv, ref int gr_count, int gr_num, double gr_threshold,
         double[] jumprate_table, int jumpstep, double[] limits, int pair_num,
         int par_num, int printstep,
-        Func<int, double[], int, double> prior_density,
+        Func<int, double[], int, DensityResult> prior_density,
         Func<int, double[], double> sample_likelihood,
         ref double[] z )
 
@@ -469,10 +491,10 @@ namespace Burkardt.DREAM
                     //
                     //  Compute the Metropolis ratio for ZP.
                     //
-                    pd1 = prior_density(par_num, zp, 0);
+                    pd1 = prior_density(par_num, zp, 0).result;
 
                     pd2 = prior_density(par_num,
-                        z, + 0 + chain_index * par_num + (gen_index - 1) * par_num * chain_num);
+                        z, + 0 + chain_index * par_num + (gen_index - 1) * par_num * chain_num).result;
 
                     zp_ratio = Math.Exp(
                         (zp_fit + Math.Log(pd1)) -

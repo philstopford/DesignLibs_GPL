@@ -39,7 +39,7 @@ namespace DREAMTest
 
         }
 
-        static double prior_density(int par_num, double[] zp, int zpIndex = 0)
+        static Dream.DensityResult prior_density(int par_num, double[] zp, int zpIndex = 0)
 
             //****************************************************************************80
             //
@@ -77,23 +77,18 @@ namespace DREAMTest
         {
             int i;
             double value;
-            /*
-            static double zp_mean_1d = 0.0;
-            static double zp_sd_1d = sqrt(5.0);
-            */
-            double zp_mean_1d = 0.0;
-            double zp_sd_1d = Math.Sqrt(5.0);
+            Dream.DensityData data = new Dream.DensityData() { zp_mean_1d = 0.0, zp_sd_1d = Math.Sqrt(5.0) };
 
             value = 1.0;
             for (i = 0; i < par_num; i++)
             {
-                value = value * PDF.r8_normal_pdf(zp_mean_1d, zp_sd_1d, zp[i]);
+                value = value * PDF.r8_normal_pdf(data.zp_mean_1d, data.zp_sd_1d, zp[i]);
             }
 
-            return value;
+            return new Dream.DensityResult() { result = value, data = data };
         }
 
-        static double[] prior_sample(int par_num)
+        static Dream.SampleResult prior_sample(int par_num)
 
             //****************************************************************************80
             //
@@ -128,23 +123,21 @@ namespace DREAMTest
         {
             int i;
             double[] zp;
-            /*
-            static double zp_mean_1d =
-            0.0;
-            static double zp_sd_1d =
-            sqrt(5.0);
-            */
-            double zp_mean_1d = 0.0;
-            double zp_sd_1d = Math.Sqrt(5.0);
 
+            Dream.SampleData data = new Dream.SampleData()
+            {
+                zp_mean_1d = 0.0,
+                zp_sd_1d = Math.Sqrt(5.0)
+            };
+            
             zp = new double[par_num];
 
             for (i = 0; i < par_num; i++)
             {
-                zp[i] = PDF.r8_normal_sample(zp_mean_1d, zp_sd_1d);
+                zp[i] = PDF.r8_normal_sample(data.zp_mean_1d, data.zp_sd_1d);
             }
 
-            return zp;
+            return new Dream.SampleResult(){result = zp, data = data};
         }
 
         static double sample_likelihood(int par_num, double[] zp)

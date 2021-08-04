@@ -7,7 +7,7 @@ namespace Burkardt.DREAM
 {
     public static class Chain
     {
-        public static void chain_init(int chain_num, double[] fit, int gen_num, int par_num, Func<int, double[]> prior_sample, Func<int, double[], double> sample_likelihood, 
+        public static void chain_init(int chain_num, double[] fit, int gen_num, int par_num, Func<int, Dream.SampleResult> prior_sample, Func<int, double[], double> sample_likelihood, 
         ref double[] z )
 
         //****************************************************************************80
@@ -51,7 +51,7 @@ namespace Burkardt.DREAM
 
             for (c = 0; c < chain_num; c++)
             {
-                double[] zp = prior_sample(par_num);
+                double[] zp = prior_sample(par_num).result;
 
                 for (p = 0; p < par_num; p++)
                 {

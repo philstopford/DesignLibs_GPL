@@ -2838,7 +2838,18 @@ namespace Burkardt.FullertonFnLib
             return value;
         }
 
-        public static double r8_bi(double x)
+
+        public class r8BiData
+        {
+            public int nbif = 0;
+            public int nbif2 = 0;
+            public int nbig = 0;
+            public int nbig2 = 0;
+            public double x3sml = 0.0;
+            public r8AIMPData aimpdata = new r8AIMPData();
+            public r8BieData biedata = new r8BieData();
+        }
+        public static double r8_bi(ref r8BiData data, double x)
 
             //****************************************************************************80
             //
@@ -2946,61 +2957,67 @@ namespace Burkardt.FullertonFnLib
             }
             ;
             double eta;
-            int nbif = 0;
-            int nbif2 = 0;
-            int nbig = 0;
-            int nbig2 = 0;
             double theta = 0;
             double value;
-            double x3sml = 0.0;
             double xm = 0;
             //static double xmax = 0.0;
             double z;
-            r8AIMPData aimpdata = new r8AIMPData();
 
-            if (nbif == 0)
+            if (data.nbif == 0)
             {
                 eta = 0.1 * r8_mach(3);
-                nbif = r8_inits(bifcs, 13, eta);
-                nbig = r8_inits(bigcs, 13, eta);
-                nbif2 = r8_inits(bif2cs, 15, eta);
-                nbig2 = r8_inits(big2cs, 15, eta);
-                x3sml = r8_power(eta, 0.3333);
+                data.nbif = r8_inits(bifcs, 13, eta);
+                data.nbig = r8_inits(bigcs, 13, eta);
+                data.nbif2 = r8_inits(bif2cs, 15, eta);
+                data.nbig2 = r8_inits(big2cs, 15, eta);
+                data.x3sml = r8_power(eta, 0.3333);
                 //  xmax = r8_power ( 1.5 * log ( r8_mach ( 2 ) ), 0.6666 );
             }
 
             if (x < -1.0)
             {
-                r8_aimp(ref aimpdata, x, ref xm, ref theta);
+                r8_aimp(ref data.aimpdata, x, ref xm, ref theta);
                 value = xm * Math.Sin(theta);
             }
-            else if (Math.Abs(x) <= x3sml)
+            else if (Math.Abs(x) <= data.x3sml)
             {
                 z = 0.0;
-                value = 0.625 + r8_csevl(z, bifcs, nbif)
-                              + x * (0.4375 + r8_csevl(z, bigcs, nbig));
+                value = 0.625 + r8_csevl(z, bifcs, data.nbif)
+                              + x * (0.4375 + r8_csevl(z, bigcs, data.nbig));
             }
             else if (x <= 1.0)
             {
                 z = x * x * x;
-                value = 0.625 + r8_csevl(z, bifcs, nbif)
-                              + x * (0.4375 + r8_csevl(z, bigcs, nbig));
+                value = 0.625 + r8_csevl(z, bifcs, data.nbif)
+                              + x * (0.4375 + r8_csevl(z, bigcs, data.nbig));
             }
             else if (x <= 2.0)
             {
                 z = (2.0 * x * x * x - 9.0) / 7.0;
-                value = 1.125 + r8_csevl(z, bif2cs, nbif2)
-                              + x * (0.625 + r8_csevl(z, big2cs, nbig2));
+                value = 1.125 + r8_csevl(z, bif2cs, data.nbif2)
+                              + x * (0.625 + r8_csevl(z, big2cs, data.nbig2));
             }
             else
             {
-                value = r8_bie(x) * Math.Exp(2.0 * x * Math.Sqrt(x) / 3.0);
+                value = r8_bie(ref data.biedata, x) * Math.Exp(2.0 * x * Math.Sqrt(x) / 3.0);
             }
 
             return value;
         }
 
-        public static double r8_bid(double x)
+        public class r8BidData
+        {
+            public int nbif = 0;
+            public int nbif2 = 0;
+            public int nbig = 0;
+            public int nbig2 = 0;
+            public double x2sml = 0.0;
+            public double x3sml = 0.0;
+            public r8ADMPData admpdata = new r8ADMPData();
+            public r8BideData bidedata = new r8BideData();
+
+        }
+        public static double r8_bid(ref r8BidData data, double x)
 
             //****************************************************************************80
             //
@@ -3109,73 +3126,82 @@ namespace Burkardt.FullertonFnLib
             }
             ;
             double eta;
-            int nbif = 0;
-            int nbif2 = 0;
-            int nbig = 0;
-            int nbig2 = 0;
             double phi = 0;
             double value;
             double x2;
-            double x2sml = 0.0;
             double x3;
-            double x3sml = 0.0;
-            r8ADMPData admpdata = new r8ADMPData();
             //static double xmax = 0.0;
             double xn = 0;
             double z;
-            if (nbif == 0)
+            if (data.nbif == 0)
             {
                 eta = 0.1 * r8_mach(3);
-                nbif = r8_inits(bifcs, 13, eta);
-                nbig = r8_inits(bigcs, 13, eta);
-                nbif2 = r8_inits(bif2cs, 15, eta);
-                nbig2 = r8_inits(big2cs, 16, eta);
-                x2sml = Math.Sqrt(eta);
-                x3sml = r8_power(eta, 0.3333);
+                data.nbif = r8_inits(bifcs, 13, eta);
+                data.nbig = r8_inits(bigcs, 13, eta);
+                data.nbif2 = r8_inits(bif2cs, 15, eta);
+                data.nbig2 = r8_inits(big2cs, 16, eta);
+                data.x2sml = Math.Sqrt(eta);
+                data.x3sml = r8_power(eta, 0.3333);
                 //  xmax = r8_power ( 1.5 * log ( r8_mach ( 2 ) ), 0.6666 );
             }
 
             if (x < -1.0)
             {
-                r8_admp(ref admpdata, x, ref xn, ref phi);
+                r8_admp(ref data.admpdata, x, ref xn, ref phi);
                 value = xn * Math.Sin(phi);
             }
-            else if (Math.Abs(x) <= x2sml)
+            else if (Math.Abs(x) <= data.x2sml)
             {
                 x2 = 0.0;
                 x3 = 0.0;
-                value = x2 * (r8_csevl(x3, bifcs, nbif) + 0.25)
-                        + r8_csevl(x3, bigcs, nbig) + 0.5;
+                value = x2 * (r8_csevl(x3, bifcs, data.nbif) + 0.25)
+                        + r8_csevl(x3, bigcs, data.nbig) + 0.5;
             }
-            else if (Math.Abs(x) <= x3sml)
+            else if (Math.Abs(x) <= data.x3sml)
             {
                 x2 = x * x;
                 x3 = 0.0;
-                value = x2 * (r8_csevl(x3, bifcs, nbif) + 0.25)
-                        + r8_csevl(x3, bigcs, nbig) + 0.5;
+                value = x2 * (r8_csevl(x3, bifcs, data.nbif) + 0.25)
+                        + r8_csevl(x3, bigcs, data.nbig) + 0.5;
             }
             else if (x <= 1.0)
             {
                 x2 = x * x;
                 x3 = x * x * x;
-                value = x2 * (r8_csevl(x3, bifcs, nbif) + 0.25)
-                        + r8_csevl(x3, bigcs, nbig) + 0.5;
+                value = x2 * (r8_csevl(x3, bifcs, data.nbif) + 0.25)
+                        + r8_csevl(x3, bigcs, data.nbig) + 0.5;
             }
             else if (x <= 2.0)
             {
                 z = (2.0 * x * x * x - 9.0) / 7.0;
-                value = x * x * (r8_csevl(z, bif2cs, nbif2) + 0.25)
-                        + r8_csevl(z, big2cs, nbig2) + 0.5;
+                value = x * x * (r8_csevl(z, bif2cs, data.nbif2) + 0.25)
+                        + r8_csevl(z, big2cs, data.nbig2) + 0.5;
             }
             else
             {
-                value = r8_bide(x) * Math.Exp(2.0 * x * Math.Sqrt(x) / 3.0);
+                value = r8_bide(ref data.bidedata, x) * Math.Exp(2.0 * x * Math.Sqrt(x) / 3.0);
             }
 
             return value;
         }
 
-        public static double r8_bide(double x)
+        public class r8BideData
+        {
+            public int nbif = 0;
+            public int nbif2 = 0;
+            public int nbig = 0;
+            public int nbig2 = 0;
+            public int nbip1 = 0;
+            public int nbip2 = 0;
+            public double x2sml = 0.0;
+            public double x3sml = 0.0;
+            public double x32sml = 0.0;
+            public double xbig = 0.0;
+
+            public r8ADMPData admpdata = new r8ADMPData();
+        }
+
+        public static double r8_bide(ref r8BideData data, double x)
 
             //****************************************************************************80
             //
@@ -3435,63 +3461,52 @@ namespace Burkardt.FullertonFnLib
             ;
             const double btr = -2.09383632135605431360096498526268;
             double eta;
-            int nbif = 0;
-            int nbif2 = 0;
-            int nbig = 0;
-            int nbig2 = 0;
-            int nbip1 = 0;
-            int nbip2 = 0;
             double phi = 0;
             double sqrtx;
             double value;
             double x2;
-            double x2sml = 0.0;
             double x3;
-            double x3sml = 0.0;
-            double x32sml = 0.0;
-            double xbig = 0.0;
             double xn = 0;
             double z;
-            r8ADMPData admpdata = new r8ADMPData();
 
-            if (nbif == 0)
+            if (data.nbif == 0)
             {
                 eta = 0.1 * r8_mach(3);
-                nbif = r8_inits(bifcs, 13, eta);
-                nbig = r8_inits(bigcs, 13, eta);
-                nbif2 = r8_inits(bif2cs, 15, eta);
-                nbig2 = r8_inits(big2cs, 16, eta);
-                nbip1 = r8_inits(bip1cs, 47, eta);
-                nbip2 = r8_inits(bip2cs, 88, eta);
-                x2sml = Math.Sqrt(eta);
-                x3sml = r8_power(eta, 0.3333);
-                x32sml = 1.3104 * x3sml * x3sml;
-                xbig = r8_power(r8_mach(2), 0.6666);
+                data.nbif = r8_inits(bifcs, 13, eta);
+                data.nbig = r8_inits(bigcs, 13, eta);
+                data.nbif2 = r8_inits(bif2cs, 15, eta);
+                data.nbig2 = r8_inits(big2cs, 16, eta);
+                data.nbip1 = r8_inits(bip1cs, 47, eta);
+                data.nbip2 = r8_inits(bip2cs, 88, eta);
+                data.x2sml = Math.Sqrt(eta);
+                data.x3sml = r8_power(eta, 0.3333);
+                data.x32sml = 1.3104 * data.x3sml * data.x3sml;
+                data.xbig = r8_power(r8_mach(2), 0.6666);
             }
 
             if (x < -1.0)
             {
-                r8_admp(ref admpdata, x, ref xn, ref phi);
+                r8_admp(ref data.admpdata, x, ref xn, ref phi);
                 value = xn * Math.Sin(phi);
             }
-            else if (Math.Abs(x) <= x2sml)
+            else if (Math.Abs(x) <= data.x2sml)
             {
                 x2 = 0.0;
                 x3 = 0.0;
-                value = x2 * (r8_csevl(x3, bifcs, nbif)
-                              + 0.25) + r8_csevl(x3, bigcs, nbig) + 0.5;
-                if (x32sml < x)
+                value = x2 * (r8_csevl(x3, bifcs, data.nbif)
+                              + 0.25) + r8_csevl(x3, bigcs, data.nbig) + 0.5;
+                if (data.x32sml < x)
                 {
                     value = value * Math.Exp(-2.0 * x * Math.Sqrt(x) / 3.0);
                 }
             }
-            else if (Math.Abs(x) <= x3sml)
+            else if (Math.Abs(x) <= data.x3sml)
             {
                 x2 = x * x;
                 x3 = 0.0;
-                value = x2 * (r8_csevl(x3, bifcs, nbif)
-                              + 0.25) + r8_csevl(x3, bigcs, nbig) + 0.5;
-                if (x32sml < x)
+                value = x2 * (r8_csevl(x3, bifcs, data.nbif)
+                              + 0.25) + r8_csevl(x3, bigcs, data.nbig) + 0.5;
+                if (data.x32sml < x)
                 {
                     value = value * Math.Exp(-2.0 * x * Math.Sqrt(x) / 3.0);
                 }
@@ -3500,9 +3515,9 @@ namespace Burkardt.FullertonFnLib
             {
                 x2 = x * x;
                 x3 = x * x * x;
-                value = x2 * (r8_csevl(x3, bifcs, nbif)
-                              + 0.25) + r8_csevl(x3, bigcs, nbig) + 0.5;
-                if (x32sml < x)
+                value = x2 * (r8_csevl(x3, bifcs, data.nbif)
+                              + 0.25) + r8_csevl(x3, bigcs, data.nbig) + 0.5;
+                if (data.x32sml < x)
                 {
                     value = value * Math.Exp(-2.0 * x * Math.Sqrt(x) / 3.0);
                 }
@@ -3511,32 +3526,47 @@ namespace Burkardt.FullertonFnLib
             {
                 z = (2.0 * x * x * x - 9.0) / 7.0;
                 value = Math.Exp(-2.0 * x * Math.Sqrt(x) / 3.0)
-                        * (x * x * (0.25 + r8_csevl(z, bif2cs, nbif2))
-                           + 0.5 + r8_csevl(z, big2cs, nbig2));
+                        * (x * x * (0.25 + r8_csevl(z, bif2cs, data.nbif2))
+                           + 0.5 + r8_csevl(z, big2cs, data.nbig2));
             }
             else if (x <= 4.0)
             {
                 sqrtx = Math.Sqrt(x);
                 z = atr / x / sqrtx + btr;
-                value = (0.625 + r8_csevl(z, bip1cs, nbip1)) * Math.Sqrt(sqrtx);
+                value = (0.625 + r8_csevl(z, bip1cs, data.nbip1)) * Math.Sqrt(sqrtx);
             }
-            else if (x <= xbig)
+            else if (x <= data.xbig)
             {
                 sqrtx = Math.Sqrt(x);
                 z = 16.0 / x / sqrtx - 1.0;
-                value = (0.625 + r8_csevl(z, bip2cs, nbip2)) * Math.Sqrt(sqrtx);
+                value = (0.625 + r8_csevl(z, bip2cs, data.nbip2)) * Math.Sqrt(sqrtx);
             }
             else
             {
                 sqrtx = Math.Sqrt(x);
                 z = -1.0;
-                value = (0.625 + r8_csevl(z, bip2cs, nbip2)) * Math.Sqrt(sqrtx);
+                value = (0.625 + r8_csevl(z, bip2cs, data.nbip2)) * Math.Sqrt(sqrtx);
             }
 
             return value;
         }
 
-        public static double r8_bie(double x)
+        public class r8BieData
+        {
+            public int nbif = 0;
+            public int nbif2 = 0;
+            public int nbig = 0;
+            public int nbig2 = 0;
+            public int nbip1 = 0;
+            public int nbip2 = 0;
+            public double x32sml = 0;
+            public double x3sml = 0;
+            public double xbig = 0;
+
+            public r8AIMPData aimpdata = new r8AIMPData();
+
+        }
+        public static double r8_bie(ref r8BieData data, double x)
 
             //****************************************************************************80
             //
@@ -3787,48 +3817,38 @@ namespace Burkardt.FullertonFnLib
             ;
             const double btr = -2.09383632135605431360096498526268;
             double eta;
-            int nbif = 0;
-            int nbif2 = 0;
-            int nbig = 0;
-            int nbig2 = 0;
-            int nbip1 = 0;
-            int nbip2 = 0;
             double sqrtx;
             double theta = 0;
             double value;
-            double x32sml = 0;
-            double x3sml = 0;
-            double xbig = 0;
             double xm = 0;
             double z;
 
-            r8AIMPData aimpdata = new r8AIMPData();
 
-            if (nbif == 0)
+            if (data.nbif == 0)
             {
                 eta = 0.1 * r8_mach(3);
-                nbif = r8_inits(bifcs, 13, eta);
-                nbig = r8_inits(bigcs, 13, eta);
-                nbif2 = r8_inits(bif2cs, 15, eta);
-                nbig2 = r8_inits(big2cs, 15, eta);
-                nbip1 = r8_inits(bip1cs, 47, eta);
-                nbip2 = r8_inits(bip2cs, 88, eta);
-                x3sml = r8_power(eta, 0.3333);
-                x32sml = 1.3104 * x3sml * x3sml;
-                xbig = r8_power(r8_mach(2), 0.6666);
+                data.nbif = r8_inits(bifcs, 13, eta);
+                data.nbig = r8_inits(bigcs, 13, eta);
+                data.nbif2 = r8_inits(bif2cs, 15, eta);
+                data.nbig2 = r8_inits(big2cs, 15, eta);
+                data.nbip1 = r8_inits(bip1cs, 47, eta);
+                data.nbip2 = r8_inits(bip2cs, 88, eta);
+                data.x3sml = r8_power(eta, 0.3333);
+                data.x32sml = 1.3104 * data.x3sml * data.x3sml;
+                data.xbig = r8_power(r8_mach(2), 0.6666);
             }
 
             if (x < -1.0)
             {
-                r8_aimp(ref aimpdata, x, ref xm, ref theta);
+                r8_aimp(ref data.aimpdata, x, ref xm, ref theta);
                 value = xm * Math.Sin(theta);
             }
-            else if (Math.Abs(x) <= x3sml)
+            else if (Math.Abs(x) <= data.x3sml)
             {
                 z = 0.0;
-                value = 0.625 + r8_csevl(z, bifcs, nbif)
-                              + x * (0.4375 + r8_csevl(z, bigcs, nbig));
-                if (x32sml <= x)
+                value = 0.625 + r8_csevl(z, bifcs, data.nbif)
+                              + x * (0.4375 + r8_csevl(z, bigcs, data.nbig));
+                if (data.x32sml <= x)
                 {
                     value = value * Math.Exp(-2.0 * x * Math.Sqrt(x) / 3.0);
                 }
@@ -3836,9 +3856,9 @@ namespace Burkardt.FullertonFnLib
             else if (x <= 1.0)
             {
                 z = x * x * x;
-                value = 0.625 + r8_csevl(z, bifcs, nbif)
-                              + x * (0.4375 + r8_csevl(z, bigcs, nbig));
-                if (x32sml <= x)
+                value = 0.625 + r8_csevl(z, bifcs, data.nbif)
+                              + x * (0.4375 + r8_csevl(z, bigcs, data.nbig));
+                if (data.x32sml <= x)
                 {
                     value = value * Math.Exp(-2.0 * x * Math.Sqrt(x) / 3.0);
                 }
@@ -3847,32 +3867,38 @@ namespace Burkardt.FullertonFnLib
             {
                 z = (2.0 * x * x * x - 9.0) / 7.0;
                 value = Math.Exp(-2.0 * x * Math.Sqrt(x) / 3.0)
-                        * (1.125 + r8_csevl(z, bif2cs, nbif2)
-                                 + x * (0.625 + r8_csevl(z, big2cs, nbig2)));
+                        * (1.125 + r8_csevl(z, bif2cs, data.nbif2)
+                                 + x * (0.625 + r8_csevl(z, big2cs, data.nbig2)));
             }
             else if (x <= 4.0)
             {
                 sqrtx = Math.Sqrt(x);
                 z = atr / x / sqrtx + btr;
-                value = (0.625 + r8_csevl(z, bip1cs, nbip1)) / Math.Sqrt(sqrtx);
+                value = (0.625 + r8_csevl(z, bip1cs, data.nbip1)) / Math.Sqrt(sqrtx);
             }
-            else if (x < xbig)
+            else if (x < data.xbig)
             {
                 sqrtx = Math.Sqrt(x);
                 z = 16.0 / (x * sqrtx) - 1.0;
-                value = (0.625 + r8_csevl(z, bip2cs, nbip2)) / Math.Sqrt(sqrtx);
+                value = (0.625 + r8_csevl(z, bip2cs, data.nbip2)) / Math.Sqrt(sqrtx);
             }
             else
             {
                 sqrtx = Math.Sqrt(x);
                 z = -1.0;
-                value = (0.625 + r8_csevl(z, bip2cs, nbip2)) / Math.Sqrt(sqrtx);
+                value = (0.625 + r8_csevl(z, bip2cs, data.nbip2)) / Math.Sqrt(sqrtx);
             }
 
             return value;
         }
 
-        public static double r8_binom(int n, int m)
+        public class r8BinomData
+        {
+            public double bilnmx = 0.0;
+            public double fintmx = 0.0;
+
+        }
+        public static double r8_binom(ref r8BinomData data, int n, int m)
 
             //****************************************************************************80
             //
@@ -3911,9 +3937,7 @@ namespace Burkardt.FullertonFnLib
             //    Output, double R8_BINOM, the binomial coefficient.
             //
         {
-            double bilnmx = 0.0;
             double corr;
-            double fintmx = 0.0;
             int i;
             int k;
             const double sq2pil = 0.91893853320467274178032973640562;
@@ -3922,10 +3946,10 @@ namespace Burkardt.FullertonFnLib
             double xn;
             double xnk;
 
-            if (bilnmx == 0.0)
+            if (data.bilnmx == 0.0)
             {
-                bilnmx = Math.Log(r8_mach(2)) - 0.0001;
-                fintmx = 0.9 / r8_mach(3);
+                data.bilnmx = Math.Log(r8_mach(2)) - 0.0001;
+                data.fintmx = 0.9 / r8_mach(3);
             }
 
             if (n < 0)
@@ -3955,7 +3979,7 @@ namespace Burkardt.FullertonFnLib
             k = i4_min(m, n - m);
 
             if (k <= 20 &&
-                (double) (k) * Math.Log((double) (i4_max(n, 1))) <= bilnmx)
+                (double) (k) * Math.Log((double) (i4_max(n, 1))) <= data.bilnmx)
             {
                 value = 1.0;
                 for (i = 1; i <= k; i++)
@@ -3984,7 +4008,7 @@ namespace Burkardt.FullertonFnLib
                     - xn * r8_lnrel(-(xk - 1.0) / xn)
                     - 0.5 * Math.Log(xn * xnk / xk) + 1.0 - sq2pil + corr;
 
-                if (bilnmx < value)
+                if (data.bilnmx < value)
                 {
                     Console.WriteLine("");
                     Console.WriteLine("R8_BINOM - Fatal error!");
@@ -3996,7 +4020,7 @@ namespace Burkardt.FullertonFnLib
                 value = Math.Exp(value);
             }
 
-            if (value < fintmx)
+            if (value < data.fintmx)
             {
                 value = r8_aint(value + 0.5);
             }

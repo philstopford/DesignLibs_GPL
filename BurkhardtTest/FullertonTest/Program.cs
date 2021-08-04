@@ -1321,6 +1321,7 @@ namespace FullertonTest
             Console.WriteLine("");
 
             n_data = 0;
+            FullertonLib.r8BiData data = new FullertonLib.r8BiData();
 
             for (;;)
             {
@@ -1331,7 +1332,7 @@ namespace FullertonTest
                     break;
                 }
 
-                fx2 = FullertonLib.r8_bi(x);
+                fx2 = FullertonLib.r8_bi(ref data, x);
 
                 Console.WriteLine("  " + x.ToString().PadLeft(14)
                     + "  " + fx1.ToString().PadLeft(14)
@@ -1375,6 +1376,7 @@ namespace FullertonTest
             Console.WriteLine("");
 
             n_data = 0;
+            FullertonLib.r8BidData data = new FullertonLib.r8BidData();
 
             for (;;)
             {
@@ -1385,7 +1387,7 @@ namespace FullertonTest
                     break;
                 }
 
-                fx2 = FullertonLib.r8_bid(x);
+                fx2 = FullertonLib.r8_bid(ref data, x);
 
                 Console.WriteLine("  " + x.ToString().PadLeft(14)
                     + "  " + fx1.ToString().PadLeft(14)
@@ -1430,6 +1432,7 @@ namespace FullertonTest
             Console.WriteLine("");
 
             n_data = 0;
+            FullertonLib.r8BinomData data = new FullertonLib.r8BinomData();
 
             for (;;)
             {
@@ -1440,7 +1443,7 @@ namespace FullertonTest
                     break;
                 }
 
-                fx2 = FullertonLib.r8_binom( a,  b);
+                fx2 = FullertonLib.r8_binom(ref data, a,  b);
 
                 Console.WriteLine("  " + a.ToString().PadLeft(14)
                     + "  " + b.ToString().PadLeft(14)

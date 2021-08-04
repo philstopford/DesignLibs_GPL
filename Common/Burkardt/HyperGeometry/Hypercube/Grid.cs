@@ -63,6 +63,8 @@ namespace Burkardt.HyperGeometry.Hypercube
             double[] x;
             double[] xs;
 
+            typeMethods.r8vecDPData data = new typeMethods.r8vecDPData();
+
             x = new double[m * n];
             //
             //  Create the 1D grids in each dimension.
@@ -114,7 +116,7 @@ namespace Burkardt.HyperGeometry.Hypercube
                     }
                 }
 
-                typeMethods.r8vec_direct_product(i, s, xs, m, n, ref x);
+                typeMethods.r8vec_direct_product(ref data, i, s, xs, m, n, ref x);
 
             }
 

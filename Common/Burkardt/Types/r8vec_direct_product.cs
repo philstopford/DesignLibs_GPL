@@ -2,7 +2,14 @@
 {
     public static partial class typeMethods
     {
-        public static void r8vec_direct_product(int factor_index, int factor_order,
+        public class r8vecDPData
+        {
+            public int contig = 0;
+            public int rep = 0;
+            public int skip = 0;
+        }
+        
+        public static void r8vec_direct_product(ref r8vecDPData data, int factor_index, int factor_order,
                 double[] factor_value, int factor_num, int point_num, ref double[] x)
 
             //****************************************************************************80
@@ -126,14 +133,6 @@
             //    Local, int REP, the number of blocks of values to set.
             //
         {
-            /*
-            public static int contig = 0;
-            public static int rep = 0;
-            public static int skip = 0;
-            */
-            int contig = 0;
-            int rep = 0;
-            int skip = 0;
 
             int i;
             int j;
@@ -142,9 +141,9 @@
 
             if (factor_index == 0)
             {
-                contig = 1;
-                skip = 1;
-                rep = point_num;
+                data.contig = 1;
+                data.skip = 1;
+                data.rep = point_num;
                 for (j = 0; j < point_num; j++)
                 {
                     for (i = 0; i < factor_num; i++)
@@ -154,27 +153,25 @@
                 }
             }
 
-            rep = rep / factor_order;
-            skip = skip * factor_order;
+            data.rep = data.rep / factor_order;data.
+            skip = data.skip * factor_order;
 
             for (i = 0; i < factor_order; i++)
             {
-                start = 0 + i * contig;
+                start = 0 + i * data.contig;
 
-                for (k = 1; k <= rep; k++)
+                for (k = 1; k <= data.rep; k++)
                 {
-                    for (j = start; j < start + contig; j++)
+                    for (j = start; j < start + data.contig; j++)
                     {
                         x[factor_index + j * factor_num] = factor_value[i];
                     }
 
-                    start = start + skip;
+                    start = start + data.skip;
                 }
             }
 
-            contig = contig * factor_order;
-
-            return;
+            data.contig = data.contig * factor_order;
         }
 
         public static void r8vec_direct_product2(int factor_index, int factor_order,

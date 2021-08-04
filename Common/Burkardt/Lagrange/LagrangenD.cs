@@ -45,6 +45,7 @@ namespace Burkardt.Lagrange
             int n;
             double[] x_1d;
             double[] xd;
+            typeMethods.r8vecDPData data = new typeMethods.r8vecDPData();
             //
             //  Compute the data points.
             //
@@ -68,7 +69,7 @@ namespace Burkardt.Lagrange
                                      + (1.0 + x_1d[j]) * b[i]);
                 }
 
-                typeMethods.r8vec_direct_product(i, n, x_1d, m, nd, ref xd);
+                typeMethods.r8vec_direct_product(ref data, i, n, x_1d, m, nd, ref xd);
             }
 
             return xd;
@@ -115,6 +116,7 @@ namespace Burkardt.Lagrange
             int n;
             double[] x_1d;
             double[] xd;
+            typeMethods.r8vecDPData data = new typeMethods.r8vecDPData();
             //
             //  Compute the data points.
             //
@@ -138,7 +140,7 @@ namespace Burkardt.Lagrange
                                      + (1.0 + x_1d[j]) * b[i]);
                 }
 
-                typeMethods.r8vec_direct_product(i, n, x_1d, m, nd, ref xd);
+                typeMethods.r8vec_direct_product(ref data, i, n, x_1d, m, nd, ref xd);
             }
 
             return xd;

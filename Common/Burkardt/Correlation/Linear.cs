@@ -1,10 +1,11 @@
 ﻿using System;
+using Burkardt.FullertonFnLib;
 
 namespace Burkardt.CorrelationNS
 {
     public static partial class Correlation
     {
-        public static double[] correlation_linear ( int n, double[] rho, double rho0 )
+        public static CorrelationResult correlation_linear (FullertonLib.BesselData data,  int n, double[] rho, double rho0 )
 
         //****************************************************************************80
         //
@@ -57,7 +58,7 @@ namespace Burkardt.CorrelationNS
                     c[i] = ( rho0 - Math.Abs ( rho[i] ) ) / rho0;
                 }
             }
-            return c;
+            return new CorrelationResult(){result = c, data = data};
         }
     }
 }

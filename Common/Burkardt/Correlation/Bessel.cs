@@ -6,7 +6,13 @@ namespace Burkardt.CorrelationNS
 {
     public static partial class Correlation
     {
-        public static double[] correlation_besselj(int n, double[] rho, double rho0 )
+        public class CorrelationResult
+        {
+            public double[] result;
+            public FullertonLib.BesselData data;
+        }
+
+        public static CorrelationResult correlation_besselj(FullertonLib.BesselData data, int n, double[] rho, double rho0 )
 
         //****************************************************************************80
         //
@@ -52,13 +58,15 @@ namespace Burkardt.CorrelationNS
             for (i = 0; i < n; i++)
             {
                 rhohat = Math.Abs(rho[i]) / rho0;
-                c[i] = FullertonLib.r8_besj0(rhohat);
+                c[i] = FullertonLib.r8_besj0(ref data, rhohat);
             }
 
-            return c;
+            CorrelationResult result = new CorrelationResult() { result = c, data = data };
+            
+            return result;
         }
 
-        public static double[] correlation_besselk(int n, double[] rho, double rho0 )
+        public static CorrelationResult correlation_besselk(FullertonLib.BesselData data, int n, double[] rho, double rho0 )
 
         //****************************************************************************80
         //
@@ -110,11 +118,13 @@ namespace Burkardt.CorrelationNS
                 else
                 {
                     rhohat = Math.Abs(rho[i]) / rho0;
-                    c[i] = rhohat * FullertonLib.r8_besk1(rhohat);
+                    c[i] = rhohat * FullertonLib.r8_besk1(ref data, rhohat);
                 }
             }
 
-            return c;
+            CorrelationResult res = new CorrelationResult() { result = c, data = data };
+            
+            return res;
         }
     }
 }

@@ -1,8 +1,10 @@
-﻿namespace Burkardt.CorrelationNS
+﻿using Burkardt.FullertonFnLib;
+
+namespace Burkardt.CorrelationNS
 {
     public static partial class Correlation
     {
-        public static double[] correlation_constant ( int n, double[] rho, double rho0 )
+        public static CorrelationResult correlation_constant (FullertonLib.BesselData data, int n, double[] rho, double rho0 )
 
         //****************************************************************************80
         //
@@ -48,7 +50,7 @@
             {
                 c[i] = 1.0;
             }
-            return c;
+            return new CorrelationResult(){result = c, data = data };
         }
     }
 }

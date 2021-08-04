@@ -5,7 +5,7 @@ namespace Burkardt.CorrelationNS
 {
     public static partial class Correlation
     {
-        public static double[] correlation_matern ( int n, double[] rho, double rho0 )
+        public static CorrelationResult correlation_matern (FullertonLib.BesselData data, int n, double[] rho, double rho0 )
 
         //****************************************************************************80
         //
@@ -80,11 +80,11 @@ namespace Burkardt.CorrelationNS
                 }
                 else
                 {
-                    c[i] = Math.Pow ( rho1, nu ) * FullertonLib.r8_besk ( nu, rho1 ) / r8_gamma ( nu ) 
+                    c[i] = Math.Pow ( rho1, nu ) * FullertonLib.r8_besk (ref data, nu, rho1 ) / r8_gamma ( nu ) 
                                                                    / Math.Pow ( 2.0, nu - 1.0 );
                 }
             }
-            return c;
+            return new CorrelationResult(){result = c, data = data};
         }
     }
 }

@@ -4,7 +4,58 @@ namespace Burkardt.FullertonFnLib
 {
     public static partial class FullertonLib
     {
-        static void r8_b0mp(double x, ref double ampl, ref double theta )
+        public class BesselData
+        {
+            public int nti1 = 0;
+            public int ntai1 = 0;
+            public int ntai12 = 0;
+            
+            public int nbm0 = 0;
+            public int nbm02 = 0;
+            public int nbt02 = 0;
+            public int nbth0 = 0;
+
+            public int nbm1 = 0;
+            public int nbm12 = 0;
+            public int nbt12 = 0;
+            public int nbth1 = 0;
+
+            public int ntai02 = 0;
+            public int ntai0 = 0;
+            public int nti0 = 0;
+
+            public int ntj0 = 0;
+            public int ntj1 = 0;
+
+            public int ntk0 = 0;
+            public int ntak0 = 0;
+            public int ntak02 = 0;
+
+            public int ntk1 = 0;
+            public int ntak1 = 0;
+            public int ntak12 = 0;
+
+            public int nty0 = 0;
+            public int nty1 = 0;
+            public double xsml = 0.0;
+            
+            public double xmin = 0.0;
+            public double xmax = 0.0;
+
+            public double alnbig = 0.0;
+            public double bknu1 = 0;
+            public int iswtch = 0;
+        }
+
+        public class BetaData
+        {
+            public double alneps = 0.0;
+            public double alnsml = 0.0;
+            public double eps = 0.0;
+            public double sml = 0.0;
+
+        }
+        static void r8_b0mp(ref BesselData data, double x, ref double ampl, ref double theta )
 
         //****************************************************************************80
         //
@@ -216,22 +267,17 @@ namespace Burkardt.FullertonFnLib
             }
             ;
             double eta;
-            int nbm0 = 0;
-            int nbm02 = 0;
-            int nbt02 = 0;
-            int nbth0 = 0;
             const double pi4 = 0.785398163397448309615660845819876;
-            //static double xmax = 0.0;
             double z;
 
-            if (nbm0 == 0)
+            if (data.nbm0 == 0)
             {
                 eta = 0.1 * r8_mach(3);
-                nbm0 = r8_inits(bm0cs, 37, eta);
-                nbt02 = r8_inits(bt02cs, 39, eta);
-                nbm02 = r8_inits(bm02cs, 40, eta);
-                nbth0 = r8_inits(bth0cs, 44, eta);
-                //  xmax = 1.0 / r8_mach ( 4 );
+                data.nbm0 = r8_inits(bm0cs, 37, eta);
+                data.nbt02 = r8_inits(bt02cs, 39, eta);
+                data.nbm02 = r8_inits(bm02cs, 40, eta);
+                data.nbth0 = r8_inits(bth0cs, 44, eta);
+                data.xmax = 1.0 / r8_mach ( 4 );
             }
 
             if (x < 4.0)
@@ -239,23 +285,22 @@ namespace Burkardt.FullertonFnLib
                 Console.WriteLine("");
                 Console.WriteLine("R8_B0MP - Fatal error!");
                 Console.WriteLine("  X < 4.");
-                return;
             }
             else if (x <= 8.0)
             {
                 z = (128.0 / x / x - 5.0) / 3.0;
-                ampl = (0.75 + r8_csevl(z, bm0cs, nbm0)) / Math.Sqrt(x);
-                theta = x - pi4 + r8_csevl(z, bt02cs, nbt02) / x;
+                ampl = (0.75 + r8_csevl(z, bm0cs, data.nbm0)) / Math.Sqrt(x);
+                theta = x - pi4 + r8_csevl(z, bt02cs, data.nbt02) / x;
             }
             else
             {
                 z = 128.0 / x / x - 1.0;
-                ampl = (0.75 + r8_csevl(z, bm02cs, nbm02)) / Math.Sqrt(x);
-                theta = x - pi4 + r8_csevl(z, bth0cs, nbth0) / x;
+                ampl = (0.75 + r8_csevl(z, bm02cs, data.nbm02)) / Math.Sqrt(x);
+                theta = x - pi4 + r8_csevl(z, bth0cs, data.nbth0) / x;
             }
         }
 
-        static void r8_b1mp(double x, ref double ampl, ref double theta )
+        static void r8_b1mp(ref BesselData data, double x, ref double ampl, ref double theta )
 
         //****************************************************************************80
         //
@@ -467,22 +512,17 @@ namespace Burkardt.FullertonFnLib
             }
             ;
             double eta;
-            int nbm1 = 0;
-            int nbm12 = 0;
-            int nbt12 = 0;
-            int nbth1 = 0;
             const double pi4 = 0.785398163397448309615660845819876;
-            //static double xmax = 0.0;
             double z;
 
-            if (nbm1 == 0)
+            if (data.nbm1 == 0)
             {
                 eta = 0.1 * r8_mach(3);
-                nbm1 = r8_inits(bm1cs, 37, eta);
-                nbt12 = r8_inits(bt12cs, 39, eta);
-                nbm12 = r8_inits(bm12cs, 40, eta);
-                nbth1 = r8_inits(bth1cs, 44, eta);
-                //  xmax = 1.0 / r8_mach ( 4 );
+                data.nbm1 = r8_inits(bm1cs, 37, eta);
+                data.nbt12 = r8_inits(bt12cs, 39, eta);
+                data.nbm12 = r8_inits(bm12cs, 40, eta);
+                data.nbth1 = r8_inits(bth1cs, 44, eta);
+                data.xmax = 1.0 / r8_mach ( 4 );
             }
 
             if (x < 4.0)
@@ -490,23 +530,22 @@ namespace Burkardt.FullertonFnLib
                 Console.WriteLine("");
                 Console.WriteLine("R8_B1MP - Fatal error!");
                 Console.WriteLine("  X < 4.");
-                return;
             }
             else if (x <= 8.0)
             {
                 z = (128.0 / x / x - 5.0) / 3.0;
-                ampl = (0.75 + r8_csevl(z, bm1cs, nbm1)) / Math.Sqrt(x);
-                theta = x - 3.0 * pi4 + r8_csevl(z, bt12cs, nbt12) / x;
+                ampl = (0.75 + r8_csevl(z, bm1cs, data.nbm1)) / Math.Sqrt(x);
+                theta = x - 3.0 * pi4 + r8_csevl(z, bt12cs, data.nbt12) / x;
             }
             else
             {
                 z = 128.0 / x / x - 1.0;
-                ampl = (0.75 + r8_csevl(z, bm12cs, nbm12)) / Math.Sqrt(x);
-                theta = x - 3.0 * pi4 + r8_csevl(z, bth1cs, nbth1) / x;
+                ampl = (0.75 + r8_csevl(z, bm12cs, data.nbm12)) / Math.Sqrt(x);
+                theta = x - 3.0 * pi4 + r8_csevl(z, bth1cs, data.nbth1) / x;
             }
         }
 
-        public static double r8_besi0(double x)
+        public static double r8_besi0(ref BesselData data, double x)
 
             //****************************************************************************80
             //
@@ -566,32 +605,29 @@ namespace Burkardt.FullertonFnLib
                 +0.9508172606122666666666666666666666E-33
             }
             ;
-            int nti0 = 0;
             double value;
-            double xmax = 0.0;
-            double xsml = 0.0;
             double y;
 
-            if (nti0 == 0)
+            if (data.nti0 == 0)
             {
-                nti0 = r8_inits(bi0cs, 18, 0.1 * r8_mach(3));
-                xsml = Math.Sqrt(8.0 * r8_mach(3));
-                xmax = Math.Log(r8_mach(2));
+                data.nti0 = r8_inits(bi0cs, 18, 0.1 * r8_mach(3));
+                data.xsml = Math.Sqrt(8.0 * r8_mach(3));
+                data.xmax = Math.Log(r8_mach(2));
             }
 
             y = Math.Abs(x);
 
-            if (y <= xsml)
+            if (y <= data.xsml)
             {
                 value = 1.0;
             }
             else if (y <= 3.0)
             {
-                value = 2.75 + r8_csevl(y * y / 4.5 - 1.0, bi0cs, nti0);
+                value = 2.75 + r8_csevl(y * y / 4.5 - 1.0, bi0cs, data.nti0);
             }
-            else if (y <= xmax)
+            else if (y <= data.xmax)
             {
-                value = Math.Exp(y) * r8_besi0e(x);
+                value = Math.Exp(y) * r8_besi0e(ref data, x);
             }
             else
             {
@@ -604,7 +640,7 @@ namespace Burkardt.FullertonFnLib
             return value;
         }
 
-        public static double r8_besi0e(double x)
+        public static double r8_besi0e(ref BesselData data, double x)
 
             //****************************************************************************80
             //
@@ -787,48 +823,44 @@ namespace Burkardt.FullertonFnLib
             }
             ;
             double eta;
-            int ntai02 = 0;
-            int ntai0 = 0;
-            int nti0 = 0;
             double value;
-            double xsml = 0.0;
             double y;
 
-            if (nti0 == 0)
+            if (data.nti0 == 0)
             {
                 eta = 0.1 * r8_mach(3);
-                nti0 = r8_inits(bi0cs, 18, eta);
-                ntai0 = r8_inits(ai0cs, 46, eta);
-                ntai02 = r8_inits(ai02cs, 69, eta);
-                xsml = Math.Sqrt(8.0 * r8_mach(3));
+                data.nti0 = r8_inits(bi0cs, 18, eta);
+                data.ntai0 = r8_inits(ai0cs, 46, eta);
+                data.ntai02 = r8_inits(ai02cs, 69, eta);
+                data.xsml = Math.Sqrt(8.0 * r8_mach(3));
             }
 
             y = Math.Abs(x);
 
-            if (y <= xsml)
+            if (y <= data.xsml)
             {
                 value = 1.0;
             }
             else if (y <= 3.0)
             {
                 value = Math.Exp(-y) * (2.75
-                                   + r8_csevl(y * y / 4.5 - 1.0, bi0cs, nti0));
+                                   + r8_csevl(y * y / 4.5 - 1.0, bi0cs, data.nti0));
             }
             else if (y <= 8.0)
             {
                 value = (0.375
-                         + r8_csevl((48.0 / y - 11.0) / 5.0, ai0cs, ntai0)) / Math.Sqrt(y);
+                         + r8_csevl((48.0 / y - 11.0) / 5.0, ai0cs, data.ntai0)) / Math.Sqrt(y);
             }
             else
             {
                 value = (0.375
-                         + r8_csevl(16.0 / y - 1.0, ai02cs, ntai02)) / Math.Sqrt(y);
+                         + r8_csevl(16.0 / y - 1.0, ai02cs, data.ntai02)) / Math.Sqrt(y);
             }
 
             return value;
         }
 
-        public static double r8_besi1(double x)
+        public static double r8_besi1(ref BesselData data, double x)
 
             //****************************************************************************80
             //
@@ -887,38 +919,34 @@ namespace Burkardt.FullertonFnLib
                 +0.14367948220620800000000000000000E-31
             }
             ;
-            int nti1 = 0;
             double value;
-            double xmax = 0.0;
-            double xmin = 0.0;
-            double xsml = 0.0;
             double y;
 
-            if (nti1 == 0)
+            if (data.nti1 == 0)
             {
-                nti1 = r8_inits(bi1cs, 17, 0.1 * r8_mach(3));
-                xmin = 2.0 * r8_mach(1);
-                xsml = Math.Sqrt(8.0 * r8_mach(3));
-                xmax = Math.Log(r8_mach(2));
+                data.nti1 = r8_inits(bi1cs, 17, 0.1 * r8_mach(3));
+                data.xmin = 2.0 * r8_mach(1);
+                data.xsml = Math.Sqrt(8.0 * r8_mach(3));
+                data.xmax = Math.Log(r8_mach(2));
             }
 
             y = Math.Abs(x);
 
-            if (y <= xmin)
+            if (y <= data.xmin)
             {
                 value = 0.0;
             }
-            else if (y <= xsml)
+            else if (y <= data.xsml)
             {
                 value = 0.5 * x;
             }
             else if (y <= 3.0)
             {
-                value = x * (0.875 + r8_csevl(y * y / 4.5 - 1.0, bi1cs, nti1));
+                value = x * (0.875 + r8_csevl(y * y / 4.5 - 1.0, bi1cs, data.nti1));
             }
-            else if (y <= xmax)
+            else if (y <= data.xmax)
             {
-                value = Math.Exp(y) * r8_besi1e(x);
+                value = Math.Exp(y) * r8_besi1e(ref data, x);
             }
             else
             {
@@ -931,7 +959,7 @@ namespace Burkardt.FullertonFnLib
             return value;
         }
 
-        public static double r8_besi1e(double x)
+        public static double r8_besi1e(ref BesselData data, double x)
 
             //****************************************************************************80
             //
@@ -1113,43 +1141,38 @@ namespace Burkardt.FullertonFnLib
             }
             ;
             double eta;
-            int ntai1 = 0;
-            int ntai12 = 0;
-            int nti1 = 0;
             double value;
-            double xmin = 0.0;
-            double xsml = 0.0;
             double y;
 
-            if (nti1 == 0)
+            if (data.nti1 == 0)
             {
                 eta = 0.1 * r8_mach(3);
-                nti1 = r8_inits(bi1cs, 17, eta);
-                ntai1 = r8_inits(ai1cs, 46, eta);
-                ntai12 = r8_inits(ai12cs, 69, eta);
-                xmin = 2.0 * r8_mach(1);
-                xsml = Math.Sqrt(8.0 * r8_mach(3));
+                data.nti1 = r8_inits(bi1cs, 17, eta);
+                data.ntai1 = r8_inits(ai1cs, 46, eta);
+                data.ntai12 = r8_inits(ai12cs, 69, eta);
+                data.xmin = 2.0 * r8_mach(1);
+                data.xsml = Math.Sqrt(8.0 * r8_mach(3));
             }
 
             y = Math.Abs(x);
 
-            if (y <= xmin)
+            if (y <= data.xmin)
             {
                 value = 0.0;
             }
-            else if (y <= xsml)
+            else if (y <= data.xsml)
             {
                 value = 0.5 * x * Math.Exp(-y);
             }
             else if (y <= 3.0)
             {
-                value = x * (0.875 + r8_csevl(y * y / 4.5 - 1.0, bi1cs, nti1))
+                value = x * (0.875 + r8_csevl(y * y / 4.5 - 1.0, bi1cs, data.nti1))
                           * Math.Exp(-y);
             }
             else if (y <= 8.0)
             {
                 value = (0.375 + r8_csevl((48.0 / y - 11.0) / 5.0,
-                    ai1cs, ntai1)) / Math.Sqrt(y);
+                    ai1cs, data.ntai1)) / Math.Sqrt(y);
                 if (x < 0.0)
                 {
                     value = -value;
@@ -1157,7 +1180,7 @@ namespace Burkardt.FullertonFnLib
             }
             else
             {
-                value = (0.375 + r8_csevl(16.0 / y - 1.0, ai12cs, ntai12)) / Math.Sqrt(y);
+                value = (0.375 + r8_csevl(16.0 / y - 1.0, ai12cs, data.ntai12)) / Math.Sqrt(y);
                 if (x < 0.0)
                 {
                     value = -value;
@@ -1167,7 +1190,7 @@ namespace Burkardt.FullertonFnLib
             return value;
         }
 
-        public static double r8_besj0(double x)
+        public static double r8_besj0(ref BesselData data, double x)
 
             //****************************************************************************80
             //
@@ -1229,38 +1252,36 @@ namespace Burkardt.FullertonFnLib
                 +0.43910905496698880000000000000000E-31
             }
             ;
-            int ntj0 = 0;
             double theta = 0;
             double value;
-            double xsml = 0.0;
             double y;
 
-            if (ntj0 == 0)
+            if (data.ntj0 == 0)
             {
-                ntj0 = r8_inits(bj0cs, 19, 0.1 * r8_mach(3));
-                xsml = Math.Sqrt(4.0 * r8_mach(3));
+                data.ntj0 = r8_inits(bj0cs, 19, 0.1 * r8_mach(3));
+                data.xsml = Math.Sqrt(4.0 * r8_mach(3));
             }
 
             y = Math.Abs(x);
 
-            if (y <= xsml)
+            if (y <= data.xsml)
             {
                 value = 1.0;
             }
             else if (y <= 4.0)
             {
-                value = r8_csevl(0.125 * y * y - 1.0, bj0cs, ntj0);
+                value = r8_csevl(0.125 * y * y - 1.0, bj0cs, data.ntj0);
             }
             else
             {
-                r8_b0mp(y, ref ampl, ref theta);
+                r8_b0mp(ref data, y, ref ampl, ref theta);
                 value = ampl * Math.Cos(theta);
             }
 
             return value;
         }
 
-        public static double r8_besj1(double x)
+        public static double r8_besj1(ref BesselData data, double x)
 
             //****************************************************************************80
             //
@@ -1322,37 +1343,34 @@ namespace Burkardt.FullertonFnLib
                 +0.116167808226645333333333333333333E-32
             }
             ;
-            int ntj1 = 0;
             double theta = 0;
             double value;
-            double xmin = 0.0;
-            double xsml = 0.0;
             double y;
 
-            if (ntj1 == 0)
+            if (data.ntj1 == 0)
             {
-                ntj1 = r8_inits(bj1cs, 19, 0.1 * r8_mach(3));
-                xsml = Math.Sqrt(4.0 * r8_mach(3));
-                xmin = 2.0 * r8_mach(1);
+                data.ntj1 = r8_inits(bj1cs, 19, 0.1 * r8_mach(3));
+                data.xsml = Math.Sqrt(4.0 * r8_mach(3));
+                data.xmin = 2.0 * r8_mach(1);
             }
 
             y = Math.Abs(x);
 
-            if (y <= xmin)
+            if (y <= data.xmin)
             {
                 value = 0.0;
             }
-            else if (y <= xsml)
+            else if (y <= data.xsml)
             {
                 value = 0.5 * x;
             }
             else if (y <= 4.0)
             {
-                value = x * (0.25 + r8_csevl(0.125 * y * y - 1.0, bj1cs, ntj1));
+                value = x * (0.25 + r8_csevl(0.125 * y * y - 1.0, bj1cs, data.ntj1));
             }
             else
             {
-                r8_b1mp(y, ref ampl, ref theta);
+                r8_b1mp(ref data, y, ref ampl, ref theta);
                 if (x < 0.0)
                 {
                     value = -ampl * Math.Cos(theta);
@@ -1366,7 +1384,7 @@ namespace Burkardt.FullertonFnLib
             return value;
         }
         
-        public static double r8_besk(double nu, double x)
+        public static double r8_besk(ref BesselData data, double nu, double x)
 
             //****************************************************************************80
             //
@@ -1413,14 +1431,14 @@ namespace Burkardt.FullertonFnLib
 
             xnu = nu - (int) (nu);
             nin = (int) (nu) + 1;
-            r8_besks(xnu, x, nin, ref bke);
+            r8_besks(ref data, xnu, x, nin, ref bke);
 
             value = bke[nin - 1];
 
             return value;
         }
 
-        public static double r8_besk0(double x)
+        public static double r8_besk0(ref BesselData data, double x)
 
             //****************************************************************************80
             //
@@ -1478,18 +1496,15 @@ namespace Burkardt.FullertonFnLib
                 +0.308259388791466666666666666666666E-32
             }
             ;
-            int ntk0 = 0;
             double value;
-            double xmax = 0.0;
-            double xsml = 0.0;
             double y;
 
-            if (ntk0 == 0)
+            if (data.ntk0 == 0)
             {
-                ntk0 = r8_inits(bk0cs, 16, 0.1 * r8_mach(3));
-                xsml = Math.Sqrt(4.0 * r8_mach(3));
-                xmax = -Math.Log(r8_mach(1));
-                xmax = xmax - 0.5 * xmax * Math.Log(xmax) / (xmax + 0.5);
+                data.ntk0 = r8_inits(bk0cs, 16, 0.1 * r8_mach(3));
+                data.xsml = Math.Sqrt(4.0 * r8_mach(3));
+                data.xmax = -Math.Log(r8_mach(1));
+                data.xmax = data.xmax - 0.5 * data.xmax * Math.Log(data.xmax) / (data.xmax + 0.5);
             }
 
             if (x <= 0.0)
@@ -1499,21 +1514,21 @@ namespace Burkardt.FullertonFnLib
                 Console.WriteLine("  X <= 0.");
                 return (1);
             }
-            else if (x <= xsml)
+            else if (x <= data.xsml)
             {
                 y = 0.0;
-                value = -Math.Log(0.5 * x) * r8_besi0(x)
-                    - 0.25 + r8_csevl(0.5 * y - 1.0, bk0cs, ntk0);
+                value = -Math.Log(0.5 * x) * r8_besi0(ref data, x)
+                    - 0.25 + r8_csevl(0.5 * y - 1.0, bk0cs, data.ntk0);
             }
             else if (x <= 2.0)
             {
                 y = x * x;
-                value = -Math.Log(0.5 * x) * r8_besi0(x)
-                    - 0.25 + r8_csevl(0.5 * y - 1.0, bk0cs, ntk0);
+                value = -Math.Log(0.5 * x) * r8_besi0(ref data, x)
+                    - 0.25 + r8_csevl(0.5 * y - 1.0, bk0cs, data.ntk0);
             }
-            else if (x <= xmax)
+            else if (x <= data.xmax)
             {
-                value = Math.Exp(-x) * r8_besk0e(x);
+                value = Math.Exp(-x) * r8_besk0e(ref data, x);
             }
             else
             {
@@ -1523,7 +1538,7 @@ namespace Burkardt.FullertonFnLib
             return value;
         }
 
-        public static double r8_besk0e(double x)
+        public static double r8_besk0e(ref BesselData data, double x)
 
             //****************************************************************************80
             //
@@ -1660,20 +1675,16 @@ namespace Burkardt.FullertonFnLib
             }
             ;
             double eta;
-            int ntak0 = 0;
-            int ntak02 = 0;
-            int ntk0 = 0;
             double value;
-            double xsml = 0.0;
             double y;
 
-            if (ntk0 == 0)
+            if (data.ntk0 == 0)
             {
                 eta = 0.1 * r8_mach(3);
-                ntk0 = r8_inits(bk0cs, 16, eta);
-                ntak0 = r8_inits(ak0cs, 38, eta);
-                ntak02 = r8_inits(ak02cs, 33, eta);
-                xsml = Math.Sqrt(4.0 * r8_mach(3));
+                data.ntk0 = r8_inits(bk0cs, 16, eta);
+                data.ntak0 = r8_inits(ak0cs, 38, eta);
+                data.ntak02 = r8_inits(ak02cs, 33, eta);
+                data.xsml = Math.Sqrt(4.0 * r8_mach(3));
             }
 
             if (x <= 0.0)
@@ -1683,32 +1694,32 @@ namespace Burkardt.FullertonFnLib
                 Console.WriteLine("  X <= 0.");
                 return (1);
             }
-            else if (x <= xsml)
+            else if (x <= data.xsml)
             {
                 y = 0.0;
-                value = Math.Exp(x) * (-Math.Log(0.5 * x) * r8_besi0(x) - 0.25
-                                  + r8_csevl(0.5 * y - 1.0, bk0cs, ntk0));
+                value = Math.Exp(x) * (-Math.Log(0.5 * x) * r8_besi0(ref data, x) - 0.25
+                                  + r8_csevl(0.5 * y - 1.0, bk0cs, data.ntk0));
             }
             else if (x <= 2.0)
             {
                 y = x * x;
-                value = Math.Exp(x) * (-Math.Log(0.5 * x) * r8_besi0(x) - 0.25
-                                  + r8_csevl(0.5 * y - 1.0, bk0cs, ntk0));
+                value = Math.Exp(x) * (-Math.Log(0.5 * x) * r8_besi0(ref data, x) - 0.25
+                                  + r8_csevl(0.5 * y - 1.0, bk0cs, data.ntk0));
             }
             else if (x <= 8.0)
             {
                 value = (1.25 + r8_csevl((16.0 / x - 5.0) / 3.0, ak0cs,
-                    ntak0)) / Math.Sqrt(x);
+                    data.ntak0)) / Math.Sqrt(x);
             }
             else
             {
-                value = (1.25 + r8_csevl(16.0 / x - 1.0, ak02cs, ntak02)) / Math.Sqrt(x);
+                value = (1.25 + r8_csevl(16.0 / x - 1.0, ak02cs, data.ntak02)) / Math.Sqrt(x);
             }
 
             return value;
         }
 
-        public static double r8_besk1(double x)
+        public static double r8_besk1(ref BesselData data, double x)
 
             //****************************************************************************80
             //
@@ -1766,23 +1777,19 @@ namespace Burkardt.FullertonFnLib
                 -0.91550857176541866666666666666666E-31
             }
             ;
-            int ntk1 = 0;
             double value;
-            double xmax = 0.0;
 
-            //static double xmin = 0.0;
-            double xsml = 0.0;
             double y;
 
-            if (ntk1 == 0)
+            if (data.ntk1 == 0)
             {
-                ntk1 = r8_inits(bk1cs, 16, 0.1 * r8_mach(3));
+                data.ntk1 = r8_inits(bk1cs, 16, 0.1 * r8_mach(3));
                 //  xmin = exp ( r8_max ( log ( r8_mach ( 1 ) ), 
                 //    - log ( r8_mach ( 2 ) ) ) + 0.01 );
-                xsml = Math.Sqrt(4.0 * r8_mach(3));
-                xmax = -Math.Log(r8_mach(1));
-                xmax = xmax - 0.5 * xmax * Math.Log(xmax)
-                    / (xmax + 0.5) - 0.01;
+                data.xsml = Math.Sqrt(4.0 * r8_mach(3));
+                data.xmax = -Math.Log(r8_mach(1));
+                data.xmax = data.xmax - 0.5 * data.xmax * Math.Log(data.xmax)
+                    / (data.xmax + 0.5) - 0.01;
             }
 
             if (x <= 0.0)
@@ -1792,21 +1799,21 @@ namespace Burkardt.FullertonFnLib
                 Console.WriteLine("  X <= 0.");
                 return (1);
             }
-            else if (x <= xsml)
+            else if (x <= data.xsml)
             {
                 y = 0.0;
-                value = Math.Log(0.5 * x) * r8_besi1(x) + (0.75
-                                                      + r8_csevl(0.5 * y - 1.0, bk1cs, ntk1)) / x;
+                value = Math.Log(0.5 * x) * r8_besi1(ref data, x) + (0.75
+                                                      + r8_csevl(0.5 * y - 1.0, bk1cs, data.ntk1)) / x;
             }
             else if (x <= 2.0)
             {
                 y = x * x;
-                value = Math.Log(0.5 * x) * r8_besi1(x) + (0.75
-                                                      + r8_csevl(0.5 * y - 1.0, bk1cs, ntk1)) / x;
+                value = Math.Log(0.5 * x) * r8_besi1(ref data, x) + (0.75
+                                                      + r8_csevl(0.5 * y - 1.0, bk1cs, data.ntk1)) / x;
             }
-            else if (x <= xmax)
+            else if (x <= data.xmax)
             {
-                value = Math.Exp(-x) * r8_besk1e(x);
+                value = Math.Exp(-x) * r8_besk1e(ref data, x);
             }
             else
             {
@@ -1816,7 +1823,7 @@ namespace Burkardt.FullertonFnLib
             return value;
         }
 
-        public static double r8_besk1e(double x)
+        public static double r8_besk1e(ref BesselData data, double x)
 
             //****************************************************************************80
             //
@@ -1953,24 +1960,19 @@ namespace Burkardt.FullertonFnLib
             }
             ;
             double eta;
-            int ntak1 = 0;
-            int ntak12 = 0;
-            int ntk1 = 0;
             double value;
 
-            //static double xmin = 0.0;
-            double xsml = 0.0;
             double y;
 
-            if (ntk1 == 0)
+            if (data.ntk1 == 0)
             {
                 eta = 0.1 * r8_mach(3);
-                ntk1 = r8_inits(bk1cs, 16, eta);
-                ntak1 = r8_inits(ak1cs, 38, eta);
-                ntak12 = r8_inits(ak12cs, 33, eta);
+                data.ntk1 = r8_inits(bk1cs, 16, eta);
+                data.ntak1 = r8_inits(ak1cs, 38, eta);
+                data.ntak12 = r8_inits(ak12cs, 33, eta);
                 //  xmin = exp ( r8_max ( log ( r8_mach ( 1 ) ), 
                 //    - log ( r8_mach ( 2 ) ) ) + 0.01 );
-                xsml = Math.Sqrt(4.0 * r8_mach(3));
+                data.xsml = Math.Sqrt(4.0 * r8_mach(3));
             }
 
             if (x <= 0.0)
@@ -1980,33 +1982,33 @@ namespace Burkardt.FullertonFnLib
                 Console.WriteLine("  X <= 0.");
                 return (1);
             }
-            else if (x <= xsml)
+            else if (x <= data.xsml)
             {
                 y = 0.0;
-                value = Math.Exp(x) * (Math.Log(0.5 * x) * r8_besi1(x)
-                                  + (0.75 + r8_csevl(0.5 * y - 1.0, bk1cs, ntk1)) / x);
+                value = Math.Exp(x) * (Math.Log(0.5 * x) * r8_besi1(ref data, x)
+                                  + (0.75 + r8_csevl(0.5 * y - 1.0, bk1cs, data.ntk1)) / x);
             }
             else if (x <= 2.0)
             {
                 y = x * x;
-                value = Math.Exp(x) * (Math.Log(0.5 * x) * r8_besi1(x)
-                                  + (0.75 + r8_csevl(0.5 * y - 1.0, bk1cs, ntk1)) / x);
+                value = Math.Exp(x) * (Math.Log(0.5 * x) * r8_besi1(ref data, x)
+                                  + (0.75 + r8_csevl(0.5 * y - 1.0, bk1cs, data.ntk1)) / x);
             }
             else if (x <= 8.0)
             {
                 value = (1.25
-                         + r8_csevl((16.0 / x - 5.0) / 3.0, ak1cs, ntak1)) / Math.Sqrt(x);
+                         + r8_csevl((16.0 / x - 5.0) / 3.0, ak1cs, data.ntak1)) / Math.Sqrt(x);
             }
             else
             {
                 value = (1.25 +
-                         r8_csevl(16.0 / x - 1.0, ak12cs, ntak12)) / Math.Sqrt(x);
+                         r8_csevl(16.0 / x - 1.0, ak12cs, data.ntak12)) / Math.Sqrt(x);
             }
 
             return value;
         }
 
-        static void r8_beskes(double xnu, double x, int nin, ref double[] bke)
+        static void r8_beskes(ref BesselData data, double xnu, double x, int nin, ref double[] bke)
 
             //****************************************************************************80
             //
@@ -2051,19 +2053,16 @@ namespace Burkardt.FullertonFnLib
             //    K Bessel functions.
             //
         {
-            double alnbig = 0.0;
-            double bknu1 = 0;
             double direct;
             int i;
-            int iswtch = 0;
             int n;
             double v;
             //double vend;
             double vincr;
 
-            if (alnbig == 0.0)
+            if (data.alnbig == 0.0)
             {
-                alnbig = Math.Log(r8_mach(2));
+                data.alnbig = Math.Log(r8_mach(2));
             }
 
             v = Math.Abs(xnu);
@@ -2093,7 +2092,7 @@ namespace Burkardt.FullertonFnLib
                 return;
             }
 
-            r8_knus(v, x, ref bke[0], ref bknu1, ref iswtch);
+            r8_knus(v, x, ref bke[0], ref data.bknu1, ref data.iswtch);
 
             if (n == 1)
             {
@@ -2118,11 +2117,11 @@ namespace Burkardt.FullertonFnLib
                 direct = vincr;
             }
 
-            bke[1] = bknu1;
+            bke[1] = data.bknu1;
 
             if (direct < 0.0)
             {
-                r8_knus(Math.Abs(xnu + vincr), x, ref bke[1], ref bknu1, ref iswtch);
+                r8_knus(Math.Abs(xnu + vincr), x, ref bke[1], ref data.bknu1, ref data.iswtch);
             }
 
             if (n == 2)
@@ -2140,7 +2139,7 @@ namespace Burkardt.FullertonFnLib
             }
         }
 
-        static void r8_besks(double xnu, double x, int nin, ref double[] bk)
+        static void r8_besks(ref BesselData data, double xnu, double x, int nin, ref double[] bk)
 
             //****************************************************************************80
             //
@@ -2187,15 +2186,14 @@ namespace Burkardt.FullertonFnLib
             double expxi;
             int i;
             int n;
-            double xmax = 0.0;
 
-            if (xmax == 0.0)
+            if (data.xmax == 0.0)
             {
-                xmax = -Math.Log(r8_mach(1));
-                xmax = xmax + 0.5 * Math.Log(3.14 * 0.5 / xmax);
+                data.xmax = -Math.Log(r8_mach(1));
+                data.xmax = data.xmax + 0.5 * Math.Log(3.14 * 0.5 / data.xmax);
             }
 
-            r8_beskes(xnu, x, nin, ref bk);
+            r8_beskes(ref data, xnu, x, nin, ref bk);
 
             expxi = Math.Exp(-x);
             n = i4_abs(nin);
@@ -2206,7 +2204,7 @@ namespace Burkardt.FullertonFnLib
             }
         }
 
-        public static double r8_besy0(double x)
+        public static double r8_besy0(ref BesselData data, double x)
 
             //****************************************************************************80
             //
@@ -2269,17 +2267,15 @@ namespace Burkardt.FullertonFnLib
                 -0.8141268814163694933333333333333E-31
             }
             ;
-            int nty0 = 0;
             double theta = 0;
             const double twodpi = 0.636619772367581343075535053490057;
             double value;
-            double xsml = 0.0;
             double y;
 
-            if (nty0 == 0)
+            if (data.nty0 == 0)
             {
-                nty0 = r8_inits(by0cs, 19, 0.1 * r8_mach(3));
-                xsml = Math.Sqrt(4.0 * r8_mach(3));
+                data.nty0 = r8_inits(by0cs, 19, 0.1 * r8_mach(3));
+                data.xsml = Math.Sqrt(4.0 * r8_mach(3));
             }
 
             if (x <= 0.0)
@@ -2289,28 +2285,28 @@ namespace Burkardt.FullertonFnLib
                 Console.WriteLine("  X <= 0.");
                 return (1);
             }
-            else if (x <= xsml)
+            else if (x <= data.xsml)
             {
                 y = 0.0;
-                value = twodpi * (alnhaf + Math.Log(x)) * r8_besj0(x)
-                        + 0.375 + r8_csevl(0.125 * y - 1.0, by0cs, nty0);
+                value = twodpi * (alnhaf + Math.Log(x)) * r8_besj0(ref data, x)
+                        + 0.375 + r8_csevl(0.125 * y - 1.0, by0cs, data.nty0);
             }
             else if (x <= 4.0)
             {
                 y = x * x;
-                value = twodpi * (alnhaf + Math.Log(x)) * r8_besj0(x) + 0.375
-                                                                 + r8_csevl(0.125 * y - 1.0, by0cs, nty0);
+                value = twodpi * (alnhaf + Math.Log(x)) * r8_besj0(ref data, x) + 0.375
+                                                                 + r8_csevl(0.125 * y - 1.0, by0cs, data.nty0);
             }
             else
             {
-                r8_b0mp(x, ref ampl, ref theta);
+                r8_b0mp(ref data, x, ref ampl, ref theta);
                 value = ampl * Math.Sin(theta);
             }
 
             return value;
         }
 
-        public static double r8_besy1(double x)
+        public static double r8_besy1(ref BesselData data, double x)
 
             //****************************************************************************80
             //
@@ -2373,18 +2369,15 @@ namespace Burkardt.FullertonFnLib
                 -0.864754113893717333333333333333333E-32
             }
             ;
-            int nty1 = 0;
             double theta = 0;
             const double twodpi = 0.636619772367581343075535053490057;
             double value;
-            double xmin = 0.0;
-            //static double xsml = 0.0;
             double y;
 
-            if (nty1 == 0)
+            if (data.nty1 == 0)
             {
-                nty1 = r8_inits(by1cs, 20, 0.1 * r8_mach(3));
-                xmin = 1.571 * Math.Exp(r8_max(Math.Log(r8_mach(1)),
+                data.nty1 = r8_inits(by1cs, 20, 0.1 * r8_mach(3));
+                data.xmin = 1.571 * Math.Exp(r8_max(Math.Log(r8_mach(1)),
                     -Math.Log(r8_mach(2))) + 0.01);
                 //  xsml = sqrt ( 4.0 * r8_mach ( 3 ) );
             }
@@ -2396,28 +2389,28 @@ namespace Burkardt.FullertonFnLib
                 Console.WriteLine("  X <= 0.");
                 return (1);
             }
-            else if (x <= xmin)
+            else if (x <= data.xmin)
             {
                 y = 0.0;
-                value = twodpi * Math.Log(0.5 * x) * r8_besj1(x)
-                        + (0.5 + r8_csevl(0.125 * y - 1.0, by1cs, nty1)) / x;
+                value = twodpi * Math.Log(0.5 * x) * r8_besj1(ref data, x)
+                        + (0.5 + r8_csevl(0.125 * y - 1.0, by1cs, data.nty1)) / x;
             }
             else if (x <= 4.0)
             {
                 y = x * x;
-                value = twodpi * Math.Log(0.5 * x) * r8_besj1(x)
-                        + (0.5 + r8_csevl(0.125 * y - 1.0, by1cs, nty1)) / x;
+                value = twodpi * Math.Log(0.5 * x) * r8_besj1(ref data,x)
+                        + (0.5 + r8_csevl(0.125 * y - 1.0, by1cs, data.nty1)) / x;
             }
             else
             {
-                r8_b1mp(x, ref ampl, ref theta);
+                r8_b1mp(ref data, x, ref ampl, ref theta);
                 value = ampl * Math.Sin(theta);
             }
 
             return value;
         }
 
-        public static double r8_beta(double a, double b)
+        public static double r8_beta(ref BesselData data, double a, double b)
 
             //****************************************************************************80
             //
@@ -2456,14 +2449,11 @@ namespace Burkardt.FullertonFnLib
             //    Output, double R8_BETA, the beta function of A and B.
             //
         {
-            //static double alnsml = 0.0;
             double value;
-            double xmax = 0.0;
-            double xmin = 0;
 
-            if (xmax == 0.0)
+            if (data.xmax == 0.0)
             {
-                r8_gaml(ref xmin, ref xmax);
+                r8_gaml(ref data.xmin, ref data.xmax);
                 //  alnsml = log ( r8_mach ( 1 ) );
             }
 
@@ -2475,7 +2465,7 @@ namespace Burkardt.FullertonFnLib
                 return (1);
             }
 
-            if (a + b < xmax)
+            if (a + b < data.xmax)
             {
                 value = r8_gamma(a) * r8_gamma(b) / r8_gamma(a + b);
                 return value;
@@ -2488,7 +2478,7 @@ namespace Burkardt.FullertonFnLib
             return value;
         }
 
-        public static double r8_betai(double x, double pin, double qin)
+        public static double r8_betai(ref BetaData data, double x, double pin, double qin)
 
             //****************************************************************************80
             //
@@ -2546,10 +2536,7 @@ namespace Burkardt.FullertonFnLib
             //    Output, double R8_BETAI, the incomplete beta function ratio.
             //
         {
-            double alneps = 0.0;
-            double alnsml = 0.0;
             double c;
-            double eps = 0.0;
             double finsum;
             int i;
             int ib;
@@ -2558,19 +2545,18 @@ namespace Burkardt.FullertonFnLib
             double p1;
             double ps;
             double q;
-            double sml = 0.0;
             double term;
             double value;
             double xb;
             double xi;
             double y;
 
-            if (eps == 0.0)
+            if (data.eps == 0.0)
             {
-                eps = r8_mach(3);
-                alneps = Math.Log(eps);
-                sml = r8_mach(1);
-                alnsml = Math.Log(sml);
+                data.eps = r8_mach(3);
+                data.alneps = Math.Log(data.eps);
+                data.sml = r8_mach(1);
+                data.alnsml = Math.Log(data.sml);
             }
 
             if (x < 0.0 || 1.0 < x)
@@ -2603,11 +2589,11 @@ namespace Burkardt.FullertonFnLib
                 }
             }
 
-            if ((p + q) * y / (p + 1.0) < eps)
+            if ((p + q) * y / (p + 1.0) < data.eps)
             {
                 value = 0.0;
-                xb = p * Math.Log(r8_max(y, sml)) - Math.Log(p) - r8_lbeta(p, q);
-                if (alnsml < xb && y != 0.0)
+                xb = p * Math.Log(r8_max(y, data.sml)) - Math.Log(p) - r8_lbeta(p, q);
+                if (data.alnsml < xb && y != 0.0)
                 {
                     value = Math.Exp(xb);
                 }
@@ -2628,7 +2614,7 @@ namespace Burkardt.FullertonFnLib
 
             xb = p * Math.Log(y) - r8_lbeta(ps, p) - Math.Log(p);
 
-            if (xb < alnsml)
+            if (xb < data.alnsml)
             {
                 value = 0.0;
             }
@@ -2638,7 +2624,7 @@ namespace Burkardt.FullertonFnLib
                 term = value * p;
                 if (ps != 1.0)
                 {
-                    n = (int) (r8_max(alneps / Math.Log(y), 4.0));
+                    n = (int) (r8_max(data.alneps / Math.Log(y), 4.0));
                     for (i = 1; i <= n; i++)
                     {
                         xi = (double) (i);
@@ -2652,8 +2638,8 @@ namespace Burkardt.FullertonFnLib
             {
                 xb = p * Math.Log(y) + q * Math.Log(1.0 - y)
                      - r8_lbeta(p, q) - Math.Log(q);
-                ib = (int) (r8_max(xb / alnsml, 0.0));
-                term = Math.Exp(xb - (double) (ib) * alnsml);
+                ib = (int) (r8_max(xb / data.alnsml, 0.0));
+                term = Math.Exp(xb - (double) (ib) * data.alnsml);
                 c = 1.0 / (1.0 - y);
                 p1 = q * c / (p + q - 1.0);
 
@@ -2666,7 +2652,7 @@ namespace Burkardt.FullertonFnLib
 
                 for (i = 1; i <= n; i++)
                 {
-                    if (p1 <= 1.0 && term / eps <= finsum)
+                    if (p1 <= 1.0 && term / data.eps <= finsum)
                     {
                         break;
                     }
@@ -2677,7 +2663,7 @@ namespace Burkardt.FullertonFnLib
                     if (1.0 < term)
                     {
                         ib = ib - 1;
-                        term = term * sml;
+                        term = term * data.sml;
                     }
 
                     if (ib == 0)

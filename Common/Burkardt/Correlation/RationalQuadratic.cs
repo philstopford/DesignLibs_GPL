@@ -1,10 +1,11 @@
 ﻿using System;
+using Burkardt.FullertonFnLib;
 
 namespace Burkardt.CorrelationNS
 {
     public static partial class Correlation
     {
-        public static double[] correlation_rational_quadratic ( int n, double[] rho, double rho0 )
+        public static CorrelationResult correlation_rational_quadratic (FullertonLib.BesselData data,  int n, double[] rho, double rho0 )
 
         //****************************************************************************80
         //
@@ -51,7 +52,7 @@ namespace Burkardt.CorrelationNS
                 c[i] = 1.0 / ( 1.0 + Math.Pow ( rho[i] / rho0, 2 ) );
             }
 
-            return c;
+            return new CorrelationResult(){result = c, data = data};
         }
     }
 }

@@ -1,10 +1,11 @@
 ﻿using System;
+using Burkardt.FullertonFnLib;
 
 namespace Burkardt.CorrelationNS
 {
     public static partial class Correlation
     {
-        public static double[] correlation_pentaspherical ( int n, double[] rho, double rho0 )
+        public static CorrelationResult correlation_pentaspherical (FullertonLib.BesselData data,  int n, double[] rho, double rho0 )
 
         //****************************************************************************80
         //
@@ -60,7 +61,7 @@ namespace Burkardt.CorrelationNS
                        - 0.375 * Math.Pow ( rhohat, 5 );
             }
 
-            return c;
+            return new CorrelationResult(){result = c, data = data};
         }
     }
 }

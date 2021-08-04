@@ -1,12 +1,13 @@
 ﻿using System;
+using Burkardt.FullertonFnLib;
 using Burkardt.Types;
 
 namespace Burkardt.CorrelationNS
 {
     public static partial class SamplePaths
     {
-        public static double[] sample_paths_cholesky(int n, int n2, double rhomax, double rho0,
-            Func< int, double[], double, double[] > correlation, ref typeMethods.r8vecNormalData data, ref int seed )
+        public static  Correlation.CorrelationResult sample_paths_cholesky(FullertonLib.BesselData bdata, int n, int n2, double rhomax, double rho0,
+            Func<FullertonLib.BesselData,  int, double[], double, Correlation.CorrelationResult > correlation, ref typeMethods.r8vecNormalData data, ref int seed )
 
         //****************************************************************************80
         //
@@ -68,7 +69,9 @@ namespace Burkardt.CorrelationNS
             //
             //  Evaluate the correlation function.
             //
-            cor_vec = correlation(n, rho_vec, rho0);
+            Correlation.CorrelationResult tr = correlation(bdata, n, rho_vec, rho0);
+            cor_vec = tr.result;
+            bdata = tr.data;
             //
             //  Construct the correlation matrix;
             //
@@ -117,7 +120,9 @@ namespace Burkardt.CorrelationNS
             //
             x = typeMethods.r8mat_mm_new(n, n, n2, l, r);
 
-            return x;
+            Correlation.CorrelationResult res = new Correlation.CorrelationResult() { result = x, data = bdata };
+
+            return res;
         }
 
         public static double[] sample_paths2_cholesky(int n, int n2, double rhomin, double rhomax,

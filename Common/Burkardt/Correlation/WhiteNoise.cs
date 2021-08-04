@@ -1,8 +1,10 @@
-﻿namespace Burkardt.CorrelationNS
+﻿using Burkardt.FullertonFnLib;
+
+namespace Burkardt.CorrelationNS
 {
     public static partial class Correlation
     {
-        public static double[] correlation_white_noise ( int n, double[] rho, double rho0 )
+        public static CorrelationResult correlation_white_noise (FullertonLib.BesselData data,  int n, double[] rho, double rho0 )
 
         //****************************************************************************80
         //
@@ -56,7 +58,7 @@
                 }
             }
 
-            return c;
+            return new CorrelationResult(){result = c, data = data};
         }
     }
 }

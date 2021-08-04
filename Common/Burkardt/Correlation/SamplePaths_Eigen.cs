@@ -6,8 +6,8 @@ namespace Burkardt.CorrelationNS
 {
     public static partial class SamplePaths
     {
-        public static Correlation.CorrelationResult sample_paths_eigen(FullertonLib.BesselData bdata, int n, int n2, double rhomax, double rho0,
-                Func<FullertonLib.BesselData, int, double[], double, Correlation.CorrelationResult> correlation, ref typeMethods.r8vecNormalData data, ref int seed)
+        public static Correlation.CorrelationResult sample_paths_eigen(FullertonLib.BesselData globaldata, FullertonLib.r8BESJ0Data jdata, int n, int n2, double rhomax, double rho0,
+                Func<FullertonLib.BesselData, FullertonLib.r8BESJ0Data, int, double[], double, Correlation.CorrelationResult> correlation, ref typeMethods.r8vecNormalData data, ref int seed)
 
             //****************************************************************************80
             //
@@ -72,9 +72,10 @@ namespace Burkardt.CorrelationNS
             //
             //  Evaluate the correlation function.
             //
-            Correlation.CorrelationResult tr = correlation(bdata, n, rho_vec, rho0);
+            Correlation.CorrelationResult tr = correlation(globaldata, jdata, n, rho_vec, rho0);
             cor_vec = tr.result;
-            bdata = tr.data;
+            globaldata = tr.data;
+            jdata = tr.j0data;
             //
             //  Construct the correlation matrix;
             //
@@ -162,7 +163,7 @@ namespace Burkardt.CorrelationNS
             //
             x = typeMethods.r8mat_mm_new(n, n, n2, c, r);
 
-            Correlation.CorrelationResult result = new Correlation.CorrelationResult() { result = x, data = bdata };
+            Correlation.CorrelationResult result = new Correlation.CorrelationResult() { result = x, data = globaldata };
             
             return result;
         }

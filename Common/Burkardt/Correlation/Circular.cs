@@ -5,7 +5,7 @@ namespace Burkardt.CorrelationNS
 {
     public static partial class Correlation
     {
-        public static CorrelationResult correlation_circular (FullertonLib.BesselData data,  int n, double[] rho, double rho0 )
+        public static CorrelationResult correlation_circular (FullertonLib.BesselData globaldata, FullertonLib.r8BESK1Data data,  int n, double[] rho, double rho0 )
 
         //****************************************************************************80
         //
@@ -62,7 +62,7 @@ namespace Burkardt.CorrelationNS
                     * ( rhohat * Math.Sqrt ( 1.0 - rhohat * rhohat ) + Math.Asin ( rhohat ) ) );
             }
 
-            return new CorrelationResult() {result = c, data = data};
+            return new CorrelationResult() {result = c, data = globaldata, k1data = data};
         }
     }
 }

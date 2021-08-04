@@ -86,8 +86,9 @@ namespace Burkardt.FullertonFnLib
         {
             const double pi2 = 1.57079632679489661923132169163975;
             double value;
+            r8ASINData data = new r8ASINData();
 
-            value = pi2 - r8_asin(x);
+            value = pi2 - r8_asin(ref data, x);
 
             return value;
         }
@@ -159,7 +160,18 @@ namespace Burkardt.FullertonFnLib
             return value;
         }
 
-        public static void r8_admp(double x, ref double ampl, ref double phi )
+        public class r8ADMPData
+        {
+            public int nan20 = 0;
+            public int nan21 = 0;
+            public int nan22 = 0;
+            public int naph0 = 0;
+            public int naph1 = 0;
+            public int naph2 = 0;
+            public double xsml = 0.0;
+        }
+        
+        public static void r8_admp(ref r8ADMPData data, double x, ref double ampl, ref double phi )
 
         //****************************************************************************80
         //
@@ -596,52 +608,45 @@ namespace Burkardt.FullertonFnLib
             }
             ;
             double eta;
-            int nan20 = 0;
-            int nan21 = 0;
-            int nan22 = 0;
-            int naph0 = 0;
-            int naph1 = 0;
-            int naph2 = 0;
             double pi34 = 2.35619449019234492884698253745962716313;
             double sqrtx;
-            double xsml = 0.0;
             double z;
 
-            if (nan20 == 0)
+            if (data.nan20 == 0)
             {
                 eta = 0.1 * r8_mach(3);
-                nan20 = r8_inits(an20cs, 57, eta);
-                nan21 = r8_inits(an21cs, 60, eta);
-                nan22 = r8_inits(an22cs, 74, eta);
-                naph0 = r8_inits(aph0cs, 53, eta);
-                naph1 = r8_inits(aph1cs, 58, eta);
-                naph2 = r8_inits(aph2cs, 72, eta);
-                xsml = -r8_power(128.0 / r8_mach(3), 0.3333);
+                data.nan20 = r8_inits(an20cs, 57, eta);
+                data.nan21 = r8_inits(an21cs, 60, eta);
+                data.nan22 = r8_inits(an22cs, 74, eta);
+                data.naph0 = r8_inits(aph0cs, 53, eta);
+                data.naph1 = r8_inits(aph1cs, 58, eta);
+                data.naph2 = r8_inits(aph2cs, 72, eta);
+                data.xsml = -r8_power(128.0 / r8_mach(3), 0.3333);
             }
 
-            if (x < xsml)
+            if (x < data.xsml)
             {
                 z = 1.0;
-                ampl = 0.3125 + r8_csevl(z, an20cs, nan20);
-                phi = -0.625 + r8_csevl(z, aph0cs, naph0);
+                ampl = 0.3125 + r8_csevl(z, an20cs, data.nan20);
+                phi = -0.625 + r8_csevl(z, aph0cs, data.naph0);
             }
             else if (x < -4.0)
             {
                 z = 128.0 / x / x / x + 1.0;
-                ampl = 0.3125 + r8_csevl(z, an20cs, nan20);
-                phi = -0.625 + r8_csevl(z, aph0cs, naph0);
+                ampl = 0.3125 + r8_csevl(z, an20cs, data.nan20);
+                phi = -0.625 + r8_csevl(z, aph0cs, data.naph0);
             }
             else if (x < -2.0)
             {
                 z = (128.0 / x / x / x + 9.0 ) / 7.0;
-                ampl = 0.3125 + r8_csevl(z, an21cs, nan21);
-                phi = -0.625 + r8_csevl(z, aph1cs, naph1);
+                ampl = 0.3125 + r8_csevl(z, an21cs, data.nan21);
+                phi = -0.625 + r8_csevl(z, aph1cs, data.naph1);
             }
             else if (x <= -1.0)
             {
                 z = (16.0 / x / x / x + 9.0) / 7.0;
-                ampl = 0.3125 + r8_csevl(z, an22cs, nan22);
-                phi = -0.625 + r8_csevl(z, aph2cs, naph2);
+                ampl = 0.3125 + r8_csevl(z, an22cs, data.nan22);
+                phi = -0.625 + r8_csevl(z, aph2cs, data.naph2);
             }
             else
             {
@@ -656,7 +661,15 @@ namespace Burkardt.FullertonFnLib
             phi = pi34 - x * sqrtx * phi;
         }
 
-        public static double r8_ai(double x)
+        public class r8AIData
+        {
+            public int naif = 0;
+            public int naig = 0;
+            public double x3sml = 0.0;
+            public double xmax = 0.0;
+
+        }
+        public static double r8_ai(ref r8AIData data, double x)
 
             //****************************************************************************80
             //
@@ -727,45 +740,44 @@ namespace Burkardt.FullertonFnLib
                 +0.74702885256533333333333333333333E-33
             }
             ;
-            int naif = 0;
-            int naig = 0;
             double theta = 0;
             double value;
-            double x3sml = 0.0;
             double xm = 0;
-            double xmax = 0.0;
             double z;
 
-            if (naif == 0)
+            r8AIEData aiedata = new r8AIEData();
+            r8AIMPData aimpdata = new r8AIMPData();
+            
+            if (data.naif == 0)
             {
-                naif = r8_inits(aifcs, 13, 0.1 * r8_mach(3));
-                naig = r8_inits(aigcs, 13, 0.1 * r8_mach(3));
-                x3sml = r8_power(r8_mach(3), 0.3334);
-                xmax = r8_power(-1.5 * Math.Log(r8_mach(1)), 0.6667);
-                xmax = xmax - xmax * Math.Log(xmax) /
-                    (4.0 * xmax * Math.Sqrt(xmax) + 1.0) - 0.01;
+                data.naif = r8_inits(aifcs, 13, 0.1 * r8_mach(3));
+                data.naig = r8_inits(aigcs, 13, 0.1 * r8_mach(3));
+                data.x3sml = r8_power(r8_mach(3), 0.3334);
+                data.xmax = r8_power(-1.5 * Math.Log(r8_mach(1)), 0.6667);
+                data.xmax = data.xmax - data.xmax * Math.Log(data.xmax) /
+                    (4.0 * data.xmax * Math.Sqrt(data.xmax) + 1.0) - 0.01;
             }
 
             if (x < -1.0)
             {
-                r8_aimp(x, ref xm, ref theta);
+                r8_aimp(ref aimpdata, x, ref xm, ref theta);
                 value = xm * Math.Cos(theta);
             }
-            else if (Math.Abs(x) <= x3sml)
+            else if (Math.Abs(x) <= data.x3sml)
             {
                 z = 0.0;
-                value = 0.375 + (r8_csevl(z, aifcs, naif)
-                                 - x * (0.25 + r8_csevl(z, aigcs, naig)));
+                value = 0.375 + (r8_csevl(z, aifcs, data.naif)
+                                 - x * (0.25 + r8_csevl(z, aigcs, data.naig)));
             }
             else if (x <= 1.0)
             {
                 z = x * x * x;
-                value = 0.375 + (r8_csevl(z, aifcs, naif)
-                                 - x * (0.25 + r8_csevl(z, aigcs, naig)));
+                value = 0.375 + (r8_csevl(z, aifcs, data.naif)
+                                 - x * (0.25 + r8_csevl(z, aigcs, data.naig)));
             }
-            else if (x <= xmax)
+            else if (x <= data.xmax)
             {
-                value = r8_aie(x) * Math.Exp(-2.0 * x * Math.Sqrt(x) / 3.0);
+                value = r8_aie(ref aiedata, x) * Math.Exp(-2.0 * x * Math.Sqrt(x) / 3.0);
             }
             else
             {
@@ -775,7 +787,15 @@ namespace Burkardt.FullertonFnLib
             return value;
         }
 
-        public static double r8_aid(double x)
+        public class r8AIDData
+        {
+            public int naif = 0;
+            public int naig = 0;
+            public double x2sml = 0.0;
+            public double x3sml = 0.0;
+
+        }
+        public static double r8_aid(ref r8AIDData data, double x)
 
             //****************************************************************************80
             //
@@ -848,60 +868,72 @@ namespace Burkardt.FullertonFnLib
             }
             ;
             double eta;
-            int naif = 0;
-            int naig = 0;
             double phi = 0;
             double value;
             double x2;
-            double x2sml = 0.0;
             double x3;
-            double x3sml = 0.0;
             double xn = 0;
 
-            if (naif == 0)
+            r8ADMPData admpdata = new r8ADMPData();
+            r8AIDEData aidedata = new r8AIDEData();
+
+            if (data.naif == 0)
             {
                 eta = 0.1 * r8_mach(3);
-                naif = r8_inits(aifcs, 13, eta);
-                naig = r8_inits(aigcs, 13, eta);
-                x3sml = r8_power(r8_mach(3), 0.3334);
-                x2sml = Math.Sqrt(r8_mach(3));
+                data.naif = r8_inits(aifcs, 13, eta);
+                data.naig = r8_inits(aigcs, 13, eta);
+                data.x3sml = r8_power(r8_mach(3), 0.3334);
+                data.x2sml = Math.Sqrt(r8_mach(3));
             }
 
             if (x < -1.0)
             {
-                r8_admp(x, ref xn, ref phi);
+                r8_admp(ref admpdata, x, ref xn, ref phi);
                 value = xn * Math.Cos(phi);
             }
-            else if (Math.Abs(x) <= x2sml)
+            else if (Math.Abs(x) <= data.x2sml)
             {
                 x2 = 0.0;
                 x3 = 0.0;
-                value = (x2 * (0.125 + r8_csevl(x3, aifcs, naif))
-                         - r8_csevl(x3, aigcs, naig)) - 0.25;
+                value = (x2 * (0.125 + r8_csevl(x3, aifcs, data.naif))
+                         - r8_csevl(x3, aigcs, data.naig)) - 0.25;
             }
-            else if (Math.Abs(x) <= x3sml)
+            else if (Math.Abs(x) <= data.x3sml)
             {
                 x2 = x * x;
                 x3 = 0.0;
-                value = (x2 * (0.125 + r8_csevl(x3, aifcs, naif))
-                         - r8_csevl(x3, aigcs, naig)) - 0.25;
+                value = (x2 * (0.125 + r8_csevl(x3, aifcs, data.naif))
+                         - r8_csevl(x3, aigcs, data.naig)) - 0.25;
             }
             else if (x <= 1.0)
             {
                 x2 = x * x;
                 x3 = x * x * x;
-                value = (x2 * (0.125 + r8_csevl(x3, aifcs, naif))
-                         - r8_csevl(x3, aigcs, naig)) - 0.25;
+                value = (x2 * (0.125 + r8_csevl(x3, aifcs, data.naif))
+                         - r8_csevl(x3, aigcs, data.naig)) - 0.25;
             }
             else
             {
-                value = r8_aide(x) * Math.Exp(-2.0 * x * Math.Sqrt(x) / 3.0);
+                value = r8_aide(ref aidedata, x) * Math.Exp(-2.0 * x * Math.Sqrt(x) / 3.0);
             }
 
             return value;
         }
 
-        public static double r8_aide(double x)
+        public class r8AIDEData
+        {
+            public int naif = 0;
+            public int naig = 0;
+            public int naip1 = 0;
+            public int naip2 = 0;
+            public double x2sml = 0.0;
+            public double x32sml = 0.0;
+            public double x3sml = 0.0;
+            public double xbig = 0.0;
+
+        }
+
+        public static double r8_aide( ref r8AIDEData data, double x)
 
             //****************************************************************************80
             //
@@ -1084,58 +1116,51 @@ namespace Burkardt.FullertonFnLib
             }
             ;
             double eta;
-            int naif = 0;
-            int naig = 0;
-            int naip1 = 0;
-            int naip2 = 0;
             double phi = 0;
             double sqrtx;
             double value;
             double x2;
-            double x2sml = 0.0;
             double x3;
-            double x32sml = 0.0;
-            double x3sml = 0.0;
-            double xbig = 0.0;
             double xn = 0;
             double z;
+            r8ADMPData admpdata = new r8ADMPData();
 
-            if (naif == 0)
+            if (data.naif == 0)
             {
                 eta = 0.1 * r8_mach(3);
-                naif = r8_inits(aifcs, 13, eta);
-                naig = r8_inits(aigcs, 13, eta);
-                naip1 = r8_inits(aip1cs, 57, eta);
-                naip2 = r8_inits(aip2cs, 37, eta);
-                x2sml = Math.Sqrt(eta);
-                x3sml = r8_power(eta, 0.3333);
-                x32sml = 1.3104 * x3sml * x3sml;
-                xbig = r8_power(r8_mach(2), 0.6666);
+                data.naif = r8_inits(aifcs, 13, eta);
+                data.naig = r8_inits(aigcs, 13, eta);
+                data.naip1 = r8_inits(aip1cs, 57, eta);
+                data.naip2 = r8_inits(aip2cs, 37, eta);
+                data.x2sml = Math.Sqrt(eta);
+                data.x3sml = r8_power(eta, 0.3333);
+                data.x32sml = 1.3104 * data.x3sml * data.x3sml;
+                data.xbig = r8_power(r8_mach(2), 0.6666);
             }
 
             if (x < -1.0)
             {
-                r8_admp(x, ref xn, ref phi);
+                r8_admp(ref admpdata, x, ref xn, ref phi);
                 value = xn * Math.Cos(phi);
             }
-            else if (Math.Abs(x) < x2sml)
+            else if (Math.Abs(x) < data.x2sml)
             {
                 x2 = 0.0;
                 x3 = 0.0;
-                value = (x2 * (0.125 + r8_csevl(x3, aifcs, naif))
-                         - r8_csevl(x3, aigcs, naig)) - 0.25;
-                if (x32sml < x)
+                value = (x2 * (0.125 + r8_csevl(x3, aifcs, data.naif))
+                         - r8_csevl(x3, aigcs, data.naig)) - 0.25;
+                if (data.x32sml < x)
                 {
                     value = value * Math.Exp(2.0 * x * Math.Sqrt(x) / 3.0);
                 }
             }
-            else if (Math.Abs(x) < x3sml)
+            else if (Math.Abs(x) < data.x3sml)
             {
                 x2 = x * x;
                 x3 = 0.0;
-                value = (x2 * (0.125 + r8_csevl(x3, aifcs, naif))
-                         - r8_csevl(x3, aigcs, naig)) - 0.25;
-                if (x32sml < x)
+                value = (x2 * (0.125 + r8_csevl(x3, aifcs, data.naif))
+                         - r8_csevl(x3, aigcs, data.naig)) - 0.25;
+                if (data.x32sml < x)
                 {
                     value = value * Math.Exp(2.0 * x * Math.Sqrt(x) / 3.0);
                 }
@@ -1144,9 +1169,9 @@ namespace Burkardt.FullertonFnLib
             {
                 x2 = x * x;
                 x3 = x * x;
-                value = (x2 * (0.125 + r8_csevl(x3, aifcs, naif))
-                         - r8_csevl(x3, aigcs, naig)) - 0.25;
-                if (x32sml < x)
+                value = (x2 * (0.125 + r8_csevl(x3, aifcs, data.naif))
+                         - r8_csevl(x3, aigcs, data.naig)) - 0.25;
+                if (data.x32sml < x)
                 {
                     value = value * Math.Exp(2.0 * x * Math.Sqrt(x) / 3.0);
                 }
@@ -1155,25 +1180,36 @@ namespace Burkardt.FullertonFnLib
             {
                 sqrtx = Math.Sqrt(x);
                 z = (16.0 / (x * sqrtx) - 9.0) / 7.0;
-                value = (-0.28125 - r8_csevl(z, aip1cs, naip1)) * Math.Sqrt(sqrtx);
+                value = (-0.28125 - r8_csevl(z, aip1cs, data.naip1)) * Math.Sqrt(sqrtx);
             }
-            else if (x < xbig)
+            else if (x < data.xbig)
             {
                 sqrtx = Math.Sqrt(x);
                 z = 16.0 / (x * sqrtx) - 1.0;
-                value = (-0.28125 - r8_csevl(z, aip2cs, naip2)) * Math.Sqrt(sqrtx);
+                value = (-0.28125 - r8_csevl(z, aip2cs, data.naip2)) * Math.Sqrt(sqrtx);
             }
             else
             {
                 sqrtx = Math.Sqrt(x);
                 z = -1.0;
-                value = (-0.28125 - r8_csevl(z, aip2cs, naip2)) * Math.Sqrt(sqrtx);
+                value = (-0.28125 - r8_csevl(z, aip2cs, data.naip2)) * Math.Sqrt(sqrtx);
             }
 
             return value;
         }
 
-        public static double r8_aie(double x)
+        public class r8AIEData
+        {
+            public int naif = 0;
+            public int naig = 0;
+            public int naip1 = 0;
+            public int naip2 = 0;
+            public double x32sml = 0.0;
+            public double x3sml = 0.0;
+            public double xbig = 0.0;
+
+        }
+        public static double r8_aie( ref r8AIEData data, double x)
 
             //****************************************************************************80
             //
@@ -1355,79 +1391,86 @@ namespace Burkardt.FullertonFnLib
             }
             ;
             double eta;
-            int naif = 0;
-            int naig = 0;
-            int naip1 = 0;
-            int naip2 = 0;
             double sqrtx;
             double theta = 0;
             double value;
-            double x32sml = 0.0;
-            double x3sml = 0.0;
-            double xbig = 0.0;
             double xm = 0;
             double z;
 
-            if (naif == 0)
+            r8AIMPData aimpdata = new r8AIMPData();
+
+            if (data.naif == 0)
             {
                 eta = 0.1 * r8_mach(3);
-                naif = r8_inits(aifcs, 13, eta);
-                naig = r8_inits(aigcs, 13, eta);
-                naip1 = r8_inits(aip1cs, 57, eta);
-                naip2 = r8_inits(aip2cs, 37, eta);
-                x3sml = r8_power(eta, 0.3333);
-                x32sml = 1.3104 * x3sml * x3sml;
-                xbig = r8_power(r8_mach(2), 0.6666);
+                data.naif = r8_inits(aifcs, 13, eta);
+                data.naig = r8_inits(aigcs, 13, eta);
+                data.naip1 = r8_inits(aip1cs, 57, eta);
+                data.naip2 = r8_inits(aip2cs, 37, eta);
+                data.x3sml = r8_power(eta, 0.3333);
+                data.x32sml = 1.3104 * data.x3sml * data.x3sml;
+                data.xbig = r8_power(r8_mach(2), 0.6666);
             }
 
             if (x < -1.0)
             {
-                r8_aimp(x, ref xm, ref theta);
+                r8_aimp(ref aimpdata, x, ref xm, ref theta);
                 value = xm * Math.Cos(theta);
             }
-            else if (0.0 <= x && x <= x32sml)
+            else if (0.0 <= x && x <= data.x32sml)
             {
                 z = 0.0;
-                value = 0.3750 + (r8_csevl(z, aifcs, naif)
-                                  - x * (0.25 + r8_csevl(z, aigcs, naig)));
+                value = 0.3750 + (r8_csevl(z, aifcs, data.naif)
+                                  - x * (0.25 + r8_csevl(z, aigcs, data.naig)));
             }
-            else if (Math.Abs(x) <= x3sml)
+            else if (Math.Abs(x) <= data.x3sml)
             {
                 z = 0.0;
-                value = 0.3750 + (r8_csevl(z, aifcs, naif)
-                                  - x * (0.25 + r8_csevl(z, aigcs, naig)));
+                value = 0.3750 + (r8_csevl(z, aifcs, data.naif)
+                                  - x * (0.25 + r8_csevl(z, aigcs, data.naig)));
                 value = value * Math.Exp(2.0 * x * Math.Sqrt(x) / 3.0);
             }
             else if (x <= 1.0)
             {
                 z = x * x * x;
-                value = 0.3750 + (r8_csevl(z, aifcs, naif)
-                                  - x * (0.25 + r8_csevl(z, aigcs, naig)));
+                value = 0.3750 + (r8_csevl(z, aifcs, data.naif)
+                                  - x * (0.25 + r8_csevl(z, aigcs, data.naig)));
                 value = value * Math.Exp(2.0 * x * Math.Sqrt(x) / 3.0);
             }
             else if (x <= 4.0)
             {
                 sqrtx = Math.Sqrt(x);
                 z = (16.0 / (x * sqrtx) - 9.0) / 7.0;
-                value = (0.28125 + r8_csevl(z, aip1cs, naip1)) / Math.Sqrt(sqrtx);
+                value = (0.28125 + r8_csevl(z, aip1cs, data.naip1)) / Math.Sqrt(sqrtx);
             }
-            else if (x < xbig)
+            else if (x < data.xbig)
             {
                 sqrtx = Math.Sqrt(x);
                 z = 16.0 / (x * sqrtx) - 1.0;
-                value = (0.28125 + r8_csevl(z, aip2cs, naip2)) / Math.Sqrt(sqrtx);
+                value = (0.28125 + r8_csevl(z, aip2cs, data.naip2)) / Math.Sqrt(sqrtx);
             }
             else
             {
                 sqrtx = Math.Sqrt(x);
                 z = -1.0;
-                value = (0.28125 + r8_csevl(z, aip2cs, naip2)) / Math.Sqrt(sqrtx);
+                value = (0.28125 + r8_csevl(z, aip2cs, data.naip2)) / Math.Sqrt(sqrtx);
             }
 
             return value;
         }
 
-        public static void r8_aimp(double x, ref double ampl, ref double theta )
+        public class r8AIMPData
+        {
+            public int nam20 = 0;
+            public int nam21 = 0;
+            public int nam22 = 0;
+            public int nath0 = 0;
+            public int nath1 = 0;
+            public int nath2 = 0;
+            public double xsml = 0.0;
+
+        }
+        
+        public static void r8_aimp(ref r8AIMPData data, double x, ref double ampl, ref double theta )
 
         //****************************************************************************80
         //
@@ -1864,52 +1907,45 @@ namespace Burkardt.FullertonFnLib
             }
             ;
             double eta;
-            int nam20 = 0;
-            int nam21 = 0;
-            int nam22 = 0;
-            int nath0 = 0;
-            int nath1 = 0;
-            int nath2 = 0;
             const double pi4 = 0.78539816339744830961566084581988;
             double sqrtx;
-            double xsml = 0.0;
             double z;
 
-            if (nam20 == 0)
+            if (data.nam20 == 0)
             {
                 eta = 0.1 * r8_mach(3);
-                nam20 = r8_inits(am20cs, 57, eta);
-                nath0 = r8_inits(ath0cs, 53, eta);
-                nam21 = r8_inits(am21cs, 60, eta);
-                nath1 = r8_inits(ath1cs, 58, eta);
-                nam22 = r8_inits(am22cs, 74, eta);
-                nath2 = r8_inits(ath2cs, 72, eta);
-                xsml = -r8_power(128.0 / r8_mach(3), 0.3333);
+                data.nam20 = r8_inits(am20cs, 57, eta);
+                data.nath0 = r8_inits(ath0cs, 53, eta);
+                data.nam21 = r8_inits(am21cs, 60, eta);
+                data.nath1 = r8_inits(ath1cs, 58, eta);
+                data.nam22 = r8_inits(am22cs, 74, eta);
+                data.nath2 = r8_inits(ath2cs, 72, eta);
+                data.xsml = -r8_power(128.0 / r8_mach(3), 0.3333);
             }
 
-            if (x <= xsml)
+            if (x <= data.xsml)
             {
                 z = 1.0;
-                ampl = 0.3125 + r8_csevl(z, am20cs, nam20);
-                theta = -0.625 + r8_csevl(z, ath0cs, nath0);
+                ampl = 0.3125 + r8_csevl(z, am20cs, data.nam20);
+                theta = -0.625 + r8_csevl(z, ath0cs, data.nath0);
             }
             else if (x < -4.0)
             {
                 z = 128.0 / x / x / x + 1.0;
-                ampl = 0.3125 + r8_csevl(z, am20cs, nam20);
-                theta = -0.625 + r8_csevl(z, ath0cs, nath0);
+                ampl = 0.3125 + r8_csevl(z, am20cs, data.nam20);
+                theta = -0.625 + r8_csevl(z, ath0cs, data.nath0);
             }
             else if (x < -2.0)
             {
                 z = (128.0 / x / x / x + 9.0) / 7.0;
-                ampl = 0.3125 + r8_csevl(z, am21cs, nam21);
-                theta = -0.625 + r8_csevl(z, ath1cs, nath1);
+                ampl = 0.3125 + r8_csevl(z, am21cs, data.nam21);
+                theta = -0.625 + r8_csevl(z, ath1cs, data.nath1);
             }
             else if (x <= -1.0)
             {
                 z = (16.0 / x / x / x + 9.0) / 7.0;
-                ampl = 0.3125 + r8_csevl(z, am22cs, nam22);
-                theta = -0.625 + r8_csevl(z, ath2cs, nath2);
+                ampl = 0.3125 + r8_csevl(z, am22cs, data.nam22);
+                theta = -0.625 + r8_csevl(z, ath2cs, data.nath2);
             }
             else
             {
@@ -1965,7 +2001,14 @@ namespace Burkardt.FullertonFnLib
             return value;
         }
 
-        public static double r8_asin(double x)
+        public class r8ASINData
+        {
+            public int nterms = 0;
+            public double sqeps = 0.0;
+
+        }
+        
+        public static double r8_asin(ref r8ASINData data, double x)
 
             //****************************************************************************80
             //
@@ -2046,22 +2089,20 @@ namespace Burkardt.FullertonFnLib
                 +0.16222501166399014393173333333333E-31
             }
             ;
-            int nterms = 0;
             const double pi2 = 1.57079632679489661923132169163975;
-            double sqeps = 0.0;
             double value;
             double y;
             double z;
 
-            if (nterms == 0)
+            if (data.nterms == 0)
             {
-                nterms = r8_inits(asincs, 39, 0.1 * r8_mach(3));
-                sqeps = Math.Sqrt(6.0 * r8_mach(3));
+                data.nterms = r8_inits(asincs, 39, 0.1 * r8_mach(3));
+                data.sqeps = Math.Sqrt(6.0 * r8_mach(3));
             }
 
             y = Math.Abs(x);
 
-            if (x < -1.0 - sqeps)
+            if (x < -1.0 - data.sqeps)
             {
                 Console.WriteLine("");
                 Console.WriteLine("R8_ASIN - Fatal error!");
@@ -2075,19 +2116,19 @@ namespace Burkardt.FullertonFnLib
             else if (x < 1.0)
             {
                 z = 0.0;
-                if (sqeps < y)
+                if (data.sqeps < y)
                 {
                     z = y * y;
                 }
 
                 if (z <= 0.5)
                 {
-                    value = x * (1.0 + r8_csevl(4.0 * z - 1.0, asincs, nterms));
+                    value = x * (1.0 + r8_csevl(4.0 * z - 1.0, asincs, data.nterms));
                 }
                 else
                 {
                     value = pi2 - Math.Sqrt(1.0 - z) * (1.0 +
-                                                   r8_csevl(3.0 - 4.0 * z, asincs, nterms));
+                                                   r8_csevl(3.0 - 4.0 * z, asincs, data.nterms));
                 }
 
                 if (x < 0.0)
@@ -2099,7 +2140,7 @@ namespace Burkardt.FullertonFnLib
                     value = +Math.Abs(value);
                 }
             }
-            else if (x < 1.0 + sqeps)
+            else if (x < 1.0 + data.sqeps)
             {
                 value = pi2;
             }
@@ -2114,7 +2155,15 @@ namespace Burkardt.FullertonFnLib
             return value;
         }
 
-        public static double r8_asinh(double x)
+        public class r8ASINHData
+        {
+            public int nterms = 0;
+            public double sqeps = 0.0;
+            public double xmax = 0.0;
+
+        }
+        
+        public static double r8_asinh(ref r8ASINHData data, double x)
 
             //****************************************************************************80
             //
@@ -2196,30 +2245,27 @@ namespace Burkardt.FullertonFnLib
                 +0.22629868426552784104106666666666E-31
             }
             ;
-            int nterms = 0;
-            double sqeps = 0.0;
             double value;
-            double xmax = 0.0;
             double y;
 
-            if (nterms == 0)
+            if (data.nterms == 0)
             {
-                nterms = r8_inits(asnhcs, 39, 0.1 * r8_mach(3));
-                sqeps = Math.Sqrt(r8_mach(3));
-                xmax = 1.0 / sqeps;
+                data.nterms = r8_inits(asnhcs, 39, 0.1 * r8_mach(3));
+                data.sqeps = Math.Sqrt(r8_mach(3));
+                data.xmax = 1.0 / data.sqeps;
             }
 
             y = Math.Abs(x);
 
-            if (y <= sqeps)
+            if (y <= data.sqeps)
             {
                 value = x;
             }
             else if (y <= 1.0)
             {
-                value = x * (1.0 + r8_csevl(2.0 * x * x - 1.0, asnhcs, nterms));
+                value = x * (1.0 + r8_csevl(2.0 * x * x - 1.0, asnhcs, data.nterms));
             }
-            else if (y < xmax)
+            else if (y < data.xmax)
             {
                 value = Math.Log(y + Math.Sqrt(y * y + 1.0));
                 if (x < 0.0)
@@ -2239,7 +2285,14 @@ namespace Burkardt.FullertonFnLib
             return value;
         }
 
-        public static double r8_atan(double x)
+        public class r8ATANData
+        {
+            public int nterms = 0;
+            public double sqeps = 0.0;
+            public double xbig = 0.0;
+
+        }
+        public static double r8_atan(ref r8ATANData data, double x)
 
             //****************************************************************************80
             //
@@ -2305,7 +2358,6 @@ namespace Burkardt.FullertonFnLib
             }
             ;
             int n;
-             int nterms = 0;
              double[] pi8 = {
                 +0.17699081698724154807830422909937E-01,
                 +0.35398163397448309615660845819875E-01,
@@ -2313,7 +2365,6 @@ namespace Burkardt.FullertonFnLib
                 +0.70796326794896619231321691639751E-01
             }
             ;
-            double sqeps = 0.0;
             double t;
             double[] tanp8 = {
                 +0.41421356237309504880168872420969,
@@ -2322,18 +2373,17 @@ namespace Burkardt.FullertonFnLib
             }
             ;
             double value;
-            double xbig = 0.0;
             const double xbnd1 = +0.19891236737965800691159762264467;
             const double xbnd2 = +0.66817863791929891999775768652308;
             const double xbnd3 = +1.4966057626654890176011351349424;
             const double xbnd4 = +5.0273394921258481045149750710640;
             double y;
 
-            if (nterms == 0)
+            if (data.nterms == 0)
             {
-                nterms = r8_inits(atancs, 16, 0.1 * r8_mach(3));
-                sqeps = Math.Sqrt(6.0 * r8_mach(3));
-                xbig = 1.0 / r8_mach(3);
+                data.nterms = r8_inits(atancs, 16, 0.1 * r8_mach(3));
+                data.sqeps = Math.Sqrt(6.0 * r8_mach(3));
+                data.xbig = 1.0 / r8_mach(3);
             }
 
             y = Math.Abs(x);
@@ -2341,9 +2391,9 @@ namespace Burkardt.FullertonFnLib
             if (y <= xbnd1)
             {
                 value = x;
-                if (sqeps < y)
+                if (data.sqeps < y)
                 {
-                    value = x * (0.75 + r8_csevl(50.0 * y * y - 1.0, atancs, nterms));
+                    value = x * (0.75 + r8_csevl(50.0 * y * y - 1.0, atancs, data.nterms));
                 }
             }
             else if (y <= xbnd4)
@@ -2364,16 +2414,16 @@ namespace Burkardt.FullertonFnLib
                 t = (y - tanp8[n - 1]) / (1.0 + y * tanp8[n - 1]);
 
                 value = conpi8[n - 1] + (pi8[n - 1] + t * (0.75 +
-                                                           r8_csevl(50.0 * t * t - 1.0, atancs, nterms)));
+                                                           r8_csevl(50.0 * t * t - 1.0, atancs, data.nterms)));
             }
             else
             {
                 value = conpi8[3] + pi8[3];
 
-                if (y < xbig)
+                if (y < data.xbig)
                 {
                     value = conpi8[3] + (pi8[3] - (0.75 +
-                                                   r8_csevl(50.0 / y / y - 1.0, atancs, nterms)) / y);
+                                                   r8_csevl(50.0 / y / y - 1.0, atancs, data.nterms)) / y);
                 }
             }
 
@@ -2389,7 +2439,13 @@ namespace Burkardt.FullertonFnLib
             return value;
         }
 
-        public static double r8_atan2(double sn, double cs)
+        public class r8ATAN2Data
+        {
+            public double big = 0.0;
+            public double sml = 0.0;
+
+        }
+        public static double r8_atan2(ref r8ATAN2Data data, double sn, double cs)
 
             //****************************************************************************80
             //
@@ -2431,15 +2487,13 @@ namespace Burkardt.FullertonFnLib
         {
             double abscs;
             double abssn;
-            double big = 0.0;
             const double pi = 3.14159265358979323846264338327950;
-            double sml = 0.0;
             double value;
 
-            if (sml == 0.0)
+            if (data.sml == 0.0)
             {
-                sml = r8_mach(1);
-                big = r8_mach(2);
+                data.sml = r8_mach(1);
+                data.big = r8_mach(2);
             }
 
             //
@@ -2450,7 +2504,7 @@ namespace Burkardt.FullertonFnLib
 
             if (abscs <= abssn)
             {
-                if (abscs < 1.0 && abscs * big <= abssn)
+                if (abscs < 1.0 && abscs * data.big <= abssn)
                 {
                     if (sn < 0.0)
                     {
@@ -2473,7 +2527,7 @@ namespace Burkardt.FullertonFnLib
             }
             else
             {
-                if (1.0 < abscs && abssn <= abscs * sml)
+                if (1.0 < abscs && abssn <= abscs * data.sml)
                 {
                     if (0.0 <= cs)
                     {
@@ -2503,7 +2557,14 @@ namespace Burkardt.FullertonFnLib
             return value;
         }
 
-        public static double r8_atanh(double x)
+        public class r8ATANHData
+        {
+            public int nterms = 0;
+            public double dxrel = 0.0;
+            public double sqeps = 0.0;
+            
+        }
+        public static double r8_atanh(ref r8ATANHData data, double x)
 
             //****************************************************************************80
             //
@@ -2572,33 +2633,30 @@ namespace Burkardt.FullertonFnLib
                 +0.6863462444358260053333333333333E-31
             }
             ;
-            double dxrel = 0.0;
-            int nterms = 0;
-            double sqeps = 0.0;
             double value;
             double y;
 
-            if (nterms == 0)
+            if (data.nterms == 0)
             {
-                nterms = r8_inits(atnhcs, 27, 0.1 * r8_mach(3));
-                dxrel = Math.Sqrt(r8_mach(4));
-                sqeps = Math.Sqrt(3.0 * r8_mach(3));
+                data.nterms = r8_inits(atnhcs, 27, 0.1 * r8_mach(3));
+                data.dxrel = Math.Sqrt(r8_mach(4));
+                data.sqeps = Math.Sqrt(3.0 * r8_mach(3));
             }
 
             y = Math.Abs(x);
 
-            if (y <= sqeps)
+            if (y <= data.sqeps)
             {
                 value = x;
             }
             else if (y <= 0.5)
             {
-                value = x * (1.0 + r8_csevl(8.0 * x * x - 1.0, atnhcs, nterms));
+                value = x * (1.0 + r8_csevl(8.0 * x * x - 1.0, atnhcs, data.nterms));
             }
             else if (y < 1.0)
             {
                 value = 0.5 * Math.Log((1.0 + x) / (1.0 - x));
-                if (1.0 - y < dxrel)
+                if (1.0 - y < data.dxrel)
                 {
                     Console.WriteLine("");
                     Console.WriteLine("R8_ATANH - Warning:");

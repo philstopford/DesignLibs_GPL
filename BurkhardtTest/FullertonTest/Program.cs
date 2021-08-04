@@ -313,6 +313,7 @@ namespace FullertonTest
             Console.WriteLine("");
 
             n_data = 0;
+            FullertonLib.r8AIData data = new FullertonLib.r8AIData();
 
             for (;;)
             {
@@ -323,7 +324,7 @@ namespace FullertonTest
                     break;
                 }
 
-                fx2 = FullertonLib.r8_ai(x);
+                fx2 = FullertonLib.r8_ai(ref data, x);
 
                 Console.WriteLine("  " + x.ToString().PadLeft(14)
                     + "  " + fx1.ToString().PadLeft(14)
@@ -366,6 +367,7 @@ namespace FullertonTest
             Console.WriteLine("             X   AIRY_AID(X)  R8_AID(X)         Diff");
 
             n_data = 0;
+            FullertonLib.r8AIDData data = new FullertonLib.r8AIDData();
 
             for (;;)
             {
@@ -376,7 +378,7 @@ namespace FullertonTest
                     break;
                 }
 
-                fx2 = FullertonLib.r8_aid(x);
+                fx2 = FullertonLib.r8_aid(ref data, x);
 
                 Console.WriteLine("");
                 Console.WriteLine("  " + x.ToString().PadLeft(14)
@@ -475,6 +477,7 @@ namespace FullertonTest
             Console.WriteLine("");
 
             n_data = 0;
+            FullertonLib.r8ASINData data = new FullertonLib.r8ASINData();
 
             for (;;)
             {
@@ -485,7 +488,7 @@ namespace FullertonTest
                     break;
                 }
 
-                fx2 = FullertonLib.r8_asin(x);
+                fx2 = FullertonLib.r8_asin(ref data, x);
 
                 Console.WriteLine("  " + x.ToString().PadLeft(14)
                     + "  " + fx1.ToString().PadLeft(14)
@@ -529,6 +532,7 @@ namespace FullertonTest
             Console.WriteLine("");
 
             n_data = 0;
+            FullertonLib.r8ASINHData data = new FullertonLib.r8ASINHData();
 
             for (;;)
             {
@@ -539,7 +543,7 @@ namespace FullertonTest
                     break;
                 }
 
-                fx2 = FullertonLib.r8_asinh(x);
+                fx2 = FullertonLib.r8_asinh(ref data, x);
 
                 Console.WriteLine("  " + x.ToString().PadLeft(14)
                     + "  " + fx1.ToString().PadLeft(14)
@@ -583,6 +587,7 @@ namespace FullertonTest
             Console.WriteLine("");
 
             n_data = 0;
+            FullertonLib.r8ATANData data = new FullertonLib.r8ATANData();
 
             for (;;)
             {
@@ -593,7 +598,7 @@ namespace FullertonTest
                     break;
                 }
 
-                fx2 = FullertonLib.r8_atan(x);
+                fx2 = FullertonLib.r8_atan(ref data, x);
 
                 Console.WriteLine("  " + x.ToString().PadLeft(14)
                     + "  " + fx1.ToString().PadLeft(14)
@@ -638,6 +643,7 @@ namespace FullertonTest
             Console.WriteLine("");
 
             n_data = 0;
+            FullertonLib.r8ATAN2Data data = new FullertonLib.r8ATAN2Data();
 
             for (;;)
             {
@@ -648,7 +654,7 @@ namespace FullertonTest
                     break;
                 }
 
-                fx2 = FullertonLib.r8_atan2(y, x);
+                fx2 = FullertonLib.r8_atan2(ref data, y, x);
 
                 Console.WriteLine("  " + x.ToString().PadLeft(14)
                     + "  " + y.ToString().PadLeft(14)
@@ -693,6 +699,7 @@ namespace FullertonTest
             Console.WriteLine("");
 
             n_data = 0;
+            FullertonLib.r8ATANHData data = new FullertonLib.r8ATANHData();
 
             for (;;)
             {
@@ -703,7 +710,7 @@ namespace FullertonTest
                     break;
                 }
 
-                fx2 = FullertonLib.r8_atanh(x);
+                fx2 = FullertonLib.r8_atanh(ref data, x);
 
                 Console.WriteLine("  " + x.ToString().PadLeft(14)
                     + "  " + fx1.ToString().PadLeft(14)
@@ -738,7 +745,6 @@ namespace FullertonTest
             double fx2;
             int n_data;
             double x = 0;
-            FullertonLib.BesselData data = new FullertonLib.BesselData();
 
             Console.WriteLine("");
             Console.WriteLine("R8_BESI0_TEST:");
@@ -748,6 +754,8 @@ namespace FullertonTest
             Console.WriteLine("");
 
             n_data = 0;
+            FullertonLib.BesselData globaldata = new FullertonLib.BesselData();
+            FullertonLib.r8BESI0Data data = new FullertonLib.r8BESI0Data();
 
             for (;;)
             {
@@ -758,7 +766,7 @@ namespace FullertonTest
                     break;
                 }
 
-                fx2 = FullertonLib.r8_besi0(ref data, x);
+                fx2 = FullertonLib.r8_besi0(ref globaldata, ref data, x);
 
                 Console.WriteLine("  " + x.ToString().PadLeft(14)
                     + "  " + fx1.ToString().PadLeft(14)
@@ -802,7 +810,8 @@ namespace FullertonTest
             Console.WriteLine("");
 
             n_data = 0;
-            FullertonLib.BesselData data = new FullertonLib.BesselData();
+            FullertonLib.BesselData globaldata = new FullertonLib.BesselData();
+            FullertonLib.r8BESI1Data data = new FullertonLib.r8BESI1Data();
 
             for (;;)
             {
@@ -813,7 +822,7 @@ namespace FullertonTest
                     break;
                 }
 
-                fx2 = FullertonLib.r8_besi1(ref data, x);
+                fx2 = FullertonLib.r8_besi1(ref globaldata, ref data, x);
 
                 Console.WriteLine("  " + x.ToString().PadLeft(14)
                     + "  " + fx1.ToString().PadLeft(14)
@@ -857,7 +866,8 @@ namespace FullertonTest
             Console.WriteLine("");
 
             n_data = 0;
-            FullertonLib.BesselData data = new FullertonLib.BesselData();
+            FullertonLib.BesselData globaldata = new FullertonLib.BesselData();
+            FullertonLib.r8BESJ0Data data = new FullertonLib.r8BESJ0Data();
 
             for (;;)
             {
@@ -868,7 +878,7 @@ namespace FullertonTest
                     break;
                 }
 
-                fx2 = FullertonLib.r8_besj0(ref data, x);
+                fx2 = FullertonLib.r8_besj0(ref globaldata, ref data, x);
 
                 Console.WriteLine("  " + x.ToString().PadLeft(14)
                     + "  " + fx1.ToString().PadLeft(14)
@@ -912,7 +922,8 @@ namespace FullertonTest
             Console.WriteLine("");
 
             n_data = 0;
-            FullertonLib.BesselData data = new FullertonLib.BesselData();
+            FullertonLib.BesselData globaldata = new FullertonLib.BesselData();
+            FullertonLib.r8BESJ1Data data = new FullertonLib.r8BESJ1Data();
 
             for (;;)
             {
@@ -923,7 +934,7 @@ namespace FullertonTest
                     break;
                 }
 
-                fx2 = FullertonLib.r8_besj1(ref data, x);
+                fx2 = FullertonLib.r8_besj1(ref globaldata, ref data, x);
 
                 Console.WriteLine("  " + x.ToString().PadLeft(14)
                     + "  " + fx1.ToString().PadLeft(14)
@@ -967,7 +978,8 @@ namespace FullertonTest
             Console.WriteLine("");
 
             n_data = 0;
-            FullertonLib.BesselData data = new FullertonLib.BesselData();
+            FullertonLib.BesselData globaldata = new FullertonLib.BesselData();
+            FullertonLib.r8BESK0Data data = new FullertonLib.r8BESK0Data();
 
             for (;;)
             {
@@ -978,7 +990,7 @@ namespace FullertonTest
                     break;
                 }
 
-                fx2 = FullertonLib.r8_besk0(ref data, x);
+                fx2 = FullertonLib.r8_besk0(ref globaldata, ref data, x);
 
                 Console.WriteLine("  " + x.ToString().PadLeft(14)
                     + "  " + fx1.ToString().PadLeft(14)
@@ -1022,7 +1034,8 @@ namespace FullertonTest
             Console.WriteLine("");
 
             n_data = 0;
-            FullertonLib.BesselData data = new FullertonLib.BesselData();
+            FullertonLib.BesselData globaldata = new FullertonLib.BesselData();
+            FullertonLib.r8BESK1Data data = new FullertonLib.r8BESK1Data();
 
             for (;;)
             {
@@ -1033,7 +1046,7 @@ namespace FullertonTest
                     break;
                 }
 
-                fx2 = FullertonLib.r8_besk1(ref data, x);
+                fx2 = FullertonLib.r8_besk1(ref globaldata, ref data, x);
 
                 Console.WriteLine("  " + x.ToString().PadLeft(14)
                     + "  " + fx1.ToString().PadLeft(14)
@@ -1077,7 +1090,8 @@ namespace FullertonTest
             Console.WriteLine("");
 
             n_data = 0;
-            FullertonLib.BesselData data = new FullertonLib.BesselData();
+            FullertonLib.BesselData globaldata = new FullertonLib.BesselData();
+            FullertonLib.r8BESY0Data data = new FullertonLib.r8BESY0Data();
 
             for (;;)
             {
@@ -1088,7 +1102,7 @@ namespace FullertonTest
                     break;
                 }
 
-                fx2 = FullertonLib.r8_besy0(ref data, x);
+                fx2 = FullertonLib.r8_besy0(ref globaldata, ref data, x);
 
                 Console.WriteLine("  " + x.ToString().PadLeft(14)
                     + "  " + fx1.ToString().PadLeft(14)
@@ -1132,7 +1146,8 @@ namespace FullertonTest
             Console.WriteLine("");
 
             n_data = 0;
-            FullertonLib.BesselData data = new FullertonLib.BesselData();
+            FullertonLib.BesselData globaldata = new FullertonLib.BesselData();
+            FullertonLib.r8BESY1Data data = new FullertonLib.r8BESY1Data();
 
             for (;;)
             {
@@ -1143,7 +1158,7 @@ namespace FullertonTest
                     break;
                 }
 
-                fx2 = FullertonLib.r8_besy1(ref data, x);
+                fx2 = FullertonLib.r8_besy1(ref globaldata, ref data, x);
 
                 Console.WriteLine("  " + x.ToString().PadLeft(14)
                     + "  " + fx1.ToString().PadLeft(14)
@@ -1188,7 +1203,9 @@ namespace FullertonTest
             Console.WriteLine("");
 
             n_data = 0;
-            FullertonLib.BesselData data = new FullertonLib.BesselData();
+            FullertonLib.r8GammaData gdata = new FullertonLib.r8GammaData();
+            FullertonLib.BesselData globaldata = new FullertonLib.BesselData();
+            FullertonLib.r8BetaData data = new FullertonLib.r8BetaData();
 
             for (;;)
             {
@@ -1199,7 +1216,7 @@ namespace FullertonTest
                     break;
                 }
 
-                fx2 = FullertonLib.r8_beta(ref data.gdata, ref data, a, b);
+                fx2 = FullertonLib.r8_beta(ref gdata, ref globaldata, ref data, a, b);
 
 
                 Console.WriteLine("  " + a.ToString().PadLeft(14)

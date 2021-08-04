@@ -10,9 +10,12 @@ namespace Burkardt.CorrelationNS
         {
             public double[] result;
             public FullertonLib.BesselData data;
+            public FullertonLib.r8BESJ0Data j0data;
+            public FullertonLib.r8BESKData kdata;
+            public FullertonLib.r8BESK1Data k1data;
         }
 
-        public static CorrelationResult correlation_besselj(FullertonLib.BesselData data, int n, double[] rho, double rho0 )
+        public static CorrelationResult correlation_besselj(FullertonLib.BesselData globaldata, FullertonLib.r8BESJ0Data data, int n, double[] rho, double rho0 )
 
         //****************************************************************************80
         //
@@ -58,15 +61,15 @@ namespace Burkardt.CorrelationNS
             for (i = 0; i < n; i++)
             {
                 rhohat = Math.Abs(rho[i]) / rho0;
-                c[i] = FullertonLib.r8_besj0(ref data, rhohat);
+                c[i] = FullertonLib.r8_besj0(ref globaldata, ref data, rhohat);
             }
 
-            CorrelationResult result = new CorrelationResult() { result = c, data = data };
+            CorrelationResult result = new CorrelationResult() { result = c, data = globaldata, j0data = data };
             
             return result;
         }
 
-        public static CorrelationResult correlation_besselk(FullertonLib.BesselData data, int n, double[] rho, double rho0 )
+        public static CorrelationResult correlation_besselk(FullertonLib.BesselData globaldata, FullertonLib.r8BESK1Data data, int n, double[] rho, double rho0 )
 
         //****************************************************************************80
         //
@@ -118,11 +121,11 @@ namespace Burkardt.CorrelationNS
                 else
                 {
                     rhohat = Math.Abs(rho[i]) / rho0;
-                    c[i] = rhohat * FullertonLib.r8_besk1(ref data, rhohat);
+                    c[i] = rhohat * FullertonLib.r8_besk1(ref globaldata, ref data, rhohat);
                 }
             }
 
-            CorrelationResult res = new CorrelationResult() { result = c, data = data };
+            CorrelationResult res = new CorrelationResult() { result = c, data = globaldata, k1data = data};
             
             return res;
         }

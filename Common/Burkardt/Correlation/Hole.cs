@@ -5,7 +5,7 @@ namespace Burkardt.CorrelationNS
 {
     public static partial class Correlation
     {
-        public static CorrelationResult correlation_hole (FullertonLib.BesselData data,  int n, double[] rho, double rho0 )
+        public static CorrelationResult correlation_hole (FullertonLib.BesselData globaldata, FullertonLib.r8BESK1Data data, int n, double[] rho, double rho0 )
 
         //****************************************************************************80
         //
@@ -46,7 +46,7 @@ namespace Burkardt.CorrelationNS
                 c[i] = ( 1.0 - Math.Abs ( rho[i] ) / rho0 ) 
                        * Math.Exp ( - Math.Abs ( rho[i] ) / rho0 );
             }
-            return new CorrelationResult(){result = c, data = data};
+            return new CorrelationResult(){result = c, data = globaldata, k1data = data};
         }
     }
 }

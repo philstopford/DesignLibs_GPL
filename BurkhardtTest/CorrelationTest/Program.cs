@@ -82,158 +82,171 @@ namespace CorrelationTest
             Console.WriteLine("");
 
             n = 101;
-            FullertonLib.BesselData data = new FullertonLib.BesselData();
+            FullertonLib.BesselData globaldata = new FullertonLib.BesselData();
             Correlation.CorrelationResult tr;
             //
             //  besselj
             //
             rho0 = 1.0;
+            FullertonLib.r8BESJ0Data j0data = new FullertonLib.r8BESJ0Data();
             rho = typeMethods.r8vec_linspace_new(n, -8.0, 8.0);
-            tr = Correlation.correlation_besselj(data, n, rho, rho0);
+            tr = Correlation.correlation_besselj(globaldata, j0data, n, rho, rho0);
             c = tr.result;
-            data = tr.data;
+            globaldata = tr.data;
+            j0data = tr.j0data;
             Plot.correlation_plot(n, rho, c, "besselj", "Bessel J correlation");
             //
             //  besselk
             //
             rho0 = 1.0;
+            FullertonLib.r8BESK1Data k1data = new FullertonLib.r8BESK1Data();
             rho = typeMethods.r8vec_linspace_new(n, -4.0, 4.0);
-            tr = Correlation.correlation_besselk(data, n, rho, rho0);
+            tr = Correlation.correlation_besselk(globaldata, k1data, n, rho, rho0);
             c = tr.result;
-            data = tr.data;
+            globaldata = tr.data;
+            k1data = tr.k1data;
             Plot.correlation_plot(n, rho, c, "besselk", "Bessel K correlation");
             //
             //  circular
             //
             rho0 = 1.0;
             rho = typeMethods.r8vec_linspace_new(n, -2.0, 2.0);
-            tr = Correlation.correlation_circular(data, n, rho, rho0);
+            tr = Correlation.correlation_circular(globaldata, k1data, n, rho, rho0);
             c = tr.result;
-            data = tr.data;
+            globaldata = tr.data;
             Plot.correlation_plot(n, rho, c, "circular", "Circular correlation");
             //
             //  constant
             //
             rho0 = 1.0;
             rho = typeMethods.r8vec_linspace_new(n, -2.0, 2.0);
-            tr = Correlation.correlation_constant(data, n, rho, rho0);
+            tr = Correlation.correlation_constant(globaldata, k1data, n, rho, rho0);
             c = tr.result;
-            data = tr.data;
+            globaldata = tr.data;
             Plot.correlation_plot(n, rho, c, "constant", "Constant correlation");
             //
             //  cubic
             //
             rho0 = 1.0;
             rho = typeMethods.r8vec_linspace_new(n, -2.0, 2.0);
-            tr = Correlation.correlation_cubic(data, n, rho, rho0);
+            tr = Correlation.correlation_cubic(globaldata, k1data, n, rho, rho0);
             c = tr.result;
-            data = tr.data;
+            globaldata = tr.data;
             Plot.correlation_plot(n, rho, c, "cubic", "Cubic correlation");
             //
             //  damped_cosine
             //
             rho0 = 1.0;
             rho = typeMethods.r8vec_linspace_new(n, -6.0, 6.0);
-            tr = Correlation.correlation_damped_cosine(data, n, rho, rho0);
+            tr = Correlation.correlation_damped_cosine(globaldata, k1data, n, rho, rho0);
             c = tr.result;
-            data = tr.data;
+            globaldata = tr.data;
             Plot.correlation_plot(n, rho, c, "damped_cosine", "Damped cosine correlation");
             //
             //  damped_sine
             //
             rho0 = 1.0;
             rho = typeMethods.r8vec_linspace_new(n, -12.0, 12.0);
-            tr = Correlation.correlation_damped_sine(data, n, rho, rho0);
+            tr = Correlation.correlation_damped_sine(globaldata, j0data, n, rho, rho0);
             c = tr.result;
-            data = tr.data;
+            globaldata = tr.data;
             Plot.correlation_plot(n, rho, c, "damped_sine", "Damped sine correlation");
             //
             //  exponential
             //
             rho0 = 1.0;
             rho = typeMethods.r8vec_linspace_new(n, -2.0, 2.0);
-            tr = Correlation.correlation_exponential(data, n, rho, rho0);
+            tr = Correlation.correlation_exponential(globaldata, k1data, n, rho, rho0);
             c = tr.result;
-            data = tr.data;
+            globaldata = tr.data;
             Plot.correlation_plot(n, rho, c, "exponential", "Exponential correlation");
             //
             //  gaussian
             //
             rho0 = 1.0;
             rho = typeMethods.r8vec_linspace_new(n, -2.0, 2.0);
-            tr = Correlation.correlation_gaussian(data, n, rho, rho0);
+            tr = Correlation.correlation_gaussian(globaldata, j0data, n, rho, rho0);
             c = tr.result;
-            data = tr.data;
+            globaldata = tr.data;
             Plot.correlation_plot(n, rho, c, "gaussian", "Gaussian correlation");
             //
             //  hole
             //
             rho0 = 1.0;
             rho = typeMethods.r8vec_linspace_new(n, -6.0, 6.0);
-            tr = Correlation.correlation_hole(data, n, rho, rho0);
+            tr = Correlation.correlation_hole(globaldata, k1data, n, rho, rho0);
             c = tr.result;
-            data = tr.data;
+            globaldata = tr.data;
             Plot.correlation_plot(n, rho, c, "hole", "Hole correlation");
             //
             //  linear
             //
             rho0 = 1.0;
             rho = typeMethods.r8vec_linspace_new(n, -2.0, 2.0);
-            tr = Correlation.correlation_linear(data, n, rho, rho0);
+            tr = Correlation.correlation_linear(globaldata, k1data, n, rho, rho0);
             c = tr.result;
-            data = tr.data;
+            globaldata = tr.data;
             Plot.correlation_plot(n, rho, c, "linear", "Linear correlation");
             //
             //  matern, nu = 2.5
             //
             rho0 = 1.0;
+            FullertonLib.r8BESKData kdata = new FullertonLib.r8BESKData();
             rho = typeMethods.r8vec_linspace_new(n, -2.0, 2.0);
-            tr = Correlation.correlation_matern(data, n, rho, rho0);
+            tr = Correlation.correlation_matern(globaldata, kdata, n, rho, rho0);
             c = tr.result;
-            data = tr.data;
+            globaldata = tr.data;
+            kdata = tr.kdata;
             Plot.correlation_plot(n, rho, c, "matern", "Matern correlation (NU = 2.5)");
             //
             //  pentaspherical
             //
             rho0 = 1.0;
             rho = typeMethods.r8vec_linspace_new(n, -2.0, 2.0);
-            tr = Correlation.correlation_pentaspherical(data, n, rho, rho0);
+            tr = Correlation.correlation_pentaspherical(globaldata, k1data, n, rho, rho0);
             c = tr.result;
-            data = tr.data;
+            globaldata = tr.data;
+            k1data = tr.k1data;
             Plot.correlation_plot(n, rho, c, "pentaspherical", "Pentaspherical correlation");
             //
             //  power, e = 2.0
             //
             rho0 = 1.0;
             rho = typeMethods.r8vec_linspace_new(n, -2.0, 2.0);
-            tr = Correlation.correlation_power(data, n, rho, rho0);
+            tr = Correlation.correlation_power(globaldata, k1data, n, rho, rho0);
             c = tr.result;
-            data = tr.data;
+            globaldata = tr.data;
+            k1data = tr.k1data;
             Plot.correlation_plot(n, rho, c, "power", "Power correlation");
             //
             //  rational_quadratic
             //
             rho0 = 1.0;
             rho = typeMethods.r8vec_linspace_new(n, -4.0, 4.0);
-            tr = Correlation.correlation_rational_quadratic(data, n, rho, rho0);
+            tr = Correlation.correlation_rational_quadratic(globaldata, j0data, n, rho, rho0);
+            c = tr.result;
+            globaldata = tr.data;
+            j0data = tr.j0data;
             Plot.correlation_plot(n, rho, c, "rational_quadratic", "Rational quadratic correlation");
             //
             //  spherical
             //
             rho0 = 1.0;
             rho = typeMethods.r8vec_linspace_new(n, -2.0, 2.0);
-            tr = Correlation.correlation_spherical(data, n, rho, rho0);
+            tr = Correlation.correlation_spherical(globaldata, k1data, n, rho, rho0);
             c = tr.result;
-            data = tr.data;
+            globaldata = tr.data;
+            k1data = tr.k1data;
             Plot.correlation_plot(n, rho, c, "spherical", "Spherical correlation");
             //
             //  white_noise
             //
             rho0 = 1.0;
             rho = typeMethods.r8vec_linspace_new(n, -2.0, 2.0);
-            tr = Correlation.correlation_white_noise(data, n, rho, rho0);
+            tr = Correlation.correlation_white_noise(globaldata, k1data, n, rho, rho0);
             c = tr.result;
-            data = tr.data;
+            globaldata = tr.data;
+            k1data = tr.k1data;
             Plot.correlation_plot(n, rho, c, "white_noise", "White noise correlation");
         }
 
@@ -285,7 +298,7 @@ namespace CorrelationTest
             Console.WriteLine("  we simply suppress negative eigenvalues.");
             Console.WriteLine("");
 
-            FullertonLib.BesselData bdata = new FullertonLib.BesselData();
+            FullertonLib.BesselData globaldata = new FullertonLib.BesselData();
             
             n = 101;
             n2 = 3;
@@ -296,140 +309,160 @@ namespace CorrelationTest
             //
             seed = 123456789;
             typeMethods.r8vecNormalData data = new typeMethods.r8vecNormalData();
-            Correlation.CorrelationResult tr = SamplePaths.sample_paths_eigen(bdata, n, n2, rhomax, rho0, Correlation.correlation_besselj, ref data, ref seed);
-            bdata = tr.data;
+            FullertonLib.r8BESJ0Data jdata = new FullertonLib.r8BESJ0Data();
+            Correlation.CorrelationResult tr = SamplePaths.sample_paths_eigen(globaldata, jdata, n, n2, rhomax, rho0, Correlation.correlation_besselj, ref data, ref seed);
+            globaldata = tr.data;
             x = tr.result;
+            jdata = tr.j0data;
             Paths.paths_plot(n, n2, rho, x, "besselj", "Bessel J correlation");
             //
             //  besselk
             //
             seed = 123456789;
-            tr = SamplePaths.sample_paths_cholesky(bdata, n, n2, rhomax, rho0, Correlation.correlation_besselk, ref data, ref seed);
-            bdata = tr.data;
+            FullertonLib.r8BESK1Data k1data = new FullertonLib.r8BESK1Data();
+            tr = SamplePaths.sample_paths_cholesky(globaldata, k1data, n, n2, rhomax, rho0, Correlation.correlation_besselk, ref data, ref seed);
+            globaldata = tr.data;
             x = tr.result;
+            k1data = tr.k1data;
             Paths.paths_plot(n, n2, rho, x, "besselk", "Bessel K correlation");
             //
             //  circular
             //
             seed = 123456789;
-            tr = SamplePaths.sample_paths_cholesky(bdata, n, n2, rhomax, rho0, Correlation.correlation_circular, ref data, ref seed);
-            bdata = tr.data;
+            tr = SamplePaths.sample_paths_cholesky(globaldata, k1data, n, n2, rhomax, rho0, Correlation.correlation_circular, ref data, ref seed);
+            globaldata = tr.data;
             x = tr.result;
+            k1data = tr.k1data;
             Paths.paths_plot(n, n2, rho, x, "circular", "Circular correlation");
             //
             //  constant
             //
             seed = 123456789;
-            tr = SamplePaths.sample_paths_cholesky(bdata, n, n2, rhomax, rho0, Correlation.correlation_constant, ref data, ref seed);
-            bdata = tr.data;
+            tr = SamplePaths.sample_paths_cholesky(globaldata, k1data, n, n2, rhomax, rho0, Correlation.correlation_constant, ref data, ref seed);
+            globaldata = tr.data;
             x = tr.result;
+            k1data = tr.k1data;
             Paths.paths_plot(n, n2, rho, x, "constant", "Constant correlation");
             //
             //  cubic
             //
             seed = 123456789;
-            tr = SamplePaths.sample_paths_cholesky(bdata, n, n2, rhomax, rho0, Correlation.correlation_cubic, ref data, ref seed);
-            bdata = tr.data;
+            tr = SamplePaths.sample_paths_cholesky(globaldata, k1data, n, n2, rhomax, rho0, Correlation.correlation_cubic, ref data, ref seed);
+            globaldata = tr.data;
             x = tr.result;
+            k1data = tr.k1data;
             Paths.paths_plot(n, n2, rho, x, "cubic", "Cubic correlation");
             //
             //  damped_cosine
             //
             seed = 123456789;
-            tr = SamplePaths.sample_paths_cholesky(bdata, n, n2, rhomax, rho0, Correlation.correlation_damped_cosine, ref data, ref seed);
-            bdata = tr.data;
+            tr = SamplePaths.sample_paths_cholesky(globaldata, k1data, n, n2, rhomax, rho0, Correlation.correlation_damped_cosine, ref data, ref seed);
+            globaldata = tr.data;
             x = tr.result;
+            k1data = tr.k1data;
             Paths.paths_plot(n, n2, rho, x, "damped_cosine", "Damped cosine correlation");
             //
             //  damped_sine
             //  Use EIGEN, because CHOLESKY fails.
             //
             seed = 123456789;
-            tr = SamplePaths.sample_paths_eigen(bdata, n, n2, rhomax, rho0, Correlation.correlation_damped_sine, ref data, ref seed);
-            bdata = tr.data;
+            tr = SamplePaths.sample_paths_eigen(globaldata, jdata, n, n2, rhomax, rho0, Correlation.correlation_damped_sine, ref data, ref seed);
+            globaldata = tr.data;
             x = tr.result;
+            jdata = tr.j0data;
             Paths.paths_plot(n, n2, rho, x, "damped_sine", "Damped sine correlation");
             //
             //  exponential
             //
             seed = 123456789;
-            tr = SamplePaths.sample_paths_cholesky(bdata, n, n2, rhomax, rho0, Correlation.correlation_exponential, ref data, ref seed);
-            bdata = tr.data;
+            tr = SamplePaths.sample_paths_cholesky(globaldata, k1data, n, n2, rhomax, rho0, Correlation.correlation_exponential, ref data, ref seed);
+            globaldata = tr.data;
             x = tr.result;
+            k1data = tr.k1data;
             Paths.paths_plot(n, n2, rho, x, "exponential", "Exponential correlation");
             //
             //  gaussian
             //  Use EIGEN, because CHOLESKY fails.
             //
             seed = 123456789;
-            tr = SamplePaths.sample_paths_eigen(bdata, n, n2, rhomax, rho0, Correlation.correlation_gaussian, ref data, ref seed);
-            bdata = tr.data;
+            tr = SamplePaths.sample_paths_eigen(globaldata, jdata, n, n2, rhomax, rho0, Correlation.correlation_gaussian, ref data, ref seed);
+            globaldata = tr.data;
             x = tr.result;
+            jdata = tr.j0data;
             Paths.paths_plot(n, n2, rho, x, "gaussian", "Gaussian correlation");
             //
             //  hole
             //
             seed = 123456789;
-            tr = SamplePaths.sample_paths_cholesky(bdata, n, n2, rhomax, rho0, Correlation.correlation_hole, ref data, ref seed);
-            bdata = tr.data;
+            tr = SamplePaths.sample_paths_cholesky(globaldata, k1data, n, n2, rhomax, rho0, Correlation.correlation_hole, ref data, ref seed);
+            globaldata = tr.data;
             x = tr.result;
+            k1data = tr.k1data;
             Paths.paths_plot(n, n2, rho, x, "hole", "Hole correlation");
             //
             //  linear
             //
             seed = 123456789;
-            tr = SamplePaths.sample_paths_cholesky(bdata, n, n2, rhomax, rho0, Correlation.correlation_linear, ref data, ref seed);
-            bdata = tr.data;
+            tr = SamplePaths.sample_paths_cholesky(globaldata, k1data, n, n2, rhomax, rho0, Correlation.correlation_linear, ref data, ref seed);
+            globaldata = tr.data;
             x = tr.result;
+            k1data = tr.k1data;
             Paths.paths_plot(n, n2, rho, x, "linear", "Linear correlation");
             //
             //  matern ( nu = 2.5 )
             //
             seed = 123456789;
-            tr = SamplePaths.sample_paths_cholesky(bdata, n, n2, rhomax, rho0, Correlation.correlation_matern, ref data, ref seed);
-            bdata = tr.data;
+            FullertonLib.r8BESKData kdata = new FullertonLib.r8BESKData();
+            tr = SamplePaths.sample_paths_cholesky(globaldata, kdata, n, n2, rhomax, rho0, Correlation.correlation_matern, ref data, ref seed);
+            globaldata = tr.data;
             x = tr.result;
+            k1data = tr.k1data;
             Paths.paths_plot(n, n2, rho, x, "matern", "Matern correlation (nu=2.5)");
             //
             //  pentaspherical
             //
             seed = 123456789;
-            tr = SamplePaths.sample_paths_cholesky(bdata, n, n2, rhomax, rho0, Correlation.correlation_pentaspherical, ref data, ref seed);
-            bdata = tr.data;
+            tr = SamplePaths.sample_paths_cholesky(globaldata, k1data, n, n2, rhomax, rho0, Correlation.correlation_pentaspherical, ref data, ref seed);
+            globaldata = tr.data;
             x = tr.result;
+            k1data = tr.k1data;
             Paths.paths_plot(n, n2, rho, x, "pentaspherical", "Pentaspherical correlation");
             //
             //  power ( e = 2.0 )
             //
             seed = 123456789;
-            tr = SamplePaths.sample_paths_cholesky(bdata, n, n2, rhomax, rho0, Correlation.correlation_power, ref data, ref seed);
-            bdata = tr.data;
+            tr = SamplePaths.sample_paths_cholesky(globaldata, k1data, n, n2, rhomax, rho0, Correlation.correlation_power, ref data, ref seed);
+            globaldata = tr.data;
             x = tr.result;
+            k1data = tr.k1data;
             Paths.paths_plot(n, n2, rho, x, "power", "Power correlation (e=2.0)");
             //
             //  rational_quadratic
             //  Use EIGEN, because CHOLESKY fails.
             //
             seed = 123456789;
-            tr = SamplePaths.sample_paths_eigen(bdata, n, n2, rhomax, rho0, Correlation.correlation_rational_quadratic, ref data, ref seed);
-            bdata = tr.data;
+            tr = SamplePaths.sample_paths_eigen(globaldata, jdata, n, n2, rhomax, rho0, Correlation.correlation_rational_quadratic, ref data, ref seed);
+            globaldata = tr.data;
             x = tr.result;
+            jdata = tr.j0data;
             Paths.paths_plot(n, n2, rho, x, "rational_quadratic", "Rational quadratic correlation");
             //
             //  spherical
             //
             seed = 123456789;
-            tr = SamplePaths.sample_paths_cholesky(bdata, n, n2, rhomax, rho0, Correlation.correlation_spherical, ref data, ref seed);
-            bdata = tr.data;
+            tr = SamplePaths.sample_paths_cholesky(globaldata, k1data, n, n2, rhomax, rho0, Correlation.correlation_spherical, ref data, ref seed);
+            globaldata = tr.data;
             x = tr.result;
+            k1data = tr.k1data;
             Paths.paths_plot(n, n2, rho, x, "spherical", "Spherical correlation");
             //
             //  white_noise
             //
             seed = 123456789;
-            tr = SamplePaths.sample_paths_cholesky(bdata, n, n2, rhomax, rho0, Correlation.correlation_white_noise, ref data, ref seed);
-            bdata = tr.data;
+            tr = SamplePaths.sample_paths_cholesky(globaldata, k1data, n, n2, rhomax, rho0, Correlation.correlation_white_noise, ref data, ref seed);
+            globaldata = tr.data;
             x = tr.result;
+            k1data = tr.k1data;
             Paths.paths_plot(n, n2, rho, x, "white_noise", "White noise correlation");
         }
 
@@ -466,7 +499,7 @@ namespace CorrelationTest
             double rhomax;
             double rhomin;
             Correlation.CorrelationResult tr;
-            FullertonLib.BesselData data = new FullertonLib.BesselData();
+            FullertonLib.BesselData globaldata = new FullertonLib.BesselData();
 
             Console.WriteLine("");
             Console.WriteLine("CORRELATION_TEST03");
@@ -487,12 +520,14 @@ namespace CorrelationTest
             rhomin = -8.0;
             rhomax = +8.0;
             rho = typeMethods.r8vec_linspace_new(n, rhomin, rhomax);
+            FullertonLib.r8BESJ0Data j0data = new FullertonLib.r8BESJ0Data();
             c = new double[n * n2];
             for (j = 0; j < n2; j++)
             {
-                tr = Correlation.correlation_besselj(data, n, rho, rho0[j]);
+                tr = Correlation.correlation_besselj(globaldata, j0data, n, rho, rho0[j]);
                 cvec = tr.result;
-                data = tr.data;
+                globaldata = tr.data;
+                j0data = tr.j0data;
                 for (i = 0; i < n; i++)
                 {
                     c[i + j * n] = cvec[i];
@@ -515,12 +550,14 @@ namespace CorrelationTest
             rhomin = -4.0;
             rhomax = +4.0;
             rho = typeMethods.r8vec_linspace_new(n, rhomin, rhomax);
+            FullertonLib.r8BESK1Data k1data = new FullertonLib.r8BESK1Data();
             c = new double[n * n2];
             for (j = 0; j < n2; j++)
             {
-                tr = Correlation.correlation_besselk(data, n, rho, rho0[j]);
+                tr = Correlation.correlation_besselk(globaldata, k1data, n, rho, rho0[j]);
                 cvec = tr.result;
-                data = tr.data;
+                globaldata = tr.data;
+                k1data = tr.k1data;
                 for (i = 0; i < n; i++)
                 {
                     c[i + j * n] = cvec[i];
@@ -547,9 +584,10 @@ namespace CorrelationTest
             c = new double[n * n2];
             for (j = 0; j < n2; j++)
             {
-                tr = Correlation.correlation_circular(data, n, rho, rho0[j]);
+                tr = Correlation.correlation_circular(globaldata, k1data, n, rho, rho0[j]);
                 cvec = tr.result;
-                data = tr.data;
+                globaldata = tr.data;
+                k1data = tr.k1data;
                 for (i = 0; i < n; i++)
                 {
                     c[i + j * n] = cvec[i];
@@ -571,9 +609,10 @@ namespace CorrelationTest
             c = new double[n * n2];
             for (j = 0; j < n2; j++)
             {
-                tr = Correlation.correlation_constant(data, n, rho, rho0[j]);
+                tr = Correlation.correlation_constant(globaldata, k1data, n, rho, rho0[j]);
                 cvec = tr.result;
-                data = tr.data;
+                globaldata = tr.data;
+                k1data = tr.k1data;
                 for (i = 0; i < n; i++)
                 {
                     c[i + j * n] = cvec[i];
@@ -600,9 +639,10 @@ namespace CorrelationTest
             c = new double[n * n2];
             for (j = 0; j < n2; j++)
             {
-                tr = Correlation.correlation_cubic(data, n, rho, rho0[j]);
+                tr = Correlation.correlation_cubic(globaldata, k1data, n, rho, rho0[j]);
                 cvec = tr.result;
-                data = tr.data;
+                globaldata = tr.data;
+                k1data = tr.k1data;
                 for (i = 0; i < n; i++)
                 {
                     c[i + j * n] = cvec[i];
@@ -628,9 +668,10 @@ namespace CorrelationTest
             c = new double[n * n2];
             for (j = 0; j < n2; j++)
             {
-                tr = Correlation.correlation_damped_cosine(data, n, rho, rho0[j]);
+                tr = Correlation.correlation_damped_cosine(globaldata, k1data, n, rho, rho0[j]);
                 cvec = tr.result;
-                data = tr.data;
+                globaldata = tr.data;
+                k1data = tr.k1data;
                 for (i = 0; i < n; i++)
                 {
                     c[i + j * n] = cvec[i];
@@ -657,9 +698,10 @@ namespace CorrelationTest
             c = new double[n * n2];
             for (j = 0; j < n2; j++)
             {
-                tr = Correlation.correlation_damped_sine(data, n, rho, rho0[j]);
+                tr = Correlation.correlation_damped_sine(globaldata, j0data, n, rho, rho0[j]);
                 cvec = tr.result;
-                data = tr.data;
+                globaldata = tr.data;
+                j0data = tr.j0data;
                 for (i = 0; i < n; i++)
                 {
                     c[i + j * n] = cvec[i];
@@ -686,9 +728,10 @@ namespace CorrelationTest
             c = new double[n * n2];
             for (j = 0; j < n2; j++)
             {
-                tr = Correlation.correlation_exponential(data, n, rho, rho0[j]);
+                tr = Correlation.correlation_exponential(globaldata, k1data, n, rho, rho0[j]);
                 cvec = tr.result;
-                data = tr.data;
+                globaldata = tr.data;
+                k1data = tr.k1data;
                 for (i = 0; i < n; i++)
                 {
                     c[i + j * n] = cvec[i];
@@ -716,9 +759,10 @@ namespace CorrelationTest
             c = new double[n * n2];
             for (j = 0; j < n2; j++)
             {
-                tr = Correlation.correlation_gaussian(data, n, rho, rho0[j]);
+                tr = Correlation.correlation_gaussian(globaldata, j0data, n, rho, rho0[j]);
                 cvec = tr.result;
-                data = tr.data;
+                globaldata = tr.data;
+                j0data = tr.j0data;
                 for (i = 0; i < n; i++)
                 {
                     c[i + j * n] = cvec[i];
@@ -745,9 +789,10 @@ namespace CorrelationTest
             c = new double[n * n2];
             for (j = 0; j < n2; j++)
             {
-                tr = Correlation.correlation_hole(data, n, rho, rho0[j]);
+                tr = Correlation.correlation_hole(globaldata, k1data, n, rho, rho0[j]);
                 cvec = tr.result;
-                data = tr.data;
+                globaldata = tr.data;
+                k1data = tr.k1data;
                 for (i = 0; i < n; i++)
                 {
                     c[i + j * n] = cvec[i];
@@ -773,9 +818,10 @@ namespace CorrelationTest
             c = new double[n * n2];
             for (j = 0; j < n2; j++)
             {
-                tr = Correlation.correlation_linear(data, n, rho, rho0[j]);
+                tr = Correlation.correlation_linear(globaldata, k1data, n, rho, rho0[j]);
                 cvec = tr.result;
-                data = tr.data;
+                globaldata = tr.data;
+                k1data = tr.k1data;
                 for (i = 0; i < n; i++)
                 {
                     c[i + j * n] = cvec[i];
@@ -798,12 +844,14 @@ namespace CorrelationTest
             rhomin = -2.0;
             rhomax = +2.0;
             rho = typeMethods.r8vec_linspace_new(n, rhomin, rhomax);
+            FullertonLib.r8BESKData kdata = new FullertonLib.r8BESKData();
             c = new double[n * n2];
             for (j = 0; j < n2; j++)
             {
-                tr = Correlation.correlation_matern(data, n, rho, rho0[j]);
+                tr = Correlation.correlation_matern(globaldata, kdata, n, rho, rho0[j]);
                 cvec = tr.result;
-                data = tr.data;
+                globaldata = tr.data;
+                kdata = tr.kdata;
                 for (i = 0; i < n; i++)
                 {
                     c[i + j * n] = cvec[i];
@@ -829,9 +877,10 @@ namespace CorrelationTest
             c = new double[n * n2];
             for (j = 0; j < n2; j++)
             {
-                tr = Correlation.correlation_pentaspherical(data, n, rho, rho0[j]);
+                tr = Correlation.correlation_pentaspherical(globaldata, k1data, n, rho, rho0[j]);
                 cvec = tr.result;
-                data = tr.data;
+                globaldata = tr.data;
+                k1data = tr.k1data;
                 for (i = 0; i < n; i++)
                 {
                     c[i + j * n] = cvec[i];
@@ -857,9 +906,10 @@ namespace CorrelationTest
             c = new double[n * n2];
             for (j = 0; j < n2; j++)
             {
-                tr = Correlation.correlation_power(data, n, rho, rho0[j]);
+                tr = Correlation.correlation_power(globaldata, k1data, n, rho, rho0[j]);
                 cvec = tr.result;
-                data = tr.data;
+                globaldata = tr.data;
+                k1data = tr.k1data;
                 for (i = 0; i < n; i++)
                 {
                     c[i + j * n] = cvec[i];
@@ -885,9 +935,10 @@ namespace CorrelationTest
             c = new double[n * n2];
             for (j = 0; j < n2; j++)
             {
-                tr = Correlation.correlation_rational_quadratic(data, n, rho, rho0[j]);
+                tr = Correlation.correlation_rational_quadratic(globaldata, j0data, n, rho, rho0[j]);
                 cvec = tr.result;
-                data = tr.data;
+                globaldata = tr.data;
+                j0data = tr.j0data;
                 for (i = 0; i < n; i++)
                 {
                     c[i + j * n] = cvec[i];
@@ -913,9 +964,10 @@ namespace CorrelationTest
             c = new double[n * n2];
             for (j = 0; j < n2; j++)
             {
-                tr = Correlation.correlation_spherical(data, n, rho, rho0[j]);
+                tr = Correlation.correlation_spherical(globaldata, k1data, n, rho, rho0[j]);
                 cvec = tr.result;
-                data = tr.data;
+                globaldata = tr.data;
+                k1data = tr.k1data;
                 for (i = 0; i < n; i++)
                 {
                     c[i + j * n] = cvec[i];
@@ -937,9 +989,10 @@ namespace CorrelationTest
             c = new double[n * n2];
             for (j = 0; j < n2; j++)
             {
-                tr = Correlation.correlation_white_noise(data, n, rho, rho0[j]);
+                tr = Correlation.correlation_white_noise(globaldata, k1data, n, rho, rho0[j]);
                 cvec = tr.result;
-                data = tr.data;
+                globaldata = tr.data;
+                k1data = tr.k1data;
                 for (i = 0; i < n; i++)
                 {
                     c[i + j * n] = cvec[i];

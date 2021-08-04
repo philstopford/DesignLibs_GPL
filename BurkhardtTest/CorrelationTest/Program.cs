@@ -416,7 +416,7 @@ namespace CorrelationTest
             tr = SamplePaths.sample_paths_cholesky(globaldata, kdata, n, n2, rhomax, rho0, Correlation.correlation_matern, ref data, ref seed);
             globaldata = tr.data;
             x = tr.result;
-            k1data = tr.k1data;
+            kdata = tr.kdata;
             Paths.paths_plot(n, n2, rho, x, "matern", "Matern correlation (nu=2.5)");
             //
             //  pentaspherical

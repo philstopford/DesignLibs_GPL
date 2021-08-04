@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.FullertonFnLib;
 using Burkardt.Types;
 
 namespace Burkardt.CorrelationNS
@@ -51,7 +52,7 @@ namespace Burkardt.CorrelationNS
             for (i = 0; i < n; i++)
             {
                 rhohat = Math.Abs(rho[i]) / rho0;
-                c[i] = r8_besj0(rhohat);
+                c[i] = FullertonLib.r8_besj0(rhohat);
             }
 
             return c;
@@ -109,7 +110,7 @@ namespace Burkardt.CorrelationNS
                 else
                 {
                     rhohat = Math.Abs(rho[i]) / rho0;
-                    c[i] = rhohat * r8_besk1(rhohat);
+                    c[i] = rhohat * FullertonLib.r8_besk1(rhohat);
                 }
             }
 

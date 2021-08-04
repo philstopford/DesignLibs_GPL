@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.FullertonFnLib;
 
 namespace Burkardt.CorrelationNS
 {
@@ -79,7 +80,7 @@ namespace Burkardt.CorrelationNS
                 }
                 else
                 {
-                    c[i] = Math.Pow ( rho1, nu ) * r8_besk ( nu, rho1 ) / r8_gamma ( nu ) 
+                    c[i] = Math.Pow ( rho1, nu ) * FullertonLib.r8_besk ( nu, rho1 ) / r8_gamma ( nu ) 
                                                                    / Math.Pow ( 2.0, nu - 1.0 );
                 }
             }

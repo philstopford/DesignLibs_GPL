@@ -1366,6 +1366,59 @@ namespace Burkardt.FullertonFnLib
             return value;
         }
         
+        public static double r8_besk(double nu, double x)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_BESK evaluates the Bessel function K of order NU of an R8 argument.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    03 November 2012
+            //
+            //  Author:
+            //
+            //    John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Wayne Fullerton,
+            //    Portable Special Function Routines,
+            //    in Portability of Numerical Software,
+            //    edited by Wayne Cowell,
+            //    Lecture Notes in Computer Science, Volume 57,
+            //    Springer 1977,
+            //    ISBN: 978-3-540-08446-4,
+            //    LC: QA297.W65.
+            //
+            //  Parameters:
+            //
+            //    Input, double NU, the order.
+            //
+            //    Input, double X, the argument.
+            //
+            //    Output, double R8_BESK, the Bessel function K of order NU at X.
+            //
+        {
+            double[] bke = null;
+            int nin;
+            double value;
+            double xnu;
+
+            xnu = nu - (int) (nu);
+            nin = (int) (nu) + 1;
+            r8_besks(xnu, x, nin, ref bke);
+
+            value = bke[nin - 1];
+
+            return value;
+        }
 
         public static double r8_besk0(double x)
 

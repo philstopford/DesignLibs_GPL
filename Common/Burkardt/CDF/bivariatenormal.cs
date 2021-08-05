@@ -4,7 +4,12 @@ namespace Burkardt.CDFLib
 {
     public static class bivariatenormal
     {
-        public static double bivnor(double ah, double ak, double r)
+        public class BivnorData
+        {
+            public int idig = 15;
+
+        }
+        public static double bivnor( ref BivnorData data, double ah, double ak, double r)
 
             //****************************************************************************80
             //
@@ -65,7 +70,6 @@ namespace Burkardt.CDFLib
             double h2;
             double h4;
             int i;
-            int idig = 15;
             int is_ = 0;
             double rr;
             double s1;
@@ -130,14 +134,14 @@ namespace Burkardt.CDFLib
 
             sqr = Math.Sqrt(rr);
 
-            if (idig == 15)
+            if (data.idig == 15)
             {
                 con = twopi * 1.0E-15 / 2.0;
             }
             else
             {
                 con = twopi / 2.0;
-                for (i = 1; i <= idig; i++)
+                for (i = 1; i <= data.idig; i++)
                 {
                     con = con / 10.0;
                 }

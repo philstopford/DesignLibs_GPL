@@ -69,6 +69,7 @@ namespace TOMS462Test
             double r;
             double x;
             double y;
+            bivariatenormal.BivnorData data = new bivariatenormal.BivnorData();
 
             Console.WriteLine("");
             Console.WriteLine("TEST01");
@@ -83,7 +84,7 @@ namespace TOMS462Test
             y = -1.5;
             r = -0.9;
             expect = 0.148;
-            cdf = bivariatenormal.bivnor(x, y, r);
+            cdf = bivariatenormal.bivnor(ref data, x, y, r);
             Console.WriteLine("  " + x.ToString().PadLeft(9)
                                    + "  " + y.ToString().PadLeft(8)
                                    + "  " + r.ToString().PadLeft(8)
@@ -94,7 +95,7 @@ namespace TOMS462Test
             y = -1.4;
             r = -0.7;
             expect = 0.208;
-            cdf = bivariatenormal.bivnor(x, y, r);
+            cdf = bivariatenormal.bivnor(ref data, x, y, r);
             Console.WriteLine("  " + x.ToString().PadLeft(9)
                                    + "  " + y.ToString().PadLeft(8)
                                    + "  " + r.ToString().PadLeft(8)
@@ -105,7 +106,7 @@ namespace TOMS462Test
             y = -1.0;
             r = -0.5;
             expect = 0.304;
-            cdf = bivariatenormal.bivnor(x, y, r);
+            cdf = bivariatenormal.bivnor(ref data, x, y, r);
             Console.WriteLine("  " + x.ToString().PadLeft(9)
                                    + "  " + y.ToString().PadLeft(8)
                                    + "  " + r.ToString().PadLeft(8)
@@ -116,7 +117,7 @@ namespace TOMS462Test
             y = 0.1;
             r = 0.0;
             expect = 0.407;
-            cdf = bivariatenormal.bivnor(x, y, r);
+            cdf = bivariatenormal.bivnor(ref data, x, y, r);
             Console.WriteLine("  " + x.ToString().PadLeft(9)
                                    + "  " + y.ToString().PadLeft(8)
                                    + "  " + r.ToString().PadLeft(8)
@@ -127,7 +128,7 @@ namespace TOMS462Test
             y = -0.1;
             r = 0.3;
             expect = 0.501;
-            cdf = bivariatenormal.bivnor(x, y, r);
+            cdf = bivariatenormal.bivnor(ref data, x, y, r);
             Console.WriteLine("  " + x.ToString().PadLeft(9)
                                    + "  " + y.ToString().PadLeft(8)
                                    + "  " + r.ToString().PadLeft(8)
@@ -138,7 +139,7 @@ namespace TOMS462Test
             y = -0.9;
             r = 0.6;
             expect = 0.601;
-            cdf = bivariatenormal.bivnor(x, y, r);
+            cdf = bivariatenormal.bivnor(ref data, x, y, r);
             Console.WriteLine("  " + x.ToString().PadLeft(9)
                                    + "  " + y.ToString().PadLeft(8)
                                    + "  " + r.ToString().PadLeft(8)
@@ -174,6 +175,7 @@ namespace TOMS462Test
             double r = 0;
             double x = 0;
             double y = 0;
+            bivariatenormal.BivnorData data = new bivariatenormal.BivnorData();
 
             Console.WriteLine("");
             Console.WriteLine("TEST02");
@@ -201,7 +203,7 @@ namespace TOMS462Test
                 //  BIVNOR computes the "tail" of the probability, and we want the
                 //  initial part//
                 //
-                fxy2 = bivariatenormal.bivnor(-x, -y, r);
+                fxy2 = bivariatenormal.bivnor(ref data, -x, -y, r);
 
                 Console.WriteLine("  " + x.ToString().PadLeft(8)
                                        + "  " + y.ToString().PadLeft(8)

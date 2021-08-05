@@ -4,7 +4,13 @@ namespace Burkardt.FullertonFnLib
 {
     public static partial class FullertonLib
     {
-        public static double r8_pak(double y, int n)
+        public class r8PakData
+        {
+            public int nmax = 0;
+            public int nmin = 0;
+
+        }
+        public static double r8_pak(ref r8PakData data, double y, int n)
 
             //****************************************************************************80
             //
@@ -42,13 +48,11 @@ namespace Burkardt.FullertonFnLib
         {
             const double aln210 = 3.321928094887362347870319429489;
             double aln2b;
-            int nmax = 0;
-            int nmin = 0;
             int nsum;
             int ny = 0;
             double value = 0;
 
-            if (nmin == 0)
+            if (data.nmin == 0)
             {
                 aln2b = 1.0;
                 if (i4_mach(10) != 2)
@@ -56,15 +60,15 @@ namespace Burkardt.FullertonFnLib
                     aln2b = r8_mach(5) * aln210;
                 }
 
-                nmin = (int)(aln2b * (double) (i4_mach(15)));
-                nmax = (int)(aln2b * (double) (i4_mach(16)));
+                data.nmin = (int)(aln2b * (double) (i4_mach(15)));
+                data.nmax = (int)(aln2b * (double) (i4_mach(16)));
             }
 
             r8_upak(y, ref value, ref ny);
 
             nsum = n + ny;
 
-            if (nsum < nmin)
+            if (nsum < data.nmin)
             {
                 Console.WriteLine("");
                 Console.WriteLine("R8_PAK - Warning!");
@@ -73,7 +77,7 @@ namespace Burkardt.FullertonFnLib
                 return value;
             }
 
-            if (nmax < nsum)
+            if (data.nmax < nsum)
             {
                 Console.WriteLine("");
                 Console.WriteLine("R8_PAK - Fatal error!");
@@ -96,7 +100,18 @@ namespace Burkardt.FullertonFnLib
             return value;
         }
 
-        public static double r8_poch(ref r8GammaData gdata, double a, double x)
+        public class r8PochData
+        {
+            public double eps = 0.0;
+
+            public r8FacData facdata = new r8FacData();
+
+            public r8LnrelData lnreldata = new r8LnrelData();
+            public r8LgmcData lgmcdata = new r8LgmcData();
+            public r8GamrData gamrdata = new r8GamrData();
+            public r8LgamsData lgamsdata = new r8LgamsData();
+        }
+        public static double r8_poch(ref r8PochData data, ref r8GammaData gdata, double a, double x)
 
             //****************************************************************************80
             //
@@ -148,7 +163,6 @@ namespace Burkardt.FullertonFnLib
             double cospia;
             double cospix;
             double den;
-            double eps = 0.0;
             double err;
             double errpch;
             int i;
@@ -162,9 +176,9 @@ namespace Burkardt.FullertonFnLib
             //static double sqeps = 0.0;
             double value;
 
-            if (eps == 0.0)
+            if (data.eps == 0.0)
             {
-                eps = r8_mach(4);
+                data.eps = r8_mach(4);
                 //  sqeps = sqrt ( eps );
             }
 
@@ -192,16 +206,16 @@ namespace Burkardt.FullertonFnLib
                 {
                     n = (int) (x);
                     ia = (int) (a);
-                    value = r8_mop(n) * r8_fac(-ia) / r8_fac(-ia - n);
+                    value = r8_mop(n) * r8_fac(ref data.facdata, -ia) / r8_fac(ref data.facdata, -ia - n);
                 }
                 else
                 {
                     n = (int) (x);
                     value = r8_mop(n) * Math.Exp((a - 0.5)
-                                            * r8_lnrel(x / (a - 1.0))
+                                            * r8_lnrel(ref data.lnreldata, x / (a - 1.0))
                                             + x * Math.Log(-a + 1.0 - x) - x
-                                            + r8_lgmc(-a + 1.0)
-                                            - r8_lgmc(-a - x + 1.0));
+                                            + r8_lgmc(ref data.lgmcdata, -a + 1.0)
+                                            - r8_lgmc(ref data.lgmcdata, -a - x + 1.0));
                 }
 
                 return value;
@@ -236,14 +250,14 @@ namespace Burkardt.FullertonFnLib
 
             if (r8_max(absax, absa) <= 20.0)
             {
-                value = r8_gamma(ref gdata, a + x) * r8_gamr(ref gdata, a);
+                value = r8_gamma(ref gdata, a + x) * r8_gamr(ref data.gamrdata, ref gdata, a);
                 return value;
             }
 
             if (0.5 * absa < Math.Abs(x))
             {
-                r8_lgams(ref gdata, a + x, ref alngax, ref sgngax);
-                r8_lgams(ref gdata, a, ref alnga, ref sgnga);
+                r8_lgams(ref data.lgamsdata, ref gdata, a + x, ref alngax, ref sgngax);
+                r8_lgams(ref data.lgamsdata, ref gdata, a, ref alnga, ref sgnga);
                 value = sgngax * sgnga * Math.Exp(alngax - alnga);
                 return value;
             }
@@ -263,8 +277,8 @@ namespace Burkardt.FullertonFnLib
                 b = a;
             }
 
-            value = Math.Exp((b - 0.5) * r8_lnrel(x / b)
-                + x * Math.Log(b + x) - x + r8_lgmc(b + x) - r8_lgmc(b));
+            value = Math.Exp((b - 0.5) * r8_lnrel(ref data.lnreldata, x / b)
+                + x * Math.Log(b + x) - x + r8_lgmc(ref data.lgmcdata, b + x) - r8_lgmc(ref data.lgmcdata, b));
 
             if (0.0 <= a || value == 0.0)
             {
@@ -288,7 +302,17 @@ namespace Burkardt.FullertonFnLib
             return value;
         }
 
-        public static double r8_poch1(ref r8GammaData gdata, double a, double x)
+        public class r8Poch1Data
+        {
+            public double alneps = 0.0;
+            public double sqtbig = 0.0;
+
+            public r8PsiData psidata = new r8PsiData();
+            public r8CotData cotdata = new r8CotData();
+            public r8ExprelData expreldata = new r8ExprelData();
+            public r8PochData pochdata = new r8PochData();
+        }
+        public static double r8_poch1(ref r8Poch1Data data, ref r8GammaData gdata, double a, double x)
 
             //****************************************************************************80
             //
@@ -348,7 +372,6 @@ namespace Burkardt.FullertonFnLib
         {
             double absa;
             double absx;
-            double alneps = 0.0;
             double alnvar;
             double b;
             double[] bern = {
@@ -391,22 +414,21 @@ namespace Burkardt.FullertonFnLib
             double rho;
             double sinpxx;
             double sinpx2;
-            double sqtbig = 0.0;
             double term;
             double trig;
             double value;
             double var;
             double var2;
 
-            if (sqtbig == 0.0)
+            if (data.sqtbig == 0.0)
             {
-                sqtbig = 1.0 / Math.Sqrt(24.0 * r8_mach(1));
-                alneps = Math.Log(r8_mach(3));
+                data.sqtbig = 1.0 / Math.Sqrt(24.0 * r8_mach(1));
+                data.alneps = Math.Log(r8_mach(3));
             }
 
             if (x == 0.0)
             {
-                value = r8_psi(a);
+                value = r8_psi(ref data.psidata, a);
                 return value;
             }
 
@@ -415,7 +437,7 @@ namespace Burkardt.FullertonFnLib
 
             if (0.1 * absa < absx || 0.1 < absx * Math.Log(r8_max(absa, 2.0)))
             {
-                value = r8_poch(ref gdata, a, x);
+                value = r8_poch(ref data.pochdata, ref gdata, a, x);
                 value = (value - 1.0) / x;
                 return value;
             }
@@ -445,7 +467,7 @@ namespace Burkardt.FullertonFnLib
             q = x * alnvar;
             poly1 = 0.0;
 
-            if (var < sqtbig)
+            if (var < data.sqtbig)
             {
                 var2 = 1.0 / var / var;
 
@@ -455,7 +477,7 @@ namespace Burkardt.FullertonFnLib
                 term = var2;
                 poly1 = gbern[1] * term;
 
-                nterms = (int) (-0.5 * alneps / alnvar + 1.0);
+                nterms = (int) (-0.5 * data.alneps / alnvar + 1.0);
 
                 if (20 < nterms)
                 {
@@ -482,7 +504,7 @@ namespace Burkardt.FullertonFnLib
             }
 
             poly1 = (x - 1.0) * poly1;
-            value = r8_exprel(q) * (alnvar + q * poly1) + poly1;
+            value = r8_exprel(ref data.expreldata, q) * (alnvar + q * poly1) + poly1;
             //
             //  we have r8_poch1(b,x), but bp is small, so we use backwards recursion
             //  to obtain r8_poch1(bp,x).
@@ -505,7 +527,7 @@ namespace Burkardt.FullertonFnLib
             //
             sinpxx = Math.Sin(pi * x) / x;
             sinpx2 = Math.Sin(0.5 * pi * x);
-            trig = sinpxx * r8_cot(pi * b) - 2.0 * sinpx2 * (sinpx2 / x);
+            trig = sinpxx * r8_cot(ref data.cotdata, pi * b) - 2.0 * sinpx2 * (sinpx2 / x);
 
             value = trig + (1.0 + x * trig) * value;
 
@@ -548,7 +570,17 @@ namespace Burkardt.FullertonFnLib
             return value;
         }
 
-        public static double r8_psi(double x)
+        public class r8PsiData
+        {
+            public double dxrel = 0.0;
+            public int ntapsi = 0;
+            public int ntpsi = 0;
+            public double xbig = 0.0;
+
+            public r8CotData cotdata = new r8CotData();
+        }
+        
+        public static double r8_psi( ref r8PsiData data, double x)
 
             //****************************************************************************80
             //
@@ -607,11 +639,8 @@ namespace Burkardt.FullertonFnLib
             }
             ;
             double aux;
-            double dxrel = 0.0;
             int i;
             int n;
-            int ntapsi = 0;
-            int ntpsi = 0;
             const double pi = 3.14159265358979323846264338327950;
             double[] psics = {
                 -0.38057080835217921520437677667039E-01,
@@ -659,15 +688,14 @@ namespace Burkardt.FullertonFnLib
             }
             ;
             double value = 0;
-            double xbig = 0.0;
             double y;
 
-            if (ntpsi == 0)
+            if (data.ntpsi == 0)
             {
-                ntpsi = r8_inits(psics, 42, 0.1 * r8_mach(3));
-                ntapsi = r8_inits(apsics, 16, 0.1 * r8_mach(3));
-                xbig = 1.0 / Math.Sqrt(r8_mach(3));
-                dxrel = Math.Sqrt(r8_mach(4));
+                data.ntpsi = r8_inits(psics, 42, 0.1 * r8_mach(3));
+                data.ntapsi = r8_inits(apsics, 16, 0.1 * r8_mach(3));
+                data.xbig = 1.0 / Math.Sqrt(r8_mach(3));
+                data.dxrel = Math.Sqrt(r8_mach(4));
             }
 
             y = Math.Abs(x);
@@ -682,7 +710,7 @@ namespace Burkardt.FullertonFnLib
 
                 y = x - (double) (n);
                 n = n - 1;
-                value = r8_csevl(2.0 * y - 1.0, psics, ntpsi);
+                value = r8_csevl(2.0 * y - 1.0, psics, data.ntpsi);
 
                 if (n == 0)
                 {
@@ -708,7 +736,7 @@ namespace Burkardt.FullertonFnLib
                         return (1);
                     }
 
-                    if (x < -0.5 && Math.Abs((x - r8_aint(x - 0.5)) / x) < dxrel)
+                    if (x < -0.5 && Math.Abs((x - r8_aint(x - 0.5)) / x) < data.dxrel)
                     {
                         Console.WriteLine("");
                         Console.WriteLine("R8_PSI - Warning!");
@@ -732,9 +760,9 @@ namespace Burkardt.FullertonFnLib
             }
             else
             {
-                if (y < xbig)
+                if (y < data.xbig)
                 {
-                    aux = r8_csevl(8.0 / y / y - 1.0, apsics, ntapsi);
+                    aux = r8_csevl(8.0 / y / y - 1.0, apsics, data.ntapsi);
                 }
                 else
                 {
@@ -744,7 +772,7 @@ namespace Burkardt.FullertonFnLib
                 if (x < 0.0)
                 {
                     value = Math.Log(Math.Abs(x)) - 0.5 / x + aux
-                            - pi * r8_cot(pi * x);
+                            - pi * r8_cot(ref data.cotdata, pi * x);
                 }
                 else if (0.0 < x)
                 {

@@ -63,7 +63,7 @@ namespace Burkardt.NavierStokesNS
                 //
                 u[i] =   2.0 * x[i];
                 v[i] =   - 2.0 * y[i];
-                w[i] =   FullertonLib.r8_erf ( y[i] / Math.Sqrt ( nu ) );
+                w[i] =   Helpers.Erf( y[i] / Math.Sqrt ( nu ) );
                 p[i] = - 2.0 * ( x[i] * x[i] + y[i] * y[i] );
             }
         }
@@ -169,7 +169,7 @@ namespace Burkardt.NavierStokesNS
                 vzz = 0.0;
                 vt = 0.0;
 
-                w = FullertonLib.r8_erf(y[i] / Math.Sqrt(nu));
+                w = Helpers.Erf(y[i] / Math.Sqrt(nu));
                 wx = 0.0;
                 wxx = 0.0;
                 wy = 2.0 * Math.Sqrt(1.0 / nu / r8_pi) * Math.Exp(-y[i] * y[i] / nu);

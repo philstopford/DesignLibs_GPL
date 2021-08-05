@@ -4,7 +4,12 @@ namespace Burkardt.FullertonFnLib
 {
     public static partial class FullertonLib
     {
-        public static double r8_gami(ref r8GammaData gdata, double a, double x)
+        public class r8GAMIData
+        {
+            public r8GamitData gamitdata = new r8GamitData();
+            public r8LngamData lngamdata = new r8LngamData();
+        }
+        public static double r8_gami(ref r8GAMIData data, ref r8GammaData gdata, double a, double x)
 
             //****************************************************************************80
             //
@@ -73,14 +78,26 @@ namespace Burkardt.FullertonFnLib
             }
             else
             {
-                factor = Math.Exp(r8_lngam(ref gdata, a) + a * Math.Log(x));
-                value = factor * r8_gamit(ref gdata, a, x);
+                factor = Math.Exp(r8_lngam(ref data.lngamdata, ref gdata, a) + a * Math.Log(x));
+                value = factor * r8_gamit(ref data.gamitdata, ref gdata, a, x);
             }
 
             return value;
         }
 
-        public static double r8_gamic(ref r8GammaData gdata, double a, double x)
+        public class r8GamicData
+        {
+            public double alneps = 0.0;
+            public double eps = 0.0;
+            public r8GMICData gmicdata = new r8GMICData();
+            public r8GMITData gmitdata = new r8GMITData();
+            public r8LngamData lngamdata = new r8LngamData();
+            public r8LgicData lgicdata = new r8LgicData();
+            public r8LgitData lgitdata = new r8LgitData();
+            public r8LgamsData lgamsdata = new r8LgamsData();
+        }
+        
+        public static double r8_gamic( ref r8GamicData data, ref r8GammaData gdata, double a, double x)
 
             //****************************************************************************80
             //
@@ -138,12 +155,10 @@ namespace Burkardt.FullertonFnLib
             double aeps;
             double ainta;
             double algap1 = 0;
-            double alneps = 0.0;
             double alngs = 0;
             double alx;
             //static double bot = 0.0;
             double e;
-            double eps = 0.0;
             double gstar;
             double h;
             int izero;
@@ -156,11 +171,11 @@ namespace Burkardt.FullertonFnLib
             double t;
             double value;
 
-            if (eps == 0.0)
+            if (data.eps == 0.0)
             {
-                eps = 0.5 * r8_mach(3);
+                data.eps = 0.5 * r8_mach(3);
                 //  sqeps = sqrt ( r8_mach ( 4 ) );
-                alneps = -Math.Log(r8_mach(3));
+                data.alneps = -Math.Log(r8_mach(3));
                 //  bot = log ( r8_mach ( 1 ) );
             }
 
@@ -182,7 +197,7 @@ namespace Burkardt.FullertonFnLib
                     return (1);
                 }
 
-                value = Math.Exp(r8_lngam(ref gdata, a + 1.0) - Math.Log(a));
+                value = Math.Exp(r8_lngam(ref data.lngamdata, ref gdata, a + 1.0) - Math.Log(a));
 
                 return value;
             }
@@ -217,15 +232,15 @@ namespace Burkardt.FullertonFnLib
 
                     e = e - alx * r8_power(x, -0.001);
 
-                    if (e * Math.Abs(aeps) <= eps)
+                    if (e * Math.Abs(aeps) <= data.eps)
                     {
-                        value = r8_gmic(ref gdata, a, x, alx);
+                        value = r8_gmic(ref data.gmicdata, ref gdata, a, x, alx);
                         return value;
                     }
                 }
 
-                r8_lgams(ref gdata, a + 1.0, ref algap1, ref sgngam);
-                gstar = r8_gmit(ref gdata, a, x, algap1, sgngam, alx);
+                r8_lgams(ref data.lgamsdata, ref gdata, a + 1.0, ref algap1, ref sgngam);
+                gstar = r8_gmit(ref data.gmitdata, ref gdata, a, x, algap1, sgngam, alx);
 
                 if (gstar == 0.0)
                 {
@@ -241,14 +256,14 @@ namespace Burkardt.FullertonFnLib
             {
                 if (a < x)
                 {
-                    value = Math.Exp(r8_lgic(a, x, alx));
+                    value = Math.Exp(r8_lgic(ref data.lgicdata, a, x, alx));
                     return value;
                 }
 
                 sgngam = 1.0;
-                algap1 = r8_lngam(ref gdata, a + 1.0);
+                algap1 = r8_lngam(ref data.lngamdata, ref gdata, a + 1.0);
                 sgngs = 1.0;
-                alngs = r8_lgit(a, x, algap1);
+                alngs = r8_lgit(ref data.lgitdata, a, x, algap1);
             }
 
             h = 1.0;
@@ -257,7 +272,7 @@ namespace Burkardt.FullertonFnLib
             {
                 t = a * alx + alngs;
 
-                if (alneps < t)
+                if (data.alneps < t)
                 {
                     sgng = -sgngs * sga * sgngam;
                     t = t + algap1 - Math.Log(Math.Abs(a));
@@ -265,7 +280,7 @@ namespace Burkardt.FullertonFnLib
                     return value;
                 }
 
-                if (-alneps < t)
+                if (-data.alneps < t)
                 {
                     h = 1.0 - sgngs * Math.Exp(t);
                 }
@@ -278,7 +293,18 @@ namespace Burkardt.FullertonFnLib
             return value;
         }
 
-        public static double r8_gamit(ref r8GammaData gdata, double a, double x)
+        public class r8GamitData
+        {
+            public double alneps = 0.0;
+            public r8GMITData gmitdata = new r8GMITData();
+            public r8LngamData lngamdata = new r8LngamData();
+            public r8LgicData lgicdata = new r8LgicData();
+            public r8LgitData lgitdata = new r8LgitData();
+            public r8LgamsData lgamsdata = new r8LgamsData();
+            public r8GamrData gamrdata = new r8GamrData();
+
+        }
+        public static double r8_gamit( ref r8GamitData data, ref r8GammaData gdata, double a, double x)
 
             //****************************************************************************80
             //
@@ -343,7 +369,6 @@ namespace Burkardt.FullertonFnLib
             double aeps;
             double ainta;
             double algap1 = 0;
-            double alneps = 0.0;
             double alng;
             double alx;
             //static double bot = 0.0;
@@ -354,9 +379,9 @@ namespace Burkardt.FullertonFnLib
             double t;
             double value;
 
-            if (alneps == 0.0)
+            if (data.alneps == 0.0)
             {
-                alneps = -Math.Log(r8_mach(3));
+                data.alneps = -Math.Log(r8_mach(3));
                 //  sqeps = sqrt ( r8_mach ( 4 ) );
                 //  bot = log ( r8_mach ( 1 ) );
             }
@@ -393,7 +418,7 @@ namespace Burkardt.FullertonFnLib
             {
                 if (0.0 < ainta || aeps != 0.0)
                 {
-                    value = r8_gamr(ref gdata, a + 1.0);
+                    value = r8_gamr(ref data.gamrdata, ref gdata, a + 1.0);
                 }
                 else
                 {
@@ -407,21 +432,21 @@ namespace Burkardt.FullertonFnLib
             {
                 if (-0.5 <= a || aeps != 0.0)
                 {
-                    r8_lgams(ref gdata, a + 1.0, ref algap1, ref sgngam);
+                    r8_lgams(ref data.lgamsdata, ref gdata, a + 1.0, ref algap1, ref sgngam);
                 }
 
-                value = r8_gmit(ref gdata, a, x, algap1, sgngam, alx);
+                value = r8_gmit(ref data.gmitdata, ref gdata, a, x, algap1, sgngam, alx);
                 return value;
             }
 
             if (x <= a)
             {
-                t = r8_lgit(a, x, r8_lngam(ref gdata, a + 1.0));
+                t = r8_lgit(ref data.lgitdata, a, x, r8_lngam(ref data.lngamdata, ref gdata, a + 1.0));
                 value = Math.Exp(t);
                 return value;
             }
 
-            alng = r8_lgic(a, x, alx);
+            alng = r8_lgic(ref data.lgicdata, a, x, alx);
             //
             //  Evaluate in terms of log (r8_gamic (a, x))
             //
@@ -429,17 +454,17 @@ namespace Burkardt.FullertonFnLib
 
             if (aeps != 0.0 || 0.0 < ainta)
             {
-                r8_lgams(ref gdata, a + 1.0, ref algap1, ref sgngam);
+                r8_lgams(ref data.lgamsdata, ref gdata, a + 1.0, ref algap1, ref sgngam);
                 t = Math.Log(Math.Abs(a)) + alng - algap1;
 
-                if (alneps < t)
+                if (data.alneps < t)
                 {
                     t = t - a * alx;
                     value = -sga * sgngam * Math.Exp(t);
                     return value;
                 }
 
-                if (-alneps < t)
+                if (-data.alneps < t)
                 {
                     h = 1.0 - sga * sgngam * Math.Exp(t);
                 }
@@ -563,6 +588,7 @@ namespace Burkardt.FullertonFnLib
             public double xmin = 0.0;
             public double xsml = 0.0;
             public int ngcs = 0;
+            public r8LgmcData lgmcdata = new r8LgmcData();
         }
 
         public static double r8_gamma(ref r8GammaData data, double x)
@@ -756,7 +782,7 @@ namespace Burkardt.FullertonFnLib
                     return value;
                 }
 
-                value = Math.Exp((y - 0.5) * Math.Log(y) - y + sq2pil + r8_lgmc(y));
+                value = Math.Exp((y - 0.5) * Math.Log(y) - y + sq2pil + r8_lgmc(ref data.lgmcdata, y));
 
                 if (0.0 < x)
                 {
@@ -787,7 +813,11 @@ namespace Burkardt.FullertonFnLib
             return value;
         }
 
-        public static double r8_gamr(ref r8GammaData gdata, double x)
+        public class r8GamrData
+        {
+            public r8LgamsData lgamsdata = new r8LgamsData();
+        }
+        public static double r8_gamr(ref r8GamrData data, ref r8GammaData gdata, double x)
 
             //****************************************************************************80
             //
@@ -841,14 +871,21 @@ namespace Burkardt.FullertonFnLib
             }
             else
             {
-                r8_lgams(ref gdata, x, ref alngx, ref sgngx);
+                r8_lgams(ref data.lgamsdata, ref gdata, x, ref alngx, ref sgngx);
                 value = sgngx * Math.Exp(-alngx);
             }
 
             return value;
         }
 
-        public static double r8_gmic(ref r8GammaData gdata, double a, double x, double alx)
+        public class r8GMICData
+        {
+            public double bot = 0.0;
+            public double eps = 0.0;
+            public r8LngamData lngamdata = new r8LngamData();
+        }
+        
+        public static double r8_gmic( ref r8GMICData data, ref r8GammaData gdata, double a, double x, double alx)
 
             //****************************************************************************80
             //
@@ -893,9 +930,7 @@ namespace Burkardt.FullertonFnLib
             //
         {
             double alng;
-            double bot = 0.0;
             bool converged;
-            double eps = 0.0;
             const double euler = 0.57721566490153286060651209008240;
             double fk;
             double fkp1;
@@ -909,10 +944,10 @@ namespace Burkardt.FullertonFnLib
             double te;
             double value;
 
-            if (eps == 0.0)
+            if (data.eps == 0.0)
             {
-                eps = 0.5 * r8_mach(3);
-                bot = Math.Log(r8_mach(1));
+                data.eps = 0.5 * r8_mach(3);
+                data.bot = Math.Log(r8_mach(1));
             }
 
             if (0.0 < a)
@@ -945,7 +980,7 @@ namespace Burkardt.FullertonFnLib
                 te = -x * te / (fm + fkp1);
                 t = te / fkp1;
                 s = s + t;
-                if (Math.Abs(t) < eps * s)
+                if (Math.Abs(t) < data.eps * s)
                 {
                     converged = true;
                     break;
@@ -983,7 +1018,7 @@ namespace Burkardt.FullertonFnLib
                 te = -x * te / fk;
                 t = te / (fm - fk);
                 s = s + t;
-                if (Math.Abs(t) < eps * Math.Abs(s))
+                if (Math.Abs(t) < data.eps * Math.Abs(s))
                 {
                     break;
                 }
@@ -1003,9 +1038,9 @@ namespace Burkardt.FullertonFnLib
                 sgng = +1.0;
             }
 
-            alng = Math.Log(value) - r8_lngam(ref gdata, fm + 1.0);
+            alng = Math.Log(value) - r8_lngam(ref data.lngamdata, ref gdata, fm + 1.0);
 
-            if (bot < alng)
+            if (data.bot < alng)
             {
                 value = sgng * Math.Exp(alng);
             }
@@ -1023,7 +1058,13 @@ namespace Burkardt.FullertonFnLib
             return value;
         }
 
-        public static double r8_gmit(ref r8GammaData gdata, double a, double x, double algap1, double sgngam, double alx)
+        public class r8GMITData
+        {
+            public double bot = 0.0;
+            public double eps = 0.0;
+            public r8LngamData lngamdata = new r8LngamData();
+        }
+        public static double r8_gmit( ref r8GMITData data, ref r8GammaData gdata, double a, double x, double algap1, double sgngam, double alx)
 
             //****************************************************************************80
             //
@@ -1074,9 +1115,7 @@ namespace Burkardt.FullertonFnLib
             double aeps;
             double alg2;
             double algs;
-            double bot = 0.0;
             bool converged;
-            double eps = 0.0;
             double fk;
             int k;
             int m;
@@ -1087,10 +1126,10 @@ namespace Burkardt.FullertonFnLib
             double te;
             double value;
 
-            if (eps == 0.0)
+            if (data.eps == 0.0)
             {
-                eps = 0.5 * r8_mach(3);
-                bot = Math.Log(r8_mach(1));
+                data.eps = 0.5 * r8_mach(3);
+                data.bot = Math.Log(r8_mach(1));
             }
 
             if (x <= 0.0)
@@ -1132,7 +1171,7 @@ namespace Burkardt.FullertonFnLib
                 te = -x * te / fk;
                 t = te / (ae + fk);
                 s = s + t;
-                if (Math.Abs(t) < eps * Math.Abs(s))
+                if (Math.Abs(t) < data.eps * Math.Abs(s))
                 {
                     converged = true;
                     break;
@@ -1154,7 +1193,7 @@ namespace Burkardt.FullertonFnLib
                 return value;
             }
 
-            algs = -r8_lngam(ref gdata, 1.0 + aeps) + Math.Log(s);
+            algs = -r8_lngam(ref data.lngamdata, ref gdata, 1.0 + aeps) + Math.Log(s);
             s = 1.0;
             m = -ma - 1;
             t = 1.0;
@@ -1163,7 +1202,7 @@ namespace Burkardt.FullertonFnLib
             {
                 t = x * t / (aeps - (double) (m + 1 - k));
                 s = s + t;
-                if (Math.Abs(t) < eps * Math.Abs(s))
+                if (Math.Abs(t) < data.eps * Math.Abs(s))
                 {
                     break;
                 }
@@ -1181,12 +1220,12 @@ namespace Burkardt.FullertonFnLib
             sgng2 = sgngam * r8_sign(s);
             alg2 = -x - algap1 + Math.Log(Math.Abs(s));
 
-            if (bot < alg2)
+            if (data.bot < alg2)
             {
                 value = sgng2 * Math.Exp(alg2);
             }
 
-            if (bot < algs)
+            if (data.bot < algs)
             {
                 value = value + Math.Exp(algs);
             }

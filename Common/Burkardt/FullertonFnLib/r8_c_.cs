@@ -7,6 +7,7 @@ namespace Burkardt.FullertonFnLib
         public class r8CBRTData
         {
             public int niter = 0;
+            public r8PakData pakdata = new r8PakData();
         }
         public static double r8_cbrt(ref r8CBRTData data, double x)
 
@@ -102,7 +103,7 @@ namespace Burkardt.FullertonFnLib
                     value = +Math.Abs(value);
                 }
 
-                value = r8_pak(cbrt2[irem - 1] * value, ixpnt);
+                value = r8_pak( ref data.pakdata, cbrt2[irem - 1] * value, ixpnt);
             }
 
             return value;
@@ -159,7 +160,9 @@ namespace Burkardt.FullertonFnLib
         {
             double value;
 
-            value = 0.5 * (r8_ei(x) - r8_e1(x));
+            r8E1Data data = new r8E1Data();
+
+            value = 0.5 * (r8_ei(x) - r8_e1(ref data, x));
 
             return value;
         }
@@ -168,9 +171,13 @@ namespace Burkardt.FullertonFnLib
         {
             public double eps = 0.0;
             public r8CHUScaledData scaledData = new r8CHUScaledData();
+            public r8PochData pochData = new r8PochData();
+            public r8Poch1Data poch1Data = new r8Poch1Data();
+            public r8ExprelData expreldata = new r8ExprelData();
+            public r8GamrData gamrdata = new r8GamrData();
 
         }
-        public static double r8_chu(ref  r8CHUData data, ref r8GammaData gdata, double a, double b, double x)
+        public static double r8_chu(ref r8CHUData data, ref r8GammaData gdata, double a, double b, double x)
 
             //****************************************************************************80
             //
@@ -305,7 +312,7 @@ namespace Burkardt.FullertonFnLib
                     sum = sum + t;
                 }
 
-                sum = r8_poch(ref gdata, 1.0 + a - b, -a) * sum;
+                sum = r8_poch(ref data.pochData, ref gdata, 1.0 + a - b, -a) * sum;
             }
             //
             //  Now consider the case 1 <= b.
@@ -327,7 +334,7 @@ namespace Burkardt.FullertonFnLib
                         sum = sum + t;
                     }
 
-                    sum = r8_gamma(ref gdata, b - 1.0) * r8_gamr(ref gdata, a)
+                    sum = r8_gamma(ref gdata, b - 1.0) * r8_gamr(ref data.gamrdata, ref gdata, a)
                                             * r8_power(x, (double) (1 - n)) * xtoeps * sum;
                 }
             }
@@ -346,33 +353,33 @@ namespace Burkardt.FullertonFnLib
 
             xi = (double) (istrt);
 
-            factor = r8_mop(n) * r8_gamr(ref gdata, 1.0 + a - b) * r8_power(x, xi);
+            factor = r8_mop(n) * r8_gamr(ref data.gamrdata, ref gdata, 1.0 + a - b) * r8_power(x, xi);
 
             if (beps != 0.0)
             {
                 factor = factor * beps * pi / Math.Sin(beps * pi);
             }
 
-            pochai = r8_poch(ref gdata, a, xi);
-            gamri1 = r8_gamr(ref gdata, xi + 1.0);
-            gamrni = r8_gamr(ref gdata, aintb + xi);
-            b0 = factor * r8_poch(ref gdata, a, xi - beps)
-                        * gamrni * r8_gamr(ref gdata, xi + 1.0 - beps);
+            pochai = r8_poch(ref data.pochData, ref gdata, a, xi);
+            gamri1 = r8_gamr(ref data.gamrdata, ref gdata, xi + 1.0);
+            gamrni = r8_gamr(ref data.gamrdata, ref gdata, aintb + xi);
+            b0 = factor * r8_poch(ref data.pochData, ref gdata, a, xi - beps)
+                        * gamrni * r8_gamr(ref data.gamrdata, ref gdata, xi + 1.0 - beps);
             //
             //  x^(-beps) is close to 1.0, so we must be careful in evaluating the
             //  differences.
             //
             if (Math.Abs(xtoeps - 1.0) <= 0.5)
             {
-                pch1ai = r8_poch1(ref gdata, a + xi, -beps);
-                pch1i = r8_poch1(ref gdata, xi + 1.0 - beps, beps);
+                pch1ai = r8_poch1(ref data.poch1Data, ref gdata, a + xi, -beps);
+                pch1i = r8_poch1(ref data.poch1Data, ref gdata, xi + 1.0 - beps, beps);
                 c0 = factor * pochai * gamrni * gamri1 * (
-                    -r8_poch1(ref gdata, b + xi, -beps) + pch1ai
+                    -r8_poch1(ref data.poch1Data, ref gdata, b + xi, -beps) + pch1ai
                     - pch1i + beps * pch1ai * pch1i);
                 //
                 //  xeps1 = (1.0 - x^(-beps))/beps = (x^(-beps) - 1.0)/(-beps)
                 //
-                xeps1 = alnx * r8_exprel(-beps * alnx);
+                xeps1 = alnx * r8_exprel( ref data.expreldata,-beps * alnx);
 
                 value = sum + c0 + xeps1 * b0;
                 xn = (double) (n);
@@ -405,7 +412,7 @@ namespace Burkardt.FullertonFnLib
             //  x^(-beps) is very different from 1.0, so the straightforward
             //  formulation is stable.
             //
-            a0 = factor * pochai * r8_gamr(ref gdata, b + xi) * gamri1 / beps;
+            a0 = factor * pochai * r8_gamr(ref data.gamrdata, ref gdata, b + xi) * gamri1 / beps;
             b0 = xtoeps * b0 / beps;
 
             value = sum + a0 - b0;
@@ -568,7 +575,7 @@ namespace Burkardt.FullertonFnLib
         {
             public int nci = 0;
             public double xsml = 0.0;
-
+            public r8SifgData sifgdata = new r8SifgData();
         }
         public static double r8_ci( ref r8CIData data, double x)
 
@@ -668,7 +675,7 @@ namespace Burkardt.FullertonFnLib
             }
             else
             {
-                r8_sifg(x, ref f, ref g);
+                r8_sifg(ref data.sifgdata, x, ref f, ref g);
                 sinx = Math.Sin(x);
                 value = f * sinx - g * Math.Cos(x);
             }
@@ -680,6 +687,7 @@ namespace Burkardt.FullertonFnLib
         {
             public int ncin = 0;
             public double xmin = 0.0;
+            public r8SifgData sifgdata = new r8SifgData();
         }
         
         public static double r8_cin( ref r8CINData data, double x)
@@ -772,7 +780,7 @@ namespace Burkardt.FullertonFnLib
             }
             else
             {
-                r8_sifg(absx, ref f, ref g);
+                r8_sifg(ref data.sifgdata, absx, ref f, ref g);
                 sinx = Math.Sin(absx);
                 value = -f * sinx + g * Math.Cos(absx) + Math.Log(absx) + eul;
             }
@@ -780,14 +788,14 @@ namespace Burkardt.FullertonFnLib
             return value;
         }
 
-        public class rCINHData
+        public class r8CINHData
         {
             public int ncinh = 0;
             public double xmin = 0.0;
             public double xsml = 0.0;
 
         }
-        public static double r8_cinh( ref rCINHData data, double x)
+        public static double r8_cinh( ref r8CINHData data, double x)
 
             //****************************************************************************80
             //
@@ -902,7 +910,7 @@ namespace Burkardt.FullertonFnLib
             public double xmax = 0.0;
             public double xsml = 0.0;
             public double xwarn = 0.0;
-
+            public r8SqrtData sqrtdata = new r8SqrtData();
         }
         public static double r8_cos( ref r8CosData data, double x)
 
@@ -976,9 +984,9 @@ namespace Burkardt.FullertonFnLib
             if (data.ntsn == 0)
             {
                 data.ntsn = r8_inits(sincs, 15, 0.1 * r8_mach(3));
-                data.xsml = r8_sqrt(2.0 * r8_mach(3));
+                data.xsml = r8_sqrt( ref data.sqrtdata, 2.0 * r8_mach(3));
                 data.xmax = 1.0 / r8_mach(4);
-                data.xwarn = r8_sqrt(data.xmax);
+                data.xwarn = r8_sqrt(ref data.sqrtdata, data.xmax);
             }
 
             absx = Math.Abs(x);
@@ -1104,7 +1112,7 @@ namespace Burkardt.FullertonFnLib
             public double ymax = 0.0;
         }
         
-        public static double r8_cosh( r8CoshData data, double x)
+        public static double r8_cosh( ref r8CoshData data, double x)
 
             //****************************************************************************80
             //

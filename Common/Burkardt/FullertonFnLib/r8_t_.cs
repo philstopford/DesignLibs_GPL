@@ -4,7 +4,15 @@ namespace Burkardt.FullertonFnLib
 {
     public static partial class FullertonLib
     {
-        public static double r8_tan(double x)
+        public class r8TanData
+        {
+            public int nterms = 0;
+            public double sqeps = 0.0;
+            public double xmax = 0.0;
+            public double xsml = 0.0;
+
+        }
+        public static double r8_tan( ref r8TanData data, double x)
 
             //****************************************************************************80
             //
@@ -46,10 +54,8 @@ namespace Burkardt.FullertonFnLib
             double ainty;
             double ainty2;
             int ifn;
-            int nterms = 0;
             const double pi2rec = 0.011619772367581343075535053490057;
             double prodbg;
-            double sqeps = 0.0;
             double[] tancs = {
                 +0.22627932763129357846578636531752,
                 +0.43017913146548961775583410748067E-01,
@@ -73,22 +79,20 @@ namespace Burkardt.FullertonFnLib
             }
             ;
             double value;
-            double xmax = 0.0;
-            double xsml = 0.0;
             double y;
             double yrem;
 
-            if (nterms == 0)
+            if (data.nterms == 0)
             {
-                nterms = r8_inits(tancs, 19, 0.1 * r8_mach(3));
-                xmax = 1.0 / r8_mach(4);
-                xsml = Math.Sqrt(3.0 * r8_mach(3));
-                sqeps = Math.Sqrt(r8_mach(4));
+                data.nterms = r8_inits(tancs, 19, 0.1 * r8_mach(3));
+                data.xmax = 1.0 / r8_mach(4);
+                data.xsml = Math.Sqrt(3.0 * r8_mach(3));
+                data.sqeps = Math.Sqrt(r8_mach(4));
             }
 
             y = Math.Abs(x);
 
-            if (xmax < y)
+            if (data.xmax < y)
             {
                 Console.WriteLine("");
                 Console.WriteLine("R8_TAN - Warning");
@@ -118,7 +122,7 @@ namespace Burkardt.FullertonFnLib
                 y = 1.0 - y;
             }
 
-            if (1.0 - y < Math.Abs(x) * sqeps)
+            if (1.0 - y < Math.Abs(x) * data.sqeps)
             {
                 Console.WriteLine("");
                 Console.WriteLine("R8_TAN - Warning!");
@@ -137,21 +141,21 @@ namespace Burkardt.FullertonFnLib
             if (y <= 0.25)
             {
                 value = y;
-                if (xsml < y)
+                if (data.xsml < y)
                 {
-                    value = y * (1.5 + r8_csevl(32.0 * y * y - 1.0, tancs, nterms));
+                    value = y * (1.5 + r8_csevl(32.0 * y * y - 1.0, tancs, data.nterms));
                 }
             }
             else if (y <= 0.5)
             {
                 value = 0.5 * y * (1.5 + r8_csevl(
-                    8.0 * y * y - 1.0, tancs, nterms));
+                    8.0 * y * y - 1.0, tancs, data.nterms));
                 value = 2.0 * value / (1.0 - value * value);
             }
             else
             {
                 value = 0.25 * y * (1.5 + r8_csevl(
-                    2.0 * y * y - 1.0, tancs, nterms));
+                    2.0 * y * y - 1.0, tancs, data.nterms));
                 value = 2.0 * value / (1.0 - value * value);
                 value = 2.0 * value / (1.0 - value * value);
             }
@@ -173,7 +177,15 @@ namespace Burkardt.FullertonFnLib
             return value;
         }
 
-        public static double r8_tanh(double x)
+        public class r8TanhData
+        {
+            public int nterms = 0;
+            public double sqeps = 0.0;
+            public double xmax = 0.0;
+
+        }
+        
+        public static double r8_tanh(ref r8TanhData data, double x)
 
             //****************************************************************************80
             //
@@ -212,8 +224,6 @@ namespace Burkardt.FullertonFnLib
             //    Output, double R8_TANH, the hyperbolic tangent of X.
             //
         {
-            int nterms = 0;
-            double sqeps = 0.0;
             double[] tanhcs = {
                 -0.25828756643634710438338151450605,
                 -0.11836106330053496535383671940204,
@@ -249,28 +259,27 @@ namespace Burkardt.FullertonFnLib
             }
             ;
             double value;
-            double xmax = 0.0;
             double y;
             double yrec;
 
-            if (nterms == 0)
+            if (data.nterms == 0)
             {
-                nterms = r8_inits(tanhcs, 31, 0.1 * r8_mach(3));
-                sqeps = Math.Sqrt(3.0 * r8_mach(3));
-                xmax = -0.5 * Math.Log(r8_mach(3));
+                data.nterms = r8_inits(tanhcs, 31, 0.1 * r8_mach(3));
+                data.sqeps = Math.Sqrt(3.0 * r8_mach(3));
+                data.xmax = -0.5 * Math.Log(r8_mach(3));
             }
 
             y = Math.Abs(x);
 
-            if (y <= sqeps)
+            if (y <= data.sqeps)
             {
                 value = x;
             }
             else if (y <= 1.0)
             {
-                value = x * (1.0 + r8_csevl(2.0 * x * x - 1.0, tanhcs, nterms));
+                value = x * (1.0 + r8_csevl(2.0 * x * x - 1.0, tanhcs, data.nterms));
             }
-            else if (y <= xmax)
+            else if (y <= data.xmax)
             {
                 y = Math.Exp(y);
                 yrec = 1.0 / y;

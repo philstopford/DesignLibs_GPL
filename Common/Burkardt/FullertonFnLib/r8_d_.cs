@@ -4,7 +4,17 @@ namespace Burkardt.FullertonFnLib
 {
     public static partial class FullertonLib
     {
-        public static double r8_dawson(double x)
+        public class r8DawsonData
+        {
+            public int ntdaw = 0;
+            public int ntdaw2 = 0;
+            public int ntdawa = 0;
+            public double xbig = 0.0;
+            public double xmax = 0.0;
+            public double xsml = 0.0;
+
+        }
+        public static double r8_dawson(ref r8DawsonData data, double x)
 
             //****************************************************************************80
             //
@@ -194,46 +204,40 @@ namespace Burkardt.FullertonFnLib
             }
             ;
             double eps;
-            int ntdaw = 0;
-            int ntdaw2 = 0;
-            int ntdawa = 0;
             double value;
-            double xbig = 0.0;
-            double xmax = 0.0;
-            double xsml = 0.0;
             double y;
 
-            if (ntdaw == 0)
+            if (data.ntdaw == 0)
             {
                 eps = r8_mach(3);
-                ntdaw = r8_inits(dawcs, 21, 0.1 * eps);
-                ntdaw2 = r8_inits(daw2cs, 45, 0.1 * eps);
-                ntdawa = r8_inits(dawacs, 75, 0.1 * eps);
-                xsml = Math.Sqrt(1.5 * eps);
-                xbig = Math.Sqrt(0.5 / eps);
-                xmax = Math.Exp(r8_min(-Math.Log(2.0 * r8_mach(1)),
+                data.ntdaw = r8_inits(dawcs, 21, 0.1 * eps);
+                data.ntdaw2 = r8_inits(daw2cs, 45, 0.1 * eps);
+                data.ntdawa = r8_inits(dawacs, 75, 0.1 * eps);
+                data.xsml = Math.Sqrt(1.5 * eps);
+                data.xbig = Math.Sqrt(0.5 / eps);
+                data.xmax = Math.Exp(r8_min(-Math.Log(2.0 * r8_mach(1)),
                     Math.Log(r8_mach(2))) - 0.01);
             }
 
             y = Math.Abs(x);
 
-            if (y <= xsml)
+            if (y <= data.xsml)
             {
                 value = x;
             }
             else if (y <= 1.0)
             {
-                value = x * (0.75 + r8_csevl(2.0 * y * y - 1.0, dawcs, ntdaw));
+                value = x * (0.75 + r8_csevl(2.0 * y * y - 1.0, dawcs, data.ntdaw));
             }
             else if (y <= 4.0)
             {
-                value = x * (0.25 + r8_csevl(0.125 * y * y - 1.0, daw2cs, ntdaw2));
+                value = x * (0.25 + r8_csevl(0.125 * y * y - 1.0, daw2cs, data.ntdaw2));
             }
-            else if (y < xbig)
+            else if (y < data.xbig)
             {
-                value = (0.5 + r8_csevl(32.0 / y / y - 1.0, dawacs, ntdawa)) / x;
+                value = (0.5 + r8_csevl(32.0 / y / y - 1.0, dawacs, data.ntdawa)) / x;
             }
-            else if (y <= xmax)
+            else if (y <= data.xmax)
             {
                 value = 0.5 / x;
             }

@@ -83,7 +83,16 @@ namespace Burkardt.FullertonFnLib
             return value;
         }
 
-        public static double r8_int(double x)
+        public class r8IntData
+        {
+            public int npart = 0;
+            public double scale = 0.0;
+            public double xbig = 0.0;
+            public double xmax = 0.0;
+
+        }
+
+        public static double r8_int(ref r8IntData data, double x)
 
             //****************************************************************************80
             //
@@ -125,73 +134,69 @@ namespace Burkardt.FullertonFnLib
             int i;
             int ibase;
             int ipart;
-            int npart = 0;
             double part;
-            double scale = 0.0;
             double value;
-            double xbig = 0.0;
-            double xmax = 0.0;
             double xscl;
 
-            if (npart == 0)
+            if (data.npart == 0)
             {
                 ibase = i4_mach(10);
-                xmax = 1.0 / r8_mach(4);
-                xbig = r8_min((double) (i4_mach(9)), 1.0 / r8_mach(4));
-                scale = (double) i4_pow(ibase,
-                    (int) (Math.Log(xbig) / Math.Log((double) (ibase)) - 0.5));
-                npart = (int)(Math.Log(xmax) / Math.Log(scale) + 1.0);
+                data.xmax = 1.0 / r8_mach(4);
+                data.xbig = r8_min((double) (i4_mach(9)), 1.0 / r8_mach(4));
+                data.scale = (double) i4_pow(ibase,
+                    (int) (Math.Log(data.xbig) / Math.Log((double) (ibase)) - 0.5));
+                data.npart = (int)(Math.Log(data.xmax) / Math.Log(data.scale) + 1.0);
             }
 
             //
             //  X may be too small.
             //
-            if (x < -xmax)
+            if (x < -data.xmax)
             {
                 value = x;
             }
-            else if (x < -xbig)
+            else if (x < -data.xbig)
             {
                 xscl = -x;
 
-                for (i = 1; i <= npart; i++)
+                for (i = 1; i <= data.npart; i++)
                 {
-                    xscl = xscl / scale;
+                    xscl = xscl / data.scale;
                 }
 
                 value = 0.0;
-                for (i = 1; i <= npart; i++)
+                for (i = 1; i <= data.npart; i++)
                 {
-                    xscl = xscl * scale;
+                    xscl = xscl * data.scale;
                     ipart = (int) (xscl);
                     part = (double) (ipart);
                     xscl = xscl - part;
-                    value = value * scale + part;
+                    value = value * data.scale + part;
                 }
 
                 value = -value;
             }
-            else if (x <= xbig)
+            else if (x <= data.xbig)
             {
                 value = (int) (x);
             }
-            else if (x <= xmax)
+            else if (x <= data.xmax)
             {
                 xscl = x;
 
-                for (i = 1; i <= npart; i++)
+                for (i = 1; i <= data.npart; i++)
                 {
-                    xscl = xscl / scale;
+                    xscl = xscl / data.scale;
                 }
 
                 value = 0.0;
-                for (i = 1; i <= npart; i++)
+                for (i = 1; i <= data.npart; i++)
                 {
-                    xscl = xscl * scale;
+                    xscl = xscl * data.scale;
                     ipart = (int) (xscl);
                     part = (double) (ipart);
                     xscl = xscl - part;
-                    value = value * scale + part;
+                    value = value * data.scale + part;
                 }
             }
             //

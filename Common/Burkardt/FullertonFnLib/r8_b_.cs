@@ -2553,6 +2553,7 @@ namespace Burkardt.FullertonFnLib
         {
             public double xmin = 0;
             public double xmax = 0;
+            public r8LBetaData lbetadata = new r8LBetaData();
         }
         
         public static double r8_beta(ref r8GammaData gdata, ref BesselData globaldata, ref r8BetaData data, double a, double b)
@@ -2616,14 +2617,23 @@ namespace Burkardt.FullertonFnLib
                 return value;
             }
 
-            value = r8_lbeta(ref gdata, a, b);
+            value = r8_lbeta(ref data.lbetadata, ref gdata, a, b);
 
             value = Math.Exp(value);
 
             return value;
         }
 
-        public static double r8_betai(ref r8GammaData gdata, ref BetaData data, double x, double pin, double qin)
+        public class r8Beta1Data
+        {
+            public double eps = 0;
+            public double alneps = 0;
+            public double alnsml = 0;
+            public double sml = 0;
+            public r8LBetaData lbetadata = new r8LBetaData();
+        }
+        
+        public static double r8_betai(ref r8Beta1Data data, ref r8GammaData gammadata, double x, double pin, double qin)
 
             //****************************************************************************80
             //
@@ -2737,7 +2747,7 @@ namespace Burkardt.FullertonFnLib
             if ((p + q) * y / (p + 1.0) < data.eps)
             {
                 value = 0.0;
-                xb = p * Math.Log(r8_max(y, data.sml)) - Math.Log(p) - r8_lbeta(ref gdata, p, q);
+                xb = p * Math.Log(r8_max(y, data.sml)) - Math.Log(p) - r8_lbeta(ref data.lbetadata, ref gammadata, p, q);
                 if (data.alnsml < xb && y != 0.0)
                 {
                     value = Math.Exp(xb);
@@ -2757,7 +2767,7 @@ namespace Burkardt.FullertonFnLib
                 ps = 1.0;
             }
 
-            xb = p * Math.Log(y) - r8_lbeta(ref gdata, ps, p) - Math.Log(p);
+            xb = p * Math.Log(y) - r8_lbeta(ref data.lbetadata, ref gammadata, ps, p) - Math.Log(p);
 
             if (xb < data.alnsml)
             {
@@ -2782,7 +2792,7 @@ namespace Burkardt.FullertonFnLib
             if (1.0 < q)
             {
                 xb = p * Math.Log(y) + q * Math.Log(1.0 - y)
-                     - r8_lbeta(ref gdata, p, q) - Math.Log(q);
+                     - r8_lbeta(ref data.lbetadata, ref gammadata, p, q) - Math.Log(q);
                 ib = (int) (r8_max(xb / data.alnsml, 0.0));
                 term = Math.Exp(xb - (double) (ib) * data.alnsml);
                 c = 1.0 / (1.0 - y);
@@ -3896,6 +3906,8 @@ namespace Burkardt.FullertonFnLib
         {
             public double bilnmx = 0.0;
             public double fintmx = 0.0;
+            public r8LgmcData lgmcdata = new r8LgmcData();
+            public r8LnrelData lnreldata = new r8LnrelData();
 
         }
         public static double r8_binom(ref r8BinomData data, int n, int m)
@@ -4002,10 +4014,10 @@ namespace Burkardt.FullertonFnLib
                 xk = (double) (k + 1);
                 xnk = (double) (n - k + 1);
 
-                corr = r8_lgmc(xn) - r8_lgmc(xk) - r8_lgmc(xnk);
+                corr = r8_lgmc(ref data.lgmcdata, xn) - r8_lgmc(ref data.lgmcdata, xk) - r8_lgmc(ref data.lgmcdata, xnk);
 
                 value = xk * Math.Log(xnk / xk)
-                    - xn * r8_lnrel(-(xk - 1.0) / xn)
+                    - xn * r8_lnrel(ref data.lnreldata, -(xk - 1.0) / xn)
                     - 0.5 * Math.Log(xn * xnk / xk) + 1.0 - sq2pil + corr;
 
                 if (data.bilnmx < value)

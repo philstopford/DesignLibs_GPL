@@ -4,7 +4,13 @@ namespace Burkardt.FullertonFnLib
 {
     public static partial class FullertonLib
     {
-        public static double r8_fac(int n)
+        public class r8FacData
+        {
+            public int nmax = 0;
+            public r8LgmcData lgmcdata = new r8LgmcData();
+
+        }
+        public static double r8_fac( ref r8FacData data, int n)
 
             //****************************************************************************80
             //
@@ -77,17 +83,16 @@ namespace Burkardt.FullertonFnLib
                 +0.265252859812191058636308480000000E+33
             }
             ;
-            int nmax = 0;
             const double sq2pil = 0.91893853320467274178032973640562;
             double value;
             double x;
             double xmax = 0;
             double xmin = 0;
 
-            if (nmax == 0)
+            if (data.nmax == 0)
             {
                 r8_gaml(ref xmin, ref xmax);
-                nmax = (int) (xmax - 1.0);
+                data.nmax = (int) (xmax - 1.0);
             }
 
             if (n < 0)
@@ -101,10 +106,10 @@ namespace Burkardt.FullertonFnLib
             {
                 value = facn[n];
             }
-            else if (n <= nmax)
+            else if (n <= data.nmax)
             {
                 x = (double) (n + 1);
-                value = Math.Exp((x - 0.5) * Math.Log(x) - x + sq2pil + r8_lgmc(x));
+                value = Math.Exp((x - 0.5) * Math.Log(x) - x + sq2pil + r8_lgmc(ref data.lgmcdata, x));
             }
             else
             {

@@ -1253,7 +1253,7 @@ namespace Burkardt.FullertonFnLib
             public int ntj0 = 0;
             public double xsml = 0;
 
-            public r8B0MPData edata;
+            public r8B0MPData edata = new r8B0MPData();
         }
 
         public static double r8_besj0(ref BesselData globaldata, ref r8BESJ0Data data, double x)

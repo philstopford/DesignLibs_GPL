@@ -761,7 +761,13 @@ namespace Burkardt.NiederreiterNS
 
         }
 
-        public static void niederreiter(int dim_num, int base_, ref int seed, ref double[] r, int index = 0)
+        public class NiederReiterData
+        {
+            public int dim_num_save = -1;
+
+        }
+
+        public static void niederreiter(ref NiederReiterData data, int dim_num, int base_, ref int seed, ref double[] r, int index = 0)
 
             //****************************************************************************80
             //
@@ -793,16 +799,15 @@ namespace Burkardt.NiederreiterNS
             //    Output, double R[DIM_NUM], the element of the sequence.
             //
         {
-            int dim_num_save = -1;
             int skip;
 
-            if (dim_num_save < 1 || dim_num != dim_num_save || seed <= 0)
+            if (data.dim_num_save < 1 || dim_num != data.dim_num_save || seed <= 0)
             {
                 skip = 1;
 
                 inlo(dim_num, base_, skip);
 
-                dim_num_save = dim_num;
+                data.dim_num_save = dim_num;
             }
 
             golo(r, index);
@@ -811,7 +816,7 @@ namespace Burkardt.NiederreiterNS
 
         }
 
-        public static void niederreiter_generate(int dim_num, int n, int base_, ref int seed,
+        public static void niederreiter_generate(ref NiederReiterData data, int dim_num, int n, int base_, ref int seed,
                 ref double[] r)
 
             //****************************************************************************80
@@ -850,7 +855,7 @@ namespace Burkardt.NiederreiterNS
 
             for (j = 0; j < n; j++)
             {
-                niederreiter(dim_num, base_, ref seed, ref r, index: +j * dim_num);
+                niederreiter(ref data, dim_num, base_, ref seed, ref r, index: +j * dim_num);
             }
         }
 

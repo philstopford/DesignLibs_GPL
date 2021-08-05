@@ -78,7 +78,12 @@ namespace Burkardt.Laguerre
             return exact;
         }
 
-        public static double[] p19_fun(int n, double[] x)
+        public class p19Data
+        {
+            public double beta = 0.5;
+            
+        }
+        public static double[] p19_fun(ref p19Data data, int n, double[] x)
 
             //****************************************************************************80
             //
@@ -118,7 +123,6 @@ namespace Burkardt.Laguerre
             //    Output, double P61_FUN[N], the integrand values.
             //
         {
-            double beta = 0.5;
             double[] fx;
             int i;
 
@@ -126,17 +130,17 @@ namespace Burkardt.Laguerre
 
             for (i = 0; i < n; i++)
             {
-                if (beta == 1.0)
+                if (data.beta == 1.0)
                 {
                     fx[i] = 1.0 / Math.Pow(1.0 + 10.0 * x[i], 2);
                 }
-                else if (beta < 1.0 && x[i] == 0.0)
+                else if (data.beta < 1.0 && x[i] == 0.0)
                 {
                     fx[i] = 0.0;
                 }
                 else
                 {
-                    fx[i] = Math.Pow(x[i], beta - 1.0) / Math.Pow(1.0 + 10.0 * x[i], 2);
+                    fx[i] = Math.Pow(x[i], data.beta - 1.0) / Math.Pow(1.0 + 10.0 * x[i], 2);
                 }
             }
 

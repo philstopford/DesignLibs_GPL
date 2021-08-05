@@ -8,7 +8,11 @@ namespace HermiteIntegrandsTest
 {
     public static class Problem00
     {
-        public static double p00_exact(int problem)
+        public class p00Data
+        {
+            public Problem06.p06Data p6data = new Problem06.p06Data();
+        }
+        public static double p00_exact(ref p00Data data, int problem)
 
             //****************************************************************************80
             //
@@ -68,7 +72,7 @@ namespace HermiteIntegrandsTest
             }
             else if (problem == 6)
             {
-                exact = Problem06.p06_exact();
+                exact = Problem06.p06_exact(ref data.p6data);
             }
             else if (problem == 7)
             {
@@ -89,7 +93,7 @@ namespace HermiteIntegrandsTest
             return exact;
         }
 
-        public static void p00_fun(int problem, int option, int n, double[] x, ref double[] f )
+        public static void p00_fun(ref p00Data data, int problem, int option, int n, double[] x, ref double[] f )
 
         //****************************************************************************80
         //
@@ -147,7 +151,7 @@ namespace HermiteIntegrandsTest
             }
             else if (problem == 6)
             {
-                Problem06.p06_fun(option, n, x, ref f);
+                Problem06.p06_fun(ref data.p6data, option, n, x, ref f);
             }
             else if (problem == 7)
             {
@@ -165,7 +169,7 @@ namespace HermiteIntegrandsTest
             }
         }
 
-        public static double p00_gauss_hermite(int problem, int order)
+        public static double p00_gauss_hermite(ref p00Data data, int problem, int order)
 
             //****************************************************************************80
             //
@@ -207,14 +211,14 @@ namespace HermiteIntegrandsTest
             GaussHermite.hermite_compute(order, ref xtab, ref weight);
 
             option = 1;
-            p00_fun(problem, option, order, xtab, ref f_vec);
+            p00_fun(ref data, problem, option, order, xtab, ref f_vec);
 
             result = typeMethods.r8vec_dot_product(order, weight, f_vec);
 
             return result;
         }
 
-        public static double p00_monte_carlo(int problem, int order)
+        public static double p00_monte_carlo(ref p00Data data, int problem, int order)
 
             //****************************************************************************80
             //
@@ -265,13 +269,13 @@ namespace HermiteIntegrandsTest
             double[] x_vec;
 
             seed = 123456789;
-            typeMethods.r8vecNormalData data = new typeMethods.r8vecNormalData();
-            x_vec = typeMethods.r8vec_normal_01_new(order, ref data, ref seed);
+            typeMethods.r8vecNormalData ndata = new typeMethods.r8vecNormalData();
+            x_vec = typeMethods.r8vec_normal_01_new(order, ref ndata, ref seed);
 
             option = 2;
             f_vec = new double[order];
 
-            p00_fun(problem, option, order, x_vec, ref f_vec);
+            p00_fun(ref data, problem, option, order, x_vec, ref f_vec);
 
             weight = (double) (order) / Math.Sqrt(r8_pi) / Math.Sqrt(2.0);
 
@@ -384,7 +388,7 @@ namespace HermiteIntegrandsTest
             return title;
         }
 
-        public static double p00_turing(int problem, double h, double tol, ref int n)
+        public static double p00_turing(ref p00Data data, int problem, double h, double tol, ref int n)
 
             //****************************************************************************80
             //
@@ -451,7 +455,7 @@ namespace HermiteIntegrandsTest
             result = 0.0;
             order = 1;
             xtab[0] = 0.0;
-            p00_fun(problem, option, order, xtab, ref f_vec);
+            p00_fun(ref data, problem, option, order, xtab, ref f_vec);
             result = result + h * f_vec[0];
 
             for (;;)
@@ -462,7 +466,7 @@ namespace HermiteIntegrandsTest
                 xtab[1] = -(double) (n) * h;
 
                 order = 2;
-                p00_fun(problem, option, order, xtab, ref f_vec);
+                p00_fun(ref data, problem, option, order, xtab, ref f_vec);
 
                 result = result + h * (f_vec[0] + f_vec[1]);
                 //

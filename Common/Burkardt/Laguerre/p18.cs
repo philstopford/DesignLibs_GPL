@@ -36,7 +36,13 @@ namespace Burkardt.Laguerre
             return alpha;
         }
 
-        public static double p18_exact()
+        public class p18Data
+        {
+            public double beta = 2.0;
+
+        }
+        
+        public static double p18_exact(ref p18Data data)
 
             //****************************************************************************80
             //
@@ -61,15 +67,14 @@ namespace Burkardt.Laguerre
             //    Output, double P18_EXACT, the value of the integral.
             //
         {
-            double beta = 1.0;
             double exact;
 
-            exact = Math.Pow(2.0, 3.0 * beta + 1.0);
+            exact = Math.Pow(2.0, 3.0 * data.beta + 1.0);
 
             return exact;
         }
 
-        public static double[] p18_fun(int n, double[] x)
+        public static double[] p18_fun(ref p18Data data, int n, double[] x)
 
             //****************************************************************************80
             //
@@ -109,7 +114,6 @@ namespace Burkardt.Laguerre
             //    Output, double P18_FUN[N], the integrand values.
             //
         {
-            double beta = 1.0;
             double[] fx;
             int i;
 
@@ -117,7 +121,7 @@ namespace Burkardt.Laguerre
 
             for (i = 0; i < n; i++)
             {
-                fx[i] = x[i] * x[i] * Math.Exp(-x[i] / Math.Pow(2, beta));
+                fx[i] = x[i] * x[i] * Math.Exp(-x[i] / Math.Pow(2, data.beta));
             }
 
             return fx;

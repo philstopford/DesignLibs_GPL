@@ -120,6 +120,8 @@ namespace LaguerreIntegrandsTest
             int problem;
             int problem_num;
 
+            Integrands.p00Data data = new Integrands.p00Data();
+
             Console.WriteLine("");
             Console.WriteLine("TEST02");
             Console.WriteLine("  P00_ALPHA returns the lower limit of integration.");
@@ -135,7 +137,7 @@ namespace LaguerreIntegrandsTest
             {
                 alpha = Integrands.p00_alpha(problem);
 
-                exact = Integrands.p00_exact(problem);
+                exact = Integrands.p00_exact(ref data, problem);
 
                 Console.WriteLine("  " + problem.ToString().PadLeft(8)
                                        + "  " + alpha.ToString().PadLeft(14)
@@ -173,6 +175,7 @@ namespace LaguerreIntegrandsTest
             int order_log;
             int problem;
             int problem_num;
+            Integrands.p00Data data = new Integrands.p00Data();
 
             Console.WriteLine("");
             Console.WriteLine("TEST03");
@@ -187,7 +190,7 @@ namespace LaguerreIntegrandsTest
 
             for (problem = 1; problem <= problem_num; problem++)
             {
-                exact = Integrands.p00_exact(problem);
+                exact = Integrands.p00_exact(ref data, problem);
 
                 order = 1;
 
@@ -198,7 +201,7 @@ namespace LaguerreIntegrandsTest
 
                 for (order_log = 0; order_log <= 6; order_log++)
                 {
-                    estimate = Integrands.p00_gauss_laguerre(problem, order);
+                    estimate = Integrands.p00_gauss_laguerre(ref data, problem, order);
 
                     error = Math.Abs(exact - estimate);
 
@@ -240,6 +243,7 @@ namespace LaguerreIntegrandsTest
             int order_log;
             int problem;
             int problem_num;
+            Integrands.p00Data data = new Integrands.p00Data();
 
             Console.WriteLine("");
             Console.WriteLine("TEST04");
@@ -256,7 +260,7 @@ namespace LaguerreIntegrandsTest
 
             for (problem = 1; problem <= problem_num; problem++)
             {
-                exact = Integrands.p00_exact(problem);
+                exact = Integrands.p00_exact(ref data, problem);
 
                 order = 1;
 
@@ -267,7 +271,7 @@ namespace LaguerreIntegrandsTest
 
                 for (order_log = 0; order_log <= 6; order_log++)
                 {
-                    estimate = Integrands.p00_exp_transform(problem, order);
+                    estimate = Integrands.p00_exp_transform(ref data, problem, order);
 
                     error = Math.Abs(exact - estimate);
 
@@ -309,6 +313,7 @@ namespace LaguerreIntegrandsTest
             int order_log;
             int problem;
             int problem_num;
+            Integrands.p00Data data = new Integrands.p00Data();
 
             Console.WriteLine("");
             Console.WriteLine("TEST05");
@@ -325,7 +330,7 @@ namespace LaguerreIntegrandsTest
 
             for (problem = 1; problem <= problem_num; problem++)
             {
-                exact = Integrands.p00_exact(problem);
+                exact = Integrands.p00_exact(ref data, problem);
 
                 order = 1;
 
@@ -336,7 +341,7 @@ namespace LaguerreIntegrandsTest
 
                 for (order_log = 0; order_log <= 6; order_log++)
                 {
-                    estimate = Integrands.p00_rat_transform(problem, order);
+                    estimate = Integrands.p00_rat_transform(ref data, problem, order);
 
                     error = Math.Abs(exact - estimate);
 

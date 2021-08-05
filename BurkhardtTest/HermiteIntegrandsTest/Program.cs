@@ -116,6 +116,7 @@ namespace HermiteIntegrandsTest
             int m;
             int problem;
             int problem_num;
+            Problem00.p00Data data = new Problem00.p00Data();
 
             Console.WriteLine("");
             Console.WriteLine("TEST02");
@@ -124,7 +125,7 @@ namespace HermiteIntegrandsTest
             problem_num = Problem00.p00_problem_num();
 
             m = 4;
-            Problem06.p06_param('S', 'M', ref m);
+            Problem06.p06_param(ref data.p6data, 'S', 'M', ref m);
 
             Console.WriteLine("");
             Console.WriteLine("   Problem       EXACT");
@@ -132,7 +133,7 @@ namespace HermiteIntegrandsTest
 
             for (problem = 1; problem <= problem_num; problem++)
             {
-                exact = Problem00.p00_exact(problem);
+                exact = Problem00.p00_exact(ref data, problem);
 
                 Console.WriteLine("  " + problem.ToString().PadLeft(8)
                                   + "  " + exact.ToString("0.################").PadLeft(24) + "");
@@ -171,6 +172,8 @@ namespace HermiteIntegrandsTest
             int problem;
             int problem_num;
 
+            Problem00.p00Data data = new Problem00.p00Data();
+
             Console.WriteLine("");
             Console.WriteLine("TEST03");
             Console.WriteLine("  P00_GAUSS_HERMITE applies a Gauss-Hermite rule");
@@ -179,14 +182,14 @@ namespace HermiteIntegrandsTest
             problem_num = Problem00.p00_problem_num();
 
             m = 4;
-            Problem06.p06_param('S', 'M', ref  m);
+            Problem06.p06_param(ref data.p6data, 'S', 'M', ref  m);
 
             Console.WriteLine("");
             Console.WriteLine("   Problem     Order          Estimate        Exact          Error");
 
             for (problem = 1; problem <= problem_num; problem++)
             {
-                exact = Problem00.p00_exact(problem);
+                exact = Problem00.p00_exact(ref data, problem);
 
                 order = 1;
 
@@ -194,7 +197,7 @@ namespace HermiteIntegrandsTest
 
                 for (order_log = 0; order_log <= 6; order_log++)
                 {
-                    estimate = Problem00.p00_gauss_hermite(problem, order);
+                    estimate = Problem00.p00_gauss_hermite(ref data, problem, order);
 
                     error = Math.Abs(exact - estimate);
 
@@ -244,6 +247,8 @@ namespace HermiteIntegrandsTest
             int test;
             double tol = 0;
 
+            Problem00.p00Data data = new Problem00.p00Data();
+
             Console.WriteLine("");
             Console.WriteLine("TEST04");
             Console.WriteLine("  P00_TURING applies a Turing procedure");
@@ -252,7 +257,7 @@ namespace HermiteIntegrandsTest
             problem_num = Problem00.p00_problem_num();
 
             m = 4;
-            Problem06.p06_param('S', 'M', ref m);
+            Problem06.p06_param(ref data.p6data, 'S', 'M', ref m);
 
             for (test = 1; test <= 2; test++)
             {
@@ -272,7 +277,7 @@ namespace HermiteIntegrandsTest
 
                 for (problem = 1; problem <= problem_num; problem++)
                 {
-                    exact = Problem00.p00_exact(problem);
+                    exact = Problem00.p00_exact(ref data, problem);
 
                     h = 1.0;
 
@@ -280,7 +285,7 @@ namespace HermiteIntegrandsTest
 
                     for (order_log = 0; order_log <= 6; order_log++)
                     {
-                        estimate = Problem00.p00_turing(problem, h, tol, ref n);
+                        estimate = Problem00.p00_turing(ref data, problem, h, tol, ref n);
 
                         error = Math.Abs(exact - estimate);
 
@@ -327,6 +332,8 @@ namespace HermiteIntegrandsTest
             int order;
             int problem;
 
+            Problem00.p00Data data = new Problem00.p00Data();
+
             Console.WriteLine("");
             Console.WriteLine("TEST05");
             Console.WriteLine("  P00_GAUSS_HERMITE applies a Gauss-Hermite rule to");
@@ -339,15 +346,15 @@ namespace HermiteIntegrandsTest
 
             for (m = 0; m <= 6; m++)
             {
-                Problem06.p06_param('S', 'M', ref  m);
+                Problem06.p06_param(ref data.p6data, 'S', 'M', ref  m);
 
-                exact = Problem00.p00_exact(problem);
+                exact = Problem00.p00_exact(ref data, problem);
 
                 Console.WriteLine("");
 
                 for (order = 1; order <= 3 + (m / 2); order++)
                 {
-                    estimate = Problem00.p00_gauss_hermite(problem, order);
+                    estimate = Problem00.p00_gauss_hermite(ref data, problem, order);
 
                     error = Math.Abs(exact - estimate);
 
@@ -390,6 +397,8 @@ namespace HermiteIntegrandsTest
             int problem;
             int problem_num;
 
+            Problem00.p00Data data = new Problem00.p00Data();
+
             Console.WriteLine("");
             Console.WriteLine("TEST06");
             Console.WriteLine("  P00_MONTE_CARLO uses a weighted form of the Monte Carlo method");
@@ -398,14 +407,14 @@ namespace HermiteIntegrandsTest
             problem_num = Problem00.p00_problem_num();
 
             m = 4;
-            Problem06.p06_param('S', 'M', ref  m);
+            Problem06.p06_param(ref data.p6data, 'S', 'M', ref  m);
 
             Console.WriteLine("");
             Console.WriteLine("   Problem     Order          Estimate        Exact          Error");
 
             for (problem = 1; problem <= problem_num; problem++)
             {
-                exact = Problem00.p00_exact(problem);
+                exact = Problem00.p00_exact(ref data, problem);
 
                 order = 128;
 
@@ -413,7 +422,7 @@ namespace HermiteIntegrandsTest
 
                 for (order_log = 0; order_log <= 6; order_log++)
                 {
-                    estimate = Problem00.p00_monte_carlo(problem, order);
+                    estimate = Problem00.p00_monte_carlo(ref data, problem, order);
 
                     error = Math.Abs(exact - estimate);
 

@@ -36,7 +36,13 @@ namespace Burkardt.Laguerre
             return alpha;
         }
 
-        public static double p20_exact()
+        public class p20Data
+        {
+            public double beta = 1.0;
+            
+        }
+
+        public static double p20_exact(ref p20Data data)
 
             //****************************************************************************80
             //
@@ -61,21 +67,20 @@ namespace Burkardt.Laguerre
             //    Output, double P20_EXACT, the value of the integral.
             //
         {
-            double beta = 1.0;
             double exact;
 
             exact =
             (
-                Math.Log(1.5) / Math.Pow(2.0, beta)
-                - 1.0 / Math.Pow(2.0, beta + 1.0) *
-                Math.Log((16.0 + Math.Pow(0.25, beta)) / (1.0 + Math.Pow(0.25, beta)))
-                - Math.Atan(Math.Pow(2.0, beta + 2.0)) - Math.Atan(Math.Pow(2.0, beta))
-            ) / (1.0 + Math.Pow(0.25, beta));
+                Math.Log(1.5) / Math.Pow(2.0, data.beta)
+                - 1.0 / Math.Pow(2.0, data.beta + 1.0) *
+                Math.Log((16.0 + Math.Pow(0.25, data.beta)) / (1.0 + Math.Pow(0.25, data.beta)))
+                - Math.Atan(Math.Pow(2.0, data.beta + 2.0)) - Math.Atan(Math.Pow(2.0, data.beta))
+            ) / (1.0 + Math.Pow(0.25, data.beta));
 
             return exact;
         }
 
-        public static double[] p20_fun(int n, double[] x)
+        public static double[] p20_fun(ref p20Data data, int n, double[] x)
 
             //****************************************************************************80
             //
@@ -116,7 +121,6 @@ namespace Burkardt.Laguerre
             //    Output, double P20_FUN[N], the integrand values.
             //
         {
-            double beta = 1.0;
             double[] fx;
             int i;
 
@@ -124,15 +128,15 @@ namespace Burkardt.Laguerre
 
             for (i = 0; i < n; i++)
             {
-                if (Math.Pow(x[i] - 1.0, 2) + Math.Pow(0.25, beta) == 0.0 || x[i] == 2.0)
+                if (Math.Pow(x[i] - 1.0, 2) + Math.Pow(0.25, data.beta) == 0.0 || x[i] == 2.0)
                 {
                     fx[i] = 0.0;
                 }
                 else
                 {
                     fx[i] = 1.0 /
-                            (Math.Pow(2.0, beta)
-                             * (Math.Pow(x[i] - 1.0, 2) + Math.Pow(0.25, beta))
+                            (Math.Pow(2.0, data.beta)
+                             * (Math.Pow(x[i] - 1.0, 2) + Math.Pow(0.25, data.beta))
                              * (x[i] - 2.0));
                 }
             }

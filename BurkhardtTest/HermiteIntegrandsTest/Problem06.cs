@@ -5,7 +5,12 @@ namespace HermiteIntegrandsTest
 {
     public static class Problem06
     {
-        public static double p06_exact()
+        public class p06Data
+        {
+            public int m = 0;
+        }
+
+        public static double p06_exact(ref p06Data data)
 
             //****************************************************************************80
             //
@@ -34,7 +39,7 @@ namespace HermiteIntegrandsTest
             int m = 0;
             const double r8_pi = 3.141592653589793;
 
-            p06_param('G', 'M', ref m);
+            p06_param(ref data, 'G', 'M', ref m);
 
             if (m <= -1)
             {
@@ -53,7 +58,7 @@ namespace HermiteIntegrandsTest
             return exact;
         }
 
-        public static void p06_fun(int option, int n, double[] x, ref double[] f )
+        public static void p06_fun(ref p06Data data, int option, int n, double[] x, ref double[] f )
 
         //****************************************************************************80
         //
@@ -98,7 +103,7 @@ namespace HermiteIntegrandsTest
             int i;
             int m = 0;
 
-            p06_param('G', 'M', ref m);
+            p06_param(ref data, 'G', 'M', ref m);
 
             for (i = 0; i < n; i++)
             {
@@ -126,7 +131,8 @@ namespace HermiteIntegrandsTest
             return;
         }
 
-        public static void p06_param(char action, char name, ref int value)
+
+        public static void p06_param(ref p06Data data, char action, char name, ref int value)
 
             //****************************************************************************80
             //
@@ -169,7 +175,6 @@ namespace HermiteIntegrandsTest
             //    If ACTION = 'G', then VALUE is an output quantity, and VALUE is set to M.
             //
         {
-            int m = 0;
 
             if (action == 'S' || action == 's')
             {
@@ -181,11 +186,11 @@ namespace HermiteIntegrandsTest
                     return;
                 }
 
-                m = value;
+                data.m = value;
             }
             else if (action == 'G' || action == 'g')
             {
-                value = m;
+                value = data.m;
             }
             else
             {

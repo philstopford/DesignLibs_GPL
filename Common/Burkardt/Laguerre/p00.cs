@@ -5,6 +5,13 @@ namespace Burkardt.Laguerre
 {
     public static partial class Integrands
     {
+        public class p00Data
+        {
+            public p17Data p17data = new p17Data();
+            public p18Data p18data = new p18Data();
+            public p19Data p19data = new p19Data();
+            public p20Data p20data = new p20Data();
+        }
         public static double p00_alpha(int problem)
 
             //****************************************************************************80
@@ -131,7 +138,7 @@ namespace Burkardt.Laguerre
             return alpha;
         }
 
-        public static double p00_exact(int problem)
+        public static double p00_exact(ref p00Data data, int problem)
 
             //****************************************************************************80
             //
@@ -239,7 +246,7 @@ namespace Burkardt.Laguerre
             }
             else if (problem == 18)
             {
-                exact = p18_exact();
+                exact = p18_exact(ref data.p18data);
             }
             else if (problem == 19)
             {
@@ -247,7 +254,7 @@ namespace Burkardt.Laguerre
             }
             else if (problem == 20)
             {
-                exact = p20_exact();
+                exact = p20_exact(ref data.p20data);
             }
             else
             {
@@ -260,7 +267,7 @@ namespace Burkardt.Laguerre
             return exact;
         }
 
-        public static double p00_exp_transform(int problem, int order)
+        public static double p00_exp_transform(ref p00Data data, int problem, int order)
 
             //****************************************************************************80
             //
@@ -367,7 +374,7 @@ namespace Burkardt.Laguerre
             //
             //  Evaluate F ( -LOG(U) ).
             //
-            fu = p00_fun(problem, order, u_log);
+            fu = p00_fun(ref data, problem, order, u_log);
             //
             //  The integrand is F ( -LOG(U) ) / U
             //
@@ -384,7 +391,7 @@ namespace Burkardt.Laguerre
             return result;
         }
 
-        public static double[] p00_fun(int problem, int n, double[] x)
+        public static double[] p00_fun(ref p00Data data, int problem, int n, double[] x)
 
             //****************************************************************************80
             //
@@ -483,19 +490,19 @@ namespace Burkardt.Laguerre
             }
             else if (problem == 17)
             {
-                f = p17_fun(n, x);
+                f = p17_fun(ref data.p17data, n, x);
             }
             else if (problem == 18)
             {
-                f = p18_fun(n, x);
+                f = p18_fun(ref data.p18data, n, x);
             }
             else if (problem == 19)
             {
-                f = p19_fun(n, x);
+                f = p19_fun(ref data.p19data, n, x);
             }
             else if (problem == 20)
             {
-                f = p20_fun(n, x);
+                f = p20_fun(ref data.p20data, n, x);
             }
             else
             {
@@ -508,7 +515,7 @@ namespace Burkardt.Laguerre
             return f;
         }
 
-        public static double p00_gauss_laguerre(int problem, int order)
+        public static double p00_gauss_laguerre(ref p00Data data, int problem, int order)
 
             //****************************************************************************80
             //
@@ -559,7 +566,7 @@ namespace Burkardt.Laguerre
                 xtab[i] = xtab[i] + alpha;
             }
 
-            fx = p00_fun(problem, order, xtab);
+            fx = p00_fun(ref data, problem, order, xtab);
             //
             //  The Gauss-Laguerre rule assumes a weight of EXP(-X).
             //
@@ -608,7 +615,7 @@ namespace Burkardt.Laguerre
             return problem_num;
         }
 
-        public static double p00_rat_transform(int problem, int order)
+        public static double p00_rat_transform(ref p00Data data, int problem, int order)
 
             //****************************************************************************80
             //
@@ -715,7 +722,7 @@ namespace Burkardt.Laguerre
             //
             //  Evaluate F ( ( 1 - U ) / U ).
             //
-            fu = p00_fun(problem, order, u_rat);
+            fu = p00_fun(ref data, problem, order, u_rat);
             //
             //  The integrand is F ( ( 1 - U ) / U ) / U^2
             //

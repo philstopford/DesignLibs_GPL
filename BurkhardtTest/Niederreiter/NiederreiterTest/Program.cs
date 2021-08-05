@@ -102,6 +102,7 @@ namespace NiederreiterTest
             int seed;
             int seed_in;
             int seed_out;
+            Niederreiter.NiederReiterData data = new Niederreiter.NiederReiterData();
 
             Console.WriteLine("");
             Console.WriteLine("TEST01");
@@ -125,7 +126,7 @@ namespace NiederreiterTest
                 for (i = 0; i <= 110; i++)
                 {
                     seed_in = seed;
-                    Niederreiter.niederreiter(dim_num, base_, ref seed, ref r);
+                    Niederreiter.niederreiter(ref data, dim_num, base_, ref seed, ref r);
                     seed_out = seed;
                     if (i <= 11 || 95 <= i)
                     {
@@ -182,6 +183,7 @@ namespace NiederreiterTest
             int seed_in;
             int seed_out;
             string cout = "";
+            Niederreiter.NiederReiterData data = new Niederreiter.NiederReiterData();
 
             Console.WriteLine("");
             Console.WriteLine("TEST02");
@@ -205,7 +207,7 @@ namespace NiederreiterTest
             for (i = 0; i <= 10; i++)
             {
                 seed_in = seed;
-                Niederreiter.niederreiter(dim_num, base_, ref seed, ref r);
+                Niederreiter.niederreiter(ref data, dim_num, base_, ref seed, ref r);
                 seed_out = seed;
                 cout = "  " + seed_in.ToString().PadLeft(8)
                                   + "  " + seed_out.ToString().PadLeft(8);
@@ -230,7 +232,7 @@ namespace NiederreiterTest
             for (i = 1; i <= 5; i++)
             {
                 seed_in = seed;
-                Niederreiter.niederreiter(dim_num, base_, ref seed, ref r);
+                Niederreiter.niederreiter(ref data, dim_num, base_, ref seed, ref r);
                 seed_out = seed;
                 cout = "  " + seed_in.ToString().PadLeft(8)
                                   + "  " + seed_out.ToString().PadLeft(8);
@@ -255,7 +257,7 @@ namespace NiederreiterTest
             for (i = 0; i <= 10; i++)
             {
                 seed_in = seed;
-                Niederreiter.niederreiter(dim_num, base_, ref seed, ref r);
+                Niederreiter.niederreiter(ref data, dim_num, base_, ref seed, ref r);
                 seed_out = seed;
                 cout = "  " + seed_in.ToString().PadLeft(8)
                                   + "  " + seed_out.ToString().PadLeft(8);
@@ -281,7 +283,7 @@ namespace NiederreiterTest
             for (i = 1; i <= 5; i++)
             {
                 seed_in = seed;
-                Niederreiter.niederreiter(dim_num, base_, ref seed, ref r);
+                Niederreiter.niederreiter(ref data, dim_num, base_, ref seed, ref r);
                 seed_out = seed;
                 cout = "  " + seed_in.ToString().PadLeft(8)
                                   + "  " + seed_out.ToString().PadLeft(8);
@@ -335,6 +337,7 @@ namespace NiederreiterTest
             int seed;
             int seed_in;
             int seed_out;
+            Niederreiter.NiederReiterData data = new Niederreiter.NiederReiterData();
 
             Console.WriteLine("");
             Console.WriteLine("TEST03");
@@ -361,7 +364,7 @@ namespace NiederreiterTest
             for (i = 0; i <= 10; i++)
             {
                 seed_in = seed;
-                Niederreiter.niederreiter(dim_num, base_, ref seed, ref r);
+                Niederreiter.niederreiter(ref data, dim_num, base_, ref seed, ref r);
                 seed_out = seed;
                 cout = "  " + seed_in.ToString().PadLeft(8)
                                   + "  " + seed_out.ToString().PadLeft(8);

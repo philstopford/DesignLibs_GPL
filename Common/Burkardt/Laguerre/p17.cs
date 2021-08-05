@@ -71,7 +71,13 @@ namespace Burkardt.Laguerre
             return exact;
         }
 
-        public static double[] p17_fun(int n, double[] x)
+        public class p17Data
+        {
+            public double beta = 2.0;
+
+        }
+        
+        public static double[] p17_fun(ref p17Data data, int n, double[] x)
 
             //****************************************************************************80
             //
@@ -111,7 +117,6 @@ namespace Burkardt.Laguerre
             //    Output, double P17_FUN[N], the integrand values.
             //
         {
-            double beta = 2.0;
             double[] fx;
             int i;
 
@@ -125,7 +130,7 @@ namespace Burkardt.Laguerre
                 }
                 else
                 {
-                    fx[i] = Math.Exp(-x[i] / Math.Pow(2.0, beta)) * Math.Cos(x[i])
+                    fx[i] = Math.Exp(-x[i] / Math.Pow(2.0, data.beta)) * Math.Cos(x[i])
                             / Math.Sqrt(x[i]);
                 }
             }

@@ -2513,7 +2513,13 @@ namespace Burkardt.Types
             return double.Epsilon;
         }
 
-        public static double r8_epsilon_compute()
+        public class r8EpsilonData
+        {
+            public double value = 0.0;
+            
+        }
+        
+        public static double r8_epsilon_compute(ref r8EpsilonData data)
 
             //****************************************************************************80
             //
@@ -2549,25 +2555,24 @@ namespace Burkardt.Types
             double one;
             double temp;
             double test;
-            double value = 0.0;
 
-            if (value == 0.0)
+            if (data.value == 0.0)
             {
                 one = (double) (1);
 
-                value = one;
-                temp = value / 2.0;
+                data.value = one;
+                temp = data.value / 2.0;
                 test = r8_add(one, temp);
 
                 while (one < test)
                 {
-                    value = temp;
-                    temp = value / 2.0;
+                    data.value = temp;
+                    temp = data.value / 2.0;
                     test = r8_add(one, temp);
                 }
             }
 
-            return value;
+            return data.value;
         }
 
         public static double r8_exp(double x)

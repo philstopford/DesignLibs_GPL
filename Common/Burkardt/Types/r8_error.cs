@@ -5,7 +5,16 @@ namespace Burkardt.Types
 {
     public static partial class typeMethods
     {
-        public static double r8_error(double x)
+        public class r8ErrorData
+        {
+            public int nterf = 0;
+            public double sqeps = 0.0;
+            public double sqrtpi = 1.77245385090551602729816748334115;
+            public double xbig = 0.0;
+
+        }
+        
+        public static double r8_error( ref r8ErrorData data, double x)
             //****************************************************************************80
             //
             //  Purpose:
@@ -68,31 +77,27 @@ namespace Burkardt.Types
                     +0.12811883993017002666666666666666E-31
                 }
                 ;
-            int nterf = 0;
-            double sqeps = 0.0;
-            double sqrtpi = 1.77245385090551602729816748334115;
             double value;
-            double xbig = 0.0;
             double y;
 
-            if (nterf == 0)
+            if (data.nterf == 0)
             {
-                nterf = inits(erfcs, 21, 0.1 * r8_mach(3));
-                xbig = Math.Sqrt(-Math.Log(sqrtpi * r8_mach(3)));
-                sqeps = Math.Sqrt(2.0 * r8_mach(3));
+                data.nterf = inits(erfcs, 21, 0.1 * r8_mach(3));
+                data.xbig = Math.Sqrt(-Math.Log(data.sqrtpi * r8_mach(3)));
+                data.sqeps = Math.Sqrt(2.0 * r8_mach(3));
             }
 
             y = Math.Abs(x);
 
-            if (y <= sqeps)
+            if (y <= data.sqeps)
             {
-                value = 2.0 * x / sqrtpi;
+                value = 2.0 * x / data.sqrtpi;
             }
             else if (y <= 1.0)
             {
-                value = x * (1.0 + csevl(2.0 * x * x - 1.0, erfcs, nterf));
+                value = x * (1.0 + csevl(2.0 * x * x - 1.0, erfcs, data.nterf));
             }
-            else if (y <= xbig)
+            else if (y <= data.xbig)
             {
                 value = 1.0 - r8_errorc(y);
                 if (x < 0.0)

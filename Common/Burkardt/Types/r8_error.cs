@@ -14,7 +14,7 @@ namespace Burkardt.Types
 
         }
         
-        public static double r8_error( ref r8ErrorData data, double x)
+        public static double r8_error( ref r8ErrorData data, ref r8ErrorcData cdata, double x)
             //****************************************************************************80
             //
             //  Purpose:
@@ -99,7 +99,7 @@ namespace Burkardt.Types
             }
             else if (y <= data.xbig)
             {
-                value = 1.0 - r8_errorc(y);
+                value = 1.0 - r8_errorc(ref cdata, y);
                 if (x < 0.0)
                 {
                     value = -value;
@@ -117,7 +117,19 @@ namespace Burkardt.Types
             return value;
         }
 
-        public static double r8_errorc(double x)
+        public class r8ErrorcData
+        {
+            public int nterc2 = 0;
+            public int nterf = 0;
+            public int nterfc = 0;
+            public double sqeps = 0.0;
+            public double sqrtpi = 1.77245385090551602729816748334115;
+            public double xmax = 0.0;
+            public double xsml = 0.0;
+
+        }
+
+        public static double r8_errorc( ref r8ErrorcData data, double x)
             //****************************************************************************80
             //
             //  Purpose:
@@ -297,36 +309,29 @@ namespace Burkardt.Types
                 }
                 ;
             double eta;
-            int nterc2 = 0;
-            int nterf = 0;
-            int nterfc = 0;
-            double sqeps = 0.0;
-            double sqrtpi = 1.77245385090551602729816748334115;
             double value;
-            double xmax = 0.0;
-            double xsml = 0.0;
             double y;
 
-            if (nterf == 0)
+            if (data.nterf == 0)
             {
                 eta = 0.1 * r8_mach(3);
-                nterf = inits(erfcs, 21, eta);
-                nterfc = inits(erfccs, 59, eta);
-                nterc2 = inits(erc2cs, 49, eta);
+                data.nterf = inits(erfcs, 21, eta);
+                data.nterfc = inits(erfccs, 59, eta);
+                data.nterc2 = inits(erc2cs, 49, eta);
 
-                xsml = -Math.Sqrt(-Math.Log(sqrtpi * r8_mach(3)));
-                xmax = Math.Sqrt(-Math.Log(sqrtpi * r8_mach(1)));
-                xmax = xmax - 0.5 * Math.Log(xmax) / xmax - 0.01;
-                sqeps = Math.Sqrt(2.0 * r8_mach(3));
+                data.xsml = -Math.Sqrt(-Math.Log(data.sqrtpi * r8_mach(3)));
+                data.xmax = Math.Sqrt(-Math.Log(data.sqrtpi * r8_mach(1)));
+                data.xmax = data.xmax - 0.5 * Math.Log(data.xmax) / data.xmax - 0.01;
+                data.sqeps = Math.Sqrt(2.0 * r8_mach(3));
             }
 
-            if (x <= xsml)
+            if (x <= data.xsml)
             {
                 value = 2.0;
                 return value;
             }
 
-            if (xmax < x)
+            if (data.xmax < x)
             {
                 Console.WriteLine("");
                 Console.WriteLine("R8_ERRORC - Warning!");
@@ -337,15 +342,15 @@ namespace Burkardt.Types
 
             y = Math.Abs(x);
 
-            if (y < sqeps)
+            if (y < data.sqeps)
             {
-                value = 1.0 - 2.0 * x / sqrtpi;
+                value = 1.0 - 2.0 * x / data.sqrtpi;
                 return value;
             }
             else if (y <= 1.0)
             {
                 value = 1.0 - x * (1.0
-                                   + csevl(2.0 * x * x - 1.0, erfcs, nterf));
+                                   + csevl(2.0 * x * x - 1.0, erfcs, data.nterf));
                 return value;
             }
 
@@ -354,12 +359,12 @@ namespace Burkardt.Types
             if (y <= 4.0)
             {
                 value = Math.Exp(-y) / Math.Abs(x) * (0.5
-                                                      + csevl((8.0 / y - 5.0) / 3.0, erc2cs, nterc2));
+                                                      + csevl((8.0 / y - 5.0) / 3.0, erc2cs, data.nterc2));
             }
             else
             {
                 value = Math.Exp(-y) / Math.Abs(x) * (0.5
-                                                      + csevl(8.0 / y - 1.0, erfccs, nterfc));
+                                                      + csevl(8.0 / y - 1.0, erfccs, data.nterfc));
             }
 
             if (x < 0.0)

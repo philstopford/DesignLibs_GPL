@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.FullertonFnLib;
 using Burkardt.Types;
 using Burkardt.Uniform;
 
@@ -387,7 +388,7 @@ namespace InterpTest
             return prob_num;
         }
 
-        public static double p00_q(ref typeMethods.r8ErrorData data, int prob, int m, double[] c, double[] w )
+        public static double p00_q(ref typeMethods.r8ErrorData data, ref typeMethods.r8ErrorcData cdata, int prob, int m, double[] c, double[] w )
 //****************************************************************************80
 //
 //  Purpose:
@@ -433,7 +434,7 @@ namespace InterpTest
             }
             else if (prob == 4)
             {
-                q = p04_q(ref data, m, c, w);
+                q = p04_q(ref data, ref cdata, m, c, w);
             }
             else if (prob == 5)
             {
@@ -1419,7 +1420,7 @@ namespace InterpTest
             return f;
         }
 
-        public static double p04_q(ref typeMethods.r8ErrorData data, int m, double[] c, double[] w )
+        public static double p04_q(ref typeMethods.r8ErrorData data, ref typeMethods.r8ErrorcData cdata, int m, double[] c, double[] w )
 //****************************************************************************80
 //
 //  Purpose:
@@ -1463,8 +1464,8 @@ namespace InterpTest
             for (int i = 0; i < m; i++)
             {
                 q = q * Math.Sqrt(Math.PI)
-                      * (typeMethods.r8_error(ref data, c[i] * (1.0 - w[i]))
-                         + typeMethods.r8_error( ref data,c[i] * w[i]))
+                      * (typeMethods.r8_error(ref data, ref cdata, c[i] * (1.0 - w[i]))
+                         + typeMethods.r8_error( ref data, ref cdata,c[i] * w[i]))
                     / (2.0 * c[i]);
             }
 

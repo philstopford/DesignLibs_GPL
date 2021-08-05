@@ -7,7 +7,7 @@ namespace Burkardt.NiederreiterNS
         static int MAXDEG = 50;
         static int DIM_MAX = 20;
         private static int NBITS = 31;
-        public static void calcc2(int dim_num, ref int[,] cj)
+        public static void calcc2(ref NiederReiter2CalcData data, int dim_num, ref int[,] cj)
 
             //****************************************************************************80
             //
@@ -200,7 +200,7 @@ namespace Burkardt.NiederreiterNS
                     //
                     if (u == 0)
                     {
-                        calcv2(maxv, px_deg, px, add, mul, sub, ref b_deg, b, v);
+                        calcv2(ref data, maxv, px_deg, px, add, mul, sub, ref b_deg, b, v);
                     }
 
                     //
@@ -247,7 +247,13 @@ namespace Burkardt.NiederreiterNS
             }
         }
 
-        public static void calcv2(int maxv, int px_deg, int[] px, int[,] add,
+        public class NiederReiter2CalcData
+        {
+            public int arbit = 1;
+            public int nonzer = 1;
+        }
+        
+        public static void calcv2(ref NiederReiter2CalcData data, int maxv, int px_deg, int[] px, int[,] add,
         int[,] mul, int[,] sub, ref int b_deg, int[] b,
         int[] v )
 
@@ -324,14 +330,12 @@ namespace Burkardt.NiederreiterNS
         //    0 < NONZER < 2.
         //
         {
-            int arbit = 1;
             int bigm;
             int[] h = new int[MAXDEG + 1];
             int h_deg;
             int i;
             int kj;
             int m;
-            int nonzer = 1;
             int pb_deg;
             int r;
             int term;
@@ -383,7 +387,7 @@ namespace Burkardt.NiederreiterNS
 
                 for (r = kj + 1; r <= bigm - 1; r++)
                 {
-                    v[r] = arbit;
+                    v[r] = data.arbit;
                     //
                     //  Check the condition of section 3.3,
                     //  remembering that the H's have the opposite sign.
@@ -395,18 +399,18 @@ namespace Burkardt.NiederreiterNS
                 //
                 //  Now V(BIGM) is anything but TERM.
                 //
-                v[bigm] = add[nonzer,term];
+                v[bigm] = add[data.nonzer,term];
 
                 for (r = bigm + 1; r <= m - 1; r++)
                 {
-                    v[r] = arbit;
+                    v[r] = data.arbit;
                 }
             }
             else
             {
                 for (r = kj + 1; r <= m - 1; r++)
                 {
-                    v[r] = arbit;
+                    v[r] = data.arbit;
                 }
 
             }
@@ -427,7 +431,15 @@ namespace Burkardt.NiederreiterNS
             }
         }
 
-        public static void niederreiter2(int dim_num, ref int seed, ref double[] quasi, int index = 0)
+        public class Niederreiter2Data
+        {
+            public int seed_save = 0;
+            public int dim_save = 0;
+
+            public NiederReiter2CalcData calcdata = new NiederReiter2CalcData();
+
+        }
+        public static void niederreiter2(ref Niederreiter2Data data, int dim_num, ref int seed, ref double[] quasi, int index = 0)
 
             //****************************************************************************80
             //
@@ -484,17 +496,15 @@ namespace Burkardt.NiederreiterNS
             //
         {
             int[,] cj = new int[DIM_MAX, NBITS];
-            int dim_save = 0;
             int gray;
             int i;
             int[] nextq = new int[DIM_MAX];
             int r;
             double RECIP = 1.0 / (double) (1 << NBITS);
-            int seed_save = 0;
             //
             //  Initialization.
             //
-            if (dim_save < 1 || dim_num != dim_save || seed <= 0)
+            if (data.dim_save < 1 || dim_num != data.dim_save || seed <= 0)
             {
                 if (dim_num <= 0 || DIM_MAX < dim_num)
                 {
@@ -504,18 +514,18 @@ namespace Burkardt.NiederreiterNS
                     return;
                 }
 
-                dim_save = dim_num;
+                data.dim_save = dim_num;
 
                 if (seed < 0)
                 {
                     seed = 0;
                 }
 
-                seed_save = seed;
+                data.seed_save = seed;
                 //
                 //  Calculate the C array.
                 //
-                calcc2(dim_save, ref cj);
+                calcc2(ref data.calcdata, data.dim_save, ref cj);
             }
 
             //
@@ -525,11 +535,11 @@ namespace Burkardt.NiederreiterNS
             //  or you can do it once, and then carry the value of NEXTQ
             //  around from the previous computation.
             //
-            if (seed != seed_save + 1)
+            if (seed != data.seed_save + 1)
             {
                 gray = (seed) ^ (seed / 2);
 
-                for (i = 0; i < dim_save; i++)
+                for (i = 0; i < data.dim_save; i++)
                 {
                     nextq[i] = 0;
                 }
@@ -540,7 +550,7 @@ namespace Burkardt.NiederreiterNS
                 {
                     if ((gray % 2) != 0)
                     {
-                        for (i = 0; i < dim_save; i++)
+                        for (i = 0; i < data.dim_save; i++)
                         {
                             nextq[i] = (nextq[i]) ^ (cj[i,r]);
                         }
@@ -555,7 +565,7 @@ namespace Burkardt.NiederreiterNS
             //  Multiply the numerators in NEXTQ by RECIP to get the next
             //  quasi-random vector.
             //
-            for (i = 0; i < dim_save; i++)
+            for (i = 0; i < data.dim_save; i++)
             {
                 quasi[index + i] = ((double) nextq[i]) * RECIP;
             }
@@ -588,17 +598,17 @@ namespace Burkardt.NiederreiterNS
             //
             //  Compute the new numerators in vector NEXTQ.
             //
-            for (i = 0; i < dim_save; i++)
+            for (i = 0; i < data.dim_save; i++)
             {
                 nextq[i] = (nextq[i]) ^ (cj[i,r]);
             }
 
-            seed_save = seed;
+            data.seed_save = seed;
             seed = seed + 1;
 
         }
 
-        public static double[] niederreiter2_generate(int dim_num, int n, ref int seed)
+        public static double[] niederreiter2_generate(ref Niederreiter2Data data, int dim_num, int n, ref int seed)
 
             //****************************************************************************80
             //
@@ -637,7 +647,7 @@ namespace Burkardt.NiederreiterNS
 
             for (j = 0; j < n; j++)
             {
-                niederreiter2(dim_num, ref seed, ref r, index: + j * dim_num);
+                niederreiter2(ref data, dim_num, ref seed, ref r, index: + j * dim_num);
             }
 
             return r;

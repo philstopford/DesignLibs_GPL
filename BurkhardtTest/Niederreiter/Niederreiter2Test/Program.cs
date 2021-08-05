@@ -70,6 +70,7 @@ namespace Niederreiter2Test
             int seed;
             int seed_in;
             int seed_out;
+            Niederreiter2.Niederreiter2Data data = new Niederreiter2.Niederreiter2Data();
 
             Console.WriteLine("");
             Console.WriteLine("TEST01");
@@ -94,7 +95,7 @@ namespace Niederreiter2Test
                 for (i = 0; i <= 110; i++)
                 {
                     seed_in = seed;
-                    Niederreiter2.niederreiter2(dim_num, ref seed, ref r);
+                    Niederreiter2.niederreiter2(ref data, dim_num, ref seed, ref r);
                     seed_out = seed;
                     if (i <= 11 || 95 <= i)
                     {
@@ -145,6 +146,7 @@ namespace Niederreiter2Test
             int seed;
             int seed_in;
             int seed_out;
+            Niederreiter2.Niederreiter2Data data = new Niederreiter2.Niederreiter2Data();
 
             Console.WriteLine("");
             Console.WriteLine("TEST02");
@@ -168,7 +170,7 @@ namespace Niederreiter2Test
             for (i = 0; i <= 10; i++)
             {
                 seed_in = seed;
-                Niederreiter2.niederreiter2(DIM_NUM, ref seed, ref r);
+                Niederreiter2.niederreiter2(ref data, DIM_NUM, ref seed, ref r);
                 seed_out = seed;
                 string cout = seed_in.ToString().PadLeft(6) + "  ";
                 cout += seed_out.ToString().PadLeft(6) + " ";
@@ -193,7 +195,7 @@ namespace Niederreiter2Test
             for (i = 0; i <= 5; i++)
             {
                 seed_in = seed;
-                Niederreiter2.niederreiter2(DIM_NUM, ref seed, ref r);
+                Niederreiter2.niederreiter2(ref data, DIM_NUM, ref seed, ref r);
                 seed_out = seed;
                 seed_out = seed;
                 string cout = seed_in.ToString().PadLeft(6) + "  ";
@@ -219,7 +221,7 @@ namespace Niederreiter2Test
             for (i = 0; i <= 10; i++)
             {
                 seed_in = seed;
-                Niederreiter2.niederreiter2(DIM_NUM, ref seed, ref r);
+                Niederreiter2.niederreiter2(ref data, DIM_NUM, ref seed, ref r);
                 seed_out = seed;
                 seed_out = seed;
                 string cout = seed_in.ToString().PadLeft(6) + "  ";
@@ -245,7 +247,7 @@ namespace Niederreiter2Test
             for (i = 1; i <= 5; i++)
             {
                 seed_in = seed;
-                Niederreiter2.niederreiter2(DIM_NUM, ref seed, ref r);
+                Niederreiter2.niederreiter2(ref data, DIM_NUM, ref seed, ref r);
                 seed_out = seed;
                 seed_out = seed;
                 string cout = seed_in.ToString().PadLeft(6) + "  ";

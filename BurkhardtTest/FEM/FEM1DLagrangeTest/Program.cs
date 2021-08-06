@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt;
 using Burkardt.FEM;
 using Burkardt.Types;
 
@@ -85,7 +86,7 @@ namespace FEM1DLagrangeTest
                 double[] x = new double[n];
                 double[] w = new double[n];
 
-                FEM_1D_Lagrange.legendre_set(n, ref x, ref w);
+                LegendreQuadrature.legendre_set(n, ref x, ref w);
                 double e1 = 0.0;
                 double e2 = 0.0;
                 double e3 = 0.0;

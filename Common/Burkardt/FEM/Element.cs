@@ -177,7 +177,7 @@ namespace Burkardt.FEM
             int y_ps_min_clip = 108;
             double y_scale;
 
-            element_order = FEM.Order.order_code(code);
+            element_order = Order.order_code(code);
             //
             //  Determine which nodes are visible, controlled by which elements are visible.
             //

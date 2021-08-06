@@ -181,7 +181,7 @@ namespace Burkardt
             Console.WriteLine("");
             Console.WriteLine("  MAP_TEST: The interpolation matrix for element " + code + "");
 
-            element_order = FEM.Order.order_code(code);
+            element_order = Order.order_code(code);
 
             w = map(code, element_order);
 

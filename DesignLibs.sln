@@ -858,6 +858,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LorenzODETest", "BurkhardtT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MidpointExplicitTest", "BurkhardtTest\OrdinaryDifferentialEquation\MidpointExplicitTest\MidpointExplicitTest.csproj", "{5C515BDF-5B21-45BC-904D-BE957F248187}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MidpointFixedTest", "BurkhardtTest\OrdinaryDifferentialEquation\MidpointFixedTest\MidpointFixedTest.csproj", "{7C34F532-35FC-49DB-914D-24B6265DA44D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -5308,6 +5310,18 @@ Global
 		{5C515BDF-5B21-45BC-904D-BE957F248187}.Release|x64.Build.0 = Release|Any CPU
 		{5C515BDF-5B21-45BC-904D-BE957F248187}.Release|x86.ActiveCfg = Release|Any CPU
 		{5C515BDF-5B21-45BC-904D-BE957F248187}.Release|x86.Build.0 = Release|Any CPU
+		{7C34F532-35FC-49DB-914D-24B6265DA44D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C34F532-35FC-49DB-914D-24B6265DA44D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C34F532-35FC-49DB-914D-24B6265DA44D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7C34F532-35FC-49DB-914D-24B6265DA44D}.Debug|x64.Build.0 = Debug|Any CPU
+		{7C34F532-35FC-49DB-914D-24B6265DA44D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7C34F532-35FC-49DB-914D-24B6265DA44D}.Debug|x86.Build.0 = Debug|Any CPU
+		{7C34F532-35FC-49DB-914D-24B6265DA44D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C34F532-35FC-49DB-914D-24B6265DA44D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C34F532-35FC-49DB-914D-24B6265DA44D}.Release|x64.ActiveCfg = Release|Any CPU
+		{7C34F532-35FC-49DB-914D-24B6265DA44D}.Release|x64.Build.0 = Release|Any CPU
+		{7C34F532-35FC-49DB-914D-24B6265DA44D}.Release|x86.ActiveCfg = Release|Any CPU
+		{7C34F532-35FC-49DB-914D-24B6265DA44D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -5735,6 +5749,7 @@ Global
 		{C8B16961-ABF7-4F68-9A7A-D0A09B26345A} = {16FBF310-321F-4600-989A-DCDCD4C75711}
 		{CEA30DB3-178A-458B-B09E-8D5077E04810} = {16FBF310-321F-4600-989A-DCDCD4C75711}
 		{5C515BDF-5B21-45BC-904D-BE957F248187} = {16FBF310-321F-4600-989A-DCDCD4C75711}
+		{7C34F532-35FC-49DB-914D-24B6265DA44D} = {16FBF310-321F-4600-989A-DCDCD4C75711}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B449416C-C504-4FA8-9E10-10857263A64A}

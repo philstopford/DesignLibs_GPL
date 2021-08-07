@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Polygon;
 using Burkardt.Types;
 using Burkardt.Uniform;
 
@@ -1713,7 +1714,7 @@ namespace PolygonPropertiesTest
             Console.WriteLine("  POLYGON_TRIANGULATE triangulates a polygon.");
             Console.WriteLine("  Here, we triangulate the comb_10 polygon.");
 
-            triangles = Properties.polygon_triangulate(n, x, y);
+            triangles = Triangulate.polygon_triangulate(n, x, y);
 
             Console.WriteLine("");
             Console.WriteLine("  Triangles:");

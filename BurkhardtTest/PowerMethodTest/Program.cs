@@ -91,7 +91,7 @@ namespace PowerMethodTest
             int seed;
             double sin_x1x2;
             double tol;
-            double[] x = null;
+            double[] x = new double[n];
             double[] x2;
 
             a = Fibonacci.fibonacci2(n);
@@ -191,7 +191,7 @@ namespace PowerMethodTest
             int seed;
             double tol;
             Complex[] v;
-            double[] x = null;
+            double[] x = new double[n];
 
             a = Fibonacci.fibonacci2(n);
             v = new Complex [n];
@@ -274,7 +274,7 @@ namespace PowerMethodTest
             int seed;
             double tol;
             Complex[] v;
-            double[] x = null;
+            double[] x = new double[n];
 
             alpha = -1.0;
             beta = 10.0;

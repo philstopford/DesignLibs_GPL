@@ -52,6 +52,59 @@ namespace Burkardt.PolynomialNS
             return ts;
         }
         
+        public static void polynomial_add ( int o1, double[] c1, int[] e1, int o2, double[] c2, 
+        int[] e2, ref int o, ref double[] c, ref int[] e )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    POLYNOMIAL_ADD adds two polynomials.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    01 December 2013
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int O1, the "order" of polynomial 1.
+        //
+        //    Input, double C1[O1], the coefficients of polynomial 1.
+        //
+        //    Input, int E1[O1], the indices of the exponents of 
+        //    polynomial 1.
+        //
+        //    Input, int O2, the "order" of polynomial 2.
+        //
+        //    Input, double C2[O2], the coefficients of polynomial 2.
+        //
+        //    Input, int E2[O2], the indices of the exponents of 
+        //    polynomial 2.
+        //
+        //    Output, int &O, the "order" of the polynomial sum.
+        //
+        //    Output, double C[O], the coefficients of the polynomial sum.
+        //
+        //    Output, int E[O], the indices of the exponents of 
+        //    the polynomial sum.
+        //
+        {
+            o = o1 + o2;
+            typeMethods.r8vec_concatenate ( o1, c1, o2, c2, ref c );
+            typeMethods.i4vec_concatenate ( o1, e1, o2, e2, ref e );
+
+            polynomial_sort ( o, ref c, ref e );
+            polynomial_compress ( o, c, e, ref o, ref c, ref e );
+        }
+        
         public static void polynomial_axpy(double s, int o1, double[] c1, int[] e1, int o2,
                 double[] c2, int[] e2, ref int o, ref double[] c, ref int[] e)
 
@@ -207,8 +260,156 @@ namespace Burkardt.PolynomialNS
             }
 
             o2 = put;
+        }
 
-            return;
+        public static void polynomial_dif(int m, int o1, double[] c1, int[] e1, int[] dif,
+                ref int o2, ref double[] c2, ref int[] e2)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    POLYNOMIAL_DIF differentiates a polynomial.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    01 December 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, the spatial dimension.
+            //
+            //    Input, int O1, the "order" of polynomial 1.
+            //
+            //    Input, double C1[O1], the coefficients of polynomial 1.
+            //
+            //    Input, int E1[O1], the indices of the exponents of 
+            //    polynomial 1.
+            //
+            //    Input, int DIF[M], indicates the number of 
+            //    differentiations in each component.
+            //
+            //    Output, int &O2, the "order" of the polynomial derivative.
+            //
+            //    Output, double C2[O2], the coefficients of the polynomial 
+            //    derivative.
+            //
+            //    Output, int E2[O2], the indices of the exponents of the
+            //    polynomial derivative.
+            //
+        {
+            int[] f1;
+            int i;
+            int j;
+
+            o2 = o1;
+            for (j = 0; j < o1; j++)
+            {
+                c2[j] = c1[j];
+            }
+
+            for (j = 0; j < o1; j++)
+            {
+                f1 = Monomial.mono_unrank_grlex(m, e1[j]);
+                for (i = 0; i < m; i++)
+                {
+                    c2[j] = c2[j] * typeMethods.i4_fall(f1[i], dif[i]);
+                    f1[i] = Math.Max(f1[i] - dif[i], 0);
+                }
+
+                e2[j] = Monomial.mono_rank_grlex(m, f1);
+            }
+
+            polynomial_sort(o2, ref c2, ref e2);
+
+            polynomial_compress(o2, c2, e2, ref o2, ref c2, ref e2);
+
+        }
+
+        public static void polynomial_mul(int m, int o1, double[] c1, int[] e1, int o2, double[] c2,
+                int[] e2, ref int o, ref double[] c, ref int[] e)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    POLYNOMIAL_MUL multiplies two polynomials.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    01 December 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, the spatial dimension.
+            //
+            //    Input, int O1, the "order" of polynomial 1.
+            //
+            //    Input, double C1[O1], the coefficients of polynomial 1.
+            //
+            //    Input, int E1[O1], the indices of the exponents of 
+            //    polynomial 1.
+            //
+            //    Input, int O2, the "order" of polynomial 2.
+            //
+            //    Input, double C2[O2], the coefficients of polynomial 2.
+            //
+            //    Input, int E2[O2], the indices of the exponents of 
+            //    polynomial 2.
+            //
+            //    Output, int &O, the "order" of the polynomial product.
+            //
+            //    Output, double C[O], the coefficients of the polynomial product.
+            //
+            //    Output, int E[O], the indices of the exponents of the 
+            //    polynomial product.
+            //
+        {
+            int[] f;
+            int[] f1;
+            int[] f2;
+            int i;
+            int j;
+            int k;
+
+            f = new int[m];
+
+            o = 0;
+            for (j = 0; j < o2; j++)
+            {
+                for (i = 0; i < o1; i++)
+                {
+                    c[o] = c1[i] * c2[j];
+                    f1 = Monomial.mono_unrank_grlex(m, e1[i]);
+                    f2 = Monomial.mono_unrank_grlex(m, e2[j]);
+                    for (k = 0; k < m; k++)
+                    {
+                        f[k] = f1[k] + f2[k];
+                    }
+
+                    e[o] = Monomial.mono_rank_grlex(m, f);
+                    o = o + 1;
+                }
+            }
+
+            polynomial_sort(o, ref c, ref e);
+            polynomial_compress(o, c, e, ref o, ref c, ref e);
         }
 
         public static void polynomial_print(int d, int o, double[] c, int[] e, string title)
@@ -292,6 +493,48 @@ namespace Burkardt.PolynomialNS
 
                     Console.WriteLine(cout);
                 }
+            }
+        }
+        
+        public static void polynomial_scale ( double s, int m, int o, ref double[] c, int[] e )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    POLYNOMIAL_SCALE scales a polynomial.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    01 January 2014
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double S, the scale factor.
+        //
+        //    Input, int M, the spatial dimension.
+        //
+        //    Input, int O, the "order" of the polynomial.
+        //
+        //    Input/output, double C[O], the coefficients of the polynomial.
+        //
+        //    Input, int E[O], the indices of the exponents of the
+        //    polynomial.
+        //
+        {
+            int i;
+
+            for ( i = 0; i < o; i++ )
+            {
+                c[i] = c[i] * s;
             }
         }
 

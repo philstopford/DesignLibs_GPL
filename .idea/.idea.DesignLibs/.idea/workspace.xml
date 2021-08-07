@@ -353,6 +353,7 @@
     <projectFile>BurkhardtTest/Polygon/PolygonMonteCarloTest/PolygonMonteCarloTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Polygon/PolygonTriangulateTest/PolygonTriangulateTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Polynomial/PolynomialTest/PolynomialTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/PolyominoTest/PolyominoTest.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -447,7 +448,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.31996354" />
+    <property name="DebuggerViewTab_PTCS_FirstProportionKey" value="0.32026145" />
     <property name="DebuggerViewTab_PTCS_LastProportionKey" value="0.0" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
@@ -456,7 +457,7 @@
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C#" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunManager" selected=".NET Project.TriangulationTest">
+  <component name="RunManager" selected=".NET Project.PolynomialTest">
     <configuration name="ASA005Test" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -4957,6 +4958,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="PolyominoTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/PolyominoTest/PolyominoTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="ProbabilityTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -7184,6 +7203,7 @@
       <item itemvalue=".NET Project.PolygonMonteCarloTest" />
       <item itemvalue=".NET Project.PolygonTriangulateTest" />
       <item itemvalue=".NET Project.PolynomialTest" />
+      <item itemvalue=".NET Project.PolyominoTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

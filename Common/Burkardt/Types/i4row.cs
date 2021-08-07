@@ -536,5 +536,102 @@ namespace Burkardt.Types
             return variance;
         }
         
+        public static int[] i4rows_copy_new ( int m, int n, int[] a1 )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4MROWS_COPY_NEW copies an I4ROWS to a "new" I4MAT.
+            //
+            //  Discussion:
+            //
+            //    An I4ROWS is an MxN array of I4's, stored by (I,J) -> [I*N+J].
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    22 April 2018
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns.
+            //
+            //    Input, int A1[M*N], the matrix to be copied.
+            //
+            //    Output, int I4ROWS_COPY_NEW[M*N], the copy of A1.
+            //
+        {
+            int[] a2;
+            int i;
+            int j;
+
+            a2 = new int[m*n];
+
+            for ( i = 0; i < m; i++ )
+            {
+                for ( j = 0; j < n; j++ )
+                {
+                    a2[i*n+j] = a1[i*n+j];
+                }
+            }
+            return a2;
+        }
+        
+        public static int[] i4rows_zeros_new ( int m, int n )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4ROWS_ZEROS_NEW returns a new zeroed I4ROWS.
+            //
+            //  Discussion:
+            //
+            //    An I4ROWS is a doubly dimensioned array of I4 values, stored as a vector
+            //    in row-major order.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    22 April 2018
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns.
+            //
+            //    Output, int I4ROWS_ZEROS_NEW[M*N], the new zeroed matrix.
+            //
+        {
+            int[] a;
+            int i;
+            int j;
+
+            a = new int[m*n];
+
+            for ( i = 0; i < m; i++ )
+            {
+                for ( j = 0; j < n; j++ )
+                {
+                    a[i*n+j] = 0;
+                }
+            }
+            return a;
+        }
+        
     }
 }

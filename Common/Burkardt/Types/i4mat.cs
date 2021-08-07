@@ -255,6 +255,130 @@ namespace Burkardt.Types
             }
         }
 
+        public static void i4mat_flip_cols(int m, int n, ref int[] a)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4MAT_FLIP_COLS swaps the columns of an I4MAT.
+            //
+            //  Discussion:
+            //
+            //    An I4MAT is an MxN array of I4's, stored by (I,J) -> [I+J*M].
+            //
+            //    To "flip" the columns of an I4MAT is to start with something like
+            //
+            //      11 12 13 14 15
+            //      21 22 23 24 25
+            //      31 32 33 34 35
+            //      41 42 43 44 45
+            //      51 52 53 54 55
+            //
+            //    and return
+            //
+            //      15 14 13 12 11
+            //      25 24 23 22 21
+            //      35 34 33 32 31
+            //      45 44 43 42 41
+            //      55 54 53 52 51
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    22 June 2006
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns.
+            //
+            //    Input/output, int A[M*N], the matrix whose columns are to be flipped.
+            //
+        {
+            int b;
+            int i;
+            int j;
+
+            for (i = 0; i < m; i++)
+            {
+                for (j = 0; j < (n / 2); j++)
+                {
+                    b = a[i + j * m];
+                    a[i + j * m] = a[i + (n - 1 - j) * m];
+                    a[i + (n - 1 - j) * m] = b;
+                }
+            }
+        }
+
+        public static void i4mat_flip_rows(int m, int n, ref int[] a)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4MAT_FLIP_ROWS swaps the rows of an I4MAT.
+            //
+            //  Discussion:
+            //
+            //    An I4MAT is an MxN array of I4's, stored by (I,J) -> [I+J*M].
+            //
+            //    To "flip" the rows of an I4MAT is to start with something like
+            //
+            //      11 12 13 14 15
+            //      21 22 23 24 25
+            //      31 32 33 34 35
+            //      41 42 43 44 45
+            //      51 52 53 54 55
+            //
+            //    and return
+            //
+            //      51 52 53 54 55
+            //      41 42 43 44 45
+            //      31 32 33 34 35
+            //      21 22 23 24 25
+            //      11 12 13 14 15
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    22 June 2006
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns.
+            //
+            //    Input/output, int A[M*N], the matrix whose rows are to be flipped.
+            //
+        {
+            int b;
+            int i;
+            int j;
+
+            for (j = 0; j < n; j++)
+            {
+                for (i = 0; i < (m / 2); i++)
+                {
+                    b = a[i + j * m];
+                    a[i + j * m] = a[m - 1 - i + j * m];
+                    a[m - 1 - i + j * m] = b;
+                }
+            }
+        }
+
         public static TableHeader i4mat_header_read(string input_filename)
             //****************************************************************************80
             //
@@ -530,6 +654,115 @@ namespace Burkardt.Types
                             }
                         }
                     }
+                }
+            }
+        }
+        
+        public static int i4mat_sum ( int m, int n, ref int[] a )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4MAT_SUM returns the sum of the entries of an I4MAT.
+            //
+            //  Discussion:
+            //
+            //    An I4MAT is an MxN array of I4's, stored by (I,J) -> [I+J*M].
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    01 May 2018
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, the number of rows in A.
+            //
+            //    Input, int N, the number of columns in A.
+            //
+            //    Input, int A[M*N], the M by N matrix.
+            //
+            //    Output, int I4MAT_SUM, the sum of the entries.
+            //
+        {
+            int i;
+            int j;
+            int value;
+
+            value = 0;
+
+            for ( j = 0; j < n; j++ )
+            {
+                for ( i = 0; i < m; i++ )
+                {
+                    value = value + a[i+j*m];
+                }
+            }
+            return value;
+        }
+
+        public static void i4mat_transpose ( int m, int n, ref int[] a )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4MAT_TRANSPOSE transposes an I4MAT.
+            //
+            //  Discussion:
+            //
+            //    An I4MAT is an MxN array of I4's, stored by (I,J) -> [I+J*M].
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    16 April 2018
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, the number of rows in A.
+            //
+            //    Input, int N, the number of columns in A.
+            //
+            //    Input, int A[M*N], the M by N matrix.
+            //
+            //    Output, int A[N*M], the transposed matrix.
+            //
+        {
+            int[] b;
+            int i;
+            int j;
+
+            b = new int[n*m];
+  
+            for ( j = 0; j < n; j++ )
+            {
+                for ( i = 0; i < m; i++ )
+                {
+                    b[j+i*n] = a[i+j*m];
+                }
+            }
+
+            for ( j = 0; j < n; j++ )
+            {
+                for ( i = 0; i < m; i++ )
+                {
+                    a[j+i*n] = b[j+i*n];
                 }
             }
         }

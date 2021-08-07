@@ -307,7 +307,7 @@ namespace PolyominoTest
                 0, 0, 1,
                 1, 1, 1
             };
-            int[] q = null;
+            int[] q = new int[4*4];
             int[] r =
             {
                 0, 1, 1, 1,

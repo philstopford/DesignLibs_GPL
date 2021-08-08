@@ -57,7 +57,7 @@ namespace MidpointFixedTest
             Console.WriteLine("");
         }
 
-        static double[] predator_prey_deriv(double t, double[] rf)
+        static double[] predator_prey_deriv(double t, double[] rf, int rfIndex)
 
             //****************************************************************************80
             //
@@ -101,8 +101,8 @@ namespace MidpointFixedTest
 
             drfdt = new double[2];
 
-            drfdt[0] = 2.0 * rf[0] - 0.001 * rf[0] * rf[1];
-            drfdt[1] = -10.0 * rf[1] + 0.002 * rf[0] * rf[1];
+            drfdt[0] = 2.0 * rf[rfIndex + 0] - 0.001 * rf[rfIndex + 0] * rf[rfIndex + 1];
+            drfdt[1] = -10.0 * rf[rfIndex + 1] + 0.002 * rf[rfIndex + 0] * rf[rfIndex + 1];
 
             return drfdt;
         }
@@ -200,7 +200,7 @@ namespace MidpointFixedTest
             t = new double[n + 1];
             pout = new double[(n + 1) * m];
 
-            MidpointFixed.midpoint_fixed(predator_prey_deriv, tspan, p0, n, m, ref t, ref pout);
+            MidpointFixed.midpoint_fixed(predator_prey_deriv, tspan, p0, n, m, 0, ref t, ref pout);
             //
             //  Create the data file.
             //
@@ -243,7 +243,7 @@ namespace MidpointFixedTest
                 "  predator_prey_midpoint_fixed_test: plot commands stored in '" + command_filename + "'.");
         }
 
-        static double[] stiff_deriv(double t, double[] y)
+        static double[] stiff_deriv(double t, double[] y, int yIndex)
 
             //****************************************************************************80
             //
@@ -278,7 +278,7 @@ namespace MidpointFixedTest
 
             dydt = new double[1];
 
-            dydt[0] = 50.0 * (Math.Cos(t) - y[0]);
+            dydt[0] = 50.0 * (Math.Cos(t) - y[yIndex + 0]);
 
             return dydt;
         }
@@ -375,7 +375,7 @@ namespace MidpointFixedTest
 
             t1 = new double[n + 1];
             y1 = new double[n + 1];
-            MidpointFixed.midpoint_fixed(stiff_deriv, tspan, y0, n, m, ref t1, ref y1);
+            MidpointFixed.midpoint_fixed(stiff_deriv, tspan, y0, n, m, 0, ref t1, ref y1);
 
             t2 = typeMethods.r8vec_linspace_new(n2, tspan[0], tspan[1]);
             y2 = stiff_exact(n2, t2);

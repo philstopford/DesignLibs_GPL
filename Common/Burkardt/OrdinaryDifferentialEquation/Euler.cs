@@ -2,16 +2,16 @@
 
 namespace Burkardt
 {
-    public static class MidpointFixed
+    public static class Euler
     {
-        public static void midpoint_fixed ( Func < double, double[], int, double[] > dydt, 
-        double[] tspan, double[] y0, int n, int m, int index, ref double[] t, ref double[] y )
+        public static void euler ( Func < double, double[], int, double[] > dydt, double[] tspan, 
+        double[] y0, int n, int m, double[] t, double[] y )
 
         //****************************************************************************80
         //
         //  Purpose:
         //
-        //    midpoint_fixed uses a fixed-point midpoint method to solve an ODE.
+        //    euler approximates the solution to an ODE using Euler's method.
         //
         //  Licensing:
         //
@@ -19,7 +19,7 @@ namespace Burkardt
         //
         //  Modified:
         //
-        //    07 April 2021
+        //    25 April 2020
         //
         //  Author:
         //
@@ -43,24 +43,17 @@ namespace Burkardt
         //
         {
             double dt;
-            double[] f;
+            double[] dy;
             int i;
-            int it_max;
             int j;
-            int k;
-            double theta;
-            double tm;
-            double[] ym;
+            double tfirst;
+            double tlast;
 
-            ym = new double[m];
-
-            dt = ( tspan[1] - tspan[0] ) / ( double ) ( n );
-
-            it_max = 10;
-            theta = 0.5;
-
-            t[0] = tspan[0];
+            tfirst = tspan[0];
+            tlast = tspan[1];
+            dt = ( tlast - tfirst ) / ( double ) ( n );
             j = 0;
+            t[j] = tspan[0];
             for ( i = 0; i < m; i++ )
             {
                 y[i+j*m] = y0[i];
@@ -68,24 +61,11 @@ namespace Burkardt
 
             for ( j = 0; j < n; j++ )
             {
-                tm = t[j] + theta * dt;
-                for ( i = 0; i < m; i++ )
-                {
-                    ym[i] = y[i+j*m];
-                }
-                for ( k = 0; k < it_max; k++ )
-                {
-                    f = dydt ( tm, ym, index );
-                    for ( i = 0; i < m; i++ )
-                    {
-                        ym[i] = y[i+j*m] + theta * dt * f[i];
-                    }
-                }
+                dy = dydt ( t[j], y, +j*m );
                 t[j+1] = t[j] + dt;
                 for ( i = 0; i < m; i++ )
                 {
-                    y[i+(j+1)*m] = (       1.0 / theta ) * ym[i]
-                                   + ( 1.0 - 1.0 / theta ) * y[i+j*m];
+                    y[i+(j+1)*m] = y[i+j*m] + dt * dy[i];
                 }
             }
         }

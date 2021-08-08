@@ -1922,6 +1922,64 @@ namespace Burkardt.Types
                 a[i] = a[i] + 1;
             }
         }
+        
+        public static int[] i4vec_cum ( int n, int[] a )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_CUM computes the cumulutive sum of the entries of an I4VEC.
+            //
+            //  Discussion:
+            //
+            //    An I4VEC is a vector of I4's.
+            //
+            //  Example:
+            //
+            //    Input:
+            //
+            //      A = (/ 1, 2, 3, 4 /)
+            //
+            //    Output:
+            //
+            //      A_CUM = (/ 1, 3, 6, 10 /)
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    22 December 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in the vector.
+            //
+            //    Input, int A[N], the vector to be summed.
+            //
+            //    Output, int I4VEC_CUM[N], the cumulative sum of the entries of A.
+            //
+        {
+            int[] a_cum;
+            int i;
+
+            a_cum = new int[n+1];
+
+            a_cum[0] = a[0];
+
+            for ( i = 1; i <= n - 1; i++ )
+            {
+                a_cum[i] = a_cum[i-1] + a[i];
+            }
+
+            return a_cum;
+        }
 
         public static void i4vec_data_read(string input_filename, int n, ref int[] table)
 

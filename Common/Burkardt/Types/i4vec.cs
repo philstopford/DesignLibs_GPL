@@ -1885,6 +1885,65 @@ namespace Burkardt.Types
                 a[i] = a[i] - 1;
             }
         }
+        
+        public static int[] i4vec_histogram ( int n, int[] a, int histo_num )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    I4VEC_HISTOGRAM computes a histogram of the elements of an I4VEC.
+        //
+        //  Discussion:
+        //
+        //    It is assumed that the entries in the vector A are nonnegative.
+        //    Only values between 0 and HISTO_NUM will be histogrammed.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    29 August 2005
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number of elements of A.
+        //
+        //    Input, int A[N], the array to examine.
+        //
+        //    Input, int HISTO_NUM, the maximum value for which a
+        //    histogram entry will be computed.
+        //
+        //    Output, int I4VEC_HISTOGRAM[HISTO_NUM+1], contains the number of
+        //    entries of A with the values of 0 through HISTO_NUM.
+        //
+        {
+            int[] histo_gram;
+            int i;
+
+            histo_gram = new int[histo_num+1];
+
+            for ( i = 0; i <= histo_num; i++ )
+            {
+                histo_gram[i] = 0;
+            }
+
+            for ( i = 0; i < n; i++ )
+            {
+                if ( 0 <= a[i] && a[i] <= histo_num )
+                {
+                    histo_gram[a[i]] = histo_gram[a[i]] + 1;
+                }
+            }
+
+            return histo_gram;
+        }
 
         public static void i4vec_inc(int n, ref int[] a)
 

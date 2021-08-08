@@ -916,6 +916,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TetMeshQ2LTest", "Burkhardt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TetMeshQuadTest", "BurkhardtTest\Tetrahedron\TetMeshQuadTest\TetMeshQuadTest.csproj", "{F7705B1C-DD4C-4575-A738-DA8B1800B61B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TetMeshQualityTest", "BurkhardtTest\Tetrahedron\TetMeshQualityTest\TetMeshQualityTest.csproj", "{482134D8-A9CE-449F-B8E1-E54AE9675837}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -5654,6 +5656,18 @@ Global
 		{F7705B1C-DD4C-4575-A738-DA8B1800B61B}.Release|x64.Build.0 = Release|Any CPU
 		{F7705B1C-DD4C-4575-A738-DA8B1800B61B}.Release|x86.ActiveCfg = Release|Any CPU
 		{F7705B1C-DD4C-4575-A738-DA8B1800B61B}.Release|x86.Build.0 = Release|Any CPU
+		{482134D8-A9CE-449F-B8E1-E54AE9675837}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{482134D8-A9CE-449F-B8E1-E54AE9675837}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{482134D8-A9CE-449F-B8E1-E54AE9675837}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{482134D8-A9CE-449F-B8E1-E54AE9675837}.Debug|x64.Build.0 = Debug|Any CPU
+		{482134D8-A9CE-449F-B8E1-E54AE9675837}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{482134D8-A9CE-449F-B8E1-E54AE9675837}.Debug|x86.Build.0 = Debug|Any CPU
+		{482134D8-A9CE-449F-B8E1-E54AE9675837}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{482134D8-A9CE-449F-B8E1-E54AE9675837}.Release|Any CPU.Build.0 = Release|Any CPU
+		{482134D8-A9CE-449F-B8E1-E54AE9675837}.Release|x64.ActiveCfg = Release|Any CPU
+		{482134D8-A9CE-449F-B8E1-E54AE9675837}.Release|x64.Build.0 = Release|Any CPU
+		{482134D8-A9CE-449F-B8E1-E54AE9675837}.Release|x86.ActiveCfg = Release|Any CPU
+		{482134D8-A9CE-449F-B8E1-E54AE9675837}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -6110,6 +6124,7 @@ Global
 		{64C9E050-BE7A-42EB-869D-034D3DD16D95} = {72AFE556-8C42-4944-9225-84F29E2F2F6D}
 		{A44863AF-C04D-4123-BCEC-09F70C11E0E3} = {72AFE556-8C42-4944-9225-84F29E2F2F6D}
 		{F7705B1C-DD4C-4575-A738-DA8B1800B61B} = {72AFE556-8C42-4944-9225-84F29E2F2F6D}
+		{482134D8-A9CE-449F-B8E1-E54AE9675837} = {72AFE556-8C42-4944-9225-84F29E2F2F6D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B449416C-C504-4FA8-9E10-10857263A64A}

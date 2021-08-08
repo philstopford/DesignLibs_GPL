@@ -6,7 +6,7 @@ namespace Burkardt.TetrahedronNS
 {
     public static class TetMesh
     {
-        public static void tet_mesh_base_zero(int node_num, int element_order, int element_num,
+        public static int tet_mesh_base_zero(int node_num, int element_order, int element_num,
                 ref int[] element_node)
 
             //****************************************************************************80
@@ -49,6 +49,7 @@ namespace Burkardt.TetrahedronNS
             //    definitions.
             //
         {
+            int base_;
             int element;
             int node;
             int node_max;
@@ -71,6 +72,7 @@ namespace Burkardt.TetrahedronNS
 
             if (node_min == 1 && node_max == node_num)
             {
+                base_ = 1;
                 Console.WriteLine("");
                 Console.WriteLine("TET_MESH_BASE_ZERO:");
                 Console.WriteLine("  The element indexing appears to be 1-based!");
@@ -86,6 +88,7 @@ namespace Burkardt.TetrahedronNS
             }
             else if (node_min == 0 && node_max == node_num - 1)
             {
+                base_ = 0;
                 Console.WriteLine("");
                 Console.WriteLine("TET_MESH_BASE_ZERO:");
                 Console.WriteLine("  The element indexing appears to be 0-based!");
@@ -93,10 +96,13 @@ namespace Burkardt.TetrahedronNS
             }
             else
             {
+                base_ = -1;
                 Console.WriteLine("");
                 Console.WriteLine("TET_MESH_BASE_ZERO - Warning!");
                 Console.WriteLine("  The element indexing is not of a recognized type.");
             }
+
+            return base_;
         }
 
         public static int[] tet_mesh_neighbor_tets(int tetra_order, int tetra_num,

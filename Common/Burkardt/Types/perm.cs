@@ -178,7 +178,7 @@ namespace Burkardt.Types
             return p;
         }
 
-        public static bool perm_check(int n, int[] p)
+        public static bool perm_check(int n, int[] p, int base_ = 1)
 
             //****************************************************************************80
             //
@@ -216,7 +216,7 @@ namespace Burkardt.Types
             int i;
             int seek;
 
-            for (seek = 1; seek <= n; seek++)
+            for (seek = base_; seek < base_ + n; seek++)
             {
                 found = false;
 
@@ -231,12 +231,57 @@ namespace Burkardt.Types
 
                 if (!found)
                 {
+                    Console.WriteLine("");
+                    Console.WriteLine("PERM_CHECK - Fatal error!");
+                    Console.WriteLine("  Did not find " + found + "");
                     return false;
                 }
 
             }
 
             return true;
+        }
+        
+        public static int[] perm_inverse3 ( int n, int[] perm )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    PERM_INVERSE3 produces the inverse of a given permutation.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    14 May 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of items permuted.
+            //
+            //    Input, int PERM[N], a permutation.
+            //
+            //    Output, int PERM_INVERSE3[N], the inverse permutation.
+            //
+        {
+            int i;
+            int[] perm_inv;
+
+            perm_inv = new int[n];
+
+            for ( i = 0; i < n; i++ )
+            {
+                perm_inv[perm[i]] = i;
+            }
+
+            return perm_inv;
         }
 
         public static void _perm_check(int n, int[] p)

@@ -906,6 +906,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TetrahedronArbQTest", "Burk
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TetrahedronMonteCarloTest", "BurkhardtTest\Tetrahedron\TetrahedronMonteCarloTest\TetrahedronMonteCarloTest.csproj", "{979500E0-3753-4C0C-B7A0-B94C1049C7A5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TetMeshTest", "BurkhardtTest\Tetrahedron\TetMeshTest\TetMeshTest.csproj", "{98576335-72F8-41C6-8A63-D14F39BF9827}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -5584,6 +5586,18 @@ Global
 		{979500E0-3753-4C0C-B7A0-B94C1049C7A5}.Release|x64.Build.0 = Release|Any CPU
 		{979500E0-3753-4C0C-B7A0-B94C1049C7A5}.Release|x86.ActiveCfg = Release|Any CPU
 		{979500E0-3753-4C0C-B7A0-B94C1049C7A5}.Release|x86.Build.0 = Release|Any CPU
+		{98576335-72F8-41C6-8A63-D14F39BF9827}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98576335-72F8-41C6-8A63-D14F39BF9827}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98576335-72F8-41C6-8A63-D14F39BF9827}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{98576335-72F8-41C6-8A63-D14F39BF9827}.Debug|x64.Build.0 = Debug|Any CPU
+		{98576335-72F8-41C6-8A63-D14F39BF9827}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{98576335-72F8-41C6-8A63-D14F39BF9827}.Debug|x86.Build.0 = Debug|Any CPU
+		{98576335-72F8-41C6-8A63-D14F39BF9827}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98576335-72F8-41C6-8A63-D14F39BF9827}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98576335-72F8-41C6-8A63-D14F39BF9827}.Release|x64.ActiveCfg = Release|Any CPU
+		{98576335-72F8-41C6-8A63-D14F39BF9827}.Release|x64.Build.0 = Release|Any CPU
+		{98576335-72F8-41C6-8A63-D14F39BF9827}.Release|x86.ActiveCfg = Release|Any CPU
+		{98576335-72F8-41C6-8A63-D14F39BF9827}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -6035,6 +6049,7 @@ Global
 		{72AFE556-8C42-4944-9225-84F29E2F2F6D} = {B14C0D74-30A0-4540-8100-2FFA1C84CA6D}
 		{3319E99F-9AFD-46C9-94EC-7609AEFF67F1} = {72AFE556-8C42-4944-9225-84F29E2F2F6D}
 		{979500E0-3753-4C0C-B7A0-B94C1049C7A5} = {72AFE556-8C42-4944-9225-84F29E2F2F6D}
+		{98576335-72F8-41C6-8A63-D14F39BF9827} = {72AFE556-8C42-4944-9225-84F29E2F2F6D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B449416C-C504-4FA8-9E10-10857263A64A}

@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt.Types;
+using Burkardt.Uniform;
 
 namespace Burkardt.TetrahedronNS
 {
@@ -2960,7 +2961,7 @@ namespace Burkardt.TetrahedronNS
             value_mean = typeMethods.r8vec_mean(tetra_num, tetrahedron_quality);
             value_var = typeMethods.r8vec_variance(tetra_num, tetrahedron_quality);
         }
-
+        
         public static int tet_mesh_search_delaunay(int node_num, double[] node_xyz, int tet_order,
                 int tet_num, int[] tet_node, int[] tet_neighbor, double[] p, ref int face,
                 ref int step_num)

@@ -7,53 +7,53 @@ namespace Burkardt.FEM
     {
 
         public static double[] fem1d_approximate(int sample_node_num, int sample_value_dim,
-            double[] sample_node_x, double[] sample_value, int fem_node_num,
-        double[] fem_node_x, int fem_element_order, int fem_element_num,
-        int fem_value_dim, int fem_value_num )
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    FEM1D_APPROXIMATE approximates data at sample points with an FEM function.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    01 May 2009
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, int SAMPLE_NODE_NUM, the number of sample points.
-//
-//    Input, int SAMPLE_VALUE_DIM, the value dimension.
-//
-//    Input, double SAMPLE_NODE_X[SAMPLE_NODE_NUM], the sample nodes.
-//
-//    Input, double SAMPLE_VALUE[VALUE_DIM*SAMPLE_NODE_NUM],
-//    the values at sample nodes.
-//
-//    Input, int FEM_NODE_NUM, the number of FEM nodes.
-//
-//    Input, double FEM_NODE_X[FEM_NODE_NUM], the FEM nodes.  
-//
-//    Input, int FEM_ELEMENT_ORDER, the element order.
-//
-//    Input, int FEM_ELEMENT_NUM, the number of elements.
-//
-//    Input, int FEM_VALUE_DIM, the FEM value dimension.
-//
-//    Input, int FEM_VALUE_NUM, the number of FEM values.
-//
-//    Output, double FEM1D_APPROXIMATE[FEM_VALUE_DIM*FEM_VALUE_NUM], 
-//    the FEM values.
-//
+                double[] sample_node_x, double[] sample_value, int fem_node_num,
+                double[] fem_node_x, int fem_element_order, int fem_element_num,
+                int fem_value_dim, int fem_value_num)
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    FEM1D_APPROXIMATE approximates data at sample points with an FEM function.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    01 May 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int SAMPLE_NODE_NUM, the number of sample points.
+            //
+            //    Input, int SAMPLE_VALUE_DIM, the value dimension.
+            //
+            //    Input, double SAMPLE_NODE_X[SAMPLE_NODE_NUM], the sample nodes.
+            //
+            //    Input, double SAMPLE_VALUE[VALUE_DIM*SAMPLE_NODE_NUM],
+            //    the values at sample nodes.
+            //
+            //    Input, int FEM_NODE_NUM, the number of FEM nodes.
+            //
+            //    Input, double FEM_NODE_X[FEM_NODE_NUM], the FEM nodes.  
+            //
+            //    Input, int FEM_ELEMENT_ORDER, the element order.
+            //
+            //    Input, int FEM_ELEMENT_NUM, the number of elements.
+            //
+            //    Input, int FEM_VALUE_DIM, the FEM value dimension.
+            //
+            //    Input, int FEM_VALUE_NUM, the number of FEM values.
+            //
+            //    Output, double FEM1D_APPROXIMATE[FEM_VALUE_DIM*FEM_VALUE_NUM], 
+            //    the FEM values.
+            //
         {
             int QUAD_NUM = 2;
 
@@ -61,18 +61,20 @@ namespace Burkardt.FEM
             double[] phi_v = new double[3];
             double[] phi_x = new double[3];
             int quad_num = QUAD_NUM;
-            double[] quad_x =  {
-                -0.577350269189625764509148780502,
-                0.577350269189625764509148780502
-            }
-            ;
-            double[] quad_w =  {
-                1.0, 1.0
-            }
-            ;
+            double[] quad_x =
+                {
+                    -0.577350269189625764509148780502,
+                    0.577350269189625764509148780502
+                }
+                ;
+            double[] quad_w =
+                {
+                    1.0, 1.0
+                }
+                ;
             //
-//  Set up the matrix A.
-//
+            //  Set up the matrix A.
+            //
             double[] a = typeMethods.r8mat_zero_new(3, fem_node_num);
 
             for (int l = 0; l < fem_node_num - 1; l++)
@@ -104,9 +106,9 @@ namespace Burkardt.FEM
             }
 
             typeMethods.r83_np_fa(fem_node_num, ref a);
-//
-//  Set up the right hand side b.
-//
+            //
+            //  Set up the right hand side b.
+            //
             double[] b = new double[fem_node_num];
             double[] v = new double[sample_node_num];
             double[] fem_value = new double[fem_value_dim * fem_value_num];
@@ -169,66 +171,66 @@ namespace Burkardt.FEM
         }
 
         public static double piecewise_linear_product_quad(double a, double b, int f_num,
-            double[] f_x, double[] f_v, int g_num, double[] g_x, double[] g_v )
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    PIECEWISE_LINEAR_PRODUCT_QUAD: piecewise linear product integral.
-//
-//  Discussion:
-//
-//    We are given two piecewise linear functions F(X) and G(X) and we wish
-//    to compute the exact value of the integral
-//
-//      INTEGRAL = Integral ( A <= X <= B ) F(X) * G(X) dx
-//
-//    The functions F(X) and G(X) are defined as tables of coordinates X and
-//    values V.  A piecewise linear function is evaluated at a point X by 
-//    evaluating the interpolant to the data at the endpoints of the interval 
-//    containing X.  
-//
-//    It must be the case that A <= B.
-//
-//    It must be the case that the node coordinates F_X(*) and G_X(*) are
-//    given in ascending order.
-//
-//    It must be the case that:
-//
-//      F_X(1) <= A and B <= F_X(F_NUM)
-//      G_X(1) <= A and B <= G_X(G_NUM)
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    30 April 2009
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double A, B, the limits of integration.
-//
-//    Input, int F_NUM, the number of nodes for F.
-//
-//    Input, double F_X[F_NUM], the node coordinates for F.
-//
-//    Input, double F_V[F_NUM], the nodal values for F.
-//
-//    Input, int G_NUM, the number of nodes for G.
-//
-//    Input, double G_X[G_NUM], the node coordinates for G.
-//
-//    Input, double G_V[G_NUM], the nodal values for G.
-//
-//    Output, double INTEGRAL, the integral of F(X) * G(X)
-//    from A to B.
-//
+                double[] f_x, double[] f_v, int g_num, double[] g_x, double[] g_v)
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    PIECEWISE_LINEAR_PRODUCT_QUAD: piecewise linear product integral.
+            //
+            //  Discussion:
+            //
+            //    We are given two piecewise linear functions F(X) and G(X) and we wish
+            //    to compute the exact value of the integral
+            //
+            //      INTEGRAL = Integral ( A <= X <= B ) F(X) * G(X) dx
+            //
+            //    The functions F(X) and G(X) are defined as tables of coordinates X and
+            //    values V.  A piecewise linear function is evaluated at a point X by 
+            //    evaluating the interpolant to the data at the endpoints of the interval 
+            //    containing X.  
+            //
+            //    It must be the case that A <= B.
+            //
+            //    It must be the case that the node coordinates F_X(*) and G_X(*) are
+            //    given in ascending order.
+            //
+            //    It must be the case that:
+            //
+            //      F_X(1) <= A and B <= F_X(F_NUM)
+            //      G_X(1) <= A and B <= G_X(G_NUM)
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    30 April 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double A, B, the limits of integration.
+            //
+            //    Input, int F_NUM, the number of nodes for F.
+            //
+            //    Input, double F_X[F_NUM], the node coordinates for F.
+            //
+            //    Input, double F_V[F_NUM], the nodal values for F.
+            //
+            //    Input, int G_NUM, the number of nodes for G.
+            //
+            //    Input, double G_X[G_NUM], the node coordinates for G.
+            //
+            //    Input, double G_V[G_NUM], the nodal values for G.
+            //
+            //    Output, double INTEGRAL, the integral of F(X) * G(X)
+            //    from A to B.
+            //
         {
             double integral = 0.0;
 
@@ -260,16 +262,16 @@ namespace Burkardt.FEM
 
             while (xr < xr_max)
             {
-//
-//  Shift right values to left.
-//
+                //
+                //  Shift right values to left.
+                //
                 double xl = xr;
                 double fl = fr;
                 double gl = gr;
-//
-//  Determine the new right values.
-//  The hard part is figuring out how to advance XR some, but not too much.
-//
+                //
+                //  Determine the new right values.
+                //  The hard part is figuring out how to advance XR some, but not too much.
+                //
                 xr = xr_max;
 
                 for (int i = 1; i <= 2; i++)
@@ -303,10 +305,10 @@ namespace Burkardt.FEM
                 typeMethods.r8vec_bracket3(g_num, g_x, xr, ref g_left);
                 gr = g_v[g_left] + (xr - g_x[g_left]) * (g_v[g_left + 1] - g_v[g_left])
                     / (g_x[g_left + 1] - g_x[g_left]);
-//
-//  Form the linear polynomials for F(X) and G(X) over [XL,XR],
-//  then the product H(X), integrate H(X) and add to the running total.
-//
+                //
+                //  Form the linear polynomials for F(X) and G(X) over [XL,XR],
+                //  then the product H(X), integrate H(X) and add to the running total.
+                //
                 if (double.Epsilon <= Math.Abs(xr - xl))
                 {
                     double f1 = fl - fr;

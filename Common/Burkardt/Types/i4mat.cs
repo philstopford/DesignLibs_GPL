@@ -61,6 +61,61 @@ namespace Burkardt.Types
             return value;
         }
         
+        public static int i4mat_min ( int m, int n, int[] a )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4MAT_MIN returns the minimum of an I4MAT.
+            //
+            //  Discussion:
+            //
+            //    An I4MAT is an MxN array of I4's, stored by (I,J) -> [I+J*M].
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    01 August 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, the number of rows in A.
+            //
+            //    Input, int N, the number of columns in A.
+            //
+            //    Input, int A[M*N], the M by N matrix.
+            //
+            //    Output, int I4MAT_MIN, the minimum entry of A.
+            //
+        {
+            int i;
+            int i4_huge = 2147483647;
+            int j;
+            int value;
+
+            value = i4_huge;
+
+            for ( j = 0; j < n; j++ )
+            {
+                for ( i = 0; i < m; i++ )
+                {
+                    if ( a[i+j*m] < value )
+                    {
+                        value = a[i+j*m];
+                    }
+                }
+            }
+            return value;
+        }
+        
         public static int[] i4mat_histogram ( int m, int n, int[] a, int histo_num )
 
         //****************************************************************************80

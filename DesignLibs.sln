@@ -892,6 +892,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PattersonRuleTest", "Burkha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PredatorPreyTest", "BurkhardtTest\OrdinaryDifferentialEquation\PredatorPreyTest\PredatorPreyTest.csproj", "{1ABEECE8-403B-438E-BECF-30CD10B718EA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FEM2DProjectTest", "BurkhardtTest\FEM\FEM2DProjectTest\FEM2DProjectTest.csproj", "{DAB7A91E-2076-4169-A4AA-5858A94F98FF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -5498,6 +5500,18 @@ Global
 		{1ABEECE8-403B-438E-BECF-30CD10B718EA}.Release|x64.Build.0 = Release|Any CPU
 		{1ABEECE8-403B-438E-BECF-30CD10B718EA}.Release|x86.ActiveCfg = Release|Any CPU
 		{1ABEECE8-403B-438E-BECF-30CD10B718EA}.Release|x86.Build.0 = Release|Any CPU
+		{DAB7A91E-2076-4169-A4AA-5858A94F98FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAB7A91E-2076-4169-A4AA-5858A94F98FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAB7A91E-2076-4169-A4AA-5858A94F98FF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DAB7A91E-2076-4169-A4AA-5858A94F98FF}.Debug|x64.Build.0 = Debug|Any CPU
+		{DAB7A91E-2076-4169-A4AA-5858A94F98FF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DAB7A91E-2076-4169-A4AA-5858A94F98FF}.Debug|x86.Build.0 = Debug|Any CPU
+		{DAB7A91E-2076-4169-A4AA-5858A94F98FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAB7A91E-2076-4169-A4AA-5858A94F98FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAB7A91E-2076-4169-A4AA-5858A94F98FF}.Release|x64.ActiveCfg = Release|Any CPU
+		{DAB7A91E-2076-4169-A4AA-5858A94F98FF}.Release|x64.Build.0 = Release|Any CPU
+		{DAB7A91E-2076-4169-A4AA-5858A94F98FF}.Release|x86.ActiveCfg = Release|Any CPU
+		{DAB7A91E-2076-4169-A4AA-5858A94F98FF}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -5942,6 +5956,7 @@ Global
 		{55748297-49B7-438E-990A-B07C7CB374B1} = {2D88E252-9454-479B-9C8B-6416F79A3811}
 		{C7C4D2B0-B6B9-4F87-A407-BC81BC9EFBBE} = {2D88E252-9454-479B-9C8B-6416F79A3811}
 		{1ABEECE8-403B-438E-BECF-30CD10B718EA} = {16FBF310-321F-4600-989A-DCDCD4C75711}
+		{DAB7A91E-2076-4169-A4AA-5858A94F98FF} = {10FD5718-3BCA-4DC0-8CC3-BE641DA480C5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B449416C-C504-4FA8-9E10-10857263A64A}

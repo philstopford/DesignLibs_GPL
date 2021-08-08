@@ -10,19 +10,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="tetrahedron08.png">
+      <None Update="cube_4x4x4_elements.txt">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-      <None Update="tetrahedron08.txt">
+      <None Update="cube_4x4x4_nodes.txt">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-      <None Update="tetrahedron08_commands.txt">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="tetrahedron08_nodes.txt">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="tetrahedron08_vertices.txt">
+      <None Update="cube_4x4x4_values.txt">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
     </ItemGroup>

@@ -7,7 +7,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Common\Burkardt\Burkardt.csproj" />
-      <ProjectReference Include="..\..\TestValues\TestValues.csproj" />
     </ItemGroup>
 
 </Project>

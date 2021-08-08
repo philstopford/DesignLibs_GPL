@@ -5,6 +5,305 @@ namespace Burkardt.PolynomialNS
 {
     public static class Polynomial
     {
+        public static double[] kjacoypols3(double x, double y, double a, double b, int n)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    KJACOYPOLS3 evaluates modified Jacobi polynomials.
+            //
+            //  Discussion:
+            //
+            //    This procedure evaluates Jacobi polynomials multiplied by
+            //    specific polynomials given by the formula
+            //      P_n^{(a,b)} (x/y) y^n
+            //    at the user-provided point x/y.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU GPL license.
+            //
+            //  Modified:
+            //
+            //    11 July 2014
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Hong Xiao, Zydrunas Gimbutas.
+            //    This C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Hong Xiao, Zydrunas Gimbutas,
+            //    A numerical algorithm for the construction of efficient quadrature
+            //    rules in two and higher dimensions,
+            //    Computers and Mathematics with Applications,
+            //    Volume 59, 2010, pages 663-676.
+            //
+            //  Parameters:
+            //
+            //    Input, double X, Y, define the evaluation point X/Y.
+            //
+            //    Input, double A, B, the parameters.
+            //
+            //    Input, int N, the highest degree to compute.
+            //
+            //    Output, double KJACOYPOLS3[N+1], the polynomial values.
+            //
+        {
+            double alpha;
+            double beta;
+            int k;
+            double k_r8;
+            double pk;
+            double pkm1;
+            double pkp1;
+            double[] pols;
+
+            pols = new double[n + 1];
+
+            pkp1 = 1.0;
+            pols[0] = pkp1;
+
+            if (n == 0)
+            {
+                return pols;
+            }
+
+            pk = pkp1;
+            pkp1 = 0.5 * ((a - b) * y + (2.0 + a + b) * x);
+            pols[1] = pkp1;
+
+            if (n == 1)
+            {
+                return pols;
+            }
+
+            for (k = 2; k <= n; k++)
+            {
+                k_r8 = (double)(k);
+
+                alpha = (2.0 * k_r8 + a + b - 1.0)
+                        * (a - b) * (a + b) * y
+                        + (2.0 * k_r8 + a + b - 1.0)
+                        * (2.0 * k_r8 + a + b - 2.0)
+                        * (2.0 * k_r8 + a + b) * x;
+
+                beta = 2.0 * (k_r8 + a - 1.0)
+                           * (k_r8 + b - 1.0)
+                           * (2.0 * k_r8 + a + b) * y * y;
+
+                pkm1 = pk;
+                pk = pkp1;
+                pkp1 = (alpha * pk - beta * pkm1)
+                       / (2.0 * k_r8 * (k_r8 + a + b)
+                          * (2.0 * k_r8 + a + b - 2.0));
+
+                pols[k] = pkp1;
+            }
+
+            return pols;
+        }
+
+        public static double[] ortho3eva(int degree, double[] xyz)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    ORTHO3EVA evaluates polynomials orthogonal in the reference triangle.
+            //
+            //  Discussion:
+            //
+            //    This procedure evaluates the Koornwinder's orthogonal polynomial
+            //    up to order DEGREE on the reference tetrahedron with vertices
+            //      (-1, -1/Sqrt(3), -1/Sqrt(6)),
+            //      ( 0,  2/Sqrt(3), -1/Sqrt(6)),
+            //      ( 1, -1/Sqrt(3), -1/Sqrt(6)),
+            //      ( 0,  0,      3/Sqrt(6))
+            //
+            //    The polynomials are ordered by their order, and in each order,
+            //    they are ordered lexicographically in terms of their indices
+            //    (m,n,k).
+            //
+            //    The total number of polynomials should be
+            //      NVALS = ( ( DEGREE + 1 ) * ( DEGREE + 2 ) * ( DEGREE + 3 ) ) / 6.
+            //
+            //    The calculations are based on Koornwinder's representation
+            //    of the orthogonal polynomials on the right triangle
+            //      (-1,-1,-1), (-1,1,-1), (1,-1,-1),(-1,-1,1)
+            //    given by:
+            //      K_mnk(x,y,z) =
+            //        P_m ((2x+2+y+z)/(-y-z)) * ((-y-z)/2)^m *
+            //        P_n^{2m+1,0}((2y+1+z)/(1-z)) * ((1-z)/2)^{n}
+            //        P_k^{2m+2n+2,0} (z)
+            //    with the input (x,y,z) transformed as
+            //      x = -1/2 + xold -yold/s3 - zold/s6
+            //      y = -1/2 + 2/s3 * yold - zold/s6
+            //      z = -1/2 + s6/2 * zold
+            //    where
+            //      s3=sqrt(3)
+            //      s6=sqrt(6)
+            //    and
+            //      P_m is the Legendre polynomial of degree m,
+            //      P_n^{2m+1,0} the Jacobi polynomial of degree n, parameters 2*m+1 and 0.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    11 July 2014
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Hong Xiao, Zydrunas Gimbutas.
+            //    This C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Hong Xiao, Zydrunas Gimbutas,
+            //    A numerical algorithm for the construction of efficient quadrature
+            //    rules in two and higher dimensions,
+            //    Computers and Mathematics with Applications,
+            //    Volume 59, 2010, pages 663-676.
+            //
+            //  Parameters:
+            //
+            //    Input, int DEGREE, the maximum degree.
+            //
+            //    Input, double XYZ[3], the evaluation point.
+            //
+            //    Output, double ORTHO3EVA[NVALS], the polynomial values.
+            //
+        {
+            double[] f;
+            double[] f1;
+            double[] f2s;
+            double[] f3s;
+            double[] fvals;
+            int i;
+            int j;
+            int k;
+            int m;
+            int mmax;
+            int n;
+            int ncount;
+            int nvals;
+            double p1;
+            double p2;
+            double scale;
+            double[] uvw;
+            double x1;
+            double y1;
+            //
+            //  Convert coordinates from reference to Koornwinder tetrahedron.
+            //
+            uvw = typeMethods.ref_to_koorn(xyz);
+            //
+            //  Compute F1.
+            //
+            p1 = 0.5 * (2.0 * uvw[0] + 2.0 + uvw[1] + uvw[2]);
+            p2 = -0.5 * (uvw[1] + uvw[2]);
+
+            f1 = LegendreScaled.klegeypols(p1, p2, degree);
+            //
+            //  Compute F2S.
+            //
+            f2s = new double[(degree + 1) * (degree + 1)];
+
+            for (j = 1; j <= degree + 1; j++)
+            {
+                for (i = 1; i <= degree + 1; i++)
+                {
+                    f2s[i - 1 + (j - 1) * (degree + 1)] = 0.0;
+                }
+            }
+
+            for (m = 0; m <= degree; m++)
+            {
+                x1 = 0.5 * (2.0 * uvw[1] + 1.0 + uvw[2]);
+                y1 = 0.5 * (1.0 - uvw[2]);
+                p1 = (double)(2 * m + 1);
+                p2 = 0.0;
+
+                f = kjacoypols3(x1, y1, p1, p2, degree - m);
+
+                for (i = 1; i <= degree + 1 - m; i++)
+                {
+                    f2s[i - 1 + m * (degree + 1)] = f[i - 1];
+                }
+            }
+
+            //
+            //  Compute F3S.
+            //
+            f3s = new double[(degree + 1) * (degree + 1)];
+
+            for (j = 1; j <= degree + 1; j++)
+            {
+                for (i = 1; i <= degree + 1; i++)
+                {
+                    f3s[i - 1 + (j - 1) * (degree + 1)] = 0.0;
+                }
+            }
+
+            x1 = uvw[2];
+            y1 = 1.0;
+            p2 = 0.0;
+
+            for (j = 1; j <= degree + 1; j++)
+            {
+                p1 = (double)(2 * j);
+
+                f = kjacoypols3(x1, y1, p1, p2, degree + 1 - j);
+
+                for (i = 1; i <= degree + 2 - j; i++)
+                {
+                    f3s[i - 1 + (j - 1) * (degree + 1)] = f[i - 1];
+                }
+            }
+
+            //
+            //  Construct FVALS.
+            //
+            nvals = ((degree + 1) * (degree + 2) * (degree + 3)) / 6;
+            fvals = new double[nvals];
+
+            ncount = 0;
+
+            for (mmax = 0; mmax <= degree; mmax++)
+            {
+                for (m = 0; m <= mmax; m++)
+                {
+                    for (n = 0; n <= mmax - m; n++)
+                    {
+                        k = mmax - m - n;
+
+                        scale = Math.Sqrt
+                        (
+                            4.0
+                            / (double)(2 * mmax + 3)
+                            / (double)(2 * m + 1)
+                            / (double)(n + m + 1)
+                            / Math.Sqrt(2.0)
+                        );
+
+                        fvals[ncount] =
+                            f1[m] *
+                            f2s[n + m * (degree + 1)] *
+                            f3s[k + (m + n) * (degree + 1)] / scale;
+
+                        ncount = ncount + 1;
+                    }
+                }
+            }
+
+            return fvals;
+        }
+
         public static double ts_mult ( double[] u, double h, int n )
 
             //****************************************************************************80

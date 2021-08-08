@@ -114,6 +114,104 @@ namespace Burkardt.Types
             return 0;
         }
 
+        public static void i4col_sort2_a ( int m, int n, ref int[] a )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4COL_SORT2_A ascending sorts the elements of each column of an I4COL.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    13 January 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, the number of rows of A.
+            //
+            //    Input, int N, the number of columns of A, and the length
+            //    of a vector of data.
+            //
+            //    Input/output, int A[M*N].
+            //    On input, the array of N columns of M vectors.
+            //    On output, the elements of each column of A have been sorted in ascending
+            //    order.
+            //
+        {
+            int col;
+            int i;
+            int indx;
+            int isgn;
+            int j;
+            int temp;
+
+            SortHeapExternalData data = new SortHeapExternalData();
+
+            if ( m <= 1 )
+            {
+                return;
+            }
+
+            if ( n <= 0 )
+            {
+                return;
+            }
+            //
+            //  Initialize.
+            //
+            for ( col = 0; col < n; col++ )
+            {
+                i = 0;
+                indx = 0;
+                isgn = 0;
+                j = 0;
+                //
+                //  Call the external heap sorter.
+                //
+                for ( ; ; )
+                {
+                    Helpers.sort_heap_external ( ref data, m, ref indx, ref i, ref j, isgn );
+                    //
+                    //  Interchange the I and J objects.
+                    //
+                    if ( 0 < indx )
+                    {
+                        temp         = a[i-1+col*m];
+                        a[i-1+col*m] = a[j-1+col*m];
+                        a[j-1+col*m] = temp;
+                    }
+                    //
+                    //  Compare the I and J objects.
+                    //
+                    else if ( indx < 0 )
+                    {
+                        if ( a[j-1+col*m] < a[i-1+col*m] )
+                        {
+                            isgn = +1;
+                        }
+                        else
+                        {
+                            isgn = -1;
+                        }
+                    }
+                    else if ( indx == 0 )
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return;
+        }
         public static void i4col_sort_a(int m, int n, ref int[] a)
 
             //****************************************************************************80

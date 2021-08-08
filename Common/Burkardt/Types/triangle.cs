@@ -2655,6 +2655,170 @@ namespace Burkardt.Types
             Console.WriteLine("  Graphics data written to file \"" + plot_filename + "\"");
         }
 
+        public static void triangle_angles_3d(double[] t, ref double[] angle, int angleIndex = 0)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TRIANGLE_ANGLES_3D computes the angles of a triangle in 3D.
+            //
+            //  Discussion:
+            //
+            //    The law of cosines is used:
+            //
+            //      C * C = A * A + B * B - 2 * A * B * COS ( GAMMA )
+            //
+            //    where GAMMA is the angle opposite side C.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    30 July 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double T[3*3], the triangle vertices.
+            //
+            //    Output, double ANGLE[3], the angles opposite
+            //    sides P1-P2, P2-P3 and P3-P1, in radians.
+            //
+        {
+            double a;
+            double b;
+            double c;
+            const double r8_pi = 3.141592653589793;
+
+            a = Math.Sqrt(Math.Pow(t[0 + 1 * 3] - t[0 + 0 * 3], 2)
+                     + Math.Pow(t[1 + 1 * 3] - t[1 + 0 * 3], 2)
+                     + Math.Pow(t[2 + 1 * 3] - t[2 + 0 * 3], 2));
+
+            b = Math.Sqrt(Math.Pow(t[0 + 2 * 3] - t[0 + 1 * 3], 2)
+                          + Math.Pow(t[1 + 2 * 3] - t[1 + 1 * 3], 2)
+                          + Math.Pow(t[2 + 2 * 3] - t[2 + 1 * 3], 2));
+
+            c = Math.Sqrt(Math.Pow(t[0 + 0 * 3] - t[0 + 2 * 3], 2)
+                          + Math.Pow(t[1 + 0 * 3] - t[1 + 2 * 3], 2)
+                          + Math.Pow(t[2 + 0 * 3] - t[2 + 2 * 3], 2));
+            //
+            //  Take care of a ridiculous special case.
+            //
+            if (a == 0.0 && b == 0.0 && c == 0.0)
+            {
+                angle[angleIndex + 0] = 2.0 * r8_pi / 3.0;
+                angle[angleIndex + 1] = 2.0 * r8_pi / 3.0;
+                angle[angleIndex + 2] = 2.0 * r8_pi / 3.0;
+                return;
+            }
+
+            if (c == 0.0 || a == 0.0)
+            {
+                angle[angleIndex + 0] = r8_pi;
+            }
+            else
+            {
+                angle[angleIndex + 0] = r8_acos((c * c + a * a - b * b) / (2.0 * c * a));
+            }
+
+            if (a == 0.0 || b == 0.0)
+            {
+                angle[angleIndex + 1] = r8_pi;
+            }
+            else
+            {
+                angle[angleIndex + 1] = r8_acos((a * a + b * b - c * c) / (2.0 * a * b));
+            }
+
+            if (b == 0.0 || c == 0.0)
+            {
+                angle[angleIndex + 2] = r8_pi;
+            }
+            else
+            {
+                angle[angleIndex + 2] = r8_acos((b * b + c * c - a * a) / (2.0 * b * c));
+            }
+        }
+
+        public static double triangle_area_3d(double[] t)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TRIANGLE_AREA_3D computes the area of a triangle in 3D.
+            //
+            //  Discussion:
+            //
+            //    This routine uses the fact that the norm of the cross product vector
+            //    is the area of the parallelogram they form.  The triangle they
+            //    form has half that area.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    17 October 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Adrian Bowyer, John Woodwark,
+            //    A Programmer's Geometry,
+            //    Butterworths, 1983.
+            //
+            //  Parameters:
+            //
+            //    Input, double T[3*3], the vertices of the triangle.
+            //
+            //    Output, double TRIANGLE_AREA_3D, the area of the triangle.
+            //
+        {
+            double area;
+            double[] cross;
+            int i;
+            //
+            //  Compute the cross product vector.
+            //
+            cross = new double[3];
+
+            cross[0] = (t[1 + 1 * 3] - t[1 + 0 * 3])
+                       * (t[2 + 2 * 3] - t[2 + 0 * 3])
+                       - (t[2 + 1 * 3] - t[2 + 0 * 3])
+                       * (t[1 + 2 * 3] - t[1 + 0 * 3]);
+
+            cross[1] = (t[2 + 1 * 3] - t[2 + 0 * 3])
+                       * (t[0 + 2 * 3] - t[0 + 0 * 3])
+                       - (t[0 + 1 * 3] - t[0 + 0 * 3])
+                       * (t[2 + 2 * 3] - t[2 + 0 * 3]);
+
+            cross[2] = (t[0 + 1 * 3] - t[0 + 0 * 3])
+                       * (t[1 + 2 * 3] - t[1 + 0 * 3])
+                       - (t[1 + 1 * 3] - t[1 + 0 * 3])
+                       * (t[0 + 2 * 3] - t[0 + 0 * 3]);
+
+            area = 0.0;
+            for (i = 0; i < 3; i++)
+            {
+                area = area + Math.Pow(cross[i], 2);
+            }
+
+            area = 0.5 * Math.Sqrt(area);
+
+            return area;
+        }
+
         public static double triangle_area(double[] vert1, double[] vert2, double[] vert3)
 
             //****************************************************************************80

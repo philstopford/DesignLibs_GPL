@@ -279,6 +279,48 @@ namespace Burkardt.Types
             return value;
         }
 
+        public static double r8vec_angle_3d ( double[] u, double[] v )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8VEC_ANGLE_3D computes the angle between two vectors in 3D.
+        //
+        //  Modified:
+        //
+        //    07 July 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double U[3], V[3], the vectors.
+        //
+        //    Output, double ANGLE, the angle between the two vectors.
+        //
+        {
+            double angle;
+            double angle_cos;
+            double u_norm;
+            double uv_dot;
+            double v_norm;
+
+            uv_dot = r8vec_dot ( 3, u, v );
+
+            u_norm = Math.Sqrt ( r8vec_dot ( 3, u, u ) );
+
+            v_norm = Math.Sqrt ( r8vec_dot ( 3, v, v ) );
+
+            angle_cos = uv_dot / u_norm / v_norm;
+
+            angle = r8_acos ( angle_cos );
+
+            return angle;
+        }
+        
         public static bool r8vec_any_negative ( int n, double[] a )
 
             //****************************************************************************80
@@ -439,6 +481,44 @@ namespace Burkardt.Types
             return isgn;
         }
 
+        public static double[] r8vec_cross_3d ( double[] v1, double[] v2 )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8VEC_CROSS_3D computes the cross product of two R8VEC's in 3D.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    07 August 2005
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double V1[3], V2[3], the coordinates of the vectors.
+        //
+        //    Output, double R8VEC_CROSS_3D[3], the cross product vector.
+        //
+        {
+            double[] v3;
+
+            v3 = new double[3];
+
+            v3[0] = v1[1] * v2[2] - v1[2] * v2[1];
+            v3[1] = v1[2] * v2[0] - v1[0] * v2[2];
+            v3[2] = v1[0] * v2[1] - v1[1] * v2[0];
+
+            return v3;
+        }
+        
         public static double r8vec_distance(int dim_num, double[] v1, double[] v2)
 
             //****************************************************************************80

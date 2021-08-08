@@ -6,6 +6,48 @@ namespace Burkardt
 {
     public static partial class Helpers
     {
+        public static double exact ( double x, double y )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    EXACT calculates the exact solution and its first derivatives.
+            //
+            //  Discussion:
+            //
+            //    The function specified here depends on the problem being
+            //    solved.  The user must be sure to change both EXACT and RHS
+            //    or the program will have inconsistent data.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 December 2008
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double X, Y, the coordinates of a point
+            //    in the region, at which the exact solution is to be evaluated.
+            //
+            //    Output, double EXACT, the value of the exact solution.
+            //
+        {
+            double r8_pi = 3.141592653589793;
+            double u;
+
+            u = Math.Sin ( r8_pi * x ) * Math.Sin ( r8_pi * y ) + x;
+       
+            return u;
+        }
+        
         public static void mult_givens ( double c, double s, int k, ref double[] g )
 
             //****************************************************************************80

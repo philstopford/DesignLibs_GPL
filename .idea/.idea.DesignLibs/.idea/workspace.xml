@@ -360,6 +360,7 @@
     <projectFile>BurkhardtTest/Quadrature/PowerRuleTest/PowerRuleTest.csproj</projectFile>
     <projectFile>BurkhardtTest/OrdinaryDifferentialEquation/PredatorPreyTest/PredatorPreyTest.csproj</projectFile>
     <projectFile>BurkhardtTest/FEM/FEM2DProjectTest/FEM2DProjectTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/FEM/FEM2DProjectFunctionTest/FEM2DProjectFunctionTest.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -2741,6 +2742,24 @@
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
       <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/FEM/FEM2DPackTest/FEM2DPackTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="FEM2DProjectFunctionTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/FEM/FEM2DProjectFunctionTest/FEM2DProjectFunctionTest.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
@@ -7324,6 +7343,7 @@
       <item itemvalue=".NET Project.PowerRuleTest" />
       <item itemvalue=".NET Project.PredatorPreyTest" />
       <item itemvalue=".NET Project.FEM2DProjectTest" />
+      <item itemvalue=".NET Project.FEM2DProjectFunctionTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.CDFLib;
 using Burkardt.Uniform;
 
 namespace Burkardt.Probability
@@ -115,11 +116,11 @@ namespace Burkardt.Probability
             //
             if (0.0 <= a)
             {
-                x1 = Normal.normal_cdf_inv(cdf, a, b);
+                x1 = CDF.normal_cdf_inv(cdf, a, b);
             }
             else
             {
-                x1 = Normal.normal_cdf_inv(cdf, -a, b);
+                x1 = CDF.normal_cdf_inv(cdf, -a, b);
             }
 
             x1 = Math.Max(x1, 0.0);
@@ -129,8 +130,8 @@ namespace Burkardt.Probability
             //
             double cdf2 = (1.0 - cdf) / 2.0;
 
-            double xa = Normal.normal_cdf_inv(cdf2, a, b);
-            double xb = Normal.normal_cdf_inv(cdf2, -a, b);
+            double xa = CDF.normal_cdf_inv(cdf2, a, b);
+            double xb = CDF.normal_cdf_inv(cdf2, -a, b);
             double x2 = Math.Max(Math.Abs(xa), Math.Abs(xb));
             cdf2 = folded_normal_cdf(x2, a, b);
             //

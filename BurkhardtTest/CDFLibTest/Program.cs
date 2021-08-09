@@ -1983,7 +1983,7 @@ namespace CDFLibTest
 
             for (;;)
             {
-                CDF.normal_cdf_values(ref n_data, ref x, ref cdf_lookup);
+                TestValues.Normal.normal_cdf_values(ref n_data, ref x, ref cdf_lookup);
 
                 if (n_data == 0)
                 {
@@ -2007,7 +2007,7 @@ namespace CDFLibTest
 
             for (;;)
             {
-                CDF.normal_cdf_values(ref n_data, ref x, ref cdf_lookup);
+                TestValues.Normal.normal_cdf_values(ref n_data, ref x, ref cdf_lookup);
 
                 if (n_data == 0)
                 {

@@ -1,6 +1,7 @@
 ﻿using System;
 using Burkardt.Types;
 using Burkardt.Uniform;
+using Microsoft.VisualBasic;
 
 namespace Burkardt.Probability
 {
@@ -263,125 +264,6 @@ namespace Burkardt.Probability
             return value;
         }
 
-        public static void normal_01_cdf_values(ref int n_data, ref double x, ref double fx )
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    NORMAL_01_CDF_VALUES returns some values of the Normal 01 CDF.
-        //
-        //  Discussion:
-        //
-        //    In Mathematica, the function can be evaluated by:
-        //
-        //      Needs["Statistics`ContinuousDistributions`"]
-        //      dist = NormalDistribution [ 0, 1 ]
-        //      CDF [ dist, x ]
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    28 August 2004
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Reference:
-        //
-        //    Milton Abramowitz, Irene Stegun,
-        //    Handbook of Mathematical Functions,
-        //    National Bureau of Standards, 1964,
-        //    ISBN: 0-486-61272-4,
-        //    LC: QA47.A34.
-        //
-        //    Stephen Wolfram,
-        //    The Mathematica Book,
-        //    Fourth Edition,
-        //    Cambridge University Press, 1999,
-        //    ISBN: 0-521-64314-7,
-        //    LC: QA76.95.W65.
-        //
-        //  Parameters:
-        //
-        //    Input/output, int &N_DATA.  The user sets N_DATA to 0 before the
-        //    first call.  On each call, the routine increments N_DATA by 1, and
-        //    returns the corresponding data; when there is no more data, the
-        //    output value of N_DATA will be 0 again.
-        //
-        //    Output, double &X, the argument of the function.
-        //
-        //    Output, double &FX, the value of the function.
-        //
-        {
-            int N_MAX = 17;
-
-            double[] fx_vec =
-            {
-                0.5000000000000000E+00,
-                0.5398278372770290E+00,
-                0.5792597094391030E+00,
-                0.6179114221889526E+00,
-                0.6554217416103242E+00,
-                0.6914624612740131E+00,
-                0.7257468822499270E+00,
-                0.7580363477769270E+00,
-                0.7881446014166033E+00,
-                0.8159398746532405E+00,
-                0.8413447460685429E+00,
-                0.9331927987311419E+00,
-                0.9772498680518208E+00,
-                0.9937903346742239E+00,
-                0.9986501019683699E+00,
-                0.9997673709209645E+00,
-                0.9999683287581669E+00
-            }
-            ;
-
-            double[] x_vec =
-            {
-                0.0000000000000000E+00,
-                0.1000000000000000E+00,
-                0.2000000000000000E+00,
-                0.3000000000000000E+00,
-                0.4000000000000000E+00,
-                0.5000000000000000E+00,
-                0.6000000000000000E+00,
-                0.7000000000000000E+00,
-                0.8000000000000000E+00,
-                0.9000000000000000E+00,
-                0.1000000000000000E+01,
-                0.1500000000000000E+01,
-                0.2000000000000000E+01,
-                0.2500000000000000E+01,
-                0.3000000000000000E+01,
-                0.3500000000000000E+01,
-                0.4000000000000000E+01
-            }
-            ;
-
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
-
-            n_data = n_data + 1;
-
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                x = 0.0;
-                fx = 0.0;
-            }
-            else
-            {
-                x = x_vec[n_data - 1];
-                fx = fx_vec[n_data - 1];
-            }
-        }
 
         public static double normal_01_mean()
         //****************************************************************************80
@@ -410,6 +292,48 @@ namespace Burkardt.Probability
             double mean = 0.0;
 
             return mean;
+        }
+        
+        public static double normal_01_moment ( int order )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    NORMAL_01_MOMENT evaluates moments of the Normal 01 PDF.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    31 August 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int ORDER, the order of the moment.
+            //    0 <= ORDER.
+            //
+            //    Output, double NORMAL_01_MOMENT, the value of the moment.
+            //
+        {
+            double value;
+
+            if ( ( order % 2 ) == 0 )
+            {
+                value = typeMethods.r8_factorial2 ( order - 1 );
+            }
+            else
+            {
+                value = 0.0;
+            }
+
+            return value;
         }
 
         public static double normal_01_pdf(double x)
@@ -689,240 +613,489 @@ namespace Burkardt.Probability
             return x;
         }
 
-        public static double normal_cdf(double x, double mu, double sigma)
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    NORMAL_CDF evaluates the Normal CDF.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    19 September 2004
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, double X, the argument of the CDF.
-        //
-        //    Input, double MU, SIGMA, the mean and standard deviation.
-        //    SIGMA should not be zero.
-        //
-        //    Output, double CDF, the value of the CDF.
-        //
+        public static double normal_ms_mean(double mu, double sigma)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    NORMAL_MS_MEAN returns the mean of the Normal PDF.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    19 September 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double MU, SIGMA, the parameters of the PDF.
+            //    0.0 < SIGMA.
+            //
+            //    Output, double NORMAL_MS_MEAN, the mean of the PDF.
+            //
         {
-            double y = (x - mu) / sigma;
+            double mean;
 
-            double cdf = normal_01_cdf(y);
+            mean = mu;
 
-            return cdf;
+            return mean;
         }
 
-        public static double normal_cdf_inv(double cdf, double mu, double sigma)
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    NORMAL_CDF_INV inverts the Normal CDF.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    19 September 2004
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Reference:
-        //
-        //    Algorithm AS 111,
-        //    Applied Statistics,
-        //    Volume 26, pages 118-121, 1977.
-        //
-        //  Parameters:
-        //
-        //    Input, double CDF, the value of the CDF.
-        //    0.0 <= CDF <= 1.0.
-        //
-        //    Input, double MU, SIGMA, the mean and standard deviation.
-        //    SIGMA should not be zero.
-        //
-        //    Output, double NORMAL_CDF_INV, the corresponding argument.
-        //
+        public static double normal_ms_moment(int order, double mu, double sigma)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    NORMAL_MS_MOMENT evaluates moments of the Normal PDF.
+            //
+            //  Discussion:
+            //
+            //    The formula was posted by John D Cook.
+            //
+            //    Order  Moment
+            //    -----  ------
+            //      0    1
+            //      1    mu
+            //      2    mu^2 +         sigma^2
+            //      3    mu^3 +  3 mu   sigma^2
+            //      4    mu^4 +  6 mu^2 sigma^2 +   3      sigma^4
+            //      5    mu^5 + 10 mu^3 sigma^2 +  15 mu   sigma^4
+            //      6    mu^6 + 15 mu^4 sigma^2 +  45 mu^2 sigma^4 +  15      sigma^6
+            //      7    mu^7 + 21 mu^5 sigma^2 + 105 mu^3 sigma^4 + 105 mu   sigma^6
+            //      8    mu^8 + 28 mu^6 sigma^2 + 210 mu^4 sigma^4 + 420 mu^2 sigma^6 
+            //           + 105 sigma^8
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    31 August 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int ORDER, the order of the moment.
+            //    0 <= ORDER.
+            //
+            //    Input, double MU, the mean of the distribution.
+            //
+            //    Input, double SIGMA, the standard deviation of the distribution.
+            //
+            //    Output, double NORMAL_MS_MOMENT, the value of the central moment.
+            //
         {
-            if (cdf < 0.0 || 1.0 < cdf)
+            int j;
+            int j_hi;
+            double value;
+
+            j_hi = (order / 2);
+
+            value = 0.0;
+            for (j = 0; j <= j_hi; j++)
             {
-                Console.WriteLine("");
-                Console.WriteLine("NORMAL_CDF_INV - Fatal error!");
-                Console.WriteLine("  CDF < 0 or 1 < CDF.");
-                return 1.0;
+                value = value
+                        + typeMethods.r8_choose(order, 2 * j)
+                        * typeMethods.r8_factorial2(2 * j - 1)
+                        * Math.Pow(mu, order - 2 * j) * Math.Pow(sigma, 2 * j);
             }
 
-            double x2 = normal_01_cdf_inv(cdf);
+            return value;
+        }
 
-            double x = mu + sigma * x2;
+        public static double normal_ms_moment_central(int order, double mu, double sigma)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    NORMAL_MS_MOMENT_CENTRAL evaluates central moments of the Normal PDF.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    31 August 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int ORDER, the order of the moment.
+            //    0 <= ORDER.
+            //
+            //    Input, double MU, the mean of the distribution.
+            //
+            //    Input, double SIGMA, the standard deviation of the distribution.
+            //
+            //    Output, double NORMAL_MS_MOMENT_CENTRAL, the value of the central moment.
+            //
+        {
+            double value;
+
+            if ((order % 2) == 0)
+            {
+                value = typeMethods.r8_factorial2(order - 1) * Math.Pow(sigma, order);
+            }
+            else
+            {
+                value = 0.0;
+            }
+
+            return value;
+        }
+
+        public static double normal_ms_moment_central_values(int order, double mu, double sigma)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    NORMAL_MS_MOMENT_CENTRAL_VALUES: moments 0 through 10 of the Normal PDF.
+            //
+            //  Discussion:
+            //
+            //    The formula was posted by John D Cook.
+            //
+            //    Order  Moment
+            //    -----  ------
+            //      0    1
+            //      1    0
+            //      2    sigma^2
+            //      3    0
+            //      4    3 sigma^4
+            //      5    0
+            //      6    15 sigma^6
+            //      7    0
+            //      8    105 sigma^8
+            //      9    0
+            //     10    945 sigma^10
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    31 August 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int ORDER, the order of the moment.
+            //    0 <= ORDER <= 10.
+            //
+            //    Input, double MU, the mean of the distribution.
+            //
+            //    Input, double SIGMA, the standard deviation of the distribution.
+            //
+            //    Output, double NORMAL_MS_MOMENT_CENTRAL_VALUES, the value of the 
+            //    central moment.
+            //
+        {
+            double value;
+
+            if (order == 0)
+            {
+                value = 1.0;
+            }
+            else if (order == 1)
+            {
+                value = 0.0;
+            }
+            else if (order == 2)
+            {
+                value = Math.Pow(sigma, 2);
+            }
+            else if (order == 3)
+            {
+                value = 0.0;
+            }
+            else if (order == 4)
+            {
+                value = 3.0 * Math.Pow(sigma, 4);
+            }
+            else if (order == 5)
+            {
+                value = 0.0;
+            }
+            else if (order == 6)
+            {
+                value = 15.0 * Math.Pow(sigma, 6);
+            }
+            else if (order == 7)
+            {
+                value = 0.0;
+            }
+            else if (order == 8)
+            {
+                value = 105.0 * Math.Pow(sigma, 8);
+            }
+            else if (order == 9)
+            {
+                value = 0.0;
+            }
+            else if (order == 10)
+            {
+                value = 945.0 * Math.Pow(sigma, 10);
+            }
+            else
+            {
+                Console.WriteLine("");
+                Console.WriteLine("NORMAL_MS_MOMENT_CENTRAL_VALUES - Fatal error!");
+                Console.WriteLine("  Only ORDERS 0 through 10 are available.");
+                return (1);
+            }
+
+            return value;
+        }
+
+        public static double normal_ms_moment_values(int order, double mu, double sigma)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    NORMAL_MS_MOMENT_VALUES evaluates moments 0 through 8 of the Normal PDF.
+            //
+            //  Discussion:
+            //
+            //    The formula was posted by John D Cook.
+            //
+            //    Order  Moment
+            //    -----  ------
+            //      0    1
+            //      1    mu
+            //      2    mu^2 +         sigma^2
+            //      3    mu^3 +  3 mu   sigma^2
+            //      4    mu^4 +  6 mu^2 sigma^2 +   3      sigma^4
+            //      5    mu^5 + 10 mu^3 sigma^2 +  15 mu   sigma^4
+            //      6    mu^6 + 15 mu^4 sigma^2 +  45 mu^2 sigma^4 +  15      sigma^6
+            //      7    mu^7 + 21 mu^5 sigma^2 + 105 mu^3 sigma^4 + 105 mu   sigma^6
+            //      8    mu^8 + 28 mu^6 sigma^2 + 210 mu^4 sigma^4 + 420 mu^2 sigma^6 
+            //           + 105 sigma^8
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    31 August 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int ORDER, the order of the moment.
+            //    0 <= ORDER <= 8.
+            //
+            //    Input, double MU, the mean of the distribution.
+            //
+            //    Input, double SIGMA, the standard deviation of the distribution.
+            //
+            //    Output, double NORMAL_MS_MOMENT_VALUES, the value of the central moment.
+            //
+        {
+            double value;
+
+            if (order == 0)
+            {
+                value = 1.0;
+            }
+            else if (order == 1)
+            {
+                value = mu;
+            }
+            else if (order == 2)
+            {
+                value = Math.Pow(mu, 2) + Math.Pow(sigma, 2);
+            }
+            else if (order == 3)
+            {
+                value = Math.Pow(mu, 3) + 3.0 * mu * Math.Pow(sigma, 2);
+            }
+            else if (order == 4)
+            {
+                value = Math.Pow(mu, 4) + 6.0 * Math.Pow(mu, 2) * Math.Pow(sigma, 2)
+                                   + 3.0 * Math.Pow(sigma, 4);
+            }
+            else if (order == 5)
+            {
+                value = Math.Pow(mu, 5) + 10.0 * Math.Pow(mu, 3) * Math.Pow(sigma, 2)
+                                   + 15.0 * mu * Math.Pow(sigma, 4);
+            }
+            else if (order == 6)
+            {
+                value = Math.Pow(mu, 6) + 15.0 * Math.Pow(mu, 4) * Math.Pow(sigma, 2)
+                                   + 45.0 * Math.Pow(mu, 2) * Math.Pow(sigma, 4)
+                                   + 15.0 * Math.Pow(sigma, 6);
+            }
+            else if (order == 7)
+            {
+                value = Math.Pow(mu, 7) + 21.0 * Math.Pow(mu, 5) * Math.Pow(sigma, 2)
+                                   + 105.0 * Math.Pow(mu, 3) * Math.Pow(sigma, 4)
+                                   + 105.0 * mu * Math.Pow(sigma, 6);
+            }
+            else if (order == 8)
+            {
+                value = Math.Pow(mu, 8) + 28.0 * Math.Pow(mu, 6) * Math.Pow(sigma, 2)
+                                   + 210.0 * Math.Pow(mu, 4) * Math.Pow(sigma, 4)
+                                   + 420.0 * Math.Pow(mu, 2) * Math.Pow(sigma, 6) + 105.0 * Math.Pow(sigma, 8);
+            }
+            else
+            {
+                Console.WriteLine("");
+                Console.WriteLine("NORMAL_MS_MOMENT_VALUES - Fatal error!");
+                Console.WriteLine("  Only ORDERS 0 through 8 are available.");
+                return (1);
+            }
+
+            return value;
+        }
+
+        public static double normal_ms_pdf(double x, double mu, double sigma)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    NORMAL_MS_PDF evaluates the Normal PDF.
+            //
+            //  Discussion:
+            //
+            //    PDF(MU,SIGMA;X)
+            //      = exp ( - 0.5 * ( ( X - MU ) / SIGMA )^2 )
+            //      / ( SIGMA * SQRT ( 2 * PI ) )
+            //
+            //    The normal PDF is also known as the Gaussian PDF.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    19 September 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the argument of the PDF.
+            //
+            //    Input, double MU, SIGMA, the parameters of the PDF.
+            //    0.0 < SIGMA.
+            //
+            //    Output, double NORMAL_MS_PDF, the value of the PDF.
+            //
+        {
+            double pdf;
+            const double r8_pi = 3.14159265358979323;
+            double y;
+
+            y = (x - mu) / sigma;
+
+            pdf = Math.Exp(-0.5 * y * y) / (sigma * Math.Sqrt(2.0 * r8_pi));
+
+            return pdf;
+        }
+
+        public static double normal_ms_sample(double mu, double sigma, ref int seed)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    NORMAL_MS_SAMPLE samples the Normal PDF.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    20 November 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double MU, SIGMA, the parameters of the PDF.
+            //    0.0 < SIGMA.
+            //
+            //    Input/output, int &SEED, a seed for the random number generator.
+            //
+            //    Output, double NORMAL_MS_SAMPLE, a sample of the PDF.
+            //
+        {
+            double x;
+
+            x = normal_01_sample(ref seed);
+
+            x = mu + sigma * x;
 
             return x;
         }
 
-        public static void normal_cdf_values(ref int n_data, ref double mu, ref double sigma, ref double x,
-            ref double fx )
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    NORMAL_CDF_VALUES returns some values of the Normal CDF.
-        //
-        //  Discussion:
-        //
-        //    In Mathematica, the function can be evaluated by:
-        //
-        //      Needs["Statistics`ContinuousDistributions`"]
-        //      dist = NormalDistribution [ mu, sigma ]
-        //      CDF [ dist, x ]
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    05 August 2004
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Reference:
-        //
-        //    Milton Abramowitz, Irene Stegun,
-        //    Handbook of Mathematical Functions,
-        //    National Bureau of Standards, 1964,
-        //    ISBN: 0-486-61272-4,
-        //    LC: QA47.A34.
-        //
-        //    Stephen Wolfram,
-        //    The Mathematica Book,
-        //    Fourth Edition,
-        //    Cambridge University Press, 1999,
-        //    ISBN: 0-521-64314-7,
-        //    LC: QA76.95.W65.
-        //
-        //  Parameters:
-        //
-        //    Input/output, int &N_DATA.  The user sets N_DATA to 0 before the
-        //    first call.  On each call, the routine increments N_DATA by 1, and
-        //    returns the corresponding data; when there is no more data, the
-        //    output value of N_DATA will be 0 again.
-        //
-        //    Output, double &MU, the mean of the distribution.
-        //
-        //    Output, double &SIGMA, the variance of the distribution.
-        //
-        //    Output, double &X, the argument of the function.
-        //
-        //    Output, double &FX, the value of the function.
-        //
+        public static double normal_ms_variance(double mu, double sigma)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    NORMAL_MS_VARIANCE returns the variance of the Normal PDF.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    19 September 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double MU, SIGMA, the parameters of the PDF.
+            //    0.0 < SIGMA.
+            //
+            //    Output, double NORMAL_MS_VARIANCE, the variance of the PDF.
+            //
         {
-            int N_MAX = 12;
+            double variance;
 
-            double[] fx_vec =
-            {
-                0.5000000000000000E+00,
-                0.9772498680518208E+00,
-                0.9999683287581669E+00,
-                0.9999999990134124E+00,
-                0.6914624612740131E+00,
-                0.6305586598182364E+00,
-                0.5987063256829237E+00,
-                0.5792597094391030E+00,
-                0.6914624612740131E+00,
-                0.5000000000000000E+00,
-                0.3085375387259869E+00,
-                0.1586552539314571E+00
-            };
+            variance = sigma * sigma;
 
-            double[] mu_vec =
-            {
-                0.1000000000000000E+01,
-                0.1000000000000000E+01,
-                0.1000000000000000E+01,
-                0.1000000000000000E+01,
-                0.1000000000000000E+01,
-                0.1000000000000000E+01,
-                0.1000000000000000E+01,
-                0.1000000000000000E+01,
-                0.2000000000000000E+01,
-                0.3000000000000000E+01,
-                0.4000000000000000E+01,
-                0.5000000000000000E+01
-            };
-
-            double[] sigma_vec =
-            {
-                0.5000000000000000E+00,
-                0.5000000000000000E+00,
-                0.5000000000000000E+00,
-                0.5000000000000000E+00,
-                0.2000000000000000E+01,
-                0.3000000000000000E+01,
-                0.4000000000000000E+01,
-                0.5000000000000000E+01,
-                0.2000000000000000E+01,
-                0.2000000000000000E+01,
-                0.2000000000000000E+01,
-                0.2000000000000000E+01
-            };
-
-            double[] x_vec =
-            {
-                0.1000000000000000E+01,
-                0.2000000000000000E+01,
-                0.3000000000000000E+01,
-                0.4000000000000000E+01,
-                0.2000000000000000E+01,
-                0.2000000000000000E+01,
-                0.2000000000000000E+01,
-                0.2000000000000000E+01,
-                0.3000000000000000E+01,
-                0.3000000000000000E+01,
-                0.3000000000000000E+01,
-                0.3000000000000000E+01
-            };
-
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
-
-            n_data = n_data + 1;
-
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                mu = 0.0;
-                sigma = 0.0;
-                x = 0.0;
-                fx = 0.0;
-            }
-            else
-            {
-                mu = mu_vec[n_data - 1];
-                sigma = sigma_vec[n_data - 1];
-                x = x_vec[n_data - 1];
-                fx = fx_vec[n_data - 1];
-            }
+            return variance;
         }
 
         public static bool normal_check(double mu, double sigma)
@@ -1488,100 +1661,6 @@ namespace Burkardt.Probability
             return variance;
         }
 
-        public static double normal_truncated_a_cdf(double x, double mu, double s, double a)
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    NORMAL_TRUNCATED_A_CDF evaluates the lower truncated Normal CDF.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    21 August 2013
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, double X, the argument of the CDF.
-        //
-        //    Input, double MU, S, the mean and standard deviation of the
-        //    parent Normal distribution.
-        //
-        //    Input, double A, the lower truncation limit.
-        //
-        //    Output, double NORMAL_TRUNCATED_A_CDF, the value of the CDF.
-        //
-        {
-            double alpha = (a - mu) / s;
-            double xi = (x - mu) / s;
-
-            double alpha_cdf = normal_01_cdf(alpha);
-            double xi_cdf = normal_01_cdf(xi);
-
-            double cdf = (xi_cdf - alpha_cdf) / (1.0 - alpha_cdf);
-
-            return cdf;
-        }
-
-        public static double normal_truncated_a_cdf_inv(double cdf, double mu, double s, double a)
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    NORMAL_TRUNCATED_A_CDF_INV inverts the lower truncated Normal CDF.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    21 August 2013
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, double CDF, the value of the CDF.
-        //    0.0 <= CDF <= 1.0.
-        //
-        //    Input, double MU, S, the mean and standard deviation of the
-        //    parent Normal distribution.
-        //
-        //    Input, double A, the lower truncation limit.
-        //
-        //    Output, double NORMAL_TRUNCATED_A_CDF_INV, the corresponding argument.
-        //
-        {
-            if (cdf < 0.0 || 1.0 < cdf)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("NORMAL_TRUNCATED_A_CDF_INV - Fatal error!");
-                Console.WriteLine("  CDF < 0 or 1 < CDF.");
-                return 1.0;
-            }
-
-            double alpha = (a - mu) / s;
-
-            double alpha_cdf = normal_01_cdf(alpha);
-
-            double xi_cdf = (1.0 - alpha_cdf) * cdf + alpha_cdf;
-            double xi = normal_01_cdf_inv(xi_cdf);
-
-            double x = mu + s * xi;
-
-            return x;
-        }
-
         public static double normal_truncated_a_mean(double mu, double s, double a)
         //****************************************************************************80
         //
@@ -1622,7 +1701,192 @@ namespace Burkardt.Probability
             return mean;
         }
 
-        public static double normal_truncated_a_pdf(double x, double mu, double s, double a)
+        public static double normal_truncated_ab_moment(int order, double mu, double sigma,
+                double a, double b)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TRUNCATED_NORMAL_AB_MOMENT: moments of the truncated Normal PDF.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    11 September 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Phoebus Dhrymes,
+            //    Moments of Truncated Normal Distributions,
+            //    May 2005.
+            //
+            //  Parameters:
+            //
+            //    Input, int ORDER, the order of the moment.
+            //    0 <= ORDER.
+            //
+            //    Input, double MU, SIGMA, the mean and standard deviation of the
+            //    parent Normal distribution.
+            //    0.0 < S.
+            //
+            //    Input, double A, B, the lower and upper truncation limits.
+            //    A < B.
+            //
+            //    Output, double TRUNCATED_NORMAL_AB_MOMENT, the moment of the PDF.
+            //
+        {
+            double a_cdf;
+            double a_h;
+            double a_pdf;
+            double b_cdf;
+            double b_h;
+            double b_pdf;
+            double ir;
+            double irm1;
+            double irm2;
+            double moment;
+            int r;
+
+            if (order < 0)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("TRUNCATED_NORMAL_AB_MOMENT - Fatal error!");
+                Console.WriteLine("  ORDER < 0.");
+                return(1);
+            }
+
+            if (sigma <= 0.0)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("TRUNCATED_NORMAL_AB_MOMENT - Fatal error!");
+                Console.WriteLine("  SIGMA <= 0.0.");
+                return(1);
+            }
+
+            if (b <= a)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("TRUNCATED_NORMAL_AB_MOMENT - Fatal error!");
+                Console.WriteLine("  B <= A.");
+                return(1);
+            }
+
+            a_h = (a - mu) / sigma;
+            a_pdf = normal_01_pdf(a_h);
+            a_cdf = normal_01_cdf(a_h);
+
+            if (a_cdf == 0.0)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("TRUNCATED_NORMAL_AB_MOMENT - Fatal error!");
+                Console.WriteLine("  PDF/CDF ratio fails, because A_CDF too small.");
+                Console.WriteLine("  A_PDF = " + a_pdf + "");
+                Console.WriteLine("  A_CDF = " + a_cdf + "");
+                return (1);
+            }
+
+            b_h = (b - mu) / sigma;
+            b_pdf = normal_01_pdf(b_h);
+            b_cdf = normal_01_cdf(b_h);
+
+            if (b_cdf == 0.0)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("TRUNCATED_NORMAL_AB_MOMENT - Fatal error!");
+                Console.WriteLine("  PDF/CDF ratio fails, because B_CDF too small.");
+                Console.WriteLine("  B_PDF = " + b_pdf + "");
+                Console.WriteLine("  B_CDF = " + b_cdf + "");
+                return(1);
+            }
+
+            moment = 0.0;
+            irm2 = 0.0;
+            irm1 = 0.0;
+
+            for (r = 0; r <= order; r++)
+            {
+                if (r == 0)
+                {
+                    ir = 1.0;
+                }
+                else if (r == 1)
+                {
+                    ir = -(b_pdf - a_pdf) / (b_cdf - a_cdf);
+                }
+                else
+                {
+                    ir = (double)(r - 1) * irm2
+                         - (Math.Pow(b_h, r - 1) * b_pdf - Math.Pow(a_h, r - 1) * a_pdf)
+                         / (b_cdf - a_cdf);
+                }
+
+                moment = moment + typeMethods.r8_choose(order, r) * Math.Pow(mu, order - r)
+                                                      * Math.Pow(sigma, r) * ir;
+
+                irm2 = irm1;
+                irm1 = ir;
+            }
+
+            return moment;
+        }
+        
+        public static double normal_truncated_a_moment ( int order, double mu, double sigma, 
+                double a )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TRUNCATED_NORMAL_A_MOMENT: moments of the lower truncated Normal PDF.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    11 September 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Phoebus Dhrymes,
+            //    Moments of Truncated Normal Distributions,
+            //    May 2005.
+            //
+            //  Parameters:
+            //
+            //    Input, int ORDER, the order of the moment.
+            //    0 <= ORDER.
+            //
+            //    Input, double MU, SIGMA, the mean and standard deviation of the
+            //    parent Normal distribution.
+            //
+            //    Input, double A, the lower truncation limit.
+            //
+            //    Output, double TRUNCATED_NORMAL_A_MOMENT, the moment of the PDF.
+            //
+        {
+            double moment;
+
+            moment = typeMethods.r8_mop ( order )
+                     * truncated_normal_b_moment ( order, - mu, sigma, - a );
+
+            return moment;
+        }
+
+        public static double normamomnormal_truncated_a_pdf(double x, double mu, double s, double a)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1664,6 +1928,61 @@ namespace Burkardt.Probability
             return pdf;
         }
 
+        public static double normal_truncated_a_pdf ( double x, double mu, double sigma, double a )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TRUNCATED_NORMAL_A_PDF evaluates the lower truncated Normal PDF.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    24 January 2017
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the argument of the PDF.
+            //
+            //    Input, double MU, SIGMA, the mean and standard deviation of the
+            //    parent Normal distribution.
+            //
+            //    Input, double A, the lower truncation limit.
+            //
+            //    Output, double TRUNCATED_NORMAL_A_PDF, the value of the PDF.
+            //
+        {
+            double alpha;
+            double alpha_cdf;
+            double pdf;
+            double xi;
+            double xi_pdf;
+
+            if ( x < a )
+            {
+                pdf = 0.0;
+            }
+            else
+            {
+                alpha = ( a - mu ) / sigma;
+                xi = ( x - mu ) / sigma;
+
+                alpha_cdf = normal_01_cdf ( alpha );
+                xi_pdf = normal_01_pdf ( xi );
+
+                pdf = xi_pdf / ( 1.0 - alpha_cdf ) / sigma;
+            }
+  
+            return pdf;
+        }
         public static double normal_truncated_a_sample(double mu, double s, double a, ref int seed)
         //****************************************************************************80
         //
@@ -1892,6 +2211,106 @@ namespace Burkardt.Probability
             return mean;
         }
 
+        public static double normal_truncated_b_moment ( int order, double mu, double sigma, double b )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TRUNCATED_NORMAL_B_MOMENT: moments of the upper truncated Normal PDF.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    11 September 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Phoebus Dhrymes,
+            //    Moments of Truncated Normal Distributions,
+            //    May 2005.
+            //
+            //  Parameters:
+            //
+            //    Input, int ORDER, the order of the moment.
+            //    0 <= ORDER.
+            //
+            //    Input, double MU, SIGMA, the mean and standard deviation of the
+            //    parent Normal distribution.
+            //
+            //    Input, double B, the upper truncation limit.
+            //
+            //    Output, double TRUNCATED_NORMAL_B_MOMENT, the moment of the PDF.
+            //
+        {
+            double f;
+            double h;
+            double h_cdf;
+            double h_pdf;
+            double ir;
+            double irm1;
+            double irm2;
+            double moment;
+            int r;
+
+            if ( order < 0 )
+            {
+                Console.WriteLine("");
+                Console.WriteLine("TRUNCATED_NORMAL_B_MOMENT - Fatal error!");
+                Console.WriteLine("  ORDER < 0.");
+                return ( 1 );
+            }
+
+            h = ( b - mu ) / sigma;
+            h_pdf = normal_01_pdf ( h );
+            h_cdf = normal_01_cdf ( h );
+
+            if ( h_cdf == 0.0 )
+            {
+                Console.WriteLine("");
+                Console.WriteLine("TRUNCATED_NORMAL_B_MOMENT - Fatal error!");
+                Console.WriteLine("  CDF((B-MU)/SIGMA) = 0.");
+                return ( 1 );
+            }
+
+            f = h_pdf / h_cdf;
+
+            moment = 0.0;
+            irm2 = 0.0;
+            irm1 = 0.0;
+
+            for ( r = 0; r <= order; r++ )
+            {
+                if ( r == 0 )
+                {
+                    ir = 1.0;
+                }
+                else if ( r == 1 )
+                {
+                    ir = - f;
+                }
+                else
+                {
+                    ir = - Math.Pow ( h, r - 1 ) * f + ( double ) ( r - 1 ) * irm2;
+                }
+
+                moment = moment + typeMethods.r8_choose ( order, r ) * Math.Pow ( mu, order - r ) 
+                                                         * Math.Pow ( sigma, r ) * ir;
+
+                irm2 = irm1;
+                irm1 = ir;
+            }
+
+            return moment;
+        }
+        
         public static double normal_truncated_b_pdf(double x, double mu, double s, double b)
         //****************************************************************************80
         //
@@ -2020,5 +2439,88 @@ namespace Burkardt.Probability
 
             return variance;
         }
+
+        public static double truncated_normal_a_mean(double mu, double sigma, double a)
+        {
+            return normal_truncated_a_mean(mu, sigma, a);
+        }
+
+        public static double truncated_normal_a_moment(int order, double mu, double sigma,
+            double a)
+        {
+            return normal_truncated_a_moment(order, mu, sigma, a);
+        }
+        
+        public static double truncated_normal_ab_mean(double mu, double sigma, double a, double b)
+        {
+            return normal_truncated_ab_mean(mu, sigma, a, b);
+        }
+
+        public static double truncated_normal_ab_moment(int order, double mu, double sigma,
+            double a, double b)
+        {
+            return normal_truncated_ab_moment(order, mu, sigma, a, b);
+        }
+
+        public static double truncated_normal_ab_pdf(double x, double mu, double sigma, double a,
+            double b)
+        {
+            return normal_truncated_ab_pdf(x, mu, sigma, a, b);
+        }
+
+        public static double truncated_normal_ab_sample(double mu, double sigma, double a, double b,
+            ref int seed)
+        {
+            return normal_truncated_ab_sample(mu, sigma, a, b, ref seed);
+        }
+
+        public static double truncated_normal_ab_variance(double mu, double sigma, double a,
+            double b)
+        {
+            return normal_truncated_ab_variance(mu, sigma, a, b);
+        }
+
+        public static double truncated_normal_a_pdf(double x, double mu, double sigma, double a)
+        {
+            return normal_truncated_a_pdf(x, mu, sigma, a);
+        }
+
+        public static double truncated_normal_a_sample(double mu, double sigma, double a,
+            ref int seed)
+        {
+            return normal_truncated_a_sample(mu, sigma, a, ref seed);
+        }
+
+        public static double truncated_normal_a_variance(double mu, double sigma, double a)
+        {
+            return normal_truncated_a_variance(mu, sigma, a);
+        }
+
+        public static double truncated_normal_b_mean(double mu, double sigma, double b)
+        {
+            return normal_truncated_b_mean(mu, sigma, b);
+        }
+
+        public static double truncated_normal_b_moment(int order, double mu, double sigma, double b)
+        {
+            return normal_truncated_b_moment(order, mu, sigma, b);
+        }
+        
+        public static double truncated_normal_b_pdf(double x, double mu, double sigma, double b)
+        {
+            return normal_truncated_b_pdf(x, mu, sigma, b);
+        }
+        
+        public static double truncated_normal_b_sample(double mu, double sigma, double b,
+            ref int seed)
+        {
+            return normal_truncated_b_sample(mu, sigma, b, ref seed);
+        }
+
+        public static double truncated_normal_b_variance(double mu, double sigma, double b)
+        {
+            return normal_truncated_b_variance(mu, sigma, b);
+        }
+
     }
 }

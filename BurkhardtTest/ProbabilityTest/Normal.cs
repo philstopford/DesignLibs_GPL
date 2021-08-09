@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.CDFLib;
 using Burkardt.Probability;
 using Burkardt.Types;
 
@@ -8,24 +9,24 @@ namespace ProbabilityTest
     {
         static void normal_01_cdf_test()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    Normal.normal_01_cdf_TEST tests Normal.normal_01_cdf.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    27 February 2007
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    Normal.normal_01_cdf_TEST tests Normal.normal_01_cdf.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    27 February 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             double cdf;
             int i;
@@ -61,24 +62,24 @@ namespace ProbabilityTest
 
         static void normal_01_samples_test()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    Normal.normal_01_sample_TEST tests Normal.normal_01_sampleS.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    27 February 2007
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    Normal.normal_01_sample_TEST tests Normal.normal_01_sampleS.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    27 February 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             int SAMPLE_NUM = 1000;
 
@@ -120,24 +121,24 @@ namespace ProbabilityTest
 
         static void normal_cdf_test()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    NORMAL_CDF_TEST tests NORMAL_CDF.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    27 February 2007
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    NORMAL_CDF_TEST tests NORMAL_CDF.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    27 February 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             double cdf;
             int i;
@@ -177,8 +178,8 @@ namespace ProbabilityTest
             {
                 x = Normal.normal_sample(mu, sigma, ref seed);
                 pdf = Normal.normal_pdf(x, mu, sigma);
-                cdf = Normal.normal_cdf(x, mu, sigma);
-                x2 = Normal.normal_cdf_inv(cdf, mu, sigma);
+                cdf = CDF.normal_cdf(x, mu, sigma);
+                x2 = CDF.normal_cdf_inv(cdf, mu, sigma);
 
                 Console.WriteLine("  "
                                   + x.ToString().PadLeft(12) + "  "
@@ -191,24 +192,24 @@ namespace ProbabilityTest
 
         static void normal_samples_test()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    NORMAL_SAMPLES_TEST tests NORMAL_SAMPLES.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    27 February 2007
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    NORMAL_SAMPLES_TEST tests NORMAL_SAMPLES.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    27 February 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             int SAMPLE_NUM = 1000;
 
@@ -267,24 +268,24 @@ namespace ProbabilityTest
 
         static void normal_truncated_ab_cdf_test()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    NORMAL_TRUNCATED_AB_CDF_TEST tests NORMAL_TRUNCATED_AB_CDF.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    11 April 2016
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    NORMAL_TRUNCATED_AB_CDF_TEST tests NORMAL_TRUNCATED_AB_CDF.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    11 April 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             double a;
             double b;
@@ -330,9 +331,9 @@ namespace ProbabilityTest
                 x2 = Normal.normal_truncated_ab_cdf_inv(cdf, mu, s, a, b);
 
                 Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                  + "  " + pdf.ToString().PadLeft(14)
-                                  + "  " + cdf.ToString().PadLeft(14)
-                                  + "  " + x2.ToString().PadLeft(14) + "");
+                                       + "  " + pdf.ToString().PadLeft(14)
+                                       + "  " + cdf.ToString().PadLeft(14)
+                                       + "  " + x2.ToString().PadLeft(14) + "");
             }
 
             return;
@@ -340,24 +341,24 @@ namespace ProbabilityTest
 
         static void normal_truncated_ab_sample_test()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    NORMAL_TRUNCATED_AB_SAMPLE_TEST tests NORMAL_TRUNCATED_AB_SAMPLE.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    11 April 2016
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    NORMAL_TRUNCATED_AB_SAMPLE_TEST tests NORMAL_TRUNCATED_AB_SAMPLE.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    11 April 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             double a;
             double b;
@@ -419,24 +420,24 @@ namespace ProbabilityTest
 
         static void normal_truncated_a_cdf_test()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    NORMAL_TRUNCATED_A_CDF_TEST tests NORMAL_TRUNCATED_A_CDF.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    11 April 2016
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    NORMAL_TRUNCATED_A_CDF_TEST tests NORMAL_TRUNCATED_A_CDF.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    11 April 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             double a;
             double cdf;
@@ -475,38 +476,38 @@ namespace ProbabilityTest
 
                 pdf = Normal.normal_truncated_a_pdf(x, mu, s, a);
 
-                cdf = Normal.normal_truncated_a_cdf(x, mu, s, a);
+                cdf = CDF.normal_truncated_a_cdf(x, mu, s, a);
 
-                x2 = Normal.normal_truncated_a_cdf_inv(cdf, mu, s, a);
+                x2 = CDF.normal_truncated_a_cdf_inv(cdf, mu, s, a);
 
                 Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                  + "  " + pdf.ToString().PadLeft(14)
-                                  + "  " + cdf.ToString().PadLeft(14)
-                                  + "  " + x2.ToString().PadLeft(14) + "");
+                                       + "  " + pdf.ToString().PadLeft(14)
+                                       + "  " + cdf.ToString().PadLeft(14)
+                                       + "  " + x2.ToString().PadLeft(14) + "");
             }
 
         }
 
         static void normal_truncated_a_sample_test()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    NORMAL_TRUNCATED_A_SAMPLE_TEST tests NORMAL_TRUNCATED_A_SAMPLE.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    11 April 2016
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    NORMAL_TRUNCATED_A_SAMPLE_TEST tests NORMAL_TRUNCATED_A_SAMPLE.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    11 April 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             double a;
             int i;
@@ -566,24 +567,24 @@ namespace ProbabilityTest
 
         static void normal_truncated_b_cdf_test()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    NORMAL_TRUNCATED_B_CDF_TEST tests NORMAL_TRUNCATED_B_CDF.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    11 April 2016
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    NORMAL_TRUNCATED_B_CDF_TEST tests NORMAL_TRUNCATED_B_CDF.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    11 April 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             double b;
             double cdf;
@@ -627,9 +628,9 @@ namespace ProbabilityTest
                 x2 = Normal.normal_truncated_b_cdf_inv(cdf, mu, s, b);
 
                 Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                  + "  " + pdf.ToString().PadLeft(14)
-                                  + "  " + cdf.ToString().PadLeft(14)
-                                  + "  " + x2.ToString().PadLeft(14) + "");
+                                       + "  " + pdf.ToString().PadLeft(14)
+                                       + "  " + cdf.ToString().PadLeft(14)
+                                       + "  " + x2.ToString().PadLeft(14) + "");
             }
 
             return;
@@ -637,24 +638,24 @@ namespace ProbabilityTest
 
         static void normal_truncated_b_sample_test()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    NORMAL_TRUNCATED_B_SAMPLE_TEST tests NORMAL_TRUNCATED_B_SAMPLE.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    11 April 2016
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    NORMAL_TRUNCATED_B_SAMPLE_TEST tests NORMAL_TRUNCATED_B_SAMPLE.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    11 April 2016
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             double b;
             int i;

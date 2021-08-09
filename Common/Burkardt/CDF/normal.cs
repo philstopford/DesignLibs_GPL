@@ -5,82 +5,6 @@ namespace Burkardt.CDFLib
 {
     public static partial class CDF
     {
-        public static void normal_cdf_values(ref int n_data, ref double x, ref double fx)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    NORMAL_CDF_VALUES returns some values of the Normal CDF.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    14 February 2021
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Reference:
-            //
-            //    Milton Abramowitz and Irene Stegun,
-            //    Handbook of Mathematical Functions,
-            //    US Department of Commerce, 1964.
-            //
-            //  Parameters:
-            //
-            //    Input/output, int *N_DATA.  The user sets N_DATA to 0 before the
-            //    first call.  On each call, the routine increments N_DATA by 1, and
-            //    returns the corresponding data; when there is no more data, the
-            //    output value of N_DATA will be 0 again.
-            //
-            //    Output, double *X, the argument of the function.
-            //
-            //    Output double *FX, the value of the function.
-            //
-        {
-            int N_MAX = 13;
-
-            double[] fx_vec =
-            {
-                0.500000000000000E+00, 0.539827837277029E+00, 0.579259709439103E+00,
-                0.617911422188953E+00, 0.655421741610324E+00, 0.691462461274013E+00,
-                0.725746882249927E+00, 0.758036347776927E+00, 0.788144601416604E+00,
-                0.815939874653241E+00, 0.841344746068543E+00, 0.933192798731142E+00,
-                0.977249868051821E+00
-            };
-            double[] x_vec =
-            {
-                0.00E+00, 0.10E+00, 0.20E+00,
-                0.30E+00, 0.40E+00, 0.50E+00,
-                0.60E+00, 0.70E+00, 0.80E+00,
-                0.90E+00, 1.00E+00, 1.50E+00,
-                2.00E+00
-            };
-
-            if (n_data < 0)
-            {
-                n_data = 0;
-            }
-
-            n_data = n_data + 1;
-
-            if (N_MAX < n_data)
-            {
-                n_data = 0;
-                x = 0.0E+00;
-                fx = 0.0E+00;
-            }
-            else
-            {
-                x = x_vec[n_data - 1];
-                fx = fx_vec[n_data - 1];
-            }
-        }
 
         public static double normal_01_cdf(double x)
 
@@ -435,6 +359,444 @@ namespace Burkardt.CDFLib
 
             return x;
         }
+        
+        public static double normal_ms_cdf ( double x, double mu, double sigma )
 
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    NORMAL_MS_CDF evaluates the Normal CDF.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    19 September 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the argument of the CDF.
+            //
+            //    Input, double MU, SIGMA, the parameters of the PDF.
+            //    0.0 < SIGMA.
+            //
+            //    Output, double NORMAL_MS_CDF, the value of the CDF.
+            //
+        {
+            double cdf;
+            double y;
+
+            y = ( x - mu ) / sigma;
+
+            cdf = normal_01_cdf ( y );
+
+            return cdf;
+        }
+
+        public static double normal_ms_cdf_inv ( double cdf, double mu, double sigma )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    NORMAL_MS_CDF_INV inverts the Normal CDF.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    19 September 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Algorithm AS 111,
+            //    Applied Statistics,
+            //    Volume 26, pages 118-121, 1977.
+            //
+            //  Parameters:
+            //
+            //    Input, double CDF, the value of the CDF.
+            //    0.0 <= CDF <= 1.0.
+            //
+            //    Input, double MU, SIGMA, the parameters of the PDF.
+            //    0.0 < SIGMA.
+            //
+            //    Output, double NORMAL_MS_CDF_INV, the corresponding argument.
+            //
+        {
+            double x;
+            double x2;
+
+            if ( cdf < 0.0 || 1.0 < cdf )
+            {
+                Console.WriteLine("");
+                Console.WriteLine("NORMAL_MS_CDF_INV - Fatal error!");
+                Console.WriteLine("  CDF < 0 or 1 < CDF.");
+                return ( 1 );
+            }
+
+            x2 = normal_01_cdf_inv ( cdf );
+
+            x = mu + sigma * x2;
+
+            return x;
+        }
+
+        public static double truncated_normal_ab_cdf(double x, double mu, double sigma, double a,
+                double b)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TRUNCATED_NORMAL_AB_CDF evaluates the truncated Normal CDF.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    24 January 2017
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the argument of the CDF.
+            //
+            //    Input, double MU, SIGMA, the mean and standard deviation of the
+            //    parent Normal distribution.
+            //
+            //    Input, double A, B, the lower and upper truncation limits.
+            //
+            //    Output, double TRUNCATED_NORMAL_AB_CDF, the value of the CDF.
+            //
+        {
+            double alpha;
+            double alpha_cdf;
+            double beta;
+            double beta_cdf;
+            double cdf;
+            double xi;
+            double xi_cdf;
+
+            if (x < a)
+            {
+                cdf = 0.0;
+            }
+            else if (x <= b)
+            {
+                alpha = (a - mu) / sigma;
+                beta = (b - mu) / sigma;
+                xi = (x - mu) / sigma;
+
+                alpha_cdf = normal_01_cdf(alpha);
+                beta_cdf = normal_01_cdf(beta);
+                xi_cdf = normal_01_cdf(xi);
+
+                cdf = (xi_cdf - alpha_cdf) / (beta_cdf - alpha_cdf);
+            }
+            else
+            {
+                cdf = 1.0;
+            }
+
+            return cdf;
+        }
+
+        public static double truncated_normal_ab_cdf_inv(double cdf, double mu, double sigma, double a,
+                double b)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TRUNCATED_NORMAL_AB_CDF_INV inverts the truncated Normal CDF.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    14 August 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double CDF, the value of the CDF.
+            //    0.0 <= CDF <= 1.0.
+            //
+            //    Input, double MU, SIGMA, the mean and standard deviation of the
+            //    parent Normal distribution.
+            //
+            //    Input, double A, B, the lower and upper truncation limits.
+            //
+            //    Output, double TRUNCATED_NORMAL_AB_CDF_INV, the corresponding argument.
+            //
+        {
+            double alpha;
+            double alpha_cdf;
+            double beta;
+            double beta_cdf;
+            double x;
+            double xi;
+            double xi_cdf;
+
+            if (cdf < 0.0 || 1.0 < cdf)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("TRUNCATED_NORMAL_AB_CDF_INV - Fatal error!");
+                Console.WriteLine("  CDF < 0 or 1 < CDF.");
+                return (1);
+            }
+
+            alpha = (a - mu) / sigma;
+            beta = (b - mu) / sigma;
+
+            alpha_cdf = normal_01_cdf(alpha);
+            beta_cdf = normal_01_cdf(beta);
+
+            xi_cdf = (beta_cdf - alpha_cdf) * cdf + alpha_cdf;
+            xi = normal_01_cdf_inv(xi_cdf);
+
+            x = mu + sigma * xi;
+
+            return x;
+        }
+
+                public static double normal_truncated_a_cdf(double x, double mu, double s, double a)
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    NORMAL_TRUNCATED_A_CDF evaluates the lower truncated Normal CDF.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    21 August 2013
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double X, the argument of the CDF.
+        //
+        //    Input, double MU, S, the mean and standard deviation of the
+        //    parent Normal distribution.
+        //
+        //    Input, double A, the lower truncation limit.
+        //
+        //    Output, double NORMAL_TRUNCATED_A_CDF, the value of the CDF.
+        //
+        {
+            double alpha = (a - mu) / s;
+            double xi = (x - mu) / s;
+
+            double alpha_cdf = normal_01_cdf(alpha);
+            double xi_cdf = normal_01_cdf(xi);
+
+            double cdf = (xi_cdf - alpha_cdf) / (1.0 - alpha_cdf);
+
+            return cdf;
+        }
+
+        public static double normal_truncated_a_cdf_inv(double cdf, double mu, double s, double a)
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    NORMAL_TRUNCATED_A_CDF_INV inverts the lower truncated Normal CDF.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    21 August 2013
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double CDF, the value of the CDF.
+        //    0.0 <= CDF <= 1.0.
+        //
+        //    Input, double MU, S, the mean and standard deviation of the
+        //    parent Normal distribution.
+        //
+        //    Input, double A, the lower truncation limit.
+        //
+        //    Output, double NORMAL_TRUNCATED_A_CDF_INV, the corresponding argument.
+        //
+        {
+            if (cdf < 0.0 || 1.0 < cdf)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("NORMAL_TRUNCATED_A_CDF_INV - Fatal error!");
+                Console.WriteLine("  CDF < 0 or 1 < CDF.");
+                return 1.0;
+            }
+
+            double alpha = (a - mu) / s;
+
+            double alpha_cdf = normal_01_cdf(alpha);
+
+            double xi_cdf = (1.0 - alpha_cdf) * cdf + alpha_cdf;
+            double xi = normal_01_cdf_inv(xi_cdf);
+
+            double x = mu + s * xi;
+
+            return x;
+        }
+
+        public static double truncated_normal_a_cdf(double x, double mu, double sigma, double a)
+        {
+            return normal_truncated_a_cdf(x, mu, sigma, a);
+        }
+        
+        public static double truncated_normal_b_cdf ( double x, double mu, double sigma, double b )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TRUNCATED_NORMAL_B_CDF evaluates the upper truncated Normal CDF.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    24 January 2017
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the argument of the CDF.
+            //
+            //    Input, double MU, SIGMA, the mean and standard deviation of the
+            //    parent Normal distribution.
+            //
+            //    Input, double B, the upper truncation limit.
+            //
+            //    Output, double TRUNCATED_NORMAL_B_CDF, the value of the CDF.
+            //
+        {
+            double beta;
+            double beta_cdf;
+            double cdf;
+            double xi;
+            double xi_cdf;
+
+            if ( x <= b )
+            {
+                beta = ( b - mu ) / sigma;
+                xi = ( x - mu ) / sigma;
+
+                beta_cdf = normal_01_cdf ( beta );
+                xi_cdf = normal_01_cdf ( xi );
+
+                cdf = xi_cdf / beta_cdf;
+            }
+            else
+            {
+                cdf = 1.0;
+            }
+  
+            return cdf;
+        }
+        
+        public static double truncated_normal_b_cdf_inv ( double cdf, double mu, double sigma, 
+                double b )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TRUNCATED_NORMAL_B_CDF_INV inverts the upper truncated Normal CDF.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    21 August 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double CDF, the value of the CDF.
+            //    0.0 <= CDF <= 1.0.
+            //
+            //    Input, double MU, SIGMA, the mean and standard deviation of the
+            //    parent Normal distribution.
+            //
+            //    Input, double B, the upper truncation limit.
+            //
+            //    Output, double TRUNCATED_NORMAL_B_CDF_INV, the corresponding argument.
+            //
+        {
+            double beta;
+            double beta_cdf;
+            double x;
+            double xi;
+            double xi_cdf;
+
+            if ( cdf < 0.0 || 1.0 < cdf )
+            {
+                Console.WriteLine("");
+                Console.WriteLine("TRUNCATED_NORMAL_B_CDF_INV - Fatal error!");
+                Console.WriteLine("  CDF < 0 or 1 < CDF.");
+                return ( 1 );
+            }
+
+            beta = ( b - mu ) / sigma;
+
+            beta_cdf = normal_01_cdf ( beta );
+
+            xi_cdf = beta_cdf * cdf;
+            xi = normal_01_cdf_inv ( xi_cdf );
+
+            x = mu + sigma * xi;
+
+            return x;
+        }
     }
 }

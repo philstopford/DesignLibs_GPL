@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.CDFLib;
 using Burkardt.Uniform;
 
 namespace Burkardt.Probability
@@ -42,7 +43,7 @@ namespace Burkardt.Probability
             }
             else
             {
-                double cdf2 = Normal.normal_cdf(x, a, b);
+                double cdf2 = CDF.normal_cdf(x, a, b);
                 cdf = 2.0 * cdf2 - 1.0;
             }
 
@@ -89,7 +90,7 @@ namespace Burkardt.Probability
 
             double cdf2 = 0.5 * (cdf + 1.0);
 
-            double x = Normal.normal_cdf_inv(cdf2, a, b);
+            double x = CDF.normal_cdf_inv(cdf2, a, b);
 
             return x;
         }

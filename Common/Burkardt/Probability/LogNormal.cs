@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.CDFLib;
 using Burkardt.Uniform;
 
 namespace Burkardt.Probability
@@ -45,7 +46,7 @@ namespace Burkardt.Probability
             {
                 double logx = Math.Log(x);
 
-                cdf = Normal.normal_cdf(logx, a, b);
+                cdf = CDF.normal_cdf(logx, a, b);
             }
 
             return cdf;
@@ -89,7 +90,7 @@ namespace Burkardt.Probability
                 return (1);
             }
 
-            double logx = Normal.normal_cdf_inv(cdf, a, b);
+            double logx = CDF.normal_cdf_inv(cdf, a, b);
 
             double x = Math.Exp(logx);
 

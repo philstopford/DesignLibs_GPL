@@ -2,7 +2,6 @@
 {
     public static class Truncated
     {
-
         public static void truncated_normal_ab_cdf_values(ref int n_data, ref double mu, ref double sigma,
                 ref double a, ref double b, ref double x, ref double fx)
 

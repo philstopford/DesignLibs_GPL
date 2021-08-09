@@ -322,13 +322,13 @@ namespace ProbabilityTest
 
             for (i = 1; i <= 10; i++)
             {
-                x = Normal.normal_truncated_ab_sample(mu, s, a, b, ref seed);
+                x = Truncated.normal_truncated_ab_sample(mu, s, a, b, ref seed);
 
-                pdf = Normal.normal_truncated_ab_pdf(x, mu, s, a, b);
+                pdf = Truncated.normal_truncated_ab_pdf(x, mu, s, a, b);
 
-                cdf = Normal.normal_truncated_ab_cdf(x, mu, s, a, b);
+                cdf = CDF.normal_truncated_ab_cdf(x, mu, s, a, b);
 
-                x2 = Normal.normal_truncated_ab_cdf_inv(cdf, mu, s, a, b);
+                x2 = CDF.normal_truncated_ab_cdf_inv(cdf, mu, s, a, b);
 
                 Console.WriteLine("  " + x.ToString().PadLeft(14)
                                        + "  " + pdf.ToString().PadLeft(14)
@@ -391,9 +391,9 @@ namespace ProbabilityTest
             Console.WriteLine("  The parent distribution is truncated to");
             Console.WriteLine("  the interval [" + a + "," + b + "]");
 
-            mean = Normal.normal_truncated_ab_mean(mu, s, a, b);
+            mean = Truncated.normal_truncated_ab_mean(mu, s, a, b);
 
-            variance = Normal.normal_truncated_ab_variance(mu, s, a, b);
+            variance = Truncated.normal_truncated_ab_variance(mu, s, a, b);
 
             Console.WriteLine("");
             Console.WriteLine("  PDF mean      =               " + mean + "");
@@ -401,7 +401,7 @@ namespace ProbabilityTest
 
             for (i = 0; i < sample_num; i++)
             {
-                x[i] = Normal.normal_truncated_ab_sample(mu, s, a, b, ref seed);
+                x[i] = Truncated.normal_truncated_ab_sample(mu, s, a, b, ref seed);
             }
 
             mean = typeMethods.r8vec_mean(sample_num, x);
@@ -472,9 +472,9 @@ namespace ProbabilityTest
 
             for (i = 1; i <= 10; i++)
             {
-                x = Normal.normal_truncated_a_sample(mu, s, a, ref seed);
+                x = Truncated.normal_truncated_a_sample(mu, s, a, ref seed);
 
-                pdf = Normal.normal_truncated_a_pdf(x, mu, s, a);
+                pdf = Truncated.normal_truncated_a_pdf(x, mu, s, a);
 
                 cdf = CDF.normal_truncated_a_cdf(x, mu, s, a);
 
@@ -538,9 +538,9 @@ namespace ProbabilityTest
             Console.WriteLine("  The parent distribution is truncated to");
             Console.WriteLine("  the interval [" + a + ",+oo]");
 
-            mean = Normal.normal_truncated_a_mean(mu, s, a);
+            mean = Truncated.normal_truncated_a_mean(mu, s, a);
 
-            variance = Normal.normal_truncated_a_variance(mu, s, a);
+            variance = Truncated.normal_truncated_a_variance(mu, s, a);
 
             Console.WriteLine("");
             Console.WriteLine("  PDF mean      =               " + mean + "");
@@ -548,7 +548,7 @@ namespace ProbabilityTest
 
             for (i = 0; i < sample_num; i++)
             {
-                x[i] = Normal.normal_truncated_a_sample(mu, s, a, ref seed);
+                x[i] = Truncated.normal_truncated_a_sample(mu, s, a, ref seed);
             }
 
             mean = typeMethods.r8vec_mean(sample_num, x);
@@ -619,13 +619,13 @@ namespace ProbabilityTest
 
             for (i = 1; i <= 10; i++)
             {
-                x = Normal.normal_truncated_b_sample(mu, s, b, ref seed);
+                x = Truncated.normal_truncated_b_sample(mu, s, b, ref seed);
 
-                pdf = Normal.normal_truncated_b_pdf(x, mu, s, b);
+                pdf = Truncated.normal_truncated_b_pdf(x, mu, s, b);
 
-                cdf = Normal.normal_truncated_b_cdf(x, mu, s, b);
+                cdf = CDF.normal_truncated_b_cdf(x, mu, s, b);
 
-                x2 = Normal.normal_truncated_b_cdf_inv(cdf, mu, s, b);
+                x2 = CDF.normal_truncated_b_cdf_inv(cdf, mu, s, b);
 
                 Console.WriteLine("  " + x.ToString().PadLeft(14)
                                        + "  " + pdf.ToString().PadLeft(14)
@@ -686,9 +686,9 @@ namespace ProbabilityTest
             Console.WriteLine("  The parent distribution is truncated to");
             Console.WriteLine("  the interval [-oo," + b + "]");
 
-            mean = Normal.normal_truncated_b_mean(mu, s, b);
+            mean = Truncated.normal_truncated_b_mean(mu, s, b);
 
-            variance = Normal.normal_truncated_b_variance(mu, s, b);
+            variance = Truncated.normal_truncated_b_variance(mu, s, b);
 
             Console.WriteLine("");
             Console.WriteLine("  PDF mean      =               " + mean + "");
@@ -696,7 +696,7 @@ namespace ProbabilityTest
 
             for (i = 0; i < sample_num; i++)
             {
-                x[i] = Normal.normal_truncated_b_sample(mu, s, b, ref seed);
+                x[i] = Truncated.normal_truncated_b_sample(mu, s, b, ref seed);
             }
 
             mean = typeMethods.r8vec_mean(sample_num, x);

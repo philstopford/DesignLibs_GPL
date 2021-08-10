@@ -52,7 +52,7 @@ namespace Burkardt.TetrahedronNS
             return centroid;
         }
 
-        public static void tetrahedron_circumsphere(double[] tetra, ref double r, double[] pc)
+        public static void tetrahedron_circumsphere(double[] tetra, ref double r, ref double[] pc)
 
             //****************************************************************************80
             //
@@ -300,7 +300,7 @@ namespace Burkardt.TetrahedronNS
             int i;
             const double r8_pi = 3.141592653589793;
 
-            tetrahedron_edges(tetra, ab, ac, ad, bc, bd, cd);
+            tetrahedron_edges(tetra, ref ab, ref ac, ref ad, ref bc, ref bd, ref cd);
 
             abc_normal = typeMethods.r8vec_cross_3d(ac, ab);
             abd_normal = typeMethods.r8vec_cross_3d(ab, ad);
@@ -567,8 +567,8 @@ namespace Burkardt.TetrahedronNS
 
         }
 
-        public static void tetrahedron_edges(double[] tetra, double[] ab, double[] ac,
-                double[] ad, double[] bc, double[] bd, double[] cd)
+        public static void tetrahedron_edges(double[] tetra, ref double[] ab, ref double[] ac,
+                ref double[] ad, ref double[] bc, ref double[] bd, ref double[] cd)
 
             //****************************************************************************80
             //
@@ -866,7 +866,7 @@ namespace Burkardt.TetrahedronNS
             double[] v42 = new double[3];
             double[] v43 = new double[3];
 
-            tetrahedron_edges(tetra, v21, v31, v41, v32, v42, v43);
+            tetrahedron_edges(tetra, ref v21, ref v31, ref v41, ref v32, ref v42, ref v43);
 
             n123 = typeMethods.r8vec_cross_3d(v21, v31);
             n124 = typeMethods.r8vec_cross_3d(v41, v21);
@@ -942,7 +942,7 @@ namespace Burkardt.TetrahedronNS
             double r_in = 0;
             double r_out = 0;
 
-            tetrahedron_circumsphere(tetra, ref r_out, pc);
+            tetrahedron_circumsphere(tetra, ref r_out, ref pc);
 
             tetrahedron_insphere(tetra, ref r_in, ref pc);
 
@@ -1083,7 +1083,7 @@ namespace Burkardt.TetrahedronNS
             //
             //  Compute the vectors representing the sides of the tetrahedron.
             //
-            tetrahedron_edges(tetra, ab, ac, ad, bc, bd, cd);
+            tetrahedron_edges(tetra, ref ab, ref ac, ref ad, ref bc, ref bd, ref cd);
             //
             //  Compute the squares of the lengths of the sides.
             //
@@ -1177,7 +1177,7 @@ namespace Burkardt.TetrahedronNS
             //
             //  Compute the edges.
             //
-            tetrahedron_edges(tetra, ab, ac, ad, bc, bd, cd);
+            tetrahedron_edges(tetra, ref ab, ref ac, ref ad, ref bc, ref bd, ref cd);
             //
             //  Compute the lengths of the sides.
             //

@@ -1,7 +1,8 @@
 ﻿using System;
-using Burkardt.FEM;
+using Burkardt;
 using Burkardt.Table;
 using Burkardt.Types;
+using Triangle = Burkardt.FEM.Triangle;
 
 namespace FEMToTriangleTest
 {
@@ -156,7 +157,7 @@ namespace FEMToTriangleTest
                 //
                 //  Force 1-based indexing.
                 //
-                IO.mesh_base_one(node_num, element_order, element_num, ref element_node);
+                Mesh.mesh_base_one(node_num, element_order, element_num, ref element_node);
                 //
                 //  Write out the TRIANGLE version of the data.
                 //

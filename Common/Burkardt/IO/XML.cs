@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace Burkardt.FEM
+namespace Burkardt
 {
     public static class XML
     {
@@ -58,7 +58,7 @@ namespace Burkardt.FEM
             //
             //  Force 0-based indexing.
             //
-            IO.mesh_base_zero(node_num, element_order, element_num, ref element_node);
+            Mesh.mesh_base_zero(node_num, element_order, element_num, ref element_node);
 
             List<string> lines = new List<string>();
             //
@@ -146,7 +146,7 @@ namespace Burkardt.FEM
             //
             //  Force 0-based indexing.
             //
-            IO.mesh_base_zero(node_num, element_order, element_num, ref element_node);
+            Mesh.mesh_base_zero(node_num, element_order, element_num, ref element_node);
 
             List<string> lines = new List<string>();
             
@@ -237,7 +237,7 @@ namespace Burkardt.FEM
             //
             //  Force 0-based indexing.
             //
-            IO.mesh_base_zero(node_num, element_order, element_num, ref element_node);
+            Mesh.mesh_base_zero(node_num, element_order, element_num, ref element_node);
 
             List<string> lines = new List<string>();
             
@@ -275,6 +275,93 @@ namespace Burkardt.FEM
             lines.Add("</dolfin>");
 
             File.WriteAllLines(xml_filename, lines);
+        }
+
+        public static void xml_write ( string xml_filename, int dim_num, int node_num, 
+        double[] node_xyz, int element_order, int element_num, int[] element_node )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    XML_WRITE writes the triangulation data as a DOLFIN XML mesh file.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    04 June 2013
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Anders Logg, Kent-Andre Mardal, Garth Wells,
+        //    Automated Solution of Differential Equations by the Finite Element
+        //    Method: The FEniCS Book,
+        //    Lecture Notes in Computational Science and Engineering,
+        //    Springer, 2011,
+        //    ISBN13: 978-364223098
+        //
+        //  Parameters:
+        //
+        //    Input, string XML_FILENAME, the name of the XML file 
+        //    to create.
+        //
+        //    Input, int DIM_NUM, the spatial dimension.
+        //
+        //    Input, inte NODE_NUM, the number of nodes.
+        //
+        //    Input, double NODE_XYZ[3*NODE_NUM], the node coordinates.
+        //
+        //    Input, int ELEMENT_ORDER, the order of the elements.
+        //
+        //    Input, int ELEMENT_NUM, the number of elements.
+        //
+        //    Input, int ELEMENT_NODE[ELEMENT_ORDER*ELEMENT_NUM], 
+        //    the nodes that make up each element.
+        //
+        {
+            int element;
+            List<string> xml = new List<string>();
+            int node;
+            //  Write the data.
+            //
+            xml.Add("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+            xml.Add("");
+            xml.Add("<dolfin xmlns:dolfin=\"http://www.fenics.org/dolfin/\">");
+            xml.Add("  <mesh celltype=\"tetrahedron\" dim=\"3\">");
+
+            xml.Add("    <vertices size=\"" + node_num + "\">");
+            for (node = 0; node < node_num; node++)
+            {
+                xml.Add("      <vertex index =\"" + node
+                    + "\" x =\"" + node_xyz[0 + node * 3]
+                    + "\" y =\"" + node_xyz[1 + node * 3]
+                    + "\" z =\"" + node_xyz[2 + node * 3] + "\"/>");
+            }
+
+            xml.Add("    </vertices>");
+
+            xml.Add("    <cells size=\"" + element_num + "\">");
+            for (element = 0; element < element_num; element++)
+            {
+                xml.Add("      <tetrahedron index =\"" + element
+                    + "\" v0 =\"" + element_node[0 + element * 4]
+                    + "\" v1 =\"" + element_node[1 + element * 4]
+                    + "\" v2 =\"" + element_node[2 + element * 4]
+                    + "\" v3 =\"" + element_node[3 + element * 4] + "\"/>");
+            }
+
+            xml.Add("    </cells>");
+            xml.Add("  </mesh>");
+            xml.Add("</dolfin>");
+
+            File.WriteAllLines(xml_filename, xml);
         }
     }
 }

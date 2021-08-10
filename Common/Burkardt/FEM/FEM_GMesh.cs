@@ -55,7 +55,7 @@ namespace Burkardt.FEM
             //
             //  Detect and correct 0-based node indexing.
             //
-            IO.mesh_base_one(node_num, element_order, element_num, ref element_node);
+            Mesh.mesh_base_one(node_num, element_order, element_num, ref element_node);
 
             List<string> lines = new List<string>();
             
@@ -152,7 +152,7 @@ namespace Burkardt.FEM
             //
             //  Detect and correct 0-based node indexing.
             //
-            IO.mesh_base_one(node_num, element_order, element_num, ref element_node);
+            Mesh.mesh_base_one(node_num, element_order, element_num, ref element_node);
 
             List<string> lines = new List<string>();
             //
@@ -318,7 +318,7 @@ namespace Burkardt.FEM
             //
             //  Detect and correct 0-based node indexing.
             //
-            IO.mesh_base_one(node_num, element_order, element_num, ref element_node);
+            Mesh.mesh_base_one(node_num, element_order, element_num, ref element_node);
 
             //
             //  Write the data.

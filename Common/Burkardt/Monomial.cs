@@ -54,6 +54,74 @@ namespace Burkardt
             }
         }
         
+        public static double[] monomial_value ( int dim_num, int point_num, double[] x, int[] expon )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    MONOMIAL_VALUE evaluates a monomial.
+        //
+        //  Discussion:
+        //
+        //    This routine evaluates a monomial of the form
+        //
+        //      product ( 1 <= dim <= dim_num ) x(dim)^expon(dim)
+        //
+        //    where the exponents are nonnegative integers.  Note that
+        //    if the combination 0^0 is encountered, it should be treated
+        //    as 1.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    05 May 2007
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int DIM_NUM, the spatial dimension.
+        //
+        //    Input, int POINT_NUM, the number of points at which the
+        //    monomial is to be evaluated.
+        //
+        //    Input, double X[DIM_NUM*POINT_NUM], the point coordinates.
+        //
+        //    Input, int EXPON[DIM_NUM], the exponents.
+        //
+        //    Output, double MONOMIAL_VALUE[POINT_NUM], the value of the monomial.
+        //
+        {
+            int dim;
+            int point;
+            double[] value;
+
+            value = new double[point_num];
+
+            for ( point = 0; point < point_num; point++ )
+            {
+                value[point] = 1.0;
+            }
+
+            for ( dim = 0; dim < dim_num; dim++ )
+            {
+                if ( 0 != expon[dim] )
+                {
+                    for ( point = 0; point < point_num; point++ )
+                    {
+                        value[point] = value[point] * Math.Pow ( x[dim+point*dim_num], expon[dim] );
+                    }
+                }
+            }
+
+            return value;
+        }
         public static double[] monomial_value(int m, int n, int[] e, double[] x)
 
             //****************************************************************************80

@@ -5,7 +5,7 @@ using Burkardt.Types;
 
 namespace Burkardt.TetrahedronNS
 {
-    public class QuadratureRule
+    public static class QuadratureRule
     {
 
         public static void rule01(int n, ref double[] x, ref double[] w)
@@ -3283,6 +3283,70 @@ namespace Burkardt.TetrahedronNS
             v4[1] = 0.0;
             v4[2] = 3.0 / Math.Sqrt(6.0);
 
+        }
+        
+        public static double tet01_monomial_quadrature ( int dim_num, int[] expon, int point_num, 
+        double[] x, double[] weight )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    TET01_MONOMIAL_QUADRATURE applies quadrature to a monomial in a tetrahedron.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    05 July 2007
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int DIM_NUM, the spatial dimension.
+        //
+        //    Input, int EXPON[DIM_NUM], the exponents.
+        //
+        //    Input, int POINT_NUM, the number of points in the rule.
+        //
+        //    Input, double X[DIM_NUM*POINT_NUM], the quadrature points.
+        //
+        //    Input, double WEIGHT[POINT_NUM], the quadrature weights.
+        //
+        //    Output, double MONOMIAL_QUADRATURE, the quadrature error.
+        //
+        {
+            double exact;
+            double quad;
+            double quad_error;
+            double scale;
+            double[] value;
+            double volume;
+            //
+            //  Get the exact value of the integral of the unscaled monomial.
+            //
+            scale = Integrals.tet01_monomial_integral ( dim_num, expon );
+            //
+            //  Evaluate the monomial at the quadrature points.
+            //
+            value = Monomial.monomial_value ( dim_num, point_num, x, expon );
+            //
+            //  Compute the weighted sum and divide by the exact value.
+            //
+            volume = 1.0 / 6.0;
+            quad = volume * typeMethods.r8vec_dot ( point_num, weight, value ) / scale;
+            //
+            //  Error:
+            //
+            exact = 1.0;
+            quad_error = Math.Abs ( quad - exact );
+            
+            return quad_error;
         }
     }
 }

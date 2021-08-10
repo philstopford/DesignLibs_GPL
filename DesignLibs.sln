@@ -928,6 +928,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToeplitzMatrixTest", "Burkh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TetMeshRefineTest", "BurkhardtTest\Tetrahedron\TetMeshRefineTest\TetMeshRefineTest.csproj", "{786A972E-53FC-47C9-BACE-2839F7FED63E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TetMeshNeighborsTest", "BurkhardtTest\Tetrahedron\TetMeshNeighborsTest\TetMeshNeighborsTest.csproj", "{FAAA74C8-1DF8-403C-A574-95D1AF0FDFC2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -5738,6 +5740,18 @@ Global
 		{786A972E-53FC-47C9-BACE-2839F7FED63E}.Release|x64.Build.0 = Release|Any CPU
 		{786A972E-53FC-47C9-BACE-2839F7FED63E}.Release|x86.ActiveCfg = Release|Any CPU
 		{786A972E-53FC-47C9-BACE-2839F7FED63E}.Release|x86.Build.0 = Release|Any CPU
+		{FAAA74C8-1DF8-403C-A574-95D1AF0FDFC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAAA74C8-1DF8-403C-A574-95D1AF0FDFC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAAA74C8-1DF8-403C-A574-95D1AF0FDFC2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FAAA74C8-1DF8-403C-A574-95D1AF0FDFC2}.Debug|x64.Build.0 = Debug|Any CPU
+		{FAAA74C8-1DF8-403C-A574-95D1AF0FDFC2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FAAA74C8-1DF8-403C-A574-95D1AF0FDFC2}.Debug|x86.Build.0 = Debug|Any CPU
+		{FAAA74C8-1DF8-403C-A574-95D1AF0FDFC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAAA74C8-1DF8-403C-A574-95D1AF0FDFC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAAA74C8-1DF8-403C-A574-95D1AF0FDFC2}.Release|x64.ActiveCfg = Release|Any CPU
+		{FAAA74C8-1DF8-403C-A574-95D1AF0FDFC2}.Release|x64.Build.0 = Release|Any CPU
+		{FAAA74C8-1DF8-403C-A574-95D1AF0FDFC2}.Release|x86.ActiveCfg = Release|Any CPU
+		{FAAA74C8-1DF8-403C-A574-95D1AF0FDFC2}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -6200,6 +6214,7 @@ Global
 		{665AF0BD-EECD-4B81-8FB4-5A70BA8D9E1D} = {B14C0D74-30A0-4540-8100-2FFA1C84CA6D}
 		{608170FC-AA6D-4CA4-B67B-45A176C79FAA} = {D384E83C-0CBC-4B59-976F-345EB43429E2}
 		{786A972E-53FC-47C9-BACE-2839F7FED63E} = {72AFE556-8C42-4944-9225-84F29E2F2F6D}
+		{FAAA74C8-1DF8-403C-A574-95D1AF0FDFC2} = {72AFE556-8C42-4944-9225-84F29E2F2F6D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B449416C-C504-4FA8-9E10-10857263A64A}

@@ -6,6 +6,67 @@ namespace Burkardt.TetrahedronNS
 {
     public class Tetrahedron
     {
+        public static void reference_to_physical_t4 ( double[] t, int n, double[] ref_, ref double[] phy )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    REFERENCE_TO_PHYSICAL_T4 maps T4 reference points to physical points.
+        //
+        //  Discussion:
+        //
+        //    Given the vertices of an order 4 physical tetrahedron and a point
+        //    (R,S,T) in the reference tetrahedron, the routine computes the value
+        //    of the corresponding image point (X,Y,Z) in physical space.
+        //
+        //    This routine will also be correct for an order 10 tetrahedron,
+        //    if the mapping between reference and physical space
+        //    is linear.  This implies, in particular, that the sides of the
+        //    image tetrahedron are straight, the faces are flat, and 
+        //    the "midside" nodes in the physical tetrahedron are
+        //    halfway along the edges of the physical tetrahedron.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    31 January 2007
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double T[3*4], the coordinates of the vertices.
+        //    The vertices are assumed to be the images of (0,0,0), (1,0,0),
+        //    (0,1,0) and (0,0,1) respectively.
+        //
+        //    Input, int N, the number of objects to transform.
+        //
+        //    Input, double REF[3*N], points in the reference tetrahedron.
+        //
+        //    Output, double PHY[3*N], corresponding points in the
+        //    physical tetrahedron.
+        //
+        {
+            int i;
+            int j;
+
+            for ( i = 0; i < 3; i++ )
+            {
+                for ( j = 0; j < n; j++ )
+                {
+                    phy[i+j*3] = t[i+0*3] * ( 1.0 - ref_[0+j*3] - ref_[1+j*3] - ref_[2+j*3] ) 
+                    + t[i+1*3] *       + ref_[0+j*3] 
+                    + t[i+2*3] *                    + ref_[1+j*3]                  
+                    + t[i+3*3] *                                 + ref_[2+j*3];
+                }
+            }
+        }
         public static double[] reference_to_physical_tet4(double[] t, int n, double[] ref_)
 
             //****************************************************************************80

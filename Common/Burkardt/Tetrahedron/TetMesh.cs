@@ -6,6 +6,84 @@ namespace Burkardt.TetrahedronNS
 {
     public static class TetMesh
     {
+        public static void tet_mesh_base_one(int node_num, int element_order, int element_num,
+                ref int[] element_node)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TET_MESH_BASE_ONE ensures that the element definition is 1-based.
+            //
+            //  Discussion:
+            //
+            //    The ELEMENT_NODE array contains nodes indices that form elements.
+            //    The convention for node indexing might start at 0 or at 1.
+            //
+            //    This function attempts to detect 0-based node indexing and correct it.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    27 September 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int NODE_NUM, the number of nodes.
+            //
+            //    Input, int ELEMENT_ORDER, the order of the elements.
+            //
+            //    Input, int ELEMENT_NUM, the number of elements.
+            //
+            //    Input/output, int ELEMENT_NODE[ELEMENT_ORDER*ELEMENT_NUM], the element
+            //    definitions.
+            //
+        {
+            int element;
+            int node_max;
+            int node_min;
+            int order;
+
+            node_min = typeMethods.i4mat_min(element_order, element_num, element_node);
+            node_max = typeMethods.i4mat_max(element_order, element_num, element_node);
+
+            if (node_min == 1 && node_max == node_num)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("TET_MESH_BASE_ONE:");
+                Console.WriteLine("  The element indexing appears to be 1-based!");
+                Console.WriteLine("  No conversion is necessary.");
+            }
+            else if (node_min == 0 && node_max == node_num - 1)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("TET_MESH_BASE_ONE:");
+                Console.WriteLine("  The element indexing appears to be 0-based!");
+                Console.WriteLine("  This will be converted to 1-based.");
+                for (element = 0; element < element_num; element++)
+                {
+                    for (order = 0; order < element_order; order++)
+                    {
+                        element_node[order + element * element_order] =
+                            element_node[order + element * element_order] + 1;
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("");
+                Console.WriteLine("TET_MESH_BASE_ONE - Warning!");
+                Console.WriteLine("  The element indexing is not of a recognized type.");
+            }
+        }
+
         public static int tet_mesh_base_zero(int node_num, int element_order, int element_num,
                 ref int[] element_node)
 

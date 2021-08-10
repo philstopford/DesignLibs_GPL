@@ -379,6 +379,7 @@
     <projectFile>BurkhardtTest/Tetrahedron/TetMeshNeighborsTest/TetMeshNeighborsTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Tetrahedron/TetMeshGMeshTest/TetMeshGMeshTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Tetrahedron/TetMeshXMLTest/TetMeshXMLTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Tetrahedron/TetMeshVolumeTest/TetMeshVolumeTest.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />

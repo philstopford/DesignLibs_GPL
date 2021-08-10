@@ -940,6 +940,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TetrahedronExactnessTest", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TetrahedronGridTest", "BurkhardtTest\Tetrahedron\TetrahedronGridTest\TetrahedronGridTest.csproj", "{29D56638-8393-4ADD-B9A1-2F81DEE93680}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TetrahedronIntegralsTest", "BurkhardtTest\Tetrahedron\TetrahedronIntegralsTest\TetrahedronIntegralsTest.csproj", "{B6720B25-407E-4027-8F0C-7FFE63638816}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -5822,6 +5824,18 @@ Global
 		{29D56638-8393-4ADD-B9A1-2F81DEE93680}.Release|x64.Build.0 = Release|Any CPU
 		{29D56638-8393-4ADD-B9A1-2F81DEE93680}.Release|x86.ActiveCfg = Release|Any CPU
 		{29D56638-8393-4ADD-B9A1-2F81DEE93680}.Release|x86.Build.0 = Release|Any CPU
+		{B6720B25-407E-4027-8F0C-7FFE63638816}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6720B25-407E-4027-8F0C-7FFE63638816}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6720B25-407E-4027-8F0C-7FFE63638816}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B6720B25-407E-4027-8F0C-7FFE63638816}.Debug|x64.Build.0 = Debug|Any CPU
+		{B6720B25-407E-4027-8F0C-7FFE63638816}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B6720B25-407E-4027-8F0C-7FFE63638816}.Debug|x86.Build.0 = Debug|Any CPU
+		{B6720B25-407E-4027-8F0C-7FFE63638816}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6720B25-407E-4027-8F0C-7FFE63638816}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6720B25-407E-4027-8F0C-7FFE63638816}.Release|x64.ActiveCfg = Release|Any CPU
+		{B6720B25-407E-4027-8F0C-7FFE63638816}.Release|x64.Build.0 = Release|Any CPU
+		{B6720B25-407E-4027-8F0C-7FFE63638816}.Release|x86.ActiveCfg = Release|Any CPU
+		{B6720B25-407E-4027-8F0C-7FFE63638816}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -6290,6 +6304,7 @@ Global
 		{00E2927F-3E1F-4966-9FA4-C278AD111E8B} = {72AFE556-8C42-4944-9225-84F29E2F2F6D}
 		{36C55795-200E-4005-B159-A74D43B80DC8} = {72AFE556-8C42-4944-9225-84F29E2F2F6D}
 		{29D56638-8393-4ADD-B9A1-2F81DEE93680} = {72AFE556-8C42-4944-9225-84F29E2F2F6D}
+		{B6720B25-407E-4027-8F0C-7FFE63638816} = {72AFE556-8C42-4944-9225-84F29E2F2F6D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B449416C-C504-4FA8-9E10-10857263A64A}

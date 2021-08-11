@@ -1,6 +1,7 @@
 ﻿using System;
 using Burkardt;
 using Burkardt.Types;
+using Burkardt.Uniform;
 
 namespace SubsetTest
 {
@@ -170,5 +171,130 @@ namespace SubsetTest
 
             Console.WriteLine(cout);
         }
+
+        public static void jfrac_to_rfrac_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    JFRAC_TO_RFRAC_TEST tests JFRAC_TO_RFRAC.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    02 October 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            int MAXM = 10;
+
+            int i;
+            int m;
+            double[] p = new double[MAXM];
+            double[] q = new double[MAXM];
+            double[] r = new double[MAXM];
+            double[] s = new double[MAXM];
+            int seed;
+            string cout = "";
+            
+            //
+            //  Generate the data, but force Q(M+1) to be 1.  
+            //  That will make it easier to see that the two operations are inverses
+            //  of each other.  JFRAC_TO_RFRAC is free to scale its output, and chooses
+            //  a scaling in which Q(M+1) is 1.
+            //
+            seed = 123456789;
+            m = 6;
+            UniformRNG.r8vec_uniform_01(m, ref seed, ref p);
+            UniformRNG.r8vec_uniform_01(m + 1, ref seed, ref q);
+
+            for (i = 0; i < m; i++)
+            {
+                q[i] = q[i] / q[m];
+            }
+
+            q[m] = 1.0;
+
+            Console.WriteLine("");
+            Console.WriteLine("JFRAC_TO_RFRAC_TEST");
+            Console.WriteLine("  JFRAC_TO_RFRAC converts a J fraction");
+            Console.WriteLine("  to a rational polynomial fraction.");
+            Console.WriteLine("");
+            Console.WriteLine("  The original rational polynomial coefficients:");
+            Console.WriteLine("");
+
+            for (i = 0; i < m; i++)
+            {
+                cout += p[i].ToString().PadLeft(14) + "  ";
+            }
+
+            Console.WriteLine(cout);
+
+            cout = "";
+
+            for (i = 0; i < m + 1; i++)
+            {
+                cout += q[i].ToString().PadLeft(14) + "  ";
+            }
+
+            Console.WriteLine(cout);
+
+            cout = "";
+
+            Fraction.rfrac_to_jfrac(m, p, q, r, s);
+
+            Console.WriteLine("");
+            Console.WriteLine("  The J fraction coefficients:");
+            Console.WriteLine("");
+
+            for (i = 0; i < m; i++)
+            {
+                cout += r[i].ToString().PadLeft(14) + "  ";
+            }
+
+            Console.WriteLine(cout);
+
+            cout = "";
+
+            for (i = 0; i < m; i++)
+            {
+                cout += s[i].ToString().PadLeft(14) + "  ";
+            }
+
+            Console.WriteLine(cout);
+
+            cout = "";
+
+            Fraction.jfrac_to_rfrac(m, r, s, ref p, ref q);
+
+            Console.WriteLine("");
+            Console.WriteLine("  The recovered rational polynomial:");
+            Console.WriteLine("");
+
+            for (i = 0; i < m; i++)
+            {
+                cout += p[i].ToString().PadLeft(14) + "  ";
+            }
+
+            Console.WriteLine(cout);
+
+            cout = "";
+
+            for (i = 0; i < m + 1; i++)
+            {
+                cout += q[i].ToString().PadLeft(14) + "  ";
+            }
+
+            Console.WriteLine(cout);
+
+        }
+
     }
 }

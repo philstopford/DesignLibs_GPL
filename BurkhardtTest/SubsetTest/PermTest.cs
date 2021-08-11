@@ -8,6 +8,49 @@ namespace SubsetTest
 {
     public static class PermTest
     {
+        public static void inversion_to_perm0_test ( )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    INVERSION_TO_PERM0_TEST tests INVERSION_TO_PERM0.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    05 June 2015
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            int N = 5;
+ 
+            int[] ins = new int[N];
+            int[] perm = { 2, 4, 0, 3, 1 };
+            int[] perm2 = new int[N];
+
+            Console.WriteLine("");
+            Console.WriteLine("INVERSION_TO_PERM0_TEST");
+            Console.WriteLine("  INVERSION_TO_PERM0: inversion to permutation (0,...,N-1).");
+            Console.WriteLine("");
+
+            typeMethods.i4vec1_print ( N, perm, "  The permutation:" );
+  
+            Permutation.perm0_to_inversion ( N, perm, ins );
+
+            typeMethods.i4vec1_print ( N, ins, "  The inversion sequence:" );
+
+            Permutation.inversion_to_perm0 ( N, ins, ref perm2 );
+
+            typeMethods.i4vec1_print ( N, perm2, "  The recovered permutation:" );
+        }
+        
         public static void multiperm_enum_test()
 
             //****************************************************************************80

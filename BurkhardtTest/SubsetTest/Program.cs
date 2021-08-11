@@ -153,7 +153,7 @@ namespace SubsetTest
             PermTest.inversion_to_perm0_test();
             InvoluteTest.involute_enum_test();
             FractionTest.jfrac_to_rfrac_test();
-            josephus_test();
+            JosephusTest.josephus_test();
             KsubTest.ksub_next_test();
             KsubTest.ksub_next2_test();
             KsubTest.ksub_next3_test();

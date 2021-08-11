@@ -2,7 +2,6 @@
 {
     public static class Frobenius
     {
-
         public static void frobenius_number_data_values(ref int n_data, int order, ref int[] c, ref int f)
 
             //****************************************************************************80

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using Burkardt.SubsetNS;
 using Burkardt.Table;
 
 namespace Burkardt.Types
@@ -1493,6 +1494,444 @@ namespace Burkardt.Types
             }
 
             return q;
+        }
+
+        public static void r8mat_perm0 ( int n, ref double[] a, int[] p )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8MAT_PERM0 permutes the rows and columns of a square R8MAT.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    06 May 2003
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Albert Nijenhuis, Herbert Wilf.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Albert Nijenhuis, Herbert Wilf,
+        //    Combinatorial Algorithms for Computers and Calculators,
+        //    Second Edition,
+        //    Academic Press, 1978,
+        //    ISBN: 0-12-519260-6,
+        //    LC: QA164.N54.
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order of the matrix.
+        //
+        //    Input/output, double A[N*N].
+        //    On input, the matrix to be permuted.
+        //    On output, the permuted matrix.
+        //
+        //    Input, int P[N], a permutation to be applied to the rows
+        //    and columns.  P[I] is the new number of row and column I.
+        //
+        {
+        int i;
+        int i1;
+        int iopt = 1;
+        int isgn = 0;
+        double it;
+        int j;
+        int j1;
+        int j2;
+        int k;
+        int lc;
+        int ncycle = 0;
+        double temp;
+
+        Permutation.perm0_cycle ( n, p, ref isgn, ref ncycle, iopt );
+        //
+        //  Temporarily increment P by 1.
+        //
+        for ( i = 0; i < n; i++ )
+        {
+        p[i] = p[i] + 1;
+        }
+
+        for ( i = 1; i <= n; i++ )
+        {
+        i1 = - p[i-1];
+
+        if ( 0 < i1 )
+        {
+
+        lc = 0;
+
+        for ( ; ; )
+        {
+        i1 = p[i1-1];
+        lc = lc + 1;
+
+        if ( i1 <= 0 )
+        {
+        break;
+        }
+
+        }
+
+        i1 = i;
+
+        for ( j = 1; j <= n; j++ )
+        {
+        if ( p[j-1] <= 0 )
+        {
+        j2 = j;
+        k = lc;
+
+        for ( ; ; )
+        {
+        j1 = j2;
+        it = a[i1-1+(j1-1)*n];
+
+        for ( ; ; )
+        {
+        i1 = Math.Abs ( p[i1-1] );
+        j1 = Math.Abs ( p[j1-1] );
+
+        temp = a[i1-1+(j1-1)*n];
+        a[i1-1+(j1-1)*n] = it;
+        it = temp;
+
+        if ( j1 != j2 )
+        {
+        continue;
+        }
+
+        k = k - 1;
+
+        if ( i1 == i )
+        {
+        break;
+        }
+        }
+
+        j2 = Math.Abs ( p[j2-1] );
+
+        if ( k == 0 ) 
+        {
+        break;
+        }
+        }
+        }
+        }
+        }
+        }
+        //
+        //  Restore the positive signs of the data.
+        //
+        for ( i = 0; i < n; i++ )
+        {
+        p[i] = Math.Abs ( p[i] );
+        }
+
+        for ( i = 0; i < n; i++ )
+        {
+        p[i] = p[i] - 1;
+        }
+        }
+
+        public static void r8mat_2perm0(int m, int n, ref double[] a, int[] p, int[] q)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8MAT_2PERM0 permutes rows and columns of a rectangular R8MAT, in place.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    29 May 2003
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Albert Nijenhuis, Herbert Wilf.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Albert Nijenhuis, Herbert Wilf,
+            //    Combinatorial Algorithms for Computers and Calculators,
+            //    Second Edition,
+            //    Academic Press, 1978,
+            //    ISBN: 0-12-519260-6,
+            //    LC: QA164.N54.
+            //
+            //  Parameters:
+            //
+            //    Input, int M, number of rows in the matrix.
+            //
+            //    Input, int N, number of columns in the matrix.
+            //
+            //    Input/output, double A[M*N].
+            //    On input, the matrix to be permuted.
+            //    On output, the permuted matrix.
+            //
+            //    Input, int P[M], the row permutation.  P(I) is the new number of row I.
+            //
+            //    Input, int Q[N], the column permutation.  Q(I) is the new number of
+            //    column I.  
+            //
+        {
+            int i;
+            int i1;
+            int is_ = 0;
+            int j;
+            int j1;
+            int j2;
+            int k;
+            int lc;
+            int nc = 0;
+            int[] p1;
+            int[] q1;
+            double t;
+            double temp;
+            /*
+            Wretched maneuvers to deal with necessity of 1-based values,
+            and to handle case where P and Q are same vector.
+            */
+            p1 = i4vec_copy_new(m, p);
+            Permutation.perm0_cycle(m, p1, ref is_, ref nc, 1);
+            for (i = 0; i < m; i++)
+            {
+                p1[i] = p1[i] + 1;
+            }
+
+            q1 = i4vec_copy_new(n, q);
+            Permutation.perm0_cycle(n, q1, ref is_, ref nc, 1);
+            for (j = 0; j < n; j++)
+            {
+                q1[j] = q1[j] + 1;
+            }
+
+            for (i = 1; i <= m; i++)
+            {
+                i1 = -p[i - 1];
+
+                if (0 < i1)
+                {
+                    lc = 0;
+
+                    for (;;)
+                    {
+                        i1 = p[i1 - 1];
+                        lc = lc + 1;
+
+                        if (i1 <= 0)
+                        {
+                            break;
+                        }
+
+                    }
+
+                    i1 = i;
+
+                    for (j = 1; j <= n; j++)
+                    {
+                        if (q[j - 1] <= 0)
+                        {
+                            j2 = j;
+                            k = lc;
+
+                            for (;;)
+                            {
+                                j1 = j2;
+                                t = a[i1 - 1 + (j1 - 1) * n];
+
+                                for (;;)
+                                {
+                                    i1 = Math.Abs(p[i1 - 1]);
+                                    j1 = Math.Abs(q[j1 - 1]);
+
+                                    temp = a[i1 - 1 + (j1 - 1) * n];
+                                    a[i1 - 1 + (j1 - 1) * n] = t;
+                                    t = temp;
+
+
+                                    if (j1 != j2)
+                                    {
+                                        continue;
+                                    }
+
+                                    k = k - 1;
+
+                                    if (i1 == i)
+                                    {
+                                        break;
+                                    }
+                                }
+
+                                j2 = Math.Abs(q[j2 - 1]);
+
+                                if (k == 0)
+                                {
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        public static double r8mat_permanent(int n, double[] a)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8MAT_PERMANENT computes the permanent of an R8MAT.
+            //
+            //  Discussion:
+            //
+            //    The permanent function is similar to the determinant.  Recall that
+            //    the determinant of a matrix may be defined as the sum of all the
+            //    products:
+            //
+            //      S * A(1,I(1)) * A(2,I(2)) * ... * A(N,I(N))
+            //
+            //    where I is any permutation of the columns of the matrix, and S is the
+            //    sign of the permutation.  By contrast, the permanent function is
+            //    the (unsigned) sum of all the products
+            //
+            //      A(1,I(1)) * A(2,I(2)) * ... * A(N,I(N))
+            //
+            //    where I is any permutation of the columns of the matrix.  The only
+            //    difference is that there is no permutation sign multiplying each summand.
+            //
+            //    Symbolically, then, the determinant of a 2 by 2 matrix
+            //
+            //      a b
+            //      c d
+            //
+            //    is a*d-b*c, whereas the permanent of the same matrix is a*d+b*c.
+            //
+            //
+            //    The permanent is invariant under row and column permutations.
+            //    If a row or column of the matrix is multiplied by S, then the
+            //      permanent is likewise multiplied by S.
+            //    If the matrix is square, then the permanent is unaffected by
+            //      transposing the matrix.
+            //    Unlike the determinant, however, the permanent does change if
+            //      one row is added to another, and it is not true that the
+            //      permanent of the product is the product of the permanents.
+            //
+            //
+            //    Note that if A is a matrix of all 1's and 0's, then the permanent
+            //    of A counts exactly which permutations hit exactly 1's in the matrix.
+            //    This fact can be exploited for various combinatorial purposes.
+            //
+            //    For instance, setting the diagonal of A to 0, and the offdiagonals
+            //    to 1, the permanent of A counts the number of derangements of N
+            //    objects.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    05 May 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Albert Nijenhuis, Herbert Wilf,
+            //    Combinatorial Algorithms for Computers and Calculators,
+            //    Second Edition,
+            //    Academic Press, 1978,
+            //    ISBN: 0-12-519260-6,
+            //    LC: QA164.N54.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, number of rows and columns in matrix.
+            //
+            //    Input, double A[N*N], the matrix whose permanent is desired.
+            //
+            //    Output, double R8MAT_PERMANENT, the value of the permanent of A.
+            //
+        {
+            int i;
+            int iadd = 0;
+            int[] iwork;
+            int j;
+            bool more;
+            int ncard = 0;
+            double p;
+            double perm;
+            double prod;
+            double sgn;
+            double[] work;
+            double z;
+
+            more = false;
+
+            iwork = new int[n];
+            work = new double[n];
+
+            for (i = 1; i <= n; i++)
+            {
+                work[i - 1] = a[i - 1 + (n - 1) * n];
+                for (j = 1; j <= n; j++)
+                {
+                    work[i - 1] = work[i - 1] - 0.5 * a[i - 1 + (j - 1) * n];
+                }
+            }
+
+            p = 0.0;
+            sgn = -1.0;
+
+            for (;;)
+            {
+                sgn = -sgn;
+
+                Subset.subset_gray_next(n - 1, ref iwork, ref more, ref ncard, ref iadd);
+
+                if (ncard != 0)
+                {
+                    z = (double)(2 * iwork[iadd - 1] - 1);
+                    for (i = 1; i <= n; i++)
+                    {
+                        work[i - 1] = work[i - 1] + z * a[i - 1 + (iadd - 1) * n];
+                    }
+                }
+
+                prod = 1.0;
+                for (i = 0; i < n; i++)
+                {
+                    prod = prod * work[i];
+                }
+
+                p = p + sgn * prod;
+
+                if (!more)
+                {
+                    break;
+                }
+            }
+
+            perm = p * (double)(4 * (n % 2) - 2);
+
+            return perm;
         }
 
         public static void r8mat_plot(int m, int n, double[] a, string title)

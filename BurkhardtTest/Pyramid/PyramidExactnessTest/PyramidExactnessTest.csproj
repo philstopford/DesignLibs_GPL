@@ -9,4 +9,13 @@
       <ProjectReference Include="..\..\..\Common\Burkardt\Burkardt.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="pyramid_l3x3_j3_w.txt">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="pyramid_l3x3_j3_x.txt">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

@@ -501,7 +501,7 @@
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C#" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunManager" selected=".NET Project.PWLProductIntegralTest">
+  <component name="RunManager" selected=".NET Project.PyramidExactnessTest">
     <configuration name="ASA005Test" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />

@@ -1,4 +1,6 @@
 ﻿using System;
+using Burkardt.RandomNS;
+using Burkardt.SubsetNS;
 using Burkardt.Types;
 using Burkardt.Uniform;
 
@@ -447,6 +449,66 @@ namespace Burkardt
 
             return rank;
         }
+        
+        public static void comp_to_ksub ( int nc, int kc, int[] ac, ref int ns, ref int ks, ref int[] as_ )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    COMP_TO_KSUB converts a composition to a K-subset.
+        //
+        //  Discussion:
+        //
+        //    There is a bijection between K subsets and compositions.
+        //
+        //    Because we allow a composition to have entries that are 0, we need
+        //    to implicitly add 1 to each entry before establishing the bijection.
+        //
+        //    Let AC be a composition of NC into KC parts.
+        //
+        //    Then let
+        //      NS = NC + KC - 1
+        //      KS = KC - 1
+        //    and define
+        //      AS(I) = sum ( AC(1:I) + 1 ), for I = 1 : KS.
+        //      
+        //    Then AS is a KS subset of the integers 1 through NS.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    04 December 2013
+        //
+        //  Parameters:
+        //
+        //    Input, int NC, the composition sum.
+        //
+        //    Input, int KC, the number of parts of the composition.
+        //
+        //    Input, int AC[KC], the parts of the composition.
+        //
+        //    Output, int &NS, the size of the set.
+        //
+        //    Output, int &KS, the size of the subset.
+        //
+        //    Output, int AS[KS], the entries of the K-subset, 
+        //    in increasing order.
+        //
+        {
+            int i;
+
+            ns = nc + kc - 1;
+            ks = kc - 1;
+                as_[0] = ac[0] + 1;
+            for ( i = 1; i < kc - 1; i++ )
+            {
+                as_[i] = as_[i-1] + ac[i] + 1;
+            }
+        }
 
         public static int[] comp_unrank_grlex(int kc, int rank)
 
@@ -714,6 +776,77 @@ namespace Burkardt
             more = (a[k - 1] != n);
         }
 
+        public static int compnz_enum ( int n, int k )
+
+            /******************************************************************************/
+            /*
+              Purpose:
+            
+                COMPNZ_ENUM returns the number of nonzero compositions of the N into K parts.
+            
+              Discussion:
+            
+                A composition of the integer N into K nonzero parts is an ordered sequence
+                of K positive integers which sum to N.  The compositions (1,2,1)
+                and (1,1,2) are considered to be distinct.
+            
+                The 10 compositions of 6 into three nonzero parts are:
+            
+                  4 1 1,  3 2 1,  3 1 2,  2 3 1,  2 2 2,  2 1 3,
+                  1 4 1,  1 3 2,  1 2 3,  1 1 4.
+            
+                The formula for the number of compositions of N into K nonzero
+                parts is
+            
+                  Number = ( N - 1 )! / ( ( N - K )! * ( K - 1 )! )
+            
+                (Describe the composition using N-K '1's and K-1 dividing lines '|'.
+                The number of distinct permutations of these symbols is the number
+                of compositions into nonzero parts.  This is equal to the number of
+                permutations of  N-1 things, with N-K identical of one kind
+                and K-1 identical of another.)
+            
+                Thus, for the above example, we have:
+            
+                  Number = ( 6 - 1 )! / ( ( 6 - 3 )! * ( 3 - 1 )! ) = 10
+            
+              Licensing:
+            
+                This code is distributed under the GNU LGPL license.
+            
+              Modified:
+            
+                05 December 2013
+            
+              Author:
+            
+                John Burkardt
+            
+              Reference:
+            
+                Albert Nijenhuis, Herbert Wilf,
+                Combinatorial Algorithms for Computers and Calculators,
+                Second Edition,
+                Academic Press, 1978,
+                ISBN: 0-12-519260-6,
+                LC: QA164.N54.
+            
+              Parameters:
+            
+                Input, int N, the integer whose compositions are desired.
+            
+                Input, int K, the number of parts in the composition.
+            
+                Output, int COMPNZ_ENUM, the number of compositions of N into
+                K nonzero parts.
+            */
+        {
+            int number;
+
+            number = typeMethods.i4_choose ( n - 1, n - k );
+
+            return number;
+        }
         public static void compnz_next(ref CompNZData data, int n, int k, ref int[] a, ref bool more)
 
             //****************************************************************************80
@@ -841,6 +974,143 @@ namespace Burkardt
             }
         }
 
+        public static void compnz_random(int n, int k, ref int seed, ref int[] a)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    COMPNZ_RANDOM selects a random composition of the integer N into K nonzero parts.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    01 December 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Albert Nijenhuis, Herbert Wilf,
+            //    Combinatorial Algorithms for Computers and Calculators,
+            //    Second Edition,
+            //    Academic Press, 1978,
+            //    ISBN: 0-12-519260-6,
+            //    LC: QA164.N54.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the integer to be decomposed.
+            //
+            //    Input, int K, the number of parts in the composition.
+            //    K must be no greater than N.
+            //
+            //    Input/output, int &SEED, a seed for the random number generator.
+            //
+            //    Output, int A[K], the parts of the composition.
+            //
+        {
+            int i;
+            int l;
+            int m;
+
+            if (n < k)
+            {
+                for (i = 0; i < k; i++)
+                {
+                    a[i] = -1;
+                }
+
+                return;
+            }
+
+            if (1 < k)
+            {
+                Ksub.ksub_random(n - 1, k - 1, ref seed, ref a);
+            }
+
+            a[k - 1] = n;
+            l = 0;
+
+            for (i = 0; i < k; i++)
+            {
+                m = a[i];
+                a[i] = a[i] - l - 1;
+                l = m;
+            }
+
+            for (i = 0; i < k; i++)
+            {
+                a[i] = a[i] + 1;
+            }
+
+        }
+
+        public static void compnz_to_ksub(int nc, int kc, int[] ac, ref int ns, ref int ks, ref int[] as_)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    COMPNZ_TO_KSUB converts a nonzero composition to a K-subset.
+            //
+            //  Discussion:
+            //
+            //    There is a bijection between K subsets and compositions.
+            //
+            //    Let AC be a composition of NC into KC parts.
+            //
+            //    Then let
+            //      NS = NC - 1
+            //      KS = KC - 1
+            //    and define
+            //      AS(I) = sum ( AC(1:I) ), for I = 1 : KS.
+            //      
+            //    Then AS is a KS subset of the integers 1 through NS.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    24 May 2015
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int NC, the composition sum.
+            //
+            //    Input, int KC, the number of parts of the composition.
+            //
+            //    Input, int AC[KC], the parts of the composition.
+            //
+            //    Output, int &NS, the size of the set.
+            //
+            //    Output, int &KS, the size of the subset.
+            //
+            //    Output, int AS[KS], the entries of the K-subset, 
+            //    in increasing order.
+            //
+        {
+            int i;
+
+            ns = nc - 1;
+            ks = kc - 1;
+            as_[0] = ac[0];
+            for (i = 1; i < kc - 1; i++)
+            {
+                as_[i] = as_[i - 1] + ac[i];
+            }
+        }
 
     }
 

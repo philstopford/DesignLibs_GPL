@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt;
 using Burkardt.RankingNS;
 using Burkardt.Types;
 
@@ -66,7 +67,7 @@ namespace ComboTest
                     s = typeMethods.i4vec_copy_new(n, s3);
                 }
 
-                check = Ranking.perm_check(n, s);
+                check = Permutation.perm_check(n, s);
                 typeMethods.i4vec_transpose_print(n, s, "  Permutation:");
                 Console.WriteLine("  Check = " + check + "");
             }
@@ -102,7 +103,7 @@ namespace ComboTest
 
             for (n = 0; n <= 10; n++)
             {
-                perm_num = Ranking.perm_enum(n);
+                perm_num = Permutation.perm_enum(n);
                 Console.WriteLine("  " + n.ToString().PadLeft(2)
                     + "  " + perm_num.ToString().PadLeft(6) + "");
             }
@@ -146,14 +147,14 @@ namespace ComboTest
             Console.WriteLine("  PERM_TO_CYCLE converts a permutation from");
             Console.WriteLine("  array to cycle form.");
 
-            Ranking.perm_print(n, p, "  Permutation:");
+            Permutation.perm_print(n, p, "  Permutation:");
             //
             //  Convert the permutation to cycle form.
             //
             t = new int[n];
             index = new int[n];
 
-            Ranking.perm_to_cycle(n, p, ref ncycle, ref t, ref index);
+            Permutation.perm_to_cycle(n, p, ref ncycle, ref t, ref index);
 
             Console.WriteLine("");
             Console.WriteLine("  Corresponding cycle form:");
@@ -206,19 +207,19 @@ namespace ComboTest
             Console.WriteLine("PERM_INV_TEST");
             Console.WriteLine("  PERM_INV computes an inverse permutation,");
 
-            Ranking.perm_print(n, p, "  The permutation P:");
+            Permutation.perm_print(n, p, "  The permutation P:");
             //
             //  Invert.
             //
-            q = Ranking.perm_inv(n, p);
+            q = Permutation.perm_inv(n, p);
 
-            Ranking.perm_print(n, q, "  The inverse permutation Q:");
+            Permutation.perm_print(n, q, "  The inverse permutation Q:");
             //
             //  Multiply.
             //
-            r = Ranking.perm_mul(n, p, q);
+            r = Permutation.perm_mul(n, p, q);
 
-            Ranking.perm_print(n, r, "  The product R = P * Q:");
+            Permutation.perm_print(n, r, "  The product R = P * Q:");
         }
 
         static void perm_lex_rank_test()
@@ -255,9 +256,9 @@ namespace ComboTest
             Console.WriteLine("  permutations of the integers,");
             Console.WriteLine("  using the lexicographic ordering:");
 
-            Ranking.perm_print(n, pi, "  Element to be ranked:");
+            Permutation.perm_print(n, pi, "  Element to be ranked:");
 
-            rank = Ranking.perm_lex_rank(n, pi);
+            rank = Permutation.perm_lex_rank(n, pi);
 
             Console.WriteLine("");
             Console.WriteLine("  Rank is computed as " + rank + "");
@@ -304,7 +305,7 @@ namespace ComboTest
             {
                 rank_old = rank;
 
-                Ranking.perm_lex_successor(n, ref pi, ref rank);
+                Permutation.perm_lex_successor(n, ref pi, ref rank);
 
                 if (rank <= rank_old)
                 {
@@ -354,9 +355,9 @@ namespace ComboTest
 
             rank = 12;
 
-            pi = Ranking.perm_lex_unrank(rank, n);
+            pi = Permutation.perm_lex_unrank(rank, n);
 
-            Ranking.perm_print(n, pi, "  The element of rank 12:");
+            Permutation.perm_print(n, pi, "  The element of rank 12:");
         }
 
         static void perm_mul_test()
@@ -395,13 +396,13 @@ namespace ComboTest
             Console.WriteLine("PERM_MUL_TEST");
             Console.WriteLine("  PERM_MUL multiplies two permutations.");
 
-            Ranking.perm_print(n, p, "  The permutation P:");
+            Permutation.perm_print(n, p, "  The permutation P:");
 
-            Ranking.perm_print(n, q, "  The permutation Q:");
+            Permutation.perm_print(n, q, "  The permutation Q:");
 
-            r = Ranking.perm_mul(n, p, q);
+            r = Permutation.perm_mul(n, p, q);
 
-            Ranking.perm_print(n, r, "  The product R = P * Q:");
+            Permutation.perm_print(n, r, "  The product R = P * Q:");
         }
 
         static void perm_parity_test()
@@ -440,9 +441,9 @@ namespace ComboTest
 
             for (test = 1; test <= 5; test++)
             {
-                p = Ranking.perm_random(n, ref seed);
-                Ranking.perm_print(n, p, "  The permutation P:");
-                parity = Ranking.perm_parity(n, p);
+                p = Permutation.perm_random(n, ref seed);
+                Permutation.perm_print(n, p, "  The permutation P:");
+                parity = Permutation.perm_parity(n, p);
                 Console.WriteLine("");
                 Console.WriteLine("  The parity is " + parity + "");
             }
@@ -479,7 +480,7 @@ namespace ComboTest
             Console.WriteLine("PERM_PRINT_TEST");
             Console.WriteLine("  PERM_PRINT prints a permutation of (1,...,N).");
 
-            Ranking.perm_print(n, p, "  The 1-based permutation:");
+            Permutation.perm_print(n, p, "  The 1-based permutation:");
         }
 
         static void perm_random_test()
@@ -517,7 +518,7 @@ namespace ComboTest
 
             for (test = 1; test <= 5; test++)
             {
-                p = Ranking.perm_random(n, ref seed);
+                p = Permutation.perm_random(n, ref seed);
                 typeMethods.i4vec_transpose_print(n, p, "");
             }
         }
@@ -555,9 +556,9 @@ namespace ComboTest
             Console.WriteLine("  PERM_TJ_RANK ranks permutations of the integers");
             Console.WriteLine("  using the Trotter-Johnson ordering.");
 
-            Ranking.perm_print(n, pi, "  The element to be ranked:");
+            Permutation.perm_print(n, pi, "  The element to be ranked:");
 
-            rank = Ranking.perm_tj_rank(n, pi);
+            rank = Permutation.perm_tj_rank(n, pi);
 
             Console.WriteLine("");
             Console.WriteLine("  Rank is computed as " + rank + "");
@@ -604,7 +605,7 @@ namespace ComboTest
             {
                 rank_old = rank;
 
-                Ranking.perm_tj_successor(n, ref pi, ref rank);
+                Permutation.perm_tj_successor(n, ref pi, ref rank);
 
                 if (rank <= rank_old)
                 {
@@ -655,9 +656,9 @@ namespace ComboTest
             rank = 12;
             n = 4;
 
-            pi = Ranking.perm_tj_unrank(rank, n);
+            pi = Permutation.perm_tj_unrank(rank, n);
 
-            Ranking.perm_print(n, pi, "  The element of rank 12:");
+            Permutation.perm_print(n, pi, "  The element of rank 12:");
         }
     }
 }

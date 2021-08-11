@@ -1,4 +1,6 @@
-﻿namespace Burkardt
+﻿using Burkardt.SubsetNS;
+
+namespace Burkardt
 {
     public static class Knapsack
     {

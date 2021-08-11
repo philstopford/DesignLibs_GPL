@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt.RandomNS;
+using Burkardt.SubsetNS;
 using Burkardt.Types;
 using Tuple = System.Tuple;
 

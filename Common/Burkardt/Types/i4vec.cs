@@ -146,10 +146,42 @@ namespace Burkardt.Types
             {
                 a2[i] = a1[i];
             }
-
-            return;
         }
 
+        public static void i4vec_indicator0 ( int n, ref int[] a )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_INDICATOR0 sets an I4VEC to the indicator vector.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    25 February 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of elements of A.
+            //
+            //    Output, int A[N], the initialized array.
+            //
+        {
+            int i;
+
+            for ( i = 0; i < n; i++ )
+            {
+                a[i] = i;
+            }
+        }
         public static int[] i4vec_indicator0_new(int n)
 
             //****************************************************************************80
@@ -692,6 +724,60 @@ namespace Burkardt.Types
 
             return variance;
         }
+        
+        public static int i4vec_maxloc_last ( int n, int[] x )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_MAXLOC_LAST returns the index of the last maximal I4VEC entry.
+            //
+            //  Example:
+            //
+            //    X = ( 5, 1, 2, 5, 0, 5, 3 )
+            //
+            //    I4VEC_MAXLOC_LAST = 5
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    29 May 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the size of the array.
+            //
+            //    Input, int X[N], the array to be examined.
+            //
+            //    Output, int I4VEC_MAXLOC_LAST, the index of the last element of
+            //    X of maximal value.
+            //
+        {
+            int i;
+            int index;
+            int value;
+
+            index = 0;
+            value = x[0];
+
+            for ( i = 1; i < n; i++ )
+            {
+                if ( value <= x[i] )
+                {
+                    index = i;
+                    value = x[i];
+                }
+            }
+            return index;
+        }
 
         public static double i4vec_mean(int n, int[] x)
         {
@@ -1225,6 +1311,85 @@ namespace Burkardt.Types
 
             return;
         }
+        
+        public static void i4vec_increment ( int n, ref int[] v )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_INCREMENT increments an I4VEC.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    08 January 2015
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the size of the array.
+            //
+            //    Input/output, int V[N], the array to be incremented.
+            //
+        {
+            int i;
+
+            for ( i = 0; i < n; i++ )
+            {
+                v[i] = v[i] + 1;
+            }
+        }
+
+        public static int i4vec_index ( int n, int[] a, int aval )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    I4VEC_INDEX returns the location of the first occurrence of a given value.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    29 May 2003
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number of entries in the vector.
+        //
+        //    Input, int A[N], the vector to be searched.
+        //
+        //    Input, int AVAL, the value to be indexed.
+        //
+        //    Output, int I4VEC_INDEX, the first location in A which has the
+        //    value AVAL, or -1 if no such index exists.
+        //
+        {
+            int i;
+
+            for ( i = 0; i < n; i++ )
+            {
+                if ( a[i] == aval )
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
 
         public static int[] i4vec_indicator(int n)
 
@@ -1444,6 +1609,53 @@ namespace Burkardt.Types
             return indx;
         }
 
+        public static void i4vec_sort_bubble_a ( int n, ref int[] a )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_SORT_BUBBLE_A ascending sorts an integer array using bubble sort.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    29 May 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in the array.
+            //
+            //    Input/output, int A[N].
+            //    On input, the array to be sorted;
+            //    On output, the array has been sorted.
+            //
+        {
+            int i;
+            int j;
+            int k;
+
+            for ( i = 0; i < n-1; i++ )
+            {
+                for ( j = i+1; j < n; j++ )
+                {
+                    if ( a[j] < a[i] )
+                    {
+                        k = a[i];
+                        a[i] = a[j];
+                        a[j] = k;
+                    }
+                }
+            }
+        }
+        
         public static void i4vec_sort_heap_a(int n, ref int[] a, int aIndex = 0)
 
             //****************************************************************************80
@@ -2428,6 +2640,145 @@ namespace Burkardt.Types
                 }
             }
         }
+        
+        public static void i4vec0_print ( int n, int[] a, string title )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    I4VEC0_PRINT prints an integer vector (0-based indices).
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    28 June 2003
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number of components of the vector.
+        //
+        //    Input, int A[N], the vector to be printed.
+        //
+        //    Input, string TITLE, a title.
+        //
+        {
+            int i;
+
+            if ( 0 < title.Length )
+            {
+                Console.WriteLine();
+                Console.WriteLine(title);
+            }
+
+            for ( i = 0; i <= n-1; i++ ) 
+            {
+                Console.WriteLine(i.ToString().PadLeft(6)    + "  " 
+                    + a[i].ToString().PadLeft(8));
+            }
+        }
+
+        public static void i4vec1_print ( int n, int[] a, string title )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    I4VEC1_PRINT prints an integer vector (one-based indices).
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    28 June 2003
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number of components of the vector.
+        //
+        //    Input, int A[N], the vector to be printed.
+        //
+        //    Input, string TITLE, a title.
+        //
+        {
+            int i;
+
+            if ( 0 < title.Length )
+            {
+                Console.WriteLine();
+                Console.WriteLine(title);
+            }
+
+            for ( i = 0; i <= n-1; i++ ) 
+            {
+                Console.WriteLine("  "
+                                  + (i+1).ToString().PadLeft(6)  + "  " 
+                                  + a[i].ToString().PadLeft(8));
+            }
+
+        }
+        
+        public static bool i4vec_ascends ( int n, ref int[] x )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_ASCENDS determines if an I4VEC is (weakly) ascending.
+            //
+            //  Example:
+            //
+            //    X = ( -8, 1, 2, 3, 7, 7, 9 )
+            //
+            //    I4VEC_ASCENDS = TRUE
+            //
+            //    The sequence is not required to be strictly ascending.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    14 April 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the size of the array.
+            //
+            //    Input, int X[N], the array to be examined.
+            //
+            //    Output, bool I4VEC_ASCENDS, is TRUE if the entries of X ascend.
+            //
+        {
+            int i;
+
+            for ( i = 1; i <= n - 1; i++ )
+            {
+                if ( x[i] < x[i-1] )
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
 
         public static void i4vec_backtrack(int n, int maxstack, int[] stack, ref int[] x, ref int indx,
                 ref int k, ref int nstack, ref int[] ncan)
@@ -2567,6 +2918,57 @@ namespace Burkardt.Types
             }
 
             return;
+        }
+        
+        public static bool i4vec_pairwise_prime ( int n, int[] a )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_PAIRWISE_PRIME checks whether an I4VEC is pairwise prime.
+            //
+            //  Discussion:
+            //
+            //    Two positive integers I and J are pairwise prime if they have no common
+            //    factor greater than 1.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    29 May 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of values to check.
+            //
+            //    Input, int A[N], the vector of integers.
+            //
+            //    Output, bool I4VEC_PAIRWISE_PRIME, is TRUE if the vector of integers
+            //    is pairwise prime.
+            //
+        {
+            int i;
+            int j;
+
+            for ( i = 0; i < n; i++ )
+            {
+                for ( j = i+1; j < n; j++ )
+                {
+                    if ( i4_gcd ( a[i], a[j] ) != 1 ) 
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
 
         public static int[] i4vec_part1_new(int n, int npart)
@@ -3011,6 +3413,122 @@ namespace Burkardt.Types
             return index;
         }
 
+        public static int[] i4vec_sort_heap_index_d(int n, int[] a)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_SORT_HEAP_INDEX_D does an indexed heap descending sort of an I4VEC.
+            //
+            //  Discussion:
+            //
+            //    The sorting is not actually carried out.  Rather an index array is
+            //    created which defines the sorting.  This array may be used to sort
+            //    or index the array, or to sort or index related arrays keyed on the
+            //    original array.
+            //
+            //    Once the index array is computed, the sorting can be carried out
+            //    "implicitly:
+            //
+            //      A(INDX(I)), I = 1 to N is sorted,
+            //
+            //    after which A(I), I = 1 to N is sorted.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    02 April 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in the array.
+            //
+            //    Input, int A[N], an array to be index-sorted.
+            //
+            //    Output, int I4VEC_SORT_HEAP_INDEX_D[N], contains the sort index.  The
+            //    I-th element of the sorted array is A(INDX(I)).
+            //
+        {
+            int aval;
+            int i;
+            int[] indx;
+            int indxt;
+            int ir;
+            int j;
+            int l;
+
+            indx = i4vec_indicator1_new(n);
+
+            l = n / 2 + 1;
+            ir = n;
+
+            for (;;)
+            {
+                if (1 < l)
+                {
+                    l = l - 1;
+                    indxt = indx[l - 1];
+                    aval = a[indxt - 1];
+                }
+                else
+                {
+                    indxt = indx[ir - 1];
+                    aval = a[indxt - 1];
+                    indx[ir - 1] = indx[0];
+                    ir = ir - 1;
+
+                    if (ir == 1)
+                    {
+                        indx[0] = indxt;
+                        for (i = 0; i < n; i++)
+                        {
+                            indx[i] = indx[i] - 1;
+                        }
+
+                        return indx;
+                    }
+
+                }
+
+                i = l;
+                j = l + l;
+
+                while (j <= ir)
+                {
+                    if (j < ir)
+                    {
+                        if (a[indx[j] - 1] < a[indx[j - 1] - 1])
+                        {
+                            j = j + 1;
+                        }
+                    }
+
+                    if (a[indx[j - 1] - 1] < aval)
+                    {
+                        indx[i - 1] = indx[j - 1];
+                        i = j;
+                        j = j + j;
+                    }
+                    else
+                    {
+                        j = ir + 1;
+                    }
+
+                }
+
+                indx[i - 1] = indxt;
+
+            }
+        }
+
         public static void i4vec_sort_insert_a(int n, ref int[] a)
 
             //****************************************************************************80
@@ -3169,6 +3687,88 @@ namespace Burkardt.Types
             {
                 a[i] = i + 1;
             }
+        }
+        
+        public static void i4vec_decrement ( int n, ref int[] v )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_DECREMENT decrements an I4VEC.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    08 January 2015
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the size of the array.
+            //
+            //    Input/output, int V[N], the array to be decremented.
+            //
+        {
+            int i;
+
+            for ( i = 0; i < n; i++ )
+            {
+                v[i] = v[i] - 1;
+            }
+        }
+        
+        public static bool i4vec_descends ( int n, ref int[] x )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_DESCENDS determines if an I4VEC is decreasing.
+            //
+            //  Example:
+            //
+            //    X = ( 9, 7, 7, 3, 2, 1, -8 )
+            //
+            //    I4VEC_DESCENDS = TRUE
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    28 May 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the size of the array.
+            //
+            //    Input, int X[N], the array to be examined.
+            //
+            //    Output, bool I4VEC_DESCEND, is TRUE if the entries of the array descend.
+            //
+        {
+            int i;
+
+            for ( i = 0; i < n - 1; i++ )
+            {
+                if ( x[i] < x[i+1] )
+                {
+                    return false;
+                }
+            }
+            return true;
         }
         
         public static int i4vec_dot_product ( int n, int[] x, int[] y )

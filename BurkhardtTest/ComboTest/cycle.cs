@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt;
 using Burkardt.RankingNS;
 using Burkardt.Types;
 
@@ -211,7 +212,7 @@ namespace ComboTest
 
             p = Ranking.cycle_to_perm(n, ncycle, t, index);
 
-            Ranking.perm_print(n, p, "  Corresponding permutation:");
+            Permutation.perm_print(n, p, "  Corresponding permutation:");
         }
     }
 }

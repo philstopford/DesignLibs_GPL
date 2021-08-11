@@ -1,4 +1,4 @@
-﻿namespace Burkardt
+﻿namespace Burkardt.SubsetNS
 {
     public static class Subset
     {

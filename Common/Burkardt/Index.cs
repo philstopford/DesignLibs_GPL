@@ -1,4 +1,7 @@
-﻿namespace Burkardt
+﻿using System;
+using Burkardt.Types;
+
+namespace Burkardt
 {
     public static class Index
     {
@@ -203,45 +206,45 @@
             return value;
         }
 
-        public static int index0n(int n, int[] i_min, int[] i, int[] i_max )
+        public static int index0n(int n, int[] i_min, int[] i, int[] i_max)
 
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    INDEX0N indexes an N-dimensional array by columns, with zero base.
-        //
-        //  Discussion:
-        //
-        //    Entries of the array are indexed starting at entry 
-        //      ( I_MIN(1), I_MIN(2),...,I_MIN(N) ), 
-        //    and increasing the first index up to I_MAX(1), 
-        //    then the second and so on.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license. 
-        //
-        //  Modified:
-        //
-        //    28 November 2012
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int N, the number of indices.
-        //
-        //    Input, int I_MIN[N], the minimum indices.
-        //
-        //    Input, int I[N], the indices.
-        //
-        //    Input, int I_MAX[N], for maximum indices.
-        //
-        //    Output, int INDEX0N, the index of element I.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    INDEX0N indexes an N-dimensional array by columns, with zero base.
+            //
+            //  Discussion:
+            //
+            //    Entries of the array are indexed starting at entry 
+            //      ( I_MIN(1), I_MIN(2),...,I_MIN(N) ), 
+            //    and increasing the first index up to I_MAX(1), 
+            //    then the second and so on.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    28 November 2012
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of indices.
+            //
+            //    Input, int I_MIN[N], the minimum indices.
+            //
+            //    Input, int I[N], the indices.
+            //
+            //    Input, int I_MAX[N], for maximum indices.
+            //
+            //    Output, int INDEX0N, the index of element I.
+            //
         {
             int index_min = 0;
             int j;
@@ -506,45 +509,45 @@
             return value;
         }
 
-        public static int index1n(int n, int[] i_min, int[] i, int[] i_max )
+        public static int index1n(int n, int[] i_min, int[] i, int[] i_max)
 
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    INDEX1N indexes an N-dimensional array by columns, with unit base.
-        //
-        //  Discussion:
-        //
-        //    Entries of the array are indexed starting at entry 
-        //      ( I_MIN(1), I_MIN(2),...,I_MIN(N) ), 
-        //    and increasing the first index up to I_MAX(1), 
-        //    then the second and so on.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license. 
-        //
-        //  Modified:
-        //
-        //    28 November 2012
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int N, the number of indices.
-        //
-        //    Input, int I_MIN[N], the minimum indices.
-        //
-        //    Input, int I[N], the indices.
-        //
-        //    Input, int I_MAX[N], for maximum indices.
-        //
-        //    Output, int INDEX1N, the index of element I.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    INDEX1N indexes an N-dimensional array by columns, with unit base.
+            //
+            //  Discussion:
+            //
+            //    Entries of the array are indexed starting at entry 
+            //      ( I_MIN(1), I_MIN(2),...,I_MIN(N) ), 
+            //    and increasing the first index up to I_MAX(1), 
+            //    then the second and so on.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    28 November 2012
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of indices.
+            //
+            //    Input, int I_MIN[N], the minimum indices.
+            //
+            //    Input, int I[N], the indices.
+            //
+            //    Input, int I_MAX[N], for maximum indices.
+            //
+            //    Output, int INDEX1N, the index of element I.
+            //
         {
             int index_min = 1;
             int j;
@@ -832,45 +835,45 @@
             return value;
         }
 
-        public static int indexn0(int n, int[] i_min, int[] i, int[] i_max )
+        public static int indexn0(int n, int[] i_min, int[] i, int[] i_max)
 
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    INDEXN0 indexes an N-dimensional array by rows, with zero base.
-        //
-        //  Discussion:
-        //
-        //    Entries of the array are indexed starting at entry 
-        //      ( I_MIN(1), I_MIN(2),...,I_MIN(N) ), 
-        //    and increasing the last index up to I_MAX(N), 
-        //    then the next-to-last and so on.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license. 
-        //
-        //  Modified:
-        //
-        //    28 November 2012
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int N, the number of indices.
-        //
-        //    Input, int I_MIN[N], the minimum indices.
-        //
-        //    Input, int I[N], the indices.
-        //
-        //    Input, int I_MAX[N], for maximum indices.
-        //
-        //    Output, int INDEXN0, the index of element I.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    INDEXN0 indexes an N-dimensional array by rows, with zero base.
+            //
+            //  Discussion:
+            //
+            //    Entries of the array are indexed starting at entry 
+            //      ( I_MIN(1), I_MIN(2),...,I_MIN(N) ), 
+            //    and increasing the last index up to I_MAX(N), 
+            //    then the next-to-last and so on.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    28 November 2012
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of indices.
+            //
+            //    Input, int I_MIN[N], the minimum indices.
+            //
+            //    Input, int I[N], the indices.
+            //
+            //    Input, int I_MAX[N], for maximum indices.
+            //
+            //    Output, int INDEXN0, the index of element I.
+            //
         {
             int index_min = 0;
             int j;
@@ -888,45 +891,45 @@
             return value;
         }
 
-        public static int indexn1(int n, int[] i_min, int[] i, int[] i_max )
+        public static int indexn1(int n, int[] i_min, int[] i, int[] i_max)
 
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    INDEXN1 indexes an N-dimensional array by rows, with unit base.
-        //
-        //  Discussion:
-        //
-        //    Entries of the array are indexed starting at entry 
-        //      ( I_MIN(1), I_MIN(2),...,I_MIN(N) ), 
-        //    and increasing the last index up to I_MAX(N), 
-        //    then the next-to-last and so on.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license. 
-        //
-        //  Modified:
-        //
-        //    28 November 2012
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int N, the number of indices.
-        //
-        //    Input, int I_MIN[N], the minimum indices.
-        //
-        //    Input, int I[N], the indices.
-        //
-        //    Input, int I_MAX[N], for maximum indices.
-        //
-        //    Output, int INDEXN1, the index of element I.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    INDEXN1 indexes an N-dimensional array by rows, with unit base.
+            //
+            //  Discussion:
+            //
+            //    Entries of the array are indexed starting at entry 
+            //      ( I_MIN(1), I_MIN(2),...,I_MIN(N) ), 
+            //    and increasing the last index up to I_MAX(N), 
+            //    then the next-to-last and so on.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    28 November 2012
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of indices.
+            //
+            //    Input, int I_MIN[N], the minimum indices.
+            //
+            //    Input, int I[N], the indices.
+            //
+            //    Input, int I_MAX[N], for maximum indices.
+            //
+            //    Output, int INDEXN1, the index of element I.
+            //
         {
             int index_min = 1;
             int j;
@@ -943,5 +946,1200 @@
 
             return value;
         }
+
+        public static void index_box2_next_2d(int n1, int n2, int ic, int jc, ref int i, ref int j,
+                ref bool more)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    INDEX_BOX2_NEXT_2D produces index vectors on the surface of a box in 2D.
+            //
+            //  Discussion:
+            //
+            //    The box has center at (IC,JC), and half-widths N1 and N2.
+            //    The index vectors are exactly those which are between (IC-N1,JC-N1) and
+            //    (IC+N1,JC+N2) with the property that at least one of I and J
+            //    is an "extreme" value.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    28 May 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N1, N2, the half-widths of the box, that is, the
+            //    maximum distance allowed between (IC,JC) and (I,J).
+            //
+            //    Input, int IC, JC, the central cell of the box.
+            //
+            //    Input/output, int &I, &J.  On input, the previous index set.
+            //    On output, the next index set.  On the first call, MORE should
+            //    be set to FALSE, and the input values of I and J are ignored.
+            //
+            //    Input/output, bool &MORE.
+            //    On the first call for a given box, the user should set MORE to FALSE.
+            //    On return, the routine sets MORE to TRUE.
+            //    When there are no more indices, the routine sets MORE to FALSE.
+            //
+        {
+            if (!(more))
+            {
+                more = true;
+                i = ic - n1;
+                j = jc - n2;
+                return;
+            }
+
+            if (i == ic + n1 && j == jc + n2)
+            {
+                more = false;
+                return;
+            }
+
+            //
+            //  Increment J.
+            //
+            j = j + 1;
+            //
+            //  Check J.
+            //
+            if (jc + n2 < j)
+            {
+                j = jc - n2;
+                i = i + 1;
+            }
+            else if (j < jc + n2 && (i == ic - n1 || i == ic + n1))
+            {
+                return;
+            }
+            else
+            {
+                j = jc + n2;
+                return;
+            }
+
+        }
+
+        public static void index_box2_next_3d(int n1, int n2, int n3, int ic, int jc, int kc,
+                ref int i, ref int j, ref int k, ref bool more)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    INDEX_BOX2_NEXT_3D produces index vectors on the surface of a box in 3D.
+            //
+            //  Discussion:
+            //
+            //    The box has a central cell of (IC,JC,KC), with half widths of
+            //    (N1,N2,N3).  The index vectors are exactly those between
+            //    (IC-N1,JC-N2,KC-N3) and (IC+N1,JC+N2,KC+N3) with the property that 
+            //    at least one of I, J, and K is an "extreme" value.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    28 May 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N1, N2, N3, the "half widths" of the box, that is, the
+            //    maximum distances from the central cell allowed for I, J and K.
+            //
+            //    Input, int IC, JC, KC, the central cell of the box.
+            //
+            //    Input/output, int &I, &J, &K.  On input, the previous index set.
+            //    On output, the next index set.  On the first call, MORE should
+            //    be set to FALSE, and the input values of I, J, and K are ignored.
+            //
+            //    Input/output, bool &MORE.
+            //    On the first call for a given box, the user should set MORE to FALSE.
+            //    On return, the routine sets MORE to TRUE.
+            //    When there are no more indices, the routine sets MORE to FALSE.
+            //
+        {
+            if (!more)
+            {
+                more = true;
+                i = ic - n1;
+                j = jc - n2;
+                k = kc - n3;
+                return;
+            }
+
+            if (i == ic + n1 && j == jc + n2 && k == kc + n3)
+            {
+                more = false;
+                return;
+            }
+
+            //
+            //  Increment K.
+            //
+            k = k + 1;
+            //
+            //  Check K.
+            //
+            if (kc + n3 < k)
+            {
+                k = kc - n3;
+                j = j + 1;
+            }
+            else if (k < kc + n3 &&
+                     (i == ic - n1 || i == ic + n1 ||
+                      j == jc - n2 || j == jc + n2))
+            {
+                return;
+            }
+            else
+            {
+                k = kc + n3;
+                return;
+            }
+
+            //
+            //  Check J.
+            //
+            if (jc + n2 < j)
+            {
+                j = jc - n2;
+                i = i + 1;
+            }
+            else if (j < jc + n2 &&
+                     (i == ic - n1 || i == ic + n1 ||
+                      k == kc - n3 || k == kc + n3))
+            {
+                return;
+            }
+            else
+            {
+                j = jc + n2;
+                return;
+            }
+
+        }
+
+        public static void index_box_next_2d(int n1, int n2, ref int i, ref int j, ref bool more)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    INDEX_BOX_NEXT_2D produces index vectors on the surface of a box in 2D.
+            //
+            //  Discussion:
+            //
+            //    The index vectors are exactly those which are between (1,1) and
+            //    (N1,N2) with the property that at least one of I and J
+            //    is an "extreme" value.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    28 May 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N1, N2, the "dimensions" of the box, that is, the
+            //    maximum values allowed for I and J.  The minimum values are
+            //    assumed to be 1.
+            //
+            //    Input/output, int &I, &J.  On input, the previous index set.
+            //    On output, the next index set.  On the first call, MORE should
+            //    be set to FALSE, and the input values of I and J are ignored.
+            //
+            //    Input/output, bool &MORE.
+            //    On the first call for a given box, the user should set MORE to FALSE.
+            //    On return, the routine sets MORE to TRUE.
+            //    When there are no more indices, the routine sets MORE to FALSE.
+            //
+        {
+            if (!more)
+            {
+                more = true;
+                i = 1;
+                j = 1;
+                return;
+            }
+
+            if (i == n1 && j == n2)
+            {
+                more = false;
+                return;
+            }
+
+            //
+            //  Increment J.
+            //
+            j = j + 1;
+            //
+            //  Check J.
+            //
+            if (n2 < j)
+            {
+                j = 1;
+                i = i + 1;
+            }
+            else if (j < n2 && (i == 1 || i == n1))
+            {
+                return;
+            }
+            else
+            {
+                j = n2;
+                return;
+            }
+
+        }
+
+        public static void index_box_next_3d(int n1, int n2, int n3, ref int i, ref int j, ref int k,
+                ref bool more)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    INDEX_BOX_NEXT_3D produces index vectors on the surface of a box in 3D.
+            //
+            //  Discussion:
+            //
+            //    The index vectors are exactly those which are between (1,1,1) and
+            //    (N1,N2,N3) with the property that at least one of I, J, and K
+            //    is an "extreme" value.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    28 May 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N1, N2, N3, the "dimensions" of the box, that is, the
+            //    maximum values allowed for I, J and K.  The minimum values are
+            //    assumed to be 1.
+            //
+            //    Input/output, int &I, &J, &K.  On input, the previous index set.
+            //    On output, the next index set.  On the first call, MORE should
+            //    be set to FALSE, and the input values of I, J, and K are ignored.
+            //
+            //    Input/output, bool &MORE.
+            //    On the first call for a given box, the user should set MORE to FALSE.
+            //    On return, the routine sets MORE to TRUE.
+            //    When there are no more indices, the routine sets MORE to FALSE.
+            //
+        {
+            if (!more)
+            {
+                more = true;
+                i = 1;
+                j = 1;
+                k = 1;
+                return;
+            }
+
+            if (i == n1 && j == n2 && k == n3)
+            {
+                more = false;
+                return;
+            }
+
+            //
+            //  Increment K.
+            //
+            k = k + 1;
+            //
+            //  Check K.
+            //
+            if (n3 < k)
+            {
+                k = 1;
+                j = j + 1;
+            }
+            else if (k < n3 && (i == 1 || i == n1 || j == 1 || j == n2))
+            {
+                return;
+            }
+            else
+            {
+                k = n3;
+                return;
+            }
+
+            //
+            //  Check J.
+            //
+            if (n2 < j)
+            {
+                j = 1;
+                i = i + 1;
+            }
+            else if (j < n2 && (i == 1 || i == n1 || k == 1 || k == n3))
+            {
+                return;
+            }
+            else
+            {
+                j = n2;
+                return;
+            }
+
+        }
+
+        public static void index_next0(int n, int hi, ref int[] a, ref bool more)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    INDEX_NEXT0 generates all index vectors within given upper limits.
+            //
+            //  Discussion:
+            //
+            //    The index vectors are generated in such a way that the reversed
+            //    sequences are produced in lexicographic order.
+            //
+            //  Example:
+            //
+            //    N = 3,
+            //    HI = 3
+            //
+            //    1   2   3
+            //    ---------
+            //    1   1   1
+            //    2   1   1
+            //    3   1   1
+            //    1   2   1
+            //    2   2   1
+            //    3   2   1
+            //    1   3   1
+            //    2   3   1
+            //    3   3   1
+            //    1   1   2
+            //    2   1   2
+            //    3   1   2
+            //    1   2   2
+            //    2   2   2
+            //    3   2   2
+            //    1   3   2
+            //    2   3   2
+            //    3   3   2
+            //    1   1   3
+            //    2   1   3
+            //    3   1   3
+            //    1   2   3
+            //    2   2   3
+            //    3   2   3
+            //    1   3   3
+            //    2   3   3
+            //    3   3   3
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    28 May 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in A.
+            //
+            //    Input, int HI, the upper limit for the array indices.
+            //    The lower limit is implicitly 1 and HI must be at least 1.
+            //
+            //    Input/output, int A[N].
+            //    On startup calls, with MORE = FALSE, the input value of A
+            //    doesn't matter, because the routine initializes it.
+            //    On calls with MORE = TRUE, the input value of A must be
+            //    the output value of A from the previous call.  (In other words,
+            //    just leave it alone!).
+            //    On output, A contains the successor set of indices to the input
+            //    value.
+            //
+            //    Input/output, bool &MORE.  Set this variable FALSE before
+            //    the first call.  Normally, MORE will be returned TRUE but
+            //    once all the vectors have been generated, MORE will be
+            //    reset FALSE and you should stop calling the program.
+            //
+        {
+            int i;
+            int inc;
+
+            if (!more)
+            {
+                for (i = 0; i < n; i++)
+                {
+                    a[i] = 1;
+                }
+
+                if (hi < 1)
+                {
+                    more = false;
+                    Console.WriteLine("");
+                    Console.WriteLine("INDEX_NEXT0 - Fatal error!");
+                    Console.WriteLine("  HI is " + hi + "");
+                    Console.WriteLine("  but HI must be at least 1.");
+                    return;
+                }
+            }
+            else
+            {
+                inc = 0;
+
+                while (hi <= a[inc])
+                {
+                    a[inc] = 1;
+                    inc = inc + 1;
+                }
+
+                a[inc] = a[inc] + 1;
+            }
+
+            //
+            //  See if there are more entries to compute.
+            //
+            more = false;
+
+            for (i = 0; i < n; i++)
+            {
+                if (a[i] < hi)
+                {
+                    more = true;
+                }
+            }
+
+        }
+
+        public static void index_next1(int n, int[] hi, ref int[] a, ref bool more)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    INDEX_NEXT1 generates all index vectors within given upper limits.
+            //
+            //  Discussion:
+            //
+            //    The index vectors are generated in such a way that the reversed
+            //    sequences are produced in lexicographic order.
+            //
+            //  Example:
+            //
+            //    N = 3,
+            //    HI(1) = 4, HI(2) = 2, HI(3) = 3
+            //
+            //    1   2   3
+            //    ---------
+            //    1   1   1
+            //    2   1   1
+            //    3   1   1
+            //    4   1   1
+            //    1   2   1
+            //    2   2   1
+            //    3   2   1
+            //    4   2   1
+            //    1   1   2
+            //    2   1   2
+            //    3   1   2
+            //    4   1   2
+            //    1   2   2
+            //    2   2   2
+            //    3   2   2
+            //    4   2   2
+            //    1   1   3
+            //    2   1   3
+            //    3   1   3
+            //    4   1   3
+            //    1   2   3
+            //    2   2   3
+            //    3   2   3
+            //    4   2   3
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    28 May 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in A.
+            //
+            //    Input, int HI[N], the upper limits for the array indices.
+            //    The lower limit is implicitly 1, and each HI(I) should be at least 1.
+            //
+            //    Input/output, int A[N].
+            //    On startup calls, with MORE = FALSE, the input value of A
+            //    doesn't matter, because the routine initializes it.
+            //    On calls with MORE = TRUE, the input value of A must be
+            //    the output value of A from the previous call.  (In other words,
+            //    just leave it alone!).
+            //    On output, A contains the successor set of indices to the input
+            //    value.
+            //
+            //    Input/output, bool &MORE.  Set this variable FALSE before
+            //    the first call.  Normally, MORE will be returned TRUE but
+            //    once all the vectors have been generated, MORE will be
+            //    reset FALSE and you should stop calling the program.
+            //
+        {
+            int i;
+            int inc;
+
+            if (!more)
+            {
+                for (i = 0; i < n; i++)
+                {
+                    a[i] = 1;
+                }
+
+                for (i = 0; i < n; i++)
+                {
+                    if (hi[i] < 1)
+                    {
+                        more = false;
+                        Console.WriteLine("");
+                        Console.WriteLine("INDEX_NEXT1 - Fatal error!");
+                        Console.WriteLine("  Entry " + i + " of HI is " + hi[i] + "");
+                        Console.WriteLine("  but all entries must be at least 1.");
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                inc = 0;
+
+                while (hi[inc] <= a[inc])
+                {
+                    a[inc] = 1;
+                    inc = inc + 1;
+                }
+
+                a[inc] = a[inc] + 1;
+            }
+
+            //
+            //  See if there are more entries to compute.
+            //
+            more = false;
+
+            for (i = 0; i < n; i++)
+            {
+                if (a[i] < hi[i])
+                {
+                    more = true;
+                }
+            }
+
+        }
+
+        public static void index_next2(int n, int[] lo, int[] hi, ref int[] a, ref bool more)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    INDEX_NEXT2 generates all index vectors within given lower and upper limits.
+            //
+            //  Example:
+            //
+            //    N = 3,
+            //    LO(1) = 1, LO(2) = 10, LO(3) = 4
+            //    HI(1) = 2, HI(2) = 11, HI(3) = 6
+            //
+            //    1   2   3
+            //    ---------
+            //    1  10   4
+            //    2  10   4
+            //    1  11   4
+            //    2  11   4
+            //    1  10   5
+            //    2  10   5
+            //    1  11   5
+            //    2  11   5
+            //    1  10   6
+            //    2  10   6
+            //    1  11   6
+            //    2  11   6
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    28 May 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in A.  The rank of
+            //    the object being indexed.
+            //
+            //    Input, int LO[N], HI[N], the lower and upper limits for the array
+            //    indices.  LO(I) should be less than or equal to HI(I), for each I.
+            //
+            //    Input/output, int A[N].
+            //    On startup calls, with MORE = FALSE, the input value of A
+            //    doesn't matter, because the routine initializes it.
+            //    On calls with MORE = TRUE, the input value of A must be
+            //    the output value of A from the previous call.  (In other words,
+            //    just leave it alone!).
+            //    On output, A contains the successor set of indices to the input
+            //    value.
+            //
+            //    Input/output, bool &MORE.  Set this variable FALSE before
+            //    the first call.  Normally, MORE will be returned TRUE but
+            //    once all the vectors have been generated, MORE will be
+            //    reset FALSE and you should stop calling the program.
+            //
+        {
+            int i;
+            int inc;
+
+            if (!more)
+            {
+                for (i = 0; i < n; i++)
+                {
+                    a[i] = lo[i];
+                }
+
+                for (i = 0; i < n; i++)
+                {
+                    if (hi[i] < lo[i])
+                    {
+                        more = false;
+                        Console.WriteLine("");
+                        Console.WriteLine("INDEX_NEXT2 - Fatal error!");
+                        Console.WriteLine("  Entry " + i + " of HI is " + hi[i] + "");
+                        Console.WriteLine("  Entry " + i + " of LO is " + lo[i] + "");
+                        Console.WriteLine("  but LO(I) <= HI(I) is required.");
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                inc = 0;
+
+                while (hi[inc] <= a[inc])
+                {
+                    a[inc] = lo[inc];
+                    inc = inc + 1;
+                }
+
+                a[inc] = a[inc] + 1;
+            }
+
+            //
+            //  See if there are more entries to compute.
+            //
+            more = false;
+
+            for (i = 0; i < n; i++)
+            {
+                if (a[i] < hi[i])
+                {
+                    more = true;
+                }
+            }
+        }
+
+        public static int index_rank0(int n, int hi, int[] a)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    INDEX_RANK0 ranks an index vector within given upper limits.
+            //
+            //  Example:
+            //
+            //    N = 3,
+            //    HI = 3
+            //    A = ( 3, 1, 2 )
+            //
+            //    RANK = 12
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    28 May 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in A.
+            //
+            //    Input, int HI, the upper limit for the array indices.
+            //    The lower limit is implicitly 1, and HI should be at least 1.
+            //
+            //    Input, int A[N], the index vector to be ranked.
+            //
+            //    Output, int INDEX_RANK0, the rank of the index vector, or -1 if A
+            //    is not a legal index.
+            //
+        {
+            int i;
+            int range;
+            int rank;
+
+            rank = -1;
+            for (i = 0; i < n; i++)
+            {
+                if (a[i] < 1 || hi < a[i])
+                {
+                    return rank;
+                }
+            }
+
+            rank = 0;
+            for (i = n - 1; 0 <= i; i--)
+            {
+                rank = hi * rank + a[i];
+            }
+
+            rank = 1;
+            range = 1;
+            for (i = 0; i < n; i++)
+            {
+                rank = rank + (a[i] - 1) * range;
+                range = range * hi;
+            }
+
+            return rank;
+        }
+
+        public static int index_rank1(int n, int[] hi, int[] a)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    INDEX_RANK1 ranks an index vector within given upper limits.
+            //
+            //  Example:
+            //
+            //    N = 3,
+            //    HI(1) = 4, HI(2) = 2, HI(3) = 3
+            //    A = ( 4, 1, 2 )
+            //
+            //    RANK = 12
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    28 May 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in A.
+            //
+            //    Input, int HI[N], the upper limits for the array indices.
+            //    The lower limit is implicitly 1, and each HI(I) should be at least 1.
+            //
+            //    Input, int A[N], the index to be ranked.
+            //
+            //    Output, int INDEX_RANK1, the rank of the index vector, or -1 if A
+            //    is not a legal index.
+            //
+        {
+            int i;
+            int range;
+            int rank;
+
+            rank = -1;
+            for (i = 0; i < n; i++)
+            {
+                if (a[i] < 1 || hi[i] < a[i])
+                {
+                    return rank;
+                }
+            }
+
+            rank = 0;
+            for (i = n - 1; 0 <= i; i--)
+            {
+                rank = hi[i] * rank + a[i];
+            }
+
+            rank = 1;
+            range = 1;
+            for (i = 0; i < n; i++)
+            {
+                rank = rank + (a[i] - 1) * range;
+                range = range * hi[i];
+            }
+
+            return rank;
+        }
+
+        public static int index_rank2(int n, int[] lo, int[] hi, int[] a)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    INDEX_RANK2 ranks an index vector within given lower and upper limits.
+            //
+            //  Example:
+            //
+            //    N = 3,
+            //    LO(1) = 1, LO(2) = 10, LO(3) = 4
+            //    HI(1) = 2, HI(2) = 11, HI(3) = 6
+            //    A = ( 1, 11, 5 )
+            //
+            //    RANK = 7
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    28 May 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in A.
+            //
+            //    Input, int LO[N], HI[N], the lower and upper limits for the array
+            //    indices.  LO(I) should be less than or equal to HI(I), for each I.
+            //
+            //    Input, int A[N], the index vector to be ranked.
+            //
+            //    Output, int INDEX_RANK2, the rank of the index vector, or -1 if A
+            //    is not a legal index vector.
+            //
+        {
+            int i;
+            int range;
+            int rank;
+
+            for (i = 0; i < n; i++)
+            {
+                if (a[i] < lo[i] || hi[i] < a[i])
+                {
+                    rank = -1;
+                    return rank;
+                }
+            }
+
+            rank = 1;
+            range = 1;
+            for (i = 0; i < n; i++)
+            {
+                rank = rank + (a[i] - lo[i]) * range;
+                range = range * (hi[i] + 1 - lo[i]);
+            }
+
+            return rank;
+        }
+
+        public static void index_unrank0(int n, int hi, int rank, ref int[] a)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    INDEX_UNRANK0 unranks an index vector within given upper limits.
+            //
+            //  Example:
+            //
+            //    N = 3,
+            //    HI = 3
+            //    RANK = 12
+            //
+            //    A = ( 3, 1, 2 )
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    28 May 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in A.
+            //
+            //    Input, int HI, the upper limit for the array indices.
+            //    The lower limit is implicitly 1, and HI should be at least 1.
+            //
+            //    Input, int RANK, the rank of the desired index vector.
+            //
+            //    Output, int A[N], the index vector of the given rank.
+            //
+        {
+            int i;
+            int j;
+            int k;
+            int range;
+
+            for (i = 0; i < n; i++)
+            {
+                a[i] = 0;
+            }
+
+            //
+            //  The rank might be too small.
+            //
+            if (rank < 1)
+            {
+                return;
+            }
+
+            range = (int)Math.Pow(hi, n);
+            //
+            //  The rank might be too large.
+            //
+            if (range < rank)
+            {
+                return;
+            }
+
+            k = rank - 1;
+
+            for (i = n - 1; 0 <= i; i--)
+            {
+                range = range / hi;
+                j = k / range;
+                a[i] = j + 1;
+                k = k - j * range;
+            }
+
+        }
+
+        public static void index_unrank1(int n, int[] hi, int rank, ref int[] a)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    INDEX_UNRANK1 unranks an index vector within given upper limits.
+            //
+            //  Example:
+            //
+            //    N = 3,
+            //    HI(1) = 4, HI(2) = 2, HI(3) = 3
+            //    RANK = 11
+            //
+            //    A = ( 3, 1, 2 )
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    28 May 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in A.
+            //
+            //    Input, int HI[N], the upper limits for the array indices.
+            //    The lower limit is implicitly 1, and each HI(I) should be at least 1.
+            //
+            //    Input, int RANK, the rank of the desired index vector.
+            //
+            //    Output, int A[N], the index vector of the given rank.
+            //
+        {
+            int i;
+            int j;
+            int k;
+            int range;
+
+            for (i = 0; i < n; i++)
+            {
+                a[i] = 0;
+            }
+
+            //
+            //  The rank might be too small.
+            //
+            if (rank < 1)
+            {
+                return;
+            }
+
+            range = typeMethods.i4vec_product(n, hi);
+            //
+            //  The rank might be too large.
+            //
+            if (range < rank)
+            {
+                return;
+            }
+
+            k = rank - 1;
+
+            for (i = n - 1; 0 <= i; i--)
+            {
+                range = range / hi[i];
+                j = k / range;
+                a[i] = j + 1;
+                k = k - j * range;
+            }
+
+        }
+
+        public static void index_unrank2(int n, int[] lo, int[] hi, int rank, ref int[] a)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    INDEX_UNRANK2 unranks an index vector within given lower and upper limits.
+            //
+            //  Example:
+            //
+            //    N = 3,
+            //    LO(1) = 1, LO(2) = 10, LO(3) = 4
+            //    HI(1) = 2, HI(2) = 11, HI(3) = 6
+            //    RANK = 7
+            //
+            //    A = ( 1, 11, 5 )
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    28 May 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of entries in A.
+            //
+            //    Input, int LO[N], HI[N], the lower and upper limits for the array
+            //    indices.  It should be the case that LO(I) <= HI(I) for each I.
+            //
+            //    Input, int RANK, the rank of the desired index.
+            //
+            //    Output, int A[N], the index vector of the given rank.
+            //
+        {
+            int i;
+            int j;
+            int k;
+            int range;
+
+            for (i = 0; i < n; i++)
+            {
+                a[i] = 0;
+            }
+
+            //
+            //  The rank might be too small.
+            //
+            if (rank < 1)
+            {
+                return;
+            }
+
+            range = 1;
+            for (i = 0; i < n; i++)
+            {
+                range = range * (hi[i] + 1 - lo[i]);
+            }
+
+            //
+            //  The rank might be too large.
+            //
+            if (range < rank)
+            {
+                return;
+            }
+
+            k = rank - 1;
+            for (i = n - 1; 0 <= i; i--)
+            {
+                range = range / (hi[i] + 1 - lo[i]);
+                j = k / range;
+                a[i] = j + lo[i];
+                k = k - j * range;
+            }
+
+        }
+
     }
 }

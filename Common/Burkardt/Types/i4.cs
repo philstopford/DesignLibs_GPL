@@ -261,6 +261,93 @@ namespace Burkardt.Types
             }
         }
 
+        public static void i4_to_i4poly ( int intval, int base_, int degree_max, ref int degree, ref int[] a )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    I4_TO_I4POLY converts an I4 to an integer polynomial in a given base.
+        //
+        //  Example:
+        //
+        //    INTVAL  BASE  Degree     A (in reverse order!)
+        //
+        //         1     2       0     1
+        //         6     2       2     1  1  0
+        //        23     2       4     1  0  1  1  1
+        //        23     3       2     2  1  2
+        //        23     4       2     1  1  3
+        //        23     5       1     4  3
+        //        23     6       1     3  5
+        //        23    23       1     1  0
+        //        23    24       0    23
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    05 July 2004
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int INTVAL, an integer to be converted.
+        //
+        //    Input, int BASE, the base, which should be greater than 1.
+        //
+        //    Input, int DEGREE_MAX, the maximum degree.
+        //
+        //    Output, int &DEGREE, the degree of the polynomial.
+        //
+        //    Output, int A[DEGREE_MAX+1], contains the coefficients
+        //    of the polynomial expansion of INTVAL in base BASE.
+        //
+        {
+            int i;
+            int j;
+
+            for ( i = 0; i <= degree_max; i++ )
+            {
+                a[i] = 0;
+            }
+
+            j = Math.Abs ( intval );
+
+            degree = 0;
+
+            a[degree] = j % base_;
+
+            j = j - a[degree];
+            j = j / base_;
+
+            while ( 0 < j )
+            {
+                degree = degree + 1;
+
+                if ( degree < degree_max )
+                {
+                    a[degree] = j % base_;
+                }
+
+                j = j - a[degree];
+                j = j / base_;
+            }
+
+            if ( intval < 0 )
+            {
+                for ( i = 0; i <= degree_max; i++ )
+                {
+                    a[i] = -a[i];
+                }
+            }
+        }
+        
         public static int i4_wrap(int ival, int ilo, int ihi)
             //****************************************************************************80
             //

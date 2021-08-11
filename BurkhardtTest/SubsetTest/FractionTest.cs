@@ -95,7 +95,7 @@ namespace SubsetTest
         {
             int MAXM = 10;
 
-            bool error;
+            bool error = false;
             double[] g = new double[2 * MAXM];
             double[] h = new double[2 * MAXM];
             int i;
@@ -139,7 +139,7 @@ namespace SubsetTest
 
             Console.WriteLine(cout);
 
-            Fraction.rfrac_to_cfrac(m, p, q, h, error);
+            Fraction.rfrac_to_cfrac(m, p, q, ref h, ref error);
 
             typeMethods.r8vec_print(2 * m, h, "  Continued fraction coefficients:");
 

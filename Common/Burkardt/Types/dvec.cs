@@ -2,7 +2,7 @@
 
 namespace Burkardt.Types
 {
-    public static class dvec
+    public static partial class typeMethods
     {
         public static void dvec_add(int n, int[] dvec1, int[] dvec2, ref int[] dvec3)
 

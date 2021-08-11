@@ -4,7 +4,7 @@ namespace Burkardt
 {
     public static class Debruijn
     {
-        public static void debruijn(int m, int n, int[] string_)
+        public static void debruijn(int m, int n, ref int[] string_)
 
             //****************************************************************************80
             //

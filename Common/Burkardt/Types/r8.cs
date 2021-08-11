@@ -2996,6 +2996,284 @@ namespace Burkardt.Types
             return value;
         }
 
+        public static void r8_to_cfrac(double r, int n, ref int[] a, ref int[] p, ref int[] q)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_TO_CFRAC converts a double value to a continued fraction.
+            //
+            //  Discussion:
+            //
+            //    The routine is given a double number R.  It computes a sequence of
+            //    continued fraction approximations to R, returning the results as
+            //    simple fractions of the form P(I) / Q(I).
+            //
+            //  Example:
+            //
+            //    X = 2 * PI
+            //    N = 7
+            //
+            //    A = [ *, 6,  3,  1,  1,   7,   2,    146,      3 ]
+            //    P = [ 1, 6, 19, 25, 44, 333, 710, 103993, 312689 ]
+            //    Q = [ 0, 1,  3,  4,  7,  53, 113,  16551,  49766 ]
+            //
+            //    (This ignores roundoff error, which will cause later terms to differ).
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    09 March 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Norman Richert,
+            //    Strang's Strange Figures,
+            //    American Mathematical Monthly,
+            //    Volume 99, Number 2, February 1992, pages 101-107.
+            //
+            //  Parameters:
+            //
+            //    Input, double R, the double value.
+            //
+            //    Input, int N, the number of convergents to compute.
+            //
+            //    Output, int A[N+1], the partial quotients.
+            //
+            //    Output, int P[N+2], Q[N+2], the numerators and denominators
+            //    of the continued fraction approximations.
+            //
+        {
+            int i;
+            double r_copy;
+            double[] x;
+
+            if (r == 0.0)
+            {
+                for (i = 0; i <= n; i++)
+                {
+                    a[i] = 0;
+                }
+
+                for (i = 0; i <= n + 1; i++)
+                {
+                    p[i] = 0;
+                }
+
+                for (i = 0; i <= n + 1; i++)
+                {
+                    q[i] = 0;
+                }
+
+                return;
+            }
+
+            x = new double[n + 1];
+
+            r_copy = Math.Abs(r);
+
+            p[0] = 1;
+            q[0] = 0;
+
+            p[1] = (int)r_copy;
+            q[1] = 1;
+            x[0] = r_copy;
+            a[0] = (int)x[0];
+
+            for (i = 1; i <= n; i++)
+            {
+                x[i] = 1.0 / (x[i - 1] - (double)a[i - 1]);
+                a[i] = (int)x[i];
+                p[i + 1] = a[i] * p[i] + p[i - 1];
+                q[i + 1] = a[i] * q[i] + q[i - 1];
+            }
+
+            if (r < 0.0)
+            {
+                for (i = 0; i <= n + 1; i++)
+                {
+                    p[i] = -p[i];
+                }
+            }
+        }
+
+        public static void r8_to_dec(double dval, int dec_digit, ref int mantissa, ref int exponent)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_TO_DEC converts a double quantity to a decimal representation.
+            //
+            //  Discussion:
+            //
+            //    Given the double value DVAL, the routine computes integers
+            //    MANTISSA and EXPONENT so that it is approximatelytruethat:
+            //
+            //      DVAL = MANTISSA * 10 ** EXPONENT
+            //
+            //    In particular, only DEC_DIGIT digits of DVAL are used in constructing the
+            //    representation.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    20 July 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double DVAL, the value whose decimal representation
+            //    is desired.
+            //
+            //    Input, int DEC_DIGIT, the number of decimal digits to use.
+            //
+            //    Output, int &MANTISSA, &EXPONENT, the approximate decimal 
+            //    representation of DVAL.
+            //
+        {
+            double mantissa_double;
+            double ten1;
+            double ten2;
+            //
+            //  Special cases.
+            //
+            if (dval == 0.0)
+            {
+                mantissa = 0;
+                exponent = 0;
+                return;
+            }
+
+            //
+            //  Factor DVAL = MANTISSA_DOUBLE * 10^EXPONENT
+            //
+            mantissa_double = dval;
+            exponent = 0;
+            //
+            //  Now normalize so that 
+            //  10^(DEC_DIGIT-1) <= ABS(MANTISSA_DOUBLE) < 10^(DEC_DIGIT)
+            //
+            ten1 = Math.Pow(10.0, dec_digit - 1);
+            ten2 = 10.0 * ten1;
+
+            while (Math.Abs(mantissa_double) < ten1)
+            {
+                mantissa_double = mantissa_double * 10.0;
+                exponent = exponent - 1;
+            }
+
+            while (ten2 <= Math.Abs(mantissa_double))
+            {
+                mantissa_double = mantissa_double / 10.0;
+                exponent = exponent + 1;
+            }
+
+            //
+            //  MANTISSA is the integer part of MANTISSA_DOUBLE, rounded.
+            //
+            mantissa = (int)r8_nint(mantissa_double);
+            //
+            //  Now divide out any factors of ten from MANTISSA.
+            //
+            if (mantissa != 0)
+            {
+                while (10 * (mantissa / 10) == mantissa)
+                {
+                    mantissa = mantissa / 10;
+                    exponent = exponent + 1;
+                }
+            }
+
+        }
+
+        public static void r8_to_rat(double a, int ndig, ref int iatop, ref int iabot)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_TO_RAT converts a real value to a rational value.
+            //
+            //  Discussion:
+            //
+            //    The rational value (IATOP/IABOT) is essentially computed by truncating
+            //    the decimal representation of the real value after a given number of
+            //    decimal digits.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    15 June 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double A, the real value to be converted.
+            //
+            //    Input, int NDIG, the number of decimal digits used.
+            //
+            //    Output, int &IATOP, &IABOT, the numerator and denominator
+            //    of the rational value that approximates A.
+            //
+        {
+            double factor;
+            int i;
+            int itemp;
+
+            factor = Math.Pow(10.0, ndig);
+
+            if (0 < ndig)
+            {
+                iabot = 1;
+                for (i = 1; i <= ndig; i++)
+                {
+                    iabot = iabot * 10;
+                }
+
+                iatop = 1;
+            }
+            else
+            {
+                iabot = 1;
+                iatop = 1;
+                for (i = 1; i <= -ndig; i++)
+                {
+                    iatop = iatop * 10;
+                }
+            }
+
+            iatop = (int)r8_nint(a * factor) * iatop;
+            iabot = iabot;
+            //
+            //  Factor out the greatest common factor.
+            //
+            itemp = i4_gcd(iatop, iabot);
+
+            iatop = iatop / itemp;
+            iabot = iabot / itemp;
+        }
+
         public static void r8_to_dhms(double r, ref int d, ref int h, ref int m, ref int s)
 
             //****************************************************************************80

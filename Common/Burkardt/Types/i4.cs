@@ -201,6 +201,65 @@ namespace Burkardt.Types
             return ret;
         }
 
+        public static void i4_to_dvec ( int i4, int n, ref int[] dvec )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4_TO_DVEC makes a signed decimal vector from an I4.
+            //
+            //  Discussion:
+            //
+            //    A DVEC is an integer vector of decimal digits, intended to
+            //    represent an integer.  DVEC(1) is the units digit, DVEC(N-1)
+            //    is the coefficient of 10^(N-2), and DVEC(N) contains sign
+            //    information.  It is 0 if the number is positive, and 9 if
+            //    the number is negative.
+            //
+            //    Negative values have a ten's complement operation applied.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    02 December 2006
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int I4, an integer to be represented.
+            //
+            //    Input, int N, the dimension of the vector.
+            //
+            //    Output, int DVEC[N], the signed decimal representation.
+            //
+        {
+            int base_ = 10;
+            int i;
+            int i4_copy;
+
+            i4_copy = Math.Abs ( i4 );
+
+            for ( i = 0; i < n-1; i++ )
+            {
+                dvec[i] = i4_copy % base_;
+
+                i4_copy = i4_copy / base_;
+            }
+
+            dvec[n-1] = 0;
+
+            if ( i4 < 0 )
+            {
+                dvec_complementx ( n, dvec, ref dvec );
+            }
+        }
 
         public static int i4_wrap(int ival, int ilo, int ihi)
             //****************************************************************************80

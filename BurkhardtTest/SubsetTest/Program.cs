@@ -167,7 +167,7 @@ namespace SubsetTest
             KsubTest.ksub_to_comp_test();
             KsubTest.ksub_to_compnz_test();
             KsubTest.ksub_unrank_test();
-            l4vec_next_test();
+            l4Test.l4vec_next_test();
             matrix_product_opt_test();
             moebius_matrix_test();
             monomial_count_test();

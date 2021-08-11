@@ -219,6 +219,72 @@ namespace Burkardt
             xc[kc - 1] = xc[kc - 1] + t - 1;
         }
 
+        public static void comp_random ( int n, int k, ref int seed, ref int[] a )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    COMP_RANDOM selects a random composition of the integer N into K parts.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    20 May 2015
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Albert Nijenhuis, Herbert Wilf.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Albert Nijenhuis, Herbert Wilf,
+        //    Combinatorial Algorithms for Computers and Calculators,
+        //    Second Edition,
+        //    Academic Press, 1978,
+        //    ISBN: 0-12-519260-6,
+        //    LC: QA164.N54.
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the integer to be decomposed.
+        //
+        //    Input, int K, the number of parts in the composition.
+        //
+        //    Input/output, int &SEED, a seed for the random number generator.
+        //
+        //    Output, int A[K], the parts of the composition.
+        //
+        {
+            int[] b;
+            int i;
+            int l;
+            int m;
+
+            b = new int[k-1];
+
+            Ksub.ksub_random2 ( n + k - 1, k - 1, ref seed, ref b );
+
+            for ( i = 0; i < k - 1; i++ )
+            {
+                a[i] = b[i];
+            }
+            a[k-1] = n + k;
+            
+            l = 0;
+
+            for ( i = 0; i < k; i++ )
+            {
+                m = a[i];
+                a[i] = a[i] - l - 1;
+                l = m;
+            }
+        }
+        
         public static int[] comp_random_grlex(int kc, int rank1, int rank2, ref int seed, ref int rank )
 
         //****************************************************************************80

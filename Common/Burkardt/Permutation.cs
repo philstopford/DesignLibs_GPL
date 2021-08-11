@@ -6,6 +6,64 @@ namespace Burkardt
 {
     public static partial class Permutation
     {
+        public static void euler_row ( int n, ref int[] ieuler )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    EULER_ROW returns the N-th row of Euler's triangle.
+            //
+            //  Discussion:
+            //
+            //    E(N,K) counts the number of permutations of the N digits that have
+            //    exactly K "ascents", that is, K places where the Ith digit is
+            //    less than the (I+1)th digit.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    10 June 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the row of Euler's triangle desired.
+            //
+            //    Output, int IEULER[N+1], the N-th row of Euler's
+            //    triangle, IEULER[K] contains the value of E(N,K).  Note
+            //    that IEULER[0] should be 1 and IEULER[N] should be 0.
+            //
+        {
+            int irow;
+            int k;
+
+            ieuler[0] = 1;
+
+            if ( 0 < n )
+            {
+                ieuler[1] = 0;
+
+                for ( irow = 2; irow <= n; irow++ )
+                {
+                    ieuler[irow] = 0;
+
+                    for ( k = irow-1; 1 <= k; k-- )
+                    {
+                        ieuler[k] = ( k + 1 ) * ieuler[k] + ( irow - k ) * ieuler[k-1];
+                    }
+                    ieuler[0] = 1;
+                }
+            }
+            return;
+        }
+        
         public static void inversion_to_perm0 ( int n, int[] ins, ref int[] p )
 
         //****************************************************************************80

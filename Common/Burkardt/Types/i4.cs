@@ -1431,6 +1431,122 @@ namespace Burkardt.Types
             return value;
         }
 
+        public static void i4_factor ( int n, int maxfactor, ref int nfactor, ref int[] factor, 
+        ref int[] exponent, ref int nleft )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    I4_FACTOR factors an I4 into prime factors.
+        //
+        //  Discussion:
+        //
+        //    N = NLEFT * Product ( 1 <= I <= NFACTOR ) FACTOR(I)^EXPONENT(I).
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    28 May 2003
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the integer to be factored.  N may be positive,
+        //    negative, or 0.
+        //
+        //    Input, int MAXFACTOR, the maximum number of prime factors for
+        //    which storage has been allocated.
+        //
+        //    Output, int &NFACTOR, the number of prime factors of N discovered
+        //    by the routine.
+        //
+        //    Output, int FACTOR[MAXFACTOR], the prime factors of N.
+        //
+        //    Output, int EXPONENT[MAXFACTOR].  EXPONENT(I) is the power of
+        //    the FACTOR(I) in the representation of N.
+        //
+        //    Output, int &NLEFT, the factor of N that the routine could not
+        //    divide out.  If NLEFT is 1, then N has been completely factored.
+        //    Otherwise, NLEFT represents factors of N involving large primes.
+        //
+        {
+            int i;
+            int maxprime;
+            int p;
+
+            nfactor = 0;
+
+            for (i = 0; i < maxfactor; i++)
+            {
+                factor[i] = 0;
+            }
+
+            for (i = 0; i < maxfactor; i++)
+            {
+                exponent[i] = 0;
+            }
+
+            nleft = n;
+
+            if (n == 0)
+            {
+                return;
+            }
+
+            if (Math.Abs(n) == 1)
+            {
+                nfactor = 1;
+                factor[0] = 1;
+                exponent[0] = 1;
+                return;
+            }
+
+            //
+            //  Find out how many primes we stored.
+            //
+            maxprime = Prime.prime(-1);
+            //
+            //  Try dividing the remainder by each prime.
+            //
+            for (i = 1; i <= maxprime; i++)
+            {
+                p = Prime.prime(i);
+
+                if (Math.Abs(nleft) % p == 0)
+                {
+                    if (nfactor < maxfactor)
+                    {
+                        nfactor = nfactor + 1;
+                        factor[nfactor - 1] = p;
+                        exponent[nfactor - 1] = 0;
+
+                        for (;;)
+                        {
+                            exponent[nfactor - 1] = exponent[nfactor - 1] + 1;
+                            nleft = nleft / p;
+
+                            if (Math.Abs(nleft) % p != 0)
+                            {
+                                break;
+                            }
+                        }
+
+                        if (Math.Abs(nleft) == 1)
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
         public static int i4_factorial(int n)
 
             //****************************************************************************80
@@ -2881,6 +2997,128 @@ namespace Burkardt.Types
             }
 
             return value;
+        }
+
+        public static int i4_moebius(int n)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4_MOEBIUS returns the value of MU(N), the Moebius function of N.
+            //
+            //  Discussion:
+            //
+            //    MU(N) is defined as follows:
+            //
+            //      MU(N) = 1 if N = 1;
+            //              0 if N is divisible by the square of a prime;
+            //              (-1)^K, if N is the product of K distinct primes.
+            //
+            //    The Moebius function MU(D) is related to Euler's totient 
+            //    function PHI(N):
+            //
+            //      PHI(N) = sum ( D divides N ) MU(D) * ( N / D ).
+            //
+            //    As special cases, MU(N) is -1 if N is a prime, and MU(N) is 0
+            //    if N is a square, cube, etc.
+            //
+            //  Example:
+            //
+            //     N  MU(N)
+            //
+            //     1    1
+            //     2   -1
+            //     3   -1
+            //     4    0
+            //     5   -1
+            //     6    1
+            //     7   -1
+            //     8    0
+            //     9    0
+            //    10    1
+            //    11   -1
+            //    12    0
+            //    13   -1
+            //    14    1
+            //    15    1
+            //    16    0
+            //    17   -1
+            //    18    0
+            //    19   -1
+            //    20    0
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    28 May 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the value to be analyzed.
+            //
+            //    Output, int I4_MOEBIUS, the value of MU(N).
+            //    If N is less than or equal to 0, MU will be returned as -2.
+            //    If there was not enough internal space for factoring, MU
+            //    is returned as -3.
+            //
+        {
+            int FACTOR_MAX = 20;
+
+            int[] exponent = new int[FACTOR_MAX];
+            int[] factor = new int[FACTOR_MAX];
+            int i;
+            int mu;
+            int nfactor = 0;
+            int nleft = 0;
+
+            if (n <= 0)
+            {
+                mu = -2;
+                return mu;
+            }
+
+            if (n == 1)
+            {
+                mu = 1;
+                return mu;
+            }
+
+            //
+            //  Factor N.
+            //
+            i4_factor(n, FACTOR_MAX, ref nfactor, ref factor, ref exponent, ref nleft);
+
+            if (nleft != 1)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("I4_MOEBIUS - Fatal error!");
+                Console.WriteLine("  Not enough factorization space.");
+                mu = -3;
+                return (mu);
+            }
+
+            mu = 1;
+
+            for (i = 0; i < nfactor; i++)
+            {
+                mu = -mu;
+
+                if (1 < exponent[i])
+                {
+                    mu = 0;
+                    return mu;
+                }
+            }
+
+            return mu;
         }
 
         public static int i4_mop(int i)

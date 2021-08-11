@@ -725,7 +725,7 @@ namespace Burkardt.Types
             return variance;
         }
         
-        public static int i4vec_maxloc_last ( int n, int[] x )
+        public static int i4vec_maxloc_last ( int n, int[] x, int xIndex = 0 )
 
             //****************************************************************************80
             //
@@ -766,14 +766,14 @@ namespace Burkardt.Types
             int value;
 
             index = 0;
-            value = x[0];
+            value = x[xIndex + 0];
 
             for ( i = 1; i < n; i++ )
             {
-                if ( value <= x[i] )
+                if ( value <= x[xIndex + i] )
                 {
                     index = i;
-                    value = x[i];
+                    value = x[xIndex + i];
                 }
             }
             return index;

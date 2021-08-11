@@ -574,6 +574,177 @@ namespace Burkardt.Types
 
         }
 
+        public static void i4_sqrt ( int n, ref int q, ref int r )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    I4_SQRT finds the integer square root of N by solving N = Q^2 + R.
+        //
+        //  Discussion:
+        //
+        //    The integer square root of N is an integer Q such that
+        //    Q^2 <= N but N < (Q+1)^2.
+        //
+        //    A simpler calculation would be something like
+        //
+        //      Q = INT ( SQRT ( REAL ( N ) ) )
+        //
+        //    but this calculation has the virtue of using only integer arithmetic.
+        //
+        //    To avoid the tedium of worrying about negative arguments, the routine
+        //    automatically considers the absolute value of the argument.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    20 June 2003
+        //
+        //  Author:
+        //
+        //   John Burkardt
+        //
+        //  Reference:
+        //
+        //    Mark Herkommer,
+        //    Number Theory, A Programmer's Guide,
+        //    McGraw Hill, 1999, pages 294-307.
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number whose integer square root is desired.
+        //    Actually, only the absolute value of N is considered.
+        //
+        //    Output, int &Q, &R, the integer square root, and positive remainder,
+        //    of N.
+        //
+        {
+            n = Math.Abs(n);
+
+            q = n;
+
+            if (0 < n)
+            {
+                while ((n / q) < q)
+                {
+                    q = (q + (n / q)) / 2;
+                }
+            }
+
+            r = n - q * q;
+
+        }
+
+        public static void i4_sqrt_cf ( int n, int max_term, ref int n_term, ref int[] b )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    I4_SQRT_CF: continued fraction representation of a square root of an integer.
+        //
+        //  Discussion:
+        //
+        //    The continued fraction representation of the square root of an integer
+        //    has the form
+        //
+        //      [ B0, (B1, B2, B3, ..., BM), ... ]
+        //
+        //    where
+        //
+        //      B0 = int ( sqrt ( real ( N ) ) )
+        //      BM = 2 * B0
+        //      the sequence ( B1, B2, B3, ..., BM ) repeats in the representation.
+        //      the value M is termed the period of the representation.
+        //
+        //  Example:
+        //
+        //     N  Period  Continued Fraction
+        //
+        //     2       1  [ 1, 2, 2, 2, ... ]
+        //     3       2  [ 1, 1, 2, 1, 2, 1, 2... ]
+        //     4       0  [ 2 ]
+        //     5       1  [ 2, 4, 4, 4, ... ]
+        //     6       2  [ 2, 2, 4, 2, 4, 2, 4, ... ]
+        //     7       4  [ 2, 1, 1, 1, 4, 1, 1, 4, 1, 1, 4... ]
+        //     8       2  [ 2, 1, 4, 1, 4, 1, 4, 1, 4, ... ]
+        //     9       0  [ 3 ]
+        //    10       1  [ 3, 6, 6, 6, ... ]
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    28 May 2003
+        //
+        //  Author:
+        //
+        //   John Burkardt
+        //
+        //  Reference:
+        //
+        //    Mark Herkommer,
+        //    Number Theory, A Programmer's Guide,
+        //    McGraw Hill, 1999, pages 294-307.
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number whose continued fraction square root
+        //    is desired.
+        //
+        //    Input, int MAX_TERM, the maximum number of terms that may
+        //    be computed.
+        //
+        //    Output, int &N_TERM, the number of terms computed beyond the
+        //    0 term.  The routine should stop if it detects that the period
+        //    has been reached.
+        //
+        //    Output, int B[MAX_TERM+1], contains the continued fraction
+        //    coefficients for indices 0 through N_TERM.
+        //
+        {
+            int p;
+            int q;
+            int r = 0;
+            int s = 0;
+
+            n_term = 0;
+
+            i4_sqrt(n, ref s, ref r);
+            b[0] = s;
+
+            if (0 < r)
+            {
+                p = 0;
+                q = 1;
+
+                for (;;)
+                {
+                    p = b[n_term] * q - p;
+                    q = (n - p * p) / q;
+
+                    if (max_term <= n_term)
+                    {
+                        return;
+                    }
+
+                    n_term = n_term + 1;
+                    b[n_term] = (p + s) / q;
+
+                    if (q == 1)
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+
         public static void i4_swap(ref int i, ref int j)
 
             //****************************************************************************80

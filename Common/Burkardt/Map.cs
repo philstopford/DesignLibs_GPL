@@ -96,7 +96,7 @@ namespace Burkardt
             //
             //  Get the associated monomials.
             //
-            Polynomial.poly(code, ref rexp, ref sexp);
+            PolynomialNS.Polynomial.poly(code, ref rexp, ref sexp);
             //
             //  Set up the Vandermonde matrix.
             //  Factors of the form 0**0 are to be understood as 1.

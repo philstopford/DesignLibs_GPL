@@ -53,7 +53,149 @@ namespace Burkardt
                 }
             }
         }
-        
+
+        public static int monomial_count(int degree_max, int dim)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    MONOMIAL_COUNT counts the number of monomials up to a given degree.
+            //
+            //  Discussion:
+            //
+            //    In 3D, there are 10 monomials of degree 3 or less:
+            //
+            //    Degree  Count  List
+            //    ------  -----  ----
+            //         0      1  1
+            //         1      3  x y z
+            //         2      6  xx xy xz yy yz zz
+            //         3     10  xxx xxy xxz xyy xyz xzz yyy yyz yzz zzz
+            //
+            //    Total      20
+            //
+            //    The formula is 
+            //
+            //      COUNTS(DEGREE,DIM) = (DIM-1+DEGREE)! / (DIM-1)! / DEGREE!
+            //
+            //      TOTAL              = (DIM  +DEGREE)! / (DIM)!   / DEGREE!
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    05 October 2008
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int DEGREE_MAX, the maximum degree.
+            //
+            //    Input, int DIM, the spatial dimension.
+            //
+            //    Output, int MONOMIAL_COUNT, the total number of monomials
+            //    of degrees 0 through DEGREE_MAX.
+            //
+        {
+            int bot;
+            int top;
+            int total;
+
+            total = 1;
+
+            if (degree_max < dim)
+            {
+                top = dim + 1;
+                for (bot = 1; bot <= degree_max; bot++)
+                {
+                    total = (total * top) / bot;
+                    top = top + 1;
+                }
+            }
+            else
+            {
+                top = degree_max + 1;
+                for (bot = 1; bot <= dim; bot++)
+                {
+                    total = (total * top) / bot;
+                    top = top + 1;
+                }
+            }
+
+            return total;
+        }
+
+        public static int[] monomial_counts(int degree_max, int dim)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    MONOMIAL_COUNTS counts the number of monomials up to a given degree.
+            //
+            //  Discussion:
+            //
+            //    In 3D, there are 10 monomials of degree 3 or less:
+            //
+            //    Degree  Count  List
+            //    ------  -----  ----
+            //         0      1  1
+            //         1      3  x y z
+            //         2      6  xx xy xz yy yz zz
+            //         3     10  xxx xxy xxz xyy xyz xzz yyy yyz yzz zzz
+            //
+            //    Total      20
+            //
+            //    The formula is 
+            //
+            //      COUNTS(DEGREE,DIM) = (DIM-1+DEGREE)! / (DIM-1)! / DEGREE!
+            //
+            //      TOTAL              = (DIM  +DEGREE)! / (DIM)!   / DEGREE!
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    05 October 2008
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int DEGREE_MAX, the maximum degree.
+            //
+            //    Input, int DIM, the spatial dimension.
+            //
+            //    Output, int MONOMIAL_COUNTS[DEGREE_MAX+1], the number of
+            //    monomials of each degree.
+            //
+        {
+            int[] counts;
+            int degree;
+
+            counts = new int[degree_max + 1];
+
+            degree = 0;
+            counts[degree] = 1;
+
+            for (degree = 1; degree <= degree_max; degree++)
+            {
+                counts[degree] = (counts[degree - 1] * (dim - 1 + degree)) / degree;
+            }
+
+            return counts;
+        }
+
         public static double[] monomial_value ( int dim_num, int point_num, double[] x, int[] expon )
 
         //****************************************************************************80

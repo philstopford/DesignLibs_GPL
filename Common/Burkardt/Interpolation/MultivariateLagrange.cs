@@ -4,8 +4,10 @@ using Burkardt.PolynomialNS;
 
 namespace Burkardt.Interpolation
 {
+    using Polynomial = Burkardt.PolynomialNS.Polynomial;
     public static class MultivariateLagrange
     {
+        
         public static double[] interpolant_value(int d, int r, int pn, int[] po, double[] pc,
         int[] pe, double[] pd, int ni, double[] xi )
 

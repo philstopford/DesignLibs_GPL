@@ -4,6 +4,7 @@ using Burkardt.Types;
 
 namespace Burkardt.Legendre
 {
+    using Polynomial = Burkardt.PolynomialNS.Polynomial;
     public class QuadratureRuleFast
     {
         public static void legendre_handle(int n, double a, double b)

@@ -7,6 +7,498 @@ namespace Burkardt.Types
 {
     public static partial class typeMethods
     {
+        public static void i4mat_01_rowcolsum(int m, int n, int[] r, int[] c, ref int[] a, ref bool error)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4MAT_01_ROWCOLSUM creates a 0/1 I4MAT with given row and column sums.
+            //
+            //  Discussion:
+            //
+            //    Given an M vector R and N vector C, there may exist one or more
+            //    M by N matrices with entries that are 0 or 1, whose row sums are R
+            //    and column sums are C.
+            //
+            //    For convenience, this routine requires that the entries of R and C
+            //    be given in nonincreasing order.
+            //
+            //    There are several requirements on R and C.  The simple requirements
+            //    are that the entries of R and C must be nonnegative, that the entries
+            //    of R must each be no greater than N, and those of C no greater than M,
+            //    and that the sum of the entries of R must equal the sum of the entries 
+            //    of C.
+            //
+            //    The final technical requirement is that if we form R*, the conjugate
+            //    partition of R, then C is majorized by R*, that is, that every partial
+            //    sum from 1 to K of the entries of C is no bigger than the sum of the same
+            //    entries of R*, for every K from 1 to N.
+            //
+            //    Given these conditions on R and C, there is at least one 0/1 matrix
+            //    with the given row and column sums.
+            //
+            //    The conjugate partition of R is constructed as follows:
+            //      R*(1) is the number of entries of R that are 1 or greater.
+            //      R*(2) is the number of entries of R that are 2 or greater.
+            //      ...
+            //      R*(N) is the number of entries of R that are N (can't be greater).
+            //
+            //  Example:
+            //
+            //    M = N = 5
+            //    R = ( 3, 2, 2, 1, 1 )
+            //    C = ( 2, 2, 2, 2, 1 )
+            //
+            //    A =
+            //      1 0 1 0 1
+            //      1 0 0 1 0
+            //      0 1 0 1 0
+            //      0 1 0 0 0
+            //      0 0 1 0 0
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    17 July 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Jack van Lint, Richard Wilson,
+            //    A Course in Combinatorics,
+            //    Oxford, 1992, pages 148-156.
+            //
+            //    James Sandeson,
+            //    Testing Ecobool Patterns,
+            //    American Scientist,
+            //    Volume 88, July-August 2000, pages 332-339.
+            //
+            //    Ian Saunders,
+            //    Algorithm AS 205,
+            //    Enumeration of R x C Tables with Repeated Row Totals,
+            //    Applied Statistics,
+            //    Volume 33, Number 3, pages 340-352, 1984.
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns in the array.
+            //
+            //    Input, int R[M], C[N], the row and column sums desired for the array.
+            //    Both vectors must be arranged in descending order.
+            //    The elements of R must be between 0 and N.
+            //    The elements of C must be between 0 and M.
+            //
+            //    Output, int A[M*N], the M by N matrix with the given row and
+            //    column sums.
+            //    Each entry of A is 0 or 1.
+            //
+            //    Output, bool &ERROR, is true if an error occurred.
+            //
+        {
+            int c_sum;
+            int i;
+            int j;
+            int k;
+            int[] r_conj;
+            int r_sum;
+            int[] r2;
+            //
+            for (i = 0; i < m; i++)
+            {
+                for (j = 0; j < n; j++)
+                {
+                    a[i + j * m] = 0;
+                }
+            }
+
+            //
+            //  Check conditions.
+            //
+            error = false;
+
+            if (i4vec_sum(m, r) != i4vec_sum(n, c))
+            {
+                Console.WriteLine("");
+                Console.WriteLine("I4MAT_01_ROWCOLSUM - Fatal error!");
+                Console.WriteLine("  Row sums R and column sums C don't have the same sum!");
+                error = true;
+                return;
+            }
+
+            if (!i4vec_descends(m, ref r))
+            {
+                Console.WriteLine("");
+                Console.WriteLine("I4MAT_01_ROWCOLSUM - Fatal error!");
+                Console.WriteLine("  Row sum vector R is not descending!");
+                error = true;
+                return;
+            }
+
+            if (n < r[0] || r[m - 1] < 0)
+            {
+                error = true;
+                return;
+            }
+
+            if (!i4vec_descends(n, ref c))
+            {
+                Console.WriteLine("");
+                Console.WriteLine("I4MAT_01_ROWCOLSUM - Fatal error!");
+                Console.WriteLine("  Column sum vector C is not descending!");
+                error = true;
+                return;
+            }
+
+            if (m < c[0] || c[n - 1] < 0)
+            {
+                error = true;
+                return;
+            }
+
+            //
+            //  Compute the conjugate of R.
+            //
+            r_conj = new int[n];
+
+            for (i = 0; i < n; i++)
+            {
+                r_conj[i] = 0;
+            }
+
+            for (i = 0; i < m; i++)
+            {
+                for (j = 0; j < r[i]; j++)
+                {
+                    r_conj[j] = r_conj[j] + 1;
+                }
+            }
+
+            //
+            //  C must be majorized by R_CONJ.
+            //
+            r_sum = 0;
+            c_sum = 0;
+            for (i = 0; i < n; i++)
+            {
+                r_sum = r_sum + r_conj[i];
+                c_sum = c_sum + c[i];
+                if (r_sum < c_sum)
+                {
+                    error = true;
+                    return;
+                }
+            }
+
+            if (error)
+            {
+                return;
+            }
+
+            r2 = new int[m];
+
+            //
+            //  We need a temporary copy of R that we can decrement.
+            //
+            for (i = 0; i < m; i++)
+            {
+                r2[i] = r[i];
+            }
+
+            for (j = n - 1; 0 <= j; j--)
+            {
+                i = i4vec_maxloc_last(m, r2);
+
+                for (k = 1; k <= c[j]; k++)
+                {
+                    //
+                    //  By adding 1 rather than setting A(I,J) to 1, we were able to spot
+                    //  an error where the index was "sticking".
+                    //
+                    a[i + j * m] = a[i + j * m] + 1;
+
+                    r2[i] = r2[i] - 1;
+
+                    if (0 < i)
+                    {
+                        i = i - 1;
+                    }
+                    //
+                    //  There's a special case you have to watch out for.
+                    //  If I was 1, and when you decrement R2(1), I is going to be 1 again,
+                    //  and you're staying in the same column, that's not good.
+                    //
+                    //  The syntax "R2+1" means the vector starting with the second element of R2.
+                    //
+                    else
+                    {
+                        i = i4vec_maxloc_last(m, r2);
+                        if (i == 0 && k < c[j])
+                        {
+                            i = 1 + i4vec_maxloc_last(m - 1, r2, xIndex: + 1);
+                        }
+                    }
+                }
+            }
+
+        }
+
+        public static void i4mat_01_rowcolsum2(int m, int n, int[] r, int[] c, ref int[] a,
+                ref bool error)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4MAT_01_ROWCOLSUM2 creates a 0/1 I4MAT with given row and column sums.
+            //
+            //  Discussion:
+            //
+            //    This routine uses network flow optimization to compute the results.
+            //
+            //    Given an M vector R and N vector C, there may exist one or more
+            //    M by N matrices with entries that are 0 or 1, whose row sums are R
+            //    and column sums are C.
+            //
+            //    For convenience, this routine requires that the entries of R and C
+            //    be given in nonincreasing order.
+            //
+            //    There are several requirements on R and C.  The simple requirements
+            //    are that the entries of R and C must be nonnegative, that the entries
+            //    of R must each no greater than N, and those of C no greater than M,
+            //    and that the sum of the entries of R must equal the sum of the 
+            //    entries of C.
+            //
+            //    The final technical requirement is that if we form R*, the conjugate
+            //    partition of R, then C is majorized by R*, that is, that every partial
+            //    sum from 1 to K of the entries of C is no bigger than the sum of the same
+            //    entries of R*, for every K from 1 to N.
+            //
+            //    Given these conditions on R and C, there is at least one 0/1 matrix
+            //    with the given row and column sums.
+            //
+            //    The conjugate partition of R is constructed as follows:
+            //      R*(1) is the number of entries of R that are 1 or greater.
+            //      R*(2) is the number of entries of R that are 2 or greater.
+            //      ...
+            //      R*(N) is the number of entries of R that are N (can't be greater).
+            //
+            //  Example:
+            //
+            //    M = N = 5
+            //    R = ( 3, 2, 2, 1, 1 )
+            //    C = ( 2, 2, 2, 2, 1 )
+            //
+            //    A =
+            //      1 0 1 0 1
+            //      1 0 0 1 0
+            //      0 1 0 1 0
+            //      0 1 0 0 0
+            //      0 0 1 0 0
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    28 June 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Albert Nijenhuis, Herbert Wilf,
+            //    Combinatorial Algorithms for Computers and Calculators,
+            //    Second Edition,
+            //    Academic Press, 1978,
+            //    ISBN: 0-12-519260-6,
+            //    LC: QA164.N54.
+            //
+            //    Jack van Lint, Richard Wilson,
+            //    A Course in Combinatorics,
+            //    Oxford, 1992, pages 148-156.
+            //
+            //    James Sandeson,
+            //    Testing Ecobool Patterns,
+            //    American Scientist,
+            //    Volume 88, July-August 2000, pages 332-339.
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns in the array.
+            //    These values do not have to be equal.
+            //
+            //    Input, int R[M], C[N], the row and column sums desired for the array.
+            //    Both vectors must be arranged in descending order.
+            //    The elements of R must be between 0 and N.
+            //    The elements of C must be between 0 and M.
+            //    One of the conditions for a solution to exist is that the sum of the
+            //    elements in R equal the sum of the elements in C.
+            //
+            //    Output, int A[M*N], the matrix with the given row and column sums.
+            //    Each entry of A is 0 or 1.
+            //
+            //    Output, bool &ERROR, is true if an error occurred.
+            //
+        {
+            int[] capflo;
+            int i;
+            int[] icut;
+            int[] iendpt;
+            int isink;
+            int j;
+            int k;
+            int nedge;
+            int nnode;
+            int[] node_flow;
+            int source;
+
+            error = false;
+
+            capflo = new int[2 * 2 * (m + m * n + n)];
+            icut = new int[m + n + 2];
+            iendpt = new int[2 * 2 * (m + m * n + n)];
+            node_flow = new int[m + n + 2];
+            //
+            //  There are M + N + 2 nodes.  The last two are the special source and sink.
+            //
+            source = m + n + 1;
+            isink = m + n + 2;
+            nnode = m + n + 2;
+            //
+            //  The source is connected to each of the R nodes.
+            //
+            k = 0;
+
+            for (i = 0; i < m; i++)
+            {
+                iendpt[0 + 2 * k] = source;
+                iendpt[1 + 2 * k] = i + 1;
+                capflo[0 + 2 * k] = r[i];
+                capflo[1 + 2 * k] = 0;
+                k = k + 1;
+
+                iendpt[0 + 2 * k] = i + 1;
+                iendpt[1 + 2 * k] = source;
+                capflo[0 + 2 * k] = r[i];
+                capflo[1 + 2 * k] = 0;
+                k = k + 1;
+            }
+
+            //
+            //  Every R node is connected to every C node, with capacity 1.
+            //
+            for (i = 0; i < m; i++)
+            {
+                for (j = 0; j < n; j++)
+                {
+                    iendpt[0 + 2 * k] = i + 1;
+                    iendpt[1 + 2 * k] = j + 1 + m;
+                    capflo[0 + 2 * k] = 1;
+                    capflo[1 + 2 * k] = 0;
+                    k = k + 1;
+
+                    iendpt[0 + 2 * k] = j + 1 + m;
+                    iendpt[1 + 2 * k] = i + 1;
+                    capflo[0 + 2 * k] = 1;
+                    capflo[1 + 2 * k] = 0;
+                    k = k + 1;
+                }
+            }
+
+            //
+            //  Every C node is connected to the sink.
+            //
+            for (j = 0; j < n; j++)
+            {
+                iendpt[0 + 2 * k] = j + 1 + m;
+                iendpt[1 + 2 * k] = isink;
+                capflo[0 + 2 * k] = c[j];
+                capflo[1 + 2 * k] = 0;
+                k = k + 1;
+
+                iendpt[0 + 2 * k] = isink;
+                iendpt[1 + 2 * k] = j + 1 + m;
+                capflo[0 + 2 * k] = c[j];
+                capflo[1 + 2 * k] = 0;
+                k = k + 1;
+            }
+
+            //
+            //  Determine the maximum flow on the network.
+            //
+            nedge = k;
+
+            //network_flow_max(nnode, nedge, iendpt, capflo, source, isink,
+            //    icut, node_flow);
+            //
+            //  We have a perfect solution if, and only if, the edges leading from the
+            //  source, and the edges leading to the sink, are all saturated.
+            //
+            for (k = 0; k < nedge; k++)
+            {
+                i = iendpt[0 + 2 * k];
+                j = iendpt[1 + 2 * k] - m;
+
+                if (i <= m && 1 <= j && j <= n)
+                {
+                    if (capflo[1 + 2 * k] != 0 && capflo[1 + 2 * k] != 1)
+                    {
+                        error = true;
+                    }
+                }
+
+                if (iendpt[0 + 2 * k] == source)
+                {
+                    if (capflo[0 + 2 * k] != capflo[1 + 2 * k])
+                    {
+                        error = true;
+                    }
+                }
+
+                if (iendpt[1 + 2 * k] == isink)
+                {
+                    if (capflo[0 + 2 * k] != capflo[1 + 2 * k])
+                    {
+                        error = true;
+                    }
+                }
+
+            }
+
+            //
+            //  If we have a solution, then A(I,J) = the flow on the edge from
+            //  R node I to C node J.
+            //
+            for (i = 0; i < m; i++)
+            {
+                for (j = 0; j < n; j++)
+                {
+                    a[i + j * m] = 0;
+                }
+            }
+
+            for (k = 0; k < nedge; k++)
+            {
+                i = iendpt[0 + 2 * k];
+                j = iendpt[1 + 2 * k] - m;
+
+                if (i <= m && 1 <= j && j <= n)
+                {
+                    a[i + j * m] = capflo[1 + 2 * k];
+                }
+            }
+        }
+
         public static int i4mat_max ( int m, int n, int[] a )
 
             //****************************************************************************80
@@ -251,6 +743,91 @@ namespace Burkardt.Types
             return table2;
         }
 
+        public static void i4mat_u1_inverse ( int n, int[] a, ref int[] b )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    I4MAT_U1_INVERSE inverts a unit upper triangular I4MAT.
+        //
+        //  Discussion:
+        //
+        //    A unit upper triangular matrix is a matrix with only 1's on the main
+        //    diagonal, and only 0's below the main diagonal.  Above the main
+        //    diagonal, the entries may be assigned any value.
+        //
+        //    It may be surprising to note that the inverse of an integer unit upper
+        //    triangular matrix is also an integer unit upper triangular matrix.
+        //
+        //    Note that this routine can invert a matrix in place, that is, with no
+        //    extra storage.  If the matrix is stored in A, then the call
+        //
+        //      i4mat_u1_inverse ( n, a, a )
+        //
+        //    will result in A being overwritten by its inverse, which can
+        //    save storage if the original value of A is not needed later.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    07 May 2003
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Albert Nijenhuis, Herbert Wilf,
+        //    Combinatorial Algorithms for Computers and Calculators,
+        //    Second Edition,
+        //    Academic Press, 1978,
+        //    ISBN: 0-12-519260-6,
+        //    LC: QA164.N54.
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number of rows and columns in the matrix.
+        //
+        //    Input, int A[N*N], the unit upper triangular matrix
+        //    to be inverted.
+        //
+        //    Output, int B[N*N], the inverse matrix.
+        //
+        {
+            int i;
+            int isum;
+            int j;
+            int k;
+
+            for ( j = n; 1 <= j; j-- )
+            {
+                for ( i = n; 1 <= i; i-- )
+                {
+                    if ( i == j )
+                    {
+                        isum = 1;
+                    }
+                    else
+                    {
+                        isum = 0;
+                    }
+
+                    for ( k = i+1; k <= j; k++ )
+                    {
+                        isum = isum - a[i-1+(k-1)*n] * b[k-1+(j-1)*n];
+                    }
+                    b[i-1+(j-1)*n] = isum;
+                }
+            }
+
+            return;
+        }
+        
         public static void i4mat_write(string output_filename, int m, int n, int[] table)
             //****************************************************************************80
             //
@@ -984,6 +1561,298 @@ namespace Burkardt.Types
             }
         }
 
+        public static void i4mat_perm0(int n, ref int[] a, int[] p)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4MAT_PERM0 permutes the rows and columns of a square I4MAT.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    24 May 2015
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Albert Nijenhuis, Herbert Wilf.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Albert Nijenhuis, Herbert Wilf,
+            //    Combinatorial Algorithms for Computers and Calculators,
+            //    Second Edition,
+            //    Academic Press, 1978,
+            //    ISBN: 0-12-519260-6,
+            //    LC: QA164.N54.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order of the matrix.
+            //
+            //    Input/output, int A[N*N].
+            //    On input, the matrix to be permuted.
+            //    On output, the permuted matrix.
+            //
+            //    Input, int P[N], the permutation.  P(I) is the new number of row
+            //    and column I.
+            //
+        {
+            int i;
+            int i1;
+            int is_ = 0;
+            int it;
+            int j;
+            int j1;
+            int j2;
+            int k;
+            int lc;
+            int nc = 0;
+            int temp;
+
+            Permutation.perm0_cycle(n, p, ref is_, ref nc, 1);
+            //
+            //  Temporarily increment P by 1.
+            //
+            for (i = 0; i < n; i++)
+            {
+                p[i] = p[i] + 1;
+            }
+
+            for (i = 1; i <= n; i++)
+            {
+                i1 = -p[i - 1];
+
+                if (0 < i1)
+                {
+                    lc = 0;
+
+                    for (;;)
+                    {
+                        i1 = p[i1 - 1];
+                        lc = lc + 1;
+
+                        if (i1 <= 0)
+                        {
+                            break;
+                        }
+                    }
+
+                    i1 = i;
+
+                    for (j = 1; j <= n; j++)
+                    {
+                        if (p[j - 1] <= 0)
+                        {
+                            j2 = j;
+                            k = lc;
+                            for (;;)
+                            {
+                                j1 = j2;
+                                it = a[i1 - 1 + (j1 - 1) * n];
+
+                                for (;;)
+                                {
+                                    i1 = Math.Abs(p[i1 - 1]);
+                                    j1 = Math.Abs(p[j1 - 1]);
+
+                                    temp = a[i1 - 1 + (j1 - 1) * n];
+                                    a[i1 - 1 + (j1 - 1) * n] = it;
+                                    it = temp;
+
+                                    if (j1 != j2)
+                                    {
+                                        continue;
+                                    }
+
+                                    k = k - 1;
+
+                                    if (i1 == i)
+                                    {
+                                        break;
+                                    }
+                                }
+
+                                j2 = Math.Abs(p[j2 - 1]);
+
+                                if (k == 0)
+                                {
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            //
+            //  Restore the positive signs of the data.
+            //
+            for (i = 0; i < n; i++)
+            {
+                p[i] = Math.Abs(p[i]);
+            }
+
+            //
+            //  Decrement P by 1.
+            //
+            for (i = 0; i < n; i++)
+            {
+                p[i] = p[i] - 1;
+            }
+
+        }
+
+        public static void i4mat_2perm0(int m, int n, int[] a, int[] p, int[] q)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4MAT_2PERM0 permutes the rows and columns of a rectangular I4MAT.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    28 May 2003
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Albert Nijenhuis, Herbert Wilf.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Albert Nijenhuis, Herbert Wilf,
+            //    Combinatorial Algorithms for Computers and Calculators,
+            //    Second Edition,
+            //    Academic Press, 1978,
+            //    ISBN: 0-12-519260-6,
+            //    LC: QA164.N54.
+            //
+            //  Parameters:
+            //
+            //    Input, int M, number of rows in the matrix.
+            //
+            //    Input, int N, number of columns in the matrix.
+            //
+            //    Input/output, int A[M*N].
+            //    On input, the matrix to be permuted.
+            //    On output, the permuted matrix.
+            //
+            //    Input, int P[M], the row permutation.  P(I) is the new number of row I.
+            //
+            //    Input, int Q[N].  The column permutation.  Q(I) is the new number
+            //    of column I.  Note that this routine allows you to pass a single array
+            //    as both P and Q.
+            //
+        {
+            int i;
+            int i1;
+            int is_ = 0;
+            int it;
+            int j;
+            int j1;
+            int j2;
+            int k;
+            int lc;
+            int nc = 0;
+            int[] p1;
+            int[] q1;
+            int temp;
+            //
+            //  Wretched maneuvers to deal with necessity of 1-based values,
+            //  and to handle case where P and Q are same vector.
+            //
+            p1 = i4vec_copy_new(m, p);
+            Permutation.perm0_cycle(m, p1, ref is_, ref nc, 1);
+            for (i = 0; i < m; i++)
+            {
+                p1[i] = p1[i] + 1;
+            }
+
+            q1 = i4vec_copy_new(n, q);
+            Permutation.perm0_cycle(n, q1, ref is_, ref nc, 1);
+            for (j = 0; j < n; j++)
+            {
+                q1[j] = q1[j] + 1;
+            }
+
+            for (i = 1; i <= m; i++)
+            {
+                i1 = -p1[i - 1];
+
+                if (0 < i1)
+                {
+                    lc = 0;
+
+                    for (;;)
+                    {
+                        i1 = p1[i1 - 1];
+                        lc = lc + 1;
+
+                        if (i1 <= 0)
+                        {
+                            break;
+                        }
+                    }
+
+                    i1 = i;
+
+                    for (j = 1; j <= n; j++)
+                    {
+                        if (q1[j - 1] <= 0)
+                        {
+                            j2 = j;
+                            k = lc;
+
+                            for (;;)
+                            {
+                                j1 = j2;
+                                it = a[i1 - 1 + (j1 - 1) * m];
+
+                                for (;;)
+                                {
+                                    i1 = Math.Abs(p1[i1 - 1]);
+                                    j1 = Math.Abs(q1[j1 - 1]);
+
+                                    temp = it;
+                                    it = a[i1 - 1 + (j1 - 1) * m];
+                                    a[i1 - 1 + (j1 - 1) * m] = temp;
+
+                                    if (j1 != j2)
+                                    {
+                                        continue;
+                                    }
+
+                                    k = k - 1;
+
+                                    if (i1 == i)
+                                    {
+                                        break;
+                                    }
+                                }
+
+                                j2 = Math.Abs(q1[j2 - 1]);
+
+                                if (k == 0)
+                                {
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         public static void i4mat_print(int m, int n, int[] a, string title)
             //****************************************************************************80

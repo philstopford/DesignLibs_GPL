@@ -3,6 +3,7 @@ using Burkardt.PolynomialNS;
 
 namespace Burkardt.FEM
 {
+    using Polynomial = Burkardt.PolynomialNS.Polynomial;
     public class Interp
     {
         public static void interp(string code, int element_order, double r, double s,

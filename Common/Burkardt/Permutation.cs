@@ -1638,6 +1638,235 @@ namespace Burkardt
             }
         }
 
+        public static int multiperm_enum(int n, int k, int[] counts)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    MULTIPERM_ENUM enumerates multipermutations.
+            //
+            //  Discussion:
+            //
+            //    A multipermutation is a permutation of objects, some of which are
+            //    identical.
+            //
+            //    While there are 6 permutations of the distinct objects A,B,C, there
+            //    are only 3 multipermutations of the objects A,B,B.
+            //
+            //    In general, there are N! permutations of N distinct objects, but
+            //    there are N! / ( ( M1! ) ( M2! ) ... ( MK! ) ) multipermutations
+            //    of N objects, in the case where the N objects consist of K
+            //    types, with M1 examples of type 1, M2 examples of type 2 and so on,
+            //    and for which objects of the same type are indistinguishable.
+            //
+            //  Example:
+            //
+            //    Input:
+            //
+            //      N = 5, K = 3, COUNTS = (/ 1, 2, 2 /)
+            //
+            //    Output:
+            //
+            //      Number = 30
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    07 July 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of items in the multipermutation.
+            //
+            //    Input, int K, the number of types of items.
+            //    1 <= K.  Ordinarily, K <= N, but we allow any positive K, because
+            //    we also allow entries in COUNTS to be 0.
+            //
+            //    Input, int COUNTS[K], the number of items of each type.
+            //    0 <= COUNTS(1:K) <= N and sum ( COUNTS(1:K) ) = N.
+            //
+            //    Output, int MULTIPERM_ENUM, the number of multipermutations.
+            //
+        {
+            int i;
+            int j;
+            int number;
+            int sum;
+            int top;
+
+            if (n < 0)
+            {
+                number = -1;
+                return number;
+            }
+
+            if (n == 0)
+            {
+                number = 1;
+                return number;
+            }
+
+            if (k < 1)
+            {
+                number = -1;
+                return number;
+            }
+
+            for (i = 0; i < k; i++)
+            {
+                if (counts[i] < 0)
+                {
+                    number = -1;
+                    return number;
+                }
+            }
+
+            sum = 0;
+            for (i = 0; i < k; i++)
+            {
+                sum = sum + counts[i];
+            }
+
+            if (sum != n)
+            {
+                number = -1;
+                return number;
+            }
+
+            //
+            //  Ready for computation.
+            //  By design, the integer division should never have a remainder.
+            //
+            top = 0;
+            number = 1;
+
+            for (i = 0; i < k; i++)
+            {
+                for (j = 1; j <= counts[i]; j++)
+                {
+                    top = top + 1;
+                    number = (number * top) / j;
+                }
+            }
+
+            return number;
+        }
+
+        public static void multiperm_next(int n, ref int[] a, ref bool more)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    MULTIPERM_NEXT returns the next multipermutation.
+            //
+            //  Discussion:
+            //
+            //    To begin the computation, the user must set up the first multipermutation.
+            //    To compute ALL possible multipermutations, this first permutation should
+            //    list the values in ascending order.
+            //
+            //    The routine will compute, one by one, the next multipermutation,
+            //    in lexicographical order.  On the call after computing the last 
+            //    multipermutation, the routine will return MORE = FALSE (and will
+            //    reset the multipermutation to the FIRST one again.)
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    07 March 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of items in the multipermutation.
+            //
+            //    Input/output, int A[N]; on input, the current multipermutation.
+            //    On output, the next multipermutation.
+            //
+            //    Output, bool &MORE, is TRUE if the next multipermutation
+            //    was computed, or FALSE if no further multipermutations could
+            //    be computed.
+            //
+        {
+            int i;
+            int m;
+            int temp;
+            //
+            //  Step 1:
+            //  Find M, the last location in A for which A(M) < A(M+1).
+            //
+            m = 0;
+            for (i = 1; i <= n - 1; i++)
+            {
+                if (a[i - 1] < a[i])
+                {
+                    m = i;
+                }
+            }
+
+            //
+            //  Step 2:
+            //  If no M was found, we've run out of multipermutations.
+            //
+            if (m == 0)
+            {
+                more = false;
+                typeMethods.i4vec_sort_heap_a(n, ref a);
+                return;
+            }
+            else
+            {
+                more = true;
+            }
+
+            //
+            //  Step 3:
+            //  Ascending sort A(M+1:N).
+            //
+            if (m + 1 < n)
+            {
+                typeMethods.i4vec_sort_heap_a(n - m, ref a, aIndex: + m);
+            }
+
+            //
+            //  Step 4:
+            //  Locate the first larger value after A(M).
+            //
+            i = 1;
+            for (;;)
+            {
+                if (a[m - 1] < a[m + i - 1])
+                {
+                    break;
+                }
+
+                i = i + 1;
+            }
+
+            //
+            //  Step 5:
+            //  Interchange A(M) and the next larger value.
+            //
+            temp = a[m - 1];
+            a[m - 1] = a[m + i - 1];
+            a[m + i - 1] = temp;
+        }
+
         public static int perm0_break_count(int n, int[] p)
 
             //****************************************************************************80

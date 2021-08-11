@@ -974,6 +974,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PyramidGridTest", "Burkhard
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PyramidFelippaTest", "BurkhardtTest\Pyramid\PyramidFelippaTest\PyramidFelippaTest.csproj", "{F31E4C37-B4ED-4FCE-89F2-62EB970843D1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PyramidExactnessTest", "BurkhardtTest\Pyramid\PyramidExactnessTest\PyramidExactnessTest.csproj", "{1E98AB23-AD54-4C59-94A4-D71B62247A94}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -6036,6 +6038,18 @@ Global
 		{F31E4C37-B4ED-4FCE-89F2-62EB970843D1}.Release|x64.Build.0 = Release|Any CPU
 		{F31E4C37-B4ED-4FCE-89F2-62EB970843D1}.Release|x86.ActiveCfg = Release|Any CPU
 		{F31E4C37-B4ED-4FCE-89F2-62EB970843D1}.Release|x86.Build.0 = Release|Any CPU
+		{1E98AB23-AD54-4C59-94A4-D71B62247A94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E98AB23-AD54-4C59-94A4-D71B62247A94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E98AB23-AD54-4C59-94A4-D71B62247A94}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1E98AB23-AD54-4C59-94A4-D71B62247A94}.Debug|x64.Build.0 = Debug|Any CPU
+		{1E98AB23-AD54-4C59-94A4-D71B62247A94}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1E98AB23-AD54-4C59-94A4-D71B62247A94}.Debug|x86.Build.0 = Debug|Any CPU
+		{1E98AB23-AD54-4C59-94A4-D71B62247A94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E98AB23-AD54-4C59-94A4-D71B62247A94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E98AB23-AD54-4C59-94A4-D71B62247A94}.Release|x64.ActiveCfg = Release|Any CPU
+		{1E98AB23-AD54-4C59-94A4-D71B62247A94}.Release|x64.Build.0 = Release|Any CPU
+		{1E98AB23-AD54-4C59-94A4-D71B62247A94}.Release|x86.ActiveCfg = Release|Any CPU
+		{1E98AB23-AD54-4C59-94A4-D71B62247A94}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -6521,6 +6535,7 @@ Global
 		{C0B40DD5-8B6F-4240-AC62-C3808A41C57E} = {1C23637A-D942-477B-ADAD-18FEFD6355BC}
 		{5B30126B-8AD6-42E8-AF7F-3764F5AEA206} = {1C23637A-D942-477B-ADAD-18FEFD6355BC}
 		{F31E4C37-B4ED-4FCE-89F2-62EB970843D1} = {1C23637A-D942-477B-ADAD-18FEFD6355BC}
+		{1E98AB23-AD54-4C59-94A4-D71B62247A94} = {1C23637A-D942-477B-ADAD-18FEFD6355BC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B449416C-C504-4FA8-9E10-10857263A64A}

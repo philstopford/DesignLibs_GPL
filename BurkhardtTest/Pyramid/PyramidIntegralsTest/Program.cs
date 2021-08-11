@@ -1,6 +1,6 @@
 ﻿using System;
 using Burkardt;
-using Burkardt.Pyramid;
+using Burkardt.PyramidNS;
 using Burkardt.Types;
 
 namespace PyramidIntegralsTest

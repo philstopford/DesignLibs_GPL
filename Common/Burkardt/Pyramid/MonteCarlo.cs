@@ -2,7 +2,7 @@
 using Burkardt.Types;
 using Burkardt.Uniform;
 
-namespace Burkardt.Pyramid
+namespace Burkardt.PyramidNS
 {
     public static class MonteCarlo
     {

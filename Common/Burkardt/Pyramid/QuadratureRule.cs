@@ -1,7 +1,7 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.Pyramid
+namespace Burkardt.PyramidNS
 {
     public static class QuadratureRule
     {

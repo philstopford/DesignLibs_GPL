@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace Burkardt.Pyramid
+namespace Burkardt.PyramidNS
 {
     public static class Grid
     {

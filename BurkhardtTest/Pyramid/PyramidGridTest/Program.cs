@@ -1,5 +1,5 @@
 ﻿using System;
-using Burkardt.Pyramid;
+using Burkardt.PyramidNS;
 using Burkardt.Types;
 
 namespace PyramidGridTest

@@ -308,7 +308,6 @@ namespace SubsetTestNS
             YoungTableauTest.ytb_enum_test();
             YoungTableauTest.ytb_next_test();
             YoungTableauTest.ytb_random_test();
-
             Console.WriteLine("");
             Console.WriteLine("SUBSET_TEST");
             Console.WriteLine("  Normal end of execution.");

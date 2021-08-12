@@ -131,6 +131,7 @@ namespace SubsetTestNS
             t = 0;
             n2 = 0;
             more2 = false;
+            CompNZData data = new CompNZData();
 
             Console.WriteLine("");
             Console.WriteLine("SUBCOMPNZ_NEXT_TEST");
@@ -146,7 +147,7 @@ namespace SubsetTestNS
 
             for (;;)
             {
-                SubComp.subcompnz_next(n, k, ref a, ref more, ref h, ref t, ref n2, ref more2);
+                SubComp.subcompnz_next(ref data, n, k, ref a, ref more, ref h, ref t, ref n2, ref more2);
 
                 total = 0;
                 for (i = 0; i < k; i++)
@@ -216,6 +217,7 @@ namespace SubsetTestNS
             t = 0;
             n2 = 0;
             more2 = false;
+            CompNZData data = new CompNZData();
 
             Console.WriteLine("");
             Console.WriteLine("SUBCOMPNZ2_NEXT_TEST");
@@ -233,7 +235,7 @@ namespace SubsetTestNS
 
             for (;;)
             {
-                SubComp.subcompnz2_next(n_lo, n_hi, k, ref a, ref more, ref h, ref t, ref n2, ref more2);
+                SubComp.subcompnz2_next(ref data, n_lo, n_hi, k, ref a, ref more, ref h, ref t, ref n2, ref more2);
 
                 n = 0;
                 for (i = 0; i < k; i++)

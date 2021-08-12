@@ -1288,7 +1288,7 @@ namespace Burkardt
             }
         }
 
-        public static void subcompnz_next(int n, int k, ref int[] a, ref bool more,
+        public static void subcompnz_next(ref CompNZData data, int n, int k, ref int[] a, ref bool more,
                 ref int h, ref int t, ref int n2, ref bool more2)
 
             //****************************************************************************80
@@ -1339,7 +1339,6 @@ namespace Burkardt
             //
         {
             int i;
-            CompNZData data = new CompNZData();
 
             if (n < k)
             {
@@ -1391,7 +1390,7 @@ namespace Burkardt
             }
         }
 
-        public static void subcompnz2_next(int n_lo, int n_hi, int k, ref int[] a, ref bool more,
+        public static void subcompnz2_next(ref CompNZData data, int n_lo, int n_hi, int k, ref int[] a, ref bool more,
                 ref int h, ref int t, ref int n2, ref bool more2)
 
             //****************************************************************************80
@@ -1450,7 +1449,6 @@ namespace Burkardt
             //
         {
             int i;
-            CompNZData data = new CompNZData();
 
             if (n_hi < k)
             {

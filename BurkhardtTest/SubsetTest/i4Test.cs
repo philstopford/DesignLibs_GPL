@@ -6,7 +6,7 @@ using TestValues;
 using Prime = TestValues.Prime;
 using VanDerCorput = Burkardt.VanDerCorput;
 
-namespace SubsetTest
+namespace SubsetTestNS
 {
     public static class i4Test
     {

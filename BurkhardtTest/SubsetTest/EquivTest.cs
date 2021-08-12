@@ -1,7 +1,7 @@
 ﻿using System;
 using Burkardt.SubsetNS;
 
-namespace SubsetTest
+namespace SubsetTestNS
 {
     public static class EquivTest
     {

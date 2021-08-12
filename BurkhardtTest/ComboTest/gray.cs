@@ -61,7 +61,7 @@ namespace ComboTest
                     t = typeMethods.i4vec_copy_new(n, t3);
                 }
 
-                check = Ranking.gray_code_check(n, t3);
+                check = typeMethods.gray_code_check(n, t3);
                 string cout = "      " + check.ToString().PadLeft(1)
                                   + "  " + n.ToString().PadLeft(2)
                                   + ":  ";
@@ -106,7 +106,7 @@ namespace ComboTest
             Console.WriteLine("");
             for (n = 0; n <= 10; n++)
             {
-                ngray = Ranking.gray_code_enum(n);
+                ngray = typeMethods.gray_code_enum(n);
                 Console.WriteLine("  " + n.ToString().PadLeft(2)
                                   + "  " + ngray.ToString().PadLeft(6) + "");
             }
@@ -191,7 +191,7 @@ namespace ComboTest
             {
                 rank_old = rank;
 
-                Ranking.gray_code_successor(n, ref t, ref rank);
+                typeMethods.gray_code_successor(n, ref t, ref rank);
 
                 if (rank <= rank_old)
                 {
@@ -240,7 +240,7 @@ namespace ComboTest
             Console.WriteLine("  GRAY_CODE_UNRANK unranks a Gray code.");
 
             n = 5;
-            ngray = Ranking.gray_code_enum(n);
+            ngray = typeMethods.gray_code_enum(n);
             rank = ngray / 2;
 
             t =Ranking. gray_code_unrank(rank, n);

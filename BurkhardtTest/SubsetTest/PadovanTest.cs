@@ -1,7 +1,7 @@
 ﻿using System;
 using Burkardt;
 
-namespace SubsetTest
+namespace SubsetTestNS
 {
     public class PadovanTest
     {

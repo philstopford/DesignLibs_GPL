@@ -1,7 +1,7 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace SubsetTest
+namespace SubsetTestNS
 {
     public static class DecMatTest
     {

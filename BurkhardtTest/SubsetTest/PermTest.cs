@@ -4,7 +4,7 @@ using Burkardt.SubsetNS;
 using Burkardt.Types;
 using Burkardt.Uniform;
 
-namespace SubsetTest
+namespace SubsetTestNS
 {
     public static class PermTest
     {

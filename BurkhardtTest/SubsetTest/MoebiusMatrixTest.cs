@@ -2,7 +2,7 @@
 using Burkardt;
 using Burkardt.Types;
 
-namespace SubsetTest
+namespace SubsetTestNS
 {
     public static class MoebiusMatrixTest
     {

@@ -305,7 +305,7 @@ namespace Burkardt
             }
         }
 
-        public static void ytb_random(int n, int[] lambda, ref int seed, int[] a)
+        public static void ytb_random(int n, int[] lambda, ref int seed, ref int[] a)
 
             //****************************************************************************80
             //

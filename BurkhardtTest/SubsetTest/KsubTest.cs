@@ -3,7 +3,7 @@ using Burkardt;
 using Burkardt.SubsetNS;
 using Burkardt.Types;
 
-namespace SubsetTest
+namespace SubsetTestNS
 {
     public static class KsubTest
     {

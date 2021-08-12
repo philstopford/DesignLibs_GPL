@@ -1,7 +1,7 @@
 ﻿using System;
 using TestValues;
 
-namespace SubsetTest
+namespace SubsetTestNS
 {
     public static class CatalanTest
     {

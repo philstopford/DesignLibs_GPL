@@ -3,7 +3,7 @@ using Burkardt;
 using Burkardt.Types;
 using Burkardt.Uniform;
 
-namespace SubsetTest
+namespace SubsetTestNS
 {
     public static class FractionTest
     {

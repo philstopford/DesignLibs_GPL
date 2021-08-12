@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SubsetTest
+namespace SubsetTestNS
 {
     class Program
     {
@@ -267,12 +267,12 @@ namespace SubsetTest
             FractionTest.rfrac_to_jfrac_test();
             schroeder_test();
             sort_heap_external_test();
-            subset_by_size_next_test();
-            subset_lex_next_test();
-            subset_gray_next_test();
-            subset_random_test();
-            subset_gray_rank_test();
-            subset_gray_unrank_test();
+            SubsetTest.subset_by_size_next_test();
+            SubsetTest.subset_lex_next_test();
+            SubsetTest.subset_gray_next_test();
+            SubsetTest.subset_random_test();
+            SubsetTest.subset_gray_rank_test();
+            SubsetTest.subset_gray_unrank_test();
             subcomp_next_test();
             subcompnz_next_test();
             subcompnz2_next_test();
@@ -280,15 +280,15 @@ namespace SubsetTest
             thue_binary_next_test();
             thue_ternary_next_test();
             triang_test();
-            tuple_next_test();
-            tuple_next_fast_test();
-            tuple_next_ge_test();
-            tuple_next2_test();
-            ubvec_add_test();
-            ubvec_print_test();
-            ubvec_to_ui4_test();
-            ubvec_xor_test();
-            ui4_to_ubvec_test();
+            TupleTest.tuple_next_test();
+            TupleTest.tuple_next_fast_test();
+            TupleTest.tuple_next_ge_test();
+            TupleTest.tuple_next2_test();
+            UnsignTest.ubvec_add_test();
+            UnsignTest.ubvec_print_test();
+            UnsignTest.ubvec_to_ui4_test();
+            UnsignTest.ubvec_xor_test();
+            UnsignTest.ui4_to_ubvec_test();
             VectorTest.vec_colex_next_test();
             VectorTest.vec_colex_next2_test();
             VectorTest.vec_colex_next3_test();
@@ -305,9 +305,9 @@ namespace SubsetTest
             VectorTest.vector_constrained_next6_test();
             VectorTest.vector_constrained_next7_test();
             VectorTest.vector_next_test();
-            ytb_enum_test();
-            ytb_next_test();
-            ytb_random_test();
+            YoungTableauTest.ytb_enum_test();
+            YoungTableauTest.ytb_next_test();
+            YoungTableauTest.ytb_random_test();
 
             Console.WriteLine("");
             Console.WriteLine("SUBSET_TEST");

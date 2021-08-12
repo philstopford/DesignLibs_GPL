@@ -1,7 +1,7 @@
 ﻿using System;
 using Burkardt.PolynomialNS;
 
-namespace SubsetTest
+namespace SubsetTestNS
 {
     public static class MultinomialTest
     {

@@ -2,7 +2,7 @@
 using Burkardt.RankingNS;
 using Burkardt.Types;
 
-namespace SubsetTest
+namespace SubsetTestNS
 {
     public static class VectorTest
     {

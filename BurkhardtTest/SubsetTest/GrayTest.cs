@@ -1,7 +1,7 @@
 ﻿using System;
 using Burkardt.RankingNS;
 
-namespace SubsetTest
+namespace SubsetTestNS
 {
     public static class GrayTest
     {

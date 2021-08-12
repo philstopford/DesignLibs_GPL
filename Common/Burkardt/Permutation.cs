@@ -3783,14 +3783,16 @@ namespace Burkardt
                     //
                     k = p[k - 1];
 
+                    if ((k - 1) < 0)
+                    {
+                        break;
+                    }
                     if (iarray[k - 1] != -1)
                     {
                         break;
                     }
                 }
             }
-
-            return;
         }
 
         public static void perm0_to_inversion(int n, int[] p, int[] ins )

@@ -5,6 +5,97 @@ namespace Burkardt.PolynomialNS
 {
     public static class Multinomial
     {
+        public static int commul(int n, int nfact, int[] iarray)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    COMMUL computes a multinomial combinatorial coefficient.
+            //
+            //  Discussion:
+            //
+            //    The multinomial coefficient is a generalization of the binomial
+            //    coefficient.  It may be interpreted as the number of combinations of
+            //    N objects, where IARRAY(1) objects are indistinguishable of type 1,
+            //    ... and IARRAY(K) are indistinguishable of type NFACT.
+            //
+            //    The formula is:
+            //
+            //      COMMUL = N! / ( IARRAY(1)! IARRAY(2)! ... IARRAY(NFACT)! )
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    04 November 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, determines the numerator.
+            //
+            //    Input, int NFACT, the number of factors in the numerator.
+            //
+            //    Input, int IARRAY(NFACT).
+            //    IARRAY contains the NFACT values used in the denominator.
+            //    Note that the sum of these entries should be N,
+            //    and that all entries should be nonnegative.
+            //
+            //    Output, int COMMUL, the value of the multinomial coefficient.
+            //
+        {
+            double arg;
+            double fack;
+            double facn;
+            int i;
+            int isum;
+
+            for (i = 0; i < nfact; i++)
+            {
+                if (iarray[i] < 0)
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("COMMUL - Fatal error");
+                    Console.WriteLine("  Entry " + i + " of IARRAY = " + iarray[i] + "");
+                    Console.WriteLine("  But this value must be nonnegative.");
+                    return (1);
+                }
+            }
+
+            isum = 0;
+            for (i = 0; i < nfact; i++)
+            {
+                isum = isum + iarray[i];
+            }
+
+            if (isum != n)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("COMMUL - Fatal error!");
+                Console.WriteLine("  The sum of the IARRAY entries is " + isum + "");
+                Console.WriteLine("  But it must equal N = " + n + "");
+                return (1);
+            }
+
+            arg = (double)(n + 1);
+            facn = Helpers.LogGamma(arg);
+
+            for (i = 0; i < nfact; i++)
+            {
+                arg = (double)(iarray[i] + 1);
+                fack = Helpers.LogGamma(arg);
+                facn = facn - fack;
+            }
+
+            return (int)(typeMethods.r8_nint(Math.Exp(facn)));
+        }
+
         public static bool multicoef_check(int nfactor, int[] factor)
             //****************************************************************************80
             //

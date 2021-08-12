@@ -3783,11 +3783,14 @@ namespace Burkardt
                     //
                     k = p[k - 1];
 
-                    if ((k - 1) < 0)
+                    try
                     {
-                        break;
+                        if (iarray[k - 1] != -1)
+                        {
+                            break;
+                        }
                     }
-                    if (iarray[k - 1] != -1)
+                    catch (Exception)
                     {
                         break;
                     }

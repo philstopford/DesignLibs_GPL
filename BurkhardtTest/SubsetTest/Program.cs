@@ -39,7 +39,6 @@ namespace SubsetTestNS
             CatalanTest.catalan_row_next_test();
             FractionTest.cfrac_to_rat_test();
             FractionTest.cfrac_to_rfrac_test();
-
             CombTest.comb_next_test();
             CombTest.comb_row_next_test();
             CombTest.comb_unrank_test();

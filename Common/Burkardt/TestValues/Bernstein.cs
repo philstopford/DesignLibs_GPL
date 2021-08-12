@@ -2,6 +2,11 @@
 {
     public static class Bernstein
     {
+        public static void bernstein_poly_values(ref int n_data, ref int n, ref int k, ref double x,
+            ref double b)
+        {
+            bernstein_poly_01_values(ref n_data, ref n, ref k, ref x, ref b);
+        }
         public static void bernstein_poly_01_values(ref int n_data, ref int n, ref int k, ref double x,
                 ref double b)
 

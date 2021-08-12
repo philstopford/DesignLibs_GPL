@@ -1,6 +1,7 @@
 ﻿using System;
 using Burkardt;
 using Burkardt.CDFLib;
+using TestValues;
 
 namespace CDFLibTest
 {
@@ -2283,7 +2284,7 @@ namespace CDFLibTest
 
             for (;;)
             {
-                CDF.erf_values(ref n_data, ref x, ref erf_lookup);
+                ErrorFunc.erf_values(ref n_data, ref x, ref erf_lookup);
 
                 if (n_data == 0)
                 {
@@ -2308,7 +2309,7 @@ namespace CDFLibTest
 
             for (;;)
             {
-                CDF.erf_values(ref n_data, ref x, ref erf_lookup);
+                ErrorFunc.erf_values(ref n_data, ref x, ref erf_lookup);
 
                 if (n_data == 0)
                 {

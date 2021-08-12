@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt.RankingNS;
+using Burkardt.Types;
 
 namespace SubsetTestNS
 {
@@ -47,7 +48,7 @@ namespace SubsetTestNS
 
             for (;;)
             {
-                Ranking.gray_next(n, ref change, ref k, ref a);
+                typeMethods.gray_next(n, ref change, ref k, ref a);
 
                 if (change == -n)
                 {

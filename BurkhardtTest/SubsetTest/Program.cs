@@ -273,9 +273,9 @@ namespace SubsetTestNS
             SubsetTest.subset_random_test();
             SubsetTest.subset_gray_rank_test();
             SubsetTest.subset_gray_unrank_test();
-            subcomp_next_test();
-            subcompnz_next_test();
-            subcompnz2_next_test();
+            SubcompTest.subcomp_next_test();
+            SubcompTest.subcompnz_next_test();
+            SubcompTest.subcompnz2_next_test();
             subtriangle_next_test();
             thue_binary_next_test();
             thue_ternary_next_test();

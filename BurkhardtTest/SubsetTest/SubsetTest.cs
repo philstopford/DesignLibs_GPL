@@ -1,7 +1,6 @@
 ﻿using System;
 using Burkardt.RankingNS;
 using Burkardt.SubsetNS;
-using Burkardt.Types;
 
 namespace SubsetTestNS
 {

@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt.RankingNS;
+using Burkardt.SubsetNS;
 using Burkardt.Types;
 
 namespace ComboTest
@@ -65,7 +66,7 @@ namespace ComboTest
                     s = typeMethods.i4vec_copy_new(n, s3);
                 }
 
-                check = Ranking.subset_check(n, s);
+                check = Subset.subset_check(n, s);
                 typeMethods.i4vec_transpose_print(n, s, "  Subset:");
                 Console.WriteLine("  Check = " + check + "");
             }
@@ -152,7 +153,7 @@ namespace ComboTest
             {
                 rank_old = rank;
 
-                Ranking.subset_colex_successor(n, ref t, ref rank);
+                Subset.subset_colex_successor(n, ref t, ref rank);
 
                 if (rank <= rank_old)
                 {
@@ -240,10 +241,10 @@ namespace ComboTest
             n = 5;
             seed = 123456789;
 
-            s1 = Ranking.subset_random(n, ref seed);
+            s1 = Subset.subset_random(n, ref seed);
             typeMethods.i4vec_transpose_print(n, s1, "  Subset S1:            ");
 
-            s2 = Ranking.subset_complement(n, s1);
+            s2 = Subset.subset_complement(n, s1);
             typeMethods.i4vec_transpose_print(n, s2, "  S2 = complement of S1:");
         }
 
@@ -282,13 +283,13 @@ namespace ComboTest
             n = 5;
             seed = 123456789;
 
-            s1 = Ranking.subset_random(n, ref seed);
+            s1 = Subset.subset_random(n, ref seed);
             typeMethods.i4vec_transpose_print(n, s1, "  Subset S1:");
 
-            s2 = Ranking.subset_random(n, ref seed);
+            s2 = Subset.subset_random(n, ref seed);
             typeMethods.i4vec_transpose_print(n, s2, "  Subset S2:");
 
-            distance = Ranking.subset_distance(n, s1, s2);
+            distance = Subset.subset_distance(n, s1, s2);
             Console.WriteLine("");
             Console.WriteLine("  Distance = " + distance + "");
         }
@@ -324,7 +325,7 @@ namespace ComboTest
 
             for (n = 0; n <= 10; n++)
             {
-                subset_num = Ranking.subset_enum(n);
+                subset_num = Subset.subset_enum(n);
                 Console.WriteLine("  " + n.ToString().PadLeft(2)
                     + "  " + subset_num.ToString().PadLeft(6) + "");
             }
@@ -365,13 +366,13 @@ namespace ComboTest
             n = 7;
             seed = 123456789;
 
-            s1 = Ranking.subset_random(n, ref seed);
+            s1 = Subset.subset_random(n, ref seed);
             typeMethods.i4vec_transpose_print(n, s1, "  Subset S1:");
 
-            s2 = Ranking.subset_random(n, ref seed);
+            s2 = Subset.subset_random(n, ref seed);
             typeMethods.i4vec_transpose_print(n, s2, "  Subset S2:");
 
-            s3 = Ranking.subset_intersect(n, s1, s2);
+            s3 = Subset.subset_intersect(n, s1, s2);
             typeMethods.i4vec_transpose_print(n, s3, "  Intersect:");
         }
 
@@ -458,7 +459,7 @@ namespace ComboTest
             {
                 rank_old = rank;
 
-                Ranking.subset_lex_successor(n, ref t, ref rank);
+                Subset.subset_lex_successor(n, ref t, ref rank);
 
                 if (rank <= rank_old)
                 {
@@ -548,7 +549,7 @@ namespace ComboTest
 
             for (i = 0; i < 10; i++)
             {
-                s = Ranking.subset_random(n, ref seed);
+                s = Subset.subset_random(n, ref seed);
                 typeMethods.i4vec_transpose_print(n, s, "  Subset:");
             }
         }
@@ -588,13 +589,13 @@ namespace ComboTest
             n = 7;
             seed = 123456789;
 
-            s1 = Ranking.subset_random(n, ref seed);
+            s1 = Subset.subset_random(n, ref seed);
             typeMethods.i4vec_transpose_print(n, s1, "  Subset S1:");
 
-            s2 = Ranking.subset_random(n, ref seed);
+            s2 = Subset.subset_random(n, ref seed);
             typeMethods.i4vec_transpose_print(n, s2, "  Subset S2:");
 
-            s3 = Ranking.subset_union(n, s1, s2);
+            s3 = Subset.subset_union(n, s1, s2);
             typeMethods.i4vec_transpose_print(n, s3, "  Union:    ");
 
         }
@@ -632,10 +633,10 @@ namespace ComboTest
             n = 5;
             seed = 123456789;
 
-            s = Ranking.subset_random(n, ref seed);
+            s = Subset.subset_random(n, ref seed);
             typeMethods.i4vec_transpose_print(n, s, "  Subset S:");
 
-            weight = Ranking.subset_weight(n, s);
+            weight = Subset.subset_weight(n, s);
             Console.WriteLine("");
             Console.WriteLine("  Weight = " + weight + "");
         }
@@ -675,13 +676,13 @@ namespace ComboTest
             n = 7;
             seed = 123456789;
 
-            s1 = Ranking.subset_random(n, ref seed);
+            s1 = Subset.subset_random(n, ref seed);
             typeMethods.i4vec_transpose_print(n, s1, "  Subset S1:");
 
-            s2 = Ranking.subset_random(n, ref seed);
+            s2 = Subset.subset_random(n, ref seed);
             typeMethods.i4vec_transpose_print(n, s2, "  Subset S2:");
 
-            s3 = Ranking.subset_xor(n, s1, s2);
+            s3 = Subset.subset_xor(n, s1, s2);
             typeMethods.i4vec_transpose_print(n, s3, "  XOR:      ");
         }
 
@@ -725,7 +726,7 @@ namespace ComboTest
             Console.WriteLine("");
             Console.WriteLine("  The desired sum is " + sum_desired + "");
 
-            sum_achieved = Ranking.subsetsum_swap(n, ref a, sum_desired, ref index);
+            sum_achieved = Subset.subsetsum_swap(n, ref a, sum_desired, ref index);
 
             Console.WriteLine("");
             Console.WriteLine("    A(I), INDEX(I)");

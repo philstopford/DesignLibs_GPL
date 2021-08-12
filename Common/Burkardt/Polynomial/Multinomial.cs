@@ -1,10 +1,64 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.Polynomial
+namespace Burkardt.PolynomialNS
 {
     public static class Multinomial
     {
+        public static bool multicoef_check(int nfactor, int[] factor)
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    MULTICOEF_CHECK checks the parameters of the multinomial coefficient.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    22 September 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int NFACTOR, the number of factors.
+            //    1 <= NFACTOR.
+            //
+            //    Input, int FACTOR(NFACTOR), contains the factors.
+            //    0.0 <= FACTOR(I).
+            //
+            //    Output, bool MULTICOEF_CHECK, is true if the parameters are legal.
+            //
+        {
+            if (nfactor < 1)
+            {
+                Console.WriteLine(" ");
+                Console.WriteLine("MULTICOEF_CHECK - Warning!");
+                Console.WriteLine("  NFACTOR < 1.");
+                return false;
+            }
+
+            for (int i = 0; i < nfactor; i++)
+            {
+                if (factor[i] < 0)
+                {
+                    Console.WriteLine(" ");
+                    Console.WriteLine("MULTICOEF_CHECK - Warning");
+                    Console.WriteLine("  Factor[" + i + "] = " + factor[i] + "");
+                    Console.WriteLine("  But this value must be nonnegative.");
+                    return false;
+                }
+
+            }
+
+            return true;
+        }
+
         public static int multinomial_coef1(int nfactor, int[] factor)
 
             //****************************************************************************80

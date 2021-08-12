@@ -57,9 +57,9 @@ namespace ProbabilityTest
                 factor[0] = i;
                 factor[1] = n - i;
 
-                ncomb1 = Multinomial.multinomial_coef1(nfactor, factor);
+                ncomb1 = Burkardt.PolynomialNS.Multinomial.multinomial_coef1(nfactor, factor);
 
-                ncomb2 = Multinomial.multinomial_coef2(nfactor, factor);
+                ncomb2 = Burkardt.PolynomialNS.Multinomial.multinomial_coef2(nfactor, factor);
 
                 Console.WriteLine("  "
                                   + factor[0].ToString().PadLeft(2) + "  "
@@ -85,9 +85,9 @@ namespace ProbabilityTest
                     factor[1] = j;
                     factor[2] = n - factor[0] - factor[1];
 
-                    ncomb1 = Multinomial.multinomial_coef1(nfactor, factor);
+                    ncomb1 = Burkardt.PolynomialNS.Multinomial.multinomial_coef1(nfactor, factor);
 
-                    ncomb2 = Multinomial.multinomial_coef2(nfactor, factor);
+                    ncomb2 = Burkardt.PolynomialNS.Multinomial.multinomial_coef2(nfactor, factor);
 
                     Console.WriteLine("  "
                                       + factor[0].ToString().PadLeft(2) + "  "

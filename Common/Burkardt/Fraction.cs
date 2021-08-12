@@ -421,7 +421,7 @@ namespace Burkardt
             t[2 * m - 1] = a[0 + (2 * m - 1) * (m + 1)] / a[0 + (2 * m) * (m + 1)];
         }
 
-        public static void rfrac_to_jfrac(int m, double[] p, double[] q, double[] r, double[] s)
+        public static void rfrac_to_jfrac(int m, double[] p, double[] q, ref double[] r, ref double[] s)
 
             //****************************************************************************80
             //

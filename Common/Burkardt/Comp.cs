@@ -219,105 +219,106 @@ namespace Burkardt
             xc[kc - 1] = xc[kc - 1] + t - 1;
         }
 
-        public static void comp_random ( int n, int k, ref int seed, ref int[] a )
+        public static void comp_random(int n, int k, ref int seed, ref int[] a)
 
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    COMP_RANDOM selects a random composition of the integer N into K parts.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license. 
-        //
-        //  Modified:
-        //
-        //    20 May 2015
-        //
-        //  Author:
-        //
-        //    Original FORTRAN77 version by Albert Nijenhuis, Herbert Wilf.
-        //    C++ version by John Burkardt.
-        //
-        //  Reference:
-        //
-        //    Albert Nijenhuis, Herbert Wilf,
-        //    Combinatorial Algorithms for Computers and Calculators,
-        //    Second Edition,
-        //    Academic Press, 1978,
-        //    ISBN: 0-12-519260-6,
-        //    LC: QA164.N54.
-        //
-        //  Parameters:
-        //
-        //    Input, int N, the integer to be decomposed.
-        //
-        //    Input, int K, the number of parts in the composition.
-        //
-        //    Input/output, int &SEED, a seed for the random number generator.
-        //
-        //    Output, int A[K], the parts of the composition.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    COMP_RANDOM selects a random composition of the integer N into K parts.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    20 May 2015
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Albert Nijenhuis, Herbert Wilf.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Albert Nijenhuis, Herbert Wilf,
+            //    Combinatorial Algorithms for Computers and Calculators,
+            //    Second Edition,
+            //    Academic Press, 1978,
+            //    ISBN: 0-12-519260-6,
+            //    LC: QA164.N54.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the integer to be decomposed.
+            //
+            //    Input, int K, the number of parts in the composition.
+            //
+            //    Input/output, int &SEED, a seed for the random number generator.
+            //
+            //    Output, int A[K], the parts of the composition.
+            //
         {
             int[] b;
             int i;
             int l;
             int m;
 
-            b = new int[k-1];
+            b = new int[k - 1];
 
-            Ksub.ksub_random2 ( n + k - 1, k - 1, ref seed, ref b );
+            Ksub.ksub_random2(n + k - 1, k - 1, ref seed, ref b);
 
-            for ( i = 0; i < k - 1; i++ )
+            for (i = 0; i < k - 1; i++)
             {
                 a[i] = b[i];
             }
-            a[k-1] = n + k;
-            
+
+            a[k - 1] = n + k;
+
             l = 0;
 
-            for ( i = 0; i < k; i++ )
+            for (i = 0; i < k; i++)
             {
                 m = a[i];
                 a[i] = a[i] - l - 1;
                 l = m;
             }
         }
-        
-        public static int[] comp_random_grlex(int kc, int rank1, int rank2, ref int seed, ref int rank )
 
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    COMP_RANDOM_GRLEX: random composition with degree less than or equal to NC.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    09 September 2014
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int KC, the number of parts in the composition.
-        //
-        //    Input, int RANK1, RANK2, the minimum and maximum ranks.
-        //    1 <= RANK1 <= RANK2.
-        //
-        //    Input/output, int &SEED, the random number seed.
-        //
-        //    Output, int &RANK, the rank of the composition.
-        //
-        //    Output, int COMP_RANDOM_GRLEX[KC], the random composition.
-        //
+        public static int[] comp_random_grlex(int kc, int rank1, int rank2, ref int seed, ref int rank)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    COMP_RANDOM_GRLEX: random composition with degree less than or equal to NC.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    09 September 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int KC, the number of parts in the composition.
+            //
+            //    Input, int RANK1, RANK2, the minimum and maximum ranks.
+            //    1 <= RANK1 <= RANK2.
+            //
+            //    Input/output, int &SEED, the random number seed.
+            //
+            //    Output, int &RANK, the rank of the composition.
+            //
+            //    Output, int COMP_RANDOM_GRLEX[KC], the random composition.
+            //
         {
             int[] xc;
 
@@ -515,64 +516,64 @@ namespace Burkardt
 
             return rank;
         }
-        
-        public static void comp_to_ksub ( int nc, int kc, int[] ac, ref int ns, ref int ks, ref int[] as_ )
 
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    COMP_TO_KSUB converts a composition to a K-subset.
-        //
-        //  Discussion:
-        //
-        //    There is a bijection between K subsets and compositions.
-        //
-        //    Because we allow a composition to have entries that are 0, we need
-        //    to implicitly add 1 to each entry before establishing the bijection.
-        //
-        //    Let AC be a composition of NC into KC parts.
-        //
-        //    Then let
-        //      NS = NC + KC - 1
-        //      KS = KC - 1
-        //    and define
-        //      AS(I) = sum ( AC(1:I) + 1 ), for I = 1 : KS.
-        //      
-        //    Then AS is a KS subset of the integers 1 through NS.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    04 December 2013
-        //
-        //  Parameters:
-        //
-        //    Input, int NC, the composition sum.
-        //
-        //    Input, int KC, the number of parts of the composition.
-        //
-        //    Input, int AC[KC], the parts of the composition.
-        //
-        //    Output, int &NS, the size of the set.
-        //
-        //    Output, int &KS, the size of the subset.
-        //
-        //    Output, int AS[KS], the entries of the K-subset, 
-        //    in increasing order.
-        //
+        public static void comp_to_ksub(int nc, int kc, int[] ac, ref int ns, ref int ks, ref int[] as_)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    COMP_TO_KSUB converts a composition to a K-subset.
+            //
+            //  Discussion:
+            //
+            //    There is a bijection between K subsets and compositions.
+            //
+            //    Because we allow a composition to have entries that are 0, we need
+            //    to implicitly add 1 to each entry before establishing the bijection.
+            //
+            //    Let AC be a composition of NC into KC parts.
+            //
+            //    Then let
+            //      NS = NC + KC - 1
+            //      KS = KC - 1
+            //    and define
+            //      AS(I) = sum ( AC(1:I) + 1 ), for I = 1 : KS.
+            //      
+            //    Then AS is a KS subset of the integers 1 through NS.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    04 December 2013
+            //
+            //  Parameters:
+            //
+            //    Input, int NC, the composition sum.
+            //
+            //    Input, int KC, the number of parts of the composition.
+            //
+            //    Input, int AC[KC], the parts of the composition.
+            //
+            //    Output, int &NS, the size of the set.
+            //
+            //    Output, int &KS, the size of the subset.
+            //
+            //    Output, int AS[KS], the entries of the K-subset, 
+            //    in increasing order.
+            //
         {
             int i;
 
             ns = nc + kc - 1;
             ks = kc - 1;
-                as_[0] = ac[0] + 1;
-            for ( i = 1; i < kc - 1; i++ )
+            as_[0] = ac[0] + 1;
+            for (i = 1; i < kc - 1; i++)
             {
-                as_[i] = as_[i-1] + ac[i] + 1;
+                as_[i] = as_[i - 1] + ac[i] + 1;
             }
         }
 
@@ -842,7 +843,7 @@ namespace Burkardt
             more = (a[k - 1] != n);
         }
 
-        public static int compnz_enum ( int n, int k )
+        public static int compnz_enum(int n, int k)
 
             /******************************************************************************/
             /*
@@ -909,10 +910,11 @@ namespace Burkardt
         {
             int number;
 
-            number = typeMethods.i4_choose ( n - 1, n - k );
+            number = typeMethods.i4_choose(n - 1, n - k);
 
             return number;
         }
+
         public static void compnz_next(ref CompNZData data, int n, int k, ref int[] a, ref bool more)
 
             //****************************************************************************80
@@ -1281,6 +1283,226 @@ namespace Burkardt
             //  Termination occurs if MORE2 = FALSE and N2 = N.
             //
             if (!data.more2 && data.n2 == n)
+            {
+                more = false;
+            }
+        }
+
+        public static void subcompnz_next(int n, int k, ref int[] a, ref bool more,
+                ref int h, ref int t, ref int n2, ref bool more2)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    SUBCOMPNZ_NEXT computes the next subcomposition of N into K nonzero parts.
+            //
+            //  Discussion:
+            //
+            //    A composition of the integer N into K nonzero parts is an ordered sequence
+            //    of K positive integers which sum to a value of N.
+            //
+            //    A subcomposition of the integer N into K nonzero parts is a composition
+            //    of M into K nonzero parts, where 0 < M <= N.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    07 June 2015
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the integer whose subcompositions are desired.
+            //
+            //    Input, int K, the number of parts in the subcomposition.
+            //    K must be no greater than N.
+            //
+            //    Input/output, int A[K], the parts of the subcomposition.
+            //
+            //    Input/output, bool &MORE, set by the user to start the computation,
+            //    and by the routine to terminate it.
+            //
+            //    Input/output, int &H, &T, &N2, internal parameters needed for the
+            //    computation.  The user should allocate space for these in the calling
+            //    program, include them in the calling sequence, but never alter them!
+            //
+            //    Input/output, bool &MORE2, an internal parameter needed for the
+            //    computation.  The user should allocate space for it in the calling
+            //    program, include it in the calling sequence, but never alter it!
+            //
+        {
+            int i;
+            CompNZData data = new CompNZData();
+
+            if (n < k)
+            {
+                for (i = 0; i < k; i++)
+                {
+                    a[i] = -1;
+                }
+
+                return;
+            }
+
+            //
+            //  The first computation.
+            //
+            if (!more)
+            {
+                for (i = 0; i < k; i++)
+                {
+                    a[i] = 1;
+                }
+
+                more = true;
+                h = 0;
+                t = 0;
+                n2 = k;
+                more2 = false;
+            }
+            //
+            //  Do the next element at the current value of N.
+            //
+            else if (more2)
+            {
+                Comp.compnz_next(ref data, n2, k, ref a, ref more2);
+            }
+            else
+            {
+                more2 = false;
+                n2 = n2 + 1;
+
+                Comp.compnz_next(ref data, n2, k, ref a, ref more2);
+            }
+
+            //
+            //  Termination occurs if MORE2 = FALSE and N2 = N.
+            //
+            if (!more2 && n2 == n)
+            {
+                more = false;
+            }
+        }
+
+        public static void subcompnz2_next(int n_lo, int n_hi, int k, ref int[] a, ref bool more,
+                ref int h, ref int t, ref int n2, ref bool more2)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    SUBCOMPNZ2_NEXT computes the next subcomposition of N into K nonzero parts.
+            //
+            //  Discussion:
+            //
+            //    A composition of the integer N into K nonzero parts is an ordered sequence
+            //    of K positive integers which sum to a value of N.
+            //
+            //    A subcomposition of the integer N into K nonzero parts is a composition
+            //    of M into K nonzero parts, where 0 < M <= N.
+            //
+            //    This routine computes all compositions of K into nonzero parts which sum
+            //    to values between N_LO and N_HI.
+            //
+            //    The routine SUBCOMPNZ_NEXT can be regarded as a special case 
+            //    where N_LO = K.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    07 June 2015
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N_LO, N_HI, the range of values of N for which compositions
+            //    are desired.
+            //    N_LO must be no greater than N_HI.
+            //
+            //    Input, int K, the number of parts in the subcomposition.
+            //    K must be no greater than N_HI.
+            //
+            //    Input/output, int A[K], the parts of the subcomposition.
+            //
+            //    Input/output, bool &MORE, set by the user to start the computation,
+            //    and by the routine to terminate it.
+            //
+            //    Input/output, int &H, &T, &N2, internal parameters needed for the
+            //    computation.  The user should allocate space for these in the calling
+            //    program, include them in the calling sequence, but never alter them!
+            //
+            //    Input/output, bool &MORE2, an internal parameter needed for the
+            //    computation.  The user should allocate space for it in the calling
+            //    program, include it in the calling sequence, but never alter it!
+            //
+        {
+            int i;
+            CompNZData data = new CompNZData();
+
+            if (n_hi < k)
+            {
+                for (i = 0; i < k; i++)
+                {
+                    a[i] = -1;
+                }
+
+                return;
+            }
+
+            if (n_hi < n_lo)
+            {
+                for (i = 0; i < k; i++)
+                {
+                    a[i] = -1;
+                }
+
+                return;
+            }
+
+            //
+            //  The first computation.
+            //
+            if (!more)
+            {
+                more = true;
+                h = 0;
+                t = 0;
+                n2 = Math.Max(k, n_lo);
+                more2 = false;
+
+                Comp.compnz_next(ref data, n2, k, ref a, ref more2);
+            }
+            //
+            //  Do the next element at the current value of N.
+            //
+            else if (more2)
+            {
+                Comp.compnz_next(ref data, n2, k, ref a, ref more2);
+            }
+            else
+            {
+                n2 = n2 + 1;
+
+                Comp.compnz_next(ref data, n2, k, ref a, ref more2);
+            }
+
+            //
+            //  Termination occurs if MORE2 = FALSE and N2 = N_HI.
+            //
+            if (!more2 && n2 == n_hi)
             {
                 more = false;
             }

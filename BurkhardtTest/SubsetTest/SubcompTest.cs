@@ -5,22 +5,13 @@ namespace SubsetTestNS
 {
     public static class SubcompTest
     {
-        public static void subcomp_next(int n, int k, ref int[] a, ref bool more,
-                ref int h, ref int t, ref int n2, ref bool more2)
+        public static void subcomp_next_test()
 
             //****************************************************************************80
             //
             //  Purpose:
             //
-            //    SUBCOMP_NEXT computes the next subcomposition of N into K parts.
-            //
-            //  Discussion:
-            //
-            //    A composition of the integer N into K parts is an ordered sequence
-            //    of K nonnegative integers which sum to a value of N.
-            //
-            //    A subcomposition of the integer N into K parts is a composition
-            //    of M into K parts, where 0 <= M <= N.
+            //    SUBCOMP_NEXT_TEST tests SUBCOMP_NEXT.
             //
             //  Licensing:
             //
@@ -28,208 +19,84 @@ namespace SubsetTestNS
             //
             //  Modified:
             //
-            //    07 June 2015
-            //
-            //  Author:
-            //
-            //    John Burkardt.
-            //
-            //  Reference:
-            //
-            //    Albert Nijenhuis, Herbert Wilf,
-            //    Combinatorial Algorithms for Computers and Calculators,
-            //    Second Edition,
-            //    Academic Press, 1978,
-            //    ISBN: 0-12-519260-6,
-            //    LC: QA164.N54.
-            //
-            //  Parameters:
-            //
-            //    Input, int N, the integer whose subcompositions are desired.
-            //
-            //    Input, int K, the number of parts in the subcomposition.
-            //
-            //    Input/output, int A[K], the parts of the subcomposition.
-            //
-            //    Input/output, bool &MORE, set by the user to start the computation,
-            //    and by the routine to terminate it.
-            //
-            //    Input/output, int &H, &T, &N2, internal parameters needed for the
-            //    computation.  The user should allocate space for these in the calling
-            //    program, include them in the calling sequence, but never alter them!
-            //
-            //    Input/output, bool &MORE2, an internal parameter needed for the
-            //    computation.  The user should allocate space for it in the calling
-            //    program, include it in the calling sequence, but never alter it!
-            //
-        {
-            int i;
-            //
-            //  The first computation.
-            //
-            if (!more)
-            {
-                for (i = 0; i < k; i++)
-                {
-                    a[i] = 0;
-                }
-
-                more = true;
-
-                h = 0;
-                t = 0;
-                n2 = 0;
-                more2 = false;
-            }
-            //
-            //  Do the next element at the current value of N.
-            //
-            else if (more2)
-            {
-                Comp.comp_next(n2, k, ref a, ref more2, ref h, ref t);
-            }
-            else
-            {
-                more2 = false;
-                n2 = n2 + 1;
-
-                Comp.comp_next(n2, k, ref a, ref more2, ref h, ref t);
-            }
-
-            //
-            //  Termination occurs if MORE2 = FALSE and N2 = N.
-            //
-            if (!more2 && n2 == n)
-            {
-                more = false;
-            }
-        }
-
-        public static void subcompnz_next(int n, int k, ref int[] a, ref bool more,
-                ref int h, ref int t, ref int n2, ref bool more2)
-
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    SUBCOMPNZ_NEXT computes the next subcomposition of N into K nonzero parts.
-            //
-            //  Discussion:
-            //
-            //    A composition of the integer N into K nonzero parts is an ordered sequence
-            //    of K positive integers which sum to a value of N.
-            //
-            //    A subcomposition of the integer N into K nonzero parts is a composition
-            //    of M into K nonzero parts, where 0 < M <= N.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    07 June 2015
+            //    09 November 2005
             //
             //  Author:
             //
             //    John Burkardt
             //
-            //  Parameters:
-            //
-            //    Input, int N, the integer whose subcompositions are desired.
-            //
-            //    Input, int K, the number of parts in the subcomposition.
-            //    K must be no greater than N.
-            //
-            //    Input/output, int A[K], the parts of the subcomposition.
-            //
-            //    Input/output, bool &MORE, set by the user to start the computation,
-            //    and by the routine to terminate it.
-            //
-            //    Input/output, int &H, &T, &N2, internal parameters needed for the
-            //    computation.  The user should allocate space for these in the calling
-            //    program, include them in the calling sequence, but never alter them!
-            //
-            //    Input/output, bool &MORE2, an internal parameter needed for the
-            //    computation.  The user should allocate space for it in the calling
-            //    program, include it in the calling sequence, but never alter it!
-            //
         {
+            int[] a;
+            int h;
             int i;
-            CompNZData data = new CompNZData();
+            int k;
+            bool more;
+            bool more2;
+            int n;
+            int n2;
+            int t;
+            int rank;
+            int total;
 
-            if (n < k)
+            n = 6;
+            k = 3;
+            a = new int[k];
+            more = false;
+            h = 0;
+            t = 0;
+            n2 = 0;
+            more2 = false;
+
+            SubCompData data = new SubCompData();
+
+            Console.WriteLine("");
+            Console.WriteLine("SUBCOMP_NEXT_TEST");
+            Console.WriteLine("  SUBCOMP_NEXT generates subcompositions.");
+            Console.WriteLine("");
+            Console.WriteLine("  Seek all subcompositions of N = " + n + "");
+            Console.WriteLine("  using K = " + k + " parts.");
+            Console.WriteLine("");
+            Console.WriteLine("     #   Sum");
+            Console.WriteLine("");
+
+            rank = 0;
+
+            for (;;)
             {
+                SubComp.subcomp_next(ref data, n, k, ref a, ref more, ref h, ref t);
+
+                total = 0;
                 for (i = 0; i < k; i++)
                 {
-                    a[i] = -1;
+                    total = total + a[i];
                 }
 
-                return;
-            }
+                rank = rank + 1;
+                string cout = "  " + rank.ToString().PadLeft(4)
+                                  + "  " + total.ToString().PadLeft(4)
+                                  + "  ";
 
-            //
-            //  The first computation.
-            //
-            if (!more)
-            {
                 for (i = 0; i < k; i++)
                 {
-                    a[i] = 1;
+                    cout += a[i].ToString().PadLeft(4);
                 }
 
-                more = true;
-                h = 0;
-                t = 0;
-                n2 = k;
-                more2 = false;
-            }
-            //
-            //  Do the next element at the current value of N.
-            //
-            else if (more2)
-            {
-                Comp.compnz_next(ref data, n2, k, ref a, ref more2);
-            }
-            else
-            {
-                more2 = false;
-                n2 = n2 + 1;
+                Console.WriteLine(cout);
 
-                Comp.compnz_next(ref data, n2, k, ref a, ref more2);
-            }
-
-            //
-            //  Termination occurs if MORE2 = FALSE and N2 = N.
-            //
-            if (!more2 && n2 == n)
-            {
-                more = false;
+                if (!more)
+                {
+                    break;
+                }
             }
         }
 
-        public static void subcompnz2_next(int n_lo, int n_hi, int k, ref int[] a, ref bool more,
-                ref int h, ref int t, ref int n2, ref bool more2)
+        public static void subcompnz_next_test()
 
             //****************************************************************************80
             //
             //  Purpose:
             //
-            //    SUBCOMPNZ2_NEXT computes the next subcomposition of N into K nonzero parts.
-            //
-            //  Discussion:
-            //
-            //    A composition of the integer N into K nonzero parts is an ordered sequence
-            //    of K positive integers which sum to a value of N.
-            //
-            //    A subcomposition of the integer N into K nonzero parts is a composition
-            //    of M into K nonzero parts, where 0 < M <= N.
-            //
-            //    This routine computes all compositions of K into nonzero parts which sum
-            //    to values between N_LO and N_HI.
-            //
-            //    The routine SUBCOMPNZ_NEXT can be regarded as a special case 
-            //    where N_LO = K.
+            //    SUBCOMPNZ_NEXT_TEST tests SUBCOMPNZ_NEXT.
             //
             //  Licensing:
             //
@@ -237,93 +104,160 @@ namespace SubsetTestNS
             //
             //  Modified:
             //
-            //    07 June 2015
+            //    01 December 2005
             //
             //  Author:
             //
             //    John Burkardt
             //
-            //  Parameters:
-            //
-            //    Input, int N_LO, N_HI, the range of values of N for which compositions
-            //    are desired.
-            //    N_LO must be no greater than N_HI.
-            //
-            //    Input, int K, the number of parts in the subcomposition.
-            //    K must be no greater than N_HI.
-            //
-            //    Input/output, int A[K], the parts of the subcomposition.
-            //
-            //    Input/output, bool &MORE, set by the user to start the computation,
-            //    and by the routine to terminate it.
-            //
-            //    Input/output, int &H, &T, &N2, internal parameters needed for the
-            //    computation.  The user should allocate space for these in the calling
-            //    program, include them in the calling sequence, but never alter them!
-            //
-            //    Input/output, bool &MORE2, an internal parameter needed for the
-            //    computation.  The user should allocate space for it in the calling
-            //    program, include it in the calling sequence, but never alter it!
-            //
         {
+            int[] a;
+            int h;
             int i;
-            CompNZData data = new CompNZData();
+            int k;
+            bool more;
+            bool more2;
+            int n = 6;
+            int n2;
+            int rank;
+            int t;
+            int total;
 
-            if (n_hi < k)
+            n = 6;
+            k = 3;
+            a = new int[k];
+            more = false;
+            h = 0;
+            t = 0;
+            n2 = 0;
+            more2 = false;
+
+            Console.WriteLine("");
+            Console.WriteLine("SUBCOMPNZ_NEXT_TEST");
+            Console.WriteLine("  SUBCOMPNZ_NEXT generates subcompositions using nonzero parts.");
+            Console.WriteLine("");
+            Console.WriteLine("  Seek all subcompositions of N = " + n + "");
+            Console.WriteLine("  using K = " + k + " nonzero parts.");
+            Console.WriteLine("");
+            Console.WriteLine("     #   Sum");
+            Console.WriteLine("");
+
+            rank = 0;
+
+            for (;;)
             {
+                SubComp.subcompnz_next(n, k, ref a, ref more, ref h, ref t, ref n2, ref more2);
+
+                total = 0;
                 for (i = 0; i < k; i++)
                 {
-                    a[i] = -1;
+                    total = total + a[i];
                 }
 
-                return;
-            }
+                rank = rank + 1;
+                string cout = "  " + rank.ToString().PadLeft(4)
+                                  + "  " + total.ToString().PadLeft(4)
+                                  + "  ";
 
-            if (n_hi < n_lo)
-            {
                 for (i = 0; i < k; i++)
                 {
-                    a[i] = -1;
+                    cout += a[i].ToString().PadLeft(4);
                 }
 
-                return;
-            }
+                Console.WriteLine(cout);
 
-            //
-            //  The first computation.
-            //
-            if (!more)
-            {
-                more = true;
-                h = 0;
-                t = 0;
-                n2 = Math.Max(k, n_lo);
-                more2 = false;
-
-                Comp.compnz_next(ref data, n2, k, ref a, ref more2);
-            }
-            //
-            //  Do the next element at the current value of N.
-            //
-            else if (more2)
-            {
-                Comp.compnz_next(ref data, n2, k, ref a, ref more2);
-            }
-            else
-            {
-                n2 = n2 + 1;
-
-                Comp.compnz_next(ref data, n2, k, ref a, ref more2);
-            }
-
-            //
-            //  Termination occurs if MORE2 = FALSE and N2 = N_HI.
-            //
-            if (!more2 && n2 == n_hi)
-            {
-                more = false;
+                if (!more)
+                {
+                    break;
+                }
             }
         }
 
+        public static void subcompnz2_next_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    SUBCOMPNZ2_NEXT_TEST tests SUBCOMPNZ2_NEXT.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    02 December 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            int[] a;
+            int h;
+            int i;
+            int k;
+            bool more;
+            bool more2;
+            int n;
+            int n_hi = 7;
+            int n_lo = 5;
+            int n2;
+            int rank;
+            int t;
+
+            n_lo = 5;
+            n_hi = 7;
+            k = 3;
+            a = new int[k];
+            more = false;
+            h = 0;
+            t = 0;
+            n2 = 0;
+            more2 = false;
+
+            Console.WriteLine("");
+            Console.WriteLine("SUBCOMPNZ2_NEXT_TEST");
+            Console.WriteLine("  SUBCOMPNZ2_NEXT generates subcompositions using nonzero parts.");
+            Console.WriteLine("");
+            Console.WriteLine("  Seek all subcompositions of N");
+            Console.WriteLine("  using K = " + k + " nonzero parts.");
+            Console.WriteLine("");
+            Console.WriteLine("  Here N is in the range " + n_lo + " <= N <= " + n_hi + "");
+            Console.WriteLine("");
+            Console.WriteLine("     #     N");
+            Console.WriteLine("");
+
+            rank = 0;
+
+            for (;;)
+            {
+                SubComp.subcompnz2_next(n_lo, n_hi, k, ref a, ref more, ref h, ref t, ref n2, ref more2);
+
+                n = 0;
+                for (i = 0; i < k; i++)
+                {
+                    n = n + a[i];
+                }
+
+                rank = rank + 1;
+                string cout = "  " + rank.ToString().PadLeft(4)
+                                  + "  " + n.ToString().PadLeft(4)
+                                  + "  ";
+
+                for (i = 0; i < k; i++)
+                {
+                    cout += a[i].ToString().PadLeft(4);
+                }
+
+                Console.WriteLine(cout);
+
+                if (!more)
+                {
+                    break;
+                }
+            }
+        }
     }
 }

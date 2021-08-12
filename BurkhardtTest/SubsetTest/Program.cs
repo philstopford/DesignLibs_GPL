@@ -265,8 +265,8 @@ namespace SubsetTestNS
             RestrictedGrowthTest.regro_next_test();
             FractionTest.rfrac_to_cfrac_test();
             FractionTest.rfrac_to_jfrac_test();
-            schroeder_test();
-            sort_heap_external_test();
+            SchroederTest.schroeder_test();
+            SortHeapExternalTest.sort_heap_external_test();
             SubsetTest.subset_by_size_next_test();
             SubsetTest.subset_lex_next_test();
             SubsetTest.subset_gray_next_test();
@@ -276,10 +276,10 @@ namespace SubsetTestNS
             SubcompTest.subcomp_next_test();
             SubcompTest.subcompnz_next_test();
             SubcompTest.subcompnz2_next_test();
-            subtriangle_next_test();
-            thue_binary_next_test();
-            thue_ternary_next_test();
-            triang_test();
+            TriangleTest.subtriangle_next_test();
+            Thuetest.thue_binary_next_test();
+            Thuetest.thue_ternary_next_test();
+            TriangTest.triang_test();
             TupleTest.tuple_next_test();
             TupleTest.tuple_next_fast_test();
             TupleTest.tuple_next_ge_test();

@@ -2,7 +2,7 @@
 using Burkardt.AppliedStatistics;
 using Burkardt.FullertonFnLib;
 using Burkardt.Linpack;
-using TestValues;
+using Burkardt.TestValues;
 
 namespace FullertonTest
 {

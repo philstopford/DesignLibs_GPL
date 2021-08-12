@@ -1,4 +1,6 @@
 ﻿using System;
+using Burkardt.MatrixNS;
+using Burkardt.SolveNS;
 
 namespace Burkardt.LineNS
 {

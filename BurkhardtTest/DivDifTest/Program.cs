@@ -1,5 +1,7 @@
 ﻿using System;
 using Burkardt;
+using Burkardt.PolynomialNS;
+using Burkardt.Quadrature;
 using Burkardt.Types;
 
 namespace DivDifTest

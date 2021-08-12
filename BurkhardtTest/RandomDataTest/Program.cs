@@ -4,6 +4,7 @@ using Burkardt.Grid;
 using Burkardt.PDFLib;
 using Burkardt.Probability;
 using Burkardt.RandomNS;
+using Burkardt.Sequence;
 using Burkardt.Types;
 using Burkardt.Uniform;
 using Normal = Burkardt.RandomNS.Normal;

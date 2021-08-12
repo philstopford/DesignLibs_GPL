@@ -1,5 +1,5 @@
 ﻿using System;
-using TestValues;
+using Burkardt.TestValues;
 
 namespace SubsetTestNS
 {

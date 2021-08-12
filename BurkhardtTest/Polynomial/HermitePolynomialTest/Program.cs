@@ -2,6 +2,7 @@
 using Burkardt;
 using Burkardt.IntegralNS;
 using Burkardt.PolynomialNS;
+using Burkardt.Quadrature;
 using Burkardt.Types;
 
 namespace HermitePolynomialTest

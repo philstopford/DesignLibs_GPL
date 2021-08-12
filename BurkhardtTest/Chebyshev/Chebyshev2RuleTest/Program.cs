@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt;
+using Burkardt.Quadrature;
 
 namespace Chebyshev2RuleTest
 {

@@ -1,4 +1,5 @@
-﻿using Burkardt.Types;
+﻿using Burkardt.ClenshawCurtisNS;
+using Burkardt.Types;
 
 namespace Burkardt.Lagrange
 {

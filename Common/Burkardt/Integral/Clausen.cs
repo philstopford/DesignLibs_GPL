@@ -3,7 +3,7 @@ using Burkardt.Chebyshev;
 using Burkardt.CorrelationNS;
 using Burkardt.Types;
 
-namespace Burkardt
+namespace Burkardt.IntegralNS
 {
     public static class Clausen
     {

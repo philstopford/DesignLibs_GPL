@@ -1,4 +1,4 @@
-﻿namespace TestValues
+﻿namespace Burkardt.TestValues
 {
     public static class Cot
     {

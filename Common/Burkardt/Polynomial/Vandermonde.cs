@@ -1,4 +1,6 @@
-﻿using Burkardt.Types;
+﻿using Burkardt.MatrixNS;
+using Burkardt.SolveNS;
+using Burkardt.Types;
 
 namespace Burkardt.PolynomialNS
 {

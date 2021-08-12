@@ -1,4 +1,6 @@
-﻿namespace Burkardt
+﻿using Burkardt.MatrixNS;
+
+namespace Burkardt.Quadrature
 {
     public static class CDGQF
     {

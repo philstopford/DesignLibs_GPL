@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt.FullertonFnLib;
+using Burkardt.MatrixNS;
 using Burkardt.Types;
 
 namespace Burkardt.CorrelationNS

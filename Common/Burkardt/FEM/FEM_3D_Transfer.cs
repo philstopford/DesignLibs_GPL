@@ -1,4 +1,5 @@
-﻿using Burkardt.TetrahedronNS;
+﻿using Burkardt.SolveNS;
+using Burkardt.TetrahedronNS;
 using Burkardt.Types;
 
 namespace Burkardt.FEM

@@ -3,7 +3,7 @@ using System.IO;
 using Burkardt.Types;
 using Burkardt.Uniform;
 
-namespace Burkardt
+namespace Burkardt.Storage
 {
     public static class SparseTriplet
     {

@@ -1,7 +1,8 @@
 ﻿using System;
+using Burkardt.Linpack;
 using Burkardt.Types;
 
-namespace Burkardt
+namespace Burkardt.SolveNS
 {
     public static class SVDSolve
     {

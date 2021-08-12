@@ -1,10 +1,8 @@
 ﻿using System;
 using Burkardt;
+using Burkardt.TestValues;
 using Burkardt.Types;
 using Burkardt.Uniform;
-using TestValues;
-using Prime = TestValues.Prime;
-using VanDerCorput = Burkardt.VanDerCorput;
 
 namespace SubsetTestNS
 {
@@ -1404,7 +1402,7 @@ namespace SubsetTestNS
                 for (j = 1; j <= 5; j++)
                 {
                     p = Burkardt.Prime.prime(j);
-                    h = VanDerCorput.i4_to_van_der_corput(i, p);
+                    h = Burkardt.Sequence.VanDerCorput.i4_to_van_der_corput(i, p);
                     cout += h.ToString().PadLeft(10) + "  ";
                 }
 

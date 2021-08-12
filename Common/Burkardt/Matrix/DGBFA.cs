@@ -1,7 +1,7 @@
 ﻿using System;
 using Burkardt.BLAS;
 
-namespace Burkardt
+namespace Burkardt.MatrixNS
 {
     public static partial class Matrix
     {

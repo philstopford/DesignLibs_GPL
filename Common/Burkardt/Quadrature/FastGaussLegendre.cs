@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace Burkardt
+namespace Burkardt.Quadrature
 {
     public static class FastGaussLegendre
     {

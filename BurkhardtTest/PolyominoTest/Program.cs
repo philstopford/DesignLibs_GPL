@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt.PentominoNS;
 using Burkardt.PolyominoNS;
 using Burkardt.Types;
 

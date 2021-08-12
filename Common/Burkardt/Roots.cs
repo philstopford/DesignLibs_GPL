@@ -1,4 +1,6 @@
-﻿namespace Burkardt
+﻿using Burkardt.PolynomialNS;
+
+namespace Burkardt
 {
     public static class Roots
     {

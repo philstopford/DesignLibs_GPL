@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Numerics;
 
-namespace Burkardt
+namespace Burkardt.MatrixNS
 {
     public static class Tridiagonal
     {

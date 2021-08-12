@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt;
+using Burkardt.IO;
 
 namespace WavefrontOBJTest
 {

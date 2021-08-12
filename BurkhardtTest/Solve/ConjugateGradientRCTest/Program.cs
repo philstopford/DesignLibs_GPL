@@ -1,5 +1,7 @@
 ﻿using System;
 using Burkardt;
+using Burkardt.MatrixNS;
+using Burkardt.SolveNS;
 using Burkardt.Types;
 using Burkardt.Uniform;
 

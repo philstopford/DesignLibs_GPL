@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt;
+using Burkardt.Means;
 using Burkardt.Table;
 using Burkardt.Types;
 

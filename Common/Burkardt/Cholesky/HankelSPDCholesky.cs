@@ -1,6 +1,6 @@
 ﻿using Burkardt.Types;
 
-namespace HankelSPDCholeskyNS
+namespace Burkardt.CholeskyNS
 {
     public static class HankelSPDCholesky
     {

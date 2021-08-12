@@ -1,4 +1,4 @@
-﻿namespace Burkardt
+﻿namespace Burkardt.Interpolation
 {
     public static class LagrangeInterpolation
     {

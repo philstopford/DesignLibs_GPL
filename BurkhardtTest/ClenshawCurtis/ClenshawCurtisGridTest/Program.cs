@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt;
+using Burkardt.ClenshawCurtisNS;
 using Burkardt.Types;
 using Burkardt.Uniform;
 

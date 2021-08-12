@@ -1,5 +1,5 @@
 ﻿using System;
-using Burkardt.FloydNS;
+using Burkardt.MinDist;
 using Burkardt.Types;
 
 namespace FloydTest

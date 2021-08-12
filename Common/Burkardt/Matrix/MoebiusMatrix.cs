@@ -1,7 +1,7 @@
 ﻿using Burkardt.SubsetNS;
 using Burkardt.Types;
 
-namespace Burkardt
+namespace Burkardt.MatrixNS
 {
 public static class MoebiusMatrix
 {

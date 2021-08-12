@@ -3,7 +3,7 @@ using Burkardt.AppliedStatistics;
 using Burkardt.BLAS;
 using Burkardt.Types;
 
-namespace Burkardt
+namespace Burkardt.MatrixNS
 {
     public static class DSVDC
     {

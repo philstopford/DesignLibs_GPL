@@ -1,7 +1,7 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.ShepardInterpolation
+namespace Burkardt.Interpolation
 {
     public static class Shepard
     {

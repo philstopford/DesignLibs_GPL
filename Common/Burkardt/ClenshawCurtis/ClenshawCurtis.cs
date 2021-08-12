@@ -2,7 +2,7 @@
 using Burkardt.Table;
 using Burkardt.Types;
 
-namespace Burkardt
+namespace Burkardt.ClenshawCurtisNS
 {
     public static class ClenshawCurtis
     {

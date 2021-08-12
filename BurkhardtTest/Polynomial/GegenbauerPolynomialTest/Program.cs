@@ -1,10 +1,12 @@
 ﻿using System;
 using Burkardt;
 using Burkardt.IntegralNS;
+using Burkardt.MatrixNS;
 using Burkardt.PolynomialNS;
+using Burkardt.Probability;
+using Burkardt.Quadrature;
 using Burkardt.Types;
 using Burkardt.Uniform;
-using TestValues;
 
 namespace GegenbauerPolynomialTest
 {
@@ -443,7 +445,7 @@ namespace GegenbauerPolynomialTest
 
             for (;;)
             {
-                Hypergeometric.hyper_2f1_values(ref n_data, ref a, ref b, ref c, ref x, ref fx);
+                Burkardt.TestValues.Hypergeometric.hyper_2f1_values(ref n_data, ref a, ref b, ref c, ref x, ref fx);
 
                 if (n_data == 0)
                 {

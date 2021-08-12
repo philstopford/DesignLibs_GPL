@@ -5,7 +5,6 @@ using Burkardt.PolynomialNS;
 using Burkardt.TriangleNS;
 using Burkardt.Types;
 using Burkardt.Uniform;
-using QuadratureRule = Burkardt.QuadratureRule;
 
 namespace TriangleSymmetricQuadratureTest
 {
@@ -109,7 +108,7 @@ namespace TriangleSymmetricQuadratureTest
                 //
                 //  Determine the size of the rule.
                 //
-                numnodes = QuadratureRule.rule_full_size(degree);
+                numnodes = rule_full_size(degree);
                 //
                 //  Retrieve a rule and print it.
                 //
@@ -128,6 +127,11 @@ namespace TriangleSymmetricQuadratureTest
             Console.WriteLine("TRIANGLE_SYMQ_RULE_TEST");
             Console.WriteLine("  Normal end of execution.");
             Console.WriteLine("");
+        }
+
+        private static int rule_full_size(int degree)
+        {
+            throw new NotImplementedException();
         }
 
         public static void test01()

@@ -2,7 +2,7 @@
 using Burkardt.Table;
 using Burkardt.Types;
 
-namespace Burkardt
+namespace Burkardt.IO
 {
     public static class TriSurface
     {

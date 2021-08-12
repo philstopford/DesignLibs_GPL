@@ -1,4 +1,4 @@
-﻿namespace Burkardt
+﻿namespace Burkardt.Sequence
 {
     public static class Padovan
     {

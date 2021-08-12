@@ -1,4 +1,5 @@
-﻿using Burkardt.Types;
+﻿using Burkardt.SolveNS;
+using Burkardt.Types;
 
 namespace Burkardt.Lagrange
 {

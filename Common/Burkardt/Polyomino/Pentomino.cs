@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Burkardt.Types;
 
-namespace Burkardt.PentominoNS
+namespace Burkardt.PolyominoNS
 {
     public static class Pentomino
     {

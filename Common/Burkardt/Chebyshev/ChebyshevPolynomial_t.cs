@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Burkardt.MatrixNS;
+using Burkardt.SolveNS;
 using Burkardt.Types;
 
 namespace Burkardt.ChebyshevPolynomialNS

@@ -1,4 +1,6 @@
-﻿namespace Burkardt.PiecewiseLinear
+﻿using Burkardt.SolveNS;
+
+namespace Burkardt.PiecewiseLinear
 {
     public static class Approx1D
     {

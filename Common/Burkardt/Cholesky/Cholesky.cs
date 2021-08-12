@@ -1,6 +1,6 @@
 ﻿using Burkardt.Types;
 
-namespace Burkardt
+namespace Burkardt.CholeskyNS
 {
     public static class Cholesky
     {

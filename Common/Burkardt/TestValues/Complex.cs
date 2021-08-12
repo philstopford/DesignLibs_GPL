@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 
-namespace TestValues
+namespace Burkardt.TestValues
 {
     public class Cmplex
     {

@@ -2,7 +2,7 @@
 using Burkardt.Probability;
 using Burkardt.Types;
 
-namespace Burkardt
+namespace Burkardt.Quadrature
 {
     public static class Moments
     {

@@ -1,4 +1,4 @@
-﻿namespace Burkardt
+﻿namespace Burkardt.Quadrature
 {
     public static class CLIQFS
     {

@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using Burkardt.Types;
 
-namespace Burkardt
+namespace Burkardt.IO
 {
     public static class CNF
     {

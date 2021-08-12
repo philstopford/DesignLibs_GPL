@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt;
+using Burkardt.Quadrature;
 using Burkardt.Table;
 using Burkardt.Types;
 

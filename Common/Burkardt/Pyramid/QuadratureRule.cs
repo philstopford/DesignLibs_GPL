@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Quadrature;
 using Burkardt.Types;
 
 namespace Burkardt.PyramidNS

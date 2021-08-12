@@ -1,6 +1,6 @@
 ﻿using System;
 using Burkardt.AppliedStatistics;
-using TestValues;
+using Burkardt.TestValues;
 
 namespace TestValuesTest
 {

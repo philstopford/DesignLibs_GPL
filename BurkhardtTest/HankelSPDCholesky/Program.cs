@@ -1,7 +1,7 @@
 ﻿using System;
+using Burkardt.CholeskyNS;
 using Burkardt.Types;
 using Burkardt.Uniform;
-using HankelSPDCholeskyNS;
 
 namespace HankelSPDCholeskyTest
 {

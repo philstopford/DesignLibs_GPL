@@ -1,7 +1,7 @@
 ﻿using System;
 using Burkardt.FEM;
 
-namespace Burkardt
+namespace Burkardt.MatrixNS
 {
     public class Mass
     {

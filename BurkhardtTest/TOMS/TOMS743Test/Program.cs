@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt;
+using Burkardt.WFunction;
 
 namespace TOMS743Test
 {

@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.PolynomialNS;
 using Burkardt.Types;
 
 namespace Burkardt.Interpolation

@@ -1,4 +1,4 @@
-﻿namespace TestValues
+﻿namespace Burkardt.TestValues
 {
     public class ber
     {

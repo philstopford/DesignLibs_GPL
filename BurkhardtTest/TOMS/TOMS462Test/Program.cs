@@ -1,6 +1,6 @@
 ﻿using System;
 using Burkardt.CDFLib;
-using TestValues;
+using Burkardt.TestValues;
 
 namespace TOMS462Test
 {

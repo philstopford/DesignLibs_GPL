@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Burkardt.FloydNS
+namespace Burkardt.MinDist
 {
     public static class Floyd
     {

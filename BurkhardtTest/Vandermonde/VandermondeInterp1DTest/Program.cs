@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using Burkardt;
 using Burkardt.Interpolation;
+using Burkardt.MatrixNS;
+using Burkardt.SolveNS;
 using Burkardt.Types;
 using InterpTest;
 

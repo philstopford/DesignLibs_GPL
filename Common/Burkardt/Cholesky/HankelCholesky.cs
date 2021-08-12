@@ -1,7 +1,7 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace HankelCholeskyNS
+namespace Burkardt.CholeskyNS
 {
     public static class HankelCholesky
     {

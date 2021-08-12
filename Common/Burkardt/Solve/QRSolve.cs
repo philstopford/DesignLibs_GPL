@@ -2,7 +2,7 @@
 using Burkardt.BLAS;
 using Burkardt.Types;
 
-namespace Burkardt
+namespace Burkardt.SolveNS
 {
     public static class QRSolve
     {

@@ -1,8 +1,9 @@
 ﻿using System;
 using Burkardt;
-using Burkardt.Interpolation;
+using Burkardt.PolynomialNS;
 using Burkardt.Types;
 using Burkardt.Uniform;
+using Hermite = Burkardt.Interpolation.Hermite;
 
 namespace HermiteInterpolantTest
 {

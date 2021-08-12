@@ -1,7 +1,7 @@
 ﻿using System;
 using Burkardt;
 using Burkardt.CDFLib;
-using TestValues;
+using Burkardt.TestValues;
 
 namespace CDFLibTest
 {
@@ -1984,7 +1984,7 @@ namespace CDFLibTest
 
             for (;;)
             {
-                TestValues.Normal.normal_cdf_values(ref n_data, ref x, ref cdf_lookup);
+                Normal.normal_cdf_values(ref n_data, ref x, ref cdf_lookup);
 
                 if (n_data == 0)
                 {
@@ -2008,7 +2008,7 @@ namespace CDFLibTest
 
             for (;;)
             {
-                TestValues.Normal.normal_cdf_values(ref n_data, ref x, ref cdf_lookup);
+                Normal.normal_cdf_values(ref n_data, ref x, ref cdf_lookup);
 
                 if (n_data == 0)
                 {
@@ -2497,5 +2497,9 @@ namespace CDFLibTest
                      + psi_compute.ToString().PadLeft(12) + "");
             }
         }
+    }
+
+    internal class TestValues
+    {
     }
 }

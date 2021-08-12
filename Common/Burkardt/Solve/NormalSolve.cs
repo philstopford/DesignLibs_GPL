@@ -2,7 +2,7 @@
 using Burkardt.Table;
 using Burkardt.Types;
 
-namespace Burkardt
+namespace Burkardt.SolveNS
 {
     public static class NormalSolve
     {

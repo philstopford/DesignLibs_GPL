@@ -1,5 +1,7 @@
 ﻿using System;
 using Burkardt;
+using Burkardt.ClenshawCurtisNS;
+using Burkardt.Quadrature;
 
 namespace PattersonRuleTest
 {

@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.SolveNS;
 using Burkardt.Types;
 
 namespace Burkardt.Interpolation

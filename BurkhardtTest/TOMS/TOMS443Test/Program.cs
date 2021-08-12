@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt;
+using Burkardt.WFunction;
 
 namespace TOMS443Test
 {
@@ -81,7 +82,7 @@ namespace TOMS443Test
 
             for (;;)
             {
-                TestValues.Lambert.lambert_w_values(ref n_data, ref x, ref w1);
+                Burkardt.TestValues.Lambert.lambert_w_values(ref n_data, ref x, ref w1);
 
                 if (n_data <= 0)
                 {
@@ -144,7 +145,7 @@ namespace TOMS443Test
 
             for (;;)
             {
-                TestValues.Lambert.lambert_w_values(ref n_data, ref x, ref w1);
+                Burkardt.TestValues.Lambert.lambert_w_values(ref n_data, ref x, ref w1);
 
                 if (n_data <= 0)
                 {
@@ -167,5 +168,9 @@ namespace TOMS443Test
             }
 
         }
+    }
+
+    internal class TestValues
+    {
     }
 }

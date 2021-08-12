@@ -1,6 +1,8 @@
 ﻿using System;
 using Burkardt;
+using Burkardt.MatrixNS;
 using Burkardt.PolynomialNS;
+using Burkardt.SolveNS;
 using Burkardt.Types;
 using InterpTest;
 

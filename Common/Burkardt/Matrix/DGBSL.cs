@@ -2,7 +2,7 @@
 using Burkardt.BLAS;
 using Burkardt.Types;
 
-namespace Burkardt
+namespace Burkardt.MatrixNS
 {
     public static partial class Matrix
     {

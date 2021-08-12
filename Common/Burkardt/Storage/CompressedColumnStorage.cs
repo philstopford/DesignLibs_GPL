@@ -4,7 +4,7 @@ using System.Linq;
 using Burkardt.Table;
 using Burkardt.Types;
 
-namespace Burkardt
+namespace Burkardt.Storage
 {
     public static class CompressedColumnStorage
     {

@@ -1,5 +1,7 @@
 ﻿using System;
 using Burkardt;
+using Burkardt.Quadrature;
+using Burkardt.Weight;
 
 namespace TOMS655Test
 {

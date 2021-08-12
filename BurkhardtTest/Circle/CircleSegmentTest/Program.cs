@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using Burkardt;
 using Burkardt.CircleNS;
+using Burkardt.IO;
+using Burkardt.Quadrature;
 using Burkardt.Types;
 using Burkardt.Uniform;
 

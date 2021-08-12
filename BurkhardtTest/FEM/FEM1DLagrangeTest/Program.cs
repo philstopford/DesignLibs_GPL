@@ -1,6 +1,7 @@
 ﻿using System;
 using Burkardt;
 using Burkardt.FEM;
+using Burkardt.Quadrature;
 using Burkardt.Types;
 
 namespace FEM1DLagrangeTest

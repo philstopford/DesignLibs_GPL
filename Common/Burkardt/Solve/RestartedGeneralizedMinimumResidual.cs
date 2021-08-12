@@ -3,7 +3,7 @@ using Burkardt.CompressedRow;
 using Burkardt.SparseTripletNS;
 using Burkardt.Types;
 
-namespace Burkardt
+namespace Burkardt.SolveNS
 {
     public static class RestartedGeneralizedMinimumResidual
     {

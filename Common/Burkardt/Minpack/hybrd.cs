@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.SolveNS;
 
 namespace Burkardt.MinpackNS
 {

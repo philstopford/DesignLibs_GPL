@@ -1,7 +1,7 @@
 ﻿using System;
 using Burkardt.Uniform;
 
-namespace Burkardt
+namespace Burkardt.MatrixNS
 {
     public static class WathenMatrix
     {

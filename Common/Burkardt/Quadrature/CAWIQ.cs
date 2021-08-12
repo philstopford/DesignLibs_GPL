@@ -1,7 +1,8 @@
 ﻿using System;
+using Burkardt.MatrixNS;
 using Burkardt.Types;
 
-namespace Burkardt
+namespace Burkardt.Quadrature
 {
     public static class CAWIQ
     {

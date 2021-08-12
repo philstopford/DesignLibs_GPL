@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Burkardt
+namespace Burkardt.MatrixNS
 {
     public static class MatbyVector
     {

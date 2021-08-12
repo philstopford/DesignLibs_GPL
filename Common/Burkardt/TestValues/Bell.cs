@@ -1,6 +1,6 @@
 ﻿using Burkardt.Types;
 
-namespace TestValues
+namespace Burkardt.TestValues
 {
     public class Bell
     {

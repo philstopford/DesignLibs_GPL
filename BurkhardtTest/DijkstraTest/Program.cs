@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt;
+using Burkardt.MinDist;
 using Burkardt.Types;
 
 namespace DijkstraTest

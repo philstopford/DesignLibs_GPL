@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Sequence;
 using Burkardt.Types;
 using Burkardt.Uniform;
 using entropyRNG;

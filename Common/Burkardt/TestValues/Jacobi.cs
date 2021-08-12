@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TestValues
+namespace Burkardt.TestValues
 {
     public static class Jacobi
     {

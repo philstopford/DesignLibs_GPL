@@ -1,4 +1,6 @@
 ﻿using System;
+using Burkardt.ClenshawCurtisNS;
+using Burkardt.ODE;
 using Burkardt.PolynomialNS;
 using Burkardt.Types;
 

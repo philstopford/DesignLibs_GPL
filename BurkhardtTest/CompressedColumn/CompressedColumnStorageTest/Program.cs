@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt;
+using Burkardt.Storage;
 using Burkardt.Types;
 
 namespace CompressedColumnStorageTest

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Burkardt.Polynomial
+namespace Burkardt.PolynomialNS
 {
     public static class CompleteSymmetric
     {

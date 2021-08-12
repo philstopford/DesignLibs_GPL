@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.MatrixNS;
 
 namespace Burkardt.SubsetNS
 {

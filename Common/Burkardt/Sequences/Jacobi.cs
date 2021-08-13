@@ -1,9 +1,11 @@
 ﻿using System;
+using Burkardt.Types;
 
 namespace Burkardt.Sequence
 {
     public static class Jacobi
     {
+
         public static double[] jacobi1(int n, double[] a, double[] b, double[] x)
 
             //****************************************************************************80

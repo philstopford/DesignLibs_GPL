@@ -2,6 +2,879 @@
 {
     public static class Legendre
     {
+        public static void lp_values(ref int n_data, ref int n, ref double x, ref double fx)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    LP_VALUES returns values of the Legendre polynomials P(n,x).
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    11 September 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Milton Abramowitz, Irene Stegun,
+            //    Handbook of Mathematical Functions,
+            //    National Bureau of Standards, 1964,
+            //    ISBN: 0-486-61272-4,
+            //    LC: QA47.A34.
+            //
+            //    Stephen Wolfram,
+            //    The Mathematica Book,
+            //    Fourth Edition,
+            //    Cambridge University Press, 1999,
+            //    ISBN: 0-521-64314-7,
+            //    LC: QA76.95.W65.
+            //
+            //  Parameters:
+            //
+            //    Input/output, int &N_DATA.  The user sets N_DATA to 0 before the
+            //    first call.  On each call, the routine increments N_DATA by 1, and
+            //    returns the corresponding data; when there is no more data, the
+            //    output value of N_DATA will be 0 again.
+            //
+            //    Output, int &N, the order of the function.
+            //
+            //    Output, double &X, the point where the function is evaluated.
+            //
+            //    Output, double &FX, the value of the function.
+            //
+        {
+            int N_MAX = 22;
+
+            double[] fx_vec =
+            {
+                0.1000000000000000E+01,
+                0.2500000000000000E+00,
+                -0.4062500000000000E+00,
+                -0.3359375000000000E+00,
+                0.1577148437500000E+00,
+                0.3397216796875000E+00,
+                0.2427673339843750E-01,
+                -0.2799186706542969E+00,
+                -0.1524540185928345E+00,
+                0.1768244206905365E+00,
+                0.2212002165615559E+00,
+                0.0000000000000000E+00,
+                -0.1475000000000000E+00,
+                -0.2800000000000000E+00,
+                -0.3825000000000000E+00,
+                -0.4400000000000000E+00,
+                -0.4375000000000000E+00,
+                -0.3600000000000000E+00,
+                -0.1925000000000000E+00,
+                0.8000000000000000E-01,
+                0.4725000000000000E+00,
+                0.1000000000000000E+01
+            };
+
+            int[] n_vec =
+            {
+                0, 1, 2,
+                3, 4, 5,
+                6, 7, 8,
+                9, 10, 3,
+                3, 3, 3,
+                3, 3, 3,
+                3, 3, 3,
+                3
+            };
+
+            double[] x_vec =
+            {
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.00E+00,
+                0.10E+00,
+                0.20E+00,
+                0.30E+00,
+                0.40E+00,
+                0.50E+00,
+                0.60E+00,
+                0.70E+00,
+                0.80E+00,
+                0.90E+00,
+                1.00E+00
+            };
+
+            if (n_data < 0)
+            {
+                n_data = 0;
+            }
+
+            n_data = n_data + 1;
+
+            if (N_MAX < n_data)
+            {
+                n_data = 0;
+                n = 0;
+                x = 0.0;
+                fx = 0.0;
+            }
+            else
+            {
+                n = n_vec[n_data - 1];
+                x = x_vec[n_data - 1];
+                fx = fx_vec[n_data - 1];
+            }
+        }
+
+        public static void p_polynomial_values(ref int n_data, ref int n, ref double x, ref double fx)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    P_POLYNOMIAL_VALUES: selected values of the Legendre polynomials P(n,x).
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    14 March 2012
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Milton Abramowitz, Irene Stegun,
+            //    Handbook of Mathematical Functions,
+            //    National Bureau of Standards, 1964,
+            //    ISBN: 0-486-61272-4,
+            //    LC: QA47.A34.
+            //
+            //    Stephen Wolfram,
+            //    The Mathematica Book,
+            //    Fourth Edition,
+            //    Cambridge University Press, 1999,
+            //    ISBN: 0-521-64314-7,
+            //    LC: QA76.95.W65.
+            //
+            //  Parameters:
+            //
+            //    Input/output, int &N_DATA.  The user sets N_DATA to 0 before the
+            //    first call.  On each call, the routine increments N_DATA by 1, and
+            //    returns the corresponding data; when there is no more data, the
+            //    output value of N_DATA will be 0 again.
+            //
+            //    Output, int &N, the order of the function.
+            //
+            //    Output, double &X, the point where the function is evaluated.
+            //
+            //    Output, double &FX, the value of the function.
+            //
+        {
+            int N_MAX = 22;
+
+            double[] fx_vec =
+            {
+                0.1000000000000000E+01,
+                0.2500000000000000E+00,
+                -0.4062500000000000E+00,
+                -0.3359375000000000E+00,
+                0.1577148437500000E+00,
+                0.3397216796875000E+00,
+                0.2427673339843750E-01,
+                -0.2799186706542969E+00,
+                -0.1524540185928345E+00,
+                0.1768244206905365E+00,
+                0.2212002165615559E+00,
+                0.0000000000000000E+00,
+                -0.1475000000000000E+00,
+                -0.2800000000000000E+00,
+                -0.3825000000000000E+00,
+                -0.4400000000000000E+00,
+                -0.4375000000000000E+00,
+                -0.3600000000000000E+00,
+                -0.1925000000000000E+00,
+                0.8000000000000000E-01,
+                0.4725000000000000E+00,
+                0.1000000000000000E+01
+            };
+
+            int[] n_vec =
+            {
+                0, 1, 2,
+                3, 4, 5,
+                6, 7, 8,
+                9, 10, 3,
+                3, 3, 3,
+                3, 3, 3,
+                3, 3, 3,
+                3
+            };
+
+            double[] x_vec =
+            {
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.00E+00,
+                0.10E+00,
+                0.20E+00,
+                0.30E+00,
+                0.40E+00,
+                0.50E+00,
+                0.60E+00,
+                0.70E+00,
+                0.80E+00,
+                0.90E+00,
+                1.00E+00
+            };
+
+            if (n_data < 0)
+            {
+                n_data = 0;
+            }
+
+            n_data = n_data + 1;
+
+            if (N_MAX < n_data)
+            {
+                n_data = 0;
+                n = 0;
+                x = 0.0;
+                fx = 0.0;
+            }
+            else
+            {
+                n = n_vec[n_data - 1];
+                x = x_vec[n_data - 1];
+                fx = fx_vec[n_data - 1];
+            }
+        }
+        public static void pm_polynomial_values(ref int n_data, ref int n, ref int m, ref double x, ref double fx )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    PM_POLYNOMIAL_VALUES: selected values of Legendre polynomials Pm(n,m,x).
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    14 March 2012
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Milton Abramowitz, Irene Stegun,
+        //    Handbook of Mathematical Functions,
+        //    National Bureau of Standards, 1964,
+        //    ISBN: 0-486-61272-4,
+        //    LC: QA47.A34.
+        //
+        //    Stephen Wolfram,
+        //    The Mathematica Book,
+        //    Fourth Edition,
+        //    Cambridge University Press, 1999,
+        //    ISBN: 0-521-64314-7,
+        //    LC: QA76.95.W65.
+        //
+        //  Parameters:
+        //
+        //    Input/output, int &N_DATA.  The user sets N_DATA to 0 before the
+        //    first call.  On each call, the routine increments N_DATA by 1, and
+        //    returns the corresponding data; when there is no more data, the
+        //    output value of N_DATA will be 0 again.
+        //
+        //    Output, int &N, int &M, double &X,
+        //    the arguments of the function.
+        //
+        //    Output, double &FX, the value of the function.
+        //
+        {
+            int N_MAX = 20;
+
+            double[] fx_vec =
+            {
+                0.0000000000000000E+00,
+                -0.5000000000000000E+00,
+                0.0000000000000000E+00,
+                0.3750000000000000E+00,
+                0.0000000000000000E+00,
+                -0.8660254037844386E+00,
+                -0.1299038105676658E+01,
+                -0.3247595264191645E+00,
+                0.1353164693413185E+01,
+                -0.2800000000000000E+00,
+                0.1175755076535925E+01,
+                0.2880000000000000E+01,
+                -0.1410906091843111E+02,
+                -0.3955078125000000E+01,
+                -0.9997558593750000E+01,
+                0.8265311444100484E+02,
+                0.2024442836815152E+02,
+                -0.4237997531890869E+03,
+                0.1638320624828339E+04,
+                -0.2025687389227225E+05
+            }
+            ;
+
+            int[] m_vec =
+            {
+                0, 0, 0, 0,
+                0, 1, 1, 1,
+                1, 0, 1, 2,
+                3, 2, 2, 3,
+                3, 4, 4, 5
+            }
+            ;
+
+            int[] n_vec =
+            {
+                1, 2, 3, 4,
+                5, 1, 2, 3,
+                4, 3, 3, 3,
+                3, 4, 5, 6,
+                7, 8, 9, 10
+            }
+            ;
+
+            double[] x_vec =
+            {
+                0.00E+00,
+                0.00E+00,
+                0.00E+00,
+                0.00E+00,
+                0.00E+00,
+                0.50E+00,
+                0.50E+00,
+                0.50E+00,
+                0.50E+00,
+                0.20E+00,
+                0.20E+00,
+                0.20E+00,
+                0.20E+00,
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.25E+00
+            }
+            ;
+
+            if (n_data < 0)
+            {
+                n_data = 0;
+            }
+
+            n_data = n_data + 1;
+
+            if (N_MAX < n_data)
+            {
+                n_data = 0;
+                n = 0;
+                m = 0;
+                x = 0.0;
+                fx = 0.0;
+            }
+            else
+            {
+                n = n_vec[n_data - 1];
+                m = m_vec[n_data - 1];
+                x = x_vec[n_data - 1];
+                fx = fx_vec[n_data - 1];
+            }
+        }
+        public static void pmn_polynomial_values(ref int n_data, ref int n, ref int m, ref double x,
+        ref double fx )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    PMN_POLYNOMIAL_VALUES: selected values of normalized Legendre polynomial Pmn(n,m,x).
+        //
+        //  Discussion:
+        //
+        //    In Mathematica, the unnormalized function can be evaluated by:
+        //
+        //      LegendreP [ n, m, x ]
+        //
+        //    The function is normalized by dividing by
+        //
+        //      sqrt ( 2 * ( n + m )! / ( 2 * n + 1 ) / ( n - m )! )
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    12 March 2012
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Milton Abramowitz, Irene Stegun,
+        //    Handbook of Mathematical Functions,
+        //    National Bureau of Standards, 1964,
+        //    ISBN: 0-486-61272-4,
+        //    LC: QA47.A34.
+        //
+        //    Stephen Wolfram,
+        //    The Mathematica Book,
+        //    Fourth Edition,
+        //    Cambridge University Press, 1999,
+        //    ISBN: 0-521-64314-7,
+        //    LC: QA76.95.W65.
+        //
+        //  Parameters:
+        //
+        //    Input/output, int &N_DATA.  The user sets N_DATA to 0 before the
+        //    first call.  On each call, the routine increments N_DATA by 1, and
+        //    returns the corresponding data; when there is no more data, the
+        //    output value of N_DATA will be 0 again.
+        //
+        //    Output, int &N, int &M, double &X,
+        //    the arguments of the function.
+        //
+        //    Output, double &FX, the value of the function.
+        //
+        {
+            int N_MAX = 21;
+
+            double[] fx_vec =
+            {
+                0.7071067811865475E+00,
+                0.6123724356957945E+00,
+                -0.7500000000000000E+00,
+                -0.1976423537605237E+00,
+                -0.8385254915624211E+00,
+                0.7261843774138907E+00,
+                -0.8184875533567997E+00,
+                -0.1753901900050285E+00,
+                0.9606516343087123E+00,
+                -0.6792832849776299E+00,
+                -0.6131941618102092E+00,
+                0.6418623720763665E+00,
+                0.4716705890038619E+00,
+                -0.1018924927466445E+01,
+                0.6239615396237876E+00,
+                0.2107022704608181E+00,
+                0.8256314721961969E+00,
+                -0.3982651281554632E+00,
+                -0.7040399320721435E+00,
+                0.1034723155272289E+01,
+                -0.5667412129155530E+00
+            }
+            ;
+
+            int[] m_vec =
+            {
+                0, 0, 1, 0,
+                1, 2, 0, 1,
+                2, 3, 0, 1,
+                2, 3, 4, 0,
+                1, 2, 3, 4,
+                5
+            }
+            ;
+
+            int[] n_vec =
+            {
+                0, 1, 1, 2,
+                2, 2, 3, 3,
+                3, 3, 4, 4,
+                4, 4, 4, 5,
+                5, 5, 5, 5,
+                5
+            }
+            ;
+
+            double[] x_vec =
+            {
+                0.50,
+                0.50,
+                0.50,
+                0.50,
+                0.50,
+                0.50,
+                0.50,
+                0.50,
+                0.50,
+                0.50,
+                0.50,
+                0.50,
+                0.50,
+                0.50,
+                0.50,
+                0.50,
+                0.50,
+                0.50,
+                0.50,
+                0.50,
+                0.50
+            }
+            ;
+
+            if (n_data < 0)
+            {
+                n_data = 0;
+            }
+
+            n_data = n_data + 1;
+
+            if (N_MAX < n_data)
+            {
+                n_data = 0;
+                n = 0;
+                m = 0;
+                x = 0.0;
+                fx = 0.0;
+            }
+            else
+            {
+                n = n_vec[n_data - 1];
+                m = m_vec[n_data - 1];
+                x = x_vec[n_data - 1];
+                fx = fx_vec[n_data - 1];
+            }
+        }
+        public static void pmns_polynomial_values(ref int n_data, ref int n, ref int m, ref double x,
+        ref double fx )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    PMNS_POLYNOMIAL_VALUES: selected values of sphere-normalized Legendre polynomial Pmns(n,m,x).
+        //
+        //  Discussion:
+        //
+        //    In Mathematica, the unnormalized function can be evaluated by:
+        //
+        //      LegendreP [ n, m, x ]
+        //
+        //    The function is normalized for the sphere by dividing by
+        //
+        //      sqrt ( 4 * pi * ( n + m )! / ( 2 * n + 1 ) / ( n - m )! )
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    01 September 2010
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Milton Abramowitz, Irene Stegun,
+        //    Handbook of Mathematical Functions,
+        //    National Bureau of Standards, 1964,
+        //    ISBN: 0-486-61272-4,
+        //    LC: QA47.A34.
+        //
+        //    Stephen Wolfram,
+        //    The Mathematica Book,
+        //    Fourth Edition,
+        //    Cambridge University Press, 1999,
+        //    ISBN: 0-521-64314-7,
+        //    LC: QA76.95.W65.
+        //
+        //  Parameters:
+        //
+        //    Input/output, int &N_DATA.  The user sets N_DATA to 0 before the
+        //    first call.  On each call, the routine increments N_DATA by 1, and
+        //    returns the corresponding data; when there is no more data, the
+        //    output value of N_DATA will be 0 again.
+        //
+        //    Output, int &N, int &M, double &X,
+        //    the arguments of the function.
+        //
+        //    Output, double &FX, the value of the function.
+        //
+        {
+            int N_MAX = 21;
+
+            double[] fx_vec =
+            {
+                0.2820947917738781,
+                0.2443012559514600,
+                -0.2992067103010745,
+                -0.07884789131313000,
+                -0.3345232717786446,
+                0.2897056515173922,
+                -0.3265292910163510,
+                -0.06997056236064664,
+                0.3832445536624809,
+                -0.2709948227475519,
+                -0.2446290772414100,
+                0.2560660384200185,
+                0.1881693403754876,
+                -0.4064922341213279,
+                0.2489246395003027,
+                0.08405804426339821,
+                0.3293793022891428,
+                -0.1588847984307093,
+                -0.2808712959945307,
+                0.4127948151484925,
+                -0.2260970318780046
+            }
+            ;
+
+            int[] m_vec =
+            {
+                0, 0, 1, 0,
+                1, 2, 0, 1,
+                2, 3, 0, 1,
+                2, 3, 4, 0,
+                1, 2, 3, 4,
+                5
+            }
+            ;
+
+            int[] n_vec =
+            {
+                0, 1, 1, 2,
+                2, 2, 3, 3,
+                3, 3, 4, 4,
+                4, 4, 4, 5,
+                5, 5, 5, 5,
+                5
+            }
+            ;
+
+            double[] x_vec =
+            {
+                0.50,
+                0.50,
+                0.50,
+                0.50,
+                0.50,
+                0.50,
+                0.50,
+                0.50,
+                0.50,
+                0.50,
+                0.50,
+                0.50,
+                0.50,
+                0.50,
+                0.50,
+                0.50,
+                0.50,
+                0.50,
+                0.50,
+                0.50,
+                0.50
+            }
+            ;
+
+            if (n_data < 0)
+            {
+                n_data = 0;
+            }
+
+            n_data = n_data + 1;
+
+            if (N_MAX < n_data)
+            {
+                n_data = 0;
+                n = 0;
+                m = 0;
+                x = 0.0;
+                fx = 0.0;
+            }
+            else
+            {
+                n = n_vec[n_data - 1];
+                m = m_vec[n_data - 1];
+                x = x_vec[n_data - 1];
+                fx = fx_vec[n_data - 1];
+            }
+        }
+
+        public static void pn_polynomial_values(ref int n_data, ref int n, ref double x,
+        ref double fx )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    PN_POLYNOMIAL_VALUES: selected values of the normalized Legendre polynomials.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    18 March 2016
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Milton Abramowitz, Irene Stegun,
+        //    Handbook of Mathematical Functions,
+        //    National Bureau of Standards, 1964,
+        //    ISBN: 0-486-61272-4,
+        //    LC: QA47.A34.
+        //
+        //    Stephen Wolfram,
+        //    The Mathematica Book,
+        //    Fourth Edition,
+        //    Cambridge University Press, 1999,
+        //    ISBN: 0-521-64314-7,
+        //    LC: QA76.95.W65.
+        //
+        //  Parameters:
+        //
+        //    Input/output, int &N_DATA.  The user sets N_DATA to 0 before the
+        //    first call.  On each call, the routine increments N_DATA by 1, and
+        //    returns the corresponding data; when there is no more data, the
+        //    output value of N_DATA will be 0 again.
+        //
+        //    Output, int &N, the order of the function.
+        //
+        //    Output, double &X, the point where the function is evaluated.
+        //
+        //    Output, double &FX, the value of the function.
+        //
+        {
+            int N_MAX = 22;
+
+            double[] fx_vec =
+            {
+                0.7071067811865475,
+                0.3061862178478972,
+                -0.642337649721702,
+                -0.6284815141846855,
+                0.3345637065282053,
+                0.7967179601799685,
+                0.06189376866246124,
+                -0.766588850921089,
+                -0.4444760242953344,
+                0.5450094674858101,
+                0.7167706229835538,
+                0.0000000000000000,
+                -0.2759472322745781,
+                -0.5238320341483518,
+                -0.7155919752205163,
+                -0.823164625090267,
+                -0.8184875533567997,
+                -0.6734983296193094,
+                -0.360134523476992,
+                0.1496662954709581,
+                0.8839665576253438,
+                1.870828693386971
+            }
+            ;
+
+            int[] n_vec =
+            {
+                0, 1, 2,
+                3, 4, 5,
+                6, 7, 8,
+                9, 10, 3,
+                3, 3, 3,
+                3, 3, 3,
+                3, 3, 3,
+                3
+            }
+            ;
+
+            double[] x_vec =
+            {
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.25E+00,
+                0.00E+00,
+                0.10E+00,
+                0.20E+00,
+                0.30E+00,
+                0.40E+00,
+                0.50E+00,
+                0.60E+00,
+                0.70E+00,
+                0.80E+00,
+                0.90E+00,
+                1.00E+00
+            }
+            ;
+
+            if (n_data < 0)
+            {
+                n_data = 0;
+            }
+
+            n_data = n_data + 1;
+
+            if (N_MAX < n_data)
+            {
+                n_data = 0;
+                n = 0;
+                x = 0.0;
+                fx = 0.0;
+            }
+            else
+            {
+                n = n_vec[n_data - 1];
+                x = x_vec[n_data - 1];
+                fx = fx_vec[n_data - 1];
+            }
+        }
 
         public static void legendre_associated_values(ref int n_data, ref int n, ref int m, ref double x,
                 ref double fx)

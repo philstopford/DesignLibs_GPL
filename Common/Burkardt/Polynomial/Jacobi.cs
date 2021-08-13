@@ -466,6 +466,149 @@ namespace Burkardt.PolynomialNS
             }
         }
 
+        public static double[] jacobi_poly(int n, double alpha, double beta, double x)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    JACOBI_POLY evaluates the Jacobi polynomials at X.
+            //
+            //  Differential equation:
+            //
+            //    (1-X*X) Y'' + (BETA-ALPHA-(ALPHA+BETA+2) X) Y' + N (N+ALPHA+BETA+1) Y = 0
+            //
+            //  Recursion:
+            //
+            //    P(0,ALPHA,BETA,X) = 1,
+            //
+            //    P(1,ALPHA,BETA,X) = ( (2+ALPHA+BETA)*X + (ALPHA-BETA) ) / 2
+            //
+            //    P(N,ALPHA,BETA,X)  =
+            //      (
+            //        (2*N+ALPHA+BETA-1)
+            //        * ((ALPHA^2-BETA^2)+(2*N+ALPHA+BETA)*(2*N+ALPHA+BETA-2)*X)
+            //        * P(N-1,ALPHA,BETA,X)
+            //        -2*(N-1+ALPHA)*(N-1+BETA)*(2*N+ALPHA+BETA) * P(N-2,ALPHA,BETA,X)
+            //      ) / 2*N*(N+ALPHA+BETA)*(2*N-2+ALPHA+BETA)
+            //
+            //  Restrictions:
+            //
+            //    -1 < ALPHA
+            //    -1 < BETA
+            //
+            //  Norm:
+            //
+            //    Integral ( -1 <= X <= 1 ) ( 1 - X )^ALPHA * ( 1 + X )^BETA
+            //      * P(N,ALPHA,BETA,X)^2 dX
+            //    = 2^(ALPHA+BETA+1) * Gamma ( N + ALPHA + 1 ) * Gamma ( N + BETA + 1 ) /
+            //      ( 2 * N + ALPHA + BETA ) * N! * Gamma ( N + ALPHA + BETA + 1 )
+            //
+            //  Special values:
+            //
+            //    P(N,ALPHA,BETA,1) = (N+ALPHA)!/(N!*ALPHA!) for integer ALPHA.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    20 April 2012
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Milton Abramowitz, Irene Stegun,
+            //    Handbook of Mathematical Functions,
+            //    National Bureau of Standards, 1964,
+            //    ISBN: 0-486-61272-4,
+            //    LC: QA47.A34.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the highest order polynomial to compute.  Note
+            //    that polynomials 0 through N will be computed.
+            //
+            //    Input, double ALPHA, one of the parameters defining the Jacobi
+            //    polynomials, ALPHA must be greater than -1.
+            //
+            //    Input, double BETA, the second parameter defining the Jacobi
+            //    polynomials, BETA must be greater than -1.
+            //
+            //    Input, double X, the point at which the polynomials are to be evaluated.
+            //
+            //    Output, double JACOBI_POLY[N+1], the values of the first N+1 Jacobi
+            //    polynomials at the point X.
+            //
+        {
+            double c1;
+            double c2;
+            double c3;
+            double c4;
+            double[] cx;
+            int i;
+
+            if (alpha <= -1.0)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("JACOBI_POLY - Fatal error!");
+                Console.WriteLine("  Illegal input value of ALPHA = " + alpha + "");
+                Console.WriteLine("  But ALPHA must be greater than -1.");
+                return null;
+            }
+
+            if (beta <= -1.0)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("JACOBI_POLY - Fatal error!");
+                Console.WriteLine("  Illegal input value of BETA = " + beta + "");
+                Console.WriteLine("  But BETA must be greater than -1.");
+                return null;
+            }
+
+            if (n < 0)
+            {
+                return null;
+            }
+
+            cx = new double[n + 1];
+
+            cx[0] = 1.0;
+
+            if (n == 0)
+            {
+                return cx;
+            }
+
+            cx[1] = (1.0 + 0.5 * (alpha + beta)) * x
+                    + 0.5 * (alpha - beta);
+
+            for (i = 2; i <= n; i++)
+            {
+                c1 = 2.0 * (double)(i) * ((double)(i) + alpha + beta)
+                     * ((double)(2 * i - 2) + alpha + beta);
+
+                c2 = ((double)(2 * i - 1) + alpha + beta)
+                     * ((double)(2 * i) + alpha + beta)
+                     * ((double)(2 * i - 2) + alpha + beta);
+
+                c3 = ((double)(2 * i - 1) + alpha + beta)
+                     * (alpha + beta) * (alpha - beta);
+
+                c4 = -(double)(2) * ((double)(i - 1) + alpha)
+                                  * ((double)(i - 1) + beta)
+                                  * ((double)(2 * i) + alpha + beta);
+
+                cx[i] = ((c3 + c2 * x) * cx[i - 1] + c4 * cx[i - 2]) / c1;
+            }
+
+            return cx;
+        }
+
         public static void jacobi_recur(ref double p2, ref double dp2, ref double p1, double x, int order,
                 double alpha, double beta, double[] b, double[] c)
 

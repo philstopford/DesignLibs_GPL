@@ -5,6 +5,7 @@ using Burkardt.Types;
 namespace Burkardt.PolynomialNS
 {
     using QuadratureRule = Burkardt.Laguerre.QuadratureRule;
+
     public static class Laguerre
     {
         public static void gen_laguerre_poly(int n, double alpha, double x, ref double[] cx)
@@ -248,6 +249,343 @@ namespace Burkardt.PolynomialNS
             }
         }
 
+        public static void laguerre_associated(int n, int m, double x, ref double[] cx)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    LAGUERRE_ASSOCIATED evaluates the associated Laguerre polynomials L(N,M,X) at X.
+            //
+            //  Differential equation:
+            //
+            //    X Y'' + (M+1-X) Y' + (N-M) Y = 0
+            //
+            //  First terms:
+            //
+            //    M = 0
+            //
+            //    L(0,0,X) =   1
+            //    L(1,0,X) =  -X    +  1
+            //    L(2,0,X) =   X^2 -  4 X     +  2
+            //    L(3,0,X) =  -X^3 +  9 X^2 -  18 X    +    6
+            //    L(4,0,X) =   X^4 - 16 X^3 +  72 X^2 -   96 X +      24
+            //    L(5,0,X) =  -X^5 + 25 X^4 - 200 X^3 +  600 X^2 -  600 x    +  120
+            //    L(6,0,X) =   X^6 - 36 X^5 + 450 X^4 - 2400 X^3 + 5400 X^2 - 4320 X + 720
+            //
+            //    M = 1
+            //
+            //    L(0,1,X) =    0
+            //    L(1,1,X) =   -1,
+            //    L(2,1,X) =    2 X - 4,
+            //    L(3,1,X) =   -3 X^2 + 18 X - 18,
+            //    L(4,1,X) =    4 X^3 - 48 X^2 + 144 X - 96
+            //
+            //    M = 2
+            //
+            //    L(0,2,X) =    0
+            //    L(1,2,X) =    0,
+            //    L(2,2,X) =    2,
+            //    L(3,2,X) =   -6 X + 18,
+            //    L(4,2,X) =   12 X^2 - 96 X + 144
+            //
+            //    M = 3
+            //
+            //    L(0,3,X) =    0
+            //    L(1,3,X) =    0,
+            //    L(2,3,X) =    0,
+            //    L(3,3,X) =   -6,
+            //    L(4,3,X) =   24 X - 96
+            //
+            //    M = 4
+            //
+            //    L(0,4,X) =    0
+            //    L(1,4,X) =    0
+            //    L(2,4,X) =    0
+            //    L(3,4,X) =    0
+            //    L(4,4,X) =   24
+            //
+            //  Recursion:
+            //
+            //    if N = 0:
+            //
+            //      L(N,M,X)   = 0
+            //
+            //    if N = 1:
+            //
+            //      L(N,M,X)   = (M+1-X)
+            //
+            //    if N => 2:
+            //
+            //      L(N,M,X)   = ( (M+2*N-1-X) * L(N-1,M,X)
+            //                  +   (1-M-N)     * L(N-2,M,X) ) / N
+            //
+            //  Special values:
+            //
+            //    For M = 0, the associated Laguerre polynomials L(N,M,X) are equal
+            //    to the Laguerre polynomials L(N,X).
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    08 February 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Milton Abramowitz, Irene Stegun,
+            //    Handbook of Mathematical Functions,
+            //    National Bureau of Standards, 1964,
+            //    ISBN: 0-486-61272-4,
+            //    LC: QA47.A34.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the highest order polynomial to compute.
+            //    Note that polynomials 0 through N will be computed.
+            //
+            //    Input, int M, the parameter.  M must be nonnegative.
+            //
+            //    Input, double X, the point at which the polynomials are to be evaluated.
+            //
+            //    Output, double CX[N+1], the associated Laguerre polynomials of
+            //    degrees 0 through N evaluated at the point X.
+            //
+        {
+            int i;
+
+            if (m < 0)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("LAGUERRE_ASSOCIATED - Fatal error!");
+                Console.WriteLine("  Input value of M = " + m + "");
+                Console.WriteLine("  but M must be nonnegative.");
+                return;
+            }
+
+            if (n < 0)
+            {
+                return;
+            }
+
+            cx[0] = 1.0;
+
+            if (n == 0)
+            {
+                return;
+            }
+
+            cx[1] = (double)(m + 1) - x;
+
+            for (i = 2; i <= n; i++)
+            {
+                cx[i] = (((double)(2 * i + m - 1) - x) * cx[i - 1]
+                         + (double)(-i - m + 1) * cx[i - 2])
+                        / (double)i;
+            }
+
+        }
+
+        public static void laguerre_poly(int n, double x, ref double[] cx)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    LAGUERRE_POLY evaluates the Laguerre polynomials at X.
+            //
+            //  Differential equation:
+            //
+            //    X * Y'' + (1-X) * Y' + N * Y = 0
+            //
+            //  First terms:
+            //
+            //      1
+            //     -X    +  1
+            //   (  X^2 -  4 X     +  2 ) / 2
+            //   ( -X^3 +  9 X^2 -  18 X    +    6 ) / 6
+            //   (  X^4 - 16 X^3 +  72 X^2 -   96 X +      24 ) / 24
+            //   ( -X^5 + 25 X^4 - 200 X^3 +  600 X^2 -  600 x    +  120 ) / 120
+            //   (  X^6 - 36 X^5 + 450 X^4 - 2400 X^3 + 5400 X^2 - 4320 X + 720 ) / 720
+            //   ( -X^7 + 49 X^6 - 882 X^5 + 7350 X^4 - 29400 X^3
+            //      + 52920 X^2 - 35280 X + 5040 ) / 5040
+            //
+            //  Recursion:
+            //
+            //    L(0,X) = 1,
+            //    L(1,X) = 1-X,
+            //    N * L(N,X) = (2*N-1-X) * L(N-1,X) - (N-1) * L(N-2,X)
+            //
+            //  Orthogonality:
+            //
+            //    Integral ( 0 <= X < +oo ) exp ( - X ) * L(N,X) * L(M,X) dX
+            //    = 0 if N /= M
+            //    = 1 if N == M
+            //
+            //  Special values:
+            //
+            //    L(N,0) = 1.
+            //
+            //  Relations:
+            //
+            //    L(N,X) = (-1)^N / N! * exp ( x ) * (d/dx)^n ( exp ( - x ) * x^n )
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    01 February 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Milton Abramowitz, Irene Stegun,
+            //    Handbook of Mathematical Functions,
+            //    National Bureau of Standards, 1964,
+            //    ISBN: 0-486-61272-4,
+            //    LC: QA47.A34.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the highest order polynomial to compute.
+            //    Note that polynomials 0 through N will be computed.
+            //
+            //    Input, double X, the point at which the polynomials are to be evaluated.
+            //
+            //    Output, double CX[N+1], the Laguerre polynomials of degree 0 through
+            //    N evaluated at the point X.
+            //
+        {
+            int i;
+
+            if (n < 0)
+            {
+                return;
+            }
+
+            cx[0] = 1.0;
+
+            if (n == 0)
+            {
+                return;
+            }
+
+            cx[1] = 1.0 - x;
+
+            for (i = 2; i <= n; i++)
+            {
+                cx[i] = (((double)(2 * i - 1) - x) * cx[i - 1]
+                         + (double)(-i + 1) * cx[i - 2])
+                        / (double)(i);
+
+            }
+        }
+
+        public static void laguerre_poly_coef(int n, ref double[] c)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    LAGUERRE_POLY_COEF evaluates the Laguerre polynomial coefficients.
+            //
+            //  First terms:
+            //
+            //    0: 1
+            //    1: 1  -1
+            //    2: 1  -2  1/2
+            //    3: 1  -3  3/2  1/6
+            //    4: 1  -4  4   -2/3  1/24
+            //    5: 1  -5  5   -5/3  5/24  -1/120
+            //
+            //  Recursion:
+            //
+            //    L(0) = ( 1,  0, 0, ..., 0 )
+            //    L(1) = ( 1, -1, 0, ..., 0 )
+            //    L(N) = (2*N-1-X) * L(N-1) - (N-1) * L(N-2) / N
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    01 February 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Milton Abramowitz, Irene Stegun,
+            //    Handbook of Mathematical Functions,
+            //    National Bureau of Standards, 1964,
+            //    ISBN: 0-486-61272-4,
+            //    LC: QA47.A34.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the highest order polynomial to compute.
+            //    Note that polynomials 0 through N will be computed.
+            //
+            //    Output, double C[(N+1)*(N+1)], the coefficients of the Laguerre 
+            //    polynomials of degree 0 through N.  Each polynomial is stored as a row.
+            //
+        {
+            int i;
+            int j;
+
+            if (n < 0)
+            {
+                return;
+            }
+
+            for (i = 0; i <= n; i++)
+            {
+                for (j = 0; j <= n; j++)
+                {
+                    c[i + j * (n + 1)] = 0.0;
+                }
+            }
+
+            for (i = 0; i <= n; i++)
+            {
+                c[i + 0 * (n + 1)] = 1.0;
+            }
+
+            if (n == 0)
+            {
+                return;
+            }
+
+            c[1 + 1 * (n + 1)] = -1.0;
+
+            for (i = 2; i <= n; i++)
+            {
+                for (j = 1; j <= n; j++)
+                {
+                    c[i + j * (n + 1)] = (
+                                             (double)(2 * i - 1) * c[i - 1 + j * (n + 1)]
+                                             + (double)(-i + 1) * c[i - 2 + j * (n + 1)]
+                                             - c[i - 1 + (j - 1) * (n + 1)])
+                                         / (double)i;
+                }
+
+            }
+        }
+
         public static double[] l_exponential_product(int p, double b)
 
             //****************************************************************************80
@@ -481,9 +819,9 @@ namespace Burkardt.PolynomialNS
             {
                 for (i = 0; i < m; i++)
                 {
-                    v[i + j * m] = (((double) (2 * j - 1) - x[xIndex + i]) * v[i + (j - 1) * m]
-                                    + (double) (-j + 1) * v[i + (j - 2) * m])
-                                   / (double) (j);
+                    v[i + j * m] = (((double)(2 * j - 1) - x[xIndex + i]) * v[i + (j - 1) * m]
+                                    + (double)(-j + 1) * v[i + (j - 2) * m])
+                                   / (double)(j);
                 }
             }
 
@@ -578,10 +916,10 @@ namespace Burkardt.PolynomialNS
                 for (j = 1; j <= n; j++)
                 {
                     c[i + j * (n + 1)] = (
-                                             (double) (2 * i - 1) * c[i - 1 + j * (n + 1)]
-                                             + (double) (-i + 1) * c[i - 2 + j * (n + 1)]
+                                             (double)(2 * i - 1) * c[i - 1 + j * (n + 1)]
+                                             + (double)(-i + 1) * c[i - 2 + j * (n + 1)]
                                              - c[i - 1 + (j - 1) * (n + 1)])
-                                         / (double) i;
+                                         / (double)i;
                 }
             }
 
@@ -805,13 +1143,13 @@ namespace Burkardt.PolynomialNS
             bj = new double[n];
             for (i = 0; i < n; i++)
             {
-                bj[i] = (double) (i + 1);
+                bj[i] = (double)(i + 1);
             }
 
             x = new double[n];
             for (i = 0; i < n; i++)
             {
-                x[i] = (double) (2 * i + 1);
+                x[i] = (double)(2 * i + 1);
             }
 
             w = new double[n];

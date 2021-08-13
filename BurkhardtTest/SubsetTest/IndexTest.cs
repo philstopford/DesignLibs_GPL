@@ -3,6 +3,8 @@ using Burkardt.Types;
 
 namespace SubsetTestNS
 {
+    using Index = Burkardt.IndexNS.Index;
+
     public static class IndexTest
     {
         public static void index_box_next_2d_test()
@@ -50,7 +52,7 @@ namespace SubsetTestNS
 
             for (;;)
             {
-                Burkardt.Index.index_box_next_2d(n1, n2, ref i, ref j, ref more);
+                Index.index_box_next_2d(n1, n2, ref i, ref j, ref more);
 
                 if (!more)
                 {
@@ -112,7 +114,7 @@ namespace SubsetTestNS
 
             for (;;)
             {
-                Burkardt.Index.index_box_next_3d(n1, n2, n3, ref i, ref j, ref k, ref more);
+                Index.index_box_next_3d(n1, n2, n3, ref i, ref j, ref k, ref more);
 
                 if (!more)
                 {
@@ -179,7 +181,7 @@ namespace SubsetTestNS
 
             for (;;)
             {
-                Burkardt.Index.index_box2_next_2d(n1, n2, ic, jc, ref i, ref j, ref more);
+                Index.index_box2_next_2d(n1, n2, ic, jc, ref i, ref j, ref more);
 
                 if (!more)
                 {
@@ -251,7 +253,7 @@ namespace SubsetTestNS
 
             for (;;)
             {
-                Burkardt.Index.index_box2_next_3d(n1, n2, n3, ic, jc, kc, ref i, ref j, ref k, ref more);
+                Index.index_box2_next_3d(n1, n2, n3, ic, jc, kc, ref i, ref j, ref k, ref more);
 
                 if (!more)
                 {
@@ -316,7 +318,7 @@ namespace SubsetTestNS
 
             for (;;)
             {
-                Burkardt.Index.index_next0(N, hi, ref a, ref more);
+                Index.index_next0(N, hi, ref a, ref more);
 
                 string cout = "";
                 for (i = 0; i < N; i++)
@@ -380,7 +382,7 @@ namespace SubsetTestNS
 
             for (;;)
             {
-                Burkardt.Index.index_next1(N, hi, ref a, ref more);
+                Index.index_next1(N, hi, ref a, ref more);
 
                 string cout = "";
                 for (i = 0; i < N; i++)
@@ -453,7 +455,7 @@ namespace SubsetTestNS
 
             for (;;)
             {
-                Burkardt.Index.index_next2(N, lo, hi, ref a, ref more);
+                Index.index_next2(N, lo, hi, ref a, ref more);
 
                 string cout = "";
                 for (i = 0; i < N; i++)
@@ -511,7 +513,7 @@ namespace SubsetTestNS
 
             typeMethods.i4vec1_print(N, a, "  The index array:");
 
-            rank = Burkardt.Index.index_rank0(N, hi, a);
+            rank = Index.index_rank0(N, hi, a);
 
             Console.WriteLine("");
             Console.WriteLine("  The rank of this object is " + rank + "");
@@ -564,7 +566,7 @@ namespace SubsetTestNS
 
             typeMethods.i4vec1_print(N, a, "  The index array:");
 
-            rank = Burkardt.Index.index_rank1(N, hi, a);
+            rank = Index.index_rank1(N, hi, a);
 
             Console.WriteLine("");
             Console.WriteLine("  The rank of this object is " + rank + "");
@@ -619,7 +621,7 @@ namespace SubsetTestNS
 
             typeMethods.i4vec1_print(N, a, "  The index array:");
 
-            rank = Burkardt.Index.index_rank2(N, lo, hi, a);
+            rank = Index.index_rank2(N, lo, hi, a);
 
             Console.WriteLine("");
             Console.WriteLine("  The rank of this object is " + rank + "");
@@ -670,7 +672,7 @@ namespace SubsetTestNS
 
             for (rank = 1; rank <= maxrank; rank++)
             {
-                Burkardt.Index.index_unrank0(N, hi, rank, ref a);
+                Index.index_unrank0(N, hi, rank, ref a);
                 string cout = rank.ToString().PadLeft(3) + "  ";
                 for (i = 0; i < N; i++)
                 {
@@ -726,7 +728,7 @@ namespace SubsetTestNS
 
             for (rank = 1; rank <= maxrank; rank++)
             {
-                Burkardt.Index.index_unrank1(N, hi, rank, ref a);
+                Index.index_unrank1(N, hi, rank, ref a);
                 string cout = rank.ToString().PadLeft(3) + "  ";
                 for (i = 0; i < N; i++)
                 {
@@ -788,7 +790,7 @@ namespace SubsetTestNS
 
             rank = 7;
 
-            Burkardt.Index.index_unrank2(N, lo, hi, rank, ref a);
+            Index.index_unrank2(N, lo, hi, rank, ref a);
             string cout = rank.ToString().PadLeft(3) + "  ";
             for (i = 0; i < N; i++)
             {

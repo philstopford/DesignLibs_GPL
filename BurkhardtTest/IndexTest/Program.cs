@@ -2,7 +2,7 @@
 
 namespace IndexTest
 {
-    using Index = Burkardt.Index;
+    using Index = Burkardt.IndexNS.Index;
 
     class Program
     {

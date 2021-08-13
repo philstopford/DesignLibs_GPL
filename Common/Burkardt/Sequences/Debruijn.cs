@@ -102,7 +102,7 @@ namespace Burkardt.Sequence
 
             for (i = 1; i <= nnode; i++)
             {
-                Index.index_unrank0(n - 1, m, i, ref ivec);
+                IndexNS.Index.index_unrank0(n - 1, m, i, ref ivec);
 
                 for (k = 1; k <= m; k++)
                 {
@@ -116,7 +116,7 @@ namespace Burkardt.Sequence
 
                     jvec[n - 2] = k;
 
-                    j = Index.index_rank0(n - 1, m, jvec);
+                    j = IndexNS.Index.index_rank0(n - 1, m, jvec);
 
                     inode[iedge] = i;
                     jnode[iedge] = j;

@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Function;
 using Burkardt.Types;
 
 namespace Burkardt.Sequence

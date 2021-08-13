@@ -1389,7 +1389,7 @@ namespace SubsetTestNS
             string cout = "Base: ";
             for (j = 1; j <= 5; j++)
             {
-                p = Burkardt.Prime.prime(j);
+                p = Burkardt.Function.Prime.prime(j);
                 cout += p.ToString().PadLeft(10) + "  ";
             }
 
@@ -1401,7 +1401,7 @@ namespace SubsetTestNS
                 cout = i.ToString().PadLeft(4) + "  ";
                 for (j = 1; j <= 5; j++)
                 {
-                    p = Burkardt.Prime.prime(j);
+                    p = Burkardt.Function.Prime.prime(j);
                     h = Burkardt.Sequence.VanDerCorput.i4_to_van_der_corput(i, p);
                     cout += h.ToString().PadLeft(10) + "  ";
                 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Burkardt.Function;
 
 namespace Burkardt.Types
 {

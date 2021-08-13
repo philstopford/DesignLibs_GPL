@@ -3036,6 +3036,220 @@ namespace Burkardt.Types
             return value;
         }
 
+        public static int triangle_lower_to_i4(int i, int j)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TRIANGLE_LOWER_TO_I4 converts a lower triangular coordinate to an integer.
+            //
+            //  Discussion:
+            //
+            //    Triangular coordinates are handy when storing a naturally triangular
+            //    array (such as the lower half of a matrix) in a linear array.
+            //
+            //    Thus, for example, we might consider storing
+            //
+            //    (0,0)
+            //    (1,0) (1,1)
+            //    (2,0) (2,1) (2,2)
+            //    (3,0) (3,1) (3,2) (3,3)
+            //
+            //    as the linear array
+            //
+            //    (0,0) (1,0) (1,1) (2,0) (2,1) (2,2) (3,0) (3,1) (3,2) (3,3)
+            //
+            //    Here, the quantities in parenthesis represent the natural row and
+            //    column indices of a single number when stored in a rectangular array.
+            //
+            //    Thus, our goal is, given the row I and column J of the data,
+            //    to produce the value K which indicates its position in the linear
+            //    array.
+            //
+            //    The triangular numbers are the indices associated with the
+            //    diagonal elements of the original array, T(0,0), T(1,1), T(2,2), 
+            //    T(3,3) and so on.
+            //
+            //    The formula is:
+            //
+            //      K = J + ( ( I * ( I + 1 ) ) / 2
+            //
+            //  Example:
+            //
+            //    I  J  K
+            //
+            //    0  0  0
+            //    1  0  1
+            //    1  1  2
+            //    2  0  3
+            //    2  1  4
+            //    2  2  5
+            //    3  0  6
+            //    3  1  7
+            //    3  2  8
+            //    3  3  9
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    18 January 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int I, J, the row and column indices.  I and J must
+            //    be nonnegative, and J must not be greater than I.
+            //
+            //    Output, int TRIANGLE_LOWER_TO_I4, the linear index of the (I,J) element.
+            //
+        {
+            int value;
+
+            if (i < 0)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("TRIANGLE_LOWER_TO_I4 - Fatal error!");
+                Console.WriteLine("  I < 0.");
+                Console.WriteLine("  I = " + i + "");
+                return(1);
+            }
+            else if (j < 0)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("TRIANGLE_LOWER_TO_I4 - Fatal error!");
+                Console.WriteLine("  J < 0.");
+                Console.WriteLine("  J = " + j + "");
+                return(1);
+            }
+            else if (i < j)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("TRIANGLE_LOWER_TO_I4 - Fatal error!");
+                Console.WriteLine("  I < J.");
+                Console.WriteLine("  I = " + i + "");
+                Console.WriteLine("  J = " + j + "");
+                return(1);
+            }
+
+            value = j + (i * (i + 1)) / 2;
+
+            return value;
+        }
+
+        public static int triangle_upper_to_i4(int i, int j)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TRIANGLE_UPPER_TO_I4 converts an upper triangular coordinate to an integer.
+            //
+            //  Discussion:
+            //
+            //    Triangular coordinates are handy when storing a naturally triangular
+            //    array (such as the upper half of a matrix) in a linear array.
+            //
+            //    Thus, for example, we might consider storing
+            //
+            //    (0,0) (0,1) (0,2) (0,3)
+            //          (1,1) (1,2) (1,3)
+            //                (2,2) (2,3)
+            //                      (3,3)
+            //
+            //    as the linear array
+            //
+            //    (0,0) (0,1) (1,1) (0,2) (1,2) (2,2) (0,3) (1,3) (2,3) (3,3)
+            //
+            //    Here, the quantities in parenthesis represent the natural row and
+            //    column indices of a single number when stored in a rectangular array.
+            //
+            //    Thus, our goal is, given the row I and column J of the data,
+            //    to produce the value K which indicates its position in the linear
+            //    array.
+            //
+            //    The triangular numbers are the indices associated with the
+            //    diagonal elements of the original array, T(0,0), T(1,1), T(2,2), 
+            //    T(3,3) and so on.
+            //
+            //    The formula is:
+            //
+            //      K = I + ( ( J * ( J + 1 ) ) / 2
+            //
+            //  Example:
+            //
+            //    I  J  K
+            //
+            //    0  0  0
+            //    0  1  1
+            //    1  1  2
+            //    0  2  3
+            //    1  2  4
+            //    2  2  5
+            //    0  3  6
+            //    1  3  7
+            //    2  3  8
+            //    3  3  9
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    23 March 2017
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int I, J, the row and column indices.  I and J must
+            //    be nonnegative, and I must not be greater than J.
+            //
+            //    Output, int TRIANGLE_UPPER_TO_I4, the linear index of the (I,J) element.
+            //
+        {
+            int value;
+
+            if (i < 0)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("TRIANGLE_UPPER_TO_I4 - Fatal error!");
+                Console.WriteLine("  I < 0.");
+                Console.WriteLine("  I = " + i + "");
+                return (1);
+            }
+            else if (j < 0)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("TRIANGLE_UPPER_TO_I4 - Fatal error!");
+                Console.WriteLine("  J < 0.");
+                Console.WriteLine("  J = " + j + "");
+                return (1);
+            }
+            else if (j < i)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("TRIANGLE_UPPER_TO_I4 - Fatal error!");
+                Console.WriteLine("  J < I.");
+                Console.WriteLine("  I = " + i + "");
+                Console.WriteLine("  J = " + j + "");
+                return (1);
+            }
+
+            value = i + (j * (j + 1)) / 2;
+
+            return value;
+        }
+
         public static double[] triangle_to_ref(double[] tvert1, double[] tvert2,
                 double[] tvert3, double[] t)
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Sequence;
 using Burkardt.Types;
 using Burkardt.Uniform;
 
@@ -6,11 +7,11 @@ namespace Burkardt.Treepack
 {
     public class TreeNextData
     {
-        public VecNextData vData { get; set; }
+        public typeMethods.VecNextData vData { get; set; }
 
         public TreeNextData()
         {
-            vData = new VecNextData();
+            vData = new typeMethods.VecNextData();
         }
     }
     public static class Tree
@@ -568,7 +569,7 @@ namespace Burkardt.Treepack
                 return;
             }
 
-            Vec.vec_random(nnode - 2, nnode, ref seed, code);
+            typeMethods.vec_random(nnode - 2, nnode, ref seed, code);
 
             for (i = 0; i < nnode - 2; i++)
             {
@@ -882,9 +883,9 @@ namespace Burkardt.Treepack
                 }
             }
 
-            VecNextData vData = data.vData;
+            typeMethods.VecNextData vData = data.vData;
             
-            Vec.vec_next(ref vData, nnode - 2, nnode, ref code, ref more);
+            typeMethods.vec_next(ref vData, nnode - 2, nnode, ref code, ref more);
 
             data.vData = vData;
 

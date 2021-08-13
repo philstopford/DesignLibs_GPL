@@ -1,4 +1,4 @@
-﻿namespace Burkardt.Treepack
+﻿namespace Burkardt.Sequence
 {
     public static class Catalan
     {
@@ -111,13 +111,33 @@
             return c;
         }
 
-        public static void catalan_values(ref int n_data, ref int n, ref int c)
+        public static void catalan_row_next(bool next, int n, ref int[] irow)
 
             //****************************************************************************80
             //
             //  Purpose:
             //
-            //    CATALAN_VALUES returns some values of the Catalan numbers for testing.
+            //    CATALAN_ROW computes row N of Catalan's triangle.
+            //
+            //  Example:
+            //
+            //    I\J 0   1   2   3   4   5   6
+            //
+            //    0   1
+            //    1   1   1
+            //    2   1   2   2
+            //    3   1   3   5   5
+            //    4   1   4   9  14  14
+            //    5   1   5  14  28  42  42
+            //    6   1   6  20  48  90 132 132
+            //
+            //  Recursion:
+            //
+            //    C(0,0) = 1
+            //    C(I,0) = 1
+            //    C(I,J) = 0 for I < J
+            //    C(I,J) = C(I,J-1) + C(I-1,J)
+            //    C(I,I) is the I-th Catalan number.
             //
             //  Licensing:
             //
@@ -125,56 +145,77 @@
             //
             //  Modified:
             //
-            //    07 November 2012
+            //    08 May 2003
             //
             //  Author:
             //
             //    John Burkardt
             //
-            //  Reference:
-            //
-            //    Milton Abramowitz, Irene Stegun,
-            //    Handbook of Mathematical Functions,
-            //    US Department of Commerce, 1964,
-            //    ISBN: 0-486-61272-4,
-            //    LC: QA47.A34.
-            //
             //  Parameters:
             //
-            //    Input/output, int &N_DATA.
-            //    On input, if N_DATA is 0, the first test data is returned, and N_DATA
-            //    is set to 1.  On each subsequent call, the input value of N_DATA is
-            //    incremented and that test data item is returned, if available.  When
-            //    there is no more test data, N_DATA is set to 0.
+            //    Input, bool NEXT, indicates whether this is a call for
+            //    the 'next' row of the triangle.
+            //    NEXT = FALSE, this is a startup call.  Row N is desired, but
+            //    presumably this is a first call, or row N-1 was not computed
+            //    on the previous call.
+            //    NEXT = TRUE, this is not the first call, and row N-1 was computed
+            //    on the previous call.  In this case, much work can be saved
+            //    by using the information from the previous values of IROW
+            //    to build the next values.
             //
-            //    Output, int &N, the order of the Catalan number.
+            //    Input, int N, the index of the row of the triangle desired.
             //
-            //    Output, int &C, the value of the Catalan number.
+            //    Input/output, int IROW[N+1], the row of coefficients.
+            //    If NEXT = FALSE, then IROW is not required to be set on input.
+            //    If NEXT = TRUE, then IROW must be set on input to the value of
+            //    row N-1.
             //
         {
-            int N_MAX = 11;
-
-            int[] c_vec = {1, 1, 2, 5, 14, 42, 132, 429, 1430, 4862, 16796};
-            int[] n_vec = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-
-            if (n_data < 0)
+            int i;
+            int j;
+            //
+            if (n < 0)
             {
-                n_data = 0;
+                return;
             }
 
-            if (N_MAX <= n_data)
+            if (!next)
             {
-                n_data = 0;
-                n = 0;
-                c = 0;
+                irow[0] = 1;
+                for (i = 1; i <= n; i++)
+                {
+                    irow[i] = 0;
+                }
+
+                for (i = 1; i <= n; i++)
+                {
+                    irow[0] = 1;
+
+                    for (j = 1; j <= i - 1; j++)
+                    {
+                        irow[j] = irow[j] + irow[j - 1];
+                    }
+
+                    irow[i] = irow[i - 1];
+
+                }
             }
             else
             {
-                n = n_vec[n_data];
-                c = c_vec[n_data];
-                n_data = n_data + 1;
-            }
+                irow[0] = 1;
 
+                for (j = 1; j <= n - 1; j++)
+                {
+                    irow[j] = irow[j] + irow[j - 1];
+                }
+
+                if (1 <= n)
+                {
+                    irow[n] = irow[n - 1];
+                }
+
+            }
         }
+        
     }
 }

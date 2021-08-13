@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Sequence;
 using Burkardt.Treepack;
 using Burkardt.Types;
 
@@ -100,7 +101,7 @@ namespace TreepackTest
 
             for (;;)
             {
-                Catalan.catalan_values(ref n_data, ref n, ref c);
+                Burkardt.TestValues.Catalan.catalan_values(ref n_data, ref n, ref c);
 
                 if (n_data == 0)
                 {

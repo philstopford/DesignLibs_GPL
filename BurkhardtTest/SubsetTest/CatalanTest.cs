@@ -1,5 +1,5 @@
 ﻿using System;
-using Burkardt.TestValues;
+using Burkardt.Sequence;
 
 namespace SubsetTestNS
 {
@@ -42,7 +42,7 @@ namespace SubsetTestNS
 
             for (;;)
             {
-                Catalan.catalan_values(ref n_data, ref n, ref c);
+                Burkardt.TestValues.Catalan.catalan_values(ref n_data, ref n, ref c);
 
                 if (n_data == 0)
                 {
@@ -51,7 +51,7 @@ namespace SubsetTestNS
 
                 c2 = new int[n + 1];
 
-                Catalan.catalan(n, ref c2);
+                c2 = Catalan.catalan(n);
 
                 Console.WriteLine("  "
                      + n.ToString().PadLeft(4) + "  "

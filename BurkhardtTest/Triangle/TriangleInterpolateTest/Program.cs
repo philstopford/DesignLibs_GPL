@@ -1,6 +1,5 @@
 ﻿using System;
 using Burkardt.TriangleNS;
-using Burkardt.Uniform;
 
 namespace TriangleInterpolateTest
 {
@@ -79,7 +78,7 @@ namespace TriangleInterpolateTest
             //  Get N sample points inside the triangle.
             //
             seed = 123456789;
-            p = Triangle.uniform_in_triangle_map1(p1, p2, p3, n, ref seed);
+            p = Burkardt.Uniform.Triangle.uniform_in_triangle_map1(p1, p2, p3, n, ref seed);
             //
             //  Request an intepolated value for R, G and B at each point.
             //

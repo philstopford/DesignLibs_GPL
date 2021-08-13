@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.MonomialNS;
 using Burkardt.Types;
 
 namespace Burkardt.PolynomialNS

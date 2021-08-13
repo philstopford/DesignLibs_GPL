@@ -1,6 +1,7 @@
 ﻿using System;
 using Burkardt;
 using Burkardt.CircleNS;
+using Burkardt.MonomialNS;
 using Burkardt.Types;
 
 namespace CircleMonteCarloTest

@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Weight;
 
 namespace Burkardt.MatrixNS
 {

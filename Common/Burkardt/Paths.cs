@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace Burkardt
+namespace Burkardt.PathsNS
 {
     public static class Paths
     {

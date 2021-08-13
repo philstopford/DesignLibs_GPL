@@ -1,11 +1,10 @@
 ﻿using System;
 using Burkardt.LineNS;
 using Burkardt.Types;
+using Monomial = Burkardt.MonomialNS.Monomial;
 
 namespace LineIntegralsTest
 {
-    using Integrals = Burkardt.LineNS.Integrals;
-    using Monomial = Burkardt.Monomial;
 
     class Program
     {

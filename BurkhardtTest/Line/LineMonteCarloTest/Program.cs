@@ -1,10 +1,10 @@
 ﻿using System;
+using Burkardt.MonomialNS;
 using Burkardt.Types;
 
 namespace LineMonteCarloTest
 {
     using MonteCarlo = Burkardt.LineNS.MonteCarlo;
-    using Monomial = Burkardt.Monomial;
 
     class Program
     {

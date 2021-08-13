@@ -5,9 +5,8 @@ using Burkardt.MatrixNS;
 using Burkardt.NavierStokesNS;
 using Burkardt.Types;
 using Burkardt.Uniform;
-using Sphere = Burkardt.Sphere;
-using Triangle = Burkardt.Triangle;
-using Map = Burkardt.Map;
+using Triangle = Burkardt.TriangleNS.Triangle;
+using Sphere = Burkardt.SphereNS.Sphere;
 
 namespace FEM2DPackTest
 {
@@ -1360,8 +1359,8 @@ int NODE_NUM = 9;
             Console.WriteLine("  SPHERE_GRID_Q4_NODE_XYZ returns the coordinates");
             Console.WriteLine("    of nodes in the grid.");
 
-            element_num = Sphere.sphere_grid_q4_element_num(nelemx, nelemy);
-            node_num = Sphere.sphere_grid_q4_node_num(nelemx, nelemy);
+            element_num = Burkardt.SphereNS.Sphere.sphere_grid_q4_element_num(nelemx, nelemy);
+            node_num = Burkardt.SphereNS.Sphere.sphere_grid_q4_node_num(nelemx, nelemy);
 
             Console.WriteLine("");
             Console.WriteLine("  Expected number of nodes =    " + node_num + "");

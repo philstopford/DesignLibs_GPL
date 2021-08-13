@@ -1,6 +1,7 @@
 ﻿using System;
 using Burkardt;
 using Burkardt.Means;
+using Burkardt.SolveNS;
 using Burkardt.Table;
 using Burkardt.Types;
 
@@ -974,7 +975,7 @@ namespace KMeansTest
                 return;
             }
 
-            weight =typeMethods.r8mat_data_read(weight_filename, weight_dim, weight_num);
+            weight = typeMethods.r8mat_data_read(weight_filename, weight_dim, weight_num);
             //
             //  Clustering parameters.
             //

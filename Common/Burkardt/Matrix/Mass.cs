@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt.FEM;
+using Triangle = Burkardt.TriangleNS.Triangle;
 
 namespace Burkardt.MatrixNS
 {

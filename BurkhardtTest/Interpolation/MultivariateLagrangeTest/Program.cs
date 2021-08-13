@@ -1,6 +1,7 @@
 ﻿using System;
 using Burkardt;
 using Burkardt.Interpolation;
+using Burkardt.MonomialNS;
 using Burkardt.Types;
 using Burkardt.PolynomialNS;
 

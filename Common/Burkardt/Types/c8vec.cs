@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using Burkardt.SortNS;
 
 namespace Burkardt.Types
 {
@@ -167,8 +168,6 @@ namespace Burkardt.Types
             {
                 a[i] = c8_nint(a[i]);
             }
-
-            return;
         }
 
         public static double c8vec_norm_l1(int n, Complex[] a)
@@ -566,7 +565,7 @@ namespace Burkardt.Types
             
             for (;;)
             {
-                Helpers.sort_heap_external(ref data, n, ref indx, ref i, ref j, isgn);
+                Sort.sort_heap_external(ref data, n, ref indx, ref i, ref j, isgn);
 
                 if (0 < indx)
                 {
@@ -643,7 +642,7 @@ namespace Burkardt.Types
 
             for (;;)
             {
-                Helpers.sort_heap_external(ref data, n, ref indx, ref i, ref j, isgn);
+                Sort.sort_heap_external(ref data, n, ref indx, ref i, ref j, isgn);
 
                 if (0 < indx)
                 {
@@ -724,7 +723,7 @@ namespace Burkardt.Types
             
             for (;;)
             {
-                Helpers.sort_heap_external(ref data, n, ref indx, ref i, ref j, isgn);
+                Sort.sort_heap_external(ref data, n, ref indx, ref i, ref j, isgn);
 
                 if (0 < indx)
                 {

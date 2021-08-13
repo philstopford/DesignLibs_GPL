@@ -484,7 +484,7 @@ namespace Burkardt.TriangleNS
             //
             //  Evaluate the monomial at the quadrature points.
             //
-            value = Burkardt.Monomial.monomial_value ( dim_num, point_num, expon, x );
+            value = MonomialNS.Monomial.monomial_value ( dim_num, point_num, expon, x );
             //
             //  Compute the weighted sum and divide by the exact value.
             //

@@ -1,5 +1,5 @@
 ﻿using System;
-using Burkardt.Grf;
+using Burkardt.IO;
 
 namespace GrfIOTest
 {
@@ -75,17 +75,17 @@ namespace GrfIOTest
             Console.WriteLine("  GRF_HEADER_WRITE writes the header of a GRF file.");
             Console.WriteLine("  GRF_DATA_WRITE writes the data of a GRF file.");
 
-            IO.grf_example_size(ref node_num, ref edge_num);
+            Grf.grf_example_size(ref node_num, ref edge_num);
 
-            IO.grf_header_print(node_num, edge_num);
+            Grf.grf_header_print(node_num, edge_num);
 
             edge_data = new int[edge_num];
             edge_pointer = new int[node_num + 1];
             xy = new double[2 * node_num];
 
-            IO.grf_example(node_num, edge_num, ref edge_pointer, ref edge_data, ref xy);
+            Grf.grf_example(node_num, edge_num, ref edge_pointer, ref edge_data, ref xy);
 
-            IO.grf_write(output_filename, node_num, edge_num, edge_pointer,
+            Grf.grf_write(output_filename, node_num, edge_num, edge_pointer,
                 edge_data, xy);
 
             Console.WriteLine("");
@@ -128,18 +128,18 @@ namespace GrfIOTest
             Console.WriteLine("");
             Console.WriteLine("  Reading the GRF file \"" + input_filename + "\"");
 
-            IO.grf_header_read(input_filename, ref node_num, ref edge_num);
+            Grf.grf_header_read(input_filename, ref node_num, ref edge_num);
 
-            IO.grf_header_print(node_num, edge_num);
+            Grf.grf_header_print(node_num, edge_num);
 
             edge_pointer = new int[node_num + 1];
             edge_data = new int[edge_num];
             xy = new double[2 * node_num];
 
-            IO.grf_data_read(input_filename, node_num, edge_num, ref edge_pointer,
+            Grf.grf_data_read(input_filename, node_num, edge_num, ref edge_pointer,
                 ref edge_data, ref xy);
 
-            IO.grf_data_print(node_num, edge_num, edge_pointer, edge_data, xy);
+            Grf.grf_data_print(node_num, edge_num, edge_pointer, edge_data, xy);
         }
     }
 }

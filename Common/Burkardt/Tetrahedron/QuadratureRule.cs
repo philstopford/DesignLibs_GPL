@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Burkardt.MonomialNS;
 using Burkardt.Types;
 
 namespace Burkardt.TetrahedronNS

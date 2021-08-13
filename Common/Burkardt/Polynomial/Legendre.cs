@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt.MatrixNS;
+using Burkardt.MonomialNS;
 using Burkardt.PolynomialNS;
 using Burkardt.Quadrature;
 using Burkardt.Types;

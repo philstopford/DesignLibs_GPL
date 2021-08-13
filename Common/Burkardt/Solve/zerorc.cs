@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Burkardt.ZeroRCNS
+namespace Burkardt.SolveNS
 {
     public class ZeroRC_data
     {

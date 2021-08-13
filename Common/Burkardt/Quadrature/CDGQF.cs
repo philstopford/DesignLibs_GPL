@@ -1,4 +1,5 @@
 ﻿using Burkardt.MatrixNS;
+using Burkardt.Weight;
 
 namespace Burkardt.Quadrature
 {

@@ -2,7 +2,7 @@
 using Burkardt.PolynomialNS;
 using Burkardt.Types;
 
-namespace Burkardt
+namespace Burkardt.MatrixNS
 {
     public static class Data
     {

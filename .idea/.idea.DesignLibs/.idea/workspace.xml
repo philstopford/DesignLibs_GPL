@@ -431,6 +431,7 @@
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/TestValuesTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Common/Burkardt/Sobol/SobolDataLarge.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Common/Burkardt/Types/r8mat.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Common/Burkardt/Blend.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
@@ -8141,13 +8142,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Common/Burkardt/Types/r8st.cs</url>
-          <line>69</line>
+          <line>70</line>
           <properties documentPath="D:\development\git\DesignLibs_GPL\Common\Burkardt\Types\r8st.cs" initialLine="69" containingFunctionPresentation="method 'r8st_data_read'" />
           <option name="timeStamp" value="17" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Common/Burkardt/Types/r8st.cs</url>
-          <line>194</line>
+          <line>195</line>
           <properties documentPath="D:\development\git\DesignLibs_GPL\Common\Burkardt\Types\r8st.cs" initialLine="194" containingFunctionPresentation="method 'r8st_header_read'" />
           <option name="timeStamp" value="18" />
         </line-breakpoint>

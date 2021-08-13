@@ -3,7 +3,7 @@ using Burkardt.Sampling;
 using Burkardt.Types;
 using Burkardt.Uniform;
 
-namespace Burkardt
+namespace Burkardt.SolveNS
 {
     public static class Cluster
     {

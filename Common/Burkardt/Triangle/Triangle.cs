@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Burkardt
+namespace Burkardt.TriangleNS
 {
     public class Triangle
     {

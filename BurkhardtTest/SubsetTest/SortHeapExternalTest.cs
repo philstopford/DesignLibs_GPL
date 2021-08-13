@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt;
+using Burkardt.SortNS;
 using Burkardt.Types;
 using Burkardt.Uniform;
 
@@ -65,7 +66,7 @@ namespace SubsetTestNS
 
             for ( ; ; )
             {
-                Helpers.sort_heap_external (ref data, n, ref indx, ref i, ref j, isgn );
+                Sort.sort_heap_external (ref data, n, ref indx, ref i, ref j, isgn );
  
                 if ( indx < 0 )
                 {

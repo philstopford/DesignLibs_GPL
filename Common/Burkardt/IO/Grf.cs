@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using Burkardt.Types;
 
-namespace Burkardt.Grf
+namespace Burkardt.IO
 {
-    public static class IO
+    public static class Grf
     {
         public static void grf_data_print(int node_num, int edge_num, int[] edge_pointer,
         int[] edge_data, double[] xy )

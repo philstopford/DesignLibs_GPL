@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Burkardt.SortNS;
 
 namespace Burkardt.Types
 {
@@ -1966,7 +1967,7 @@ namespace Burkardt.Types
             SortHeapExternalData data = new SortHeapExternalData();
             for (;;)
             {
-                Helpers.sort_heap_external(ref data, n, ref indx, ref i, ref j, isgn);
+                Sort.sort_heap_external(ref data, n, ref indx, ref i, ref j, isgn);
                 //
                 //  Interchange the I and J objects.
                 //

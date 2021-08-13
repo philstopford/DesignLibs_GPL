@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt;
 using Burkardt.TriangleNS;
 using Burkardt.Types;
 
@@ -104,7 +103,7 @@ namespace TriangleTWBRuleTest
                     w = TWBRule.twb_rule_w(strength);
                     x = TWBRule.twb_rule_x(strength);
                     y = TWBRule.twb_rule_y(strength);
-                    v = Burkardt.Monomial.monomial_value_2d(n, ex, ey, x, y);
+                    v = Burkardt.MonomialNS.Monomial.monomial_value_2d(n, ex, ey, x, y);
                     q = typeMethods.r8vec_dot_product(n, w, v);
                     Console.WriteLine("  " + strength.ToString().PadLeft(6)
                                            + "  " + n.ToString().PadLeft(6)

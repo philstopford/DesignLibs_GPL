@@ -1,6 +1,7 @@
 ﻿using System;
 using Burkardt;
 using Burkardt.FDM;
+using Burkardt.Function;
 using Burkardt.Types;
 
 namespace FD1DWaveTest

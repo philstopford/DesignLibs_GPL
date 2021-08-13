@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt;
+using Burkardt.Composition;
 using Burkardt.MonomialNS;
 using Burkardt.PyramidNS;
 using Burkardt.Types;

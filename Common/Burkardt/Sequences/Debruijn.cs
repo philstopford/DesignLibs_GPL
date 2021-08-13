@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Graph;
 
 namespace Burkardt.Sequence
 {

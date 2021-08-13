@@ -4,7 +4,7 @@ using Burkardt.SubsetNS;
 using Burkardt.Types;
 using Burkardt.Uniform;
 
-namespace Burkardt
+namespace Burkardt.Composition
 {
     public class CompNZData
     {

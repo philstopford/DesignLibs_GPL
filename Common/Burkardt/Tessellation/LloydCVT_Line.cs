@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.PlotNS;
 using Burkardt.Types;
 
 namespace Burkardt.Tessellation

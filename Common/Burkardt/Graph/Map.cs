@@ -1,9 +1,10 @@
 ﻿using System;
 using Burkardt.FEM;
+using Burkardt.OrderNS;
 using Burkardt.Types;
 using Burkardt.PolynomialNS;
 
-namespace Burkardt
+namespace Burkardt.Graph
 {
     public static class Map
     {

@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt;
+using Burkardt.RationalNS;
 using Burkardt.Types;
 using Burkardt.Uniform;
 

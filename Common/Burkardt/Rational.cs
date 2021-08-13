@@ -1,7 +1,7 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt
+namespace Burkardt.RationalNS
 {
     public static class Rational
     {

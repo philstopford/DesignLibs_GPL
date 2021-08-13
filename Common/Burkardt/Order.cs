@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Burkardt
+namespace Burkardt.OrderNS
 {
     public static class Order
     {

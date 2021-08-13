@@ -1,5 +1,7 @@
 ﻿using System;
 using Burkardt;
+using Burkardt.MeasureNS;
+using Burkardt.MeshNS;
 using Burkardt.Table;
 using Burkardt.Types;
 

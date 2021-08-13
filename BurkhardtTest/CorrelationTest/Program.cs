@@ -4,6 +4,7 @@ using Burkardt.CorrelationNS;
 using Burkardt.FullertonFnLib;
 using Burkardt.MatrixNS;
 using Burkardt.PathsNS;
+using Burkardt.PlotNS;
 using Burkardt.Types;
 
 namespace CorrelationTest

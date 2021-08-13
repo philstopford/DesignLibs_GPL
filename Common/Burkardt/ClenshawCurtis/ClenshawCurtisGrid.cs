@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Composition;
 using Burkardt.Types;
 
 namespace Burkardt.ClenshawCurtisNS

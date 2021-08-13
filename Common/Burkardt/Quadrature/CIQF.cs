@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Interpolation;
 
 namespace Burkardt.Quadrature
 {

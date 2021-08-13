@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt;
+using Burkardt.MeshNS;
 using Burkardt.Table;
 using Burkardt.Types;
 using Triangle = Burkardt.FEM.Triangle;

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using Burkardt.MeshNS;
 
 namespace Burkardt.GMesh
 {

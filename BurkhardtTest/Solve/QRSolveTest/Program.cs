@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt;
+using Burkardt.Probability;
 using Burkardt.SolveNS;
 using Burkardt.Types;
 

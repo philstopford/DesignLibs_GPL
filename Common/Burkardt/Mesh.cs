@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Burkardt
+namespace Burkardt.MeshNS
 {
     public static class Mesh
     {

@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt;
+using Burkardt.Composition;
 using Burkardt.MatrixNS;
 using Burkardt.SubsetNS;
 using Burkardt.Types;

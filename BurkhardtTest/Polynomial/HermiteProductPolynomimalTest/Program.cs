@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt;
+using Burkardt.Composition;
 using Burkardt.PolynomialNS;
 using Burkardt.Types;
 using Burkardt.Uniform;

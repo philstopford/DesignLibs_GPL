@@ -1,6 +1,6 @@
 ﻿using Burkardt.SubsetNS;
 
-namespace Burkardt
+namespace Burkardt.SolveNS
 {
     public static class Knapsack
     {

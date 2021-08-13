@@ -1,6 +1,7 @@
 ﻿using System;
 using Burkardt;
 using Burkardt.Lagrange;
+using Burkardt.Probability;
 using Burkardt.Types;
 using InterpTest;
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace Burkardt
+namespace Burkardt.PlotNS
 {
     public static class Plot
     {

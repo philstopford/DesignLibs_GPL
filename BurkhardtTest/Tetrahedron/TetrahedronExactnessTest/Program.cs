@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt;
+using Burkardt.Composition;
 using Burkardt.Table;
 using Burkardt.TetrahedronNS;
 using Burkardt.Types;

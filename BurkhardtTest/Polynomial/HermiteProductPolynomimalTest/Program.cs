@@ -318,7 +318,7 @@ namespace HermiteProductPolynomimalTest
 
             for (;;)
             {
-                Hermite.hep_values(ref n_data, ref o, ref x, ref fx1);
+                Burkardt.TestValues.Hermite.hep_values(ref n_data, ref o, ref x, ref fx1);
 
                 if (n_data == 0)
                 {

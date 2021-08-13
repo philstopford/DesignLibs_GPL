@@ -7,6 +7,109 @@ namespace Burkardt.PolynomialNS
     using QuadratureRule = Burkardt.Laguerre.QuadratureRule;
     public static class Laguerre
     {
+        public static void gen_laguerre_poly(int n, double alpha, double x, ref double[] cx)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    GEN_LAGUERRE_POLY evaluates generalized Laguerre polynomials.
+            //
+            //  Differential equation:
+            //
+            //    X * Y'' + (ALPHA+1-X) * Y' + N * Y = 0
+            //
+            //  Recursion:
+            //
+            //    L(0,ALPHA,X) = 1
+            //    L(1,ALPHA,X) = 1+ALPHA-X
+            //
+            //    L(N,ALPHA,X) = ( (2*N-1+ALPHA-X) * L(N-1,ALPHA,X)
+            //                   - (N-1+ALPHA) * L(N-2,ALPHA,X) ) / N
+            //
+            //  Restrictions:
+            //
+            //    -1 < ALPHA
+            //
+            //  Special values:
+            //
+            //    For ALPHA = 0, the generalized Laguerre polynomial L(N,ALPHA,X)
+            //    is equal to the Laguerre polynomial L(N,X).
+            //
+            //    For ALPHA integral, the generalized Laguerre polynomial
+            //    L(N,ALPHA,X) equals the associated Laguerre polynomial L(N,ALPHA,X).
+            //
+            //  Norm:
+            //
+            //    Integral ( 0 <= X < +oo ) exp ( - X ) * L(N,ALPHA,X)^2 dX
+            //    = Gamma ( N + ALPHA + 1 ) / N!
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    28 February 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Milton Abramowitz, Irene Stegun,
+            //    Handbook of Mathematical Functions,
+            //    National Bureau of Standards, 1964,
+            //    ISBN: 0-486-61272-4,
+            //    LC: QA47.A34.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the highest order function to compute.
+            //
+            //    Input, double ALPHA, the parameter.  -1 < ALPHA is required.
+            //
+            //    Input, double X, the point at which the functions are to be
+            //    evaluated.
+            //
+            //    Output, double CX[N+1], the polynomials of
+            //    degrees 0 through N evaluated at the point X.
+            //
+        {
+            int i;
+
+            if (alpha <= -1.0)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("GEN_LAGUERRE_POLY - Fatal error!");
+                Console.WriteLine("  The input value of ALPHA is " + alpha + "");
+                Console.WriteLine("  but ALPHA must be greater than -1.");
+                return;
+            }
+
+            if (n < 0)
+            {
+                return;
+            }
+
+            cx[0] = 1.0;
+
+            if (n == 0)
+            {
+                return;
+            }
+
+            cx[1] = 1.0 + alpha - x;
+
+            for (i = 2; i <= n; i++)
+            {
+                cx[i] = (((double)(2 * i - 1) + alpha - x) * cx[i - 1]
+                         + ((double)(-i + 1) - alpha) * cx[i - 2])
+                        / (double)i;
+            }
+        }
+
         public static void laguerre_recur(ref double p2, ref double dp2, ref double p1, double x,
                 int order, double alpha, double[] b, double[] c)
 

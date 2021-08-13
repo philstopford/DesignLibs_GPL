@@ -2,6 +2,7 @@
 {
     public static class Gegenbauer
     {
+
         public static void gegenbauer_poly_values(ref int n_data, ref int n, ref double a, ref double x,
                 ref double fx)
 

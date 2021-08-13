@@ -241,7 +241,7 @@ namespace GegenbauerPolynomialTest
 
             for (;;)
             {
-                GegenbauerPolynomial.gegenbauer_polynomial_values(ref n_data, ref m, ref alpha, ref xscalar, ref fx);
+                Burkardt.TestValues.Gegenbauer.gegenbauer_poly_values(ref n_data, ref m, ref alpha, ref xscalar, ref fx);
 
                 if (n_data == 0)
                 {

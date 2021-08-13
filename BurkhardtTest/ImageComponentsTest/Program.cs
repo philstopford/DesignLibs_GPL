@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt;
+using Burkardt.ImageNS;
 using Burkardt.Table;
 using Burkardt.Types;
 

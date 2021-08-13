@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Burkardt;
 using Burkardt.MatrixNS;
+using Burkardt.Sequence;
 using Burkardt.Types;
 
 namespace JacobiTest

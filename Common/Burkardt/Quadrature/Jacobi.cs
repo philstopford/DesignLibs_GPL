@@ -1,10 +1,192 @@
 ﻿using System;
+using Burkardt.IntegralNS;
+using Burkardt.MatrixNS;
+using Burkardt.PolynomialNS;
 using Burkardt.Types;
 
 namespace Burkardt.Quadrature
 {
     public static class JacobiQuadrature
     {
+        public static void j_quadrature_rule(int n, double alpha, double beta, ref double[] x,
+        ref double[] w )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    J_QUADRATURE_RULE: Gauss-Jacobi quadrature based on J(n,a,b,x).
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    19 April 2012
+        //
+        //  Author:
+        //
+        //    John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Sylvan Elhay, Jaroslav Kautsky,
+        //    Algorithm 655: IQPACK, FORTRAN Subroutines for the Weights of
+        //    Interpolatory Quadrature,
+        //    ACM Transactions on Mathematical Software,
+        //    Volume 13, Number 4, December 1987, pages 399-415.
+        //
+        //  Parameters:
+        //
+        //    Input, int, N, the order.
+        //
+        //    Input, double, ALPHA, BETA, the parameters.
+        //    -1 < ALPHA, BETA.
+        //
+        //    Output, double X[N], the abscissas.
+        //
+        //    Output, double W[N], the weights.
+        //
+        {
+            double a2b2;
+            double ab;
+            double abi;
+            double[] bj;
+            int i;
+            double i_r8;
+            double zemu;
+
+            ab = alpha + beta;
+            abi = 2.0 + ab;
+            //
+            //  Define the zero-th moment.
+            //
+            zemu = Math.Pow(2.0, ab + 1.0) * Helpers.Gamma(alpha + 1.0)
+                                      * Helpers.Gamma(beta + 1.0) / Helpers.Gamma(abi);
+            //
+            //  Define the Jacobi matrix.
+            //
+            x[0] = (beta - alpha) / abi;
+            for (i = 1; i < n; i++)
+            {
+                x[i] = 0.0;
+            }
+
+            bj = new double[n];
+
+            bj[0] = 4.0 * (1.0 + alpha) * (1.0 + beta)
+                    / ((abi + 1.0) * abi * abi);
+            for (i = 1; i < n; i++)
+            {
+                bj[i] = 0.0;
+            }
+
+            a2b2 = beta * beta - alpha * alpha;
+
+            for (i = 1; i < n; i++)
+            {
+                i_r8 = (double) (i + 1);
+                abi = 2.0 * i_r8 + ab;
+                x[i] = a2b2 / ((abi - 2.0) * abi);
+                abi = abi * abi;
+                bj[i] = 4.0 * i_r8 * (i_r8 + alpha) * (i_r8 + beta)
+                    * (i_r8 + ab) / ((abi - 1.0) * abi);
+            }
+
+            for (i = 0; i < n; i++)
+            {
+                bj[i] = Math.Sqrt(bj[i]);
+            }
+
+            w[0] = Math.Sqrt(zemu);
+            for (i = 1; i < n; i++)
+            {
+                w[i] = 0.0;
+            }
+
+            //
+            //  Diagonalize the Jacobi matrix.
+            //
+            IMTQLX.imtqlx(n, ref x, ref bj, ref w);
+
+            for (i = 0; i < n; i++)
+            {
+                w[i] = w[i] * w[i];
+            }
+        }
+
+                public static double monomial_quadrature_jacobi(int expon, double alpha, double beta,
+                int order, double[] w, double[] x)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    MONOMIAL_QUADRATURE_JACOBI applies a quadrature rule to a monomial.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    22 January 2008
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int EXPON, the exponent.
+            //
+            //    Input, double ALPHA, the exponent of (1-X) in the weight factor.
+            //
+            //    Input, double BETA, the exponent of (1+X) in the weight factor.
+            //
+            //    Input, int ORDER, the number of points in the rule.
+            //
+            //    Input, double W[ORDER], the quadrature weights.
+            //
+            //    Input, double X[ORDER], the quadrature points.
+            //
+            //    Output, double MONOMIAL_QUADRATURE_JACOBI, the quadrature error.
+            //
+        {
+            double exact;
+            int i;
+            double quad;
+            double quad_error;
+            //
+            //  Get the exact value of the integral of the unscaled monomial.
+            //
+            exact = Integral.jacobi_integral(expon, alpha, beta);
+            //
+            //  Evaluate the unweighted monomial at the quadrature points.
+            //
+            quad = 0.0;
+            for (i = 0; i < order; i++)
+            {
+                quad = quad + w[i] * Math.Pow(x[i], expon);
+            }
+
+            //
+            //  Absolute error for cases where exact integral is zero,
+            //  Relative error otherwise.
+            //
+            if (exact == 0.0)
+            {
+                quad_error = Math.Abs(quad);
+            }
+            else
+            {
+                quad_error = Math.Abs(quad - exact) / Math.Abs(exact);
+            }
+
+            return quad_error;
+        }
+
         public static void jacobi_compute(int order, double alpha, double beta, ref double[] x,
                 ref double[] w)
 

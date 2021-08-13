@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Sequence;
 
 namespace Burkardt.Quadrature
 {

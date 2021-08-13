@@ -347,7 +347,213 @@ namespace Burkardt.Types
                 }
             }
         }
-        
+
+        public static void i4_to_triangle_lower(int k, ref int i, ref int j)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4_TO_TRIANGLE_LOWER converts an integer to lower triangular coordinates.
+            //
+            //  Discussion:
+            //
+            //    Triangular coordinates are handy when storing a naturally triangular
+            //    array (such as the lower half of a matrix) in a linear array.
+            //
+            //    Thus, for example, we might consider storing
+            //
+            //    (0,0)
+            //    (1,0) (1,1)
+            //    (2,0) (2,1) (2,2)
+            //    (3,0) (3,1) (3,2) (3,3)
+            //
+            //    as the linear array
+            //
+            //    (0,0) (1,0) (1,1) (2,0) (2,1) (2,2) (3,0) (3,1) (3,2) (3,3)
+            //
+            //    Here, the quantities in parenthesis represent the natural row and
+            //    column indices of a single number when stored in a rectangular array.
+            //
+            //    In this routine, we are given the location K of an item in the
+            //    linear array, and wish to determine the row I and column J
+            //    of the item when stored in the triangular array.
+            //
+            //  Example:
+            //
+            //    K  I  J
+            //
+            //    0  0  0
+            //    1  1  0
+            //    2  1  1
+            //    3  2  0
+            //    4  2  1
+            //    5  2  2
+            //    6  3  0
+            //    7  3  1
+            //    8  3  2
+            //    9  3  3
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    18 January 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int K, the linear index of the (I,J) element, which
+            //    must be nonnegative.
+            //
+            //    Output, int &I, &J, the row and column indices.
+            //
+        {
+            int c;
+            int r;
+
+            if (k < 0)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("I4_TO_TRIANGLE_LOWER - Fatal error!");
+                Console.WriteLine("  K < 0.");
+                Console.WriteLine("  K = " + k + "");
+                return;
+            }
+            else if (k == 0)
+            {
+                i = 0;
+                j = 0;
+                return;
+            }
+
+            //
+            //   ( N - 1 )^2 + ( N - 1 ) < 2 * K <= N^2 + N
+            //
+            r = (int)(Math.Sqrt((double)(2 * (k + 1))));
+
+            if (r * r + r < 2 * (k + 1))
+            {
+                r = r + 1;
+            }
+
+            r = r - 1;
+
+            c = k - (r * (r + 1)) / 2;
+
+            i = r;
+            j = c;
+
+        }
+
+        public static void i4_to_triangle_upper(int k, ref int i, ref int j)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4_TO_TRIANGLE_UPPER converts an integer to upper triangular coordinates.
+            //
+            //  Discussion:
+            //
+            //    Triangular coordinates are handy when storing a naturally triangular
+            //    array (such as the upper half of a matrix) in a linear array.
+            //
+            //    Thus, for example, we might consider storing
+            //
+            //    (0,0) (0,1) (0,2) (0,3)
+            //          (1,1) (1,2) (1,3)
+            //                (2,2) (2,3)
+            //                      (3,3)
+            //
+            //    as the linear array
+            //
+            //    (0,0) (0,1) (1,1) (0,2) (1,2) (2,2) (0,3) (1,3) (2,3) (3,3)
+            //
+            //    Here, the quantities in parenthesis represent the natural row and
+            //    column indices of a single number when stored in a rectangular array.
+            //
+            //    In this routine, we are given the location K of an item in the
+            //    linear array, and wish to determine the row I and column J
+            //    of the item when stored in the triangular array.
+            //
+            //  Example:
+            //
+            //    K  I  J
+            //
+            //    0  0  0
+            //    1  0  1
+            //    2  1  1
+            //    3  0  2
+            //    4  1  2
+            //    5  2  2
+            //    6  0  3
+            //    7  1  3
+            //    8  2  3
+            //    9  3  3
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    23 March 2017
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int K, the linear index of the (I,J) element, which
+            //    must be nonnegative.
+            //
+            //    Output, int &I, &J, the row and column indices.
+            //
+        {
+            int c;
+            int r;
+
+            if (k < 0)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("I4_TO_TRIANGLE_UPPER - Fatal error!");
+                Console.WriteLine("  K < 0.");
+                Console.WriteLine("  K = " + k + "");
+                return;
+            }
+            else if (k == 0)
+            {
+                i = 0;
+                j = 0;
+                return;
+            }
+
+            //
+            //   ( N - 1 )^2 + ( N - 1 ) < 2 * K <= N^2 + N
+            //
+            r = (int)(Math.Sqrt((double)(2 * (k + 1))));
+
+            if (r * r + r < 2 * (k + 1))
+            {
+                r = r + 1;
+            }
+
+            r = r - 1;
+
+            c = k - (r * (r + 1)) / 2;
+
+            j = r;
+            i = c;
+
+        }
+
         public static int i4_wrap(int ival, int ilo, int ihi)
             //****************************************************************************80
             //
@@ -483,7 +689,71 @@ namespace Burkardt.Types
                 }
             }
         }
+        
+        public static bool i4_is_fibonacci ( int i4 )
 
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4_IS_FIBONACCI reports whether an integer is prime.
+            //
+            //  Discussion:
+            //
+            //    The positive integer i4 is a Fibonacci number if and only if
+            //    5*I4^2+4 or 5*I4^2-4 is a perfect square.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    12 February 2017
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int I4, the integer to be tested.
+            //
+            //    Output, bool I4_IS_FIBONACCI, is TRUE if I4 is a Fibonacci number.
+            //
+        {
+            int t1;
+            double t2;
+            int t3;
+            bool value;
+
+            value = false;
+
+            if ( i4 <= 0 )
+            {
+                return value;
+            }
+
+            t1 = 5 * i4 * i4 + 4;
+            t2 = Math.Sqrt ( ( double ) ( t1 ) );
+            t3 = (int)Math.Floor ( t2 + 0.5 );
+            if ( t3 * t3 == t1 )
+            {
+                value = true;
+                return value;
+            }
+
+            t1 = 5 * i4 * i4 - 4;
+            t2 = Math.Sqrt ( ( double ) ( t1 ) );
+            t3 = (int)Math.Floor ( t2 + 0.5 );
+            if ( t3 * t3 == t1 )
+            {
+                value = true;
+                return value;
+            }
+
+            return value;
+        }
 
 
         public static bool i4_is_power_of_10(int n)
@@ -2841,6 +3111,80 @@ namespace Burkardt.Types
 
             return true;
         }
+        
+        public static bool i4_is_triangular ( int i )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4_IS_TRIANGULAR determines whether an I4 is triangular.
+            //
+            //  Discussion:
+            //
+            //    The N-th triangular number is equal to the sum of the first
+            //    N integers.
+            //
+            //  First Values:
+            //
+            //    Index  Value
+            //     0      0
+            //     1      1
+            //     2      3
+            //     3      6
+            //     4     10
+            //     5     15
+            //     6     21
+            //     7     28
+            //     8     36
+            //     9     45
+            //    10     55
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    19 February 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int I, the integer to be checked.
+            //
+            //    Output, bool I4_IS_TRIANGULAR, is TRUE if I is triangular.
+            //
+        {
+            int j = 0;
+            int k = 0;
+
+            if ( i < 0 )
+            {
+                return false;
+            }
+            else if ( i == 0 )
+            {
+                return true;
+            }
+            else
+            {
+                i4_to_triangle_lower ( i, ref j, ref k );
+
+                if ( j == k )
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+        }
 
         public static int i4_lcm(int i, int j)
 
@@ -3589,6 +3933,132 @@ namespace Burkardt.Types
             }
 
             return k;
+        }
+
+        public static int i4_partition_distinct_count(int n)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4_PARTITION_DISTINCT_COUNT returns any value of Q(N).
+            //
+            //  Discussion:
+            //
+            //    A partition of an integer N is a representation of the integer
+            //    as the sum of nonzero positive integers.  The order of the summands
+            //    does not matter.  The number of partitions of N is symbolized
+            //    by P(N).  Thus, the number 5 has P(N) = 7, because it has the
+            //    following partitions:
+            //
+            //    5 = 5
+            //      = 4 + 1
+            //      = 3 + 2
+            //      = 3 + 1 + 1
+            //      = 2 + 2 + 1
+            //      = 2 + 1 + 1 + 1
+            //      = 1 + 1 + 1 + 1 + 1
+            //
+            //    However, if we require that each member of the partition
+            //    be distinct, we are computing something symbolized by Q(N).
+            //    The number 5 has Q(N) = 3, because it has the following partitions
+            //    into distinct parts:
+            //
+            //    5 = 5
+            //      = 4 + 1
+            //      = 3 + 2
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    22 February 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Milton Abramowitz, Irene Stegun,
+            //    Handbook of Mathematical Functions,
+            //    National Bureau of Standards, 1964,
+            //    ISBN: 0-486-61272-4,
+            //    LC: QA47.A34.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the integer to be partitioned.
+            //
+            //    Output, int I4_PARTITION_DISTINCT_COUNT, the number of partitions 
+            //    of the integer into distinct parts.
+            //
+        {
+            int[] c;
+            int i;
+            int k;
+            int k2;
+            int k_sign;
+            int value;
+
+            c = new int[n + 1];
+
+            c[0] = 1;
+
+            for (i = 1; i <= n; i++)
+            {
+                if (i4_is_triangular(i))
+                {
+                    c[i] = 1;
+                }
+                else
+                {
+                    c[i] = 0;
+                }
+
+                k = 0;
+                k_sign = -1;
+
+                for (;;)
+                {
+                    k = k + 1;
+                    k_sign = -k_sign;
+                    k2 = k * (3 * k + 1);
+
+                    if (i < k2)
+                    {
+                        break;
+                    }
+
+                    c[i] = c[i] + k_sign * c[i - k2];
+
+                }
+
+                k = 0;
+                k_sign = -1;
+
+                for (;;)
+                {
+                    k = k + 1;
+                    k_sign = -k_sign;
+                    k2 = k * (3 * k - 1);
+
+                    if (i < k2)
+                    {
+                        break;
+                    }
+
+                    c[i] = c[i] + k_sign * c[i - k2];
+
+                }
+
+            }
+
+            value = c[n];
+
+            return value;
         }
 
         public static int i4_rise(int x, int n)

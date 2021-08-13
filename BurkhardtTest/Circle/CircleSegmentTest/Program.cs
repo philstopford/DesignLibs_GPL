@@ -4,6 +4,7 @@ using System.IO;
 using Burkardt;
 using Burkardt.CircleNS;
 using Burkardt.IO;
+using Burkardt.PolynomialNS;
 using Burkardt.Quadrature;
 using Burkardt.Types;
 using Burkardt.Uniform;

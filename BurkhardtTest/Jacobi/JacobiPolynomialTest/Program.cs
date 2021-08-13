@@ -1,9 +1,12 @@
 ﻿using System;
-using Burkardt;
+using Burkardt.IntegralNS;
 using Burkardt.Types;
 
 namespace JacobiPolynomialTest
 {
+    using Polynomial = Burkardt.PolynomialNS.Jacobi;
+    using Quadrature = Burkardt.Quadrature.JacobiQuadrature;
+    
     class Program
     {
         static void Main(string[] args)
@@ -94,7 +97,7 @@ namespace JacobiPolynomialTest
 
             for (;;)
             {
-                Jacobi.j_polynomial_values(ref n_data, ref n, ref a, ref b, ref x, ref fx1);
+                Burkardt.TestValues.Jacobi.jacobi_poly_values(ref n_data, ref n, ref a, ref b, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
@@ -103,7 +106,7 @@ namespace JacobiPolynomialTest
 
                 m = 1;
                 x_vec[0] = x;
-                fx2_vec = Jacobi.j_polynomial(m, n, a, b, x_vec);
+                fx2_vec = Polynomial.j_polynomial(m, n, a, b, x_vec);
                 fx2 = fx2_vec[0 + n * 1];
                 e = fx1 - fx2;
 
@@ -168,12 +171,12 @@ namespace JacobiPolynomialTest
 
                 for (degree = 1; degree <= 5; degree++)
                 {
-                    z = Jacobi.j_polynomial_zeros(degree, a, b);
+                    z = Polynomial.j_polynomial_zeros(degree, a, b);
                     title = "Zeros for J(" + degree.ToString() + ","
                             + a.ToString() + "," + b.ToString() + ")";
                     typeMethods.r8vec_print(degree, z, title);
 
-                    hz = Jacobi.j_polynomial(degree, degree, a, b, z);
+                    hz = Polynomial.j_polynomial(degree, degree, a, b, z);
                     title = "Evaluate J(" + degree.ToString() + ","
                             + a.ToString() + "," + b.ToString() + ")";
                     typeMethods.r8vec_print(degree, hz, title, aIndex:  + degree * degree);
@@ -227,7 +230,7 @@ namespace JacobiPolynomialTest
             x = new double[n];
             w = new double[n];
 
-            Jacobi.j_quadrature_rule(n, a, b, ref x, ref w);
+            Quadrature.j_quadrature_rule(n, a, b, ref x, ref w);
 
             typeMethods.r8vec2_print(n, x, w, "      X            W");
 
@@ -241,17 +244,17 @@ namespace JacobiPolynomialTest
 
             for (i = 0; i <= 5; i++)
             {
-                ji = Jacobi.j_polynomial(n, i, a, b, x);
+                ji = Polynomial.j_polynomial(n, i, a, b, x);
                 for (j = i; j <= 5; j++)
                 {
-                    jj = Jacobi.j_polynomial(n, j, a, b, x);
+                    jj = Polynomial.j_polynomial(n, j, a, b, x);
                     q = 0.0;
                     for (k = 0; k < n; k++)
                     {
                         q = q + w[k] * ji[k + i * n] * jj[k + j * n];
                     }
 
-                    q_exact = Jacobi.j_double_product_integral(i, j, a, b);
+                    q_exact = Integral.j_double_product_integral(i, j, a, b);
                     Console.WriteLine("  " + i.ToString().PadLeft(2)
                         + "  " + j.ToString().PadLeft(2)
                         + "  " + q.ToString().PadLeft(14)
@@ -305,7 +308,7 @@ namespace JacobiPolynomialTest
             {
                 for (j = i; j <= 5; j++)
                 {
-                    q = Jacobi.j_double_product_integral(i, j, a, b);
+                    q = Integral.j_double_product_integral(i, j, a, b);
                     Console.WriteLine("  " + i.ToString().PadLeft(2)
                         + "  " + j.ToString().PadLeft(2)
                         + "  " + q.ToString().PadLeft(14) + "");

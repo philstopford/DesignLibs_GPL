@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt;
+using Burkardt.Quadrature;
 using Burkardt.Table;
 using Burkardt.Types;
 
@@ -277,7 +278,7 @@ namespace JacobiExactnessTest
 
             for (degree = 0; degree <= degree_max; degree++)
             {
-                quad_error = Jacobi.monomial_quadrature_jacobi(degree, alpha, beta,
+                quad_error = JacobiQuadrature.monomial_quadrature_jacobi(degree, alpha, beta,
                     order, w, x);
 
                 Console.WriteLine("  " + quad_error.ToString("0.################").PadLeft(24)

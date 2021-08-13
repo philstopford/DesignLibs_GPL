@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt.Probability;
+using Burkardt.Sequence;
 using Burkardt.Types;
 
 namespace Burkardt.Quadrature

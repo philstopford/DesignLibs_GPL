@@ -368,7 +368,7 @@ namespace TestValuesTest
             n_data = 0;
             for (;;)
             {
-                Algorithms.gamma_log_values(ref n_data, ref x, ref fx);
+                Burkardt.TestValues.Gamma.gamma_log_values(ref n_data, ref x, ref fx);
                 if (n_data == 0)
                 {
                     break;

@@ -2953,7 +2953,7 @@ namespace FullertonTest
 
             for (;;)
             {
-                Algorithms.gamma_log_values(ref n_data, ref x, ref fx1);
+                Burkardt.TestValues.Gamma.gamma_log_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
@@ -3014,7 +3014,7 @@ namespace FullertonTest
 
             for (;;)
             {
-                Algorithms.gamma_log_values(ref n_data, ref x, ref gamma_log);
+                Burkardt.TestValues.Gamma.gamma_log_values(ref n_data, ref x, ref gamma_log);
 
                 if (n_data == 0)
                 {
@@ -3130,7 +3130,7 @@ namespace FullertonTest
 
             for (;;)
             {
-                Algorithms.gamma_log_values(ref n_data, ref x, ref fx1);
+                Burkardt.TestValues.Gamma.gamma_log_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {

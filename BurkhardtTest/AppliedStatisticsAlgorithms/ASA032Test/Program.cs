@@ -82,7 +82,7 @@ namespace ASA032Test
 
             for ( ; ; )
             {
-                Algorithms.gamma_inc_values ( ref n_data, ref a, ref x, ref fx );
+                Burkardt.TestValues.Gamma.gamma_inc_values ( ref n_data, ref a, ref x, ref fx );
 
                 if ( n_data == 0 )
                 {

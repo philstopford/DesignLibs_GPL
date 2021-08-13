@@ -43,7 +43,7 @@ namespace SubsetTestNS
 
             for ( ; ; )
             {
-                Frobenius.frobenius_number_order2_values ( ref n_data, ref c1, ref c2, ref f1 );
+                Burkardt.TestValues.Frobenius.frobenius_number_order2_values ( ref n_data, ref c1, ref c2, ref f1 );
 
                 if ( n_data == 0 )
                 {

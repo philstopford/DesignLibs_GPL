@@ -1,4 +1,4 @@
-﻿namespace Burkardt.PowerMethodNS
+﻿namespace Burkardt.MatrixNS
 {
     public static class Fibonacci
     {

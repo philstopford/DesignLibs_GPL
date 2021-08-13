@@ -1,7 +1,7 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.IHS
+namespace Burkardt.IHSNS
 {
     public class covariance
     {

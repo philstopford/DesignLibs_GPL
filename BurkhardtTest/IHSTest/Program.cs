@@ -1,5 +1,5 @@
 ﻿using System;
-using Burkardt.IHS;
+using Burkardt.IHSNS;
 using Burkardt.Table;
 using Burkardt.Types;
 

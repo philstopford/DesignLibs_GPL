@@ -1,4 +1,6 @@
-﻿namespace Burkardt.PolynomialNS
+﻿using Burkardt.SubsetNS;
+
+namespace Burkardt.PolynomialNS
 {
     public static class Bernoulli
     {

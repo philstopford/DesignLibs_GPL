@@ -1,4 +1,4 @@
-﻿namespace Burkardt
+﻿namespace Burkardt.Function
 {
     public static class NBITS
     {

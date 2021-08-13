@@ -4,7 +4,7 @@ using System.IO;
 using Burkardt.FEM;
 using Burkardt.Types;
 
-namespace Burkardt
+namespace Burkardt.Function
 {
     public static class Lebesgue
     {

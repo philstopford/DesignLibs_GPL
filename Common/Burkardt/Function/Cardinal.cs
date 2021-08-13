@@ -1,7 +1,7 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt
+namespace Burkardt.Function
 {
     public static class Cardinal
     {

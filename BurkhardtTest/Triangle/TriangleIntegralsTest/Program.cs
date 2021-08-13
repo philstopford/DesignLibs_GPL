@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt;
+using Burkardt.PolynomialNS;
 using Burkardt.Types;
 
 using Integrals = Burkardt.TriangleNS.Integrals;

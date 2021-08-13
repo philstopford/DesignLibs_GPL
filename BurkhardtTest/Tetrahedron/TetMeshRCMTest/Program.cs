@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt;
+using Burkardt.Graph;
 using Burkardt.MatrixNS;
 using Burkardt.Table;
 using Burkardt.TetrahedronNS;

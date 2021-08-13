@@ -1,7 +1,7 @@
 ﻿using System;
 using Burkardt.Quadrature;
 
-namespace Burkardt
+namespace Burkardt.IntegralNS
 {
     public static class CauchyPrincipalValue
     {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using Burkardt;
+using Burkardt.Function;
 using Burkardt.Interpolation;
 using Burkardt.Types;
 

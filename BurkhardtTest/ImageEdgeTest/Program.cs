@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Burkardt;
+using Burkardt.Function;
 using Burkardt.IO;
 using Burkardt.Types;
 

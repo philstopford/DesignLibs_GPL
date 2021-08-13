@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Burkardt
+namespace Burkardt.Function
 {
     public static class Franke
     {

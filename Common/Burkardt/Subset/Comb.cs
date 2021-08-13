@@ -1,7 +1,7 @@
 ﻿using Burkardt.FullertonFnLib;
 using Burkardt.Types;
 
-namespace Burkardt
+namespace Burkardt.SubsetNS
 {
     public static class Comb
     {

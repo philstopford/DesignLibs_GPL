@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt;
+using Burkardt.Function;
 using Burkardt.PointsNS;
 using Burkardt.Types;
 

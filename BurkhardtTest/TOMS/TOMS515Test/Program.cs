@@ -1,6 +1,7 @@
 ﻿using System;
 using Burkardt;
 using Burkardt.FullertonFnLib;
+using Burkardt.SubsetNS;
 using Burkardt.Types;
 using Burkardt.Uniform;
 

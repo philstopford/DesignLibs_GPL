@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Burkardt
+namespace Burkardt.PolynomialNS
 {
     public static class Trinomial
     {

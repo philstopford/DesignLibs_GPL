@@ -1,6 +1,7 @@
 ﻿using System;
 using Burkardt;
 using Burkardt.ChebyshevNS;
+using Burkardt.Function;
 using Burkardt.IntegralNS;
 using Burkardt.Types;
 using Burkardt.Uniform;

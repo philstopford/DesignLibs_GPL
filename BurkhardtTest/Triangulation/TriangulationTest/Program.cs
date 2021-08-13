@@ -6,6 +6,7 @@ using Burkardt.NavierStokesNS;
 using Burkardt.PointsNS;
 using Burkardt.TriangulationNS;
 using Burkardt.Types;
+using Burkardt.VoronoiNS;
 
 namespace TriangulationTest
 {

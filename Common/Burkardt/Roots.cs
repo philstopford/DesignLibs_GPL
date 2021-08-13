@@ -1,6 +1,6 @@
 ﻿using Burkardt.PolynomialNS;
 
-namespace Burkardt
+namespace Burkardt.RootsNS
 {
     public static class Roots
     {

@@ -3,6 +3,7 @@ using Burkardt;
 using Burkardt.MatrixNS;
 using Burkardt.PolynomialNS;
 using Burkardt.Quadrature;
+using Burkardt.RootsNS;
 using Burkardt.Types;
 
 namespace DivDifTest

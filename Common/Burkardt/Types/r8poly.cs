@@ -378,6 +378,63 @@ namespace Burkardt.Types
             Dif.dif_to_r8poly(ntab, xtab, poly_cof, ref poly_cof);
         }
 
+        public static int r8poly_degree ( int na, ref double[] a )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8POLY_DEGREE returns the degree of a polynomial.
+            //
+            //  Discussion:
+            //
+            //    The degree of a polynomial is the index of the highest power
+            //    of X with a nonzero coefficient.
+            //
+            //    The degree of a constant polynomial is 0.  The degree of the
+            //    zero polynomial is debatable, but this routine returns the
+            //    degree as 0.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    10 May 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int NA, the dimension of A.
+            //
+            //    Input, double A[NA+1], the coefficients of the polynomials.
+            //
+            //    Output, int R8POLY_DEGREE, the degree of the polynomial.
+            //
+        {
+            int degree;
+
+            degree = na;
+
+            while ( 0 < degree )
+            {
+                if ( a[degree] != 0.0 )
+                {
+                    return degree;
+                }
+
+                degree = degree - 1;
+
+            }
+
+            return degree;
+        }
+
+        
         public static void r8poly_der_cof(int n, double[] poly_cof, ref double[] poly_cof2)
 
             //****************************************************************************80

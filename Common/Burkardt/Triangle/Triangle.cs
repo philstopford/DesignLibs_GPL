@@ -4,6 +4,70 @@ namespace Burkardt.TriangleNS
 {
     public class Triangle
     {
+        
+        public static int triangle_num ( int n )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TRIANGLE_NUM returns the N-th triangular number.
+            //
+            //  Discussion:
+            //
+            //    The N-th triangular number T(N) is formed by the sum of the first
+            //    N integers:
+            //
+            //      T(N) = sum ( 1 <= I <= N ) I
+            //
+            //    By convention, T(0) = 0.
+            //
+            //    The formula is:
+            //
+            //      T(N) = ( N * ( N + 1 ) ) / 2
+            //
+            //  First Values:
+            //
+            //     0
+            //     1
+            //     3
+            //     6
+            //    10
+            //    15
+            //    21
+            //    28
+            //    36
+            //    45
+            //    55
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    12 May 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the index of the desired number, which must be
+            //    at least 0.
+            //
+            //    Output, int TRIANGLE_NUM, the N-th triangular number.
+            //
+        {
+            int value;
+
+            value = ( n * ( n + 1 ) ) / 2;
+
+            return value;
+        }
+
+        
         public static void triangle_unit_set(int rule, double[] xtab, double[] ytab,
         double[] weight )
 

@@ -2815,6 +2815,43 @@ namespace Burkardt.Types
             return value;
         }
 
+        public static double r8_euler_constant ( )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_EULER_CONSTANT returns the value of the Euler-Mascheroni constant.
+            //
+            //  Discussion:
+            //
+            //    The Euler-Mascheroni constant is often denoted by a lower-case gamma.
+            //
+            //      gamma = limit ( N -> +oo )
+            //        ( sum ( 1 <= I <= N ) 1 / I ) - log ( N )
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    12 May 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Output, double R8_EULER_CONSTANT, the value of the Euler-Mascheroni constant.
+            //
+        {
+            const double value = 0.577215664901532860606512090082402431042;
+
+            return value;
+        }
+        
         public static double r8_exp(double x)
 
             //****************************************************************************80

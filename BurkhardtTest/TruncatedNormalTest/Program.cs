@@ -1030,7 +1030,7 @@ namespace TruncatedNormalTest
 
             for (;;)
             {
-                typeMethods.r8_factorial2_values(ref n_data, ref n, ref f1);
+                TestValues.Factorial.r8_factorial2_values(ref n_data, ref n, ref f1);
 
                 if (n_data == 0)
                 {

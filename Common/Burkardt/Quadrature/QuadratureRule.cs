@@ -5,6 +5,145 @@ namespace Burkardt.Quadrature
 {
     public static class QuadratureRule
     {
+        public static double qmdpt ( Func < int, double[], double> func, int n, int nsub )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    QMDPT carries out product midpoint quadrature for the unit cube in ND.
+            //
+            //  Integration region:
+            //
+            //    -1 <= X(1:N) <= 1.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    17 March 2008
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Arthur Stroud,
+            //    Approximate Calculation of Multiple Integrals,
+            //    Prentice Hall, 1971,
+            //    ISBN: 0130438936,
+            //    LC: QA311.S85.
+            //
+            //  Parameters:
+            //
+            //    Input, Func < int, double[], double> func, the name of the user supplied
+            //    function to be integrated.
+            //
+            //    Input, int N, the dimension of the cube.
+            //
+            //    Input, int NSUB, the number of subdivisions (in each dimension).
+            //
+            //    Output, double QMDPT, the approximate integral of the function.
+            //
+        {
+            int i;
+            int ihi;
+            int *ix;
+            int j;
+            bool more;
+            double quad;
+            double result;
+            double volume;
+            double w;
+            double[] x;
+
+            w = 1.0 / ( double ) ( (int)Math.Pow ( nsub, n ) );
+            quad = 0.0;
+
+            more = false;
+            ihi = (int)Math.Pow ( nsub, n );
+
+            ix = new int[n];
+            x = new double[n];
+
+            for ( i = 0; i < ihi; i++ )
+            {
+                vec_lex_next ( n, nsub, ix, &more );
+
+                for ( j = 0; j < n; j++ )
+                {
+                    x[j] = ( double ) ( 2 * ix[j] + 1 - nsub ) / ( double ) ( nsub );
+                }
+                quad = quad + w * func ( n, x );
+            }
+
+            volume = Math.Pow ( 2.0, n );
+            result = quad * volume;
+
+            return result;
+        }
+
+        public static void rule_adjust ( double a, double b, double c, double d, int order, 
+                ref double[] x, ref double[] w )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    RULE_ADJUST maps a quadrature rule from [A,B] to [C,D].
+            //
+            //  Discussion:
+            //
+            //    Most quadrature rules are defined on a special interval, like
+            //    [-1,1] or [0,1].  To integrate over an interval, the abscissas
+            //    and weights must be adjusted.  This can be done on the fly,
+            //    or by calling this routine.
+            //
+            //    If the weight function W(X) is not 1, then the W vector will
+            //    require further adjustment by the user.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    11 March 2008
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double A, B, the endpoints of the definition interval.
+            //
+            //    Input, double C, D, the endpoints of the integration interval.
+            //
+            //    Input, int ORDER, the number of abscissas and weights.
+            //
+            //    Input/output, double X[ORDER], W[ORDER], the abscissas
+            //    and weights.
+            //
+        {
+            int i;
+
+            for ( i = 0; i < order; i++ )
+            {
+                x[i] = ( ( b - x[i]     ) * c   
+                         + (     x[i] - a ) * d ) 
+                       / ( b              - a );
+            }
+
+            for ( i = 0; i < order; i++ )
+            {
+                w[i] = ( ( d - c ) / ( b - a ) ) * w[i];
+            }
+        }
+        
         public static int rule_compressed_size(int mmax)
 
             //****************************************************************************80

@@ -154,6 +154,70 @@ namespace Burkardt.Types
                 }
             }
         }
+        
+        public static double r8ge_det ( int n, double[] a_lu, int[] pivot )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8GE_DET computes the determinant of a matrix factored by R8GE_FA or R8GE_TRF.
+        //
+        //  Discussion:
+        //
+        //    The R8GE storage format is used for a "general" M by N matrix.  
+        //    A physical storage space is made for each logical entry.  The two 
+        //    dimensional logical array is mapped to a vector, in which storage is 
+        //    by columns.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    25 March 2004
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Jack Dongarra, Jim Bunch, Cleve Moler, Pete Stewart,
+        //    LINPACK User's Guide,
+        //    SIAM, 1979,
+        //    ISBN13: 978-0-898711-72-1,
+        //    LC: QA214.L56.
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order of the matrix.
+        //    N must be positive.
+        //
+        //    Input, double A_LU[N*N], the LU factors from R8GE_FA or R8GE_TRF.
+        //
+        //    Input, int PIVOT[N], as computed by R8GE_FA or R8GE_TRF.
+        //
+        //    Output, double R8GE_DET, the determinant of the matrix.
+        //
+        {
+            double det;
+            int i;
+
+            det = 1.0;
+
+            for ( i = 1; i <= n; i++ )
+            {
+                det = det * a_lu[i-1+(i-1)*n];
+                if ( pivot[i-1] != i )
+                {
+                    det = -det;
+                }
+            }
+
+            return det;
+        }
 
         public static double[] r8ge_dif2(int m, int n)
 

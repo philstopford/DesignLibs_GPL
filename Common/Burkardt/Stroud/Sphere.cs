@@ -3146,9 +3146,6 @@ namespace Burkardt.Stroud
                 n = n_vec[n_data - 1];
                 volume = volume_vec[n_data - 1];
             }
-
-            return;
-# undef N_MAX
         }
 
         public static double sphere_volume_2d(double r)

@@ -51,7 +51,7 @@ namespace Burkardt.Quadrature
         {
             int i;
             int ihi;
-            int *ix;
+            int[] ix;
             int j;
             bool more;
             double quad;
@@ -71,7 +71,7 @@ namespace Burkardt.Quadrature
 
             for ( i = 0; i < ihi; i++ )
             {
-                vec_lex_next ( n, nsub, ix, &more );
+                typeMethods.vec_lex_next ( n, nsub, ref ix, ref more );
 
                 for ( j = 0; j < n; j++ )
                 {

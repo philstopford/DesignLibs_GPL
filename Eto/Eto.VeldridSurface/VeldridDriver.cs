@@ -11,6 +11,7 @@ using Veldrid;
 using Veldrid.SPIRV;
 using KDTree;
 using System.Threading.Tasks;
+using Eto;
 
 namespace VeldridEto
 {
@@ -103,6 +104,8 @@ namespace VeldridEto
 
 		private bool Ready = false;
 		float pointWidth = 0.50f;
+		private bool hasFocus;
+		private bool keyHandlerApplied;
 
 		public VeldridDriver(ref OVPSettings svpSettings, ref VeldridSurface surface)
 		{
@@ -115,7 +118,7 @@ namespace VeldridEto
 				Surface.MouseUp += upHandler;
 				Surface.MouseWheel += zoomHandler;
 				Surface.GotFocus += addKeyHandler;
-				// MouseHover += addKeyHandler;
+				Surface.MouseEnter += setFocus;
 				Surface.LostFocus += removeKeyHandler;
 			}
 			catch (Exception)
@@ -129,6 +132,16 @@ namespace VeldridEto
 			{
 				pUpdateViewport();
 			};
+		}
+		
+		public void setFocus(object sender, EventArgs e)
+		{
+			if (hasFocus)
+			{
+				return;
+			}
+			Surface.Focus();
+			hasFocus = true;
 		}
 
 		private void Clock_Elapsed(object sender, EventArgs e)
@@ -492,12 +505,23 @@ namespace VeldridEto
 
 		void addKeyHandler(object sender, EventArgs e)
 		{
+			if (keyHandlerApplied)
+			{
+				return;
+			}
 			Surface.KeyDown += keyHandler;
+			keyHandlerApplied = true;
 		}
 
 		void removeKeyHandler(object sender, EventArgs e)
 		{
+			if (!keyHandlerApplied)
+			{
+				return;
+			}
+			hasFocus = false;
 			Surface.KeyDown -= keyHandler;
+			keyHandlerApplied = false;
 		}
 
 		public void reset()
@@ -507,7 +531,7 @@ namespace VeldridEto
 
 		void keyHandler(object sender, KeyEventArgs e)
 		{
-			e.Handled = true;
+			//e.Handled = true;
 
 			if (ovpSettings.isLocked())
 			{
@@ -569,7 +593,14 @@ namespace VeldridEto
 
 			if (doUpdate)
 			{
-				updateViewport();
+				if (Eto.Platform.Instance.IsGtk)
+				{
+					updateHostFunc?.Invoke();
+				}
+				else
+				{
+					updateViewport();
+				}
 			}
 		}
 

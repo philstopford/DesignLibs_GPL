@@ -2,7 +2,7 @@
 {
     public static class Pentagon
     {
-        public static int pent_enum ( int n )
+        public static int pentagon_num ( int n )
 
             //****************************************************************************80
             //

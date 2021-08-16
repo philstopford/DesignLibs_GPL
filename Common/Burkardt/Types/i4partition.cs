@@ -225,7 +225,7 @@ namespace Burkardt.Types
                 for (;;)
                 {
                     j = j + 1;
-                    pj = Pentagon.pent_enum(j);
+                    pj = Pentagon.pentagon_num(j);
 
                     if (i < pj)
                     {
@@ -242,7 +242,7 @@ namespace Burkardt.Types
                 for (;;)
                 {
                     j = j - 1;
-                    pj = Pentagon.pent_enum(j);
+                    pj = Pentagon.pentagon_num(j);
 
                     if (i < pj)
                     {

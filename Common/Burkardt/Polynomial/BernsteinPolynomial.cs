@@ -187,7 +187,7 @@ namespace Burkardt.PolynomialNS
             return a;
         }
 
-        public static void bernstein_poly(int n, double x, double[] bern)
+        public static void bernstein_poly(int n, double x, ref double[] bern)
 
             //****************************************************************************80
             //

@@ -41,7 +41,7 @@ namespace SubsetTestNS
             for ( i = 0; i <= N; i++ )
             {
                 Console.WriteLine(i.ToString().PadLeft(4)               + "  "
-                                  + Pentagon.pent_enum ( i ).ToString().PadLeft(6) + "");
+                                  + Pentagon.pentagon_num ( i ).ToString().PadLeft(6) + "");
             }
         }
     }

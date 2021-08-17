@@ -77,7 +77,7 @@ namespace Burkardt.Quadrature
                 {
                     x[j] = ( double ) ( 2 * ix[j] + 1 - nsub ) / ( double ) ( nsub );
                 }
-                quad = quad + w * func ( n, x );
+                quad = quad + w * func (setting, n, x );
             }
 
             volume = Math.Pow ( 2.0, n );

@@ -5,7 +5,7 @@ namespace Burkardt.IntegralNS
 {
     public static class QMult
     {
-        public static double qmult_1d(Func< double, double > func, double a, double b )
+        public static double qmult_1d(int setting, Func< int, double, double > func, double a, double b )
 
         //****************************************************************************80
         //
@@ -70,7 +70,7 @@ namespace Burkardt.IntegralNS
             for (i = 0; i < order; i++)
             {
                 x = 0.5 * (b - a) * xtab[i] + 0.5 * (a + b);
-                quad = quad + 0.5 * weight[i] * func(x);
+                quad = quad + 0.5 * weight[i] * func(setting, x);
             }
 
             volume = b - a;
@@ -176,7 +176,7 @@ namespace Burkardt.IntegralNS
             return quad;
         }
 
-        public static double qmult_3d(Func<double, double, double, double> func, double a,
+        public static double qmult_3d(int settings, Func<int, double, double, double, double> func, double a,
             double b, Func< double, double > fup1, Func<double, double> flo1,
         Func<double, double, double> fup2, Func<double, double, double> flo2 )
 
@@ -284,7 +284,7 @@ namespace Burkardt.IntegralNS
                     {
                         w3 = 0.5 * (f - e) * weight[k];
                         z = 0.5 * (f - e) * xtab[k] + 0.5 * (f + e);
-                        quad = quad + w1 * w2 * w3 * func(x, y, z);
+                        quad = quad + w1 * w2 * w3 * func(settings, x, y, z);
                     }
                 }
             }

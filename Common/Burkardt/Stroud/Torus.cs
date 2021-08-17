@@ -5,7 +5,7 @@ namespace Burkardt.Stroud
 {
     public static class Torus
     {
-        public static double torus_1(Func<double, double, double, double> func, double r1,
+        public static double torus_1(int setting, Func<int, double, double, double, double> func, double r1,
                 double r2, int n)
 
             //****************************************************************************80
@@ -87,7 +87,7 @@ namespace Burkardt.Stroud
                     y = u * st1;
                     z = r2 * Math.Sin(angle);
 
-                    quad = quad + w * u * func(x, y, z);
+                    quad = quad + w * u * func(setting, x, y, z);
                 }
             }
 
@@ -97,7 +97,7 @@ namespace Burkardt.Stroud
             return result;
         }
 
-        public static double torus_14s(Func<double, double, double, double> func, double r1,
+        public static double torus_14s(int setting, Func<int, double, double, double, double> func, double r1,
                 double r2)
 
             //****************************************************************************80
@@ -190,7 +190,7 @@ namespace Burkardt.Stroud
                         x = u * cth;
                         y = u * sth;
                         z = r[j] * st * r2;
-                        quad = quad + u * weight[j] * func(x, y, z) / (120.0 * r1);
+                        quad = quad + u * weight[j] * func(setting, x, y, z) / (120.0 * r1);
                     }
                 }
             }
@@ -201,7 +201,7 @@ namespace Burkardt.Stroud
             return result;
         }
 
-        public static double torus_5s2(Func<double, double, double, double> func, double r1,
+        public static double torus_5s2(int setting, Func<int, double, double, double, double> func, double r1,
                 double r2)
 
             //****************************************************************************80
@@ -281,22 +281,22 @@ namespace Burkardt.Stroud
                 x = u1 * cs;
                 y = u1 * sn;
                 z = r2 / Math.Sqrt(2.0);
-                quad = quad + w * func(x, y, z);
+                quad = quad + w * func(setting, x, y, z);
 
                 x = u1 * cs;
                 y = u1 * sn;
                 z = -r2 / Math.Sqrt(2.0);
-                quad = quad + w * func(x, y, z);
+                quad = quad + w * func(setting, x, y, z);
 
                 x = u2 * cs;
                 y = u2 * sn;
                 z = 0.0;
-                quad = quad + w * func(x, y, z);
+                quad = quad + w * func(setting, x, y, z);
 
                 x = u3 * cs;
                 y = u3 * sn;
                 z = 0.0;
-                quad = quad + w * func(x, y, z);
+                quad = quad + w * func(setting, x, y, z);
             }
 
             volume = torus_volume_3d(r1, r2);
@@ -305,7 +305,7 @@ namespace Burkardt.Stroud
             return result;
         }
 
-        public static double torus_6s2(Func<double, double, double, double> func, double r1,
+        public static double torus_6s2(int setting, Func<int, double, double, double, double> func, double r1,
                 double r2)
 
             //****************************************************************************80
@@ -389,12 +389,12 @@ namespace Burkardt.Stroud
                     x = (r1 + u) * cth;
                     y = (r1 + u) * sth;
                     z = 0.0;
-                    quad = quad + 0.232710567 * w * (r1 + u) * func(x, y, z);
+                    quad = quad + 0.232710567 * w * (r1 + u) * func(setting, x, y, z);
 
                     x = r1 * cth;
                     y = r1 * sth;
                     z = u;
-                    quad = quad + 0.232710567 * w * r1 * func(x, y, z);
+                    quad = quad + 0.232710567 * w * r1 * func(setting, x, y, z);
 
                 }
 
@@ -414,7 +414,7 @@ namespace Burkardt.Stroud
                             x = (r1 + u) * cth;
                             y = (r1 + u) * sth;
                             z = v;
-                            quad = quad + weight[k] * w * (r1 + u) * func(x, y, z);
+                            quad = quad + weight[k] * w * (r1 + u) * func(setting, x, y, z);
                         }
                     }
                 }
@@ -465,7 +465,7 @@ namespace Burkardt.Stroud
             return area;
         }
 
-        public static double torus_square_14c(Func<double, double, double, double> func,
+        public static double torus_square_14c(int setting, Func<int, double, double, double, double> func,
                 double r1, double r2)
 
             //****************************************************************************80
@@ -556,7 +556,7 @@ namespace Burkardt.Stroud
                     for (j = 0; j < order; j++)
                     {
                         z = rtab[j] * r2;
-                        quad = quad + u * w * weight[i] * weight[j] * func(x, y, z);
+                        quad = quad + u * w * weight[i] * weight[j] * func(setting, x, y, z);
                     }
                 }
             }
@@ -567,7 +567,7 @@ namespace Burkardt.Stroud
             return result;
         }
 
-        public static double torus_square_5c2(Func<double, double, double, double> func,
+        public static double torus_square_5c2(int setting, Func<int, double, double, double, double> func,
                 double r1, double r2)
 
             //****************************************************************************80
@@ -654,20 +654,20 @@ namespace Burkardt.Stroud
                 x = u1 * cs;
                 y = u1 * sn;
                 z = v;
-                quad = quad + b1 * func(x, y, z);
+                quad = quad + b1 * func(setting, x, y, z);
 
                 z = -v;
-                quad = quad + b1 * func(x, y, z);
+                quad = quad + b1 * func(setting, x, y, z);
 
                 x = u2 * cs;
                 y = u2 * sn;
                 z = 0.0;
-                quad = quad + b2 * func(x, y, z);
+                quad = quad + b2 * func(setting, x, y, z);
 
                 x = u3 * cs;
                 y = u3 * sn;
                 z = 0.0;
-                quad = quad + b2 * func(x, y, z);
+                quad = quad + b2 * func(setting, x, y, z);
             }
 
             volume = torus_square_volume_3d(r1, r2);

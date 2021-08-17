@@ -4,7 +4,7 @@ namespace Burkardt.Stroud
 {
     public static class Cone
     {
-        public static double cone_unit_3d(Func<double, double, double, double> func)
+        public static double cone_unit_3d(int settings, Func<int, double, double, double, double> func)
 
             //****************************************************************************80
             //
@@ -92,22 +92,22 @@ namespace Burkardt.Stroud
                 x = a * (1.0 - u[i]);
                 y = 0.0;
                 z = u[i];
-                quad = quad + w1[i] * w2[0] * func(x, y, z);
+                quad = quad + w1[i] * w2[0] * func(settings, x, y, z);
 
                 x = -a * (1.0 - u[i]);
                 y = 0.0;
                 z = u[i];
-                quad = quad + w1[i] * w2[0] * func(x, y, z);
+                quad = quad + w1[i] * w2[0] * func(settings, x, y, z);
 
                 x = 0.0;
                 y = a * (1.0 - u[i]);
                 z = u[i];
-                quad = quad + w1[i] * w2[0] * func(x, y, z);
+                quad = quad + w1[i] * w2[0] * func(settings, x, y, z);
 
                 x = 0.0;
                 y = -a * (1.0 - u[i]);
                 z = u[i];
-                quad = quad + w1[i] * w2[0] * func(x, y, z);
+                quad = quad + w1[i] * w2[0] * func(settings, x, y, z);
             }
 
             for (i = 0; i < 4; i++)
@@ -115,42 +115,42 @@ namespace Burkardt.Stroud
                 x = b * (1.0 - u[i]);
                 y = b * (1.0 - u[i]);
                 z = u[i];
-                quad = quad + w1[i] * w2[1] * func(x, y, z);
+                quad = quad + w1[i] * w2[1] * func(settings, x, y, z);
 
                 x = -b * (1.0 - u[i]);
                 y = b * (1.0 - u[i]);
                 z = u[i];
-                quad = quad + w1[i] * w2[1] * func(x, y, z);
+                quad = quad + w1[i] * w2[1] * func(settings, x, y, z);
 
                 x = -b * (1.0 - u[i]);
                 y = -b * (1.0 - u[i]);
                 z = u[i];
-                quad = quad + w1[i] * w2[1] * func(x, y, z);
+                quad = quad + w1[i] * w2[1] * func(settings, x, y, z);
 
                 x = b * (1.0 - u[i]);
                 y = -b * (1.0 - u[i]);
                 z = u[i];
-                quad = quad + w1[i] * w2[1] * func(x, y, z);
+                quad = quad + w1[i] * w2[1] * func(settings, x, y, z);
 
                 x = c * (1.0 - u[i]);
                 y = c * (1.0 - u[i]);
                 z = u[i];
-                quad = quad + w1[i] * w2[2] * func(x, y, z);
+                quad = quad + w1[i] * w2[2] * func(settings, x, y, z);
 
                 x = -c * (1.0 - u[i]);
                 y = c * (1.0 - u[i]);
                 z = u[i];
-                quad = quad + w1[i] * w2[2] * func(x, y, z);
+                quad = quad + w1[i] * w2[2] * func(settings, x, y, z);
 
                 x = -c * (1.0 - u[i]);
                 y = -c * (1.0 - u[i]);
                 z = u[i];
-                quad = quad + w1[i] * w2[2] * func(x, y, z);
+                quad = quad + w1[i] * w2[2] * func(settings, x, y, z);
 
                 x = c * (1.0 - u[i]);
                 y = -c * (1.0 - u[i]);
                 z = u[i];
-                quad = quad + w1[i] * w2[2] * func(x, y, z);
+                quad = quad + w1[i] * w2[2] * func(settings, x, y, z);
 
             }
 

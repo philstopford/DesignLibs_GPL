@@ -5,7 +5,8 @@ namespace Burkardt.Stroud
 {
     public static class Ball
     {
-        public static double ball_f1_nd(Func<int, double[], double> func, int n, double[] center,
+        
+        public static double ball_f1_nd(int setting, Func<int, int, double[], double> func, int n, double[] center,
                 double r)
 
             //****************************************************************************80
@@ -115,7 +116,7 @@ namespace Burkardt.Stroud
                     itemp = itemp / 2;
                 }
 
-                quad = quad + w * func(n, x);
+                quad = quad + w * func(setting, n, x);
             }
 
             temp = Math.Sqrt((double)(n + 4));
@@ -155,8 +156,8 @@ namespace Burkardt.Stroud
 
                         ktemp = ktemp / 2;
                     }
-
-                    quad = quad + w * func(n, x);
+                    
+                    quad = quad + w * func(setting, n, x);
                 }
 
                 x[i] = center[i] - r * v;
@@ -168,7 +169,7 @@ namespace Burkardt.Stroud
             return result;
         }
 
-        public static double ball_f3_nd(Func<int, double[], double> func, int n, double[] center,
+        public static double ball_f3_nd(int setting, Func<int, int, double[], double> func, int n, double[] center,
                 double r)
 
             //****************************************************************************80
@@ -250,7 +251,7 @@ namespace Burkardt.Stroud
             }
 
             weight = 4.0 / (double)((int)Math.Pow(n + 2, 2));
-            quad = quad + weight * func(n, x);
+            quad = quad + weight * func(setting, n, x);
 
             s = 1.0 / Math.Sqrt((double)(n + 4));
 
@@ -301,7 +302,7 @@ namespace Burkardt.Stroud
                         jtemp = jtemp / 2;
                     }
 
-                    quad = quad + weight * func(n, x);
+                    quad = quad + weight * func(setting, n, x);
                 }
             }
 
@@ -370,7 +371,7 @@ namespace Burkardt.Stroud
             return value;
         }
 
-        public static double ball_unit_07_3d(Func<double, double, double, double> func)
+        public static double ball_unit_07_3d(int setting, Func<int, double, double, double, double> func)
 
             //****************************************************************************80
             //
@@ -481,7 +482,7 @@ namespace Burkardt.Stroud
                         z = xtab1[i] * xtab3[k];
 
                         quad = quad + w * weight1[i] * weight2[j] * weight3[k]
-                            * func(x, y, z);
+                            * func(setting, x, y, z);
                     }
                 }
             }
@@ -492,7 +493,7 @@ namespace Burkardt.Stroud
             return result;
         }
 
-        public static double ball_unit_14_3d(Func<double, double, double, double> func)
+        public static double ball_unit_14_3d(int setting, Func<int, double, double, double, double> func)
 
             //****************************************************************************80
             //
@@ -597,7 +598,7 @@ namespace Burkardt.Stroud
                             z = y;
                             y = x;
                             x = temp;
-                            quad = quad + w1 * func(x, y, z);
+                            quad = quad + w1 * func(setting, x, y, z);
                         }
                     }
                 }
@@ -624,12 +625,12 @@ namespace Burkardt.Stroud
                             y = x;
                             x = temp;
 
-                            quad = quad + w2 * func(x, y, z);
+                            quad = quad + w2 * func(setting, x, y, z);
                         }
 
                         y = -y;
                         z = -z;
-                        quad = quad + w2 * func(x, y, z);
+                        quad = quad + w2 * func(setting, x, y, z);
                     }
                 }
             }
@@ -640,7 +641,7 @@ namespace Burkardt.Stroud
             return result;
         }
 
-        public static double ball_unit_15_3d(Func<double, double, double, double> func)
+        public static double ball_unit_15_3d(int setting, Func<int, double, double, double, double> func)
 
             //****************************************************************************80
             //
@@ -735,7 +736,7 @@ namespace Burkardt.Stroud
                         x = xtab1[i] * cj * ck;
                         y = xtab1[i] * cj * sk;
                         z = xtab1[i] * sj;
-                        quad = quad + w * weight1[i] * weight2[j] * func(x, y, z);
+                        quad = quad + w * weight1[i] * weight2[j] * func(setting, x, y, z);
                     }
                 }
             }
@@ -746,7 +747,7 @@ namespace Burkardt.Stroud
             return result;
         }
 
-        public static double ball_unit_f1_nd(Func<int, double[], double> func, int n)
+        public static double ball_unit_f1_nd(int setting, Func<int, int, double[], double> func, int n)
 
             //****************************************************************************80
             //
@@ -844,7 +845,7 @@ namespace Burkardt.Stroud
                     itemp = itemp / 2;
                 }
 
-                quad = quad + w * func(n, x);
+                quad = quad + w * func(setting, n, x);
             }
 
             temp = Math.Sqrt((double)(n + 4));
@@ -886,7 +887,7 @@ namespace Burkardt.Stroud
                         ktemp = ktemp / 2;
                     }
 
-                    quad = quad + w * func(n, x);
+                    quad = quad + w * func(setting, n, x);
                 }
 
                 x[i] = -v;
@@ -898,7 +899,7 @@ namespace Burkardt.Stroud
             return result;
         }
 
-        public static double ball_unit_f3_nd(Func<int, double[], double> func, int n)
+        public static double ball_unit_f3_nd(int setting, Func<int, int, double[], double> func, int n)
 
             //****************************************************************************80
             //
@@ -967,7 +968,7 @@ namespace Burkardt.Stroud
             }
 
             weight = 4.0 / (double)((n + 2) * (n + 2));
-            quad = quad + weight * func(n, x);
+            quad = quad + weight * func(setting, n, x);
 
             s = 1.0 / Math.Sqrt((double)(n + 4));
 
@@ -1016,7 +1017,7 @@ namespace Burkardt.Stroud
                         jtemp = jtemp / 2;
                     }
 
-                    quad = quad + weight * func(n, x);
+                    quad = quad + weight * func(setting, n, x);
                 }
             }
 

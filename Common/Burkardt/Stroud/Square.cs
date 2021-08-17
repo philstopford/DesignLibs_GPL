@@ -5,7 +5,7 @@ namespace Burkardt.Stroud
 {
     public static class Square
     {
-        public static double square_sum(Func<double, double, double> func, double[] center,
+        public static double square_sum(int setting, Func<int, double, double, double> func, double[] center,
                 double r, int order, double[] xtab, double[] ytab, double[] weight)
 
             //****************************************************************************80
@@ -63,7 +63,7 @@ namespace Burkardt.Stroud
             {
                 x = center[0] + r * xtab[i];
                 y = center[1] + r * ytab[i];
-                quad = quad + 0.25 * weight[i] * func(x, y);
+                quad = quad + 0.25 * weight[i] * func(setting, x, y);
             }
 
             volume = 4.0 * r * r;
@@ -434,7 +434,7 @@ namespace Burkardt.Stroud
             return order;
         }
 
-        public static double square_unit_sum(Func<double, double, double> func, int order,
+        public static double square_unit_sum(int setting, Func<int, double, double, double> func, int order,
                 double[] xtab, double[] ytab, double[] weight)
 
             //****************************************************************************80
@@ -483,7 +483,7 @@ namespace Burkardt.Stroud
             quad = 0.0;
             for (i = 0; i < order; i++)
             {
-                quad = quad + weight[i] * func(xtab[i], ytab[i]) / 4.0;
+                quad = quad + weight[i] * func(setting, xtab[i], ytab[i]) / 4.0;
             }
 
             volume = 1.0;

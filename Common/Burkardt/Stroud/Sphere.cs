@@ -8,7 +8,7 @@ namespace Burkardt.Stroud
 {
     public static class Sphere
     {
-        public static double sphere_05_nd(Func<int, double[], double> func, int n, double[] center,
+        public static double sphere_05_nd(int setting, Func<int, int, double[], double> func, int n, double[] center,
                 double r)
 
             //****************************************************************************80
@@ -92,9 +92,9 @@ namespace Burkardt.Stroud
             for (i = 0; i < n; i++)
             {
                 x[i] = center[i] + r * x1;
-                quad = quad + w1 * func(n, x);
+                quad = quad + w1 * func(setting, n, x);
                 x[i] = center[i] - r * x1;
-                quad = quad + w1 * func(n, x);
+                quad = quad + w1 * func(setting, n, x);
                 x[i] = center[i];
             }
 
@@ -117,7 +117,7 @@ namespace Burkardt.Stroud
                     x[iadd - 1] = center[iadd - 1] - (x[iadd - 1] - center[iadd - 1]);
                 }
 
-                quad = quad + w2 * func(n, x);
+                quad = quad + w2 * func(setting, n, x);
             }
 
             volume = sphere_area_nd(n, r);
@@ -126,7 +126,7 @@ namespace Burkardt.Stroud
             return result;
         }
 
-        public static double sphere_07_1_nd(Func<int, double[], double> func, int n,
+        public static double sphere_07_1_nd(int setting, Func<int, int, double[], double> func, int n,
                 double[] center, double r)
 
             //****************************************************************************80
@@ -222,9 +222,9 @@ namespace Burkardt.Stroud
             for (i = 0; i < n; i++)
             {
                 x[i] = center[i] + r * x1;
-                quad = quad + w1 * func(n, x);
+                quad = quad + w1 * func(setting, n, x);
                 x[i] = center[i] - r * x1;
-                quad = quad + w1 * func(n, x);
+                quad = quad + w1 * func(setting, n, x);
                 x[i] = center[i];
             }
 
@@ -248,7 +248,7 @@ namespace Burkardt.Stroud
                     x[iadd - 1] = center[iadd - 1] - (x[iadd - 1] - center[iadd - 1]);
                 }
 
-                quad = quad + w2 * func(n, x);
+                quad = quad + w2 * func(setting, n, x);
             }
 
             //
@@ -265,16 +265,16 @@ namespace Burkardt.Stroud
                 {
                     x[i] = center[i] + r * x3;
                     x[j] = center[j] + r * x3;
-                    quad = quad + w3 * func(n, x);
+                    quad = quad + w3 * func(setting, n, x);
                     x[i] = center[i] - r * x3;
                     x[j] = center[j] + r * x3;
-                    quad = quad + w3 * func(n, x);
+                    quad = quad + w3 * func(setting, n, x);
                     x[i] = center[i] + r * x3;
                     x[j] = center[j] - r * x3;
-                    quad = quad + w3 * func(n, x);
+                    quad = quad + w3 * func(setting, n, x);
                     x[i] = center[i] - r * x3;
                     x[j] = center[j] - r * x3;
-                    quad = quad + w3 * func(n, x);
+                    quad = quad + w3 * func(setting, n, x);
                     x[i] = center[i];
                     x[j] = center[j];
                 }
@@ -1023,7 +1023,7 @@ namespace Burkardt.Stroud
             return integral;
         }
 
-        public static double sphere_shell_03_nd(Func<int, double[], double> func, int n,
+        public static double sphere_shell_03_nd(int setting, Func<int, int, double[], double> func, int n,
                 double[] center, double r1, double r2)
 
             //****************************************************************************80
@@ -1108,9 +1108,9 @@ namespace Burkardt.Stroud
             for (i = 0; i < n; i++)
             {
                 x[i] = center[i] + r * r2;
-                quad = quad + w * func(n, x);
+                quad = quad + w * func(setting, n, x);
                 x[i] = center[i] - r * r2;
-                quad = quad + w * func(n, x);
+                quad = quad + w * func(setting, n, x);
                 x[i] = center[i];
             }
 
@@ -1162,7 +1162,7 @@ namespace Burkardt.Stroud
             return volume;
         }
 
-        public static double sphere_unit_03_nd(Func<int, double[], double> func, int n)
+        public static double sphere_unit_03_nd(int setting, Func<int, int, double[], double> func, int n)
 
             //****************************************************************************80
             //
@@ -1228,9 +1228,9 @@ namespace Burkardt.Stroud
             for (i = 0; i < n; i++)
             {
                 x[i] = 1.0;
-                quad = quad + w * func(n, x);
+                quad = quad + w * func(setting, n, x);
                 x[i] = -1.0;
-                quad = quad + w * func(n, x);
+                quad = quad + w * func(setting, n, x);
                 x[i] = 0.0;
             }
 
@@ -1240,7 +1240,7 @@ namespace Burkardt.Stroud
             return result;
         }
 
-        public static double sphere_unit_04_nd(Func<int, double[], double> func, int n)
+        public static double sphere_unit_04_nd(int setting, Func<int, int, double[], double> func, int n)
 
             //****************************************************************************80
             //
@@ -1310,9 +1310,9 @@ namespace Burkardt.Stroud
             for (i = 0; i < n; i++)
             {
                 x[i] = 1.0;
-                quad = quad + w1 * func(n, x);
+                quad = quad + w1 * func(setting, n, x);
                 x[i] = -1.0;
-                quad = quad + w1 * func(n, x);
+                quad = quad + w1 * func(setting, n, x);
                 x[i] = 0.0;
             }
 
@@ -1326,9 +1326,9 @@ namespace Burkardt.Stroud
                 for (j = i + 1; j < n; j++)
                 {
                     x[j] = s;
-                    quad = quad + w2 * func(n, x);
+                    quad = quad + w2 * func(setting, n, x);
                     x[j] = -s;
-                    quad = quad + w2 * func(n, x);
+                    quad = quad + w2 * func(setting, n, x);
                     x[j] = 0.0;
                 }
 
@@ -1337,9 +1337,9 @@ namespace Burkardt.Stroud
                 for (j = i + 1; j < n; j++)
                 {
                     x[j] = s;
-                    quad = quad + w2 * func(n, x);
+                    quad = quad + w2 * func(setting, n, x);
                     x[j] = -s;
-                    quad = quad + w2 * func(n, x);
+                    quad = quad + w2 * func(setting, n, x);
                     x[j] = 0.0;
                 }
 
@@ -1352,7 +1352,7 @@ namespace Burkardt.Stroud
             return result;
         }
 
-        public static double sphere_unit_05_nd(Func<int, double[], double> func, int n)
+        public static double sphere_unit_05_nd(int setting, Func<int, int, double[], double> func, int n)
 
             //****************************************************************************80
             //
@@ -1432,9 +1432,9 @@ namespace Burkardt.Stroud
             for (i = 0; i < n; i++)
             {
                 x[i] = x1;
-                quad = quad + w1 * func(n, x);
+                quad = quad + w1 * func(setting, n, x);
                 x[i] = -x1;
-                quad = quad + w1 * func(n, x);
+                quad = quad + w1 * func(setting, n, x);
                 x[i] = 0.0;
             }
 
@@ -1455,7 +1455,7 @@ namespace Burkardt.Stroud
                     x[iadd - 1] = -x[iadd - 1];
                 }
 
-                quad = quad + w2 * func(n, x);
+                quad = quad + w2 * func(setting, n, x);
             }
 
             volume = sphere_unit_area_nd(n);
@@ -1464,7 +1464,7 @@ namespace Burkardt.Stroud
             return result;
         }
 
-        public static double sphere_unit_07_3d(Func<double, double, double, double> func)
+        public static double sphere_unit_07_3d(int setting, Func<int, double, double, double, double> func)
 
             //****************************************************************************80
             //
@@ -1566,7 +1566,7 @@ namespace Burkardt.Stroud
                         y = xtab1[i] * xtab2[j] * Math.Sqrt(1.0 - xtab3[k] * xtab3[k]);
                         z = xtab1[i] * xtab3[k];
 
-                        quad = quad + weight1[i] * weight2[j] * weight3[k] * func(x, y, z);
+                        quad = quad + weight1[i] * weight2[j] * weight3[k] * func(setting, x, y, z);
                     }
                 }
             }
@@ -1577,7 +1577,7 @@ namespace Burkardt.Stroud
             return result;
         }
 
-        public static double sphere_unit_07_1_nd(Func<int, double[], double> func, int n)
+        public static double sphere_unit_07_1_nd(int setting, Func<int, int, double[], double> func, int n)
 
             //****************************************************************************80
             //
@@ -1665,9 +1665,9 @@ namespace Burkardt.Stroud
             for (i = 0; i < n; i++)
             {
                 x[i] = x1;
-                quad = quad + w1 * func(n, x);
+                quad = quad + w1 * func(setting, n, x);
                 x[i] = -x1;
-                quad = quad + w1 * func(n, x);
+                quad = quad + w1 * func(setting, n, x);
                 x[i] = 0.0;
             }
 
@@ -1692,7 +1692,7 @@ namespace Burkardt.Stroud
                     x[iadd - 1] = -x[iadd - 1];
                 }
 
-                quad = quad + w2 * func(n, x);
+                quad = quad + w2 * func(setting, n, x);
             }
 
             //
@@ -1709,16 +1709,16 @@ namespace Burkardt.Stroud
                 {
                     x[i] = x3;
                     x[j] = x3;
-                    quad = quad + w3 * func(n, x);
+                    quad = quad + w3 * func(setting, n, x);
                     x[i] = -x3;
                     x[j] = x3;
-                    quad = quad + w3 * func(n, x);
+                    quad = quad + w3 * func(setting, n, x);
                     x[i] = x3;
                     x[j] = -x3;
-                    quad = quad + w3 * func(n, x);
+                    quad = quad + w3 * func(setting, n, x);
                     x[i] = -x3;
                     x[j] = -x3;
-                    quad = quad + w3 * func(n, x);
+                    quad = quad + w3 * func(setting, n, x);
                     x[i] = 0.0;
                     x[j] = 0.0;
                 }
@@ -1730,7 +1730,7 @@ namespace Burkardt.Stroud
             return result;
         }
 
-        public static double sphere_unit_07_2_nd(Func<int, double[], double> func, int n)
+        public static double sphere_unit_07_2_nd(int setting, Func<int, int, double[], double> func, int n)
 
             //****************************************************************************80
             //
@@ -1830,7 +1830,7 @@ namespace Burkardt.Stroud
                     x[iadd - 1] = -x[iadd - 1];
                 }
 
-                quad = quad + w1 * func(n, x);
+                quad = quad + w1 * func(setting, n, x);
             }
 
             for (i = 0; i < n; i++)
@@ -1852,7 +1852,7 @@ namespace Burkardt.Stroud
                         x[iadd - 1] = -x[iadd - 1];
                     }
 
-                    quad = quad + w2 * func(n, x);
+                    quad = quad + w2 * func(setting, n, x);
                 }
             }
 
@@ -1862,7 +1862,7 @@ namespace Burkardt.Stroud
             return result;
         }
 
-        public static double sphere_unit_11_3d(Func<double, double, double, double> func)
+        public static double sphere_unit_11_3d(int setting, Func<int, double, double, double, double> func)
 
             //****************************************************************************80
             //
@@ -1938,7 +1938,7 @@ namespace Burkardt.Stroud
                 for (j = 0; j < 3; j++)
                 {
                     typeMethods.r8_swap3(ref x, ref y, ref z);
-                    quad = quad + w1 * func(x, y, z);
+                    quad = quad + w1 * func(setting, x, y, z);
                 }
             }
 
@@ -1956,7 +1956,7 @@ namespace Burkardt.Stroud
                     for (k = 0; k < 3; k++)
                     {
                         typeMethods.r8_swap3(ref x, ref y, ref z);
-                        quad = quad + w2 * func(x, y, z);
+                        quad = quad + w2 * func(setting, x, y, z);
                     }
                 }
             }
@@ -1975,7 +1975,7 @@ namespace Burkardt.Stroud
                     for (k = 0; k < 2; k++)
                     {
                         z = -z;
-                        quad = quad + w3 * func(x, y, z);
+                        quad = quad + w3 * func(setting, x, y, z);
                     }
                 }
             }
@@ -1997,7 +1997,7 @@ namespace Burkardt.Stroud
                         for (l = 0; l < 3; l++)
                         {
                             typeMethods.r8_swap3(ref x, ref y, ref z);
-                            quad = quad + w4 * func(x, y, z);
+                            quad = quad + w4 * func(setting, x, y, z);
                         }
                     }
                 }
@@ -2009,7 +2009,7 @@ namespace Burkardt.Stroud
             return result;
         }
 
-        public static double sphere_unit_11_nd(Func<int, double[], double> func, int n)
+        public static double sphere_unit_11_nd(int setting, Func<int, int, double[], double> func, int n)
 
             //****************************************************************************80
             //
@@ -2223,7 +2223,7 @@ namespace Burkardt.Stroud
                     x[iadd - 1] = -x[iadd - 1];
                 }
 
-                quad = quad + coef1[n - 1] * func(n, x);
+                quad = quad + coef1[n - 1] * func(setting, n, x);
 
                 if (!more)
                 {
@@ -2263,7 +2263,7 @@ namespace Burkardt.Stroud
                         x[iadd - 1] = -x[iadd - 1];
                     }
 
-                    quad = quad + coef21[n - 1] * func(n, x);
+                    quad = quad + coef21[n - 1] * func(setting, n, x);
 
                     if (!more)
                     {
@@ -2304,7 +2304,7 @@ namespace Burkardt.Stroud
                         x[iadd - 1] = -x[iadd - 1];
                     }
 
-                    quad = quad + coef22[n - 1] * func(n, x);
+                    quad = quad + coef22[n - 1] * func(setting, n, x);
 
                     if (!more)
                     {
@@ -2348,7 +2348,7 @@ namespace Burkardt.Stroud
                             x[iadd - 1] = -x[iadd - 1];
                         }
 
-                        quad = quad + coef31[n - 1] * func(n, x);
+                        quad = quad + coef31[n - 1] * func(setting, n, x);
 
                         if (!more)
                         {
@@ -2393,7 +2393,7 @@ namespace Burkardt.Stroud
                             x[iadd - 1] = -x[iadd - 1];
                         }
 
-                        quad = quad + coef32[n - 1] * func(n, x);
+                        quad = quad + coef32[n - 1] * func(setting, n, x);
 
                         if (!more)
                         {
@@ -2409,7 +2409,7 @@ namespace Burkardt.Stroud
             return result;
         }
 
-        public static double sphere_unit_14_3d(Func<double, double, double, double> func)
+        public static double sphere_unit_14_3d(int setting, Func<int, double, double, double, double> func)
 
             //****************************************************************************80
             //
@@ -2498,7 +2498,7 @@ namespace Burkardt.Stroud
                     for (k = 0; k < 3; k++)
                     {
                         typeMethods.r8_swap3(ref x, ref y, ref z);
-                        quad = quad + w1 * func(x, y, z);
+                        quad = quad + w1 * func(setting, x, y, z);
                     }
                 }
             }
@@ -2521,12 +2521,12 @@ namespace Burkardt.Stroud
                     for (k = 0; k < 3; k++)
                     {
                         typeMethods.r8_swap3(ref x, ref y, ref z);
-                        quad = quad + w2 * func(x, y, z);
+                        quad = quad + w2 * func(setting, x, y, z);
                     }
 
                     y = -y;
                     z = -z;
-                    quad = quad + w2 * func(x, y, z);
+                    quad = quad + w2 * func(setting, x, y, z);
                 }
             }
 
@@ -2536,7 +2536,7 @@ namespace Burkardt.Stroud
             return result;
         }
 
-        public static double sphere_unit_15_3d(Func<double, double, double, double> func)
+        public static double sphere_unit_15_3d(int setting, Func<int, double, double, double, double> func)
 
             //****************************************************************************80
             //
@@ -2616,7 +2616,7 @@ namespace Burkardt.Stroud
                     y = Math.Sqrt(1.0 - xtab[j] * xtab[j]) * Math.Sin(angle);
                     z = xtab[j];
 
-                    quad = quad + weight[j] * func(x, y, z);
+                    quad = quad + weight[j] * func(setting, x, y, z);
                 }
             }
 

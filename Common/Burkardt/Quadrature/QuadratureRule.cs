@@ -5,7 +5,7 @@ namespace Burkardt.Quadrature
 {
     public static class QuadratureRule
     {
-        public static double qmdpt ( Func < int, double[], double> func, int n, int nsub )
+        public static double qmdpt (int setting, Func <int, int, double[], double> func, int n, int nsub )
 
             //****************************************************************************80
             //

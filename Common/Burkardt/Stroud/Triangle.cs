@@ -84,7 +84,7 @@ namespace Burkardt.Stroud
             return;
         }
 
-        public static double triangle_sub(Func<double, double, double> func, double[] xval,
+        public static double triangle_sub(int setting, Func<int, double, double, double> func, double[] xval,
                 double[] yval, int nsub, int order, double[] xtab, double[] ytab,
                 double[] weight)
 
@@ -219,7 +219,7 @@ namespace Burkardt.Stroud
                     {
                         x = x2 + xtab[k] * (x3 - x2) + ytab[k] * (x1 - x2);
                         y = y2 + xtab[k] * (y3 - y2) + ytab[k] * (y1 - y2);
-                        quad = quad + weight[k] * func(x, y);
+                        quad = quad + weight[k] * func(setting, x, y);
                     }
                 }
             }
@@ -230,7 +230,7 @@ namespace Burkardt.Stroud
             return result;
         }
 
-        public static double triangle_sum(Func<double, double, double> func,
+        public static double triangle_sum(int setting, Func<int, double, double, double> func,
                 double[] xval, double[] yval, int order, double[] xtab, double[] ytab,
                 double[] weight)
 
@@ -297,7 +297,7 @@ namespace Burkardt.Stroud
                     + ytab[i] * yval[1]
                     + (1.0 - xtab[i] - ytab[i]) * yval[2];
 
-                quad = quad + weight[i] * func(x, y);
+                quad = quad + weight[i] * func(setting, x, y);
             }
 
             volume = triangle_volume(xval, yval);
@@ -1964,7 +1964,7 @@ namespace Burkardt.Stroud
             return size;
         }
 
-        public static double triangle_unit_sum(Func<double, double, double> func, int order,
+        public static double triangle_unit_sum(int setting, Func<int, double, double, double> func, int order,
                 double[] xtab, double[] ytab, double[] weight)
 
             //****************************************************************************80
@@ -2013,7 +2013,7 @@ namespace Burkardt.Stroud
             quad = 0.0;
             for (i = 0; i < order; i++)
             {
-                quad = quad + weight[i] * func(xtab[i], ytab[i]);
+                quad = quad + weight[i] * func(setting, xtab[i], ytab[i]);
             }
 
             volume = triangle_unit_volume();

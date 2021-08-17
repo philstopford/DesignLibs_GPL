@@ -7,7 +7,7 @@ namespace Burkardt.Stroud
     {
 
 
-        public static double rectangle_3d(Func<double, double, double, double> func,
+        public static double rectangle_3d(int settings, Func<int, double, double, double, double> func,
                 double[] a, double[] b)
 
             //****************************************************************************80
@@ -91,7 +91,7 @@ namespace Burkardt.Stroud
                         z = sqr3 * (int)Math.Pow(-1, k);
                         z = 0.5 * ((1.0 - z) * b[2] + (1.0 + z) * a[2]);
 
-                        quad = quad + w * func(x, y, z);
+                        quad = quad + w * func(settings, x, y, z);
                     }
                 }
             }
@@ -102,7 +102,7 @@ namespace Burkardt.Stroud
             return result;
         }
 
-        public static double rectangle_sub_2d(Func<double, double, double> func, double[] xval,
+        public static double rectangle_sub_2d(int setting, Func<int, double, double, double> func, double[] xval,
                 double[] yval, int[] nsub, int order, double[] xtab, double[] ytab,
                 double[] weight)
 
@@ -218,7 +218,7 @@ namespace Burkardt.Stroud
                         x = xlo + 0.5 * (xtab[k] + 1.0) * (xhi - xlo);
                         y = ylo + 0.5 * (ytab[k] + 1.0) * (yhi - ylo);
 
-                        quad_sub = quad_sub + weight[k] * func(x, y) / 4.0;
+                        quad_sub = quad_sub + weight[k] * func(setting, x, y) / 4.0;
                     }
 
                     volume_sub = (xhi - xlo) * (yhi - ylo);

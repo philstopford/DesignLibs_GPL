@@ -5,7 +5,7 @@ namespace Burkardt.Stroud
 {
        public static class Tetrahedron
        {
-              public static double tetra_07(Func<double, double, double, double> func, double[] x,
+              public static double tetra_07(int setting, Func<int, double, double, double, double> func, double[] x,
                             double[] y, double[] z)
 
                      //****************************************************************************80
@@ -135,7 +135,7 @@ namespace Burkardt.Stroud
                                           zval = t * z[0] + u * z[1] + v * z[2] + w * z[3];
 
                                           quad = quad + 6.0 * weight1[i] * weight2[j] * weight3[k]
-                                                 * func(xval, yval, zval);
+                                                 * func(setting, xval, yval, zval);
                                    }
                             }
                      }
@@ -146,7 +146,7 @@ namespace Burkardt.Stroud
                      return result;
               }
 
-              public static double tetra_sum(Func<double, double, double, double> func, double[] x,
+              public static double tetra_sum(int setting, Func<int, double, double, double, double> func, double[] x,
                             double[] y, double[] z, int order, double[] xtab, double[] ytab,
                             double[] ztab, double[] weight)
 
@@ -215,7 +215,7 @@ namespace Burkardt.Stroud
                                    + ztab[i] * z[2]
                                    + (1.0 - xtab[i] - ytab[i] - ztab[i]) * z[3];
 
-                            quad = quad + weight[i] * func(xval, yval, zval);
+                            quad = quad + weight[i] * func(setting, xval, yval, zval);
                      }
 
                      volume = tetra_volume(x, y, z);
@@ -224,7 +224,7 @@ namespace Burkardt.Stroud
                      return result;
               }
 
-              public static double tetra_tproduct(Func<double, double, double, double> func,
+              public static double tetra_tproduct(int setting, Func<int, double, double, double, double> func,
                             int order, double[] x, double[] y, double[] z)
 
                      //****************************************************************************80
@@ -377,7 +377,7 @@ namespace Burkardt.Stroud
                                                          + (z[1] - z[0])) * xtab2[k];
 
                                           quad = quad + 6.0 * weight0[i] * weight1[j] * weight2[k]
-                                                 * func(xval, yval, zval);
+                                                 * func(setting, xval, yval, zval);
                                    }
                             }
                      }
@@ -1040,7 +1040,7 @@ namespace Burkardt.Stroud
                      return order;
               }
 
-              public static double tetra_unit_sum(Func<double, double, double, double> func,
+              public static double tetra_unit_sum(int setting, Func<int, double, double, double, double> func,
                             int order, double[] xtab, double[] ytab, double[] ztab, double[] weight)
 
                      //****************************************************************************80
@@ -1095,7 +1095,7 @@ namespace Burkardt.Stroud
 
                      for (i = 0; i < order; i++)
                      {
-                            quad = quad + weight[i] * func(xtab[i], ytab[i], ztab[i]);
+                            quad = quad + weight[i] * func(setting, xtab[i], ytab[i], ztab[i]);
                      }
 
                      volume = tetra_unit_volume();

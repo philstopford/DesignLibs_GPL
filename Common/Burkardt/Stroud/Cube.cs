@@ -6,7 +6,7 @@ namespace Burkardt.Stroud
 {
     public static class Cube
     {
-        public static double cube_shell_nd(Func<int, double[], double> func, int n, double r1,
+        public static double cube_shell_nd(int setting, Func<int, int, double[], double> func, int n, double r1,
                 double r2)
 
             //****************************************************************************80
@@ -97,7 +97,7 @@ namespace Burkardt.Stroud
 
                 for (;;)
                 {
-                    quad = quad + func(n, x);
+                    quad = quad + func(setting, n, x);
 
                     done = typeMethods.r8vec_mirror_next(n, ref x);
 
@@ -160,7 +160,7 @@ namespace Burkardt.Stroud
             return value;
         }
 
-        public static double cube_unit_3d(Func<double, double, double, double> func)
+        public static double cube_unit_3d(int settings, Func<int, double, double, double, double> func)
 
             //****************************************************************************80
             //
@@ -225,10 +225,10 @@ namespace Burkardt.Stroud
             z = s;
 
             quad = w * (
-                func(x, y, z) + func(x, y, -z)
-                              + func(x, -y, z) + func(x, -y, -z)
-                              + func(-x, y, z) + func(-x, y, -z)
-                              + func(-x, -y, z) + func(-x, -y, -z));
+                func(settings, x, y, z) + func(settings, x, y, -z)
+                              + func(settings, x, -y, z) + func(settings, x, -y, -z)
+                              + func(settings, -x, y, z) + func(settings, -x, y, -z)
+                              + func(settings, -x, -y, z) + func(settings, -x, -y, -z));
 
             volume = cube_unit_volume_nd(3);
             result = quad * volume;
@@ -236,7 +236,7 @@ namespace Burkardt.Stroud
             return result;
         }
 
-        public static void cube_unit_nd(Func<int, double[], double> func, ref double[] qa,
+        public static void cube_unit_nd(int setting, Func<int, int, double[], double> func, ref double[] qa,
                 ref double[] qb, int n, int k)
 
             //****************************************************************************80
@@ -367,7 +367,7 @@ namespace Burkardt.Stroud
 
             for (i = 0; i < k; i++)
             {
-                qa[i] = QuadratureRule.qmdpt(func, n, i + 1);
+                qa[i] = QuadratureRule.qmdpt(setting, func, n, i + 1);
             }
 
             qb[0] = qa[0];

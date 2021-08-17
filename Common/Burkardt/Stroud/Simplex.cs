@@ -5,7 +5,7 @@ namespace Burkardt.Stroud
 {
     public static class Simplex
     {
-        public static double simplex_nd(Func<int, double[], double> func, int n, ref double[] v)
+        public static double simplex_nd(int setting, Func<int, int, double[], double> func, int n, ref double[] v)
 
             //****************************************************************************80
             //
@@ -92,7 +92,7 @@ namespace Burkardt.Stroud
                     x[i] = x[i] + c * v[i + j * n];
                 }
 
-                quad = quad + w * func(n, x);
+                quad = quad + w * func(setting, n, x);
                 for (i = 0; i < n; i++)
                 {
                     x[i] = x[i] - c * v[i + j * n];
@@ -105,7 +105,7 @@ namespace Burkardt.Stroud
             return result;
         }
 
-        public static double simplex_unit_01_nd(Func<int, double[], double> func, int n)
+        public static double simplex_unit_01_nd(int setting, Func<int, int, double[], double> func, int n)
 
             //****************************************************************************80
             //
@@ -174,7 +174,7 @@ namespace Burkardt.Stroud
                 x[i] = 1.0 / (double)(n);
             }
 
-            quad = quad + coef * func(n, x);
+            quad = quad + coef * func(setting, n, x);
 
             volume = simplex_unit_volume_nd(n);
             result = quad * volume;
@@ -182,7 +182,7 @@ namespace Burkardt.Stroud
             return result;
         }
 
-        public static double simplex_unit_03_nd(Func<int, double[], double> func, int n)
+        public static double simplex_unit_03_nd(int setting, Func<int, int, double[], double> func, int n)
 
             //****************************************************************************80
             //
@@ -254,7 +254,7 @@ namespace Burkardt.Stroud
             }
 
             coef = -0.25 * (double)((n + 1) * (n + 1)) / (double)(n + 2);
-            quad = quad + coef * func(n, x);
+            quad = quad + coef * func(setting, n, x);
 
             a = 1.0 / (double)(n + 3);
             b = 3.0 / (double)(n + 3);
@@ -266,12 +266,12 @@ namespace Burkardt.Stroud
 
             coef = 0.25 * (double)((n + 3) * (n + 3))
                    / (double)((n + 1) * (n + 2));
-            quad = quad + coef * func(n, x);
+            quad = quad + coef * func(setting, n, x);
 
             for (i = 0; i < n; i++)
             {
                 x[i] = b;
-                quad = quad + coef * func(n, x);
+                quad = quad + coef * func(setting, n, x);
                 x[i] = a;
             }
 
@@ -281,7 +281,7 @@ namespace Burkardt.Stroud
             return result;
         }
 
-        public static double simplex_unit_05_nd(Func<int, double[], double> func, int n)
+        public static double simplex_unit_05_nd(int setting, Func<int, int, double[], double> func, int n)
 
             //****************************************************************************80
             //
@@ -465,7 +465,7 @@ namespace Burkardt.Stroud
                 x[i] = 1.0 / (double)(n + 1);
             }
 
-            quad = quad + coef1[n - 1] * func(n, x);
+            quad = quad + coef1[n - 1] * func(setting, n, x);
             //
             //  S21
             //
@@ -480,7 +480,7 @@ namespace Burkardt.Stroud
 
             for (i = 0; i < n + 1; i++)
             {
-                quad = quad + coef21[n - 1] * func(n, x);
+                quad = quad + coef21[n - 1] * func(setting, n, x);
 
                 if (0 < i)
                 {
@@ -507,7 +507,7 @@ namespace Burkardt.Stroud
 
             for (i = 0; i < n + 1; i++)
             {
-                quad = quad + coef22[n - 1] * func(n, x);
+                quad = quad + coef22[n - 1] * func(setting, n, x);
 
                 if (0 < i)
                 {
@@ -547,7 +547,7 @@ namespace Burkardt.Stroud
 
                     x[j] = v1;
 
-                    quad = quad + coef31[n - 1] * func(n, x);
+                    quad = quad + coef31[n - 1] * func(setting, n, x);
                 }
             }
 
@@ -579,7 +579,7 @@ namespace Burkardt.Stroud
 
                     x[j] = v2;
 
-                    quad = quad + coef32[n - 1] * func(n, x);
+                    quad = quad + coef32[n - 1] * func(setting, n, x);
                 }
             }
 
@@ -589,7 +589,7 @@ namespace Burkardt.Stroud
             return result;
         }
 
-        public static double simplex_unit_05_2_nd(Func<int, double[], double> func, int n)
+        public static double simplex_unit_05_2_nd(int setting, Func<int, int, double[], double> func, int n)
 
             //****************************************************************************80
             //
@@ -655,7 +655,7 @@ namespace Burkardt.Stroud
 
             coef = (double)((int)Math.Pow(n + 1, 4))
                    / (double)(32 * (n + 2) * (n + 3));
-            quad = quad + coef * func(n, x);
+            quad = quad + coef * func(setting, n, x);
             //
             //  Group 2
             //
@@ -669,12 +669,12 @@ namespace Burkardt.Stroud
 
             coef = -(double)((int)Math.Pow(n + 3, 4))
                    / (double)(16 * (n + 1) * (n + 2) * (n + 4));
-            quad = quad + coef * func(n, x);
+            quad = quad + coef * func(setting, n, x);
 
             for (i = 0; i < n; i++)
             {
                 x[i] = b;
-                quad = quad + coef * func(n, x);
+                quad = quad + coef * func(setting, n, x);
                 x[i] = a;
             }
 
@@ -691,12 +691,12 @@ namespace Burkardt.Stroud
 
             coef = (double)((int)Math.Pow(n + 5, 4))
                    / (double)(16 * (n + 1) * (n + 2) * (n + 3) * (n + 4));
-            quad = quad + coef * func(n, x);
+            quad = quad + coef * func(setting, n, x);
 
             for (i = 0; i < n; i++)
             {
                 x[i] = b;
-                quad = quad + coef * func(n, x);
+                quad = quad + coef * func(setting, n, x);
                 x[i] = a;
             }
 
@@ -717,12 +717,12 @@ namespace Burkardt.Stroud
                 }
 
                 x[i] = b;
-                quad = quad + coef * func(n, x);
+                quad = quad + coef * func(setting, n, x);
 
                 for (j = i + 1; j < n; j++)
                 {
                     x[j] = b;
-                    quad = quad + coef * func(n, x);
+                    quad = quad + coef * func(setting, n, x);
                     x[j] = a;
                 }
             }

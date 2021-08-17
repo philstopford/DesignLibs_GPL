@@ -4,7 +4,7 @@ namespace Burkardt.Stroud
 {
     public static class Octahedron
     {
-        public static double octahedron_unit_nd(Func<int, double[], double> func, int n)
+        public static double octahedron_unit_nd(int setting, Func<int, int, double[], double> func, int n)
 
             //****************************************************************************80
             //
@@ -77,7 +77,7 @@ namespace Burkardt.Stroud
                 x[i] = r;
                 for (j = 0; j < 2; j++)
                 {
-                    quad = quad + w * func(n, x);
+                    quad = quad + w * func(setting, n, x);
                     x[i] = -x[i];
                 }
 

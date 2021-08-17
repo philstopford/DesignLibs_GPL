@@ -44,7 +44,7 @@ namespace Burkardt.Stroud
             return value;
         }
 
-        public static double hexagon_sum(Func<double, double, double> func, double[] center,
+        public static double hexagon_sum(int setting, Func<int, double, double, double> func, double[] center,
                 double r, int order, double[] xtab, double[] ytab, double[] weight)
 
             //****************************************************************************80
@@ -115,7 +115,7 @@ namespace Burkardt.Stroud
             {
                 x = center[0] + r * xtab[i];
                 y = center[1] + r * ytab[i];
-                quad = quad + weight[i] * func(x, y);
+                quad = quad + weight[i] * func(setting, x, y);
             }
 
             volume = hexagon_area_2d(r);

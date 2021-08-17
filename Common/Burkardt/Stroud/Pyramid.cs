@@ -5,7 +5,7 @@ namespace Burkardt.Stroud
 {
     public static class Pyramid
     {
-        public static double pyramid_unit_o01_3d(Func<double, double, double, double> func)
+        public static double pyramid_unit_o01_3d(int setting, Func<int, double, double, double, double> func)
 
             //****************************************************************************80
             //
@@ -73,7 +73,7 @@ namespace Burkardt.Stroud
             z = 1.0 / 4.0;
             w = 1.0;
 
-            quad = quad + w * func(x, y, z);
+            quad = quad + w * func(setting, x, y, z);
             //
             //  Volume.
             //
@@ -86,7 +86,7 @@ namespace Burkardt.Stroud
             return result;
         }
 
-        public static double pyramid_unit_o05_3d(Func<double, double, double, double> func)
+        public static double pyramid_unit_o05_3d(int setting, Func<int, double, double, double, double> func)
 
             //****************************************************************************80
             //
@@ -180,7 +180,7 @@ namespace Burkardt.Stroud
             quad = 0.0;
             for (i = 0; i < order; i++)
             {
-                quad = quad + w[i] * func(x[i], y[i], z[i]);
+                quad = quad + w[i] * func(setting, x[i], y[i], z[i]);
             }
 
             //
@@ -195,7 +195,7 @@ namespace Burkardt.Stroud
             return result;
         }
 
-        public static double pyramid_unit_o06_3d(Func<double, double, double, double> func)
+        public static double pyramid_unit_o06_3d(int setting, Func<int, double, double, double, double> func)
 
             //****************************************************************************80
             //
@@ -293,7 +293,7 @@ namespace Burkardt.Stroud
             quad = 0.0;
             for (i = 0; i < order; i++)
             {
-                quad = quad + w[i] * func(x[i], y[i], z[i]);
+                quad = quad + w[i] * func(setting, x[i], y[i], z[i]);
             }
 
             //
@@ -308,7 +308,7 @@ namespace Burkardt.Stroud
             return result;
         }
 
-        public static double pyramid_unit_o08_3d(Func<double, double, double, double> func)
+        public static double pyramid_unit_o08_3d(int setting, Func<int, double, double, double, double> func)
 
             //****************************************************************************80
             //
@@ -414,7 +414,7 @@ namespace Burkardt.Stroud
             quad = 0.0;
             for (i = 0; i < order; i++)
             {
-                quad = quad + w[i] * func(x[i], y[i], z[i]);
+                quad = quad + w[i] * func(setting, x[i], y[i], z[i]);
             }
 
             //
@@ -429,7 +429,7 @@ namespace Burkardt.Stroud
             return result;
         }
 
-        public static double pyramid_unit_o08b_3d(Func<double, double, double, double> func)
+        public static double pyramid_unit_o08b_3d(int setting, Func<int, double, double, double, double> func)
 
             //****************************************************************************80
             //
@@ -535,7 +535,7 @@ namespace Burkardt.Stroud
             quad = 0.0;
             for (i = 0; i < order; i++)
             {
-                quad = quad + w[i] * func(x[i], y[i], z[i]);
+                quad = quad + w[i] * func(setting, x[i], y[i], z[i]);
             }
 
             //
@@ -550,7 +550,7 @@ namespace Burkardt.Stroud
             return result;
         }
 
-        public static double pyramid_unit_o09_3d(Func<double, double, double, double> func)
+        public static double pyramid_unit_o09_3d(int setting, Func<int, double, double, double, double> func)
 
             //****************************************************************************80
             //
@@ -660,7 +660,7 @@ namespace Burkardt.Stroud
             quad = 0.0;
             for (i = 0; i < order; i++)
             {
-                quad = quad + w[i] * func(x[i], y[i], z[i]);
+                quad = quad + w[i] * func(setting, x[i], y[i], z[i]);
             }
 
             //
@@ -675,7 +675,7 @@ namespace Burkardt.Stroud
             return result;
         }
 
-        public static double pyramid_unit_o13_3d(Func<double, double, double, double> func)
+        public static double pyramid_unit_o13_3d(int setting, Func<int, double, double, double, double> func)
 
             //****************************************************************************80
             //
@@ -801,7 +801,7 @@ namespace Burkardt.Stroud
             quad = 0.0;
             for (i = 0; i < order; i++)
             {
-                quad = quad + w[i] * func(x[i], y[i], z[i]);
+                quad = quad + w[i] * func(setting, x[i], y[i], z[i]);
             }
 
             //
@@ -816,7 +816,7 @@ namespace Burkardt.Stroud
             return result;
         }
 
-        public static double pyramid_unit_o18_3d(Func<double, double, double, double> func)
+        public static double pyramid_unit_o18_3d(int setting, Func<int, double, double, double, double> func)
 
             //****************************************************************************80
             //
@@ -962,7 +962,7 @@ namespace Burkardt.Stroud
             quad = 0.0;
             for (i = 0; i < order; i++)
             {
-                quad = quad + w[i] * func(x[i], y[i], z[i]);
+                quad = quad + w[i] * func(setting, x[i], y[i], z[i]);
             }
 
             //
@@ -977,7 +977,7 @@ namespace Burkardt.Stroud
             return result;
         }
 
-        public static double pyramid_unit_o27_3d(Func<double, double, double, double> func)
+        public static double pyramid_unit_o27_3d(int setting, Func<int, double, double, double, double> func)
 
             //****************************************************************************80
             //
@@ -1159,7 +1159,7 @@ namespace Burkardt.Stroud
             quad = 0.0;
             for (i = 0; i < order; i++)
             {
-                quad = quad + w[i] * func(x[i], y[i], z[i]);
+                quad = quad + w[i] * func(setting, x[i], y[i], z[i]);
             }
 
             //
@@ -1174,7 +1174,7 @@ namespace Burkardt.Stroud
             return result;
         }
 
-        public static double pyramid_unit_o48_3d(Func<double, double, double, double> func)
+        public static double pyramid_unit_o48_3d(int setting, Func<int, double, double, double, double> func)
 
             //****************************************************************************80
             //
@@ -1441,7 +1441,7 @@ namespace Burkardt.Stroud
             quad = 0.0;
             for (i = 0; i < order; i++)
             {
-                quad = quad + w[i] * func(x[i], y[i], z[i]);
+                quad = quad + w[i] * func(setting, x[i], y[i], z[i]);
             }
 
             //

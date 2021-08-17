@@ -6,7 +6,7 @@ namespace Burkardt.Stroud
 {
     public static class Circle
     {
-        public static double circle_annulus(Func<double, double, double> func, double[] center,
+        public static double circle_annulus(int setting, Func<int, double, double, double> func, double[] center,
                 double radius1, double radius2, int nr)
 
             //****************************************************************************80
@@ -112,7 +112,7 @@ namespace Burkardt.Stroud
                 {
                     x = center[0] + ra[j] * Math.Cos(t);
                     y = center[1] + ra[j] * Math.Sin(t);
-                    quad = quad + tw * rw[j] * func(x, y);
+                    quad = quad + tw * rw[j] * func(setting, x, y);
                 }
             }
 
@@ -161,7 +161,7 @@ namespace Burkardt.Stroud
             return value;
         }
 
-        public static double circle_annulus_sector(Func<double, double, double> func,
+        public static double circle_annulus_sector(int setting, Func<int, double, double, double> func,
                 double[] center, double radius1, double radius2, double theta1,
                 double theta2, int nr)
 
@@ -278,7 +278,7 @@ namespace Burkardt.Stroud
                 {
                     x = center[0] + ra[j] * Math.Cos(ta[i]);
                     y = center[1] + ra[j] * Math.Sin(ta[i]);
-                    quad = quad + tw[i] * rw[j] * func(x, y);
+                    quad = quad + tw[i] * rw[j] * func(setting, x, y);
                 }
             }
 
@@ -439,7 +439,7 @@ namespace Burkardt.Stroud
             return area;
         }
 
-        public static double circle_cum(Func<double, double, double> func, double[] center,
+        public static double circle_cum(int setting, Func<int, double, double, double> func, double[] center,
                 double radius, int order)
 
             //****************************************************************************80
@@ -508,7 +508,7 @@ namespace Burkardt.Stroud
                 angle = (double)(2 * i) * pi / (double)(order);
                 x = center[0] + radius * Math.Cos(angle);
                 y = center[1] + radius * Math.Sin(angle);
-                quad = quad + func(x, y);
+                quad = quad + func(setting, x, y);
             }
 
             quad = quad / (double)(order);
@@ -946,7 +946,7 @@ namespace Burkardt.Stroud
             }
         }
 
-        public static double circle_rt_sum(Func<double, double, double> func, double[] center,
+        public static double circle_rt_sum(int setting, Func<int, double, double, double> func, double[] center,
                 double radius, int nr, double[] ra, double[] rw, int nt, double[] ta,
                 double[] tw, double zw)
 
@@ -1019,7 +1019,7 @@ namespace Burkardt.Stroud
             {
                 x = center[0];
                 y = center[1];
-                quad = quad + zw * func(x, y);
+                quad = quad + zw * func(setting, x, y);
             }
 
             for (it = 0; it < nt; it++)
@@ -1030,7 +1030,7 @@ namespace Burkardt.Stroud
                 {
                     x = center[0] + ra[ir] * rct;
                     y = center[1] + ra[ir] * rst;
-                    quad = quad + tw[it] * rw[ir] * func(x, y);
+                    quad = quad + tw[it] * rw[ir] * func(setting, x, y);
                 }
             }
 
@@ -1040,7 +1040,7 @@ namespace Burkardt.Stroud
             return result;
         }
 
-        public static double circle_sector(Func<double, double, double> func, double[] center,
+        public static double circle_sector(int setting, Func<int, double, double, double> func, double[] center,
                 double radius, double theta1, double theta2, int nr)
 
             //****************************************************************************80
@@ -1150,7 +1150,7 @@ namespace Burkardt.Stroud
                 {
                     x = center[0] + ra[i] * Math.Cos(ta[j]);
                     y = center[1] + ra[i] * Math.Sin(ta[j]);
-                    quad = quad + rw[i] * tw[j] * func(x, y);
+                    quad = quad + rw[i] * tw[j] * func(setting, x, y);
                 }
             }
 
@@ -1986,7 +1986,7 @@ namespace Burkardt.Stroud
             return order;
         }
 
-        public static double circle_xy_sum(Func<double, double, double> func, double[] center,
+        public static double circle_xy_sum(int setting, Func<int, double, double, double> func, double[] center,
                 double r, int order, double[] xtab, double[] ytab, double[] weight)
 
             //****************************************************************************80
@@ -2044,7 +2044,7 @@ namespace Burkardt.Stroud
             {
                 x = center[0] + r * xtab[i];
                 y = center[1] + r * ytab[i];
-                quad = quad + weight[i] * func(x, y);
+                quad = quad + weight[i] * func(setting, x, y);
             }
 
             volume = circle_area_2d(r);

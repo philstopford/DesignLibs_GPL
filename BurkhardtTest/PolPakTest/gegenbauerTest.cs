@@ -46,7 +46,7 @@ namespace PolPakTest
             for ( ; ; )
             {
 
-                Burkardt.TestValues.Gegenbauer.gegenbauer_poly_values ( ref n_data, ref n, ref a, ref x, ref fx );
+                Burkardt.Values.Gegenbauer.gegenbauer_poly_values ( ref n_data, ref n, ref a, ref x, ref fx );
 
                 if ( n_data == 0 )
                 {

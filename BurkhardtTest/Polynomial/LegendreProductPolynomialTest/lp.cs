@@ -104,7 +104,7 @@ namespace LegendreProductPolynomialTest
 
             for (;;)
             {
-                Burkardt.TestValues.Legendre.lp_values(ref n_data, ref o, ref x, ref fx1);
+                Burkardt.Values.Legendre.lp_values(ref n_data, ref o, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
@@ -165,7 +165,7 @@ namespace LegendreProductPolynomialTest
 
             for (;;)
             {
-                Burkardt.TestValues.Legendre.lp_values(ref n_data, ref o, ref x, ref fx);
+                Burkardt.Values.Legendre.lp_values(ref n_data, ref o, ref x, ref fx);
 
                 if (n_data == 0)
                 {

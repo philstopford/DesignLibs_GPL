@@ -42,7 +42,7 @@ namespace PolPakTest
 
             for ( ; ; )
             {
-                Burkardt.TestValues.Normal.normal_01_cdf_values ( ref n_data, ref x, ref fx );
+                Burkardt.Values.Normal.normal_01_cdf_values ( ref n_data, ref x, ref fx );
 
                 if ( n_data == 0 )
                 {

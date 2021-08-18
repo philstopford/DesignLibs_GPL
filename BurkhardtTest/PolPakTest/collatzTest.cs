@@ -44,7 +44,7 @@ namespace PolPakTest
 
             for ( ; ; )
             {
-                Burkardt.TestValues.Collatz.collatz_count_values ( ref n_data, ref n, ref count );
+                Burkardt.Values.Collatz.collatz_count_values ( ref n_data, ref n, ref count );
 
                 if ( n_data == 0 )
                 {

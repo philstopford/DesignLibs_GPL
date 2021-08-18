@@ -2,7 +2,7 @@
 
 namespace PolPakTest
 {
-    using TestValues = Burkardt.TestValues.Chebyshev;
+    using TestValues = Burkardt.Values.Chebyshev;
     using Polynomial = Burkardt.PolynomialNS.Chebyshev;
 
     public static class chebyshevTest

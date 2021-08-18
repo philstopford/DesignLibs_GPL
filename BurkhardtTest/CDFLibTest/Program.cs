@@ -1,7 +1,7 @@
 ﻿using System;
 using Burkardt;
 using Burkardt.CDFLib;
-using Burkardt.TestValues;
+using Burkardt.Values;
 
 namespace CDFLibTest
 {

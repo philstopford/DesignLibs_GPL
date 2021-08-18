@@ -97,7 +97,7 @@ namespace JacobiPolynomialTest
 
             for (;;)
             {
-                Burkardt.TestValues.Jacobi.jacobi_poly_values(ref n_data, ref n, ref a, ref b, ref x, ref fx1);
+                Burkardt.Values.Jacobi.jacobi_poly_values(ref n_data, ref n, ref a, ref b, ref x, ref fx1);
 
                 if (n_data == 0)
                 {

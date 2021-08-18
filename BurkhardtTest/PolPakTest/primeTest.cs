@@ -93,7 +93,7 @@ namespace PolPakTest
 
             for (;;)
             {
-                Burkardt.TestValues.Phi.phi_values(ref n_data, ref n, ref c);
+                Burkardt.Values.Phi.phi_values(ref n_data, ref n, ref c);
 
                 if (n_data == 0)
                 {

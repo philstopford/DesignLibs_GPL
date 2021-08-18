@@ -342,7 +342,7 @@ namespace PolPakTest
 
             for (;;)
             {
-                Burkardt.TestValues.Partition.partition_distinct_count_values(ref n_data, ref n, ref c);
+                Burkardt.Values.Partition.partition_distinct_count_values(ref n_data, ref n, ref c);
 
                 if (n_data == 0)
                 {

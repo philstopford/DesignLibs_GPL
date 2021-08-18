@@ -42,7 +42,7 @@ namespace PolPakTest
 
             for ( ; ; )
             {
-                Burkardt.TestValues.Gudermannian.gud_values ( ref n_data, ref x, ref fx );
+                Burkardt.Values.Gudermannian.gud_values ( ref n_data, ref x, ref fx );
 
                 if ( n_data == 0 )
                 {

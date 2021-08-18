@@ -44,7 +44,7 @@ namespace PolPakTest
 
             for ( ; ; )
             {
-                Burkardt.TestValues.Bernstein.bernstein_poly_values ( ref n_data, ref n, ref k, ref x, ref b );
+                Burkardt.Values.Bernstein.bernstein_poly_values ( ref n_data, ref n, ref k, ref x, ref b );
 
                 if ( n_data == 0 )
                 {

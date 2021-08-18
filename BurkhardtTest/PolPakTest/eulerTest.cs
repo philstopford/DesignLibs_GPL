@@ -44,7 +44,7 @@ namespace PolPakTest
 
             for (;;)
             {
-                Burkardt.TestValues.Euler.euler_number_values(ref n_data, ref n, ref c1);
+                Burkardt.Values.Euler.euler_number_values(ref n_data, ref n, ref c1);
 
                 if (n_data == 0)
                 {
@@ -99,7 +99,7 @@ namespace PolPakTest
 
             for (;;)
             {
-                Burkardt.TestValues.Euler.euler_number_values(ref n_data, ref n, ref c1);
+                Burkardt.Values.Euler.euler_number_values(ref n_data, ref n, ref c1);
 
                 if (n_data == 0)
                 {

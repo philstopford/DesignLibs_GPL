@@ -47,7 +47,7 @@ namespace PolPakTest
 
             for (;;)
             {
-                Burkardt.TestValues.Zeta.zeta_m1_values(ref n_data, ref p, ref z1);
+                Burkardt.Values.Zeta.zeta_m1_values(ref n_data, ref p, ref z1);
 
                 if (n_data == 0)
                 {
@@ -102,7 +102,7 @@ namespace PolPakTest
 
             for (;;)
             {
-                Burkardt.TestValues.Zeta.zeta_values(ref n_data, ref n, ref z1);
+                Burkardt.Values.Zeta.zeta_values(ref n_data, ref n, ref z1);
 
                 if (n_data == 0)
                 {

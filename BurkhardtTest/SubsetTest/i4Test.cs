@@ -1,6 +1,6 @@
 ﻿using System;
 using Burkardt;
-using Burkardt.TestValues;
+using Burkardt.Values;
 using Burkardt.Types;
 using Burkardt.Uniform;
 

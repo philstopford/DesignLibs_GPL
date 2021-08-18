@@ -45,7 +45,7 @@ namespace PolPakTest
 
             for ( ; ; )
             {
-                Burkardt.TestValues.Lerch.lerch_values ( ref n_data, ref z, ref s, ref a, ref fx );
+                Burkardt.Values.Lerch.lerch_values ( ref n_data, ref z, ref s, ref a, ref fx );
 
                 if ( n_data == 0 )
                 {

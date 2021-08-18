@@ -42,7 +42,7 @@ namespace PolPakTest
 
             for ( ; ; )
             {
-                Burkardt.TestValues.Bell.bell_values ( ref n_data, ref n, ref c );
+                Burkardt.Values.Bell.bell_values ( ref n_data, ref n, ref c );
 
                 if ( n_data == 0 )
                 {
@@ -51,7 +51,7 @@ namespace PolPakTest
 
                 c2 = new int[n+1];
 
-                Burkardt.TestValues.Bell.bell ( n, ref c2 );
+                Burkardt.Values.Bell.bell ( n, ref c2 );
 
                 Console.WriteLine("  "
                                          + n.ToString().PadLeft(4)     + "  "

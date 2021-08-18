@@ -1,6 +1,6 @@
 ﻿using System;
 using Burkardt.AppliedStatistics;
-using Burkardt.TestValues;
+using Burkardt.Values;
 
 namespace TestValuesTest
 {
@@ -368,7 +368,7 @@ namespace TestValuesTest
             n_data = 0;
             for (;;)
             {
-                Burkardt.TestValues.Gamma.gamma_log_values(ref n_data, ref x, ref fx);
+                Burkardt.Values.Gamma.gamma_log_values(ref n_data, ref x, ref fx);
                 if (n_data == 0)
                 {
                     break;

@@ -52,7 +52,7 @@ namespace PolPakTest
 
             for (;;)
             {
-                Burkardt.TestValues.SphericalHarmonic.spherical_harmonic_values(ref n_data, ref l, ref m, ref theta,
+                Burkardt.Values.SphericalHarmonic.spherical_harmonic_values(ref n_data, ref l, ref m, ref theta,
                     ref phi, ref yr, ref yi);
 
                 if (n_data == 0)

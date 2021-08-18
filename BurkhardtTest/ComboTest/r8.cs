@@ -91,7 +91,7 @@ namespace ComboTest
 
             for ( ; ; )
             {
-                Burkardt.TestValues.Gamma.gamma_log_values ( ref n_data, ref x, ref fx1 );
+                Burkardt.Values.Gamma.gamma_log_values ( ref n_data, ref x, ref fx1 );
 
                 if ( n_data == 0 )
                 {

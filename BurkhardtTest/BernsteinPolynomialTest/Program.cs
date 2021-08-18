@@ -287,7 +287,7 @@ namespace BernsteinPolynomialTest
 
             while (true)
             {
-                Burkardt.TestValues.Bernstein.bernstein_poly_01_values(ref n_data, ref n, ref k, ref x, ref b);
+                Burkardt.Values.Bernstein.bernstein_poly_01_values(ref n_data, ref n, ref k, ref x, ref b);
 
                 if (n_data == 0)
                 {

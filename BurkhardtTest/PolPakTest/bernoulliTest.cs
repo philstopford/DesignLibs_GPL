@@ -43,7 +43,7 @@ namespace PolPakTest
 
             for (;;)
             {
-                Burkardt.TestValues.Bernoulli.bernoulli_number_values(ref n_data, ref n, ref c0);
+                Burkardt.Values.Bernoulli.bernoulli_number_values(ref n_data, ref n, ref c0);
 
                 if (n_data == 0)
                 {
@@ -97,7 +97,7 @@ namespace PolPakTest
 
             for (;;)
             {
-                Burkardt.TestValues.Bernoulli.bernoulli_number_values(ref n_data, ref n, ref c0);
+                Burkardt.Values.Bernoulli.bernoulli_number_values(ref n_data, ref n, ref c0);
 
                 if (n_data == 0)
                 {
@@ -151,7 +151,7 @@ namespace PolPakTest
 
             for (;;)
             {
-                Burkardt.TestValues.Bernoulli.bernoulli_number_values(ref n_data, ref n, ref c0);
+                Burkardt.Values.Bernoulli.bernoulli_number_values(ref n_data, ref n, ref c0);
 
                 if (n_data == 0)
                 {

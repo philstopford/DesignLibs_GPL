@@ -41,7 +41,7 @@ namespace PolPakTest
 
             for (;;)
             {
-                Burkardt.TestValues.Moebius.moebius_values(ref n_data, ref n, ref c);
+                Burkardt.Values.Moebius.moebius_values(ref n_data, ref n, ref c);
 
                 if (n_data == 0)
                 {

@@ -176,7 +176,7 @@ namespace PolPakTest
 
             for (;;)
             {
-                Burkardt.TestValues.Laguerre.laguerre_polynomial_values(ref n_data, ref n, ref x, ref fx);
+                Burkardt.Values.Laguerre.laguerre_polynomial_values(ref n_data, ref n, ref x, ref fx);
 
                 if (n_data == 0)
                 {

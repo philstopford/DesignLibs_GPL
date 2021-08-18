@@ -41,7 +41,7 @@ namespace PolPakTest
 
             for (;;)
             {
-                Burkardt.TestValues.Tau.tau_values(ref n_data, ref n, ref c);
+                Burkardt.Values.Tau.tau_values(ref n_data, ref n, ref c);
 
                 if (n_data == 0)
                 {

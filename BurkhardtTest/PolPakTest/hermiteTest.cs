@@ -108,7 +108,7 @@ namespace PolPakTest
 
             for (;;)
             {
-                Burkardt.TestValues.Hermite.hermite_poly_phys_values(ref n_data, ref n, ref x, ref fx);
+                Burkardt.Values.Hermite.hermite_poly_phys_values(ref n_data, ref n, ref x, ref fx);
 
                 if (n_data == 0)
                 {

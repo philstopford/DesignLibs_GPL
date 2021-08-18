@@ -50,7 +50,7 @@ namespace PolPakTest
             for (;;)
             {
 
-                Burkardt.TestValues.Jacobi.jacobi_poly_values(ref n_data, ref n, ref a, ref b, ref x, ref fx);
+                Burkardt.Values.Jacobi.jacobi_poly_values(ref n_data, ref n, ref a, ref b, ref x, ref fx);
 
                 if (n_data == 0)
                 {

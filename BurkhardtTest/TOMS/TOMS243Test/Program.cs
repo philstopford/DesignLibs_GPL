@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Numerics;
-using Burkardt.TestValues;
+using Burkardt.Values;
 using Burkardt.TOMSNS;
 
 namespace TOMS243Test

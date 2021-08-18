@@ -168,7 +168,7 @@ namespace LegendrePolynomialTest
 
             for (;;)
             {
-                Burkardt.TestValues.Legendre.p_polynomial_values(ref n_data, ref n, ref x, ref fx1);
+                Burkardt.Values.Legendre.p_polynomial_values(ref n_data, ref n, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
@@ -626,7 +626,7 @@ namespace LegendrePolynomialTest
 
             for (;;)
             {
-                Burkardt.TestValues.Legendre.pm_polynomial_values(ref n_data, ref n, ref m, ref x, ref fx1);
+                Burkardt.Values.Legendre.pm_polynomial_values(ref n_data, ref n, ref m, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
@@ -692,7 +692,7 @@ namespace LegendrePolynomialTest
 
             for (;;)
             {
-                Burkardt.TestValues.Legendre.pmn_polynomial_values(ref n_data, ref n, ref m, ref x, ref fx1);
+                Burkardt.Values.Legendre.pmn_polynomial_values(ref n_data, ref n, ref m, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
@@ -758,7 +758,7 @@ namespace LegendrePolynomialTest
 
             for (;;)
             {
-                Burkardt.TestValues.Legendre.pmns_polynomial_values(ref n_data, ref n, ref m, ref x, ref fx1);
+                Burkardt.Values.Legendre.pmns_polynomial_values(ref n_data, ref n, ref m, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
@@ -924,7 +924,7 @@ namespace LegendrePolynomialTest
 
             for (;;)
             {
-                Burkardt.TestValues.Legendre.pn_polynomial_values(ref n_data, ref n, ref x, ref fx1);
+                Burkardt.Values.Legendre.pn_polynomial_values(ref n_data, ref n, ref x, ref fx1);
 
                 if (n_data == 0)
                 {

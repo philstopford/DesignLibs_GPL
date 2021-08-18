@@ -45,7 +45,7 @@ namespace PolPakTest
 
             for (;;)
             {
-                Burkardt.TestValues.Sine.sin_power_int_values(ref n_data, ref a, ref b, ref n, ref fx);
+                Burkardt.Values.Sine.sin_power_int_values(ref n_data, ref a, ref b, ref n, ref fx);
 
                 if (n_data == 0)
                 {

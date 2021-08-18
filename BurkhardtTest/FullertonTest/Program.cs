@@ -2,7 +2,7 @@
 using Burkardt.AppliedStatistics;
 using Burkardt.FullertonFnLib;
 using Burkardt.Linpack;
-using Burkardt.TestValues;
+using Burkardt.Values;
 
 namespace FullertonTest
 {
@@ -2953,7 +2953,7 @@ namespace FullertonTest
 
             for (;;)
             {
-                Burkardt.TestValues.Gamma.gamma_log_values(ref n_data, ref x, ref fx1);
+                Burkardt.Values.Gamma.gamma_log_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
@@ -3014,7 +3014,7 @@ namespace FullertonTest
 
             for (;;)
             {
-                Burkardt.TestValues.Gamma.gamma_log_values(ref n_data, ref x, ref gamma_log);
+                Burkardt.Values.Gamma.gamma_log_values(ref n_data, ref x, ref gamma_log);
 
                 if (n_data == 0)
                 {
@@ -3130,7 +3130,7 @@ namespace FullertonTest
 
             for (;;)
             {
-                Burkardt.TestValues.Gamma.gamma_log_values(ref n_data, ref x, ref fx1);
+                Burkardt.Values.Gamma.gamma_log_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {

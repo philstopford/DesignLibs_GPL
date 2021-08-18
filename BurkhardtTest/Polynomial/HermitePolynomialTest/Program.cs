@@ -153,7 +153,7 @@ namespace HermitePolynomialTest
 
             for (;;)
             {
-                Burkardt.TestValues.Hermite.h_polynomial_values(ref n_data, ref n, ref x, ref fx1);
+                Burkardt.Values.Hermite.h_polynomial_values(ref n_data, ref n, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
@@ -218,7 +218,7 @@ namespace HermitePolynomialTest
 
             for (;;)
             {
-                Burkardt.TestValues.Hermite.he_polynomial_values(ref n_data, ref n, ref x, ref fx1);
+                Burkardt.Values.Hermite.he_polynomial_values(ref n_data, ref n, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
@@ -283,7 +283,7 @@ namespace HermitePolynomialTest
 
             for (;;)
             {
-                Burkardt.TestValues.Hermite.hf_function_values(ref n_data, ref n, ref x, ref fx1);
+                Burkardt.Values.Hermite.hf_function_values(ref n_data, ref n, ref x, ref fx1);
 
                 if (n_data == 0)
                 {

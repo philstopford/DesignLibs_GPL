@@ -46,7 +46,7 @@ namespace PolPakTest
 
             for (;;)
             {
-                Burkardt.TestValues.Cosine.cos_power_int_values(ref n_data, ref a, ref b, ref n, ref fx);
+                Burkardt.Values.Cosine.cos_power_int_values(ref n_data, ref a, ref b, ref n, ref fx);
 
                 if (n_data == 0)
                 {

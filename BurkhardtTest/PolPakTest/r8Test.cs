@@ -48,7 +48,7 @@ namespace PolPakTest
 
             for (;;)
             {
-                Burkardt.TestValues.AGM.agm_values(ref n_data, ref a, ref b, ref fx);
+                Burkardt.Values.AGM.agm_values(ref n_data, ref a, ref b, ref fx);
 
                 if (n_data == 0)
                 {
@@ -104,7 +104,7 @@ namespace PolPakTest
 
             for (;;)
             {
-                Burkardt.TestValues.Beta.beta_values(ref n_data, ref x, ref y, ref fxy);
+                Burkardt.Values.Beta.beta_values(ref n_data, ref x, ref y, ref fxy);
 
                 if (n_data == 0)
                 {
@@ -252,7 +252,7 @@ namespace PolPakTest
 
             for (;;)
             {
-                Burkardt.TestValues.ErrorFunc.erf_values(ref n_data, ref x, ref fx);
+                Burkardt.Values.ErrorFunc.erf_values(ref n_data, ref x, ref fx);
 
                 if (n_data == 0)
                 {
@@ -306,7 +306,7 @@ namespace PolPakTest
 
             for (;;)
             {
-                Burkardt.TestValues.ErrorFunc.erf_values(ref n_data, ref x1, ref fx);
+                Burkardt.Values.ErrorFunc.erf_values(ref n_data, ref x1, ref fx);
 
                 if (n_data == 0)
                 {
@@ -419,7 +419,7 @@ namespace PolPakTest
 
             for (;;)
             {
-                Burkardt.TestValues.Factorial.r8_factorial_values(ref n_data, ref n, ref fn);
+                Burkardt.Values.Factorial.r8_factorial_values(ref n_data, ref n, ref fn);
 
                 if (n_data == 0)
                 {
@@ -471,7 +471,7 @@ namespace PolPakTest
 
             for (;;)
             {
-                Burkardt.TestValues.Factorial.r8_factorial_log_values(ref n_data, ref n, ref fn);
+                Burkardt.Values.Factorial.r8_factorial_log_values(ref n_data, ref n, ref fn);
 
                 if (n_data == 0)
                 {
@@ -524,7 +524,7 @@ namespace PolPakTest
 
             for (;;)
             {
-                Burkardt.TestValues.Gamma.gamma_values(ref n_data, ref x, ref fx1);
+                Burkardt.Values.Gamma.gamma_values(ref n_data, ref x, ref fx1);
 
                 if (n_data == 0)
                 {
@@ -582,7 +582,7 @@ namespace PolPakTest
 
             for (;;)
             {
-                Burkardt.TestValues.Hypergeometric.hyper_2f1_values(ref n_data, ref a, ref b, ref c, ref x, ref fx);
+                Burkardt.Values.Hypergeometric.hyper_2f1_values(ref n_data, ref a, ref b, ref c, ref x, ref fx);
 
                 if (n_data == 0)
                 {
@@ -641,7 +641,7 @@ namespace PolPakTest
 
             for (;;)
             {
-                Burkardt.TestValues.Psi.psi_values(ref n_data, ref x, ref fx);
+                Burkardt.Values.Psi.psi_values(ref n_data, ref x, ref fx);
 
                 if (n_data == 0)
                 {

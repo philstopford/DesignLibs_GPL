@@ -6,7 +6,7 @@ using Burkardt.Uniform;
 
 namespace TruncatedNormalTest
 {
-    using TestValues = Burkardt.TestValues;
+    using TestValues = Burkardt.Values;
     class Program
     {
         static void Main(string[] args)

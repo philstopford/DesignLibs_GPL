@@ -4,7 +4,7 @@ namespace PolPakTest
 {
     using Polynomial = Burkardt.PolynomialNS.Legendre;
     using Function = Burkardt.Function.Legendre;
-    using TestValues = Burkardt.TestValues.Legendre;
+    using TestValues = Burkardt.Values.Legendre;
     using Symbol = Burkardt.Symbol.Legendre;
 
     public static class legendreTest
@@ -169,7 +169,7 @@ namespace PolPakTest
 
             for (;;)
             {
-                Burkardt.TestValues.Legendre.legendre_associated_values(ref n_data, ref n, ref m, ref x, ref fx);
+                Burkardt.Values.Legendre.legendre_associated_values(ref n_data, ref n, ref m, ref x, ref fx);
 
                 if (n_data == 0)
                 {
@@ -231,7 +231,7 @@ namespace PolPakTest
 
             for (;;)
             {
-                Burkardt.TestValues.Legendre.legendre_associated_normalized_sphere_values(ref n_data, ref n, ref m,
+                Burkardt.Values.Legendre.legendre_associated_normalized_sphere_values(ref n_data, ref n, ref m,
                     ref x, ref fx);
 
                 if (n_data == 0)

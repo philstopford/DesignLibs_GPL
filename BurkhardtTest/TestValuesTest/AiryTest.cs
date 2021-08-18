@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Numerics;
-using Burkardt.TestValues;
+using Burkardt.Values;
 
 namespace TestValuesTest
 {

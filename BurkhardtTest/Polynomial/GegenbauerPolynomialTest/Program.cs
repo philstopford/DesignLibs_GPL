@@ -241,7 +241,7 @@ namespace GegenbauerPolynomialTest
 
             for (;;)
             {
-                Burkardt.TestValues.Gegenbauer.gegenbauer_poly_values(ref n_data, ref m, ref alpha, ref xscalar, ref fx);
+                Burkardt.Values.Gegenbauer.gegenbauer_poly_values(ref n_data, ref m, ref alpha, ref xscalar, ref fx);
 
                 if (n_data == 0)
                 {
@@ -445,7 +445,7 @@ namespace GegenbauerPolynomialTest
 
             for (;;)
             {
-                Burkardt.TestValues.Hypergeometric.hyper_2f1_values(ref n_data, ref a, ref b, ref c, ref x, ref fx);
+                Burkardt.Values.Hypergeometric.hyper_2f1_values(ref n_data, ref a, ref b, ref c, ref x, ref fx);
 
                 if (n_data == 0)
                 {

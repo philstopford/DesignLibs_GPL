@@ -82,7 +82,7 @@ namespace TOMS443Test
 
             for (;;)
             {
-                Burkardt.TestValues.Lambert.lambert_w_values(ref n_data, ref x, ref w1);
+                Burkardt.Values.Lambert.lambert_w_values(ref n_data, ref x, ref w1);
 
                 if (n_data <= 0)
                 {
@@ -145,7 +145,7 @@ namespace TOMS443Test
 
             for (;;)
             {
-                Burkardt.TestValues.Lambert.lambert_w_values(ref n_data, ref x, ref w1);
+                Burkardt.Values.Lambert.lambert_w_values(ref n_data, ref x, ref w1);
 
                 if (n_data <= 0)
                 {

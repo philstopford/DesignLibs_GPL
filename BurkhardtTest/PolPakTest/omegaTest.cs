@@ -41,7 +41,7 @@ namespace PolPakTest
 
             for (;;)
             {
-                Burkardt.TestValues.Omega.omega_values(ref n_data, ref n, ref c);
+                Burkardt.Values.Omega.omega_values(ref n_data, ref n, ref c);
 
                 if (n_data == 0)
                 {

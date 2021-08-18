@@ -5,6 +5,86 @@ namespace Burkardt.IntegralNS
 {
     public static partial class Integral
     {
+        public static double fn_integral ( int d )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    FN_INTEGRAL is the integral of the Hermite test function.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    08 December 2012
+            //
+            //  Author:
+            //
+            //    John Burkardt.
+            //
+            //  Parameters:
+            //
+            //    Input, int D, the spatial dimension.
+            //
+            //    Output, double FN_INTEGRAL, the integral value.
+            //
+        {
+            int exponent = 6;
+            double value;
+
+            value = ( double ) ( typeMethods.i4_factorial2 ( exponent - 1 ) );
+
+            return value;
+        }
+
+        public static double[] fn_value ( int d, int n, double[] x )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    FN_VALUE is a Hermite test function.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    08 May 2012
+            //
+            //  Author:
+            //
+            //    John Burkardt.
+            //
+            //  Parameters:
+            //
+            //    Input, int D, the spatial dimension.
+            //
+            //    Input, int N, the number of points.
+            //
+            //    Input, double X[D*N], the points.
+            //
+            //    Output, double FN_VALUE[N], the function values.
+            //
+        {
+            int exponent = 6;
+            double[] fx;
+            int i;
+
+            fx = new double[n];
+
+            for ( i = 0; i < n; i++ )
+            {
+                fx[i] = Math.Pow ( x[0+i*d], exponent );
+            }
+
+            return fx;
+        }
+        
         public static double hermite_integral_nd ( int dim_num, int[] expon )
 
             //****************************************************************************80

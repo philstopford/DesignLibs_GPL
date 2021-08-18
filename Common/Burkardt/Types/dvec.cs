@@ -4,6 +4,141 @@ namespace Burkardt.Types
 {
     public static partial class typeMethods
     {
+        public static int[] get_seq(int d, int norm, int seq_num)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    GET_SEQ generates all positive integer D-vectors that sum to NORM.
+            //
+            //  Discussion:
+            //
+            //    This function computes a list, in reverse dictionary order, of
+            //    all D-vectors of positive values that sum to NORM.
+            //
+            //    For example, call get_seq ( 3, 5, 6, fs ) returns
+            //
+            //      3  1  1
+            //      2  2  1
+            //      2  1  2
+            //      1  3  1
+            //      1  2  2
+            //      1  1  3
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    08 December 2012
+            //
+            //  Author:
+            //
+            //    Original MATLAB version by Florian Heiss, Viktor Winschel.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Florian Heiss, Viktor Winschel,
+            //    Likelihood approximation by numerical integration on sparse grids,
+            //    Journal of Econometrics,
+            //    Volume 144, 2008, pages 62-80.
+            //
+            //  Parameters:
+            //
+            //    Input, int D, the dimension.
+            //    1 <= D.
+            //
+            //    Input, int NORM, the value that each row must sum to.
+            //    D <= NORM.
+            //
+            //    Input, int SEQ_NUM, the number of rows of FS.
+            //
+            //    Output, int GET_SEQ[SEQ_NUM*D].  Each row of FS represents 
+            //    one vector with all elements positive and summing to NORM.
+            //
+        {
+            int a;
+            int c;
+            int[] fs;
+            int i;
+            int row;
+            int[] seq;
+
+            seq = new int[d];
+            fs = new int[seq_num * d];
+
+            if (norm < d)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("GET_SEQ - Fatal error!");
+                Console.WriteLine("  NORM = " + norm + " < D = " + "");
+                return null;
+            }
+
+            for (i = 0; i < d; i++)
+            {
+                seq[i] = 0;
+            }
+
+            //
+            //  The algorithm is written to work with vectors whose minimum value is
+            //  allowed to be zero.  So we subtract D from NORM at the beginning and
+            //  then increment the result vectors by 1 at the end!
+            //
+            a = norm - d;
+            seq[0] = a;
+
+            row = 0;
+            for (i = 0; i < d; i++)
+            {
+                fs[row + i * seq_num] = seq[i] + 1;
+            }
+
+            c = 0;
+
+            while (seq[d - 1] < a)
+            {
+                if (c == d - 1)
+                {
+                    for (i = c - 1; 0 <= i; i--)
+                    {
+                        c = i;
+                        if (seq[i] != 0)
+                        {
+                            break;
+                        }
+                    }
+                }
+
+                seq[c] = seq[c] - 1;
+                c = c + 1;
+                seq[c] = a;
+                for (i = 0; i < c; i++)
+                {
+                    seq[c] = seq[c] - seq[i];
+                }
+
+                if (c < d - 1)
+                {
+                    for (i = c + 1; i < d; i++)
+                    {
+                        seq[i] = 0;
+                    }
+                }
+
+                row = row + 1;
+                for (i = 0; i < d; i++)
+                {
+                    fs[row + i * seq_num] = seq[i] + 1;
+                }
+            }
+
+            return fs;
+        }
+
         public static void dvec_add(int n, int[] dvec1, int[] dvec2, ref int[] dvec3)
 
             //****************************************************************************80

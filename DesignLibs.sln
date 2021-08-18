@@ -1016,6 +1016,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SparseGridGLTest", "Burkhar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SparseGridHermiteTest", "BurkhardtTest\Sparse\SparseGridHermiteTest\SparseGridHermiteTest.csproj", "{87A175DD-6E8A-4E7A-B52A-DDD1ADD07E0F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SparseGridHeissWinschelTest", "BurkhardtTest\Sparse\SparseGridHeissWinschelTest\SparseGridHeissWinschelTest.csproj", "{8B9B97BB-6158-4E8E-AFEB-77E177332B93}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -6294,6 +6296,18 @@ Global
 		{87A175DD-6E8A-4E7A-B52A-DDD1ADD07E0F}.Release|x64.Build.0 = Release|Any CPU
 		{87A175DD-6E8A-4E7A-B52A-DDD1ADD07E0F}.Release|x86.ActiveCfg = Release|Any CPU
 		{87A175DD-6E8A-4E7A-B52A-DDD1ADD07E0F}.Release|x86.Build.0 = Release|Any CPU
+		{8B9B97BB-6158-4E8E-AFEB-77E177332B93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B9B97BB-6158-4E8E-AFEB-77E177332B93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B9B97BB-6158-4E8E-AFEB-77E177332B93}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8B9B97BB-6158-4E8E-AFEB-77E177332B93}.Debug|x64.Build.0 = Debug|Any CPU
+		{8B9B97BB-6158-4E8E-AFEB-77E177332B93}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8B9B97BB-6158-4E8E-AFEB-77E177332B93}.Debug|x86.Build.0 = Debug|Any CPU
+		{8B9B97BB-6158-4E8E-AFEB-77E177332B93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B9B97BB-6158-4E8E-AFEB-77E177332B93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B9B97BB-6158-4E8E-AFEB-77E177332B93}.Release|x64.ActiveCfg = Release|Any CPU
+		{8B9B97BB-6158-4E8E-AFEB-77E177332B93}.Release|x64.Build.0 = Release|Any CPU
+		{8B9B97BB-6158-4E8E-AFEB-77E177332B93}.Release|x86.ActiveCfg = Release|Any CPU
+		{8B9B97BB-6158-4E8E-AFEB-77E177332B93}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -6800,6 +6814,7 @@ Global
 		{F6736773-E3EC-4A2F-BC60-EA7B260BBD5A} = {7B054A42-1FAD-4EA5-BB53-09896978BAB9}
 		{8F874019-8CFF-4381-B700-6F51C182AF37} = {7B054A42-1FAD-4EA5-BB53-09896978BAB9}
 		{87A175DD-6E8A-4E7A-B52A-DDD1ADD07E0F} = {7B054A42-1FAD-4EA5-BB53-09896978BAB9}
+		{8B9B97BB-6158-4E8E-AFEB-77E177332B93} = {7B054A42-1FAD-4EA5-BB53-09896978BAB9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B449416C-C504-4FA8-9E10-10857263A64A}

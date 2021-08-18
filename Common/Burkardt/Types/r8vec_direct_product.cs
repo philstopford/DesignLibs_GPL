@@ -10,7 +10,7 @@
         }
         
         public static void r8vec_direct_product(ref r8vecDPData data, int factor_index, int factor_order,
-                double[] factor_value, int factor_num, int point_num, ref double[] x)
+                double[] factor_value, int factor_num, int point_num, ref double[] x, int factorValueIndex = 0)
 
             //****************************************************************************80
             //
@@ -164,7 +164,7 @@
                 {
                     for (j = start; j < start + data.contig; j++)
                     {
-                        x[factor_index + j * factor_num] = factor_value[i];
+                        x[factor_index + j * factor_num] = factor_value[factorValueIndex + i];
                     }
 
                     start = start + data.skip;
@@ -175,7 +175,7 @@
         }
 
         public static void r8vec_direct_product2(ref r8vecDPData data, int factor_index, int factor_order,
-                double[] factor_value, int factor_num, int point_num, ref double[] w)
+                double[] factor_value, int factor_num, int point_num, ref double[] w, int factorValueIndex = 0)
 
             //****************************************************************************80
             //
@@ -325,7 +325,7 @@
                 {
                     for (i = start; i < start + data.contig; i++)
                     {
-                        w[i] = w[i] * factor_value[j];
+                        w[i] = w[i] * factor_value[factorValueIndex + j];
                     }
 
                     start = start + data.skip;

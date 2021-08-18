@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Quadrature;
 using Burkardt.Table;
 using Burkardt.Types;
 
@@ -6,7 +7,319 @@ namespace Burkardt.ClenshawCurtisNS
 {
     public static class ClenshawCurtis
     {
-        public static double cc_abscissa ( int order, int i )
+        public static int cce_order(int l)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    CCE_ORDER: order of a Clenshaw-Curtis Exponential rule from the level.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    22 February 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt.
+            //
+            //  Parameters:
+            //
+            //    Input, int L, the level of the rule.  
+            //    1 <= L.
+            //
+            //    Output, int CCE_ORDER, the order of the rule.
+            //
+        {
+            int n;
+
+            if (l < 1)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("CCE_ORDER - Fatal error!");
+                Console.WriteLine("  1 <= L required.");
+                Console.WriteLine("  Input L = " + l + "");
+                return (1);
+            }
+            else if (l == 1)
+            {
+                n = 1;
+            }
+            else
+            {
+                n = (int)Math.Pow(2, l - 1) + 1;
+            }
+
+            return n;
+        }
+
+        public static int ccl_order(int l)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    CCL_ORDER computes the order of a CCL rule from the level.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    19 February 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt.
+            //
+            //  Parameters:
+            //
+            //    Input, int L, the level of the rule.  
+            //    1 <= L.
+            //
+            //    Output, int CCL_ORDER, the order of the rule.
+            //
+        {
+            int n;
+
+            if (l < 1)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("CCL_ORDER - Fatal error!");
+                Console.WriteLine("  1 <= L required.");
+                Console.WriteLine("  Input L = " + l + "");
+                return (1);
+            }
+
+            n = 2 * l - 1;
+
+            return n;
+        }
+
+        public static int ccs_order(int l)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    CCS_ORDER: order of a "slow growth" Clenshaw Curtis quadrature rule.
+            //
+            //  Discussion:
+            //
+            //    Our convention is that the abscissas are numbered from left to right.
+            //
+            //    The rule is defined on [0,1].
+            //
+            //    The integral to approximate:
+            //
+            //      Integral ( 0 <= X <= 1 ) F(X) dX
+            //
+            //    The quadrature rule:
+            //
+            //      Sum ( 1 <= I <= N ) W(I) * F ( X(I) )
+            //
+            //    The input value L requests a rule of precision at least 2*L-1.
+            //
+            //    In order to preserve nestedness, this function returns the order
+            //    of a rule which is the smallest value of the form 1+2^E which
+            //    is greater than or equal to 2*L-1.
+            //
+            //     L  2*L-1   N
+            //    --  -----  --
+            //     1      1   1
+            //     2      3   3
+            //     3      5   5
+            //     4      7   9
+            //     5      9   9
+            //     6     11  17
+            //     7     13  17
+            //     8     15  17
+            //     9     17  17
+            //    10     19  33
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    08 December 2012
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int L, the level of the rule.
+            //    1 <= L.
+            //
+            //    Output, int CCS_ORDER, the appropriate order.
+            //
+        {
+            int n;
+
+            if (l < 1)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("CCS_ORDER - Fatal error!");
+                Console.WriteLine("  Illegal value of L = " + l + "");
+                return (1);
+            }
+
+            //
+            //  Find the order N that satisfies the precision requirement.
+            //
+            if (l == 1)
+            {
+                n = 1;
+            }
+            else
+            {
+                n = 3;
+                while (n < 2 * l - 1)
+                {
+                    n = 2 * n - 1;
+                }
+            }
+
+            return n;
+        }
+
+        public class ccResult
+        {
+            public double[] x;
+            public double[] w;
+        }
+
+        public static ccResult cc(int n, double[] x_, double[] w_)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    CC computes a Clenshaw Curtis quadrature rule based on order.
+            //
+            //  Discussion:
+            //
+            //    Our convention is that the abscissas are numbered from left to right.
+            //
+            //    The rule is defined on [0,1].
+            //
+            //    The integral to approximate:
+            //
+            //      Integral ( 0 <= X <= 1 ) F(X) dX
+            //
+            //    The quadrature rule:
+            //
+            //      Sum ( 1 <= I <= N ) W(I) * F ( X(I) )
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    08 December 2012
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order of the rule.
+            //    1 <= N.
+            //
+            //    Output, double X[N], the abscissas.
+            //
+            //    Output, double W[N], the weights.
+            //
+        {
+            double b;
+            int i;
+            int j;
+            double pi = 3.141592653589793;
+            double theta;
+            ccResult result = new ccResult();
+            result.w = w_;
+            result.x = x_;
+
+            if (n < 1)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("CC - Fatal error!");
+                Console.WriteLine("  Illegal value of N = " + n + "");
+                return result;
+            }
+
+            if (n == 1)
+            {
+                result.x[0] = 0.0;
+                result.w[0] = 2.0;
+            }
+            else
+            {
+                for (i = 0; i < n; i++)
+                {
+                    result.x[i] = Math.Cos((double)(n - 1 - i) * pi
+                                           / (double)(n - 1));
+                }
+
+                result.x[0] = -1.0;
+                if ((n % 2) == 1)
+                {
+                    result.x[(n + 1) / 2 - 1] = 0.0;
+                }
+
+                result.x[n - 1] = +1.0;
+
+                for (i = 0; i < n; i++)
+                {
+                    theta = (double)(i) * pi
+                            / (double)(n - 1);
+
+                    result.w[i] = 1.0;
+
+                    for (j = 1; j <= (n - 1) / 2; j++)
+                    {
+                        if (2 * j == (n - 1))
+                        {
+                            b = 1.0;
+                        }
+                        else
+                        {
+                            b = 2.0;
+                        }
+
+                        result.w[i] = result.w[i] - b * Math.Cos(2.0 * (double)(j) * theta)
+                            / (double)(4 * j * j - 1);
+                    }
+                }
+
+                result.w[0] = result.w[0] / (double)(n - 1);
+                for (j = 1; j < n - 1; j++)
+                {
+                    result.w[j] = 2.0 * result.w[j] / (double)(n - 1);
+                }
+
+                result.w[n - 1] = result.w[n - 1] / (double)(n - 1);
+            }
+
+            //
+            //  Transform from [-1,+1] to [0,1].
+            //
+            QuadratureRule.rule_adjust(-1.0, +1.0, 0.0, 1.0, n, ref result.x, ref result.w);
+
+            return result;
+        }
+
+        public static double cc_abscissa(int order, int i)
 
             //****************************************************************************80
             //
@@ -44,77 +357,78 @@ namespace Burkardt.ClenshawCurtisNS
             double pi = 3.141592653589793;
             double value;
 
-            if ( order < 1 )
+            if (order < 1)
             {
                 Console.WriteLine("");
                 Console.WriteLine("CC_ABSCISSA - Fatal error!");
                 Console.WriteLine("  Input value of ORDER < 1.");
                 Console.WriteLine("  Input value of ORDER = " + order + "");
-                return ( 1 );
+                return (1);
             }
 
-            if ( i < 1 || order < i )
+            if (i < 1 || order < i)
             {
                 Console.WriteLine("");
                 Console.WriteLine("CC_ABSCISSA - Fatal error!");
                 Console.WriteLine("  1 <= I <= ORDER is required.");
                 Console.WriteLine("  I = " + i + "");
                 Console.WriteLine("  ORDER = " + order + "");
-                return ( 1 );
+                return (1);
             }
 
-            if ( order == 1 )
+            if (order == 1)
             {
                 value = 0.0;
                 return value;
             }
 
-            value = Math.Cos ( ( double ) ( order - i ) * pi 
-                          / ( double ) ( order - 1 ) );
+            value = Math.Cos((double)(order - i) * pi
+                             / (double)(order - 1));
 
-            if ( 2 * i - 1 == order )
+            if (2 * i - 1 == order)
             {
                 value = 0.0;
             }
 
             return value;
         }
-        public static double[] product_weights_cc ( int dim_num, int[] order_1d, int order_nd )
 
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    PRODUCT_WEIGHTS_CC computes weights for a Clenshaw Curtis product rule.
-        //
-        //  Discussion:
-        //
-        //    This routine computes the weights for a quadrature rule which is
-        //    a product of closed rules of varying order.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license. 
-        //
-        //  Modified:
-        //
-        //    09 November 2007
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int DIM_NUM, the spatial dimension.
-        //
-        //    Input, int ORDER_1D[DIM_NUM], the order of the 1D rules.
-        //
-        //    Input, int ORDER_ND, the order of the product rule.
-        //
-        //    Output, double PRODUCT_WEIGHTS_CC[DIM_NUM*ORDER_ND], 
-        //    the product rule weights.
-        //
+        public static double[] product_weights_cc(int dim_num, int[] order_1d, int order_nd)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    PRODUCT_WEIGHTS_CC computes weights for a Clenshaw Curtis product rule.
+            //
+            //  Discussion:
+            //
+            //    This routine computes the weights for a quadrature rule which is
+            //    a product of closed rules of varying order.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    09 November 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int DIM_NUM, the spatial dimension.
+            //
+            //    Input, int ORDER_1D[DIM_NUM], the order of the 1D rules.
+            //
+            //    Input, int ORDER_ND, the order of the product rule.
+            //
+            //    Output, double PRODUCT_WEIGHTS_CC[DIM_NUM*ORDER_ND], 
+            //    the product rule weights.
+            //
         {
             int dim;
             int order;
@@ -122,26 +436,26 @@ namespace Burkardt.ClenshawCurtisNS
             double[] w_nd;
 
             typeMethods.r8vecDPData data = new typeMethods.r8vecDPData();
-            
+
             w_nd = new double[order_nd];
 
-            for ( order = 0; order < order_nd; order++ )
+            for (order = 0; order < order_nd; order++)
             {
                 w_nd[order] = 1.0;
             }
 
-            for ( dim = 0; dim < dim_num; dim++ )
+            for (dim = 0; dim < dim_num; dim++)
             {
-                w_1d = cc_weights ( order_1d[dim] );
+                w_1d = cc_weights(order_1d[dim]);
 
-                typeMethods.r8vec_direct_product2 ( ref data, dim, order_1d[dim], w_1d, dim_num, 
-                    order_nd, ref w_nd );
+                typeMethods.r8vec_direct_product2(ref data, dim, order_1d[dim], w_1d, dim_num,
+                    order_nd, ref w_nd);
             }
 
             return w_nd;
         }
-        
-        public static double[] cc_weights ( int n )
+
+        public static double[] cc_weights(int n)
 
             //****************************************************************************80
             //
@@ -184,21 +498,21 @@ namespace Burkardt.ClenshawCurtisNS
 
             w = new double[n];
 
-            if ( n == 1 )
+            if (n == 1)
             {
                 w[0] = 2.0;
                 return w;
             }
 
-            for ( i = 1; i <= n; i++ )
+            for (i = 1; i <= n; i++)
             {
-                theta = ( double ) ( i - 1 ) * pi / ( double ) ( n - 1 );
+                theta = (double)(i - 1) * pi / (double)(n - 1);
 
-                w[i-1] = 1.0;
+                w[i - 1] = 1.0;
 
-                for ( j = 1; j <= ( n - 1 ) / 2; j++ )
+                for (j = 1; j <= (n - 1) / 2; j++)
                 {
-                    if ( 2 * j == ( n - 1 ) )
+                    if (2 * j == (n - 1))
                     {
                         b = 1.0;
                     }
@@ -207,64 +521,65 @@ namespace Burkardt.ClenshawCurtisNS
                         b = 2.0;
                     }
 
-                    w[i-1] = w[i-1] - b * Math.Cos ( 2.0 * ( double ) ( j ) * theta ) 
-                        / ( double ) ( 4 * j * j - 1 );
+                    w[i - 1] = w[i - 1] - b * Math.Cos(2.0 * (double)(j) * theta)
+                        / (double)(4 * j * j - 1);
                 }
             }
 
-            w[0] = w[0] / ( double ) ( n - 1 );
-            for ( i = 1; i < n-1; i++ )
+            w[0] = w[0] / (double)(n - 1);
+            for (i = 1; i < n - 1; i++)
             {
-                w[i] = 2.0 * w[i] / ( double ) ( n - 1 );
+                w[i] = 2.0 * w[i] / (double)(n - 1);
             }
-            w[n-1] = w[n-1] / ( double ) ( n - 1 );
+
+            w[n - 1] = w[n - 1] / (double)(n - 1);
 
             return w;
         }
-        
-        public static int index_to_level_closed ( int dim_num, int[] t, int order, int level_max, int tIndex = 0 )
 
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    INDEX_TO_LEVEL_CLOSED determines the level of a point given its index.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license. 
-        //
-        //  Modified:
-        //
-        //    09 November 2007
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Reference:
-        //
-        //    Fabio Nobile, Raul Tempone, Clayton Webster,
-        //    A Sparse Grid Stochastic Collocation Method for Partial Differential
-        //    Equations with Random Input Data,
-        //    SIAM Journal on Numerical Analysis,
-        //    Volume 46, Number 5, 2008, pages 2309-2345.
-        //
-        //  Parameters:
-        //
-        //    Input, int DIM_NUM, the spatial dimension.
-        //
-        //    Input, int T[DIM_NUM], the grid indices of a point in a 1D closed rule.
-        //    0 <= T[I] <= ORDER.
-        //
-        //    Input, int ORDER, the order of the rule.
-        //
-        //    Input, int LEVEL_MAX, the level with respect to which the
-        //    index applies.
-        //
-        //    Output, int INDEX_TO_LEVEL_CLOSED, the first level on which
-        //    the point associated with the given index will appear.
-        //
+        public static int index_to_level_closed(int dim_num, int[] t, int order, int level_max, int tIndex = 0)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    INDEX_TO_LEVEL_CLOSED determines the level of a point given its index.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    09 November 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Fabio Nobile, Raul Tempone, Clayton Webster,
+            //    A Sparse Grid Stochastic Collocation Method for Partial Differential
+            //    Equations with Random Input Data,
+            //    SIAM Journal on Numerical Analysis,
+            //    Volume 46, Number 5, 2008, pages 2309-2345.
+            //
+            //  Parameters:
+            //
+            //    Input, int DIM_NUM, the spatial dimension.
+            //
+            //    Input, int T[DIM_NUM], the grid indices of a point in a 1D closed rule.
+            //    0 <= T[I] <= ORDER.
+            //
+            //    Input, int ORDER, the order of the rule.
+            //
+            //    Input, int LEVEL_MAX, the level with respect to which the
+            //    index applies.
+            //
+            //    Output, int INDEX_TO_LEVEL_CLOSED, the first level on which
+            //    the point associated with the given index will appear.
+            //
         {
             int dim;
             int level;
@@ -273,13 +588,13 @@ namespace Burkardt.ClenshawCurtisNS
 
             value = 0;
 
-            for ( dim = 0; dim < dim_num; dim++ )
+            for (dim = 0; dim < dim_num; dim++)
             {
                 s = t[tIndex + dim];
 
-                s = typeMethods.i4_modp ( s, order );
+                s = typeMethods.i4_modp(s, order);
 
-                if ( s == 0 )
+                if (s == 0)
                 {
                     level = 0;
                 }
@@ -287,25 +602,28 @@ namespace Burkardt.ClenshawCurtisNS
                 {
                     level = level_max;
 
-                    while ( ( s % 2 ) == 0 )
+                    while ((s % 2) == 0)
                     {
                         s = s / 2;
                         level = level - 1;
                     }
                 }
 
-                if ( level == 0 )
+                if (level == 0)
                 {
                     level = 1;
                 }
-                else if ( level == 1 )
+                else if (level == 1)
                 {
                     level = 0;
                 }
+
                 value = value + level;
             }
+
             return value;
         }
+
         public static void level_to_order_closed(int dim_num, int[] level, ref int[] order)
 
             //****************************************************************************80
@@ -406,49 +724,49 @@ namespace Burkardt.ClenshawCurtisNS
             }
         }
 
-        public static void clenshaw_curtis_compute(int order, ref double[] x, ref double[] w )
+        public static void clenshaw_curtis_compute(int order, ref double[] x, ref double[] w)
 
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    CLENSHAW_CURTIS_COMPUTE computes a Clenshaw Curtis quadrature rule.
-        //
-        //  Discussion:
-        //
-        //    The integration interval is [ -1, 1 ].
-        //
-        //    The weight function is w(x) = 1.0.
-        //
-        //    The integral to approximate:
-        //
-        //      Integral ( -1 <= X <= 1 ) F(X) dX
-        //
-        //    The quadrature rule:
-        //
-        //      Sum ( 1 <= I <= ORDER ) W(I) * F ( X(I) )
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license.
-        //
-        //  Modified:
-        //
-        //    19 March 2009
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int ORDER, the order of the rule.
-        //    1 <= ORDER.
-        //
-        //    Output, double X[ORDER], the abscissas.
-        //
-        //    Output, double W[ORDER], the weights.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    CLENSHAW_CURTIS_COMPUTE computes a Clenshaw Curtis quadrature rule.
+            //
+            //  Discussion:
+            //
+            //    The integration interval is [ -1, 1 ].
+            //
+            //    The weight function is w(x) = 1.0.
+            //
+            //    The integral to approximate:
+            //
+            //      Integral ( -1 <= X <= 1 ) F(X) dX
+            //
+            //    The quadrature rule:
+            //
+            //      Sum ( 1 <= I <= ORDER ) W(I) * F ( X(I) )
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    19 March 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int ORDER, the order of the rule.
+            //    1 <= ORDER.
+            //
+            //    Output, double X[ORDER], the abscissas.
+            //
+            //    Output, double W[ORDER], the weights.
+            //
         {
             double b;
             int i;
@@ -471,8 +789,8 @@ namespace Burkardt.ClenshawCurtisNS
             {
                 for (i = 0; i < order; i++)
                 {
-                    x[i] = Math.Cos((double) (order - 1 - i) * Math.PI
-                                    / (double) (order - 1));
+                    x[i] = Math.Cos((double)(order - 1 - i) * Math.PI
+                                    / (double)(order - 1));
                 }
 
                 x[0] = -1.0;
@@ -485,7 +803,7 @@ namespace Burkardt.ClenshawCurtisNS
 
                 for (i = 0; i < order; i++)
                 {
-                    theta = (double) (i) * Math.PI / (double) (order - 1);
+                    theta = (double)(i) * Math.PI / (double)(order - 1);
 
                     w[i] = 1.0;
 
@@ -500,24 +818,24 @@ namespace Burkardt.ClenshawCurtisNS
                             b = 2.0;
                         }
 
-                        w[i] = w[i] - b * Math.Cos(2.0 * (double) (j) * theta)
-                            / (double) (4 * j * j - 1);
+                        w[i] = w[i] - b * Math.Cos(2.0 * (double)(j) * theta)
+                            / (double)(4 * j * j - 1);
                     }
                 }
 
-                w[0] = w[0] / (double) (order - 1);
+                w[0] = w[0] / (double)(order - 1);
                 for (i = 1; i < order - 1; i++)
                 {
-                    w[i] = 2.0 * w[i] / (double) (order - 1);
+                    w[i] = 2.0 * w[i] / (double)(order - 1);
                 }
 
-                w[order - 1] = w[order - 1] / (double) (order - 1);
+                w[order - 1] = w[order - 1] / (double)(order - 1);
             }
 
             return;
         }
 
-        public static double[] cc_compute_points ( int n )
+        public static double[] cc_compute_points(int n)
 
             //****************************************************************************80
             //
@@ -553,7 +871,7 @@ namespace Burkardt.ClenshawCurtisNS
             int i;
             double[] x;
 
-            if ( n < 1 )
+            if (n < 1)
             {
                 Console.WriteLine("");
                 Console.WriteLine("CC_COMPUTE_POINTS - Fatal error!");
@@ -563,27 +881,30 @@ namespace Burkardt.ClenshawCurtisNS
 
             x = new double[n];
 
-            if ( n == 1 )
+            if (n == 1)
             {
                 x[0] = 0.0;
             }
             else
             {
-                for ( i = 1; i <= n; i++ )
+                for (i = 1; i <= n; i++)
                 {
-                    x[i-1] =  Math.Cos ( ( double ) ( n - i ) * Math.PI 
-                                    / ( double ) ( n - 1     ) );
+                    x[i - 1] = Math.Cos((double)(n - i) * Math.PI
+                                        / (double)(n - 1));
                 }
+
                 x[0] = -1.0;
-                if ( ( n % 2 ) == 1 )
+                if ((n % 2) == 1)
                 {
-                    x[(n-1)/2] = 0.0;
+                    x[(n - 1) / 2] = 0.0;
                 }
-                x[n-1] = +1.0;
+
+                x[n - 1] = +1.0;
             }
+
             return x;
         }
-        
+
         public static double[] ccn_compute_points_new(int n)
 
             //****************************************************************************80
@@ -669,12 +990,12 @@ namespace Burkardt.ClenshawCurtisNS
                 {
                     if ((i % 2) == 1)
                     {
-                        x[m + i - 1] = tu / 2.0 / (double) (k);
+                        x[m + i - 1] = tu / 2.0 / (double)(k);
                         tu = tu + 2;
                     }
                     else
                     {
-                        x[m + i - 1] = td / 2.0 / (double) (k);
+                        x[m + i - 1] = td / 2.0 / (double)(k);
                         td = td - 2;
                     }
                 }
@@ -917,18 +1238,18 @@ namespace Burkardt.ClenshawCurtisNS
                 //  Evaluate the antiderivative of the polynomial at the left and
                 //  right endpoints.
                 //
-                yvala = d[n - 1] / (double) (n);
+                yvala = d[n - 1] / (double)(n);
                 for (j = n - 2; 0 <= j; j--)
                 {
-                    yvala = yvala * x_min + d[j] / (double) (j + 1);
+                    yvala = yvala * x_min + d[j] / (double)(j + 1);
                 }
 
                 yvala = yvala * x_min;
 
-                yvalb = d[n - 1] / (double) (n);
+                yvalb = d[n - 1] / (double)(n);
                 for (j = n - 2; 0 <= j; j--)
                 {
-                    yvalb = yvalb * x_max + d[j] / (double) (j + 1);
+                    yvalb = yvalb * x_max + d[j] / (double)(j + 1);
                 }
 
                 yvalb = yvalb * x_max;

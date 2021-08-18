@@ -14,6 +14,214 @@ namespace Burkardt.Composition
 
     public static class Comp
     {
+        public static int[] get_seq(int d, int norm, int seq_num)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    GET_SEQ generates all positive integer D-vectors that sum to NORM.
+            //
+            //  Discussion:
+            //
+            //    This function computes a list, in reverse dictionary order, of
+            //    all D-vectors of positive values that sum to NORM.
+            //
+            //    For example, call get_seq ( 3, 5, 6, fs ) returns
+            //
+            //      3  1  1
+            //      2  2  1
+            //      2  1  2
+            //      1  3  1
+            //      1  2  2
+            //      1  1  3
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    08 December 2012
+            //
+            //  Author:
+            //
+            //    Original MATLAB version by Florian Heiss, Viktor Winschel.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Florian Heiss, Viktor Winschel,
+            //    Likelihood approximation by numerical integration on sparse grids,
+            //    Journal of Econometrics,
+            //    Volume 144, 2008, pages 62-80.
+            //
+            //  Parameters:
+            //
+            //    Input, int D, the dimension.
+            //    1 <= D.
+            //
+            //    Input, int NORM, the value that each row must sum to.
+            //    D <= NORM.
+            //
+            //    Input, int SEQ_NUM, the number of rows of FS.
+            //
+            //    Output, int GET_SEQ[SEQ_NUM*D].  Each row of FS represents 
+            //    one vector with all elements positive and summing to NORM.
+            //
+        {
+            int a;
+            int c;
+            int[] fs;
+            int i;
+            int row;
+            int[] seq;
+
+            seq = new int[d];
+            fs = new int[seq_num * d];
+
+            if (norm < d)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("GET_SEQ - Fatal error!");
+                Console.WriteLine("  NORM = " + norm + " < D = " + "");
+                return null;
+            }
+
+            for (i = 0; i < d; i++)
+            {
+                seq[i] = 0;
+            }
+
+            //
+            //  The algorithm is written to work with vectors whose minimum value is
+            //  allowed to be zero.  So we subtract D from NORM at the beginning and
+            //  then increment the result vectors by 1 at the end!
+            //
+            a = norm - d;
+            seq[0] = a;
+
+            row = 0;
+            for (i = 0; i < d; i++)
+            {
+                fs[row + i * seq_num] = seq[i] + 1;
+            }
+
+            c = 0;
+
+            while (seq[d - 1] < a)
+            {
+                if (c == d - 1)
+                {
+                    for (i = c - 1; 0 <= i; i--)
+                    {
+                        c = i;
+                        if (seq[i] != 0)
+                        {
+                            break;
+                        }
+                    }
+                }
+
+                seq[c] = seq[c] - 1;
+                c = c + 1;
+                seq[c] = a;
+                for (i = 0; i < c; i++)
+                {
+                    seq[c] = seq[c] - seq[i];
+                }
+
+                if (c < d - 1)
+                {
+                    for (i = c + 1; i < d; i++)
+                    {
+                        seq[i] = 0;
+                    }
+                }
+
+                row = row + 1;
+                for (i = 0; i < d; i++)
+                {
+                    fs[row + i * seq_num] = seq[i] + 1;
+                }
+            }
+
+            return fs;
+        }
+
+        public static int num_seq ( int n, int k )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    NUM_SEQ returns the number of compositions of the integer N into K parts.
+            //
+            //  Discussion:
+            //
+            //    A composition of the integer N into K parts is an ordered sequence
+            //    of K nonnegative integers which sum to N.  The compositions (1,2,1)
+            //    and (1,1,2) are considered to be distinct.
+            //
+            //    The 28 compositions of 6 into three parts are:
+            //
+            //      6 0 0,  5 1 0,  5 0 1,  4 2 0,  4 1 1,  4 0 2,
+            //      3 3 0,  3 2 1,  3 1 2,  3 0 3,  2 4 0,  2 3 1,
+            //      2 2 2,  2 1 3,  2 0 4,  1 5 0,  1 4 1,  1 3 2,
+            //      1 2 3,  1 1 4,  1 0 5,  0 6 0,  0 5 1,  0 4 2,
+            //      0 3 3,  0 2 4,  0 1 5,  0 0 6.
+            //
+            //    The formula for the number of compositions of N into K parts is
+            //
+            //      Number = ( N + K - 1 )! / ( N! * ( K - 1 )! )
+            //
+            //    Describe the composition using N '1's and K-1 dividing lines '|'.
+            //    The number of distinct permutations of these symbols is the number
+            //    of compositions.  This is equal to the number of permutations of
+            //    N+K-1 things, with N identical of one kind and K-1 identical of another.
+            //
+            //    Thus, for the above example, we have:
+            //
+            //      Number = ( 6 + 3 - 1 )! / ( 6! * (3-1)! ) = 28
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    08 December 2012
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Albert Nijenhuis, Herbert Wilf,
+            //    Combinatorial Algorithms for Computers and Calculators,
+            //    Second Edition,
+            //    Academic Press, 1978,
+            //    ISBN: 0-12-519260-6,
+            //    LC: QA164.N54.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the integer whose compositions are desired.
+            //
+            //    Input, int K, the number of parts in the composition.
+            //
+            //    Output, int NUM_SEQ, the number of compositions of N
+            //    into K parts.
+            //
+        {
+            int value;
+
+            value = typeMethods.i4_choose ( n + k - 1, n );
+
+            return value;
+        }
+        
         public static int comp_enum(int n, int k)
 
             //****************************************************************************80

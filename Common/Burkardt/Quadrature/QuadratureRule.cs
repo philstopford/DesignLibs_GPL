@@ -5,6 +5,178 @@ namespace Burkardt.Quadrature
 {
     public static class QuadratureRule
     {
+        public static void quad_rule_print ( int m, int n, double[] x, double[] w, string title )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    QUAD_RULE_PRINT prints a multidimensional quadrature rule.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    08 December 2012
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int M, the spatial dimension.
+        //
+        //    Input, int N, the number of points.
+        //
+        //    Input, double X[M*N], the abscissas.
+        //
+        //    Input, double W[N], the weights.
+        //
+        //    Input, string TITLE, a title for the rule.
+        //
+        {
+            int i;
+            int j;
+
+            Console.WriteLine("");
+            Console.WriteLine(title + "");
+            Console.WriteLine("");
+
+            for ( j = 0; j < n; j++ )
+            {
+                string cout = "  " + setw(2) + j
+                    + "  " + setw(10) + w[j] + " * f (";
+                for ( i = 0; i < m; i++ )
+                {
+                    cout += x[i+j*m];
+                    if ( i < m - 1 )
+                    {
+                        cout += ",";
+                    }
+                    else
+                    {
+                        Console.WriteLine(cout + " )");
+                    }
+                }
+            }
+
+            return;
+        }
+        
+        public static void rule_sort ( int m, int n, ref double[] x, ref double[] w )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    RULE_SORT sorts a multidimensional quadrature rule.
+        //
+        //  Discussion:
+        //
+        //    This routine reorders the items in the rule so that the points
+        //    occur in increasing lexicographic order.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    08 December 2012
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int M, N, the number of rows and columns.
+        //
+        //    Input/output, double X[M*N], W[N].
+        //    The points and weights.
+        //
+        {
+            int i;
+            int indx;
+            int isgn;
+            int j1;
+            int j2;
+            double t;
+            double ww;
+
+            if ( m <= 0 )
+            {
+                return;
+            }
+
+            if ( n <= 1 )
+            {
+                return;
+            }
+            //
+            //  Initialize.
+            //
+            indx = 0;
+            isgn = 0;
+            j1 = 0;
+            j2 = 0;
+            //
+            //  Call the external heap sorter.
+            //
+            while ( 1 )
+            {
+                sort_heap_external ( n, indx, j1, j2, isgn );
+                //
+                //  Interchange columns J1 and J2.
+                //
+                if ( 0 < indx )
+                {
+                    for ( i = 0; i < m; i++ )
+                    {
+                        t             = x[i+(j1-1)*m];
+                        x[i+(j1-1)*m] = x[i+(j2-1)*m];
+                        x[i+(j2-1)*m] = t;
+                    }
+
+                    ww      = w[j1-1];
+                    w[j1-1] = w[j2-1];
+                    w[j2-1] = ww;   
+                }
+                //
+                //  Compare columns J1 and J2.
+                //
+                else if ( indx < 0 )
+                {
+                    isgn = 0;
+                    for ( i = 0; i < m; i++ )
+                    {
+                        if ( x[i+(j1-1)*m] < x[i+(j2-1)*m] )
+                        {
+                            isgn = -1;
+                            break;
+                        }
+                        else if ( x[i+(j2-1)*m] < x[i+(j1-1)*m] )
+                        {
+                            isgn = +1;
+                            break;
+                        }
+                    }
+                }
+                //
+                //  The columns are sorted.
+                //
+                else if ( indx == 0 )
+                {
+                    break;
+                }
+            }
+
+            return;
+        }
+        
         public static double qmdpt (int setting, Func <int, int, double[], double> func, int n, int nsub )
 
             //****************************************************************************80

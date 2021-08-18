@@ -6,6 +6,406 @@ namespace Burkardt.ClenshawCurtisNS
 {
     public static class ClenshawCurtis
     {
+        public static double cc_abscissa ( int order, int i )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    CC_ABSCISSA returns the I-th abscissa of the Clenshaw Curtis rule.
+            //
+            //  Discussion:
+            //
+            //    Our convention is that the abscissas are numbered from left to
+            //    right.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    16 October 2008
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int ORDER, the order of the rule.
+            //
+            //    Input, int I, the index of the desired abscissa.  1 <= I <= ORDER.
+            //
+            //    Output, double CC_ABSCISSA, the value of the I-th 
+            //    abscissa in the rule of order ORDER.
+            //
+        {
+            double pi = 3.141592653589793;
+            double value;
+
+            if ( order < 1 )
+            {
+                Console.WriteLine("");
+                Console.WriteLine("CC_ABSCISSA - Fatal error!");
+                Console.WriteLine("  Input value of ORDER < 1.");
+                Console.WriteLine("  Input value of ORDER = " + order + "");
+                return ( 1 );
+            }
+
+            if ( i < 1 || order < i )
+            {
+                Console.WriteLine("");
+                Console.WriteLine("CC_ABSCISSA - Fatal error!");
+                Console.WriteLine("  1 <= I <= ORDER is required.");
+                Console.WriteLine("  I = " + i + "");
+                Console.WriteLine("  ORDER = " + order + "");
+                return ( 1 );
+            }
+
+            if ( order == 1 )
+            {
+                value = 0.0;
+                return value;
+            }
+
+            value = Math.Cos ( ( double ) ( order - i ) * pi 
+                          / ( double ) ( order - 1 ) );
+
+            if ( 2 * i - 1 == order )
+            {
+                value = 0.0;
+            }
+
+            return value;
+        }
+        public static double[] product_weights_cc ( int dim_num, int[] order_1d, int order_nd )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    PRODUCT_WEIGHTS_CC computes weights for a Clenshaw Curtis product rule.
+        //
+        //  Discussion:
+        //
+        //    This routine computes the weights for a quadrature rule which is
+        //    a product of closed rules of varying order.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    09 November 2007
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int DIM_NUM, the spatial dimension.
+        //
+        //    Input, int ORDER_1D[DIM_NUM], the order of the 1D rules.
+        //
+        //    Input, int ORDER_ND, the order of the product rule.
+        //
+        //    Output, double PRODUCT_WEIGHTS_CC[DIM_NUM*ORDER_ND], 
+        //    the product rule weights.
+        //
+        {
+            int dim;
+            int order;
+            double[] w_1d;
+            double[] w_nd;
+
+            typeMethods.r8vecDPData data = new typeMethods.r8vecDPData();
+            
+            w_nd = new double[order_nd];
+
+            for ( order = 0; order < order_nd; order++ )
+            {
+                w_nd[order] = 1.0;
+            }
+
+            for ( dim = 0; dim < dim_num; dim++ )
+            {
+                w_1d = cc_weights ( order_1d[dim] );
+
+                typeMethods.r8vec_direct_product2 ( ref data, dim, order_1d[dim], w_1d, dim_num, 
+                    order_nd, ref w_nd );
+            }
+
+            return w_nd;
+        }
+        
+        public static double[] cc_weights ( int n )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    CC_WEIGHTS computes Clenshaw Curtis weights.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    09 November 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Charles Clenshaw, Alan Curtis,
+            //    A Method for Numerical Integration on an Automatic Computer,
+            //    Numerische Mathematik,
+            //    Volume 2, Number 1, December 1960, pages 197-205.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order of the rule.
+            //
+            //    Output, double CC_WEIGHTS[N], the weights of the rule.
+            //
+        {
+            double b;
+            int i;
+            int j;
+            double pi = 3.141592653589793;
+            double theta;
+            double[] w;
+
+            w = new double[n];
+
+            if ( n == 1 )
+            {
+                w[0] = 2.0;
+                return w;
+            }
+
+            for ( i = 1; i <= n; i++ )
+            {
+                theta = ( double ) ( i - 1 ) * pi / ( double ) ( n - 1 );
+
+                w[i-1] = 1.0;
+
+                for ( j = 1; j <= ( n - 1 ) / 2; j++ )
+                {
+                    if ( 2 * j == ( n - 1 ) )
+                    {
+                        b = 1.0;
+                    }
+                    else
+                    {
+                        b = 2.0;
+                    }
+
+                    w[i-1] = w[i-1] - b * Math.Cos ( 2.0 * ( double ) ( j ) * theta ) 
+                        / ( double ) ( 4 * j * j - 1 );
+                }
+            }
+
+            w[0] = w[0] / ( double ) ( n - 1 );
+            for ( i = 1; i < n-1; i++ )
+            {
+                w[i] = 2.0 * w[i] / ( double ) ( n - 1 );
+            }
+            w[n-1] = w[n-1] / ( double ) ( n - 1 );
+
+            return w;
+        }
+        
+        public static int index_to_level_closed ( int dim_num, int[] t, int order, int level_max, int tIndex = 0 )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    INDEX_TO_LEVEL_CLOSED determines the level of a point given its index.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    09 November 2007
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Fabio Nobile, Raul Tempone, Clayton Webster,
+        //    A Sparse Grid Stochastic Collocation Method for Partial Differential
+        //    Equations with Random Input Data,
+        //    SIAM Journal on Numerical Analysis,
+        //    Volume 46, Number 5, 2008, pages 2309-2345.
+        //
+        //  Parameters:
+        //
+        //    Input, int DIM_NUM, the spatial dimension.
+        //
+        //    Input, int T[DIM_NUM], the grid indices of a point in a 1D closed rule.
+        //    0 <= T[I] <= ORDER.
+        //
+        //    Input, int ORDER, the order of the rule.
+        //
+        //    Input, int LEVEL_MAX, the level with respect to which the
+        //    index applies.
+        //
+        //    Output, int INDEX_TO_LEVEL_CLOSED, the first level on which
+        //    the point associated with the given index will appear.
+        //
+        {
+            int dim;
+            int level;
+            int s;
+            int value;
+
+            value = 0;
+
+            for ( dim = 0; dim < dim_num; dim++ )
+            {
+                s = t[tIndex + dim];
+
+                s = typeMethods.i4_modp ( s, order );
+
+                if ( s == 0 )
+                {
+                    level = 0;
+                }
+                else
+                {
+                    level = level_max;
+
+                    while ( ( s % 2 ) == 0 )
+                    {
+                        s = s / 2;
+                        level = level - 1;
+                    }
+                }
+
+                if ( level == 0 )
+                {
+                    level = 1;
+                }
+                else if ( level == 1 )
+                {
+                    level = 0;
+                }
+                value = value + level;
+            }
+            return value;
+        }
+        public static void level_to_order_closed(int dim_num, int[] level, ref int[] order)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    LEVEL_TO_ORDER_CLOSED converts a level to an order for closed rules.
+            //
+            //  Discussion:
+            //
+            //    Sparse grids can naturally be nested.  A natural scheme is to use
+            //    a series of one-dimensional rules arranged in a series of "levels"
+            //    whose order roughly doubles with each step.
+            //
+            //    The arrangement described here works naturally for the Clenshaw Curtis
+            //    and Newton Cotes closed rules.  
+            //
+            //    The idea is that we start with LEVEL = 0, ORDER = 1 indicating the single 
+            //    point at the center, and for all values afterwards, we use the 
+            //    relationship
+            //
+            //      ORDER = 2^LEVEL + 1
+            //
+            //    The following table shows how the growth will occur:
+            //
+            //    Level    Order
+            //
+            //    0          1
+            //    1          3 =  2 + 1
+            //    2          5 =  4 + 1
+            //    3          9 =  8 + 1
+            //    4         17 = 16 + 1
+            //    5         33 = 32 + 1
+            //
+            //    For the Clenshaw Curtis and Newton Cotes Closed rules, the point growth
+            //    is nested.  If we have ORDER points on a particular LEVEL, the next
+            //    level includes all these old points, plus ORDER-1 new points, formed
+            //    in the gaps between successive pairs of old points.
+            //
+            //    Level    Order = New + Old
+            //
+            //    0          1   =  1  +  0
+            //    1          3   =  2  +  1
+            //    2          5   =  2  +  3
+            //    3          9   =  4  +  5
+            //    4         17   =  8  +  9
+            //    5         33   = 16  + 17
+            //
+            //    In this routine, we assume that a vector of levels is given,
+            //    and the corresponding orders are desired.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    09 November 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Fabio Nobile, Raul Tempone, Clayton Webster,
+            //    A Sparse Grid Stochastic Collocation Method for Partial Differential
+            //    Equations with Random Input Data,
+            //    SIAM Journal on Numerical Analysis,
+            //    Volume 46, Number 5, 2008, pages 2309-2345.
+            //
+            //  Parameters:
+            //
+            //    Input, int DIM_NUM, the spatial dimension.
+            //
+            //    Input, int LEVEL[DIM_NUM], the nesting level.
+            //
+            //    Output, int ORDER[DIM_NUM], the order (number of points) 
+            //    of the rule.
+            //
+        {
+            int dim;
+
+            for (dim = 0; dim < dim_num; dim++)
+            {
+                if (level[dim] < 0)
+                {
+                    order[dim] = -1;
+                }
+                else if (level[dim] == 0)
+                {
+                    order[dim] = 1;
+                }
+                else
+                {
+                    order[dim] = (int)Math.Pow(2, level[dim]) + 1;
+                }
+            }
+        }
+
         public static void clenshaw_curtis_compute(int order, ref double[] x, ref double[] w )
 
         //****************************************************************************80

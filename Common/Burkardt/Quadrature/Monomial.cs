@@ -7,6 +7,73 @@ namespace Burkardt.Quadrature
 {
     public static class MonomialQuadrature
     {
+        public static double monomial_quadrature ( int dim_num, int[] expon, int point_num, 
+        double[] weight, double[] x )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    MONOMIAL_QUADRATURE applies a quadrature rule to a monomial.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    09 November 2007
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int DIM_NUM, the spatial dimension.
+        //
+        //    Input, int EXPON[DIM_NUM], the exponents.
+        //
+        //    Input, int POINT_NUM, the number of points in the rule.
+        //
+        //    Input, double WEIGHT[POINT_NUM], the quadrature weights.
+        //
+        //    Input, double X[DIM_NUM*POINT_NUM], the quadrature points.
+        //
+        //    Output, double MONOMIAL_QUADRATURE, the quadrature error.
+        //
+        {
+            double exact;
+            int point;
+            double quad;
+            double quad_error;
+            double scale;
+            double[] value;
+            //
+            //  Get the exact value of the integral of the unscaled monomial.
+            //
+            scale = IntegralNS.Monomial.monomial_int01 ( dim_num, expon );
+            //
+            //  Evaluate the monomial at the quadrature points.
+            //
+            value = Monomial.monomial_value ( dim_num, point_num, x, expon );
+            //
+            //  Compute the weighted sum and divide by the exact value.
+            //
+            quad = 0.0;
+            for ( point = 0; point < point_num; point++ )
+            {
+                quad = quad + weight[point] * value[point];
+            }
+            quad = quad / scale;
+            //
+            //  Error:
+            //
+            exact = 1.0;
+            quad_error = Math.Abs ( quad - exact );
+            
+            return quad_error;
+        }
         public static double monomial_quadrature(int dim_num, int point_num, int[] rule,
                 double[] alpha, double[] beta, int[] expon, double[] weight, double[] x)
 

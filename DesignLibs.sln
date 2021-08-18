@@ -996,7 +996,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "QuadMesh", "QuadMesh", "{76
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuadMeshTest", "BurkhardtTest\QuadMesh\QuadMeshTest\QuadMeshTest.csproj", "{A46EDABB-0730-4805-A1E1-4530654DE112}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuadMeshReverseCuthillMcKeeTest", "QuadMeshReverseCuthillMcKeeTest\QuadMeshReverseCuthillMcKeeTest.csproj", "{F962C364-B39D-4E53-BABB-F5248F1E0102}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuadMeshReverseCuthillMcKeeTest", "BurkhardtTest\QuadMesh\QuadMeshReverseCuthillMcKeeTest\QuadMeshReverseCuthillMcKeeTest.csproj", "{F962C364-B39D-4E53-BABB-F5248F1E0102}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Simplex", "Simplex", "{A9F3CF36-B658-4BEE-9033-AC0D06FA6EA4}"
 EndProject

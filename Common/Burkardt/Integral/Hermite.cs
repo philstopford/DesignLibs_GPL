@@ -5,6 +5,78 @@ namespace Burkardt.IntegralNS
 {
     public static partial class Integral
     {
+        public static double hermite_integral_nd ( int dim_num, int[] expon )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    HERMITE_INTEGRAL_ND evaluates a multidimensional Hermite polynomial integral.
+            //
+            //  Discussion:
+            //
+            //    H(d,n) = Integral ( -Infinity < x < Infinity ) 
+            //      x1^n1 * x2^n2...*xd^nd * exp(-x1^2-x2^2...-xd^2 ) dx
+            //
+            //    H(d,n) is 0 if any n(i) odd.
+            //
+            //    H(d,n) = product ( 1 <= i <= d ) 
+            //      ( (n(i)-1)!! * sqrt(pi) / 2^(n(i)/2) for all n(i) even.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    03 October 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            // Parameters:
+            //
+            //    Input, int DIM_NUM, the dimension of the integral.
+            //
+            //    Input, int EXPON[DIM_NUM], the order of the integral.  
+            //    0 <= EXPON(1:DIM_NUM).
+            //
+            //    Output, double HERMITE_INTEGRAL, the value of the integral.
+            //
+        { 
+            int dim;
+            double pi = 3.141592653589793;
+            double value;
+
+            for ( dim = 0; dim < dim_num; dim++ )
+            {
+                if ( expon[dim] < 0 )
+                {
+                    value = - typeMethods.r8_huge ( );
+                    return value;
+                }
+            }
+
+            for ( dim = 0; dim < dim_num; dim++ )
+            {
+                if ( ( expon[dim] % 2 ) == 1 )
+                {
+                    value = 0.0;
+                    return value;
+                }
+            }
+
+            value = 1.0;
+            for ( dim = 0; dim < dim_num; dim++ )
+            {
+                value = value * typeMethods.r8_factorial2 ( expon[dim] - 1 ) * Math.Sqrt ( pi ) 
+                        / ( double ) Math.Pow ( 2, expon[dim] / 2 );
+            }
+
+            return value;
+        }
+        
         public static double hermite_integral ( int p )
 
             //****************************************************************************80

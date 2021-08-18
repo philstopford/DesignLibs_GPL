@@ -1,7 +1,82 @@
-﻿namespace Burkardt.Values
+﻿using System;
+
+namespace Burkardt.Values
 {
     public static class Binomial
     {
+        public static int choose ( int n, int k )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    CHOOSE computes the binomial coefficient C(N,K).
+            //
+            //  Discussion:
+            //
+            //    The value is calculated in such a way as to avoid overflow and
+            //    roundoff.  The calculation is done in integer arithmetic.
+            //
+            //    The formula used is:
+            //
+            //      C(N,K) = N! / ( K! * (N-K)! )
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    22 May 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    ML Wolfson, HV Wright,
+            //    Algorithm 160:
+            //    Combinatorial of M Things Taken N at a Time,
+            //    Communications of the ACM,
+            //    Volume 6, Number 4, April 1963, page 161.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, K, are the values of N and K.
+            //
+            //    Output, int CHOOSE, the number of combinations of N
+            //    things taken K at a time.
+            //
+        {
+            int i;
+            int mn;
+            int mx;
+            int value;
+
+            mn = Math.Min ( k, n - k );
+
+            if ( mn < 0 )
+            {
+                value = 0;
+            }
+            else if ( mn == 0 )
+            {
+                value = 1;
+            }
+            else
+            {
+                mx = Math.Max ( k, n - k );
+                value = mx + 1;
+
+                for ( i = 2; i <= mn; i++ )
+                {
+                    value = ( value * ( mx + i ) ) / i;
+                }
+            }
+
+            return value;
+        }
         public static void binomial_values(ref int n_data, ref int a, ref int b, ref int fx)
 
             //****************************************************************************80

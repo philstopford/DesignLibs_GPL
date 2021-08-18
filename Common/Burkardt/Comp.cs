@@ -366,6 +366,69 @@ namespace Burkardt.Composition
 
             return xc;
         }
+        
+        public static int[] comp_random_new ( int n, int k, ref int seed )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    COMP_RANDOM_NEW selects a random composition of the integer N into K parts.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    30 April 2003
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Albert Nijenhuis, Herbert Wilf.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Albert Nijenhuis, Herbert Wilf,
+            //    Combinatorial Algorithms for Computers and Calculators,
+            //    Second Edition,
+            //    Academic Press, 1978,
+            //    ISBN: 0-12-519260-6,
+            //    LC: QA164.N54.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the integer to be decomposed.
+            //
+            //    Input, int K, the number of parts in the composition.
+            //
+            //    Input/output, int &SEED, a seed for the random number generator.
+            //
+            //    Output, int COMP_RANDOM_NEW[K], the parts of the composition.
+            //
+        {
+            int[] a;
+            int i;
+            int l;
+            int m;
+
+            a = new int[k];
+
+            Ksub.ksub_random2 ( n+k-1, k-1, ref seed, ref a );
+
+            a[k-1] = n + k;
+            l = 0;
+
+            for ( i = 0; i < k; i++ )
+            {
+                m = a[i];
+                a[i] = a[i] - l - 1;
+                l = m;
+            }
+
+            return a;
+        }
 
         public static int comp_rank_grlex(int kc, int[] xc)
 

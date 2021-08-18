@@ -1,5 +1,5 @@
 ﻿using System;
-using Burkardt.Simplex;
+using Burkardt.SimplexNS;
 using Burkardt.Types;
 
 namespace SimplexCoordsTest

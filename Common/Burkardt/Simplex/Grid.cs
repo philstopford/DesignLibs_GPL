@@ -1,6 +1,6 @@
 ﻿using Burkardt.Composition;
 
-namespace Burkardt.Simplex
+namespace Burkardt.SimplexNS
 {
     public static class Grid
     {

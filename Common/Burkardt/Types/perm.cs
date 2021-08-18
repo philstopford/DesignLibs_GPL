@@ -283,6 +283,47 @@ namespace Burkardt.Types
 
             return perm_inv;
         }
+        
+        public static void perm_inverse3 ( int n, int[] perm, ref int[] perm_inv )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    PERM_INVERSE3 produces the inverse of a given permutation.
+        //
+        //  Discussion:
+        //
+        //    This function assumes the permutation is 0-based.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    30 September 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number of items permuted.
+        //
+        //    Input, int PERM[N], a permutation.
+        //
+        //    Output, int PERM_INV[N], the inverse permutation.
+        //
+        {
+            int i;
+
+            for ( i = 0; i < n; i++ )
+            {
+                perm_inv[perm[i]] = i;
+            }
+        }
 
         public static void _perm_check(int n, int[] p)
             //****************************************************************************80

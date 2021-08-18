@@ -292,6 +292,160 @@ namespace Burkardt.Types
             }
         }
 
+        public static void r8col_permute(int m, int n, int[] p, ref double[] a)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8COL_PERMUTE permutes an R8COL in place.
+            //
+            //  Discussion:
+            //
+            //    An R8COL is an M by N array of double precision values, regarded
+            //    as an array of N columns of length M.
+            //
+            //    This routine permutes an array of real "objects", but the same
+            //    logic can be used to permute an array of objects of any arithmetic
+            //    type, or an array of objects of any complexity.  The only temporary
+            //    storage required is enough to store a single object.  The number
+            //    of data movements made is N + the number of cycles of order 2 or more,
+            //    which is never more than N + N/2.
+            //
+            //  Example:
+            //
+            //    Input:
+            //
+            //      M = 2
+            //      N = 5
+            //      P = (   2,    4,    5,    1,    3 )
+            //      A = ( 1.0,  2.0,  3.0,  4.0,  5.0 )
+            //          (11.0, 22.0, 33.0, 44.0, 55.0 )
+            //
+            //    Output:
+            //
+            //      A    = (  2.0,  4.0,  5.0,  1.0,  3.0 )
+            //             ( 22.0, 44.0, 55.0, 11.0, 33.0 ).
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    09 December 2006
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, the length of objects.
+            //
+            //    Input, int N, the number of objects.
+            //
+            //    Input/output, double A[M*N], the array to be permuted.
+            //
+            //    Input, int P[N], the permutation.  P(I) = J means
+            //    that the I-th element of the output array should be the J-th
+            //    element of the input array.  P must be a legal permutation
+            //    of the integers from 1 to N, otherwise the algorithm will
+            //    fail catastrophically.
+            //
+        {
+            double[] a_temp;
+            int i;
+            int iget;
+            int iput;
+            int istart;
+            int j;
+
+            a_temp = new double[m];
+            //
+            //  Need to increment the entries by 1 in order to use the sign trick.
+            //
+            for (i = 0; i < n; i++)
+            {
+                p[i] = p[i] + 1;
+            }
+
+            //
+            //  Search for the next element of the permutation that has not been used.
+            //
+            for (istart = 1; istart <= n; istart++)
+            {
+                if (p[istart - 1] < 0)
+                {
+                    continue;
+                }
+                else if (p[istart - 1] == istart)
+                {
+                    p[istart - 1] = -p[istart - 1];
+                    continue;
+                }
+                else
+                {
+                    for (i = 0; i < m; i++)
+                    {
+                        a_temp[i] = a[i + (istart - 1) * m];
+                    }
+
+                    iget = istart;
+                    //
+                    //  Copy the new value into the vacated entry.
+                    //
+                    for (;;)
+                    {
+                        iput = iget;
+                        iget = p[iget - 1];
+
+                        p[iput - 1] = -p[iput - 1];
+
+                        if (iget < 1 || n < iget)
+                        {
+                            Console.WriteLine();
+                            Console.WriteLine("R8COL_PERMUTE - Fatal error!");
+                            Console.WriteLine("  Entry IPUT = " + iput + " of the permutation has");
+                            Console.WriteLine("  an illegal value IGET = " + iget + "");
+                            return;
+                        }
+
+                        if (iget == istart)
+                        {
+                            for (i = 0; i < m; i++)
+                            {
+                                a[i + (iput - 1) * m] = a_temp[i];
+                            }
+
+                            break;
+                        }
+
+                        for (i = 0; i < m; i++)
+                        {
+                            a[i + (iput - 1) * m] = a[i + (iget - 1) * m];
+                        }
+                    }
+                }
+            }
+
+            //
+            //  Restore the signs of the entries.
+            //
+            for (j = 0; j < n; j++)
+            {
+                p[j] = -p[j];
+            }
+
+            //
+            //  Need to unincrement the entries by 1.
+            //
+            for (i = 0; i < n; i++)
+            {
+                p[i] = p[i] - 1;
+            }
+        }
+
         public static void r8col_separation(int m, int n, double[] a, ref double d_min, ref double d_max)
 
             //****************************************************************************80

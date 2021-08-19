@@ -1038,6 +1038,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphereIntegralsTest", "Burk
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphereLebedevRuleTest", "BurkhardtTest\Sphere\SphereLebedevRuleTest\SphereLebedevRuleTest.csproj", "{532155A6-1B27-47E8-8E9B-13F166A872EE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphereLatLongGridTest", "BurkhardtTest\Sphere\SphereLatLongGridTest\SphereLatLongGridTest.csproj", "{A03BC3BC-9528-4F1E-BA65-A58E5F3EFDC8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -6436,6 +6438,18 @@ Global
 		{532155A6-1B27-47E8-8E9B-13F166A872EE}.Release|x64.Build.0 = Release|Any CPU
 		{532155A6-1B27-47E8-8E9B-13F166A872EE}.Release|x86.ActiveCfg = Release|Any CPU
 		{532155A6-1B27-47E8-8E9B-13F166A872EE}.Release|x86.Build.0 = Release|Any CPU
+		{A03BC3BC-9528-4F1E-BA65-A58E5F3EFDC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A03BC3BC-9528-4F1E-BA65-A58E5F3EFDC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A03BC3BC-9528-4F1E-BA65-A58E5F3EFDC8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A03BC3BC-9528-4F1E-BA65-A58E5F3EFDC8}.Debug|x64.Build.0 = Debug|Any CPU
+		{A03BC3BC-9528-4F1E-BA65-A58E5F3EFDC8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A03BC3BC-9528-4F1E-BA65-A58E5F3EFDC8}.Debug|x86.Build.0 = Debug|Any CPU
+		{A03BC3BC-9528-4F1E-BA65-A58E5F3EFDC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A03BC3BC-9528-4F1E-BA65-A58E5F3EFDC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A03BC3BC-9528-4F1E-BA65-A58E5F3EFDC8}.Release|x64.ActiveCfg = Release|Any CPU
+		{A03BC3BC-9528-4F1E-BA65-A58E5F3EFDC8}.Release|x64.Build.0 = Release|Any CPU
+		{A03BC3BC-9528-4F1E-BA65-A58E5F3EFDC8}.Release|x86.ActiveCfg = Release|Any CPU
+		{A03BC3BC-9528-4F1E-BA65-A58E5F3EFDC8}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -6953,6 +6967,7 @@ Global
 		{FD062819-FC14-4D12-B932-1B3BBFC9CCD2} = {645B02D7-673F-490A-9856-4570F9F66CC8}
 		{2B8A8E5D-12AC-4FA0-B440-CFF5CF1F38D9} = {645B02D7-673F-490A-9856-4570F9F66CC8}
 		{532155A6-1B27-47E8-8E9B-13F166A872EE} = {645B02D7-673F-490A-9856-4570F9F66CC8}
+		{A03BC3BC-9528-4F1E-BA65-A58E5F3EFDC8} = {645B02D7-673F-490A-9856-4570F9F66CC8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B449416C-C504-4FA8-9E10-10857263A64A}

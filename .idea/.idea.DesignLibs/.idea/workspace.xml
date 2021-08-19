@@ -425,6 +425,10 @@
     <projectFile>BurkhardtTest/Sphere/SphereFibonacciGridTest/SphereFibonacciGridTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Sphere/SphereIntegralsTest/SphereIntegralsTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Sphere/SphereLebedevRuleTest/SphereLebedevRuleTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Sphere/SphereLatLongGridTest/SphereLatLongGridTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Sphere/SphereLatLongTriGridTest/SphereLatLongTriGridTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Sphere/SphereMonteCarloTest/SphereMonteCarloTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Sphere/SphereQuadTest/SphereQuadTest.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -531,7 +535,7 @@
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C#" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunManager" selected=".NET Project.StroudTest">
+  <component name="RunManager" selected=".NET Project.SphereQuadTest">
     <configuration name="ASA005Test" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -1217,19 +1221,19 @@
       </method>
     </configuration>
     <configuration name="BacktrackBinaryTest" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/BacktrackBinaryTest/Debug/net5.0/BacktrackBinaryTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/BacktrackBinaryTest/Debug/net5.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/BacktrackBinaryTest/BacktrackBinaryTest.csproj" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Solve/BacktrackBinaryTest/BacktrackBinaryTest.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_TFM" value="net5.0" />
       <method v="2">
         <option name="Build" />
       </method>
@@ -1433,19 +1437,19 @@
       </method>
     </configuration>
     <configuration name="BlackScholesTest" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/BlackScholesTest/Debug/net5.0/BlackScholesTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/BlackScholesTest/Debug/net5.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/BlackScholesTest/BlackScholesTest.csproj" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Solve/BlackScholesTest/BlackScholesTest.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_TFM" value="net5.0" />
       <method v="2">
         <option name="Build" />
       </method>
@@ -1811,19 +1815,19 @@
       </method>
     </configuration>
     <configuration name="ColoredNoiseTest" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/ColoredNoiseTest/Debug/net5.0/ColoredNoiseTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/ColoredNoiseTest/Debug/net5.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/ColoredNoiseTest/ColoredNoiseTest.csproj" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Noise/ColoredNoiseTest/ColoredNoiseTest.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_TFM" value="net5.0" />
       <method v="2">
         <option name="Build" />
       </method>
@@ -1919,19 +1923,19 @@
       </method>
     </configuration>
     <configuration name="ConjugateGradientTest" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/ConjugateGradientTest/Debug/net5.0/ConjugateGradientTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/ConjugateGradientTest/Debug/net5.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/ConjugateGradientTest/ConjugateGradientTest.csproj" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Solve/ConjugateGradientTest/ConjugateGradientTest.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_TFM" value="net5.0" />
       <method v="2">
         <option name="Build" />
       </method>
@@ -1955,19 +1959,19 @@
       </method>
     </configuration>
     <configuration name="CosineTransformTest" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/CosineTransformTest/Debug/net5.0/CosineTransformTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/CosineTransformTest/Debug/net5.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/CosineTransformTest/CosineTransformTest.csproj" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Transform/CosineTransformTest/CosineTransformTest.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_TFM" value="net5.0" />
       <method v="2">
         <option name="Build" />
       </method>
@@ -3953,19 +3957,19 @@
       </method>
     </configuration>
     <configuration name="KnapsackTest" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/KnapsackTest/Debug/net5.0/KnapsackTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/KnapsackTest/Debug/net5.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/KnapsackTest/KnapsackTest.csproj" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Solve/KnapsackTest/KnapsackTest.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_TFM" value="net5.0" />
       <method v="2">
         <option name="Build" />
       </method>
@@ -4673,19 +4677,19 @@
       </method>
     </configuration>
     <configuration name="MandelbrotPMMASCIITest" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/MandelbrotPMMASCIITest/Debug/net5.0/MandelbrotPMMASCIITest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/MandelbrotPMMASCIITest/Debug/net5.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/MandelbrotPMMASCIITest/MandelbrotPMMASCIITest.csproj" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/IO/MandelbrotPMMASCIITest/MandelbrotPMMASCIITest.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_TFM" value="net5.0" />
       <method v="2">
         <option name="Build" />
       </method>
@@ -5105,19 +5109,19 @@
       </method>
     </configuration>
     <configuration name="PartitionTest" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/PartitionTest/Debug/net5.0/PartitionTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/PartitionTest/Debug/net5.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/PartitionTest/PartitionTest.csproj" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Solve/PartitionTest/PartitionTest.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_TFM" value="net5.0" />
       <method v="2">
         <option name="Build" />
       </method>
@@ -5519,37 +5523,37 @@
       </method>
     </configuration>
     <configuration name="QuadMeshReverseCuthillMcKeeTest" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/QuadMeshReverseCuthillMcKeeTest/Debug/net5.0/QuadMeshReverseCuthillMcKeeTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/QuadMeshReverseCuthillMcKeeTest/Debug/net5.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="PROJECT_PATH" value="$PROJECT_DIR$/QuadMeshReverseCuthillMcKeeTest/QuadMeshReverseCuthillMcKeeTest.csproj" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/QuadMesh/QuadMeshReverseCuthillMcKeeTest/QuadMeshReverseCuthillMcKeeTest.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_TFM" value="net5.0" />
       <method v="2">
         <option name="Build" />
       </method>
     </configuration>
     <configuration name="QuadMeshTest" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/QuadMeshTest/Debug/net5.0/QuadMeshTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/QuadMeshTest/Debug/net5.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/QuadMeshTest/QuadMeshTest.csproj" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/QuadMesh/QuadMeshTest/QuadMeshTest.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_TFM" value="net5.0" />
       <method v="2">
         <option name="Build" />
       </method>
@@ -5591,19 +5595,19 @@
       </method>
     </configuration>
     <configuration name="RestartedGeneralizedMinimumResidualTest" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/RestartedGeneralizedMinimumResidualTest/Debug/net5.0/RestartedGeneralizedMinimumResidualTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/RestartedGeneralizedMinimumResidualTest/Debug/net5.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/RestartedGeneralizedMinimumResidualTest/RestartedGeneralizedMinimumResidualTest.csproj" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Solve/RestartedGeneralizedMinimumResidualTest/RestartedGeneralizedMinimumResidualTest.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_TFM" value="net5.0" />
       <method v="2">
         <option name="Build" />
       </method>
@@ -5861,19 +5865,19 @@
       </method>
     </configuration>
     <configuration name="SparseDisplayTest" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/SparseDisplayTest/Debug/net5.0/SparseDisplayTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/SparseDisplayTest/Debug/net5.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/SparseDisplayTest/SparseDisplayTest.csproj" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Sparse/SparseDisplayTest/SparseDisplayTest.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_TFM" value="net5.0" />
       <method v="2">
         <option name="Build" />
       </method>
@@ -6076,6 +6080,42 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="SphereLatLongGridTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Sphere/SphereLatLongGridTest/SphereLatLongGridTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="SphereLatLongTriGridTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Sphere/SphereLatLongTriGridTest/SphereLatLongTriGridTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="SphereLebedevRuleTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -6085,6 +6125,42 @@
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
       <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Sphere/SphereLebedevRuleTest/SphereLebedevRuleTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="SphereMonteCarloTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Sphere/SphereMonteCarloTest/SphereMonteCarloTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="SphereQuadTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Sphere/SphereQuadTest/SphereQuadTest.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
@@ -8627,6 +8703,10 @@
       <item itemvalue=".NET Project.SphereFibonacciGridTest" />
       <item itemvalue=".NET Project.SphereIntegralsTest" />
       <item itemvalue=".NET Project.SphereLebedevRuleTest" />
+      <item itemvalue=".NET Project.SphereLatLongGridTest" />
+      <item itemvalue=".NET Project.SphereLatLongTriGridTest" />
+      <item itemvalue=".NET Project.SphereMonteCarloTest" />
+      <item itemvalue=".NET Project.SphereQuadTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

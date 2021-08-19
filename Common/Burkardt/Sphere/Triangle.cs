@@ -720,7 +720,6 @@ namespace Burkardt.SphereNS
             }
 
             return vs;
-# undef DIM_NUM
         }
 
         public static void sphere01_triangle_vertices_to_midpoints(double[] v1, double[] v2, double[] v3,

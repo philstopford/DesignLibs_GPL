@@ -1360,14 +1360,14 @@ int NODE_NUM = 9;
             Console.WriteLine("  SPHERE_GRID_Q4_NODE_XYZ returns the coordinates");
             Console.WriteLine("    of nodes in the grid.");
 
-            element_num = Burkardt.SphereNS.Sphere.sphere_grid_q4_element_num(nelemx, nelemy);
-            node_num = Burkardt.SphereNS.Sphere.sphere_grid_q4_node_num(nelemx, nelemy);
+            element_num = Burkardt.SphereNS.Grid.sphere_grid_q4_element_num(nelemx, nelemy);
+            node_num = Burkardt.SphereNS.Grid.sphere_grid_q4_node_num(nelemx, nelemy);
 
             Console.WriteLine("");
             Console.WriteLine("  Expected number of nodes =    " + node_num + "");
             Console.WriteLine("  Expected number of elements = " + element_num + "");
 
-            element_node = Sphere.sphere_grid_q4_element(nelemx, nelemy);
+            element_node = Burkardt.SphereNS.Grid.sphere_grid_q4_element(nelemx, nelemy);
 
             Console.WriteLine("");
             Console.WriteLine("  The elements and their nodes:");
@@ -1384,7 +1384,7 @@ int NODE_NUM = 9;
                 Console.WriteLine(cout);
             }
 
-            node_xyz = Sphere.sphere_grid_q4_node_xyz(nelemx, nelemy);
+            node_xyz = Burkardt.SphereNS.Grid.sphere_grid_q4_node_xyz(nelemx, nelemy);
 
             Console.WriteLine("");
             Console.WriteLine("  The node coordinates:");
@@ -1450,14 +1450,14 @@ int NODE_NUM = 9;
             Console.WriteLine("  SPHERE_GRID_Q9_NODE_XYZ returns the coordinates");
             Console.WriteLine("    of nodes in the grid.");
 
-            element_num = Sphere.sphere_grid_q9_element_num(nelemx, nelemy);
-            node_num = Sphere.sphere_grid_q9_node_num(nelemx, nelemy);
+            element_num = Burkardt.SphereNS.Grid.sphere_grid_q9_element_num(nelemx, nelemy);
+            node_num = Burkardt.SphereNS.Grid.sphere_grid_q9_node_num(nelemx, nelemy);
 
             Console.WriteLine("");
             Console.WriteLine("  Expected number of nodes =    " + node_num + "");
             Console.WriteLine("  Expected number of elements = " + element_num + "");
 
-            element_node = Sphere.sphere_grid_q9_element(nelemx, nelemy);
+            element_node = Burkardt.SphereNS.Grid.sphere_grid_q9_element(nelemx, nelemy);
 
             Console.WriteLine("");
             Console.WriteLine("  The elements and their nodes:");
@@ -1474,7 +1474,7 @@ int NODE_NUM = 9;
                 Console.WriteLine(cout);
             }
 
-            node_xyz = Sphere.sphere_grid_q9_node_xyz(nelemx, nelemy);
+            node_xyz = Burkardt.SphereNS.Grid.sphere_grid_q9_node_xyz(nelemx, nelemy);
 
             Console.WriteLine("");
             Console.WriteLine("  The node coordinates:");
@@ -1543,14 +1543,14 @@ int NODE_NUM = 9;
             Console.WriteLine("  SPHERE_GRID_Q16_NODE_XYZ returns the coordinates");
             Console.WriteLine("    of nodes in the grid.");
 
-            element_num = Sphere.sphere_grid_q16_element_num(nelemx, nelemy);
-            node_num = Sphere.sphere_grid_q16_node_num(nelemx, nelemy);
+            element_num = Burkardt.SphereNS.Grid.sphere_grid_q16_element_num(nelemx, nelemy);
+            node_num = Burkardt.SphereNS.Grid.sphere_grid_q16_node_num(nelemx, nelemy);
 
             Console.WriteLine("");
             Console.WriteLine("  Expected number of nodes =    " + node_num + "");
             Console.WriteLine("  Expected number of elements = " + element_num + "");
 
-            element_node = Sphere.sphere_grid_q16_element(nelemx, nelemy);
+            element_node = Burkardt.SphereNS.Grid.sphere_grid_q16_element(nelemx, nelemy);
 
             Console.WriteLine("");
             Console.WriteLine("  The elements and their nodes, listed in a way");
@@ -1589,7 +1589,7 @@ int NODE_NUM = 9;
                 }
             }
 
-            node_xyz = Sphere.sphere_grid_q16_node_xyz(nelemx, nelemy);
+            node_xyz = Burkardt.SphereNS.Grid.sphere_grid_q16_node_xyz(nelemx, nelemy);
 
             Console.WriteLine("");
             Console.WriteLine("  The node coordinates:");
@@ -1660,8 +1660,8 @@ int NODE_NUM = 9;
             Console.WriteLine("  SPHERE_GRID_T3_NODE_XYZ returns the coordinates");
             Console.WriteLine("    of nodes in the grid.");
 
-            element_num = Sphere.sphere_grid_t3_element_num(nelemx, nelemy);
-            node_num = Sphere.sphere_grid_t3_node_num(nelemx, nelemy);
+            element_num = Burkardt.SphereNS.Grid.sphere_grid_t3_element_num(nelemx, nelemy);
+            node_num = Burkardt.SphereNS.Grid.sphere_grid_t3_node_num(nelemx, nelemy);
 
             Console.WriteLine("");
             Console.WriteLine("  Expected number of nodes =    " + node_num + "");
@@ -1669,7 +1669,7 @@ int NODE_NUM = 9;
             //
             //  Generate the ELEMENT_NODE array, print it, and write it to a file.
             //
-            element_node = Sphere.sphere_grid_t3_element(nelemx, nelemy);
+            element_node = Burkardt.SphereNS.Grid.sphere_grid_t3_element(nelemx, nelemy);
 
             Console.WriteLine("");
             Console.WriteLine("  The elements and their nodes:");
@@ -1691,7 +1691,7 @@ int NODE_NUM = 9;
             //
             //  Generate the NODE_XYZ array, print it, and write it to a file.
             //
-            node_xyz = Sphere.sphere_grid_t3_node_xyz(nelemx, nelemy);
+            node_xyz = Burkardt.SphereNS.Grid.sphere_grid_t3_node_xyz(nelemx, nelemy);
 
             Console.WriteLine("");
             Console.WriteLine("  The node coordinates:");
@@ -1757,14 +1757,14 @@ int NODE_NUM = 9;
             Console.WriteLine("  SPHERE_GRID_T6_NODE_XYZ returns the coordinates");
             Console.WriteLine("    of nodes in the grid.");
 
-            element_num = Sphere.sphere_grid_t6_element_num(nelemx, nelemy);
-            node_num = Sphere.sphere_grid_t6_node_num(nelemx, nelemy);
+            element_num = Burkardt.SphereNS.Grid.sphere_grid_t6_element_num(nelemx, nelemy);
+            node_num = Burkardt.SphereNS.Grid.sphere_grid_t6_node_num(nelemx, nelemy);
 
             Console.WriteLine("");
             Console.WriteLine("  Expected number of nodes =    " + node_num + "");
             Console.WriteLine("  Expected number of elements = " + element_num + "");
 
-            element_node = Sphere.sphere_grid_t6_element(nelemx, nelemy);
+            element_node = Burkardt.SphereNS.Grid.sphere_grid_t6_element(nelemx, nelemy);
 
             Console.WriteLine("");
             Console.WriteLine("  The elements and their nodes:");
@@ -1781,7 +1781,7 @@ int NODE_NUM = 9;
                 Console.WriteLine(cout);
             }
 
-            node_xyz = Sphere.sphere_grid_t6_node_xyz(nelemx, nelemy);
+            node_xyz = Burkardt.SphereNS.Grid.sphere_grid_t6_node_xyz(nelemx, nelemy);
 
             Console.WriteLine("");
             Console.WriteLine("  The node coordinates:");

@@ -422,6 +422,7 @@
     <projectFile>BurkhardtTest/Sparse/SparseGridLaguerreTest/SparseGridLaguerreTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Sparse/SparseInterpnDTest/SparseInterpnDTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Sphere/SphereGridTest/SphereGridTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Sphere/SphereFibonacciGridTest/SphereFibonacciGridTest.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -6019,6 +6020,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="SphereFibonacciGridTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Sphere/SphereFibonacciGridTest/SphereFibonacciGridTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="SphereGridTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -8567,6 +8586,7 @@
       <item itemvalue=".NET Project.SparseGridLaguerreTest" />
       <item itemvalue=".NET Project.SparseInterpnDTest" />
       <item itemvalue=".NET Project.SphereGridTest" />
+      <item itemvalue=".NET Project.SphereFibonacciGridTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

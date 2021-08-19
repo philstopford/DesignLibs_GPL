@@ -198,5 +198,43 @@ namespace Burkardt
             face_num = 20;
             face_order_max = 3;
         }
+        
+        public static void icos_size ( ref int point_num, ref int edge_num, ref int face_num, 
+                ref int face_order_max )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    ICOS_SIZE gives "sizes" for an icosahedron in 3D.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    19 July 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Output, int *POINT_NUM, the number of points.
+            //
+            //    Output, int *EDGE_NUM, the number of edges.
+            //
+            //    Output, int *FACE_NUM, the number of faces.
+            //
+            //    Output, int *FACE_ORDER_MAX, the maximum order of any face.
+            //
+        {
+            point_num = 12;
+            edge_num = 30;
+            face_num = 20;
+            face_order_max = 3;
+        }
     }
 }

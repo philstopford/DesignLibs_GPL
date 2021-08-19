@@ -9,7 +9,7 @@
         public int n1 = 0;
     }
 
-    public static class Sort
+    public static partial class Sort
     {
         public static void sort_heap_external(ref SortHeapExternalData data, int n, ref int indx, ref int i, ref int j, int isgn )
 

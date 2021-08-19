@@ -1040,6 +1040,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphereLebedevRuleTest", "Bu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphereLatLongGridTest", "BurkhardtTest\Sphere\SphereLatLongGridTest\SphereLatLongGridTest.csproj", "{A03BC3BC-9528-4F1E-BA65-A58E5F3EFDC8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SphereLatLongTriGridTest", "BurkhardtTest\Sphere\SphereLatLongTriGridTest\SphereLatLongTriGridTest.csproj", "{6B039429-4BB7-4AC0-BFB3-20D4427E1BAB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -6450,6 +6452,18 @@ Global
 		{A03BC3BC-9528-4F1E-BA65-A58E5F3EFDC8}.Release|x64.Build.0 = Release|Any CPU
 		{A03BC3BC-9528-4F1E-BA65-A58E5F3EFDC8}.Release|x86.ActiveCfg = Release|Any CPU
 		{A03BC3BC-9528-4F1E-BA65-A58E5F3EFDC8}.Release|x86.Build.0 = Release|Any CPU
+		{6B039429-4BB7-4AC0-BFB3-20D4427E1BAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B039429-4BB7-4AC0-BFB3-20D4427E1BAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B039429-4BB7-4AC0-BFB3-20D4427E1BAB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6B039429-4BB7-4AC0-BFB3-20D4427E1BAB}.Debug|x64.Build.0 = Debug|Any CPU
+		{6B039429-4BB7-4AC0-BFB3-20D4427E1BAB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6B039429-4BB7-4AC0-BFB3-20D4427E1BAB}.Debug|x86.Build.0 = Debug|Any CPU
+		{6B039429-4BB7-4AC0-BFB3-20D4427E1BAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B039429-4BB7-4AC0-BFB3-20D4427E1BAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B039429-4BB7-4AC0-BFB3-20D4427E1BAB}.Release|x64.ActiveCfg = Release|Any CPU
+		{6B039429-4BB7-4AC0-BFB3-20D4427E1BAB}.Release|x64.Build.0 = Release|Any CPU
+		{6B039429-4BB7-4AC0-BFB3-20D4427E1BAB}.Release|x86.ActiveCfg = Release|Any CPU
+		{6B039429-4BB7-4AC0-BFB3-20D4427E1BAB}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -6968,6 +6982,7 @@ Global
 		{2B8A8E5D-12AC-4FA0-B440-CFF5CF1F38D9} = {645B02D7-673F-490A-9856-4570F9F66CC8}
 		{532155A6-1B27-47E8-8E9B-13F166A872EE} = {645B02D7-673F-490A-9856-4570F9F66CC8}
 		{A03BC3BC-9528-4F1E-BA65-A58E5F3EFDC8} = {645B02D7-673F-490A-9856-4570F9F66CC8}
+		{6B039429-4BB7-4AC0-BFB3-20D4427E1BAB} = {645B02D7-673F-490A-9856-4570F9F66CC8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B449416C-C504-4FA8-9E10-10857263A64A}

@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.SortNS;
 using Burkardt.Types;
 
 namespace Burkardt.Quadrature
@@ -47,8 +48,8 @@ namespace Burkardt.Quadrature
 
             for ( j = 0; j < n; j++ )
             {
-                string cout = "  " + setw(2) + j
-                    + "  " + setw(10) + w[j] + " * f (";
+                string cout = "  " + j.ToString().PadLeft(2)
+                    + "  " + w[j].ToString().PadLeft(10) + " * f (";
                 for ( i = 0; i < m; i++ )
                 {
                     cout += x[i+j*m];
@@ -106,6 +107,7 @@ namespace Burkardt.Quadrature
             int j2;
             double t;
             double ww;
+            SortHeapExternalData data = new SortHeapExternalData();
 
             if ( m <= 0 )
             {
@@ -126,9 +128,9 @@ namespace Burkardt.Quadrature
             //
             //  Call the external heap sorter.
             //
-            while ( 1 )
+            while ( true )
             {
-                sort_heap_external ( n, indx, j1, j2, isgn );
+                Sort.sort_heap_external (ref data, n, ref indx, ref j1, ref j2, isgn );
                 //
                 //  Interchange columns J1 and J2.
                 //

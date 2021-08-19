@@ -419,6 +419,7 @@
     <projectFile>BurkhardtTest/Transform/SineTransformTest/SineTransformTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Solve/SuccessiveOverRelaxationTest/SuccessiveOverRelaxationTest.csproj</projectFile>
     <projectFile>BurkhardtTest/SortRCTest/SortRCTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Sparse/SparseGridLaguerreTest/SparseGridLaguerreTest.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -5944,6 +5945,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="SparseGridLaguerreTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Sparse/SparseGridLaguerreTest/SparseGridLaguerreTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="SparseTripletTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/SparseTripletTest/Debug/net5.0/SparseTripletTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -8507,6 +8526,7 @@
       <item itemvalue=".NET Project.SineTransformTest" />
       <item itemvalue=".NET Project.SuccessiveOverRelaxationTest" />
       <item itemvalue=".NET Project.SortRCTest" />
+      <item itemvalue=".NET Project.SparseGridLaguerreTest" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

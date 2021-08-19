@@ -44,5 +44,56 @@ namespace Burkardt.IntegralNS
 
             return s;
         }
+        
+        public static double laguerre_integral_nd ( int dim_num, int[] expon )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    LAGUERRE_INTEGRAL_ND evaluates a multidimensional Laguerre polynomial integral.
+            //
+            //  Discussion:
+            //
+            //    L(1,n) = Integral ( 0 <= x < Infinity ) x^n exp ( -x ) dx
+            //           = n!
+            //
+            //    L(d,n) = Integral ( 0 <= x(i) < Infinity ) 
+            //             x1^n1 * x2^n2...*xd^nd * exp(-x1-x2...-xd ) dx
+            //           = Product ( n(i)! ).
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    10 October 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            // Parameters:
+            //
+            //    Input, int DIM_NUM, the dimension of the integral.
+            //
+            //    Input, int EXPON[DIM_NUM], the order of the integral.  
+            //    0 <= EXPON(1:DIM_NUM).
+            //
+            //    Output, double LAGUERRE_INTEGRAL, the value of the integral.
+            //
+        { 
+            int dim;
+            double value;
+
+            value = 1.0;
+            for ( dim = 0; dim < dim_num; dim++ )
+            {
+                value = value * typeMethods.r8_factorial ( expon[dim] );
+            }
+
+            return value;
+        }
     }
 }

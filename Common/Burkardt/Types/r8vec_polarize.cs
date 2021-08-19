@@ -3,7 +3,7 @@
     public static partial class typeMethods
     {
         public static void r8vec_polarize ( int n, double[] a, double[] p, ref double[] a_normal,
-        ref double[] a_parallel )
+        ref double[] a_parallel, int aIndex = 0, int pIndex = 0 )
 
         //****************************************************************************80
         //
@@ -52,13 +52,13 @@
             int i;
             double p_norm;
 
-            p_norm = r8vec_norm ( n, p );
+            p_norm = r8vec_norm ( n, p, pIndex );
 
             if ( p_norm == 0.0 )
             {
                 for ( i = 0; i < n; i++ )
                 {
-                    a_normal[i] = a[i];
+                    a_normal[i] = a[aIndex + i];
                 }
                 for ( i = 0; i < n; i++ )
                 {
@@ -66,16 +66,16 @@
                 }
                 return;
             }
-            a_dot_p = r8vec_dot_product ( n, a, p ) / p_norm;
+            a_dot_p = r8vec_dot_product ( n, a, p, aIndex, pIndex ) / p_norm;
 
             for ( i = 0; i < n; i++ )
             {
-                a_parallel[i] = a_dot_p * p[i] / p_norm;
+                a_parallel[i] = a_dot_p * p[pIndex + i] / p_norm;
             }
 
             for ( i = 0; i < n; i++ )
             {
-                a_normal[i] = a[i] - a_parallel[i];
+                a_normal[i] = a[aIndex + i] - a_parallel[i];
             }
         }
 

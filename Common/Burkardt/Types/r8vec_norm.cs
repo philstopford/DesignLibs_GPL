@@ -343,7 +343,7 @@ namespace Burkardt.Types
             return v;
         }
 
-        public static double r8vec_norm ( int n, double[] a )
+        public static double r8vec_norm ( int n, double[] a, int index = 0 )
 
             //****************************************************************************80
             //
@@ -387,7 +387,7 @@ namespace Burkardt.Types
 
             for ( i = 0; i < n; i++ )
             {
-                v = v + a[i] * a[i];
+                v = v + a[index + i] * a[index + i];
             }
             v = Math.Sqrt ( v );
 

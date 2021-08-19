@@ -39,7 +39,7 @@
             return value;
         }
 
-        public static double r8vec_dot_product(int n, double[] a1, double[] a2)
+        public static double r8vec_dot_product(int n, double[] a1, double[] a2, int a1Index = 0, int a2Index = 0)
             //****************************************************************************80
             //
             //  Purpose:
@@ -74,7 +74,7 @@
             double value = 0.0;
             for (int i = 0; i < n; i++)
             {
-                value = value + a1[i] * a2[i];
+                value = value + a1[a1Index + i] * a2[a2Index + i];
             }
 
             return value;

@@ -6,6 +6,156 @@ namespace Burkardt
 {
     public static partial class Helpers
     {
+        public static double arc_sine ( double s )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    ARC_SINE computes the arc sine function, with argument truncation.
+        //
+        //  Discussion:
+        //
+        //    If you call your system ASIN routine with an input argument that is
+        //    outside the range [-1.0, 1.0 ], you may get an unpleasant surprise.
+        //    This routine truncates arguments outside the range.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    13 June 2002
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double S, the argument, the sine of an angle.
+        //
+        //    Output, double ARC_SINE, an angle whose sine is S.
+        //
+        {
+        double angle;
+        const double pi = 3.141592653589793;
+
+        if ( s <= -1.0 )
+        {
+        angle = - pi / 2.0;
+        } 
+        else if ( 1.0 <= s )
+        {
+        angle = pi / 2.0;
+        }
+        else
+        {
+        angle = Math.Asin ( s );
+        }
+        return angle;
+        }
+
+        public static double atan4(double y, double x)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    ATAN4 computes the inverse tangent of the ratio Y / X.
+            //
+            //  Discussion:
+            //
+            //    ATAN4 returns an angle whose tangent is ( Y / X ), a job which
+            //    the built in functions ATAN and ATAN2 already do.
+            //
+            //    However:
+            //
+            //    * ATAN4 always returns a positive angle, between 0 and 2 PI,
+            //      while ATAN and ATAN2 return angles in the interval [-PI/2,+PI/2]
+            //      and [-PI,+PI] respectively;
+            //
+            //    * ATAN4 accounts for the signs of X and Y, (as does ATAN2).  The ATAN
+            //     function by contrast always returns an angle in the first or fourth
+            //     quadrants.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    13 June 2002
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double Y, X, two quantities which represent the tangent of
+            //    an angle.  If Y is not zero, then the tangent is (Y/X).
+            //
+            //    Output, double ATAN4, an angle between 0 and 2 * PI, whose tangent is
+            //    (Y/X), and which lies in the appropriate quadrant so that the signs
+            //    of its cosine and sine match those of X and Y.
+            //
+        {
+            const double pi = 3.141592653589793;
+            //
+            //  Special cases:
+            //
+            if (x == 0.0)
+            {
+                if (0.0 < y)
+                {
+                    return (pi / 2.0);
+                }
+                else if (y < 0.0)
+                {
+                    return (3.0 * pi / 2.0);
+                }
+                else if (y == 0.0)
+                {
+                    return (0.0);
+                }
+            }
+            else if (y == 0.0)
+            {
+                if (0.0 < x)
+                {
+                    return 0.0;
+                }
+                else if (x < 0.0)
+                {
+                    return pi;
+                }
+            }
+
+            //
+            //  We assume that ATAN2 is reliable when both arguments are positive.
+            //
+            if (0.0 < x && 0.0 < y)
+            {
+                return Math.Atan2(y, x);
+            }
+            else if (x < 0.0 && 0.0 < y)
+            {
+                return (pi - Math.Atan2(y, -x));
+            }
+            else if (x < 0.0 && y < 0.0)
+            {
+                return (pi + Math.Atan2(-y, -x));
+            }
+            else if (0.0 < x && y < 0.0)
+            {
+                return (2.0 * pi - Math.Atan2(-y, x));
+            }
+
+            return 0.0;
+        }
+
         public static double exact ( double x, double y )
 
             //****************************************************************************80

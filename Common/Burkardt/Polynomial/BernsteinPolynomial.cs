@@ -497,7 +497,7 @@ namespace Burkardt.PolynomialNS
 
             return b;
         }
-        
+
         public static double[] bernstein_poly_ab(int n, double a, double b, double x)
 
             //****************************************************************************80
@@ -605,6 +605,203 @@ namespace Burkardt.PolynomialNS
         public static void bpab(int n, double x, double a, double b, ref double[] bern)
         {
             bern = bernstein_poly_ab(n, a, b, x);
+        }
+
+        public static double bpab_approx(int n, double a, double b, double[] ydata, double xval )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    BPAB_APPROX evaluates the Bernstein polynomial for F(X) on [A,B].
+        //
+        //  Formula:
+        //
+        //    BERN(F)(X) = sum ( 0 <= I <= N ) F(X(I)) * B_BASE(I,X)
+        //
+        //    where
+        //
+        //      X(I) = ( ( N - I ) * A + I * B ) / N
+        //      B_BASE(I,X) is the value of the I-th Bernstein basis polynomial at X.
+        //
+        //  Discussion:
+        //
+        //    The Bernstein polynomial BERN(F) for F(X) is an approximant, not an
+        //    interpolant; in other words, its value is not guaranteed to equal
+        //    that of F at any particular point.  However, for a fixed interval
+        //    [A,B], if we let N increase, the Bernstein polynomial converges
+        //    uniformly to F everywhere in [A,B], provided only that F is continuous.
+        //    Even if F is not continuous, but is bounded, the polynomial converges
+        //    pointwise to F(X) at all points of continuity.  On the other hand,
+        //    the convergence is quite slow compared to other interpolation
+        //    and approximation schemes.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    12 February 2004
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    David Kahaner, Cleve Moler, Steven Nash,
+        //    Numerical Methods and Software,
+        //    Prentice Hall, 1989,
+        //    ISBN: 0-13-627258-4,
+        //    LC: TA345.K34.
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the degree of the Bernstein polynomial to be used.
+        //
+        //    Input, double A, B, the endpoints of the interval on which the
+        //    approximant is based.  A and B should not be equal.
+        //
+        //    Input, double YDATA[0:N], the data values at N+1 equally spaced points
+        //    in [A,B].  If N = 0, then the evaluation point should be 0.5 * ( A + B).
+        //    Otherwise, evaluation point I should be ( (N-I)*A + I*B ) / N ).
+        //
+        //    Input, double XVAL, the point at which the Bernstein polynomial
+        //    approximant is to be evaluated.  XVAL does not have to lie in the
+        //    interval [A,B].
+        //
+        //    Output, double BPAB_APPROX, the value of the Bernstein polynomial approximant
+        //    for F, based in [A,B], evaluated at XVAL.
+        //
+        {
+            double[] bvec;
+            int i;
+            double yval;
+            //
+            //  Evaluate the Bernstein basis polynomials at XVAL.
+            //
+            bvec = bpab(n, a, b, xval);
+            //
+            //  Now compute the sum of YDATA(I) * BVEC(I).
+            //
+            yval = 0.0;
+
+            for (i = 0; i <= n; i++)
+            {
+                yval = yval + ydata[i] * bvec[i];
+            }
+            
+            return yval;
+        }
+
+        public static double[] bpab(int n, double a, double b, double x)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    BPAB evaluates the Bernstein basis polynomials for [A,B] at a point.
+            //
+            //  Formula:
+            //
+            //    BERN(N,I,X) = [N!/(I!*(N-I)!)] * (B-X)^(N-I) * (X-A)^I / (B-A)^N
+            //
+            //  First values:
+            //
+            //    B(0,0,X) =   1
+            //
+            //    B(1,0,X) = (      B-X              ) / (B-A)
+            //    B(1,1,X) = (                X-A    ) / (B-A)
+            //
+            //    B(2,0,X) = (     (B-X)^2           ) / (B-A)^2
+            //    B(2,1,X) = ( 2 * (B-X)   * (X-A)   ) / (B-A)^2
+            //    B(2,2,X) = (               (X-A)^2 ) / (B-A)^2
+            //
+            //    B(3,0,X) = (     (B-X)^3           ) / (B-A)^3
+            //    B(3,1,X) = ( 3 * (B-X)^2 * (X-A)   ) / (B-A)^3
+            //    B(3,2,X) = ( 3 * (B-X)   * (X-A)^2 ) / (B-A)^3
+            //    B(3,3,X) = (               (X-A)^3 ) / (B-A)^3
+            //
+            //    B(4,0,X) = (     (B-X)^4           ) / (B-A)^4
+            //    B(4,1,X) = ( 4 * (B-X)^3 * (X-A)   ) / (B-A)^4
+            //    B(4,2,X) = ( 6 * (B-X)^2 * (X-A)^2 ) / (B-A)^4
+            //    B(4,3,X) = ( 4 * (B-X)   * (X-A)^3 ) / (B-A)^4
+            //    B(4,4,X) = (               (X-A)^4 ) / (B-A)^4
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    12 February 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    David Kahaner, Cleve Moler, Steven Nash,
+            //    Numerical Methods and Software,
+            //    Prentice Hall, 1989,
+            //    ISBN: 0-13-627258-4,
+            //    LC: TA345.K34.
+            //
+            //  Parameters:
+            //
+            //    Input, integer N, the degree of the Bernstein basis polynomials.
+            //    For any N greater than or equal to 0, there is a set of N+1
+            //    Bernstein basis polynomials, each of degree N, which form a basis
+            //    for polynomials on [A,B].
+            //
+            //    Input, double A, B, the endpoints of the interval on which the
+            //    polynomials are to be based.  A and B should not be equal.
+            //
+            //    Input, double X, the point at which the polynomials are to be
+            //    evaluated.  X need not lie in the interval [A,B].
+            //
+            //    Output, double BERN[0:N], the values of the N+1 Bernstein basis
+            //    polynomials at X.
+            //
+        {
+            double[] bern;
+            int i;
+            int j;
+
+            if (b == a)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("BPAB - Fatal error!");
+                Console.WriteLine("  A = B = " + a + "");
+                return null;
+            }
+
+            bern = new double[n + 1];
+
+            if (n == 0)
+            {
+                bern[0] = 1.0;
+            }
+            else if (0 < n)
+            {
+                bern[0] = (b - x) / (b - a);
+                bern[1] = (x - a) / (b - a);
+
+                for (i = 2; i <= n; i++)
+                {
+                    bern[i] = (x - a) * bern[i - 1] / (b - a);
+                    for (j = i - 1; 1 <= j; j--)
+                    {
+                        bern[j] = ((b - x) * bern[j] + (x - a) * bern[j - 1]) / (b - a);
+                    }
+
+                    bern[0] = (b - x) * bern[0] / (b - a);
+                }
+            }
+
+            return bern;
         }
 
         public static double[] bernstein_poly_ab_approx(int n, double a, double b, double[] ydata,
@@ -756,7 +953,7 @@ namespace Burkardt.PolynomialNS
                     }
 
                     a[i + j * (n + 1)] = a[i + j * (n + 1)] * typeMethods.r8_choose(n, j)
-                                                            * (double) (2 * i + 1) / (double) (n + i + 1);
+                                                            * (double)(2 * i + 1) / (double)(n + i + 1);
                 }
             }
 
@@ -879,7 +1076,7 @@ namespace Burkardt.PolynomialNS
 
             for (i = 0; i < n; i++)
             {
-                x = (double) (i) / (double) (n - 1);
+                x = (double)(i) / (double)(n - 1);
                 b = bernstein_poly_01(n - 1, x);
                 for (j = 0; j < n; j++)
                 {

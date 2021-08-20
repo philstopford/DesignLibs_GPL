@@ -1,7 +1,145 @@
-﻿namespace Burkardt.IntegralNS
+﻿using System;
+using Burkardt.Types;
+
+namespace Burkardt.IntegralNS
 {
     public static partial class Integral
     {
+        public static void legendre_2d_exactness ( double[] a, double[] b, int n, ref double[] x, 
+        ref double[] y, ref double[] w, int t )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    LEGENDRE_2D_EXACTNESS: monomial exactness for the 2D Legendre integral.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    31 May 2014
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double A[2], the lower limits of integration.
+        //
+        //    Input, double B[2], the upper limits of integration.
+        //
+        //    Input, int N, the number of points in the rule.
+        //
+        //    Input, double X[N], Y[N], the quadrature points.
+        //
+        //    Input, double W[N], the quadrature weights.
+        //
+        //    Input, int T, the maximum total degree.
+        //    0 <= T.
+        //
+        {
+            double e;
+            int i;
+            int j;
+            int[] p = new int[2];
+            double q;
+            double s;
+            int tt;
+            double[] v;
+
+            Console.WriteLine("");
+            Console.WriteLine("  Quadrature rule for the 2D Legendre integral.");
+            Console.WriteLine("  Number of points in rule is " + n + "");
+            Console.WriteLine("");
+            Console.WriteLine("   D   I       J          Relative Error");
+
+            v = new double[n];
+
+            for ( tt = 0; tt <= t; tt++ )
+            {
+                Console.WriteLine("  " + tt + "");
+                for ( j = 0; j <= tt; j++ )
+                {
+                    i = tt - j;
+
+                    p[0] = i;
+                    p[1] = j;
+
+                    s = legendre_2d_monomial_integral ( a, b, p );
+
+                    for ( i = 0; i < n; i++ )
+                    {
+                        v[i] = Math.Pow( x[i], p[0] ) * Math.Pow( y[i], p[1] );
+                    }
+                    q = typeMethods.r8vec_dot_product ( n, w, v );
+
+                    if ( s == 0.0 )
+                    {
+                        e = Math.Abs( q );
+                    }
+                    else
+                    {
+                        e = Math.Abs( q - s ) / Math.Abs( s );
+                    }
+                    Console.WriteLine(p[0].ToString().PadLeft(6) + "  "
+                        + p[1].ToString().PadLeft(6) + "  "
+                        + e.ToString("0.################").PadLeft(24) + "");
+                }
+            }
+        }
+        
+        public static double legendre_2d_monomial_integral ( double[] a, double[] b, int[] p )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    LEGENDRE_2D_MONOMIAL_INTEGRAL the Legendre integral of a monomial.
+        //
+        //  Discussion:
+        //
+        //    The Legendre integral to be evaluated has the form
+        //
+        //      I(f) = integral ( y1 <= y <= y2 ) 
+        //             integral ( x1 <= x <= x2 ) x^i y^j dx dy
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    31 May 2014
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double A[2], the lower limits of integration.
+        //
+        //    Input, double B[2], the upper limits of integration.
+        //
+        //    Input, int P[2], the exponents of X and Y.
+        //
+        //    Output, double LEGENDRE_2D_MONOMIAL_INTEGRAL, the value of the 
+        //    exact integral.
+        //
+        {
+            double exact;
+
+            exact = ( Math.Pow( b[0], p[0] + 1 ) - Math.Pow( a[0], p[0] + 1 ) ) 
+                    / ( double ) ( p[0] + 1 ) 
+                    * ( Math.Pow( b[1], p[1] + 1 ) - Math.Pow( a[1], p[1] + 1 ) ) 
+                    / ( double ) ( p[1] + 1 );
+
+            return exact;
+        }
         public static double legendre_integral ( int p )
 
             //****************************************************************************80

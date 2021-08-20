@@ -172,6 +172,104 @@ namespace Burkardt.Quadrature
             }
         }
 
+        public static void legendre_2d_set(double[] a, double[] b, int nx, int ny, ref double[] x,
+                ref double[] y, ref double[] w)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    LEGENDRE_2D_SET: set a 2D Gauss-Legendre quadrature rule.
+            //
+            //  Discussion:
+            //
+            //    The integral:
+            //
+            //      integral ( a(2) <= y <= b(2) ) ( a(1) <= x <= b(1) ) f(x,y) dx dy
+            //
+            //    The quadrature rule:
+            //
+            //      sum ( 1 <= i <= n ) w(i) * f ( x(i),y(i) )
+            //
+            //    where n = nx * ny, the orders of the rule in the X and Y directions.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    31 May 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double A[2], B[2], the lower and upper integration
+            //    limits.
+            //
+            //    Input, int NX, NY, the orders in the X and Y directions.
+            //    NX and NY must be between 1 and 10.
+            //
+            //    Output, double X[N], Y[N], the abscissas.
+            //
+            //    Output, double W[N], the weights.
+            //
+        {
+            int i;
+            int j;
+            int k;
+            double[] wx;
+            double[] wy;
+            double[] xx;
+            double[] yy;
+            //
+            //  Get the rules for [-1,+1].
+            //
+            xx = new double[nx];
+            wx = new double [nx];
+            legendre_set(nx, ref xx, ref wx);
+
+            yy = new double [ny];
+            wy = new double [ny];
+            legendre_set(ny, ref yy, ref wy);
+            //
+            //  Adjust from [-1,+1] to [A,B].
+            //
+            for (i = 0; i < nx; i++)
+            {
+                xx[i] = ((1.0 - xx[i]) * a[0]
+                         + (1.0 + xx[i]) * b[0])
+                        / 2.0;
+                wx[i] = wx[i] * (b[0] - a[0]) / 2.0;
+            }
+
+            for (j = 0; j < ny; j++)
+            {
+                yy[j] = ((1.0 - yy[j]) * a[1]
+                         + (1.0 + yy[j]) * b[1])
+                        / 2.0;
+                wy[j] = wy[j] * (b[1] - a[1]) / 2.0;
+            }
+
+            //
+            //  Compute the product rule.
+            //
+            k = 0;
+            for (j = 0; j < ny; j++)
+            {
+                for (i = 0; i < nx; i++)
+                {
+                    x[k] = xx[i];
+                    y[k] = yy[j];
+                    w[k] = wx[i] * wy[j];
+                    k = k + 1;
+                }
+            }
+        }
+
         public static void legendre_set(int n, ref double[] x, ref double[] w)
 
             //****************************************************************************80

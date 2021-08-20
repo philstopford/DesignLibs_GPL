@@ -107,6 +107,153 @@ namespace Burkardt.PolynomialNS
             return pols;
         }
 
+        public static double[] lege2eva(int degree, double[] z)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    LEGE2EVA evaluates orthogonal polynomials on the symmetric square.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    08 July 2014
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Hong Xiao, Zydrunas Gimbutas.
+            //    This C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Hong Xiao, Zydrunas Gimbutas,
+            //    A numerical algorithm for the construction of efficient quadrature
+            //    rules in two and higher dimensions,
+            //    Computers and Mathematics with Applications,
+            //    Volume 59, 2010, pages 663-676.
+            //
+            //  Parameters:
+            //
+            //    Input, int DEGREE, the maximum degree of the polynomials.
+            //
+            //    Input, double Z[2], the evaluation point.
+            //
+            //    Output, double LEGE2EVA[(DEGREE+1)*(DEGREE+2)/2], the orthogonal
+            //    polynomials evaluated at Z.
+            //
+        {
+            double[] f1;
+            double[] f2;
+            int kk;
+            int m;
+            int n;
+            int npols;
+            double[] pols;
+            double scale;
+
+            npols = ((degree + 1) * (degree + 2)) / 2;
+            pols = new double[npols];
+
+            f1 = llegepols1(degree, z[0]);
+            f2 = llegepols1(degree, z[1]);
+
+            kk = 0;
+            for (m = 0; m <= degree; m++)
+            {
+                for (n = 0; n <= m; n++)
+                {
+                    pols[kk] = f1[m - n] * f2[n];
+                    scale = (double)((1 + 2 * n) * (1 + 2 * (m - n)));
+                    scale = 0.5 * Math.Sqrt(scale);
+                    pols[kk] = pols[kk] * scale;
+                    kk = kk + 1;
+                }
+            }
+
+            return pols;
+        }
+
+        public static double[] llegepols1(int degree, double x)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    LLEGEPOLS1 evaluates orthogonal polynomials on the symmetric interval.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    08 July 2014
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Hong Xiao, Zydrunas Gimbutas.
+            //    This C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Hong Xiao, Zydrunas Gimbutas,
+            //    A numerical algorithm for the construction of efficient quadrature
+            //    rules in two and higher dimensions,
+            //    Computers and Mathematics with Applications,
+            //    Volume 59, 2010, pages 663-676.
+            //
+            //  Parameters:
+            //
+            //    Input, int DEGREE, the maximum degree.
+            //
+            //    Input, double X, the evaluation point.
+            //
+            //    Output, double LLEGEPOLS1[DEGREE+1], the orthogonal
+            //    polynomials evaluated at X.
+            //
+        {
+            int k;
+            double pk;
+            double pkm1;
+            double pkp1;
+            double[] pols;
+
+            pols = new double[degree + 1];
+            pkp1 = 1.0;
+            pols[0] = pkp1;
+
+            if (degree == 0)
+            {
+                return pols;
+            }
+
+            pk = pkp1;
+            pkp1 = x;
+            pols[1] = pkp1;
+
+            if (degree == 1)
+            {
+                return pols;
+            }
+
+            for (k = 1; k <= degree - 1; k++)
+            {
+                pkm1 = pk;
+                pk = pkp1;
+                pkp1 = ((double)(2 * k + 1) * x * pk
+                        - (double)(k) * pkm1)
+                       / (double)(k + 1);
+
+                pols[k + 1] = pkp1;
+            }
+
+            return pols;
+        }
+
         public static double[] ortho3eva(int degree, double[] xyz)
 
             //****************************************************************************80

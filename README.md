@@ -5,6 +5,11 @@ DesignLibs comprises a multitude of libraries. These are primarily built for use
 
 ## Common
 
+### Burkardt:
+
+This is a WIP port of the huge resource available at https://people.sc.fsu.edu/~jburkardt/cpp_src/cpp_src.html.
+
+
 ### Color:
 
 This provides color representations and common variables that are used by the Eto.Forms-based viewports, and end-user tools.

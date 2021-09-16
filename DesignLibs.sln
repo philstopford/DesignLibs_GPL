@@ -1062,6 +1062,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquareGridTest", "Burkhardt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquareIntegralsTest", "BurkhardtTest\Square\SquareIntegralsTest\SquareIntegralsTest.csproj", "{FBEC81E4-4F01-4CD9-9384-9E1BC9DF5F83}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SquareMinimumRuleTest", "BurkhardtTest\Square\SquareMinimumRuleTest\SquareMinimumRuleTest.csproj", "{C6927FCE-D8F7-4ECD-9096-8597B46366A3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -6592,6 +6594,18 @@ Global
 		{FBEC81E4-4F01-4CD9-9384-9E1BC9DF5F83}.Release|x64.Build.0 = Release|Any CPU
 		{FBEC81E4-4F01-4CD9-9384-9E1BC9DF5F83}.Release|x86.ActiveCfg = Release|Any CPU
 		{FBEC81E4-4F01-4CD9-9384-9E1BC9DF5F83}.Release|x86.Build.0 = Release|Any CPU
+		{C6927FCE-D8F7-4ECD-9096-8597B46366A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6927FCE-D8F7-4ECD-9096-8597B46366A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6927FCE-D8F7-4ECD-9096-8597B46366A3}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C6927FCE-D8F7-4ECD-9096-8597B46366A3}.Debug|x64.Build.0 = Debug|Any CPU
+		{C6927FCE-D8F7-4ECD-9096-8597B46366A3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C6927FCE-D8F7-4ECD-9096-8597B46366A3}.Debug|x86.Build.0 = Debug|Any CPU
+		{C6927FCE-D8F7-4ECD-9096-8597B46366A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6927FCE-D8F7-4ECD-9096-8597B46366A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6927FCE-D8F7-4ECD-9096-8597B46366A3}.Release|x64.ActiveCfg = Release|Any CPU
+		{C6927FCE-D8F7-4ECD-9096-8597B46366A3}.Release|x64.Build.0 = Release|Any CPU
+		{C6927FCE-D8F7-4ECD-9096-8597B46366A3}.Release|x86.ActiveCfg = Release|Any CPU
+		{C6927FCE-D8F7-4ECD-9096-8597B46366A3}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -7121,6 +7135,7 @@ Global
 		{38102000-89F7-4188-973F-909D61AF4162} = {BD80E3EE-E6F8-48DF-805C-B4549374C74C}
 		{6C2DB84D-A936-4837-A3F5-BB3BC1160EAE} = {BD80E3EE-E6F8-48DF-805C-B4549374C74C}
 		{FBEC81E4-4F01-4CD9-9384-9E1BC9DF5F83} = {BD80E3EE-E6F8-48DF-805C-B4549374C74C}
+		{C6927FCE-D8F7-4ECD-9096-8597B46366A3} = {BD80E3EE-E6F8-48DF-805C-B4549374C74C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B449416C-C504-4FA8-9E10-10857263A64A}

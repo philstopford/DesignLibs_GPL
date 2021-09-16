@@ -105,7 +105,6 @@ namespace Burkardt.Square
 
             return integral;
         }
-        //****************************************************************************80
 
         public static double[] square01_sample(int n, ref int seed)
 

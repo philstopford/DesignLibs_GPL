@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.MonomialNS;
 using Burkardt.Types;
 
 namespace HyperCubeMonteCarloTest
@@ -115,7 +116,7 @@ namespace HyperCubeMonteCarloTest
                         e[i] = e_test[i+j*m];
                     }
 
-                    double[] value = typeMethods.monomial_value ( m, n, e, x );
+                    double[] value = Monomial.monomial_value ( m, n, e, x );
 
                     double result = MonteCarlo.hypercube01_volume ( m ) * typeMethods.r8vec_sum ( n, value ) / ( double ) ( n );
                     cout += "  " +result.ToString().PadLeft(14);
@@ -203,7 +204,7 @@ namespace HyperCubeMonteCarloTest
                         e[i] = e_test[i+j*m];
                     }
 
-                    double[] value = typeMethods.monomial_value ( m, n, e, x );
+                    double[] value = Monomial.monomial_value ( m, n, e, x );
 
                     double result = MonteCarlo.hypercube01_volume ( m ) * typeMethods.r8vec_sum ( n, value ) / ( double ) ( n );
                     cout += "  " + result.ToString().PadLeft(14);

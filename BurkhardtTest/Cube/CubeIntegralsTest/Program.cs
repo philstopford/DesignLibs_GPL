@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt.Cube;
+using Burkardt.MonomialNS;
 using Burkardt.Types;
 using Burkardt.Uniform;
 
@@ -99,7 +100,7 @@ namespace CubeIntegralsTest
             {
                 e = UniformRNG.i4vec_uniform_ab_new(m, 0, 7, ref seed);
 
-                value = typeMethods.monomial_value(m, n, e, x);
+                value = Monomial.monomial_value(m, n, e, x);
 
                 result = Integrals.cube01_volume() * typeMethods.r8vec_sum(n, value) / (double) (n);
                 exact = Integrals.cube01_monomial_integral(e);

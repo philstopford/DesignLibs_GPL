@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using Burkardt.Composition;
+using Burkardt.MonomialNS;
 using Burkardt.Types;
 
 namespace Burkardt.Cube
@@ -3299,7 +3300,7 @@ namespace Burkardt.Cube
                     w = new double[order];
                     xyz = new double[dim_num * order];
                     cube_rule(a, b, order_1d, ref w, ref xyz);
-                    v = typeMethods.monomial_value(dim_num, order, expon, xyz);
+                    v = Monomial.monomial_value(dim_num, order, expon, xyz);
                     quad = typeMethods.r8vec_dot_product(order, w, v);
                     Console.WriteLine("  " + order_1d[0].ToString().PadLeft(6)
                                            + "  " + order_1d[1].ToString().PadLeft(6)
@@ -3317,7 +3318,7 @@ namespace Burkardt.Cube
                 w = new double[order];
                 xyz = new double[dim_num * order];
                 cube_rule(a, b, order_1d, ref w, ref xyz);
-                v = typeMethods.monomial_value(dim_num, order, expon, xyz);
+                v = Monomial.monomial_value(dim_num, order, expon, xyz);
                 quad = typeMethods.r8vec_dot_product(order, w, v);
                 Console.WriteLine("  " + order_1d[0].ToString().PadLeft(6)
                                        + "  " + order_1d[1].ToString().PadLeft(6)

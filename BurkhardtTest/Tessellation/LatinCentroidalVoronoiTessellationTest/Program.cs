@@ -72,9 +72,9 @@ namespace LatinCentroidalVoronoiTessellationTest
             //    John Burkardt
             //
         {
-            LCVData ldata = new LCVData();
             int M = 2;
             int N = 25;
+            LCVData ldata = new LCVData(M);
 
             double[] generator = new double[M * N];
             int i;
@@ -181,10 +181,9 @@ namespace LatinCentroidalVoronoiTessellationTest
             //    John Burkardt
             //
         {
-            BTupleData tdata = new BTupleData();
-            LCVData ldata = new LCVData();
             int M = 2;
             int N = 25;
+            LCVData ldata = new LCVData(M);
 
             double[] generator = new double[M * N];
             int i;
@@ -265,7 +264,7 @@ namespace LatinCentroidalVoronoiTessellationTest
 
             for (rank = 0; rank <= N - 1; rank++)
             {
-                BTuple.tuple_next_fast(ref tdata, ngrid, M, rank, ref tuple);
+                BTuple.tuple_next_fast(ref ldata.data.tdata, ngrid, M, rank, ref tuple);
                 for (i = 0; i < M; i++)
                 {
                     generator[i + rank * M] = (double) (2 * tuple[i] - 1)

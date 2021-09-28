@@ -7,7 +7,25 @@ namespace Burkardt.Tessellation
 {
     public class LCVData
     {
-        public RegionData data = new RegionData();
+        public RegionData data;
+        public LCVData()
+        {
+            init();
+        }
+        public LCVData(int M)
+        {
+            init();
+            data.tdata.base_ = new int[M];
+            for (int i = 0; i < M; i++)
+            {
+                data.tdata.base_[i] = 1;
+            }
+        }
+
+        void init()
+        {
+            data = new RegionData();
+        }
     }
     
     public static class LatinCentroidalVoronoi

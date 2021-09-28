@@ -148,7 +148,7 @@ namespace Burkardt.Tessellation
             if (init != 4)
             {
                 initialize = true;
-                cvt_sample(ref data, dim_num, n, n, init, initialize, ref seed, r);
+                cvt_sample(ref data, dim_num, n, n, init, initialize, ref seed, ref r);
             }
 
             if (DEBUG)
@@ -195,7 +195,7 @@ namespace Burkardt.Tessellation
                 seed_init = seed;
 
                 cvt_iterate(ref data, dim_num, n, batch, sample, initialize, sample_num, ref seed,
-                    r, ref it_diff, ref energy);
+                    ref r, ref it_diff, ref energy);
 
                 initialize = false;
 
@@ -285,7 +285,7 @@ namespace Burkardt.Tessellation
             {
                 get = Math.Min(sample_num - have, batch);
 
-                cvt_sample(ref data, dim_num, sample_num, get, sample, initialize, ref seed, s);
+                cvt_sample(ref data, dim_num, sample_num, get, sample, initialize, ref seed, ref s);
 
                 have = have + get;
 
@@ -308,7 +308,7 @@ namespace Burkardt.Tessellation
         }
 
         public static void cvt_iterate(ref CVTHaltonData data, int dim_num, int n, int batch, int sample, bool initialize,
-            int sample_num, ref int seed, double[] r, ref double it_diff, ref double energy )
+            int sample_num, ref int seed, ref double[] r, ref double it_diff, ref double energy )
 
         //****************************************************************************80
         //
@@ -438,7 +438,7 @@ namespace Burkardt.Tessellation
             {
                 get = Math.Min(sample_num - have, batch);
 
-                cvt_sample(ref data, dim_num, sample_num, get, sample, initialize, ref seed, s);
+                cvt_sample(ref data, dim_num, sample_num, get, sample, initialize, ref seed, ref s);
 
                 initialize = false;
                 have = have + get;
@@ -512,7 +512,7 @@ namespace Burkardt.Tessellation
         }
 
         public static void cvt_sample(ref CVTHaltonData data, int dim_num, int n, int n_now, int sample, bool initialize,
-                ref int seed, double[] r)
+                ref int seed, ref double[] r)
 
             //****************************************************************************80
             //

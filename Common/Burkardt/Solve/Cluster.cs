@@ -72,7 +72,7 @@ namespace Burkardt.SolveNS
                 //
                 //  Generate a sampling point X.
                 //
-                Region.region_sampler(ref data, dim_num, 1, sample_num_cvt, x, sample_function_cvt,
+                Region.region_sampler(ref data, dim_num, 1, sample_num_cvt, ref x, sample_function_cvt,
                     reset, ref seed);
 
                 reset = false;

@@ -112,7 +112,7 @@ namespace Burkardt.Tessellation
             {
                 reset = true;
 
-                Region.region_sampler(ref data.data, m, n, n, generator, sample_function_init, reset, ref seed);
+                Region.region_sampler(ref data.data, m, n, n, ref generator, sample_function_init, reset, ref seed);
             }
 
             //
@@ -239,7 +239,7 @@ namespace Burkardt.Tessellation
                 //
                 //  Generate a sampling point X.
                 //
-                Region.region_sampler(ref data.data, m, 1, sample_num_cvt, x, sample_function_cvt, reset,
+                Region.region_sampler(ref data.data, m, 1, sample_num_cvt, ref x, sample_function_cvt, reset,
                     ref seed);
 
                 reset = false;

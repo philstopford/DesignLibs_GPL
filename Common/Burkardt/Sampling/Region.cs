@@ -18,7 +18,7 @@ namespace Burkardt.Sampling
     
     public static class Region
     {
-        public static void region_sampler(ref RegionData data, int m, int n, int n_total, double[] x,
+        public static void region_sampler(ref RegionData data, int m, int n, int n_total, ref double[] x,
         int sample_function, bool reset, ref int seed )
 
         //****************************************************************************80

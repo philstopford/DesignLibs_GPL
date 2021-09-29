@@ -8,28 +8,28 @@ namespace BLAS1DTest
     class Program
     {
         static void Main(string[] args)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    MAIN is the main program for BLAS1_D_TEST.
-//
-//  Discussion:
-//
-//    BLAS1_D_TEST tests the BLAS1_D library.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    15 May 2006
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    MAIN is the main program for BLAS1_D_TEST.
+            //
+            //  Discussion:
+            //
+            //    BLAS1_D_TEST tests the BLAS1_D library.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    15 May 2006
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             Console.WriteLine("");
             Console.WriteLine("BLAS1_D_TEST:");
@@ -55,24 +55,24 @@ namespace BLAS1DTest
 
         static void dasum_test()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    DASUM_TEST tests DASUM.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    15 May 2006
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    DASUM_TEST tests DASUM.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    15 May 2006
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             int LDA = 6;
             int MA = 5;
@@ -96,14 +96,14 @@ namespace BLAS1DTest
             for (int i = 0; i < NX; i++)
             {
                 Console.WriteLine("  "
-                     + (i + 1).ToString().PadLeft(6) + "  "
-                     + x[i].ToString().PadLeft(14) + "");
+                                  + (i + 1).ToString().PadLeft(6) + "  "
+                                  + x[i].ToString().PadLeft(14) + "");
             }
 
             Console.WriteLine("");
-            Console.WriteLine("  DASUM ( NX,   X, 1 ) =    " + BLAS1D.dasum(NX, x, 1,0) + "");
-            Console.WriteLine("  DASUM ( NX/2, X, 2 ) =    " + BLAS1D.dasum(NX / 2, x, 2,0) + "");
-            Console.WriteLine("  DASUM ( 2,    X, NX/2 ) = " + BLAS1D.dasum(2, x, NX / 2,0) + "");
+            Console.WriteLine("  DASUM ( NX,   X, 1 ) =    " + BLAS1D.dasum(NX, x, 1, 0) + "");
+            Console.WriteLine("  DASUM ( NX/2, X, 2 ) =    " + BLAS1D.dasum(NX / 2, x, 2, 0) + "");
+            Console.WriteLine("  DASUM ( 2,    X, NX/2 ) = " + BLAS1D.dasum(2, x, NX / 2, 0) + "");
 
             for (int i = 0; i < MA; i++)
             {
@@ -129,31 +129,31 @@ namespace BLAS1DTest
             }
 
             Console.WriteLine("");
-            Console.WriteLine("  DASUM(MA,A(1,2),1) =   " + BLAS1D.dasum(MA, a, 1, ( 0 + 1 * LDA)) + "");
+            Console.WriteLine("  DASUM(MA,A(1,2),1) =   " + BLAS1D.dasum(MA, a, 1, (0 + 1 * LDA)) + "");
             Console.WriteLine("  DASUM(NA,A(2,1),LDA) = " + BLAS1D.dasum(NA, a, LDA, (1 + 0 * LDA)) + "");
 
         }
 
         static void daxpy_test()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    DAXPY_TEST tests DAXPY.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    15 May 2006
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    DAXPY_TEST tests DAXPY.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    15 May 2006
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             int N = 6;
 
@@ -180,8 +180,8 @@ namespace BLAS1DTest
             for (int i = 0; i < N; i++)
             {
                 Console.WriteLine("  "
-                     + (i + 1).ToString().PadLeft(6) + "  "
-                     + x[i].ToString().PadLeft(14) + "");
+                                  + (i + 1).ToString().PadLeft(6) + "  "
+                                  + x[i].ToString().PadLeft(14) + "");
             }
 
             Console.WriteLine("");
@@ -190,12 +190,12 @@ namespace BLAS1DTest
             for (int i = 0; i < N; i++)
             {
                 Console.WriteLine("  "
-                     + (i + 1).ToString().PadLeft(6) + "  "
-                     + y[i].ToString().PadLeft(14) + "");
+                                  + (i + 1).ToString().PadLeft(6) + "  "
+                                  + y[i].ToString().PadLeft(14) + "");
             }
 
             da = 1.0;
-            BLAS1D.daxpy(N, da, x,1, ref y, 1);
+            BLAS1D.daxpy(N, da, x, 1, ref y, 1);
             Console.WriteLine("");
             Console.WriteLine("  DAXPY ( N, " + da + ", X, 1, Y, 1 )");
             Console.WriteLine("");
@@ -204,8 +204,8 @@ namespace BLAS1DTest
             for (int i = 0; i < N; i++)
             {
                 Console.WriteLine("  "
-                     + (i + 1).ToString().PadLeft(6) + "  "
-                     + y[i].ToString().PadLeft(14) + "");
+                                  + (i + 1).ToString().PadLeft(6) + "  "
+                                  + y[i].ToString().PadLeft(14) + "");
             }
 
             for (int i = 0; i < N; i++)
@@ -223,8 +223,8 @@ namespace BLAS1DTest
             for (int i = 0; i < N; i++)
             {
                 Console.WriteLine("  "
-                     + (i + 1).ToString().PadLeft(6) + "  "
-                     + y[i].ToString().PadLeft(14) + "");
+                                  + (i + 1).ToString().PadLeft(6) + "  "
+                                  + y[i].ToString().PadLeft(14) + "");
             }
 
             for (int i = 0; i < N; i++)
@@ -242,8 +242,8 @@ namespace BLAS1DTest
             for (int i = 0; i < N; i++)
             {
                 Console.WriteLine("  "
-                     + (i + 1).ToString().PadLeft(6) + "  "
-                     + y[i].ToString().PadLeft(14) + "");
+                                  + (i + 1).ToString().PadLeft(6) + "  "
+                                  + y[i].ToString().PadLeft(14) + "");
             }
 
             for (int i = 0; i < N; i++)
@@ -261,31 +261,31 @@ namespace BLAS1DTest
             for (int i = 0; i < N; i++)
             {
                 Console.WriteLine("  "
-                     + (i + 1).ToString().PadLeft(6) + "  "
-                     + y[i].ToString().PadLeft(14) + "");
+                                  + (i + 1).ToString().PadLeft(6) + "  "
+                                  + y[i].ToString().PadLeft(14) + "");
             }
         }
 
         static void dcopy_test()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    DCOPY_TEST demonstrates DCOPY.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    15 May 2006
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    DCOPY_TEST demonstrates DCOPY.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    15 May 2006
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             double[] a = new double[5 * 5];
             double[] x = new double[10];
@@ -320,8 +320,8 @@ namespace BLAS1DTest
             for (int i = 0; i < 10; i++)
             {
                 Console.WriteLine("  "
-                     + (i + 1).ToString().PadLeft(6) + "  "
-                     + x[i].ToString().PadLeft(14) + "");
+                                  + (i + 1).ToString().PadLeft(6) + "  "
+                                  + x[i].ToString().PadLeft(14) + "");
             }
 
             Console.WriteLine("");
@@ -330,8 +330,8 @@ namespace BLAS1DTest
             for (int i = 0; i < 10; i++)
             {
                 Console.WriteLine("  "
-                     + (i + 1).ToString().PadLeft(6) + "  "
-                     + y[i].ToString().PadLeft(14) + "");
+                                  + (i + 1).ToString().PadLeft(6) + "  "
+                                  + y[i].ToString().PadLeft(14) + "");
             }
 
             Console.WriteLine("");
@@ -355,8 +355,8 @@ namespace BLAS1DTest
             for (int i = 0; i < 10; i++)
             {
                 Console.WriteLine("  "
-                     + (i + 1).ToString().PadLeft(6) + "  "
-                     + y[i].ToString().PadLeft(14) + "");
+                                  + (i + 1).ToString().PadLeft(6) + "  "
+                                  + y[i].ToString().PadLeft(14) + "");
             }
 
             for (int i = 0; i < 10; i++)
@@ -371,8 +371,8 @@ namespace BLAS1DTest
             for (int i = 0; i < 10; i++)
             {
                 Console.WriteLine("  "
-                     + (i + 1).ToString().PadLeft(6) + "  "
-                     + y[i].ToString().PadLeft(14) + "");
+                                  + (i + 1).ToString().PadLeft(6) + "  "
+                                  + y[i].ToString().PadLeft(14) + "");
             }
 
             BLAS1D.dcopy(5, x, 1, ref a, 1);
@@ -420,24 +420,24 @@ namespace BLAS1DTest
 
         static void ddot_test()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    DDOT_TEST demonstrates DDOT.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    15 May 2006
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    DDOT_TEST demonstrates DDOT.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    15 May 2006
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             int N = 5;
             int LDA = 10;
@@ -482,34 +482,34 @@ namespace BLAS1DTest
                 }
             }
 
-            sum1 = BLAS1D.ddot(N, x, 1, y, 1 );
+            sum1 = BLAS1D.ddot(N, x, 1, y, 1);
 
             Console.WriteLine("");
             Console.WriteLine("  Dot product of X and Y is " + sum1 + "");
-//
-//  To multiply a ROW of a matrix A times a vector X, we need to
-//  specify the increment between successive entries of the row of A:
-//
-            sum1 = BLAS1D.ddot(N, a, LDA, x,  1, (1 + 0 * LDA), 0);
+            //
+            //  To multiply a ROW of a matrix A times a vector X, we need to
+            //  specify the increment between successive entries of the row of A:
+            //
+            sum1 = BLAS1D.ddot(N, a, LDA, x, 1, (1 + 0 * LDA), 0);
 
             Console.WriteLine("");
             Console.WriteLine("  Product of row 2 of A and X is " + sum1 + "");
-//
-//  Product of a column of A and a vector is simpler:
-//
-            sum1 = BLAS1D.ddot(N, a, 1, x, 1, ( + 0 + 1 * LDA), 0);
+            //
+            //  Product of a column of A and a vector is simpler:
+            //
+            sum1 = BLAS1D.ddot(N, a, 1, x, 1, (+0 + 1 * LDA), 0);
 
             Console.WriteLine("");
             Console.WriteLine("  Product of column 2 of A and X is " + sum1 + "");
-//
-//  Here's how matrix multiplication, c = a*b, could be done
-//  with DDOT:
-//
+            //
+            //  Here's how matrix multiplication, c = a*b, could be done
+            //  with DDOT:
+            //
             for (int i = 0; i < N; i++)
             {
                 for (int j = 0; j < N; j++)
                 {
-                    c[i + j * LDC] = BLAS1D.ddot(N, a, LDA, b, 1, (+ i), ( + 0 + j * LDB));
+                    c[i + j * LDC] = BLAS1D.ddot(N, a, LDA, b, 1, (+i), (+0 + j * LDB));
                 }
             }
 
@@ -531,31 +531,31 @@ namespace BLAS1DTest
 
         static void dnrm2_test()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    DNRM2_TEST demonstrates DNRM2.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    15 May 2006
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    DNRM2_TEST demonstrates DNRM2.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    15 May 2006
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             int N = 5;
             int LDA = 10;
-//
-//  These parameters illustrate the fact that matrices are typically
-//  dimensioned with more space than the user requires.
-//
+            //
+            //  These parameters illustrate the fact that matrices are typically
+            //  dimensioned with more space than the user requires.
+            //
             double[] a = new double[LDA * LDA];
             double[] x = new double[N];
 
@@ -563,9 +563,9 @@ namespace BLAS1DTest
             Console.WriteLine("DNRM2_TEST");
             Console.WriteLine("  DNRM2 computes the Euclidean norm of a vector.");
             Console.WriteLine("");
-//
-//  Compute the euclidean norm of a vector:
-//
+            //
+            //  Compute the euclidean norm of a vector:
+            //
             for (int i = 0; i < N; i++)
             {
                 x[i] = (double) (i + 1);
@@ -577,15 +577,15 @@ namespace BLAS1DTest
             for (int i = 0; i < N; i++)
             {
                 Console.WriteLine("  "
-                     + (i + 1).ToString().PadLeft(6) + "  "
-                     + x[i].ToString().PadLeft(14) + "");
+                                  + (i + 1).ToString().PadLeft(6) + "  "
+                                  + x[i].ToString().PadLeft(14) + "");
             }
 
             Console.WriteLine("");
             Console.WriteLine("  The 2-norm of X is " + BLAS1D.dnrm2(N, x, 1, 0) + "");
-//
-//  Compute the euclidean norm of a row or column of a matrix:
-//
+            //
+            //  Compute the euclidean norm of a row or column of a matrix:
+            //
             for (int i = 0; i < N; i++)
             {
                 for (int j = 0; j < N; j++)
@@ -596,34 +596,34 @@ namespace BLAS1DTest
 
             Console.WriteLine("");
             Console.WriteLine("  The 2-norm of row 2 of A is "
-                 + BLAS1D.dnrm2(N, a, LDA,( + 1 + 0 * LDA)) + "");
+                              + BLAS1D.dnrm2(N, a, LDA, (+1 + 0 * LDA)) + "");
 
             Console.WriteLine("");
             Console.WriteLine("  The 2-norm of column 2 of A is "
-                 + BLAS1D.dnrm2(N, a, 1, ( + 0 + 1 * LDA)) + "");
+                              + BLAS1D.dnrm2(N, a, 1, (+0 + 1 * LDA)) + "");
 
         }
 
         static void drot_test()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    DROT_TEST tests DROT.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    15 May 2006
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    DROT_TEST tests DROT.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    15 May 2006
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             int N = 6;
 
@@ -651,23 +651,23 @@ namespace BLAS1DTest
             for (int i = 0; i < N; i++)
             {
                 Console.WriteLine("  "
-                     + (i + 1).ToString().PadLeft(6) + "  "
-                     + x[i].ToString().PadLeft(14) + "  "
-                     + y[i].ToString().PadLeft(14) + "");
+                                  + (i + 1).ToString().PadLeft(6) + "  "
+                                  + x[i].ToString().PadLeft(14) + "  "
+                                  + y[i].ToString().PadLeft(14) + "");
             }
 
             c = 0.5;
             s = Math.Sqrt(1.0 - c * c);
-            BLAS1D.drot(N, ref x,  1, ref y, 1, c, s);
+            BLAS1D.drot(N, ref x, 1, ref y, 1, c, s);
             Console.WriteLine("");
             Console.WriteLine("  DROT ( N, X, 1, Y, 1, " + c + "," + s + " )");
             Console.WriteLine("");
             for (int i = 0; i < N; i++)
             {
                 Console.WriteLine("  "
-                     + (i + 1).ToString().PadLeft(6) + "  "
-                     + x[i].ToString().PadLeft(14) + "  "
-                     + y[i].ToString().PadLeft(14) + "");
+                                  + (i + 1).ToString().PadLeft(6) + "  "
+                                  + x[i].ToString().PadLeft(14) + "  "
+                                  + y[i].ToString().PadLeft(14) + "");
             }
 
             for (int i = 0; i < N; i++)
@@ -689,32 +689,32 @@ namespace BLAS1DTest
             for (int i = 0; i < N; i++)
             {
                 Console.WriteLine("  "
-                     + (i + 1).ToString().PadLeft(6) + "  "
-                     + x[i].ToString().PadLeft(14) + "  "
-                     + y[i].ToString().PadLeft(14) + "");
+                                  + (i + 1).ToString().PadLeft(6) + "  "
+                                  + x[i].ToString().PadLeft(14) + "  "
+                                  + y[i].ToString().PadLeft(14) + "");
             }
         }
 
         static void drotg_test()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    DROTG_TEST tests DROTG.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    15 May 2006
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    DROTG_TEST tests DROTG.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    15 May 2006
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             double c = 0;
             double s = 0;
@@ -753,24 +753,24 @@ namespace BLAS1DTest
 
         static void dscal_test()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    DSCAL_TEST tests DSCAL.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    15 May 2006
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    DSCAL_TEST tests DSCAL.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    15 May 2006
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             int N = 6;
 
@@ -790,20 +790,20 @@ namespace BLAS1DTest
             for (int i = 0; i < N; i++)
             {
                 Console.WriteLine("  "
-                     + (i + 1).ToString().PadLeft(6) + "  "
-                     + x[i].ToString().PadLeft(14) + "");
+                                  + (i + 1).ToString().PadLeft(6) + "  "
+                                  + x[i].ToString().PadLeft(14) + "");
             }
 
             double da = 5.0;
-            BLAS1D.dscal(N, da, ref x,1, 0);
+            BLAS1D.dscal(N, da, ref x, 1, 0);
             Console.WriteLine("");
             Console.WriteLine("  DSCAL ( N, " + da + ", X, 1 )");
             Console.WriteLine("");
             for (int i = 0; i < N; i++)
             {
                 Console.WriteLine("  "
-                     + (i + 1).ToString().PadLeft(6) + "  "
-                     + x[i].ToString().PadLeft(14) + "");
+                                  + (i + 1).ToString().PadLeft(6) + "  "
+                                  + x[i].ToString().PadLeft(14) + "");
             }
 
             for (int i = 0; i < N; i++)
@@ -819,31 +819,31 @@ namespace BLAS1DTest
             for (int i = 0; i < N; i++)
             {
                 Console.WriteLine("  "
-                     + (i + 1).ToString().PadLeft(6) + "  "
-                     + x[i].ToString().PadLeft(14) + "");
+                                  + (i + 1).ToString().PadLeft(6) + "  "
+                                  + x[i].ToString().PadLeft(14) + "");
             }
         }
 
         static void dswap_test()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    DSWAP_TEST tests DSWAP.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    15 May 2006
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    DSWAP_TEST tests DSWAP.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    15 May 2006
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             int N = 6;
 
@@ -869,9 +869,9 @@ namespace BLAS1DTest
             for (int i = 0; i < N; i++)
             {
                 Console.WriteLine("  "
-                     + (i + 1).ToString().PadLeft(6) + "  "
-                     + x[i].ToString().PadLeft(14) + "  "
-                     + y[i].ToString().PadLeft(14) + "");
+                                  + (i + 1).ToString().PadLeft(6) + "  "
+                                  + x[i].ToString().PadLeft(14) + "  "
+                                  + y[i].ToString().PadLeft(14) + "");
             }
 
             BLAS1D.dswap(N, ref x, 1, ref y, 1);
@@ -883,9 +883,9 @@ namespace BLAS1DTest
             for (int i = 0; i < N; i++)
             {
                 Console.WriteLine("  "
-                     + (i + 1).ToString().PadLeft(6) + "  "
-                     + x[i].ToString().PadLeft(14) + "  "
-                     + y[i].ToString().PadLeft(14) + "");
+                                  + (i + 1).ToString().PadLeft(6) + "  "
+                                  + x[i].ToString().PadLeft(14) + "  "
+                                  + y[i].ToString().PadLeft(14) + "");
             }
 
             for (int i = 0; i < N; i++)
@@ -908,32 +908,32 @@ namespace BLAS1DTest
             for (int i = 0; i < N; i++)
             {
                 Console.WriteLine("  "
-                     + (i + 1).ToString().PadLeft(6) + "  "
-                     + x[i].ToString().PadLeft(14) + "  "
-                     + y[i].ToString().PadLeft(14) + "");
+                                  + (i + 1).ToString().PadLeft(6) + "  "
+                                  + x[i].ToString().PadLeft(14) + "  "
+                                  + y[i].ToString().PadLeft(14) + "");
             }
         }
 
         static void idamax_test()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    IDAMAX_TEST demonstrates IDAMAX.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    23 February 2006
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    IDAMAX_TEST demonstrates IDAMAX.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    23 February 2006
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             int N = 11;
 
@@ -955,7 +955,7 @@ namespace BLAS1DTest
             for (int i = 1; i <= N; i++)
             {
                 Console.WriteLine("  " + i.ToString().PadLeft(6)
-                    + "  " + x[i - 1].ToString().PadLeft(8) + "");
+                                       + "  " + x[i - 1].ToString().PadLeft(8) + "");
             }
 
             int incx = 1;

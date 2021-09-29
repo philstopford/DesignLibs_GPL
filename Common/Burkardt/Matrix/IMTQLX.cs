@@ -85,7 +85,7 @@ namespace Burkardt.MatrixNS
             double r;
             double s;
 
-            prec = double.Epsilon;
+            prec = 2.2204460492503131e-16; // double.Epsilon;// typeMethods.r8_epsilon();
 
             if (n == 1)
             {

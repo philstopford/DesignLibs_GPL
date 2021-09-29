@@ -620,7 +620,7 @@ namespace Burkardt.Types
             }
             else
             {
-                value = jlo + Math.Abs((ival - jlo) % wide);
+                value = jlo + i4_modp((ival - jlo),  wide);
             }
 
             return value;

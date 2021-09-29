@@ -96,10 +96,10 @@ namespace BisectionRCTest
             Console.WriteLine("");
             Console.WriteLine("     I      X               FX              DX");
             Console.WriteLine("");
+            RC_data data = new RC_data();
 
             for (;;)
             {
-                RC_data data = new RC_data();
                 x = RC.bisection_rc(ref data, ref a, ref b, fx, ref job);
 
                 if (job < 0)
@@ -241,9 +241,10 @@ namespace BisectionRCTest
             Console.WriteLine("     I      X               FX              DX");
             Console.WriteLine("");
 
+            RC_data data = new RC_data();
+
             for (;;)
             {
-                RC_data data = new RC_data();
                 x = RC.bisection_rc(ref data, ref a, ref b, fx, ref job);
                 
                 if (job < 0)
@@ -375,10 +376,10 @@ namespace BisectionRCTest
             Console.WriteLine("");
             Console.WriteLine("     I      X               FX              DX");
             Console.WriteLine("");
+            RC_data data = new RC_data();
 
             for (;;)
             {
-                RC_data data = new RC_data();
                 x = RC.bisection_rc(ref data, ref a, ref b, fx, ref job);
                 if (job < 0)
                 {
@@ -538,10 +539,10 @@ namespace BisectionRCTest
             Console.WriteLine("");
             Console.WriteLine("     I      X               FX              DX");
             Console.WriteLine("");
+            RC_data data = new RC_data();
 
             for (;;)
             {
-                RC_data data = new RC_data();
                 x = RC.bisection_rc(ref data, ref a, ref b, fx, ref job);
                 
                 if (job < 0)
@@ -732,9 +733,10 @@ namespace BisectionRCTest
             Console.WriteLine("     I      X               FX              DX");
             Console.WriteLine("");
 
+            RC_data data = new RC_data();
+
             for (;;)
             {
-                RC_data data = new RC_data();
                 xr = RC.bisection_rc(ref data, ref ar, ref br, fx, ref job);
 
                 if (job < 0)

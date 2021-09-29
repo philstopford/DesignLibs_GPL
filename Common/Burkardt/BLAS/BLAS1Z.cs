@@ -75,9 +75,13 @@ namespace Burkardt.BLAS
                 ix = 0;
                 for (i = 0; i < n; i++)
                 {
-                    value = value + Math.Abs(x[index = (ix)].Real)
+                    value = value + Math.Abs(x[index + (ix)].Real)
                                   + Math.Abs(x[index + (ix)].Imaginary);
                     ix = ix + incx;
+                    if (ix >= x.Length)
+                    {
+                        break;
+                    }
                 }
             }
 

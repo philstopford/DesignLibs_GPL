@@ -9,28 +9,28 @@ namespace BLAS1ZTest
     class Program
     {
         static void Main(string[] args)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    MAIN is the main program for BLAS1_Z_TEST.
-//
-//  Discussion:
-//
-//    BLAS1_Z_TEST tests the BLAS1_Z library.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    19 April 2007
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    MAIN is the main program for BLAS1_Z_TEST.
+            //
+            //  Discussion:
+            //
+            //    BLAS1_Z_TEST tests the BLAS1_Z library.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    19 April 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             Console.WriteLine("");
             Console.WriteLine("BLAS1_Z_TEST:");
@@ -63,64 +63,66 @@ namespace BLAS1ZTest
 
         static void test01()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    TEST01 tests DZASUM.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    19 April 2007
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TEST01 tests DZASUM.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    19 April 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             int MA = 5;
             int NA = 4;
             int NX = 8;
 
-            Complex[] a =  {
-                new Complex(-3.0, 4.0),
-                new Complex(2.0, 0.0),
-                new Complex(3.0, -4.0),
-                new Complex(2.0, 0.0),
-                new Complex(2.0, -1.0),
-                new Complex(-1.0, 1.0),
-                new Complex(0.0, 5.0),
-                new Complex(-4.0, -2.0),
-                new Complex(-4.0, 1.0),
-                new Complex(-4.0, -3.0),
-                new Complex(0.0, -2.0),
-                new Complex(1.0, 3.0),
-                new Complex(-3.0, 3.0),
-                new Complex(-3.0, 3.0),
-                new Complex(-1.0, -2.0),
-                new Complex(-1.0, 2.0),
-                new Complex(2.0, -4.0),
-                new Complex(0.0, -1.0),
-                new Complex(0.0, -1.0),
-                new Complex(-2.0, 4.0)
-            }
-            ;
+            Complex[] a =
+                {
+                    new Complex(-3.0, 4.0),
+                    new Complex(2.0, 0.0),
+                    new Complex(3.0, -4.0),
+                    new Complex(2.0, 0.0),
+                    new Complex(2.0, -1.0),
+                    new Complex(-1.0, 1.0),
+                    new Complex(0.0, 5.0),
+                    new Complex(-4.0, -2.0),
+                    new Complex(-4.0, 1.0),
+                    new Complex(-4.0, -3.0),
+                    new Complex(0.0, -2.0),
+                    new Complex(1.0, 3.0),
+                    new Complex(-3.0, 3.0),
+                    new Complex(-3.0, 3.0),
+                    new Complex(-1.0, -2.0),
+                    new Complex(-1.0, 2.0),
+                    new Complex(2.0, -4.0),
+                    new Complex(0.0, -1.0),
+                    new Complex(0.0, -1.0),
+                    new Complex(-2.0, 4.0)
+                }
+                ;
 
-            Complex[] x =  {
-                new Complex(2.0, -1.0),
-                new Complex(-4.0, -2.0),
-                new Complex(3.0, 1.0),
-                new Complex(2.0, 2.0),
-                new Complex(-1.0, -1.0),
-                new Complex(-1.0, 0.0),
-                new Complex(0.0, -3.0),
-                new Complex(4.0, 0.0)
-            }
-            ;
+            Complex[] x =
+                {
+                    new Complex(2.0, -1.0),
+                    new Complex(-4.0, -2.0),
+                    new Complex(3.0, 1.0),
+                    new Complex(2.0, 2.0),
+                    new Complex(-1.0, -1.0),
+                    new Complex(-1.0, 0.0),
+                    new Complex(0.0, -3.0),
+                    new Complex(4.0, 0.0)
+                }
+                ;
 
             Console.WriteLine("");
             Console.WriteLine("TEST01");
@@ -132,16 +134,16 @@ namespace BLAS1ZTest
             for (int i = 0; i < NX; i++)
             {
                 Console.WriteLine("  " + i.ToString().PadLeft(6)
-                    + "  " + x[i].ToString().PadLeft(12) + "");
+                                       + "  " + x[i].ToString().PadLeft(12) + "");
             }
 
             Console.WriteLine("");
             Console.WriteLine("  DZASUM ( NX,   X, 1    ) = "
-                 + BLAS1Z.dzasum(NX, x, 0, 1) + "");
+                              + BLAS1Z.dzasum(NX, x, 0, 1) + "");
             Console.WriteLine("  DZASUM ( NX/2, X, 2    ) = "
-                 + BLAS1Z.dzasum(NX / 2, x, 0, 2) + "");
+                              + BLAS1Z.dzasum(NX / 2, x, 0, 2) + "");
             Console.WriteLine("  DZASUM ( 2,    X, NX/2 ) = "
-                 + BLAS1Z.dzasum(2, x, 0, NX / 2) + "");
+                              + BLAS1Z.dzasum(2, x, 0, NX / 2) + "");
 
             Console.WriteLine("");
             Console.WriteLine("  Demonstrate with a matrix A:");
@@ -159,42 +161,43 @@ namespace BLAS1ZTest
 
             Console.WriteLine("");
             Console.WriteLine("  DZASUM ( MA, A[1,2], 1 )   = "
-                 + BLAS1Z.dzasum(MA, a,0 + 1 * MA, 1) + "");
+                              + BLAS1Z.dzasum(MA, a, 0 + 1 * MA, 1) + "");
             Console.WriteLine("  DZASUM ( NA, A[2,1], MA ) = "
-                 + BLAS1Z.dzasum(NA, a, ( + 1 + 0 * MA), MA) + "");
+                              + BLAS1Z.dzasum(NA, a, (+1 + 0 * MA), MA) + "");
         }
 
         static void test02()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    TEST02 tests DZNRM2.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    19 April 2007
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TEST02 tests DZNRM2.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    19 April 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             int N = 5;
 
-            Complex[] x =  {
-                new Complex(2.0, -1.0),
-                new Complex(-4.0, -2.0),
-                new Complex(3.0, 1.0),
-                new Complex(2.0, 2.0),
-                new Complex(-1.0, -1.0)
-            }
-            ;
+            Complex[] x =
+                {
+                    new Complex(2.0, -1.0),
+                    new Complex(-4.0, -2.0),
+                    new Complex(3.0, 1.0),
+                    new Complex(2.0, 2.0),
+                    new Complex(-1.0, -1.0)
+                }
+                ;
 
             Console.WriteLine("");
             Console.WriteLine("TEST02");
@@ -206,7 +209,7 @@ namespace BLAS1ZTest
             for (int i = 0; i < N; i++)
             {
                 Console.WriteLine("  " + i.ToString().PadLeft(6)
-                    + "  " + x[i].ToString().PadLeft(16) + "");
+                                       + "  " + x[i].ToString().PadLeft(16) + "");
             }
 
             int incx = 1;
@@ -218,35 +221,36 @@ namespace BLAS1ZTest
 
         static void test03()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    TEST03 tests IZAMAX.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    19 April 2007
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TEST03 tests IZAMAX.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    19 April 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             int N = 5;
 
-            Complex[] x =  {
-                new Complex(2.0, -1.0),
-                new Complex(-4.0, -2.0),
-                new Complex(3.0, 1.0),
-                new Complex(2.0, 2.0),
-                new Complex(-1.0, -1.0)
-            }
-            ;
+            Complex[] x =
+                {
+                    new Complex(2.0, -1.0),
+                    new Complex(-4.0, -2.0),
+                    new Complex(3.0, 1.0),
+                    new Complex(2.0, 2.0),
+                    new Complex(-1.0, -1.0)
+                }
+                ;
 
             Console.WriteLine("");
             Console.WriteLine("TEST03");
@@ -259,8 +263,8 @@ namespace BLAS1ZTest
             for (int i = 0; i < N; i++)
             {
                 Console.WriteLine("  " + i.ToString().PadLeft(6)
-                    + "  " + x[i].ToString().PadLeft(16)
-                    + "  " + BLAS0.zabs1(x[i]).ToString().PadLeft(8) + "");
+                                       + "  " + x[i].ToString().PadLeft(16)
+                                       + "  " + BLAS0.zabs1(x[i]).ToString().PadLeft(8) + "");
             }
 
             int incx = 1;
@@ -277,24 +281,24 @@ namespace BLAS1ZTest
 
         static void test04()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    TEST04 tests ZABS1.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    19 April 2007
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TEST04 tests ZABS1.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    19 April 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             int seed = 123456789;
 
@@ -308,21 +312,21 @@ namespace BLAS1ZTest
 
             for (int i = 1; i <= 10; i++)
             {
-//
-//  The compiler seems to be unhappy with the statement
-//
-//    c = 5.0 * c8_uniform_01 ( seed );
-//
-//  Poor compiler.
-//
+                //
+                //  The compiler seems to be unhappy with the statement
+                //
+                //    c = 5.0 * c8_uniform_01 ( seed );
+                //
+                //  Poor compiler.
+                //
                 Complex c = UniformRNG.c8_uniform_01(ref seed);
-                c = new Complex(5.0,0) * c;
+                c = new Complex(5.0, 0) * c;
 
                 double c_norm = BLAS0.zabs1(c);
 
                 Console.WriteLine("  " + c.Real.ToString().PadLeft(10)
-                    + "  " + c.Imaginary.ToString().PadLeft(10)
-                    + "  " + c_norm.ToString().PadLeft(10) + "");
+                                       + "  " + c.Imaginary.ToString().PadLeft(10)
+                                       + "  " + c_norm.ToString().PadLeft(10) + "");
             }
 
             return;
@@ -330,24 +334,24 @@ namespace BLAS1ZTest
 
         static void test05()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    TEST05 tests ZABS2.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    19 April 2007
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TEST05 tests ZABS2.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    19 April 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             int seed = 123456789;
 
@@ -367,54 +371,56 @@ namespace BLAS1ZTest
                 double c_norm = BLAS0.zabs2(c);
 
                 Console.WriteLine("  " + c.Real.ToString().PadLeft(10)
-                    + "  " + c.Imaginary.ToString().PadLeft(10)
-                    + "  " + c_norm.ToString().PadLeft(10) + "");
+                                       + "  " + c.Imaginary.ToString().PadLeft(10)
+                                       + "  " + c_norm.ToString().PadLeft(10) + "");
             }
 
             return;
         }
-//****************************************************************************80
+        //****************************************************************************80
 
         static void test06()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    TEST06 tests ZAXPY.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    19 April 2007
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TEST06 tests ZAXPY.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    19 April 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             int N = 5;
 
             Complex s;
-            Complex[] x =  {
-                new Complex(2.0, -1.0),
-                new Complex(-4.0, -2.0),
-                new Complex(3.0, 1.0),
-                new Complex(2.0, 2.0),
-                new Complex(-1.0, -1.0)
-            }
-            ;
-            Complex[] y =  {
-                new Complex(-1.0, 0.0),
-                new Complex(0.0, -3.0),
-                new Complex(4.0, 0.0),
-                new Complex(-3.0, 4.0),
-                new Complex(-2.0, 0.0)
-            }
-            ;
+            Complex[] x =
+                {
+                    new Complex(2.0, -1.0),
+                    new Complex(-4.0, -2.0),
+                    new Complex(3.0, 1.0),
+                    new Complex(2.0, 2.0),
+                    new Complex(-1.0, -1.0)
+                }
+                ;
+            Complex[] y =
+                {
+                    new Complex(-1.0, 0.0),
+                    new Complex(0.0, -3.0),
+                    new Complex(4.0, 0.0),
+                    new Complex(-3.0, 4.0),
+                    new Complex(-2.0, 0.0)
+                }
+                ;
 
             Console.WriteLine("");
             Console.WriteLine("TEST06");
@@ -426,8 +432,8 @@ namespace BLAS1ZTest
             for (int i = 0; i < N; i++)
             {
                 Console.WriteLine("  " + i.ToString().PadLeft(6)
-                    + "  " + x[i].Real.ToString().PadLeft(6)
-                    + "  " + x[i].Imaginary.ToString().PadLeft(6) + "");
+                                       + "  " + x[i].Real.ToString().PadLeft(6)
+                                       + "  " + x[i].Imaginary.ToString().PadLeft(6) + "");
             }
 
             Console.WriteLine("");
@@ -436,8 +442,8 @@ namespace BLAS1ZTest
             for (int i = 0; i < N; i++)
             {
                 Console.WriteLine("  " + i.ToString().PadLeft(6)
-                    + "  " + y[i].Real.ToString().PadLeft(6)
-                    + "  " + y[i].Imaginary.ToString().PadLeft(6) + "");
+                                       + "  " + y[i].Real.ToString().PadLeft(6)
+                                       + "  " + y[i].Imaginary.ToString().PadLeft(6) + "");
             }
 
             s = new Complex(0.50, -1.00);
@@ -453,31 +459,31 @@ namespace BLAS1ZTest
             for (int i = 0; i < N; i++)
             {
                 Console.WriteLine("  " + i.ToString().PadLeft(6)
-                    + "  " + y[i].Real.ToString().PadLeft(6)
-                    + "  " + y[i].Imaginary.ToString().PadLeft(6) + "");
+                                       + "  " + y[i].Real.ToString().PadLeft(6)
+                                       + "  " + y[i].Imaginary.ToString().PadLeft(6) + "");
             }
         }
 
         static void test07()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    TEST07 tests ZCOPY.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    19 April 2007
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TEST07 tests ZCOPY.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    19 April 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             int N1 = 5;
             int N2 = 5;
@@ -515,8 +521,8 @@ namespace BLAS1ZTest
             for (int i = 0; i < N; i++)
             {
                 Console.WriteLine("  " + i.ToString().PadLeft(6)
-                    + "  " + x[i].Real.ToString().PadLeft(6)
-                    + "  " + x[i].Imaginary.ToString().PadLeft(6) + "");
+                                       + "  " + x[i].Real.ToString().PadLeft(6)
+                                       + "  " + x[i].Imaginary.ToString().PadLeft(6) + "");
             }
 
             Console.WriteLine("");
@@ -525,8 +531,8 @@ namespace BLAS1ZTest
             for (int i = 0; i < N; i++)
             {
                 Console.WriteLine("  " + i.ToString().PadLeft(6)
-                    + "  " + y[i].Real.ToString().PadLeft(6)
-                    + "  " + y[i].Imaginary.ToString().PadLeft(6) + "");
+                                       + "  " + y[i].Real.ToString().PadLeft(6)
+                                       + "  " + y[i].Imaginary.ToString().PadLeft(6) + "");
             }
 
             Console.WriteLine("");
@@ -537,7 +543,7 @@ namespace BLAS1ZTest
                 for (int j = 0; j < N2; j++)
                 {
                     Console.WriteLine("  " + a[i + j * N1].Real.ToString().PadLeft(5)
-                        + "  " + a[i + j * N1].Imaginary.ToString().PadLeft(5) + "");
+                                           + "  " + a[i + j * N1].Imaginary.ToString().PadLeft(5) + "");
                 }
 
                 Console.WriteLine("");
@@ -550,8 +556,8 @@ namespace BLAS1ZTest
             for (int i = 0; i < N; i++)
             {
                 Console.WriteLine("  " + i.ToString().PadLeft(6)
-                    + "  " + y[i].Real.ToString().PadLeft(6)
-                    + "  " + y[i].Imaginary.ToString().PadLeft(6) + "");
+                                       + "  " + y[i].Real.ToString().PadLeft(6)
+                                       + "  " + y[i].Imaginary.ToString().PadLeft(6) + "");
             }
 
             for (int i = 0; i < N; i++)
@@ -567,8 +573,8 @@ namespace BLAS1ZTest
             for (int i = 0; i < N; i++)
             {
                 Console.WriteLine("  " + i.ToString().PadLeft(6)
-                    + "  " + y[i].Real.ToString().PadLeft(6)
-                    + "  " + y[i].Imaginary.ToString().PadLeft(6) + "");
+                                       + "  " + y[i].Real.ToString().PadLeft(6)
+                                       + "  " + y[i].Imaginary.ToString().PadLeft(6) + "");
             }
 
             BLAS1Z.zcopy(5, x, 1, ref a, 1);
@@ -584,7 +590,7 @@ namespace BLAS1ZTest
                 for (int j = 0; j < N2; j++)
                 {
                     Console.WriteLine("  " + a[i + j * N1].Real.ToString().PadLeft(5)
-                        + "  " + a[i + j * N1].Imaginary.ToString().PadLeft(5) + "");
+                                           + "  " + a[i + j * N1].Imaginary.ToString().PadLeft(5) + "");
                 }
 
                 Console.WriteLine("");
@@ -610,7 +616,7 @@ namespace BLAS1ZTest
                 for (int j = 0; j < N2; j++)
                 {
                     Console.WriteLine("  " + a[i + j * N1].Real.ToString().PadLeft(5)
-                        + "  " + a[i + j * N1].Imaginary.ToString().PadLeft(5) + "");
+                                           + "  " + a[i + j * N1].Imaginary.ToString().PadLeft(5) + "");
                 }
 
                 Console.WriteLine("");
@@ -619,45 +625,47 @@ namespace BLAS1ZTest
 
         static void test08()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    TEST08 tests ZDOTC.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    19 April 2007
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TEST08 tests ZDOTC.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    19 April 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             int N = 5;
 
             Complex x_norm;
             Complex xy_dot;
-            Complex[] x =  {
-                new Complex(2.0, -1.0),
-                new Complex(-4.0, -2.0),
-                new Complex(3.0, 1.0),
-                new Complex(2.0, 2.0),
-                new Complex(-1.0, -1.0)
-            }
-            ;
-            Complex[] y =  {
-                new Complex(-1.0, 0.0),
-                new Complex(0.0, -3.0),
-                new Complex(4.0, 0.0),
-                new Complex(-3.0, 4.0),
-                new Complex(-2.0, 0.0)
-            }
-            ;
+            Complex[] x =
+                {
+                    new Complex(2.0, -1.0),
+                    new Complex(-4.0, -2.0),
+                    new Complex(3.0, 1.0),
+                    new Complex(2.0, 2.0),
+                    new Complex(-1.0, -1.0)
+                }
+                ;
+            Complex[] y =
+                {
+                    new Complex(-1.0, 0.0),
+                    new Complex(0.0, -3.0),
+                    new Complex(4.0, 0.0),
+                    new Complex(-3.0, 4.0),
+                    new Complex(-2.0, 0.0)
+                }
+                ;
 
             Console.WriteLine("");
             Console.WriteLine("TEST08");
@@ -670,8 +678,8 @@ namespace BLAS1ZTest
             for (int i = 0; i < N; i++)
             {
                 Console.WriteLine("  " + i.ToString().PadLeft(6)
-                    + "  " + (x[i]).Real.ToString().PadLeft(6)
-                    + "  " + (x[i]).Imaginary.ToString().PadLeft(6) + "");
+                                       + "  " + (x[i]).Real.ToString().PadLeft(6)
+                                       + "  " + (x[i]).Imaginary.ToString().PadLeft(6) + "");
             }
 
             x_norm = BLAS1Z.zdotc(N, x, 1, x, 1);
@@ -688,8 +696,8 @@ namespace BLAS1ZTest
             for (int i = 0; i < N; i++)
             {
                 Console.WriteLine("  " + i.ToString().PadLeft(6)
-                    + "  " + (y[i]).Real.ToString().PadLeft(6)
-                    + "  " + (y[i]).Imaginary.ToString().PadLeft(6) + "");
+                                       + "  " + (y[i]).Real.ToString().PadLeft(6)
+                                       + "  " + (y[i]).Imaginary.ToString().PadLeft(6) + "");
             }
 
             Console.WriteLine("");
@@ -698,45 +706,47 @@ namespace BLAS1ZTest
 
         static void test09()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    TEST09 tests ZDOTU.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    19 April 2007
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TEST09 tests ZDOTU.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    19 April 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             int N = 5;
 
             Complex x_norm;
             Complex xy_dot;
-            Complex[] x =  {
-                new Complex(2.0, -1.0),
-                new Complex(-4.0, -2.0),
-                new Complex(3.0, 1.0),
-                new Complex(2.0, 2.0),
-                new Complex(-1.0, -1.0)
-            }
-            ;
-            Complex[] y =  {
-                new Complex(-1.0, 0.0),
-                new Complex(0.0, -3.0),
-                new Complex(4.0, 0.0),
-                new Complex(-3.0, 4.0),
-                new Complex(-2.0, 0.0)
-            }
-            ;
+            Complex[] x =
+                {
+                    new Complex(2.0, -1.0),
+                    new Complex(-4.0, -2.0),
+                    new Complex(3.0, 1.0),
+                    new Complex(2.0, 2.0),
+                    new Complex(-1.0, -1.0)
+                }
+                ;
+            Complex[] y =
+                {
+                    new Complex(-1.0, 0.0),
+                    new Complex(0.0, -3.0),
+                    new Complex(4.0, 0.0),
+                    new Complex(-3.0, 4.0),
+                    new Complex(-2.0, 0.0)
+                }
+                ;
 
             Console.WriteLine("");
             Console.WriteLine("TEST09");
@@ -749,8 +759,8 @@ namespace BLAS1ZTest
             for (int i = 0; i < N; i++)
             {
                 Console.WriteLine("  " + i.ToString().PadLeft(6)
-                    + "  " + (x[i]).Real.ToString().PadLeft(6)
-                    + "  " + (x[i]).Imaginary.ToString().PadLeft(6) + "");
+                                       + "  " + (x[i]).Real.ToString().PadLeft(6)
+                                       + "  " + (x[i]).Imaginary.ToString().PadLeft(6) + "");
             }
 
             x_norm = BLAS1Z.zdotu(N, x, 1, x, 1);
@@ -768,8 +778,8 @@ namespace BLAS1ZTest
             for (int i = 0; i < N; i++)
             {
                 Console.WriteLine("  " + i.ToString().PadLeft(6)
-                    + "  " + (y[i]).Real.ToString().PadLeft(6)
-                    + "  " + (y[i]).Imaginary.ToString().PadLeft(6) + "");
+                                       + "  " + (y[i]).Real.ToString().PadLeft(6)
+                                       + "  " + (y[i]).Imaginary.ToString().PadLeft(6) + "");
             }
 
             Console.WriteLine("");
@@ -778,24 +788,24 @@ namespace BLAS1ZTest
 
         static void test10()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    TEST10 tests ZDROT.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    19 April 2007
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TEST10 tests ZDROT.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    19 April 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             int N = 6;
 
@@ -822,8 +832,8 @@ namespace BLAS1ZTest
             for (int i = 0; i < N; i++)
             {
                 Console.WriteLine("  " + i.ToString().PadLeft(6)
-                    + "  " + x[i].ToString().PadLeft(20)
-                    + "  " + y[i].ToString().PadLeft(20) + "");
+                                       + "  " + x[i].ToString().PadLeft(20)
+                                       + "  " + y[i].ToString().PadLeft(20) + "");
             }
 
             double c = 0.5;
@@ -835,31 +845,31 @@ namespace BLAS1ZTest
             for (int i = 0; i < N; i++)
             {
                 Console.WriteLine("  " + i.ToString().PadLeft(6)
-                    + "  " + x[i].ToString().PadLeft(20)
-                    + "  " + y[i].ToString().PadLeft(20) + "");
+                                       + "  " + x[i].ToString().PadLeft(20)
+                                       + "  " + y[i].ToString().PadLeft(20) + "");
             }
         }
 
         static void test11()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    TEST11 tests ZDSCAL.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    19 April 2007
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TEST11 tests ZDSCAL.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    19 April 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             int N = 6;
 
@@ -880,8 +890,8 @@ namespace BLAS1ZTest
             for (int i = 0; i < N; i++)
             {
                 Console.WriteLine("  " + i.ToString().PadLeft(6)
-                    + "  " + (x[i]).Real.ToString().PadLeft(6)
-                    + "  " + (x[i]).Imaginary.ToString().PadLeft(6) + "");
+                                       + "  " + (x[i]).Real.ToString().PadLeft(6)
+                                       + "  " + (x[i]).Imaginary.ToString().PadLeft(6) + "");
             }
 
             double da = 5.0;
@@ -892,8 +902,8 @@ namespace BLAS1ZTest
             for (int i = 0; i < N; i++)
             {
                 Console.WriteLine("  " + i.ToString().PadLeft(6)
-                    + "  " + (x[i]).Real.ToString().PadLeft(6)
-                    + "  " + (x[i]).Imaginary.ToString().PadLeft(6) + "");
+                                       + "  " + (x[i]).Real.ToString().PadLeft(6)
+                                       + "  " + (x[i]).Imaginary.ToString().PadLeft(6) + "");
             }
 
             for (int i = 0; i < N; i++)
@@ -909,31 +919,31 @@ namespace BLAS1ZTest
             for (int i = 0; i < N; i++)
             {
                 Console.WriteLine("  " + i.ToString().PadLeft(6)
-                    + "  " + (x[i]).Real.ToString().PadLeft(6)
-                    + "  " + (x[i]).Imaginary.ToString().PadLeft(6) + "");
+                                       + "  " + (x[i]).Real.ToString().PadLeft(6)
+                                       + "  " + (x[i]).Imaginary.ToString().PadLeft(6) + "");
             }
         }
 
         static void test12()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    TEST12 tests ZMACH.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    19 April 2007
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TEST12 tests ZMACH.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    19 April 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             Console.WriteLine("");
             Console.WriteLine("TEST12");
@@ -948,24 +958,24 @@ namespace BLAS1ZTest
 
         static void test13()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    TEST13 tests ZROTG.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    19 April 2007
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TEST13 tests ZROTG.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    19 April 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             double c = 0;
             Complex s = new Complex();
@@ -998,31 +1008,31 @@ namespace BLAS1ZTest
                 Console.WriteLine("  C =  " + c + "");
                 Console.WriteLine("  S =  " + s + "");
                 Console.WriteLine("  R =  " + r + "");
-                Console.WriteLine("         C *A+S*B = " + c * a + s * b + "");
-                Console.WriteLine("  -conjg(S)*A+C*B = " + -Complex.Conjugate(s) * a + c * b + "");
+                Console.WriteLine("         C *A+S*B = " + (c * a + s * b) + "");
+                Console.WriteLine("  -conjg(S)*A+C*B = " + (-Complex.Conjugate(s) * a + c * b) + "");
             }
         }
 
         static void test14()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    TEST14 tests ZSCAL.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    19 April 2007
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TEST14 tests ZSCAL.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    19 April 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             int N = 6;
 
@@ -1044,8 +1054,8 @@ namespace BLAS1ZTest
             for (int i = 0; i < N; i++)
             {
                 Console.WriteLine("  " + i.ToString().PadLeft(6)
-                    + "  " + (x[i]).Real.ToString().PadLeft(6)
-                    + "  " + (x[i]).Imaginary.ToString().PadLeft(6) + "");
+                                       + "  " + (x[i]).Real.ToString().PadLeft(6)
+                                       + "  " + (x[i]).Imaginary.ToString().PadLeft(6) + "");
             }
 
             da = new Complex(5.0, 0.0);
@@ -1056,8 +1066,8 @@ namespace BLAS1ZTest
             for (int i = 0; i < N; i++)
             {
                 Console.WriteLine("  " + i.ToString().PadLeft(6)
-                    + "  " + (x[i]).Real.ToString().PadLeft(6)
-                    + "  " + (x[i]).Imaginary.ToString().PadLeft(6) + "");
+                                       + "  " + (x[i]).Real.ToString().PadLeft(6)
+                                       + "  " + (x[i]).Imaginary.ToString().PadLeft(6) + "");
             }
 
             for (int i = 0; i < N; i++)
@@ -1073,31 +1083,31 @@ namespace BLAS1ZTest
             for (int i = 0; i < N; i++)
             {
                 Console.WriteLine("  " + i.ToString().PadLeft(6)
-                    + "  " + (x[i]).Real.ToString().PadLeft(6)
-                    + "  " + (x[i]).Imaginary.ToString().PadLeft(6) + "");
+                                       + "  " + (x[i]).Real.ToString().PadLeft(6)
+                                       + "  " + (x[i]).Imaginary.ToString().PadLeft(6) + "");
             }
         }
 
         static void test15()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    TEST15 tests ZSIGN1.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    19 April 2007
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TEST15 tests ZSIGN1.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    19 April 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             int seed = 123456789;
 
@@ -1119,31 +1129,31 @@ namespace BLAS1ZTest
                 Complex c3 = BLAS0.zsign1(c1, c2);
 
                 Console.WriteLine("  " + c1.ToString().PadLeft(20)
-                    + "  " + c2.ToString().PadLeft(20)
-                    + "  " + c3.ToString().PadLeft(20) + "");
+                                       + "  " + c2.ToString().PadLeft(20)
+                                       + "  " + c3.ToString().PadLeft(20) + "");
             }
         }
 
         static void test16()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    TEST16 tests ZSIGN2.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    19 April 2007
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TEST16 tests ZSIGN2.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    19 April 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             int seed = 123456789;
 
@@ -1165,31 +1175,31 @@ namespace BLAS1ZTest
                 Complex c3 = BLAS0.zsign2(c1, c2);
 
                 Console.WriteLine("  " + c1.ToString().PadLeft(20)
-                    + "  " + c2.ToString().PadLeft(20)
-                    + "  " + c3.ToString().PadLeft(20) + "");
+                                       + "  " + c2.ToString().PadLeft(20)
+                                       + "  " + c3.ToString().PadLeft(20) + "");
             }
         }
 
         static void test17()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    TEST17 tests ZSWAP.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    19 April 2007
-//
-//  Author:
-//
-//    John Burkardt
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TEST17 tests ZSWAP.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    19 April 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
         {
             int N = 5;
 
@@ -1215,8 +1225,8 @@ namespace BLAS1ZTest
             for (int i = 0; i < N; i++)
             {
                 Console.WriteLine("  " + i.ToString().PadLeft(6)
-                    + "  " + x[i].ToString().PadLeft(20)
-                    + "  " + y[i].ToString().PadLeft(20) + "");
+                                       + "  " + x[i].ToString().PadLeft(20)
+                                       + "  " + y[i].ToString().PadLeft(20) + "");
             }
 
             BLAS1Z.zswap(N, ref x, 1, ref y, 1);
@@ -1228,8 +1238,8 @@ namespace BLAS1ZTest
             for (int i = 0; i < N; i++)
             {
                 Console.WriteLine("  " + i.ToString().PadLeft(6)
-                    + "  " + x[i].ToString().PadLeft(20)
-                    + "  " + y[i].ToString().PadLeft(20) + "");
+                                       + "  " + x[i].ToString().PadLeft(20)
+                                       + "  " + y[i].ToString().PadLeft(20) + "");
             }
 
             for (int i = 0; i < N; i++)
@@ -1251,8 +1261,8 @@ namespace BLAS1ZTest
             for (int i = 0; i < N; i++)
             {
                 Console.WriteLine("  " + i.ToString().PadLeft(6)
-                    + "  " + x[i].ToString().PadLeft(20)
-                    + "  " + y[i] .ToString().PadLeft(20)+ "");
+                                       + "  " + x[i].ToString().PadLeft(20)
+                                       + "  " + y[i].ToString().PadLeft(20) + "");
             }
         }
     }

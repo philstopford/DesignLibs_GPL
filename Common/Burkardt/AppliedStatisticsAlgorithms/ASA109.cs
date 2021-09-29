@@ -215,7 +215,7 @@ namespace Burkardt.AppliedStatistics
                 value = 0.9999;
             }
 
-            iex = (int)Math.Max(-5.0 / pp / pp - 1.0 / Math.Pow(a, 0.2) - 13.0, sae);
+            iex = (int)Math.Round(Math.Max(-5.0 / pp / pp - 1.0 / Math.Pow(a, 0.2) - 13.0, sae));
 
             acu = Math.Pow(10.0, iex);
             //

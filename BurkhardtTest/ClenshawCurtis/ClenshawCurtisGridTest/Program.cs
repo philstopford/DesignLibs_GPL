@@ -381,7 +381,7 @@ namespace ClenshawCurtisGridTest
                     cout += "  " + grid_order[dim + j * DIM_NUM].ToString().PadLeft(8);
                 }
 
-                Console.WriteLine("");
+                Console.WriteLine(cout);
             }
 
             Console.WriteLine("");

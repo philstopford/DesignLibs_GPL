@@ -6,91 +6,95 @@ namespace Burkardt.AppliedStatistics
 {
     public static partial class Algorithms
     {
-                public static double alngam(double xvalue, ref int ifault)
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    ALNGAM computes the logarithm of the gamma function.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license. 
-        //
-        //  Modified:
-        //
-        //    13 January 2008
-        //
-        //  Author:
-        //
-        //    Original FORTRAN77 version by Allan Macleod.
-        //    C++ version by John Burkardt.
-        //
-        //  Reference:
-        //
-        //    Allan Macleod,
-        //    Algorithm AS 245,
-        //    A Robust and Reliable Algorithm for the Logarithm of the Gamma Function,
-        //    Applied Statistics,
-        //    Volume 38, Number 2, 1989, pages 397-402.
-        //
-        //  Parameters:
-        //
-        //    Input, double XVALUE, the argument of the Gamma function.
-        //
-        //    Output, int &IFAULT, error flag.
-        //    0, no error occurred.
-        //    1, XVALUE is less than or equal to 0.
-        //    2, XVALUE is too big.
-        //
-        //    Output, double ALNGAM, the logarithm of the gamma function of X.
-        //
+        public static double alngam(double xvalue, ref int ifault)
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    ALNGAM computes the logarithm of the gamma function.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    13 January 2008
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Allan Macleod.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Allan Macleod,
+            //    Algorithm AS 245,
+            //    A Robust and Reliable Algorithm for the Logarithm of the Gamma Function,
+            //    Applied Statistics,
+            //    Volume 38, Number 2, 1989, pages 397-402.
+            //
+            //  Parameters:
+            //
+            //    Input, double XVALUE, the argument of the Gamma function.
+            //
+            //    Output, int &IFAULT, error flag.
+            //    0, no error occurred.
+            //    1, XVALUE is less than or equal to 0.
+            //    2, XVALUE is too big.
+            //
+            //    Output, double ALNGAM, the logarithm of the gamma function of X.
+            //
         {
             double alr2pi = 0.918938533204673;
-            double[] r1 =  {
-                -2.66685511495,
-                -24.4387534237,
-                -21.9698958928,
-                11.1667541262,
-                3.13060547623,
-                0.607771387771,
-                11.9400905721,
-                31.4690115749,
-                15.2346874070
-            }
-            ;
-            double[] r2 =  {
-                -78.3359299449,
-                -142.046296688,
-                137.519416416,
-                78.6994924154,
-                4.16438922228,
-                47.0668766060,
-                313.399215894,
-                263.505074721,
-                43.3400022514
-            }
-            ;
-            double[] r3 =  {
-                -2.12159572323E+05,
-                2.30661510616E+05,
-                2.74647644705E+04,
-                -4.02621119975E+04,
-                -2.29660729780E+03,
-                -1.16328495004E+05,
-                -1.46025937511E+05,
-                -2.42357409629E+04,
-                -5.70691009324E+02
-            }
-            ;
-            double[] r4 =  {
-                0.279195317918525,
-                0.4917317610505968,
-                0.0692910599291889,
-                3.350343815022304,
-                6.012459259764103
-            }
-            ;
+            double[] r1 =
+                {
+                    -2.66685511495,
+                    -24.4387534237,
+                    -21.9698958928,
+                    11.1667541262,
+                    3.13060547623,
+                    0.607771387771,
+                    11.9400905721,
+                    31.4690115749,
+                    15.2346874070
+                }
+                ;
+            double[] r2 =
+                {
+                    -78.3359299449,
+                    -142.046296688,
+                    137.519416416,
+                    78.6994924154,
+                    4.16438922228,
+                    47.0668766060,
+                    313.399215894,
+                    263.505074721,
+                    43.3400022514
+                }
+                ;
+            double[] r3 =
+                {
+                    -2.12159572323E+05,
+                    2.30661510616E+05,
+                    2.74647644705E+04,
+                    -4.02621119975E+04,
+                    -2.29660729780E+03,
+                    -1.16328495004E+05,
+                    -1.46025937511E+05,
+                    -2.42357409629E+04,
+                    -5.70691009324E+02
+                }
+                ;
+            double[] r4 =
+                {
+                    0.279195317918525,
+                    0.4917317610505968,
+                    0.0692910599291889,
+                    3.350343815022304,
+                    6.012459259764103
+                }
+                ;
             double value;
             double x;
             double x1;
@@ -1341,53 +1345,53 @@ namespace Burkardt.AppliedStatistics
         }
 
 
-                public static double gamain(double x, double p, ref int ifault)
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    GAMAIN computes the incomplete gamma ratio.
-        //
-        //  Discussion:
-        //
-        //    A series expansion is used if P > X or X <= 1.  Otherwise, a
-        //    continued fraction approximation is used.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license. 
-        //
-        //  Modified:
-        //
-        //    29 June 2014
-        //
-        //  Author:
-        //
-        //    Original FORTRAN77 version by G Bhattacharjee.
-        //    C++ version by John Burkardt.
-        //
-        //  Reference:
-        //
-        //    G Bhattacharjee,
-        //    Algorithm AS 32:
-        //    The Incomplete Gamma Integral,
-        //    Applied Statistics,
-        //    Volume 19, Number 3, 1970, pages 285-287.
-        //
-        //  Parameters:
-        //
-        //    Input, double X, P, the parameters of the incomplete 
-        //    gamma ratio.  0 <= X, and 0 < P.
-        //
-        //    Output, int *IFAULT, error flag.
-        //    0, no errors.
-        //    1, P <= 0.
-        //    2, X < 0.
-        //    3, underflow.
-        //    4, error return from the Log Gamma routine.
-        //
-        //    Output, double GAMAIN, the value of the incomplete gamma ratio.
-        //
+        public static double gamain(double x, double p, ref int ifault)
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    GAMAIN computes the incomplete gamma ratio.
+            //
+            //  Discussion:
+            //
+            //    A series expansion is used if P > X or X <= 1.  Otherwise, a
+            //    continued fraction approximation is used.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    29 June 2014
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by G Bhattacharjee.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    G Bhattacharjee,
+            //    Algorithm AS 32:
+            //    The Incomplete Gamma Integral,
+            //    Applied Statistics,
+            //    Volume 19, Number 3, 1970, pages 285-287.
+            //
+            //  Parameters:
+            //
+            //    Input, double X, P, the parameters of the incomplete 
+            //    gamma ratio.  0 <= X, and 0 < P.
+            //
+            //    Output, int *IFAULT, error flag.
+            //    0, no errors.
+            //    1, P <= 0.
+            //    2, X < 0.
+            //    3, underflow.
+            //    4, error return from the Log Gamma routine.
+            //
+            //    Output, double GAMAIN, the value of the incomplete gamma ratio.
+            //
         {
             double acu = 1.0E-08;
             double gin;
@@ -1526,50 +1530,50 @@ namespace Burkardt.AppliedStatistics
         }
 
         public static double gammds(double x, double p, ref int ifault)
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    GAMMDS computes the incomplete Gamma integral.
-        //
-        //  Discussion:
-        //
-        //    The parameters must be positive.  An infinite series is used.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license. 
-        //
-        //  Modified:
-        //
-        //    22 January 2008
-        //
-        //  Author:
-        //
-        //    Original FORTRAN77 version by Chi Leung Lau.
-        //    C++ version by John Burkardt.
-        //
-        //  Reference:
-        //
-        //    Chi Leung Lau,
-        //    Algorithm AS 147:
-        //    A Simple Series for the Incomplete Gamma Integral,
-        //    Applied Statistics,
-        //    Volume 29, Number 1, 1980, pages 113-114.
-        //
-        //  Parameters:
-        //
-        //    Input, double X, P, the arguments of the incomplete
-        //    Gamma integral.  X and P must be greater than 0.
-        //
-        //    Output, int *IFAULT, error flag.
-        //    0, no errors.
-        //    1, X <= 0 or P <= 0.
-        //    2, underflow during the computation.
-        //
-        //    Output, double GAMMDS, the value of the incomplete
-        //    Gamma integral.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    GAMMDS computes the incomplete Gamma integral.
+            //
+            //  Discussion:
+            //
+            //    The parameters must be positive.  An infinite series is used.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    22 January 2008
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Chi Leung Lau.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Chi Leung Lau,
+            //    Algorithm AS 147:
+            //    A Simple Series for the Incomplete Gamma Integral,
+            //    Applied Statistics,
+            //    Volume 29, Number 1, 1980, pages 113-114.
+            //
+            //  Parameters:
+            //
+            //    Input, double X, P, the arguments of the incomplete
+            //    Gamma integral.  X and P must be greater than 0.
+            //
+            //    Output, int *IFAULT, error flag.
+            //    0, no errors.
+            //    1, X <= 0 or P <= 0.
+            //    2, underflow during the computation.
+            //
+            //    Output, double GAMMDS, the value of the incomplete
+            //    Gamma integral.
+            //
         {
             double e = 1.0E-09;
             double uflo = 1.0E-37;
@@ -1638,66 +1642,67 @@ namespace Burkardt.AppliedStatistics
         }
 
         public static double lngamma(double z, ref int ier)
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    LNGAMMA computes Log(Gamma(X)) using a Lanczos approximation.
-        //
-        //  Discussion:
-        //
-        //    This algorithm is not part of the Applied Statistics algorithms.
-        //    It is slower but gives 14 or more significant decimal digits
-        //    accuracy, except around X = 1 and X = 2.   The Lanczos series from
-        //    which this algorithm is derived is interesting in that it is a
-        //    convergent series approximation for the gamma function, whereas
-        //    the familiar series due to De Moivre (and usually wrongly called
-        //    the Stirling approximation) is only an asymptotic approximation, as
-        //    is the true and preferable approximation due to Stirling.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license. 
-        //
-        //  Modified:
-        //
-        //    13 January 2008
-        //
-        //  Author:
-        //
-        //    Original FORTRAN77 version by Alan Miller.
-        //    C++ version by John Burkardt.
-        //
-        //  Reference:
-        //
-        //    Cornelius Lanczos,
-        //    A precision approximation of the gamma function,
-        //    SIAM Journal on Numerical Analysis, B,
-        //    Volume 1, 1964, pages 86-96.
-        //
-        //  Parameters:
-        //
-        //    Input, double Z, the argument of the Gamma function.
-        //
-        //    Output, int &IER, error flag.
-        //    0, no error occurred.
-        //    1, Z is less than or equal to 0.
-        //
-        //    Output, double LNGAMMA, the logarithm of the gamma function of Z.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    LNGAMMA computes Log(Gamma(X)) using a Lanczos approximation.
+            //
+            //  Discussion:
+            //
+            //    This algorithm is not part of the Applied Statistics algorithms.
+            //    It is slower but gives 14 or more significant decimal digits
+            //    accuracy, except around X = 1 and X = 2.   The Lanczos series from
+            //    which this algorithm is derived is interesting in that it is a
+            //    convergent series approximation for the gamma function, whereas
+            //    the familiar series due to De Moivre (and usually wrongly called
+            //    the Stirling approximation) is only an asymptotic approximation, as
+            //    is the true and preferable approximation due to Stirling.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    13 January 2008
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Alan Miller.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Cornelius Lanczos,
+            //    A precision approximation of the gamma function,
+            //    SIAM Journal on Numerical Analysis, B,
+            //    Volume 1, 1964, pages 86-96.
+            //
+            //  Parameters:
+            //
+            //    Input, double Z, the argument of the Gamma function.
+            //
+            //    Output, int &IER, error flag.
+            //    0, no error occurred.
+            //    1, Z is less than or equal to 0.
+            //
+            //    Output, double LNGAMMA, the logarithm of the gamma function of Z.
+            //
         {
-            double[] a =  {
-                0.9999999999995183,
-                676.5203681218835,
-                -1259.139216722289,
-                771.3234287757674,
-                -176.6150291498386,
-                12.50734324009056,
-                -0.1385710331296526,
-                0.9934937113930748E-05,
-                0.1659470187408462E-06
-            }
-            ;
+            double[] a =
+                {
+                    0.9999999999995183,
+                    676.5203681218835,
+                    -1259.139216722289,
+                    771.3234287757674,
+                    -176.6150291498386,
+                    12.50734324009056,
+                    -0.1385710331296526,
+                    0.9934937113930748E-05,
+                    0.1659470187408462E-06
+                }
+                ;
             int j;
             double lnsqrt2pi = 0.9189385332046727;
             double tmp;
@@ -1728,51 +1733,51 @@ namespace Burkardt.AppliedStatistics
         }
 
         public static void normp(double z, ref double p, ref double q, ref double pdf)
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    NORMP computes the cumulative density of the standard normal distribution.
-        //
-        //  Discussion:
-        //
-        //    This is algorithm 5666 from Hart, et al.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license. 
-        //
-        //  Modified:
-        //
-        //    16 January 2008
-        //
-        //  Author:
-        //
-        //    Original FORTRAN77 version by Alan Miller.
-        //    C++ version by John Burkardt.
-        //
-        //  Reference:
-        //
-        //    John Hart, Ward Cheney, Charles Lawson, Hans Maehly, 
-        //    Charles Mesztenyi, John Rice, Henry Thacher, 
-        //    Christoph Witzgall,
-        //    Computer Approximations,
-        //    Wiley, 1968,
-        //    LC: QA297.C64.
-        //
-        //  Parameters:
-        //
-        //    Input, double Z, divides the real line into two 
-        //    semi-infinite intervals, over each of which the standard normal 
-        //    distribution is to be integrated.
-        //
-        //    Output, double *P, *Q, the integrals of the standard normal
-        //    distribution over the intervals ( - Infinity, Z] and 
-        //    [Z, + Infinity ), respectively.
-        //
-        //    Output, double *PDF, the value of the standard normal distribution
-        //    at Z.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    NORMP computes the cumulative density of the standard normal distribution.
+            //
+            //  Discussion:
+            //
+            //    This is algorithm 5666 from Hart, et al.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    16 January 2008
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Alan Miller.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    John Hart, Ward Cheney, Charles Lawson, Hans Maehly, 
+            //    Charles Mesztenyi, John Rice, Henry Thacher, 
+            //    Christoph Witzgall,
+            //    Computer Approximations,
+            //    Wiley, 1968,
+            //    LC: QA297.C64.
+            //
+            //  Parameters:
+            //
+            //    Input, double Z, divides the real line into two 
+            //    semi-infinite intervals, over each of which the standard normal 
+            //    distribution is to be integrated.
+            //
+            //    Output, double *P, *Q, the integrals of the standard normal
+            //    distribution over the intervals ( - Infinity, Z] and 
+            //    [Z, + Infinity ), respectively.
+            //
+            //    Output, double *PDF, the value of the standard normal distribution
+            //    at Z.
+            //
         {
             double cutoff = 7.071;
             double p0 = 220.2068679123761;
@@ -1814,21 +1819,21 @@ namespace Burkardt.AppliedStatistics
                 if (zabs < cutoff)
                 {
                     p = expntl * ((((((
-                                           p6 * zabs
-                                           + p5) * zabs
-                                       + p4) * zabs
-                                      + p3) * zabs
-                                     + p2) * zabs
-                                    + p1) * zabs
-                                   + p0) / (((((((
-                                                     q7 * zabs
-                                                     + q6) * zabs
-                                                 + q5) * zabs
-                                                + q4) * zabs
-                                               + q3) * zabs
-                                              + q2) * zabs
-                                             + q1) * zabs
-                                            + q0);
+                                          p6 * zabs
+                                          + p5) * zabs
+                                      + p4) * zabs
+                                     + p3) * zabs
+                                    + p2) * zabs
+                                   + p1) * zabs
+                                  + p0) / (((((((
+                                                    q7 * zabs
+                                                    + q6) * zabs
+                                                + q5) * zabs
+                                               + q4) * zabs
+                                              + q3) * zabs
+                                             + q2) * zabs
+                                            + q1) * zabs
+                                           + q0);
                 }
                 //
                 //  CUTOFF <= |Z|.
@@ -1856,46 +1861,46 @@ namespace Burkardt.AppliedStatistics
         }
 
         public static void nprob(double z, ref double p, ref double q, ref double pdf)
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    NPROB computes the cumulative density of the standard normal distribution.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license. 
-        //
-        //  Modified:
-        //
-        //    05 June 2013
-        //
-        //  Author:
-        //
-        //    Original FORTRAN77 version by AG Adams.
-        //    C++ version by John Burkardt.
-        //
-        //  Reference:
-        //
-        //    AG Adams,
-        //    Algorithm 39:
-        //    Areas Under the Normal Curve,
-        //    Computer Journal,
-        //    Volume 12, Number 2, May 1969, pages 197-198.
-        //
-        //  Parameters:
-        //
-        //    Input, double Z, divides the real line into 
-        //    two semi-infinite intervals, over each of which the standard normal 
-        //    distribution is to be integrated.
-        //
-        //    Output, double *P, *Q, the integrals of the standard normal
-        //    distribution over the intervals ( - Infinity, Z] and 
-        //    [Z, + Infinity ), respectively.
-        //
-        //    Output, double *PDF, the value of the standard normal
-        //    distribution at Z.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    NPROB computes the cumulative density of the standard normal distribution.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    05 June 2013
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by AG Adams.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    AG Adams,
+            //    Algorithm 39:
+            //    Areas Under the Normal Curve,
+            //    Computer Journal,
+            //    Volume 12, Number 2, May 1969, pages 197-198.
+            //
+            //  Parameters:
+            //
+            //    Input, double Z, divides the real line into 
+            //    two semi-infinite intervals, over each of which the standard normal 
+            //    distribution is to be integrated.
+            //
+            //    Output, double *P, *Q, the integrals of the standard normal
+            //    distribution over the intervals ( - Infinity, Z] and 
+            //    [Z, + Infinity ), respectively.
+            //
+            //    Output, double *PDF, the value of the standard normal
+            //    distribution at Z.
+            //
         {
             double a0 = 0.5;
             double a1 = 0.398942280444;
@@ -1943,12 +1948,12 @@ namespace Burkardt.AppliedStatistics
                 pdf = Math.Exp(-y) * b0;
 
                 q = pdf
-                     / (zabs - b1 + b2
-                         / (zabs + b3 + b4
-                             / (zabs - b5 + b6
-                                 / (zabs + b7 - b8
-                                     / (zabs + b9 + b10
-                                         / (zabs + b11))))));
+                    / (zabs - b1 + b2
+                        / (zabs + b3 + b4
+                            / (zabs - b5 + b6
+                                / (zabs + b7 - b8
+                                    / (zabs + b9 + b10
+                                        / (zabs + b11))))));
             }
             //
             //  Z far out in tail.
@@ -1971,63 +1976,63 @@ namespace Burkardt.AppliedStatistics
         }
 
         public static double ppchi2(double p, double v, double g, ref int ifault)
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    PPCHI2 evaluates the percentage points of the Chi-squared PDF.
-        //
-        //  Discussion
-        //
-        //    Incorporates the suggested changes in AS R85 (vol.40(1),
-        //    pages 233-5, 1991) which should eliminate the need for the limited
-        //    range for P, though these limits have not been removed
-        //    from the routine.
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license. 
-        //
-        //  Modified:
-        //
-        //    05 June 2013
-        //
-        //  Author:
-        //
-        //    Original FORTRAN77 version by Donald Best, DE Roberts.
-        //    C++ version by John Burkardt.
-        //
-        //  Reference:
-        //
-        //    Donald Best, DE Roberts,
-        //    Algorithm AS 91:
-        //    The Percentage Points of the Chi-Squared Distribution,
-        //    Applied Statistics,
-        //    Volume 24, Number 3, 1975, pages 385-390.
-        //
-        //  Parameters:
-        //
-        //    Input, double P,  value of the chi-squared cumulative
-        //    probability density function.
-        //    0.000002 <= P <= 0.999998.
-        //
-        //    Input, double V, the parameter of the chi-squared probability
-        //    density function.
-        //    0 < V.
-        //
-        //    Input, double G, the value of log ( Gamma ( V / 2 ) ).
-        //
-        //    Output, int *IFAULT, is nonzero if an error occurred.
-        //    0, no error.
-        //    1, P is outside the legal range.
-        //    2, V is not positive.
-        //    3, an error occurred in GAMMAD.
-        //    4, the result is probably as accurate as the machine will allow.
-        //
-        //    Output, double PPCHI2, the value of the chi-squared random
-        //    deviate with the property that the probability that a chi-squared random
-        //    deviate with parameter V is less than or equal to PPCHI2 is P.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    PPCHI2 evaluates the percentage points of the Chi-squared PDF.
+            //
+            //  Discussion
+            //
+            //    Incorporates the suggested changes in AS R85 (vol.40(1),
+            //    pages 233-5, 1991) which should eliminate the need for the limited
+            //    range for P, though these limits have not been removed
+            //    from the routine.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    05 June 2013
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Donald Best, DE Roberts.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Donald Best, DE Roberts,
+            //    Algorithm AS 91:
+            //    The Percentage Points of the Chi-Squared Distribution,
+            //    Applied Statistics,
+            //    Volume 24, Number 3, 1975, pages 385-390.
+            //
+            //  Parameters:
+            //
+            //    Input, double P,  value of the chi-squared cumulative
+            //    probability density function.
+            //    0.000002 <= P <= 0.999998.
+            //
+            //    Input, double V, the parameter of the chi-squared probability
+            //    density function.
+            //    0 < V.
+            //
+            //    Input, double G, the value of log ( Gamma ( V / 2 ) ).
+            //
+            //    Output, int *IFAULT, is nonzero if an error occurred.
+            //    0, no error.
+            //    1, P is outside the legal range.
+            //    2, V is not positive.
+            //    3, an error occurred in GAMMAD.
+            //    4, the result is probably as accurate as the machine will allow.
+            //
+            //    Output, double PPCHI2, the value of the chi-squared random
+            //    deviate with the property that the probability that a chi-squared random
+            //    deviate with parameter V is less than or equal to PPCHI2 is P.
+            //
         {
             double a;
             double aa = 0.6931471806;
@@ -2201,44 +2206,44 @@ namespace Burkardt.AppliedStatistics
         }
 
         public static double trigamma(double x, ref int ifault)
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    TRIGAMMA calculates trigamma(x) = d**2 log(gamma(x)) / dx**2
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license. 
-        //
-        //  Modified:
-        //
-        //    19 January 2008
-        //
-        //  Author:
-        //
-        //    Original FORTRAN77 version by BE Schneider.
-        //    C++ version by John Burkardt.
-        //
-        //  Reference:
-        //
-        //    BE Schneider,
-        //    Algorithm AS 121:
-        //    Trigamma Function,
-        //    Applied Statistics,
-        //    Volume 27, Number 1, pages 97-99, 1978.
-        //
-        //  Parameters:
-        //
-        //    Input, double X, the argument of the trigamma function.
-        //    0 < X.
-        //
-        //    Output, int *IFAULT, error flag.
-        //    0, no error.
-        //    1, X <= 0.
-        //
-        //    Output, double TRIGAMMA, the value of the trigamma function at X.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TRIGAMMA calculates trigamma(x) = d**2 log(gamma(x)) / dx**2
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    19 January 2008
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by BE Schneider.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    BE Schneider,
+            //    Algorithm AS 121:
+            //    Trigamma Function,
+            //    Applied Statistics,
+            //    Volume 27, Number 1, pages 97-99, 1978.
+            //
+            //  Parameters:
+            //
+            //    Input, double X, the argument of the trigamma function.
+            //    0 < X.
+            //
+            //    Output, int *IFAULT, error flag.
+            //    0, no error.
+            //    1, X <= 0.
+            //
+            //    Output, double TRIGAMMA, the value of the trigamma function at X.
+            //
         {
             double a = 0.0001;
             double b = 5.0;
@@ -2296,6 +2301,6 @@ namespace Burkardt.AppliedStatistics
             return value;
         }
 
-        
+
     }
 }

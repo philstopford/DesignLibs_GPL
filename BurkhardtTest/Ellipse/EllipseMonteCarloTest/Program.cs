@@ -228,7 +228,7 @@ namespace EllipseMonteCarloTest
                     cout += "  " + result.ToString().PadLeft(14);
                 }
 
-                Console.WriteLine("");
+                Console.WriteLine(cout);
                 n = 2 * n;
             }
         }

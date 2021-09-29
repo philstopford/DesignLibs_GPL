@@ -936,7 +936,7 @@ namespace ASA266Test
                     cout += "  " + x_sample[elem_i + sample_i * elem_num].ToString().PadLeft(10);
                 }
 
-                Console.WriteLine("");
+                Console.WriteLine(cout);
             }
             //
             //  Compute the observed averages.

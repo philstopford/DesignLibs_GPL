@@ -746,8 +746,8 @@ namespace BLAS1DTest
                 Console.WriteLine("  A =  " + a + "  B =  " + b + "");
                 Console.WriteLine("  C =  " + c + "  S =  " + s + "");
                 Console.WriteLine("  R =  " + r + "  Z =  " + z + "");
-                Console.WriteLine("   C*A+S*B = " + c * a + s * b + "");
-                Console.WriteLine("  -S*A+C*B = " + -s * a + c * b + "");
+                Console.WriteLine("   C*A+S*B = " + (c * a + s * b) + "");
+                Console.WriteLine("  -S*A+C*B = " + (-s * a + c * b) + "");
             }
         }
 

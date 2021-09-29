@@ -1,7 +1,6 @@
 ﻿using System;
 using Burkardt;
 using Burkardt.Lagrange;
-using Burkardt.Probability;
 using Burkardt.Types;
 using InterpTest;
 
@@ -57,7 +56,7 @@ namespace Lagrange1DTest
             Console.WriteLine("  The QR_SOLVE library is needed.");
             Console.WriteLine("  These tests need the TEST_INTERP_1D library.");
 
-            prob_num = ProbabilityFunctions.p00_prob_num();
+            prob_num = Data_1D.p00_prob_num();
 
             for (prob = 1; prob <= prob_num; prob++)
             {

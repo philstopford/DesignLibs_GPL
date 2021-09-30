@@ -7,7 +7,7 @@ DesignLibs comprises a multitude of libraries. These are primarily built for use
 
 ### Burkardt:
 
-This is a WIP port of the huge resource available at https://people.sc.fsu.edu/~jburkardt/cpp_src/cpp_src.html.
+This is a WIP port of the huge resource available at https://people.sc.fsu.edu/~jburkardt/cpp_src/cpp_src.html. Validation is being tracked at https://github.com/philstopford/DesignLibs_GPL/issues/2
 
 
 ### Color:

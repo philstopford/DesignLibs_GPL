@@ -10,25 +10,16 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="cheby9.msh">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
       <None Update="cheby9_elements.txt">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
       <None Update="cheby9_nodes.txt">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-      <None Update="mesh3d.msh">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
       <None Update="mesh3d_elements.txt">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
       <None Update="mesh3d_nodes.txt">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="rectangle.msh">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
       <None Update="rectangle.png">

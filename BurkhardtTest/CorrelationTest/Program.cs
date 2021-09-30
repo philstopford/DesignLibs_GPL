@@ -1037,6 +1037,7 @@ namespace CorrelationTest
             Console.WriteLine("  Convert between a correlation and a covariance matrix.");
 
             n = 5;
+            k2 = new double[n];
             k = Matrix.minij(n, n);
 
             typeMethods.r8mat_print(n, n, k, "  Covariance matrix K:");

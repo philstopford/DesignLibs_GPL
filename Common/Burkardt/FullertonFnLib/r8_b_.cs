@@ -1502,13 +1502,13 @@ namespace Burkardt.FullertonFnLib
             //    Output, double R8_BESK, the Bessel function K of order NU at X.
             //
         {
-            double[] bke = null;
             int nin;
             double value;
             double xnu;
 
             xnu = nu - (int) (nu);
             nin = (int) (nu) + 1;
+            double[] bke = new double[nin];
             r8_besks(ref globaldata.gdata, ref globaldata.kdata, ref data.edata, xnu, x, nin, ref bke);
 
             value = bke[nin - 1];

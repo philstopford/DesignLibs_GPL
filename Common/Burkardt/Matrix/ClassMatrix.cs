@@ -240,6 +240,20 @@ namespace Burkardt.MatrixNS
                     bj[i] = Math.Sqrt(bj[i]);
                 }
             }
+            else if ( kind == 9 )
+            {
+                zemu = pi / 2.0;
+
+                for ( i = 0; i < m; i++ )
+                {
+                    aj[i] = 0.0;
+                }
+
+                for ( i = 0; i < m; i++ )
+                {
+                    bj[i] = 0.5;
+                }
+            }
 
             return zemu;
         }

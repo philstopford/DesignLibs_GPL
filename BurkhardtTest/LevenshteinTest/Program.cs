@@ -230,6 +230,7 @@ namespace LevenshteinTest
                 }
 
                 Console.WriteLine(cout);
+                cout = "";
             }
         }
     }

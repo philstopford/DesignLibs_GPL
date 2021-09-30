@@ -189,7 +189,7 @@ namespace Burkardt.Types
             return digit;
         }
 
-        public static int s_to_i4(string s, ref int last, ref bool error )
+        public static int s_to_i4(string st, ref int last, ref bool error )
 
         //****************************************************************************80
         //
@@ -233,9 +233,18 @@ namespace Burkardt.Types
             i = 0;
             ival = 0;
 
+            char[] s = st.ToCharArray();
+
             for (;;)
             {
-                c = s[i];
+                try
+                {
+                    c = s[i];
+                }
+                catch (Exception e)
+                {
+                    break;
+                }
                 i = i + 1;
                 //
                 //  Haven't read anything.
@@ -310,7 +319,7 @@ namespace Burkardt.Types
             if (istate == 2)
             {
                 ival = isgn * ival;
-                last = s_len_trim(s);
+                last = s_len_trim(st);
             }
             else
             {

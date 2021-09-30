@@ -1769,7 +1769,7 @@ namespace Burkardt.Types
 
                     file_unit.Add("  " + x_ps
                                        + "  " + y_ps + 5
-                                       + "  moveto (" + node + 1 + ") show");
+                                       + "  moveto (" + (node + 1) + ") show");
                 }
             }
 
@@ -1856,7 +1856,7 @@ namespace Burkardt.Types
 
                     file_unit.Add("  " + x_ps
                                        + "  " + y_ps + 5
-                                       + "  moveto (" + point + 1 + ") show");
+                                       + "  moveto (" + (point + 1) + ") show");
                 }
             }
 

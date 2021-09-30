@@ -427,8 +427,8 @@ namespace Burkardt.FEM
 
                         file_unit.Add("newpath  "
                                       + x_ps + "  "
-                                      + y_ps + 5 + "  moveto ("
-                                      + node + 1 + ") show");
+                                      + (y_ps + 5) + "  moveto ("
+                                      + (node + 1) + ") show");
                     }
                 }
             }
@@ -531,8 +531,8 @@ namespace Burkardt.FEM
 
                     file_unit.Add("newpath  "
                                   + x_ps + "  "
-                                  + y_ps + 5 + "  moveto ("
-                                  + element + 1 + ") show");
+                                  + (y_ps + 5) + "  moveto ("
+                                  + (element + 1) + ") show");
                 }
             }
 

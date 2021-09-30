@@ -172,7 +172,7 @@ namespace Burkardt.Spline
                     Console.WriteLine("SPLINE_CUBIC_SET - Fatal error!");
                     Console.WriteLine("  The knots must be strictly increasing, but");
                     Console.WriteLine("  T(" + i + ") = " + t[i] + "");
-                    Console.WriteLine("  T(" + i + 1 + ") = " + t[i + 1] + "");
+                    Console.WriteLine("  T(" + (i + 1) + ") = " + t[i + 1] + "");
                     return null;
                 }
             }

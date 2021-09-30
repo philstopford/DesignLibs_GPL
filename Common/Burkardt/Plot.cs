@@ -163,10 +163,10 @@ namespace Burkardt.PlotNS
                 command_unit.Add("plot '" + data_filename + "' using 1:2 lw 3, \\");
                 for (i = 2; i < n2; i++)
                 {
-                    command_unit.Add("     '" + data_filename + "' using 1:" + i + 1 + " lw 3, \\");
+                    command_unit.Add("     '" + data_filename + "' using 1:" + (i + 1) + " lw 3, \\");
                 }
 
-                command_unit.Add("     '" + data_filename + "' using 1:" + n2 + 1 + " lw 3");
+                command_unit.Add("     '" + data_filename + "' using 1:" + (n2 + 1) + " lw 3");
             }
 
             command_unit.Add("quit");
@@ -325,7 +325,7 @@ namespace Burkardt.PlotNS
             command_unit.Add("set xlabel '<---X--->'");
             command_unit.Add("set ylabel '<---Iteration--->'");
             command_unit.Add("set title 'Point Motion with Iteration'");
-            command_unit.Add("plot for [i=2:" + n + 1 + "] '"
+            command_unit.Add("plot for [i=2:" + (n + 1) + "] '"
                 + data_filename + "' using i:1 with points pt 7 ps 1");
 
             command_unit.Add("quit");

@@ -131,7 +131,7 @@ namespace Burkardt.TriangulationNS
                     Console.WriteLine("");
                     Console.WriteLine("TRIANGULATION_ORDER3_CHECK - Fatal error!");
                     Console.WriteLine("  Some nodes are never used as triangle vertices!");
-                    Console.WriteLine("  First example is node " + i + 1 + "");
+                    Console.WriteLine("  First example is node " + (i + 1) + "");
                     return 5;
                 }
             }

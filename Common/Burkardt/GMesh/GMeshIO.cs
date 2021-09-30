@@ -348,6 +348,7 @@ namespace Burkardt.GMesh
                     }
 
                     k = 0;
+                    /*
                     for (;;)
                     {
                         typeMethods.s_to_i4(text, ref length, ref ierror);
@@ -361,6 +362,18 @@ namespace Burkardt.GMesh
                     }
 
                     element_order = k - 5;
+                    */
+
+                    string[] tokens = text.Split(' ');
+                    for (int ti = 0; ti < tokens.Length; ti++)
+                    {
+                        if (tokens[ti] != "")
+                        {
+                            element_order++;
+                        }
+                    }
+
+                    element_order -= 5;
                     break;
                 }
             }

@@ -294,8 +294,8 @@ namespace Burkardt.PolyominoNS
                     command_unit.Add("set object " + k
                                                    + " rect from " + j
                                                    + ", " + i_reverse
-                                                   + " to " + j + 1
-                                                   + ", " + i_reverse + 1 + " back");
+                                                   + " to " + (j + 1)
+                                                   + ", " + (i_reverse + 1) + " back");
                     command_unit.Add("set object " + k
                                                    + " rect fc rgb '" + color
                                                    + "' fillstyle solid 1.0");

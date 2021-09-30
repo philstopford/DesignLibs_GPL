@@ -270,8 +270,8 @@ namespace Burkardt.Types
 
                 file_unit.Add("newpath  "
                               + x_ps + "  "
-                              + y_ps + 5 + "  moveto ("
-                              + node + 1 + ") show");
+                              + (y_ps + 5) + "  moveto ("
+                              + (node + 1) + ") show");
             }
 
             file_unit.Add("%");

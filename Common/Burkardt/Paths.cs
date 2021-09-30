@@ -90,10 +90,10 @@ namespace Burkardt.PathsNS
                 command_unit.Add("plot '" + data_filename + "' using 1:2, \\");
                 for (i = 2; i < n2; i++)
                 {
-                    command_unit.Add("     '" + data_filename + "' using 1:" + i + 1 + ", \\");
+                    command_unit.Add("     '" + data_filename + "' using 1:" + (i + 1) + ", \\");
                 }
 
-                command_unit.Add("     '" + data_filename + "' using 1:" + n2 + 1 + "");
+                command_unit.Add("     '" + data_filename + "' using 1:" + (n2 + 1) + "");
             }
 
             command_unit.Add("quit");

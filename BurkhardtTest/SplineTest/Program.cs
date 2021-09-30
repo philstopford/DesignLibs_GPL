@@ -298,7 +298,12 @@ namespace SplineTest
                 typeMethods.r8vec_bracket3(N, x, xval, ref left);
 
                 Console.WriteLine("  Nearest interval:");
-                Console.WriteLine("   X[" + left + "-1]= " + x[left - 1] + "");
+                int index = left % x.Length;
+                if (index < 0)
+                {
+                    index += x.Length;
+                }
+                Console.WriteLine("   X[" + left + "-1]= " + x[index] + "");
                 Console.WriteLine("   X[" + left + 1 + "-1]= " + x[left] + "");
 
             }
@@ -551,9 +556,6 @@ namespace SplineTest
                                   + error.ToString().PadLeft(10) + "");
 
             }
-
-            return;
-# undef MAXTAB
         }
 
         static void test01()
@@ -2633,9 +2635,6 @@ namespace SplineTest
                     }
                 }
             }
-
-            return;
-# undef MAXDEG
         }
 
         static void test126()
@@ -2696,7 +2695,7 @@ namespace SplineTest
                 for (i = 0; i < POINT_NUM; i++)
                 {
                     px = Polynomial.LeastSquares.least_val(nterms2, b, c, d, x[i]);
-                    Console.WriteLine("  " + x.ToString().PadLeft(12)[i]
+                    Console.WriteLine("  " + x[i].ToString().PadLeft(12)
                                            + "  " + f[i].ToString().PadLeft(12)
                                            + "  " + px.ToString().PadLeft(12)
                                            + "  " + (px - f[i]).ToString().PadLeft(12) + "");

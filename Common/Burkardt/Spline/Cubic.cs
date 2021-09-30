@@ -491,21 +491,57 @@ namespace Burkardt.Spline
             //
             right = left + 1;
 
-            dt = tval - t[left - 1];
-            h = t[right - 1] - t[left - 1];
+            int tlIndex = left % t.Length;
+            if (tlIndex < 0)
+            {
+                tlIndex += t.Length;
+            }
+            
+            int trIndex = right % t.Length;
+            if (trIndex < 0)
+            {
+                trIndex += t.Length;
+            }
 
-            yval = y[left - 1]
-                   + dt * ((y[right - 1] - y[left - 1]) / h
-                           - (ypp[right - 1] / 6.0 + ypp[left - 1] / 3.0) * h
-                           + dt * (0.5 * ypp[left - 1]
-                                   + dt * ((ypp[right - 1] - ypp[left - 1]) / (6.0 * h))));
+            int ylIndex = left % y.Length;
+            if (ylIndex < 0)
+            {
+                ylIndex += y.Length;
+            }
+            
+            int yrIndex = right % y.Length;
+            if (yrIndex < 0)
+            {
+                yrIndex += y.Length;
+            }
 
-            ypval = (y[right - 1] - y[left - 1]) / h
-                    - (ypp[right - 1] / 6.0 + ypp[left - 1] / 3.0) * h
-                    + dt * (ypp[left - 1]
-                            + dt * (0.5 * (ypp[right - 1] - ypp[left - 1]) / h));
+            int ypplIndex = left % ypp.Length;
+            if (ypplIndex < 0)
+            {
+                ypplIndex += ypp.Length;
+            }
+            
+            int ypprIndex = right % ypp.Length;
+            if (ypprIndex < 0)
+            {
+                ypprIndex += ypp.Length;
+            }
 
-            yppval = ypp[left - 1] + dt * (ypp[right - 1] - ypp[left - 1]) / h;
+            dt = tval - t[tlIndex];
+            h = t[trIndex] - t[tlIndex];
+
+            yval = y[ylIndex]
+                   + dt * ((y[yrIndex] - y[ylIndex]) / h
+                           - (ypp[ypprIndex] / 6.0 + ypp[ypplIndex] / 3.0) * h
+                           + dt * (0.5 * ypp[ypplIndex]
+                                   + dt * ((ypp[ypprIndex] - ypp[ypplIndex]) / (6.0 * h))));
+
+            ypval = (y[yrIndex] - y[ylIndex]) / h
+                    - (ypp[ypprIndex] / 6.0 + ypp[ypplIndex] / 3.0) * h
+                    + dt * (ypp[ypplIndex]
+                            + dt * (0.5 * (ypp[ypprIndex] - ypp[ypplIndex]) / h));
+
+            yppval = ypp[ypplIndex] + dt * (ypp[ypprIndex] - ypp[ypplIndex]) / h;
 
         }
 

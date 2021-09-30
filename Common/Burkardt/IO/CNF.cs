@@ -85,12 +85,12 @@ namespace Burkardt.IO
             foreach (string tmp in input)
             {
                 index++;
-                if (line[0] == 'c' || line[0] == 'C')
+                if (tmp[0] == 'c' || tmp[0] == 'C')
                 {
                     continue;
                 }
 
-                if (0 < typeMethods.s_len_trim(line))
+                if (0 < typeMethods.s_len_trim(tmp))
                 {
                     line = tmp;
                     break;
@@ -163,7 +163,8 @@ namespace Burkardt.IO
 
                 while (true)
                 {
-                    string[] tokens = Helpers.splitStringByWhitespace(line);
+                    string tmp2 = tmp.Replace("       ", " ");
+                    string[] tokens = tmp2.Split(' ');
                     word = tokens[0];
                     line = String.Join( " ", tokens.Skip(1) );
 
@@ -173,6 +174,8 @@ namespace Burkardt.IO
                     }
 
                     l_val2 = typeMethods.s_to_i4(word).val;
+                    l_val = new int[tokens.Length];
+                    l_c_num = new int[tokens.Length];
 
                     if (error)
                     {
@@ -511,7 +514,8 @@ namespace Burkardt.IO
 
                 while (true)
                 {
-                    string[] tokens = Helpers.splitStringByWhitespace(line);
+                    string tmp2 = tmp.Replace("       ", " ");
+                    string[] tokens = tmp2.Split(' ');
                     word = tokens[0];
                     rest = String.Join(" ", tokens.Skip(1));
                     line = rest;

@@ -511,7 +511,8 @@ namespace CNFTest
                         + "  " + i.ToString().PadLeft(10);
                     for (j = 0; j < v_num; j++)
                     {
-                        cout += v_val[j];
+
+                        cout += v_val[j] ? 1 : 0; // v_val[j];
                     }
 
                     Console.WriteLine(cout);

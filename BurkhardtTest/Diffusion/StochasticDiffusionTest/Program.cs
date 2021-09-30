@@ -306,16 +306,12 @@ namespace StochasticDiffusionTest
             //
             for (int j = 0; j < ny; j++)
             {
-                string dutemp = "";
                 for (int i = 0; i < nx; i++)
                 {
-                    dutemp
-                        += "  " + xmat[i + j * nx].ToString().PadLeft(14)
-                                + "  " + ymat[i + j * nx].ToString().PadLeft(14)
-                                + "  " + dc[i + j * nx].ToString().PadLeft(14) + "";
+                    data_unit.Add("  " + xmat[i + j * nx].ToString().PadLeft(14)
+                                       + "  " + ymat[i + j * nx].ToString().PadLeft(14)
+                                       + "  " + dc[i + j * nx].ToString().PadLeft(14) + "");
                 }
-
-                data_unit.Add(dutemp);
             }
 
             File.WriteAllLines(data_filename, data_unit);
@@ -420,16 +416,12 @@ namespace StochasticDiffusionTest
             //
             for (int j = 0; j < ny; j++)
             {
-                string dutemp = "";
                 for (int i = 0; i < nx; i++)
                 {
-                    dutemp +=
-                        "  " + xmat[i + j * nx].ToString().PadLeft(14)
-                             + "  " + ymat[i + j * nx].ToString().PadLeft(14)
-                             + "  " + dc[i + j * nx].ToString().PadLeft(14);
+                    data_unit.Add("  " + xmat[i + j * nx].ToString().PadLeft(14)
+                                       + "  " + ymat[i + j * nx].ToString().PadLeft(14)
+                                       + "  " + dc[i + j * nx].ToString().PadLeft(14));
                 }
-
-                data_unit.Add(dutemp);
             }
 
             File.WriteAllLines(data_filename, data_unit);
@@ -540,16 +532,12 @@ namespace StochasticDiffusionTest
             //
             for (int j = 0; j < ny; j++)
             {
-                string dutemp = "";
                 for (int i = 0; i < nx; i++)
                 {
-                    dutemp
-                        += "  " + xmat[i + j * nx].ToString().PadLeft(14)
-                                + "  " + ymat[i + j * nx].ToString().PadLeft(14)
-                                + "  " + dc[i + j * nx].ToString().PadLeft(14) + "";
+                    data_unit.Add("  " + xmat[i + j * nx].ToString().PadLeft(14)
+                                       + "  " + ymat[i + j * nx].ToString().PadLeft(14)
+                                       + "  " + dc[i + j * nx].ToString().PadLeft(14) + "");
                 }
-
-                data_unit.Add(dutemp);
             }
 
             File.WriteAllLines(data_filename, data_unit);
@@ -700,16 +688,13 @@ namespace StochasticDiffusionTest
             //
             for (int j = 0; j < ny; j++)
             {
-                string dutemp = "";
                 for (int i = 0; i < nx; i++)
                 {
-                    dutemp
-                        += "  " + xmat[i + j * nx].ToString().PadLeft(14)
-                                + "  " + ymat[i + j * nx].ToString().PadLeft(14)
-                                + "  " + rho[i + j * nx].ToString().PadLeft(14) + "";
+                    data_unit.Add("  " + xmat[i + j * nx].ToString().PadLeft(14)
+                                       + "  " + ymat[i + j * nx].ToString().PadLeft(14)
+                                       + "  " + rho[i + j * nx].ToString().PadLeft(14) + "");
                 }
 
-                data_unit.Add(dutemp);
             }
 
             File.WriteAllLines(data_filename, data_unit);

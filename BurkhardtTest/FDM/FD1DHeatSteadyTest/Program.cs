@@ -9,6 +9,9 @@ namespace FD1DHeatSteadyTest
         static void Main(string[] args)
         {
             problem1();
+            problem2();
+            problem3();
+            problem4();
         }
 
         static void problem1()

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Burkardt.Types;
 
 namespace Burkardt.IO
@@ -208,7 +209,14 @@ namespace Burkardt.IO
                     continue;
                 }
 
+                text = text.Replace("       ", " ");
+                text = text.Replace("     ", " ");
+                text = text.Replace("    ", " ");
+                text = text.Replace("   ", " ");
+                text = text.Replace("  ", " ");
+
                 string[] tokens = text.Split(' ');
+                tokens = tokens.Skip(1).ToArray();
                 
                 n = tokens.Length;
 
@@ -229,9 +237,9 @@ namespace Burkardt.IO
                 xy[0 + node * 2] = xval;
                 xy[1 + node * 2] = yval;
 
-                for (i = 0; i < n - 3; i++)
+                for (i = n - 3; i < n; i++)
                 {
-                    node_j = Convert.ToInt32(input_unit[index]);
+                    node_j = Convert.ToInt32(tokens[i]);
                     index++;
                     edge_data[edge] = node_j;
                     edge = edge + 1;

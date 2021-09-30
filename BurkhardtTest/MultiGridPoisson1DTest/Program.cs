@@ -103,7 +103,7 @@ namespace MultiGridPoisson1DTest
                 Console.WriteLine("");
                 Console.WriteLine("  Mesh index K = " + k + "");
                 Console.WriteLine("  Number of intervals N=2^K = " + n + "");
-                Console.WriteLine("  Number of nodes = 2^K+1 =   " + n + 1 + "");
+                Console.WriteLine("  Number of nodes = 2^K+1 =   " + (n + 1) + "");
 
                 Poisson.monogrid_poisson_1d(n, a, b, ua, ub, force1, exact1, ref it_num, ref u);
 
@@ -189,7 +189,7 @@ namespace MultiGridPoisson1DTest
                 Console.WriteLine("");
                 Console.WriteLine("  Mesh index K = " + k + "");
                 Console.WriteLine("  Number of intervals N=2^K = " + n + "");
-                Console.WriteLine("  Number of nodes = 2^K+1 =   " + n + 1 + "");
+                Console.WriteLine("  Number of nodes = 2^K+1 =   " + (n + 1) + "");
 
                 Poisson.multigrid_poisson_1d(n, a, b, ua, ub, force1, exact1, ref it_num, ref u);
 
@@ -359,7 +359,7 @@ namespace MultiGridPoisson1DTest
                 Console.WriteLine("");
                 Console.WriteLine("  Mesh index K = " + k + "");
                 Console.WriteLine("  Number of intervals N=2^K = " + n + "");
-                Console.WriteLine("  Number of nodes = 2^K+1 =   " + n + 1 + "");
+                Console.WriteLine("  Number of nodes = 2^K+1 =   " + (n + 1) + "");
 
                 Poisson.monogrid_poisson_1d(n, a, b, ua, ub, force2, exact2, ref it_num, ref u);
 
@@ -445,7 +445,7 @@ namespace MultiGridPoisson1DTest
                 Console.WriteLine("");
                 Console.WriteLine("  Mesh index K = " + k + "");
                 Console.WriteLine("  Number of intervals N=2^K = " + n + "");
-                Console.WriteLine("  Number of nodes = 2^K+1 =   " + n + 1 + "");
+                Console.WriteLine("  Number of nodes = 2^K+1 =   " + (n + 1) + "");
 
                 Poisson.multigrid_poisson_1d(n, a, b, ua, ub, force2, exact2, ref it_num, ref u);
 

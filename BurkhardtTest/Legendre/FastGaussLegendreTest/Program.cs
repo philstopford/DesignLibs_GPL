@@ -68,7 +68,7 @@ namespace FastGaussLegendreTest
                 for (int k = 1; k <= l; ++k)
                 {
                     FastGaussLegendre.QuadPair p = FastGaussLegendre.GLPair(l, k);
-                    Res += p.weight * Math.Exp(p.theta);
+                    Res += p.weight * Math.Exp(p.x());
                 }
 
                 Console.WriteLine("Gauss-Legendre " + l + "-node result = " + Res);
@@ -90,7 +90,7 @@ namespace FastGaussLegendreTest
                 for (int k = 1; k <= l; ++k)
                 {
                     FastGaussLegendre.QuadPair p = FastGaussLegendre.GLPair(l, k);
-                    Res += p.weight * Math.Cos(1000.0 * p.theta);
+                    Res += p.weight * Math.Cos(1000.0 * p.x());
                 }
 
                 Console.WriteLine("Gauss-Legendre " + l + "-node result = " + Res);
@@ -112,7 +112,7 @@ namespace FastGaussLegendreTest
                 for (int k = 1; k <= l; ++k)
                 {
                     FastGaussLegendre.QuadPair p_ = FastGaussLegendre.GLPair(l, k);
-                    Res += 0.5 * p_.weight * Math.Log(0.5 * (p_.theta + 1.0));
+                    Res += 0.5 * p_.weight * Math.Log(0.5 * (p_.x() + 1.0));
                 }
 
                 Console.WriteLine("Gauss-Legendre " + l + "-node result = " + Res);

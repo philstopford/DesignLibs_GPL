@@ -11,7 +11,7 @@ namespace Burkardt.Quadrature
             public double weight;
 
             // A function for getting the node in x-space
-            double x()
+            public double x()
             {
                 return Math.Cos(theta);
             }

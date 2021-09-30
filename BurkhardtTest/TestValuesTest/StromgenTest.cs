@@ -46,7 +46,7 @@ namespace TestValuesTest
 
                 Console.WriteLine("  "
                                   + x.ToString("0.################").PadLeft(24) + "  "
-                                  + fx.ToString("0.################").PadLeft(24) + fx + "");
+                                  + fx.ToString("0.################").PadLeft(24) + "");
             }
         }
     }

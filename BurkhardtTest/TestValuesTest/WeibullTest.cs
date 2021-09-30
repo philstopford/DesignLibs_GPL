@@ -48,10 +48,10 @@ namespace TestValuesTest
                 }
 
                 Console.WriteLine("  "
-                                  + alpha.ToString().PadLeft(8) + alpha + "  "
-                                  + beta.ToString().PadLeft(8) + beta + "  "
-                                  + x.ToString().PadLeft(8) + x + "  "
-                                  + fx.ToString("0.################").PadLeft(24) + fx + "");
+                                  + alpha.ToString().PadLeft(8) + "  "
+                                  + beta.ToString().PadLeft(8) + "  "
+                                  + x.ToString().PadLeft(8) + "  "
+                                  + fx.ToString("0.################").PadLeft(24) + "");
             }
         }
     }

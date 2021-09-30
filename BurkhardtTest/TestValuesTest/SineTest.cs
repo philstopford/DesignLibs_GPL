@@ -181,7 +181,7 @@ namespace TestValuesTest
                                   + a.ToString().PadLeft(8) + a + "  "
                                   + b.ToString().PadLeft(8) + b + "  "
                                   + n.ToString().PadLeft(6) + n + "  "
-                                  + fx.ToString("0.################").PadLeft(24) + fx + "");
+                                  + fx.ToString("0.################").PadLeft(24) + "");
             }
         }
 

@@ -63,7 +63,7 @@ namespace TestValuesTest
                                        + "  " + j7.ToString().PadLeft(6)
                                        + "  " + j8.ToString().PadLeft(6)
                                        + "  " + j9.ToString().PadLeft(6)
-                                       + "  " + fx.ToString("0.################").PadLeft(24) + fx + "");
+                                       + "  " + fx.ToString("0.################").PadLeft(24) + "");
             }
         }
 
@@ -118,7 +118,7 @@ namespace TestValuesTest
                                        + "  " + j4.ToString().PadLeft(6)
                                        + "  " + j5.ToString().PadLeft(6)
                                        + "  " + j6.ToString().PadLeft(6)
-                                       + "  " + fx.ToString("0.################").PadLeft(24) + fx + "");
+                                       + "  " + fx.ToString("0.################").PadLeft(24) + "");
             }
         }
 
@@ -172,7 +172,7 @@ namespace TestValuesTest
                                        + "  " + m1.ToString().PadLeft(6)
                                        + "  " + m2.ToString().PadLeft(6)
                                        + "  " + m3.ToString().PadLeft(6)
-                                       + "  " + fx.ToString("0.################").PadLeft(24) + fx + "");
+                                       + "  " + fx.ToString("0.################").PadLeft(24) + "");
             }
         }
     }

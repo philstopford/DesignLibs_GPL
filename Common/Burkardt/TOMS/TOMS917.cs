@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using Burkardt.Types;
 
 namespace Burkardt
 {

@@ -45,7 +45,7 @@ namespace Burkardt.CorrelationNS
             double[] k;
             double tol;
 
-            tol = Math.Sqrt(double.Epsilon);
+            tol = Math.Sqrt(typeMethods.r8_epsilon());
             //
             //  C must be symmetric.
             //
@@ -152,7 +152,7 @@ namespace Burkardt.CorrelationNS
             double sigma_min;
             double tol;
 
-            tol = Math.Sqrt(double.Epsilon);
+            tol = Math.Sqrt(typeMethods.r8_epsilon());
             //
             //  K must be symmetric.
             //

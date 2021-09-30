@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using Burkardt.Sampling;
+using Burkardt.Types;
 
 namespace Burkardt.Tessellation
 {

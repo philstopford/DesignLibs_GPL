@@ -118,7 +118,7 @@ namespace Burkardt.CorrelationNS
             //
             dmin = typeMethods.r8vec_min(n, d);
 
-            if (dmin < -Math.Sqrt(double.Epsilon))
+            if (dmin < -Math.Sqrt(typeMethods.r8_epsilon()))
             {
                 Console.WriteLine("");
                 Console.WriteLine("SAMPLE_PATHS_EIGEN - Warning!");
@@ -253,7 +253,7 @@ namespace Burkardt.CorrelationNS
             //
             dmin = typeMethods.r8vec_min(n, d);
 
-            if (dmin < -Math.Sqrt(double.Epsilon))
+            if (dmin < -Math.Sqrt(typeMethods.r8_epsilon()))
             {
                 Console.WriteLine("");
                 Console.WriteLine("SAMPLE_PATHS2_EIGEN - Warning!");

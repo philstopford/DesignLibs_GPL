@@ -132,7 +132,7 @@ namespace Burkardt.Quadrature
             double[] wts;
             double[] z;
 
-            prec = double.Epsilon;
+            prec = typeMethods.r8_epsilon();
 
             if (nt < 1)
             {

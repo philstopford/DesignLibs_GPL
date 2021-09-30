@@ -509,7 +509,7 @@ namespace Burkardt.IntegralNS
             x = new double[dim_num];
 
             ind = 0;
-            rnderr = double.Epsilon;
+            rnderr = typeMethods.r8_epsilon();
             iwork2[0] = 1;
 
             for (dim = 0; dim < dim_num; dim++)

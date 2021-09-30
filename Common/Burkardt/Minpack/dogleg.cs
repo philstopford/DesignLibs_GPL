@@ -91,7 +91,7 @@ namespace Burkardt.MinpackNS
             //
             //  EPSMCH is the machine precision.
             //
-            epsmch = double.Epsilon;
+            epsmch = typeMethods.r8_epsilon();
             //
             //  Calculate the Gauss-Newton direction.
             //

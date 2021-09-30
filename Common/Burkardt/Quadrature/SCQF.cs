@@ -84,7 +84,7 @@ namespace Burkardt.Quadrature
             double shft = 0;
             double slp = 0;
 
-            double temp = double.Epsilon;
+            double temp = typeMethods.r8_epsilon();
 
             PARCHK.parchk(kind, 1, alpha, beta);
 

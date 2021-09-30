@@ -66,7 +66,7 @@ namespace Burkardt.Weight
             double tmp;
             double[] w;
 
-            temp = double.Epsilon;
+            temp = typeMethods.r8_epsilon();
 
             if (kind == 1)
             {

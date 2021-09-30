@@ -1238,7 +1238,7 @@ namespace Burkardt.Function
             double tolabs;
             int value = 0;
 
-            tol = 100.0 * double.Epsilon;
+            tol = 100.0 * typeMethods.r8_epsilon();
 
             dx = xv2 - xv1;
             dy = yv2 - yv1;

@@ -838,10 +838,10 @@ namespace Burkardt.Diffusion
                 k = k + 1;
                 double xa = xa_init;
                 double fa = 1.0 / cl - xa * Math.Tan(a * xa);
-                double ftol = double.Epsilon * (Math.Abs(fa) + 1.0);
+                double ftol = typeMethods.r8_epsilon() * (Math.Abs(fa) + 1.0);
                 double xb = xb_init;
                 double fc = fa;
-                double bmatol = 100.0 * double.Epsilon * (Math.Abs(xa) + Math.Abs(xb));
+                double bmatol = 100.0 * typeMethods.r8_epsilon() * (Math.Abs(xa) + Math.Abs(xb));
 
                 while (bmatol < xb - xa)
                 {
@@ -883,7 +883,7 @@ namespace Burkardt.Diffusion
                 {
                     xa = xa_init;
                     fa = xa - Math.Tan(a * xa) / cl;
-                    ftol = double.Epsilon * (Math.Abs(fa) + 1.0);
+                    ftol = typeMethods.r8_epsilon() * (Math.Abs(fa) + 1.0);
                     xb = xb_init;
 
                     while (bmatol < xb - xa)

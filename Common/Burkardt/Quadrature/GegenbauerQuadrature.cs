@@ -337,7 +337,7 @@ namespace Burkardt.Quadrature
             int step;
             int step_max = 10;
 
-            eps = double.Epsilon;
+            eps = typeMethods.r8_epsilon();
 
             for (step = 1; step <= step_max; step++)
             {

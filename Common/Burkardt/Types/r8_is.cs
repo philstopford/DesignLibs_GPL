@@ -117,7 +117,7 @@ namespace Burkardt.Types
             value = true;
 
             t = r + s;
-            tol = double.Epsilon * Math.Abs(r);
+            tol = typeMethods.r8_epsilon() * Math.Abs(r);
 
             if (tol < Math.Abs(r - t))
             {

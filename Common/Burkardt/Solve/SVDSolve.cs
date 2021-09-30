@@ -108,12 +108,12 @@ namespace Burkardt.SolveNS
             //  problems, although in general, the user might wish to control the tolerance.
             //
             smax = typeMethods.r8vec_max(n, sdiag);
-            if (smax <= double.Epsilon)
+            if (smax <= typeMethods.r8_epsilon())
             {
                 smax = 1.0;
             }
 
-            stol = double.Epsilon * smax;
+            stol = typeMethods.r8_epsilon() * smax;
 
             sub = new double[n];
 

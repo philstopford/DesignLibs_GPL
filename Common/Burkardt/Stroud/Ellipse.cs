@@ -127,7 +127,7 @@ namespace Burkardt.Stroud
                 term = term * (2 * i - 3) * (2 * i - 1) * e * e
                        / (double)(2 * 2 * i * i);
 
-                if (Math.Abs(term) <= double.Epsilon * (Math.Abs(value) + 1.0))
+                if (Math.Abs(term) <= typeMethods.r8_epsilon() * (Math.Abs(value) + 1.0))
                 {
                     break;
                 }

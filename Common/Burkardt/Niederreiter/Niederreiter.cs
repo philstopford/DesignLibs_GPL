@@ -905,7 +905,7 @@ namespace Burkardt.NiederreiterNS
             output.Add("#");
             output.Add("#  Spatial dimension DIM_NUM = " + dim_num + "");
             output.Add("#  Number of points N = " + n + "");
-            output.Add("#  EPSILON (unit roundoff) = " + double.Epsilon + "");
+            output.Add("#  EPSILON (unit roundoff) = " + typeMethods.r8_epsilon() + "");
             output.Add("#  Base: " + base_ + "");
             output.Add("#  Initial values skipped = " + skip + "");
             output.Add("#");

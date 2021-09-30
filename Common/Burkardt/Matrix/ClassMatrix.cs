@@ -85,7 +85,7 @@ namespace Burkardt.MatrixNS
             double temp2;
             double zemu = 0;
 
-            temp = double.Epsilon;
+            temp = typeMethods.r8_epsilon();
 
             PARCHK.parchk(kind, 2 * m - 1, alpha, beta);
 

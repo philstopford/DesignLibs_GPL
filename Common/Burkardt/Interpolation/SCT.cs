@@ -73,7 +73,7 @@ namespace Burkardt.Interpolation
 
             if (kind == 1 || kind == 2 || kind == 3 || kind == 4 || kind == 7 || kind == 9)
             {
-                tmp = double.Epsilon;
+                tmp = typeMethods.r8_epsilon();
                 bma = b - a;
 
                 if (bma <= tmp)

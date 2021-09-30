@@ -218,7 +218,7 @@ namespace Burkardt.SolveNS
             //
             //  EPSMCH is the machine precision.
             //
-            epsmch = double.Epsilon;
+            epsmch = typeMethods.r8_epsilon();
             //
             //  Compute the initial column norms and initialize several arrays.
             //
@@ -388,7 +388,7 @@ namespace Burkardt.SolveNS
 
             a_qr = typeMethods.r8mat_copy_new ( m, n, a );
             lda = m;
-            tol = double.Epsilon / typeMethods.r8mat_amax ( m, n, a_qr );
+            tol = typeMethods.r8_epsilon() / typeMethods.r8mat_amax ( m, n, a_qr );
             x = new double[n];
             jpvt = new int[n];
             qraux = new double[n];

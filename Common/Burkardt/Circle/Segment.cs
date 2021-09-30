@@ -1127,7 +1127,7 @@ namespace Burkardt.CircleNS
             //circle_segment_area_from_height ( r, h2 );
 
             it = 0;
-            eps = double.Epsilon;
+            eps = typeMethods.r8_epsilon();
 
             while (it < 30)
             {

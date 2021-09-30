@@ -209,7 +209,7 @@ namespace Burkardt.MinpackNS
             //
             //  EPSMCH is the machine precision.
             //
-            epsmch = double.Epsilon;
+            epsmch = typeMethods.r8_epsilon();
 
             info = 0;
             iflag = 0;

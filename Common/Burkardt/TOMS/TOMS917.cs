@@ -346,7 +346,7 @@ namespace Burkardt
             //
 
             if (Complex.Abs((2.0 * w * w - 8.0 * w - 1.0) * Complex.Pow(Complex.Abs(r), 4.0))
-                >= double.Epsilon * 72.0 * Math.Pow(Complex.Abs(wp1), 6.0))
+                >= typeMethods.r8_epsilon() * 72.0 * Math.Pow(Complex.Abs(wp1), 6.0))
             {
                 r = z - s * w - Complex.Log(w);
                 wp1 = s * w + 1.0;

@@ -383,7 +383,7 @@ namespace Burkardt.Types
             b1 = b;
 
             it = 0;
-            tol = 100.0 * double.Epsilon;
+            tol = 100.0 * typeMethods.r8_epsilon();
 
             for (;;)
             {
@@ -2511,7 +2511,7 @@ namespace Burkardt.Types
             //    Output, double R8_EPSILON, the R8 round-off unit.
             //
         {
-            return 2.220446049250313E-016;//double.Epsilon;
+            return 2.220446049250313E-016;//typeMethods.r8_epsilon();
         }
 
         public class r8EpsilonData

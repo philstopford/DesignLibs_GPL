@@ -403,7 +403,7 @@ namespace Burkardt.Tessellation
                 file_out.Add("#  SAMPLE =                  \"" + sample_string + "\".");
                 file_out.Add("#  Samples SAMPLE_NUM =       " + sample_num + "");
                 file_out.Add("#  Sampling BATCH size =      " + batch + "");
-                file_out.Add("#  EPSILON (unit roundoff) =  " + double.Epsilon + "");
+                file_out.Add("#  EPSILON (unit roundoff) =  " + typeMethods.r8_epsilon() + "");
                 file_out.Add("#");
             }
 

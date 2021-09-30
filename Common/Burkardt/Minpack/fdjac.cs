@@ -119,7 +119,7 @@ namespace Burkardt.MinpackNS
             //
             //  EPSMCH is the machine precision.
             //
-            epsmch = double.Epsilon;
+            epsmch = typeMethods.r8_epsilon();
 
             eps = Math.Sqrt(Math.Max(epsfcn, epsmch));
             msum = ml + mu + 1;
@@ -298,7 +298,7 @@ namespace Burkardt.MinpackNS
             //
             //  EPSMCH is the machine precision.
             //
-            epsmch = double.Epsilon;
+            epsmch = typeMethods.r8_epsilon();
             eps = Math.Sqrt(Math.Max(epsfcn, epsmch));
 
             for (j = 0; j < n; j++)

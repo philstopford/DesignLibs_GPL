@@ -342,7 +342,7 @@ namespace Burkardt.Types
             double tolb;
             int value;
 
-            tol = 100.0 * double.Epsilon;
+            tol = 100.0 * typeMethods.r8_epsilon();
 
             dx10 = x1 - x0;
             dy10 = y1 - y0;

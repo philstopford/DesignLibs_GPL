@@ -247,7 +247,7 @@ namespace Burkardt.Types
                 for (i = 0; i < m; i++)
                 {
                     t = r[i + j * m] + s[i + j * m];
-                    tol = double.Epsilon * Math.Abs(r[i + j * m]);
+                    tol = typeMethods.r8_epsilon() * Math.Abs(r[i + j * m]);
 
                     if (tol < Math.Abs(r[i + j * m] - t))
                     {
@@ -361,7 +361,7 @@ namespace Burkardt.Types
                 for (i = 0; i < m; i++)
                 {
                     t = r[i + j * m] + s[i + j * m];
-                    tol = double.Epsilon * Math.Abs(r[i + j * m]);
+                    tol = typeMethods.r8_epsilon() * Math.Abs(r[i + j * m]);
 
                     if (tol < Math.Abs(r[i + j * m] - t))
                     {

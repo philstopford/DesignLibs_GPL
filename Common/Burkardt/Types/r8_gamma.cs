@@ -598,7 +598,7 @@ namespace Burkardt.Types
 
             if (0.0 < y && y <= xbig)
             {
-                if (y <= double.Epsilon)
+                if (y <= typeMethods.r8_epsilon())
                 {
                     res = -Math.Log(y);
                 }

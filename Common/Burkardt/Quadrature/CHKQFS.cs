@@ -190,7 +190,7 @@ namespace Burkardt.Quadrature
 
                 if (kind != -1)
                 {
-                    prec = double.Epsilon;
+                    prec = typeMethods.r8_epsilon();
                     Console.WriteLine("");
                     Console.WriteLine("  Machine precision = " + prec + "");
                 }

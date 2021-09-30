@@ -270,7 +270,7 @@ namespace Burkardt.Kronrod
                 //
                 if (n <= 1)
                 {
-                    if (double.Epsilon < Math.Abs(x))
+                    if (typeMethods.r8_epsilon() < Math.Abs(x))
                     {
                         p2 = (3.0 * (x) * (x) - 1.0) / 2.0;
                         pd2 = 3.0 * (x);

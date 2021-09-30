@@ -222,7 +222,7 @@ namespace Burkardt.Interpolation
             //  Verify that the points are sufficiently distinct.
             //
             typeMethods.r8col_separation(d, nd, xd, ref d_min, ref d_max);
-            d_tol = Math.Sqrt(double.Epsilon);
+            d_tol = Math.Sqrt(typeMethods.r8_epsilon());
 
             if (d_min < d_tol)
             {
@@ -574,7 +574,7 @@ namespace Burkardt.Interpolation
             //  Verify that the points are sufficiently distinct.
             //
             typeMethods.r8col_separation(d, nd, xd, ref d_min, ref d_max);
-            d_tol = Math.Sqrt(double.Epsilon);
+            d_tol = Math.Sqrt(typeMethods.r8_epsilon());
 
             if (d_min < d_tol)
             {
@@ -926,7 +926,7 @@ namespace Burkardt.Interpolation
             //  Verify that the points are sufficiently distinct.
             //
             typeMethods.r8col_separation(d, nd, xd, ref d_min, ref d_max);
-            d_tol = Math.Sqrt(double.Epsilon);
+            d_tol = Math.Sqrt(typeMethods.r8_epsilon());
 
             if (d_min < d_tol)
             {
@@ -1280,7 +1280,7 @@ namespace Burkardt.Interpolation
             //  Verify that the points are sufficiently distinct.
             //
             typeMethods.r8col_separation(d, nd, xd, ref d_min, ref d_max);
-            d_tol = Math.Sqrt(double.Epsilon);
+            d_tol = Math.Sqrt(typeMethods.r8_epsilon());
 
             if (d_min < d_tol)
             {
@@ -1609,7 +1609,7 @@ namespace Burkardt.Interpolation
             //  Verify that the points are sufficiently distinct.
             //
             typeMethods.r8col_separation(d, nd, xd, ref d_min, ref d_max);
-            d_tol = Math.Sqrt(double.Epsilon);
+            d_tol = Math.Sqrt(typeMethods.r8_epsilon());
 
             if (d_min < d_tol)
             {

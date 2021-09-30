@@ -165,7 +165,7 @@ namespace Burkardt.PiecewiseLinear
                 //  Form the linear polynomials for F(X) and G(X) over [XL,XR],
                 //  then the product H(X), integrate H(X) and add to the running total.
                 //
-                if (double.Epsilon <= Math.Abs(xr - xl))
+                if (typeMethods.r8_epsilon() <= Math.Abs(xr - xl))
                 {
                     f1 = fl - fr;
                     f0 = fr * xl - fl * xr;

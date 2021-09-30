@@ -483,7 +483,7 @@ namespace Burkardt.Probability
             //
             //  ABS(ARG) < EPSILON ( ARG )
             //
-            if (x < double.Epsilon)
+            if (x < typeMethods.r8_epsilon())
             {
                 value = half * x;
             }

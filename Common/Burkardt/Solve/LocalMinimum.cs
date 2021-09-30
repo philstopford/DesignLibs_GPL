@@ -100,7 +100,7 @@ namespace Burkardt.SolveNS
             //
             c = 0.5 * (3.0 - Math.Sqrt(5.0));
 
-            eps = Math.Sqrt(double.Epsilon);
+            eps = Math.Sqrt(typeMethods.r8_epsilon());
 
             sa = a;
             sb = b;
@@ -385,8 +385,8 @@ namespace Burkardt.SolveNS
         }
         data.c = 0.5 * ( 3.0 - Math.Sqrt ( 5.0 ) );
 
-        data.eps = Math.Sqrt ( double.Epsilon );
-        data.tol = double.Epsilon;
+        data.eps = Math.Sqrt ( typeMethods.r8_epsilon() );
+        data.tol = typeMethods.r8_epsilon();
 
         data.v = a + data.c * ( b - a );
         data.w = data.v;

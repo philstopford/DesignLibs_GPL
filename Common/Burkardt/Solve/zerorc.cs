@@ -159,7 +159,7 @@ namespace Burkardt.SolveNS
                 data.fc = data.fa;
             }
 
-            tol = 2.0 * double.Epsilon * Math.Abs(data.sb) + t;
+            tol = 2.0 * typeMethods.r8_epsilon() * Math.Abs(data.sb) + t;
             m = 0.5 * (data.c - data.sb);
 
             if (Math.Abs(m) <= tol || data.fb == 0.0)

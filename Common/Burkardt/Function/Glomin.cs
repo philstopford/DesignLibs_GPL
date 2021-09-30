@@ -122,7 +122,7 @@ namespace Burkardt.Function
                 return y;
             }
 
-            m2 = 0.5 * (1.0 + 16.0 * double.Epsilon) * m;
+            m2 = 0.5 * (1.0 + 16.0 * typeMethods.r8_epsilon()) * m;
 
             if (c <= a || b <= c)
             {
@@ -250,7 +250,7 @@ namespace Burkardt.Function
 
                     p = 2.0 * (y2 - y3) / (m * d0);
 
-                    if ((1.0 + 9.0 * double.Epsilon) * d0 <= Math.Abs(p))
+                    if ((1.0 + 9.0 * typeMethods.r8_epsilon()) * d0 <= Math.Abs(p))
                     {
                         break;
                     }

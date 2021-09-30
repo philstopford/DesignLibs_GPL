@@ -454,7 +454,7 @@ namespace Burkardt.Types
             //
             s = new double[n];
 
-            eps = Math.Pow(double.Epsilon, 0.33);
+            eps = Math.Pow(typeMethods.r8_epsilon(), 0.33);
 
             for (i = 0; i < n; i++)
             {
@@ -2260,7 +2260,7 @@ namespace Burkardt.Types
             double r2;
             double r_old;
 
-            eps = Math.Sqrt(double.Epsilon);
+            eps = Math.Sqrt(typeMethods.r8_epsilon());
 
             r = r8vec_norm(n, v);
 
@@ -2462,7 +2462,7 @@ namespace Burkardt.Types
                 }
             }
 
-            tol = double.Epsilon * asum;
+            tol = typeMethods.r8_epsilon() * asum;
             lead = 0;
 
             for (r = 0; r < m; r++)
@@ -2675,7 +2675,7 @@ namespace Burkardt.Types
                 }
             }
 
-            tol = double.Epsilon * asum;
+            tol = typeMethods.r8_epsilon() * asum;
             lead = 0;
 
             for (r = 0; r < m; r++)

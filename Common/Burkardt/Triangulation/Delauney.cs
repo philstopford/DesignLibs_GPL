@@ -419,7 +419,7 @@ namespace Burkardt.TriangulationNS
 
             stack = new int[node_num];
 
-            tol = 100.0 * double.Epsilon;
+            tol = 100.0 * typeMethods.r8_epsilon();
             //
             //  Sort the vertices by increasing (x,y).
             //

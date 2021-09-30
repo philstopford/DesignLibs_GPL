@@ -105,7 +105,7 @@ namespace Burkardt.SolveNS
                     fc = fa;
                 }
 
-                tol = 2.0 * double.Epsilon * Math.Abs(sb) + t;
+                tol = 2.0 * typeMethods.r8_epsilon() * Math.Abs(sb) + t;
                 m = 0.5 * (c - sb);
 
                 if (Math.Abs(m) <= tol || fb == 0.0)

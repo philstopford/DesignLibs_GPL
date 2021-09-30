@@ -2511,7 +2511,7 @@ namespace Burkardt.Types
             //    Output, double R8_EPSILON, the R8 round-off unit.
             //
         {
-            return double.Epsilon;
+            return 2.220446049250313E-016;//double.Epsilon;
         }
 
         public class r8EpsilonData

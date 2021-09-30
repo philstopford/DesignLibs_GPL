@@ -53,7 +53,7 @@ namespace DijkstraTest
             //
             //  Initialize the problem data.
             //
-            init(ohd);
+            init(ref ohd);
             //
             //  Print the distance matrix.
             //
@@ -62,7 +62,6 @@ namespace DijkstraTest
             Console.WriteLine("");
             for (i = 0; i < NV; i++)
             {
-                ohd[i] = new int[NV];
                 string cout = "";
                 for (j = 0; j < NV; j++)
                 {
@@ -102,7 +101,7 @@ namespace DijkstraTest
             Console.WriteLine("");
         }
 
-        static void init(int[][] ohd)
+        static void init(ref int[][] ohd)
 
             //****************************************************************************80
             //

@@ -448,6 +448,8 @@ namespace Burkardt.TriangulationNS
             int tri1;
             int tri2;
 
+            triangle_neighbor = new int[triangle_num * 3];
+
             row = new int[triangle_order * triangle_num * 4];
             //
             //  Step 1.

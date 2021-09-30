@@ -129,7 +129,7 @@ namespace Burkardt.FEM
                 //
                 for (i = 0; i < fem_element_order; i++)
                 {
-                    t_node[i] = fem_element_node[i + t * fem_element_order];
+                    t_node[i] = fem_element_node[(i + t * fem_element_order)  % fem_element_node.Length];
                     t_xy[0 + i * 2] = fem_node_xy[0 + t_node[i] * 2];
                     t_xy[1 + i * 2] = fem_node_xy[1 + t_node[i] * 2];
                 }

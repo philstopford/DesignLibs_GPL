@@ -50,7 +50,7 @@ namespace Burkardt.FEM
 
             for (int element = 0; element < element_num; element++)
             {
-                string line =  "  " + element + 1;
+                string line =  "  " + (element + 1);
                 for (int order = 0; order < element_order; order++)
                 {
                     line += "  " + element_node[order + element * element_order];
@@ -118,7 +118,7 @@ namespace Burkardt.FEM
 
             for (int node = 0; node < node_num; node++)
             {
-                string line = "  " + node + 1;
+                string line = "  " + (node + 1);
                 for (int dim = 0; dim < node_dim; dim++)
                 {
                     line += "  " + node_coord[dim + node * node_dim];

@@ -313,7 +313,7 @@ namespace Burkardt.QuadMesh
 
                     output_unit.Add("newpath  "
                                     + x_ps + "  "
-                                    + y_ps + 5 + "  moveto ("
+                                    + (y_ps + 5) + "  moveto ("
                                     + node + ") show");
                 }
             }

@@ -71,7 +71,7 @@ namespace Burkardt.FEM
             lines.Add(node_num + "");
             for (int node = 0; node < node_num; node++)
             {
-                lines.Add(node + 1
+                lines.Add((node + 1)
                                + "  " + node_x[0 + node * m]
                                + "  0.0  0.0");
             }
@@ -86,7 +86,7 @@ namespace Burkardt.FEM
             lines.Add(element_num + "");
             for (int element = 0; element < element_num; element++)
             {
-                string line = element + 1
+                string line = (element + 1)
                      + "  " + element_type
                      + "  " + tag_num
                      + "  " + tag1
@@ -169,7 +169,7 @@ namespace Burkardt.FEM
             lines.Add(node_num + "");
             for (int node = 0; node < node_num; node++)
             {
-                lines.Add(node + 1
+                lines.Add((node + 1)
                                + "  " + node_x[0 + node * m]
                                + "  " + node_x[1 + node * m]
                                + "  0.0");
@@ -192,7 +192,7 @@ namespace Burkardt.FEM
             lines.Add(element_num + "");
             for (int element = 0; element < element_num; element++)
             {
-                string line = element + 1
+                string line = (element + 1)
                      + "  " + element_type
                      + "  " + tag_num
                      + "  " + tag1
@@ -335,7 +335,7 @@ namespace Burkardt.FEM
             lines.Add(node_num + "");
             for (int node = 0; node < node_num; node++)
             {
-                lines.Add(node + 1
+                lines.Add((node + 1)
                                + "  " + node_x[0 + node * m]
                                + "  " + node_x[1 + node * m]
                                + "  " + node_x[2 + node * m] + "");
@@ -362,7 +362,7 @@ namespace Burkardt.FEM
             lines.Add(element_num + "");
             for (int element = 0; element < element_num; element++)
             {
-                string line =  element + 1
+                string line =  (element + 1)
                      + "  " + element_type
                      + "  " + tag_num
                      + "  " + tag1

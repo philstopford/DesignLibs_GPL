@@ -138,7 +138,7 @@ namespace Burkardt.GMesh
             gmsh.Add(node_num + "");
             for (node = 0; node < node_num; node++)
             {
-                gmsh.Add(node + 1
+                gmsh.Add((node + 1)
                               + "  " + node_x[0 + node * m]
                               + "  " + node_x[1 + node * m]
                               + "  " + node_x[2 + node * m] + "");
@@ -165,11 +165,11 @@ namespace Burkardt.GMesh
             gmsh.Add(element_num + "");
             for (element = 0; element < element_num; element++)
             {
-                string tmp = element + 1
+                string tmp = (element + 1)
                                      + "  " + element_type
                                      + "  " + tag_num
                                      + "  " + tag1
-                                     + "  " + element + 1;
+                                     + "  " + (element + 1);
                 if (element_order == 20)
                 {
                     for (i = 0; i < element_order; i++)

@@ -2190,7 +2190,7 @@ namespace Burkardt.Types
 
             for (element = 0; element < element_num; element++)
             {
-                string tmp = "  " + element + 1;
+                string tmp = "  " + (element + 1);
                 for (order = 0; order < element_order; order++)
                 {
                     tmp += "  " + element_node[order + element * element_order];
@@ -2547,7 +2547,7 @@ namespace Burkardt.Types
 
             for (node = 0; node < node_num; node++)
             {
-                string tmp = "  " + node + 1;
+                string tmp = "  " + (node + 1);
                 for (dim = 0; dim < node_dim; dim++)
                 {
                     tmp += "  " + node_coord[dim + node * node_dim];

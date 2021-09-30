@@ -9,4 +9,22 @@
       <ProjectReference Include="..\..\..\Common\Burkardt\Burkardt.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="fem_powers_elements.txt">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="fem_powers_nodes.txt">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="fem_powers_values.txt">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="sample_powers_nodes.txt">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="sample_powers_values.txt">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

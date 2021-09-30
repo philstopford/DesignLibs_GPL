@@ -288,7 +288,10 @@ namespace BinsTest
                 //
                 //  If the return value of INDX is negative, we're asked to compare
                 //  array elements I and J;
-                //
+
+                i = i % a.Length;
+                j = j % a.Length;
+                
                 if (indx < 0)
                 {
                     if (a[i] <= a[j])

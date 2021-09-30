@@ -90,7 +90,7 @@ namespace Burkardt.FEM
                      + "  " + element_type
                      + "  " + tag_num
                      + "  " + tag1
-                     + "  " + element + 1;
+                     + "  " + (element + 1);
                 for (int i = 0; i < element_order; i++)
                 {
                     line += "  " + element_node[i + element * element_order];
@@ -101,6 +101,8 @@ namespace Burkardt.FEM
 
             lines.Add("$EndElements");
 
+            File.WriteAllLines(gmsh_filename, lines);
+            
         }
 
         public static void gmsh_mesh2d_write(string gmsh_filename, int m, int node_num,
@@ -194,7 +196,7 @@ namespace Burkardt.FEM
                      + "  " + element_type
                      + "  " + tag_num
                      + "  " + tag1
-                     + "  " + element + 1;
+                     + "  " + (element + 1);
                 for (int i = 0; i < element_order; i++)
                 {
                     line += "  " + element_node[i + element * element_order];
@@ -364,7 +366,7 @@ namespace Burkardt.FEM
                      + "  " + element_type
                      + "  " + tag_num
                      + "  " + tag1
-                     + "  " + element + 1;
+                     + "  " + (element + 1);
                 if (element_order == 20)
                 {
                     for (int i = 0; i < element_order; i++)

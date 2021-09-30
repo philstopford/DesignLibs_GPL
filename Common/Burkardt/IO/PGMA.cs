@@ -264,14 +264,18 @@ namespace Burkardt.IO
             int j;
 
             int gIndex = 0;
-            for (j = 0; j < ysize; j++)
+            while (inputIndex < input.Length)
             {
-                for (i = 0; i < xsize; i++)
+                string[] tokens = input[inputIndex].Split(' ');
+                for (int t = 0; t < tokens.Length; t++)
                 {
-                    g[gIndex] = Convert.ToInt32(input[inputIndex]);
-                    gIndex++;
-                    inputIndex++;
+                    if (tokens[t] != "")
+                    {
+                        g[gIndex] = Convert.ToInt32(tokens[t]);
+                        gIndex++;
+                    }
                 }
+                inputIndex++;
             }
         }
 

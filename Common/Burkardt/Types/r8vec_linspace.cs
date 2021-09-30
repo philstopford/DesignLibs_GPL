@@ -104,8 +104,8 @@
             {
                 for (int i = 0; i < n; i++)
                 {
-                    a[i] = ((double) (n - 1 - i) * a_first
-                            + (double) (i) * a_last)
+                    a[i] = (((n - 1 - i) * a_first)
+                            + (i * a_last))
                            / (double) (n - 1);
                 }
             }
@@ -161,9 +161,9 @@
             {
                 for ( i = 0; i < n; i++ )
                 {
-                    a[i] = ( ( double ) ( n - i     ) * a_first 
-                             + ( double ) (     i + 1 ) * a_last ) 
-                           / ( double ) ( n     + 1 );
+                    a[i] = ((  ( n - i     ) * a_first )
+                             + ((     i + 1 ) * a_last )) 
+                           / ( n     + 1 );
                 }
             }
         }

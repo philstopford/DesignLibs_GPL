@@ -308,6 +308,7 @@ namespace Burkardt.PolynomialNS
 
 
             pointer1 = diftab;
+            int p1index = 0;
 
             for (i = 0; i < ntab; i++)
             {
@@ -317,12 +318,14 @@ namespace Burkardt.PolynomialNS
                 {
                     if (j == i)
                     {
-                        pointer1[i] = 1.0;
+                        pointer1[p1index] = 1.0;
                     }
                     else
                     {
-                        pointer1[i] = 0.0;
+                        pointer1[p1index] = 0.0;
                     }
+
+                    p1index++;
                 }
 
                 Data.data_to_dif(ntab, xtab, pointer2, ref pointer2);

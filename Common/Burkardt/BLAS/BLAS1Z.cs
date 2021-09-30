@@ -564,7 +564,7 @@ namespace Burkardt.BLAS
             {
                 for (i = 0; i < n; i++)
                 {
-                    value = value + Complex.Conjugate(cx[xIndex + i]) * cy[yIndex + i];
+                    value = value + Complex.Conjugate(cx[(xIndex + i) % cx.Length]) * cy[(yIndex + i) % cy.Length];
                 }
             }
             else
@@ -589,7 +589,7 @@ namespace Burkardt.BLAS
 
                 for (i = 0; i < n; i++)
                 {
-                    value = value + Complex.Conjugate(cx[xIndex + ix]) * cy[yIndex + iy];
+                    value = value + Complex.Conjugate(cx[(xIndex + ix) % cx.Length]) * cy[(yIndex + iy) % cy.Length];
                     ix = ix + incx;
                     iy = iy + incy;
                 }

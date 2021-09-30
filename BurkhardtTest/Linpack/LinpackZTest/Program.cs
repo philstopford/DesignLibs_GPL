@@ -4076,7 +4076,7 @@ namespace LinpackZTest
             int seed;
             Complex[] u = new Complex[M * M];
             Complex[] v = new Complex[N * N];
-            string cout;
+            string cout = "";
 
             Console.WriteLine("");
             Console.WriteLine("TEST34");
@@ -4100,13 +4100,13 @@ namespace LinpackZTest
 
             for (i = 0; i < M; i++)
             {
-                cout = "";
                 for (j = 0; j < N; j++)
                 {
                     cout += "  " + a[i + j * lda].ToString().PadLeft(20);
                 }
 
                 Console.WriteLine(cout);
+                cout = "";
             }
 
             //
@@ -4145,13 +4145,13 @@ namespace LinpackZTest
 
             for (i = 0; i < M; i++)
             {
-                cout = "";
                 for (j = 0; j < M; j++)
                 {
                     cout += "  " + u[i + j * ldu].ToString().PadLeft(20);
                 }
 
                 Console.WriteLine(cout);
+                cout = "";
             }
 
             Console.WriteLine("");
@@ -4160,13 +4160,13 @@ namespace LinpackZTest
 
             for (i = 0; i < N; i++)
             {
-                cout = "";
                 for (j = 0; j < N; j++)
                 {
                     cout += "  " + v[i + j * ldv].ToString().PadLeft(20);
                 }
 
                 Console.WriteLine(cout);
+                cout = "";
             }
 
             for (i = 0; i < M; i++)
@@ -4187,13 +4187,13 @@ namespace LinpackZTest
 
             for (i = 0; i < M; i++)
             {
-                cout = "";
                 for (j = 0; j < N; j++)
                 {
                     cout += "  " + a[i + j * lda].ToString().PadLeft(20);
                 }
 
                 Console.WriteLine(cout);
+                cout = "";
             }
         }
 
@@ -4335,15 +4335,16 @@ namespace LinpackZTest
             Console.WriteLine("  Left Singular Vector Matrix U:");
             Console.WriteLine("");
 
+            cout = "";
             for (i = 0; i < M; i++)
             {
-                cout = "";
                 for (j = 0; j < M; j++)
                 {
                     cout += "  " + u[i + j * ldu].ToString().PadLeft(20);
                 }
 
                 Console.WriteLine(cout);
+                cout = "";
             }
 
             Console.WriteLine("");
@@ -4352,13 +4353,13 @@ namespace LinpackZTest
 
             for (i = 0; i < N; i++)
             {
-                cout = "";
                 for (j = 0; j < N; j++)
                 {
                     cout += "  " + v[i + j * ldv].ToString().PadLeft(20);
                 }
 
                 Console.WriteLine(cout);
+                cout = "";
             }
 
             for (i = 0; i < M; i++)
@@ -4379,13 +4380,13 @@ namespace LinpackZTest
 
             for (i = 0; i < M; i++)
             {
-                cout = "";
                 for (j = 0; j < N; j++)
                 {
                     cout += "  " + a[i + j * lda].ToString().PadLeft(20);
                 }
 
                 Console.WriteLine(cout);
+                cout = "";
             }
         }
 

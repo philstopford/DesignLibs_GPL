@@ -783,7 +783,7 @@ point_energy = 0.0;
 for ( i = 0; i < dim_num; i++ )
 {
 point_energy = point_energy + 
-Math.Pow ( point[i+j*dim_num] - cluster_center[i+k2*dim_num], 2 );
+Math.Pow ( point[(i+j*dim_num) % point.Length] - cluster_center[(i+k2*dim_num) % cluster_center.Length], 2 );
 }
 energy = energy + weight[j] * point_energy;
 }

@@ -193,7 +193,7 @@ namespace Burkardt.FEM
                         //  locates (XQ,YQ) in the triangulated mesh of sample data, and returns a
                         //  value produced by piecewise linear interpolation.
                         //
-                        project_value = FEM_2D_Projection.projection(sample_node_num, sample_node_xyz,
+                        project_value = FEM_3D_Projection.projection(sample_node_num, sample_node_xyz,
                             sample_element_order, sample_element_num, sample_element_node,
                             sample_element_neighbor, sample_value_dim, sample_value,
                             project_node_num, project_node_xyz);

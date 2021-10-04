@@ -249,12 +249,14 @@ namespace Burkardt.FEM
             //  Read the node coordinate file.
             //
             TableHeader h = typeMethods.r8mat_header_read(node_coord_file_name);
-            element_order = h.m;
-            element_num = h.n;
+            dim_num = h.m;
+            node_num = h.n;
 
             if (0 < typeMethods.s_len_trim(element_file_name))
             {
-                typeMethods.i4mat_header_read(element_file_name);
+                h = typeMethods.i4mat_header_read(element_file_name);
+                element_order = h.m;
+                element_num = h.n;
             }
             else
             {

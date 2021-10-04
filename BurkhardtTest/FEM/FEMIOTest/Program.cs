@@ -101,7 +101,7 @@ namespace FEMIOTest
                     element_order, node_data_num, ref node_coord, ref element_node, ref node_data);
 
                 typeMethods.r8mat_transpose_print_some(dim_num, node_num, node_coord, 1, 1,
-                    dim_num, 10, "  First 10 node coordindates:");
+                    dim_num, 10, "  First 10 node coordinates:");
 
                 typeMethods.i4mat_transpose_print_some(element_order, element_num,
                     element_node, 1, 1, element_order, 10, "  First 10 elements");
@@ -180,7 +180,7 @@ namespace FEMIOTest
                     NODE_DATA_NUM);
 
                 typeMethods.r8mat_transpose_print(DIM_NUM, NODE_NUM, node_coord,
-                    "  Node coordindates:");
+                    "  Node coordinates:");
 
                 typeMethods.i4mat_transpose_print(ELEMENT_ORDER, ELEMENT_NUM,
                     element_node, "  Elements");

@@ -6,6 +6,9 @@ namespace Burkardt.Sampling
 {
     public static class Walker
     {
+        
+        static Rand48 rand48 = new Rand48();
+
         public static void walker_build(int n, double[] x, ref double[] y, ref int[] a)
 
             //****************************************************************************80
@@ -212,14 +215,13 @@ namespace Burkardt.Sampling
             int i;
             double r;
 
-            Rand48 rand48 = new Rand48();
 
             // 
             //  Let i = random uniform integer from {1,2,...N};  
             //
-            i = 1 + (int) (n * (int) rand48.Next());
+            i = 1 + (int) (n * rand48.drand48());
 
-            r = (int) rand48.Next();
+            r = rand48.drand48();
 
             if (y[i] < r)
             {
@@ -287,7 +289,7 @@ namespace Burkardt.Sampling
             //
             for (i = 0; i < 100; i++)
             {
-                rand48.Next();
+                rand48.drand48();
             }
 
             Console.WriteLine("");
@@ -295,7 +297,7 @@ namespace Burkardt.Sampling
 
             for (i = 100; i < 103; i++)
             {
-                Console.WriteLine("  " + (int) rand48.Next() + "");
+                Console.WriteLine("  " + rand48.drand48() + "");
             }
 
             //

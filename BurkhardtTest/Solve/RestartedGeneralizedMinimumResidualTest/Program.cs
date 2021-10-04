@@ -611,7 +611,7 @@ namespace RestartedGeneralizedMinimumResidualTest
             Console.WriteLine("  Test PMGMRES_ILU_CR on a simple 5 x 5 matrix.");
 
             Console.WriteLine("");
-            for (i = 0; i <= n + 1; i++)
+            for (i = 0; i < n + 1; i++)
             {
                 Console.WriteLine("  ia[" + i + "] = " + ia[i] + "");
             }

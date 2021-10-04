@@ -40,11 +40,15 @@ namespace SuccessiveOverRelaxationTest
             Console.WriteLine("  C++ version.");
             Console.WriteLine("  Test the SOR library.");
 
+            w = 0.5;
+            sor_test01(w);
+
+            w = 1.0;
+            sor_test01(w);
+
             w = 1.5;
             sor_test01(w);
-            //
-            //  Terminate.
-            //
+
             Console.WriteLine("");
             Console.WriteLine("SOR_TEST");
             Console.WriteLine("  Normal end of execution.");

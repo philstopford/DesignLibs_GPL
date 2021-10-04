@@ -5,6 +5,12 @@
     /// On construction, the initial state is populated with a fixed arbitrary value.
     public class Rand48
     {
+        
+        public double drand48() {
+            _s = (0x5DEECE66DL * _s + 0xBL) & ((1L << 48) - 1);
+            return (double)_s / (1L << 48);
+        }
+        
         private ulong _s;
 
         public Rand48()

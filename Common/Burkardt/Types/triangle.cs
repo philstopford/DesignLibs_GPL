@@ -3548,25 +3548,44 @@ namespace Burkardt.Types
             //
         {
             double a10;
-            //double a11;
+            double a11;
             double a12;
+            double a13;
             double a20;
             //double a21;
             double a22;
+            double a23;
+            double a30;
+            //double a31;
+            //double a32;
+            double a33;
+            double s3;
+            double s6;
             double[] u;
 
-            u = new double[2];
+            s3 = Math.Sqrt ( 3.0 );
+            s6 = Math.Sqrt ( 6.0 );
 
-            a10 = -1.0 / 3.0;
-            //a11 =  1.0;
-            a12 = -1.0 / Math.Sqrt(3.0);
+            a10 = - 0.5;
+            a11 =   1.0;
+            a12 = - 1.0 / s3;
+            a13 = - 1.0 / s6;
 
-            a20 = -1.0 / 3.0;
+            a20 = - 0.5;
             //a21 =   0.0;
-            a22 = 2.0 * Math.Sqrt(3.0) / 3.0;
+            a22 =   2.0 / s3;
+            a23 = - 1.0 / s6;
 
-            u[0] = a10 + r[0] + a12 * r[1];
-            u[1] = a20 + a22 * r[1];
+            a30 = - 0.5;
+            //a31 =   0.0;
+            //a32 =   0.0;
+            a33 =   0.5 * s6;
+
+            u = new double[3];
+
+            u[0] = a10 + a11 * r[0] + a12 * r[1] + a13 * r[2];
+            u[1] = a20 +              a22 * r[1] + a23 * r[2];
+            u[2] = a30 +                           a33 * r[2];
 
             return u;
         }

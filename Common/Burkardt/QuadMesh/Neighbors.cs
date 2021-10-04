@@ -153,18 +153,18 @@ namespace Burkardt.QuadMesh
                     break;
                 }
 
-                if (col[0 + icol * 4] != col[0 + (icol + 1) * 4] ||
-                    col[1 + icol * 4] != col[1 + (icol + 1) * 4])
+                if (col[(0 + icol * 4) % col.Length] != col[(0 + (icol + 1) * 4) % col.Length] ||
+                    col[(1 + icol * 4) % col.Length] != col[(1 + (icol + 1) * 4) % col.Length])
                 {
                     icol = icol + 1;
                     continue;
                 }
 
-                side1 = col[2 + icol * 4];
-                element1 = col[3 + icol * 4];
+                side1 = col[(2 + icol * 4) % col.Length];
+                element1 = col[(3 + icol * 4) % col.Length];
 
-                side2 = col[2 + (icol + 1) * 4];
-                element2 = col[3 + (icol + 1) * 4];
+                side2 = col[(2 + (icol + 1) * 4) % col.Length];
+                element2 = col[(3 + (icol + 1) * 4) % col.Length];
 
                 element_neighbor[side1 + element1 * 4] = element2;
                 element_neighbor[side2 + element2 * 4] = element1;

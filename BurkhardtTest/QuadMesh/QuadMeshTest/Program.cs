@@ -657,7 +657,7 @@ namespace QuadMeshTest
             seed = 123456789;
 
             Sample.sample_q4_mesh(node_num, node_xy, element_num, element_node,
-                sample_num, ref seed, sample_xy, sample_element);
+                sample_num, ref seed, ref sample_xy, ref sample_element);
 
             Console.WriteLine("");
             Console.WriteLine("             X        Y     Element");

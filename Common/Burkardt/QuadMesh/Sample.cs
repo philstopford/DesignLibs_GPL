@@ -8,8 +8,8 @@ namespace Burkardt.QuadMesh
     public static class Sample
     {
         public static void sample_q4_mesh(int node_num, double[] node_xy, int element_num,
-                int[] element_node, int sample_num, ref int seed, double[] sample_xy,
-                int[] sample_element)
+                int[] element_node, int sample_num, ref int seed, ref double[] sample_xy,
+                ref int[] sample_element)
 
             //****************************************************************************80
             //
@@ -125,13 +125,13 @@ namespace Burkardt.QuadMesh
                 quad_xy[0 + 3 * 2] = node_xy[0 + i4 * 2];
                 quad_xy[1 + 3 * 2] = node_xy[1 + i4 * 2];
 
-                sample_quad(quad_xy, 1, ref seed, sample_xy, xyIndex: +sample * 2);
+                sample_quad(quad_xy, 1, ref seed, ref sample_xy, xyIndex: +sample * 2);
 
                 sample_element[sample] = element;
             }
         }
 
-        public static void sample_quad(double[] quad_xy, int n, ref int seed, double[] xy, int xyIndex = 0)
+        public static void sample_quad(double[] quad_xy, int n, ref int seed, ref double[] xy, int xyIndex = 0)
 
             //****************************************************************************80
             //

@@ -192,11 +192,11 @@ namespace TOMS577Test
             for (i = 0; i < 43; i++)
             {
                 eliptc = Integral.rc(x[i], y[i], errtol, ref ierr);
-                string cout = "  " + x[i].ToString("0.################").PadLeft(27)
-                                   + "  " + y[i].ToString("0.################").PadLeft(27);
+                string cout = "  " + x[i].ToString(/*"0.################"*/).PadLeft(27)
+                                   + "  " + y[i].ToString(/*"0.################"*/).PadLeft(27);
                 if (ierr == 0)
                 {
-                    Console.WriteLine(cout + eliptc.ToString("0.################").PadLeft(27) + "");
+                    Console.WriteLine(cout + (eliptc.ToString(/*"0.################"*/)).PadLeft(27) + "");
                 }
                 else
                 {
@@ -486,12 +486,12 @@ namespace TOMS577Test
             for (i = 0; i < 27; i++)
             {
                 eliptc = Integral.rd(x[i], y[i], z[i], errtol, ref ierr);
-                string cout = x[i].ToString("0.################").PadLeft(27)
-                              + y[i].ToString("0.################").PadLeft(27)
-                              + z[i].ToString("0.################").PadLeft(27);
+                string cout = x[i].ToString(/*"0.################"*/).PadLeft(27)
+                              + y[i].ToString(/*"0.################"*/).PadLeft(27)
+                              + z[i].ToString(/*"0.################"*/).PadLeft(27);
                 if (ierr == 0)
                 {
-                    Console.WriteLine(cout + eliptc.ToString("0.################").PadLeft(27) + "");
+                    Console.WriteLine(cout + (eliptc.ToString(/*"0.################"*/)).PadLeft(27) + "");
                 }
                 else
                 {
@@ -732,13 +732,13 @@ namespace TOMS577Test
 
             for (i = 0; i < 55; i++)
             {
+                string cout = x[i].ToString(/*"0.################"*/).PadLeft(27)
+                              + y[i].ToString(/*"0.################"*/).PadLeft(27)
+                              + z[i].ToString(/*"0.################"*/).PadLeft(27);
                 eliptc = Integral.rf(x[i], y[i], z[i], errtol, ref ierr);
-                string cout = x[i].ToString("0.################").PadLeft(27)
-                              + y[i].ToString("0.################").PadLeft(27)
-                              + z[i].ToString("0.################").PadLeft(27);
                 if (ierr == 0)
                 {
-                    Console.WriteLine(eliptc.ToString("0.################").PadLeft(27) + "");
+                    Console.WriteLine(cout + " " + (eliptc.ToString(/*"0.################"*/)).PadLeft(27) + "");
                 }
                 else
                 {
@@ -990,13 +990,13 @@ namespace TOMS577Test
             for (i = 0; i < 42; i++)
             {
                 eliptc = Integral.rj(x[i], y[i], z[i], p[i], errtol, ref ierr);
-                string cout = x[i].ToString("0.################").PadLeft(27)
-                                  + y[i].ToString("0.################").PadLeft(27)
-                                  + z[i].ToString("0.################").PadLeft(27)
-                                  + p[i].ToString("0.################").PadLeft(27);
+                string cout = x[i].ToString(/*"0.################"*/).PadLeft(27)
+                                  + y[i].ToString(/*"0.################"*/).PadLeft(27)
+                                  + z[i].ToString(/*"0.################"*/).PadLeft(27)
+                                  + p[i].ToString(/*"0.################"*/).PadLeft(27);
                 if (ierr == 0)
                 {
-                    Console.WriteLine(cout + eliptc.ToString("0.################").PadLeft(27) + "");
+                    Console.WriteLine(cout + (eliptc.ToString(/*"0.################"*/)).PadLeft(27) + "");
                 }
                 else
                 {

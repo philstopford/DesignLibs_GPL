@@ -183,10 +183,10 @@ namespace PoissonSimulationTest
                 f_bin[i] = 0;
             }
 
-            for (i = 0; i <= event_num; i++)
+            for (i = 0; i < event_num; i++)
             {
                 j = 1 + (int)((double)(bin_num) * (w[i] - w_min) / (w_max - w_min));
-                j = Math.Min(j, bin_num);
+                j = Math.Min(j, bin_num-1);
                 f_bin[j] = f_bin[j] + 1;
             }
 
@@ -319,7 +319,7 @@ namespace PoissonSimulationTest
             {
                 i = 1 + (int)((double)(bin_num * (n[test] - n_min))
                               / (double)(n_max - n_min));
-                i = Math.Min(i, bin_num);
+                i = Math.Min(i, bin_num-1);
                 f_bin[i] = f_bin[i] + 1;
             }
 

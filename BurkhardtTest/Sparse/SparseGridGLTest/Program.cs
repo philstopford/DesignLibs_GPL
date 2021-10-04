@@ -266,7 +266,7 @@ namespace SparseGridGLTest
 
             for (level_max = level_max_min; level_max <= level_max_max; level_max++)
             {
-                cout += "    " + level_max.ToString().PadLeft(4);
+                cout = "    " + level_max.ToString().PadLeft(4);
                 for (dim_num = dim_min; dim_num <= dim_max; dim_num++)
                 {
                     point_num = Grid_GaussLegendre.sparse_grid_gl_size(dim_num, level_max);
@@ -758,12 +758,12 @@ namespace SparseGridGLTest
             //
             //  Write the data out.
             //
-            r_filename = "gl_d" + (dim_num, "%d") + "_level"
-                         + (level_max, "%d") + "_r.txt";
-            w_filename = "gl_d" + (dim_num, "%d") + "_level"
-                         + (level_max, "%d") + "_w.txt";
+            r_filename = "gl_d" + dim_num + "_level"
+                         + level_max + "_r.txt";
+            w_filename = "gl_d" + dim_num + "_level"
+                         + level_max + "_w.txt";
             x_filename = "gl_d" + (dim_num, "%d") + "_level"
-                         + (level_max, "%d") + "_x.txt";
+                         + level_max + "_x.txt";
 
             typeMethods.r8mat_write(r_filename, dim_num, 2, r);
             typeMethods.r8mat_write(w_filename, 1, point_num, w);

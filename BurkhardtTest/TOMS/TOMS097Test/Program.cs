@@ -106,6 +106,7 @@ namespace TOMS097Test
                 }
 
                 Console.WriteLine(cout);
+                cout = "";
             }
 
             for (j = 0; j < n; j++)
@@ -152,6 +153,7 @@ namespace TOMS097Test
                 }
 
                 Console.WriteLine(cout);
+                cout = "";
             }
         }
 
@@ -218,6 +220,7 @@ namespace TOMS097Test
                 }
 
                 Console.WriteLine(cout);
+                cout = "";
             }
 
             for (j = 0; j < n; j++)
@@ -263,6 +266,7 @@ namespace TOMS097Test
                 }
 
                 Console.WriteLine(cout);
+                cout = "";
             }
 
         }

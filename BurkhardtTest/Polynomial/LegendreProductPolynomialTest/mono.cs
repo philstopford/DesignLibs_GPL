@@ -362,7 +362,8 @@ namespace LegendreProductPolynomialTest
                 cout += "  " + n.ToString().PadLeft(4);
             }
 
-            Console.WriteLine("");
+            Console.WriteLine(cout);
+            cout = "";
             Console.WriteLine("   m +------------------------------------------------------");
             for (m = 1; m <= 8; m++)
             {
@@ -374,6 +375,7 @@ namespace LegendreProductPolynomialTest
                 }
 
                 Console.WriteLine(cout);
+                cout = "";
             }
         }
 

@@ -757,7 +757,7 @@ namespace Burkardt.MonomialNS
             //  Convert to KSUBSET format.
             //
             ns = nm + m - 1;
-            ks = m - 1;
+            ks = m;// - 1;
             xs = new int[ks];
             xs[0] = x[0] + 1;
             for (i = 2; i < m; i++)

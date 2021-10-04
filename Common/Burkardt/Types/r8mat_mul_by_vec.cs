@@ -55,6 +55,8 @@
                 }
             }
 
+            ax = new double[y.Length];
+
             r8vec_copy(m, y, ref ax);
 
         }

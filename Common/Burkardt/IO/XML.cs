@@ -164,7 +164,8 @@ namespace Burkardt.IO
             {
                 lines.Add("      <vertex index =\"" + node
                     + "\" x =\"" + node_x[0 + node * m]
-                    + "\" y =\"" + node_x[1 + node * m] + "/>");
+                    + "\" y =\"" + node_x[1 + node * m]
+                    + "\" z =\"" + 0 + "\"/>");
             }
 
             lines.Add("    </vertices>");

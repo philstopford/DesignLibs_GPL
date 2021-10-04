@@ -172,8 +172,9 @@ namespace Burkardt.TetrahedronNS
 
                     for (i = 0; i < dim_num; i++)
                     {
-                        node_xyz2[i + node * dim_num] =
-                            (node_xyz2[i + (n1 - 1) * dim_num] + node_xyz2[i + (n2 - 1) * dim_num]) / 2.0;
+                        node_xyz2[((i + node * dim_num) + node_xyz2.Length) % node_xyz2.Length] =
+                            (node_xyz2[((i + (n1 - 1) * dim_num) + node_xyz2.Length) % node_xyz2.Length] + 
+                             node_xyz2[((i + (n2 - 1) * dim_num) + node_xyz2.Length) % node_xyz2.Length]) / 2.0;
                     }
 
                     node = node + 1;

@@ -750,7 +750,7 @@ namespace SparseCountTest
                 for (int dim_num = dim_min; dim_num <= dim_max; dim_num++)
                 {
                     int point_num = SparseCount.own_l2_size(dim_num, level_max);
-                    cout = "  " + point_num.ToString().PadLeft(10);
+                    cout += "  " + point_num.ToString().PadLeft(10);
                 }
 
                 Console.WriteLine(cout);

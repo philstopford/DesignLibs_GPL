@@ -741,12 +741,12 @@ namespace SparseGridHermiteTest
             //
             //  Write the data out.
             //
-            r_filename = "gh_d" + (dim_num, "%d")
-                                + "_level" + (level_max, "%d") + "_r.txt";
-            w_filename = "gh_d" + (dim_num, "%d")
-                                + "_level" + (level_max, "%d") + "_w.txt";
-            x_filename = "gh_d" + (dim_num, "%d")
-                                + "_level" + (level_max, "%d") + "_x.txt";
+            r_filename = "gh_d" + dim_num
+                                + "_level" + level_max + "_r.txt";
+            w_filename = "gh_d" + dim_num
+                                + "_level" + level_max + "_w.txt";
+            x_filename = "gh_d" + dim_num
+                                + "_level" + level_max + "_x.txt";
 
             typeMethods.r8mat_write(r_filename, dim_num, 2, r);
             typeMethods.r8mat_write(w_filename, 1, point_num, w);

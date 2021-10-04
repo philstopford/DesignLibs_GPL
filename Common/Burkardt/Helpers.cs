@@ -1125,8 +1125,89 @@ namespace Burkardt
 
             return a;
         }
+
+        const int GammaN = 10;
+
+        const double GammaR = 10.900511;
+
+        static double[] GammaDk =
+        {
+            2.48574089138753565546e-5,
+            1.05142378581721974210,
+            -3.45687097222016235469,
+            4.51227709466894823700,
+            -2.98285225323576655721,
+            1.05639711577126713077,
+            -1.95428773191645869583e-1,
+            1.70970543404441224307e-2,
+            -5.71926117404305781283e-4,
+            4.63399473359905636708e-6,
+            -2.71994908488607703910e-9
+        };
+
+        public const double TwoSqrtEOverPi = 1.8603827342052657173362492472666631120594218414085755;
+        public const double LogTwoSqrtEOverPi = 0.6207822376352452223455184457816472122518527279025978;
+        public const double LnPi = 1.1447298858494001741434273513530587116472948129153d;
         
-        public static double Gamma
+        public static double LogGamma(double z)
+        {
+
+            if (z < 0.5)
+            {
+                double s = GammaDk[0];
+                for (int i = 1; i <= GammaN; i++)
+                {
+                    s += GammaDk[i] / (i - z);
+                }
+
+                return LnPi
+                       - Math.Log(Math.Sin(Math.PI * z))
+                       - Math.Log(s)
+                       - LogTwoSqrtEOverPi
+                       - ((0.5 - z) * Math.Log((0.5 - z + GammaR) / Math.E));
+            }
+            else
+            {
+                double s = GammaDk[0];
+                for (int i = 1; i <= GammaN; i++)
+                {
+                    s += GammaDk[i] / (z + i - 1.0);
+                }
+
+                return Math.Log(s)
+                       + LogTwoSqrtEOverPi
+                       + ((z - 0.5) * Math.Log((z - 0.5 + GammaR) / Math.E));
+            }
+        }
+        
+        public static double Gamma(double z)
+        {
+            if (z < 0.5)
+            {
+                double s = GammaDk[0];
+                for (int i = 1; i <= GammaN; i++)
+                {
+                    s += GammaDk[i]/(i - z);
+                }
+
+                return Math.PI/(Math.Sin(Math.PI*z)
+                                *s
+                                *TwoSqrtEOverPi
+                                *Math.Pow((0.5 - z + GammaR)/Math.E, 0.5 - z));
+            }
+            else
+            {
+                double s = GammaDk[0];
+                for (int i = 1; i <= GammaN; i++)
+                {
+                    s += GammaDk[i]/(z + i - 1.0);
+                }
+
+                return s*TwoSqrtEOverPi*Math.Pow((z - 0.5 + GammaR)/Math.E, z - 0.5);
+            }
+        }
+
+        public static double GammaOLD
         (
             double x    // We require x > 0
         )
@@ -1241,10 +1322,10 @@ namespace Burkardt
 		        return double.PositiveInfinity;
             }
 
-            return Math.Exp(LogGamma(x));
+            return Math.Exp(LogGammaOLD(x));
         }
 
-        public static double LogGamma
+        public static double LogGammaOLD
         (
             double x    // x must be positive
         )
@@ -1257,7 +1338,7 @@ namespace Burkardt
 
             if (x < 12.0)
             {
-                return Math.Log(Math.Abs(Gamma(x)));
+                return Math.Log(Math.Abs(GammaOLD(x)));
             }
 
 	        // Abramowitz and Stegun 6.1.41

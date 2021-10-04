@@ -2806,7 +2806,7 @@ namespace Burkardt.TetrahedronNS
                     node = tetra_node[j + tetra * tetra_order];
                     for (i = 0; i < DIM_NUM; i++)
                     {
-                        tetrahedron[i + j * DIM_NUM] = node_xyz[i + (node - 1) * DIM_NUM];
+                        tetrahedron[i + j * DIM_NUM] = node_xyz[((i + (node - 1) * DIM_NUM) + node_xyz.Length ) % node_xyz.Length];
                     }
                 }
 
@@ -2885,7 +2885,7 @@ namespace Burkardt.TetrahedronNS
                     node = tetra_node[j + tetra * tetra_order];
                     for (i = 0; i < DIM_NUM; i++)
                     {
-                        tetrahedron[i + j * DIM_NUM] = node_xyz[i + (node - 1) * DIM_NUM];
+                        tetrahedron[i + j * DIM_NUM] = node_xyz[((i + (node - 1) * DIM_NUM) + node_xyz.Length ) % node_xyz.Length];
                     }
                 }
 
@@ -2963,7 +2963,7 @@ namespace Burkardt.TetrahedronNS
                     node = tetra_node[j + tetra * tetra_order];
                     for (i = 0; i < DIM_NUM; i++)
                     {
-                        tetrahedron[i + j * DIM_NUM] = node_xyz[i + (node - 1) * DIM_NUM];
+                        tetrahedron[i + j * DIM_NUM] = node_xyz[((i + (node - 1) * DIM_NUM) + node_xyz.Length ) % node_xyz.Length];
                     }
                 }
 
@@ -3041,7 +3041,7 @@ namespace Burkardt.TetrahedronNS
                     node = tetra_node[j + tetra * tetra_order];
                     for (i = 0; i < DIM_NUM; i++)
                     {
-                        tetrahedron[i + j * DIM_NUM] = node_xyz[i + (node - 1) * DIM_NUM];
+                        tetrahedron[i + j * DIM_NUM] = node_xyz[((i + (node - 1) * DIM_NUM) + node_xyz.Length) % node_xyz.Length];
                     }
                 }
 
@@ -3119,7 +3119,7 @@ namespace Burkardt.TetrahedronNS
                     node = tetra_node[j + tetra * tetra_order];
                     for (i = 0; i < DIM_NUM; i++)
                     {
-                        tetrahedron[i + j * DIM_NUM] = node_xyz[i + (node - 1) * DIM_NUM];
+                        tetrahedron[i + j * DIM_NUM] = node_xyz[((i + (node - 1) * DIM_NUM) + node_xyz.Length) % node_xyz.Length];
                     }
                 }
 

@@ -6,8 +6,8 @@ namespace Burkardt.TetrahedronNS
     public static class TetMesh_L2Q
     {
         public static void tet_mesh_order4_to_order10_compute(int element_num, int[] element_node1,
-                int node_num1, double[] node_xyz1, int[] edge_data, int[] element_node2,
-                int node_num2, double[] node_xyz2)
+                int node_num1, double[] node_xyz1, int[] edge_data, ref int[] element_node2,
+                int node_num2, ref double[] node_xyz2)
 
             //****************************************************************************80
             //

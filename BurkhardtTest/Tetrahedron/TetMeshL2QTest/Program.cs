@@ -173,7 +173,7 @@ namespace TetMeshL2QTest
             element_node2 = new int[element_order2 * element_num];
 
             TetMesh_L2Q.tet_mesh_order4_to_order10_compute(element_num, element_node1, node_num1,
-                node_xyz1, edge_data, element_node2, node_num2, node_xyz2);
+                node_xyz1, edge_data, ref element_node2, node_num2, ref node_xyz2);
             //
             //  Print a small amount of the quadratic data.
             //

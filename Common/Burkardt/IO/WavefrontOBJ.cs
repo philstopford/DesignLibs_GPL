@@ -264,7 +264,7 @@ namespace Burkardt.IO
                 //
                 if (text[0] == 'f' || text[0] == 'F')
                 {
-                    string[] tokens = text.Split(new char[] {' '});
+                    string[] tokens = Helpers.splitStringByWhitespace(text);
                     n = tokens.Length;
                     order_max = Math.Max(order_max, n - 1);
                     face_num = face_num + 1;

@@ -86,7 +86,7 @@ namespace ProbabilityTest
                 string cout = "  " + i.ToString().PadLeft(6) + "  ";
                 for (j = 0; j < n; j++)
                 {
-                    cout += x.ToString().PadLeft(12)[j] + "  ";
+                    cout += x[j].ToString().PadLeft(12) + "  ";
                 }
 
                 Console.WriteLine(cout);

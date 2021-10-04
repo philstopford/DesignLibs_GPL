@@ -108,7 +108,7 @@ namespace Burkardt.Probability
         //    Output, int POISSON_CDF_INV, the corresponding argument.
         //
         {
-            int x;
+            int x = 0;
             int xmax = 100;
 
             if (cdf < 0.0 || 1.0 < cdf)
@@ -149,12 +149,14 @@ namespace Burkardt.Probability
                 }
             }
 
-            Console.WriteLine(" ");
-            Console.WriteLine("POISSON_CDF_INV - Warning!");
-            Console.WriteLine("  Exceeded XMAX = " + xmax + "");
-
-            x = xmax;
-
+            if (x > 100)
+            {
+                Console.WriteLine(" ");
+                Console.WriteLine("POISSON_CDF_INV - Warning!");
+                Console.WriteLine("  Exceeded XMAX = " + xmax + "");
+                x = xmax;
+            }
+            
             return x;
         }
 

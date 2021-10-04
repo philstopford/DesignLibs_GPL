@@ -31,7 +31,7 @@ namespace DREAMTest
                 par_num = 5
             };
             
-            c = covariance_initialize ( ps.par_num );
+            covariance_initialize ( ps.par_num );
 
             ProblemValue pv = new ProblemValue()
             {
@@ -55,7 +55,7 @@ namespace DREAMTest
 
         }
         
-        static Covariance covariance_initialize ( int par_num )
+        static void covariance_initialize ( int par_num )
 
             //****************************************************************************80
             //
@@ -80,40 +80,38 @@ namespace DREAMTest
             //
         {
             int i;
-            Covariance value = new Covariance();
+            c = new Covariance();
             //
             //  Set ORDER
             //
-            value.order = par_num;
+            c.order = par_num;
             //
             //  Set ARRAY.
             //
-            value.array = covariance_set ( value.order );
+            covariance_set ( c.order );
             //
             //  Set FACTOR.
             //
-            value.factor = typeMethods.r8mat_pofac ( value.order, value.array );
+            c.factor = typeMethods.r8mat_pofac ( c.order, c.array );
             //
             //  Set INV
             //
-            value.inv = typeMethods.r8mat_poinv ( value.order, value.factor );
+            c.inv = typeMethods.r8mat_poinv ( c.order, c.factor );
             //
             //  Set DET.
             //
-            value.det = typeMethods.r8mat_podet ( value.order, value.factor );
+            c.det = typeMethods.r8mat_podet ( c.order, c.factor );
             //
             //  Set MEAN.
             //
-            value.mean = new double[value.order];
-            for ( i = 0; i < value.order; i++ )
+            c.mean = new double[c.order];
+            for ( i = 0; i < c.order; i++ )
             {
-                value.mean[i] = 0.0;
+                c.mean[i] = 0.0;
             }
-
-            return value;
         }
         
-        static double[] covariance_set ( int order )
+        static void covariance_set ( int order )
 
             //****************************************************************************80
             //
@@ -134,25 +132,23 @@ namespace DREAMTest
             //    John Burkardt
             //
         {
-            double[] array;
             int i;
             int j;
 
-            array = new double[order*order];
+            c.array = new double[order*order];
 
             for ( j = 0; j < order; j++ )
             {
                 for ( i = 0; i < order; i++ )
                 {
-                    array[i+j*order] = 0.5;
+                    c.array[i+j*order] = 0.5;
                 }
             }
 
             for ( i = 0; i < order; i++ )
             {
-                array[i+i*order] = ( double ) ( i + 1 );
+                c.array[i+i*order] = ( double ) ( i + 1 );
             }
-            return array;
         }
         static Dream.DensityResult prior_density(int par_num, double[] zp, int zpIndex = 0)
 

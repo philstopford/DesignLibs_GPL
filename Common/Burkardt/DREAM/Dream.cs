@@ -226,11 +226,6 @@ namespace Burkardt.DREAM
             }
 
             //
-            //  Get the problem data values;
-            //
-            problem_value_data.limits = typeMethods.r8mat_zero_new(2, problem_size.par_num);
-
-            //
             //  Print the data as a job record.
             //
             Input.input_print(problem_value_data.chain_filename, problem_size.chain_num, problem_size.cr_num, problem_value_data.gr_filename, problem_value_data.gr_threshold,

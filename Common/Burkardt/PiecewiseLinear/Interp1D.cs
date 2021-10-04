@@ -70,23 +70,23 @@
                 {
                     if (j == 0 && xi[i] <= xd[j])
                     {
-                        t = (xi[i] - xd[j]) / (xd[j + 1] - xd[j]);
-                        bk[i + j * ni] = 1.0 - t;
+                        t = (xi[i] - xd[j]) / (xd[(j + 1) % xd.Length] - xd[j]);
+                        bk[(i + j * ni) % bk.Length] = 1.0 - t;
                     }
                     else if (j == nd - 1 && xd[j] <= xi[i])
                     {
-                        t = (xi[i] - xd[j - 1]) / (xd[j] - xd[j - 1]);
-                        bk[i + j * ni] = t;
+                        t = (xi[i] - xd[(xd.Length + j - 1) % xd.Length]) / (xd[j] - xd[(j - 1) % xd.Length]);
+                        bk[(i + j * ni) % bk.Length] = t;
                     }
-                    else if (xd[j - 1] < xi[i] && xi[i] <= xd[j])
+                    else if (xd[(xd.Length + j - 1) % xd.Length] < xi[i] && xi[i] <= xd[j])
                     {
-                        t = (xi[i] - xd[j - 1]) / (xd[j] - xd[j - 1]);
-                        bk[i + j * ni] = t;
+                        t = (xi[i] - xd[(xd.Length + j - 1) % xd.Length]) / (xd[j] - xd[(xd.Length + j - 1) % xd.Length]);
+                        bk[(i + j * ni) % bk.Length] = t;
                     }
-                    else if (xd[j] <= xi[i] && xi[i] < xd[j + 1])
+                    else if (xd[j] <= xi[i] && xi[i] < xd[(j + 1) % xd.Length])
                     {
-                        t = (xi[i] - xd[j]) / (xd[j + 1] - xd[j]);
-                        bk[i + j * ni] = 1.0 - t;
+                        t = (xi[i] - xd[j]) / (xd[(j + 1) % xd.Length] - xd[j]);
+                        bk[(i + j * ni) % bk.Length] = 1.0 - t;
                     }
                 }
             }

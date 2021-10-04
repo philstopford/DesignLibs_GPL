@@ -50,22 +50,11 @@ namespace Burkardt.Types
         {
             i8vec ret = new i8vec() {ivec = new long[n]};
 
-            int begin = 0;
-            int length = s.Length;
+            string[] tokens = Helpers.splitStringByWhitespace(s);
 
-            for ( int i = 0; i < n; i++ )
+            for (int i = 0; i < n; i++)
             {
-                i8 res = s_to_i8 ( s.Substring(begin,length) );
-
-                ret.ivec[i] = res.val;
-                int lchar = res.lchar;
-                
-                if ( res.error )
-                {
-                    return ret;
-                }
-                begin = begin + lchar;
-                length = length - lchar;
+                ret.ivec[i] = s_to_i8(tokens[i]).val;
             }
 
             return ret;

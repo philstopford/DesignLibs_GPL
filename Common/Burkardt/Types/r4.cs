@@ -349,24 +349,13 @@ namespace Burkardt.Types
         //    Output, bool S_TO_R4VEC, is true if an error occurred.
         //
         {
-            int begin = 0;
-            int length = s.Length;
-
             r4vec ret = new r4vec() {rvec = new float[n]} ;
 
-            for (int i = 0; i < n; i++ )
-            {
-                r4 res = s_to_r4 ( s.Substring(begin,length));
+            string[] tokens = Helpers.splitStringByWhitespace(s);
 
-                ret.rvec[i] = res.val;
-                int lchar = res.lchar;
-                
-                if ( ret.error )
-                {
-                    return ret;
-                }
-                begin = begin + lchar;
-                length = length - lchar;
+            for (int i = 0; i < n; i++)
+            {
+                ret.rvec[i] = s_to_r4(tokens[i]).val;
             }
 
             return ret;

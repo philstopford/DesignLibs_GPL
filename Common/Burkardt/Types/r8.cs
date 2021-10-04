@@ -1340,10 +1340,57 @@ namespace Burkardt.Types
             int length = s.Length;
 
             r8vec ret = new r8vec() {rvec = new double[n]};
+            int retIndex = 0;
 
-            for (int i = 0; i < n; i++)
+                string tmp = "";
+                bool loadingTmp = false;
+                bool bankValue = false;
+                for (int c = 0; c < length; c++)
+                {
+                    if (c == length - 1)
+                    {
+                        bankValue = true;
+                    }
+                    if (s[begin + c] != ' ')
+                    {
+                        tmp += s[c];
+                        loadingTmp = true;
+                    }
+                    else
+                    {
+                        // We hit a space so bank this value.
+                        if (loadingTmp)
+                        {
+                            bankValue = true;
+                        }
+                    }
+
+                    if (bankValue)
+                    {
+                        if (tmp != "")
+                        {
+                            try
+                            {
+                                ret.rvec[retIndex] = s_to_r8(tmp).val;
+                            }
+                            catch (Exception)
+                            {
+                                ret.rvec[retIndex] = 0;
+                                ret.error = true;
+                            }
+
+                            retIndex++;
+                            loadingTmp = false;
+                            tmp = "";
+                            bankValue = false;
+                        }
+                    }
+                }
+                /*
+             for (int i = 0; i < n; i++)
             {
-                r8 res = s_to_r8(s.Substring(begin, length));
+               string temp = s.Substring(begin, length);
+                r8 res = s_to_r8(temp);
 
                 ret.rvec[i] = res.val;
                 int lchar = res.lchar;
@@ -1356,6 +1403,7 @@ namespace Burkardt.Types
                 begin = begin + lchar;
                 length = length - lchar;
             }
+                */
 
             return ret;
         }

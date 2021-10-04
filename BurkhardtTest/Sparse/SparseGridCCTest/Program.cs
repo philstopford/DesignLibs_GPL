@@ -429,7 +429,7 @@ namespace SparseGridCCTest
             for (point = 0; point < point_num; point++)
             {
                 Console.WriteLine("  " + point.ToString().PadLeft(4)
-                                       + grid_weight[point].ToString().PadLeft(10) + "");
+                                       + " " + grid_weight[point].ToString().PadLeft(10) + "");
             }
 
             Console.WriteLine("");
@@ -440,7 +440,7 @@ namespace SparseGridCCTest
                 string cout = "  " + point.ToString().PadLeft(4);
                 for (dim = 0; dim < dim_num; dim++)
                 {
-                    cout += grid_point[dim + point * dim_num].ToString().PadLeft(10);
+                    cout += " " + grid_point[dim + point * dim_num].ToString().PadLeft(10);
                 }
 
                 Console.WriteLine(cout);
@@ -746,12 +746,12 @@ namespace SparseGridCCTest
             //
             //  Write the data out.
             //
-            r_filename = "cc_d" + (dim_num, "%d") + "_level"
-                         + (level_max, "%d") + "_r.txt";
-            w_filename = "cc_d" + (dim_num, "%d") + "_level"
-                         + (level_max, "%d") + "_w.txt";
-            x_filename = "cc_d" + (dim_num, "%d") + "_level"
-                         + (level_max, "%d") + "_x.txt";
+            r_filename = "cc_d" + dim_num + "_level"
+                         + level_max + "_r.txt";
+            w_filename = "cc_d" + dim_num + "_level"
+                         + level_max + "_w.txt";
+            x_filename = "cc_d" + dim_num + "_level"
+                         + level_max + "_x.txt";
 
             typeMethods.r8mat_write(r_filename, dim_num, 2, r);
             typeMethods.r8mat_write(w_filename, 1, point_num, w);

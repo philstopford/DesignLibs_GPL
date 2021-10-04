@@ -77,7 +77,7 @@ namespace Burkardt.StochasticDifferentialEquations
             w = new double[n + 1];
 
             w[0] = 0.0;
-            for (j = 1; j <= n; j++)
+            for (j = 1; j < n; j++)
             {
                 w[j] = w[j - 1] + dw[j];
             }

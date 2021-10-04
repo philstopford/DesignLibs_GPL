@@ -1340,53 +1340,63 @@ namespace Burkardt.Types
             int length = s.Length;
 
             r8vec ret = new r8vec() {rvec = new double[n]};
+
+            string[] tokens = Helpers.splitStringByWhitespace(s);
+
+            for (int i = 0; i < n; i++)
+            {
+                ret.rvec[i] = s_to_r8(tokens[i]).val;
+            }
+            
+            /*
             int retIndex = 0;
 
-                string tmp = "";
-                bool loadingTmp = false;
-                bool bankValue = false;
-                for (int c = 0; c < length; c++)
+            string tmp = "";
+            bool loadingTmp = false;
+            bool bankValue = false;
+            for (int c = 0; c < length; c++)
+            {
+                if (c == length - 1)
                 {
-                    if (c == length - 1)
+                    bankValue = true;
+                }
+                if (s[begin + c] != ' ')
+                {
+                    tmp += s[c];
+                    loadingTmp = true;
+                }
+                else
+                {
+                    // We hit a space so bank this value.
+                    if (loadingTmp)
                     {
                         bankValue = true;
                     }
-                    if (s[begin + c] != ' ')
-                    {
-                        tmp += s[c];
-                        loadingTmp = true;
-                    }
-                    else
-                    {
-                        // We hit a space so bank this value.
-                        if (loadingTmp)
-                        {
-                            bankValue = true;
-                        }
-                    }
+                }
 
-                    if (bankValue)
+                if (bankValue)
+                {
+                    if (tmp != "")
                     {
-                        if (tmp != "")
+                        try
                         {
-                            try
-                            {
-                                ret.rvec[retIndex] = s_to_r8(tmp).val;
-                            }
-                            catch (Exception)
-                            {
-                                ret.rvec[retIndex] = 0;
-                                ret.error = true;
-                            }
-
-                            retIndex++;
-                            loadingTmp = false;
-                            tmp = "";
-                            bankValue = false;
+                            ret.rvec[retIndex] = s_to_r8(tmp).val;
                         }
+                        catch (Exception)
+                        {
+                            ret.rvec[retIndex] = 0;
+                            ret.error = true;
+                        }
+
+                        retIndex++;
+                        loadingTmp = false;
+                        tmp = "";
+                        bankValue = false;
                     }
                 }
-                /*
+            }
+            */
+            /*
              for (int i = 0; i < n; i++)
             {
                string temp = s.Substring(begin, length);
@@ -1403,7 +1413,7 @@ namespace Burkardt.Types
                 begin = begin + lchar;
                 length = length - lchar;
             }
-                */
+            */
 
             return ret;
         }

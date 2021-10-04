@@ -206,14 +206,7 @@ namespace Burkardt.IO
                     continue;
                 }
 
-                text = text.Replace("       ", " ");
-                text = text.Replace("     ", " ");
-                text = text.Replace("    ", " ");
-                text = text.Replace("   ", " ");
-                text = text.Replace("  ", " ");
-
-                string[] tokens = text.Split(' ');
-                tokens = tokens.Skip(1).ToArray();
+                string[] tokens = Helpers.splitStringByWhitespace(text);
                 
                 n = tokens.Length;
 

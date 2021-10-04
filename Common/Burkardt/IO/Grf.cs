@@ -179,17 +179,14 @@ namespace Burkardt.IO
             edge = 0;
             node = 0;
             edge_pointer[0] = 0;
-
-            int index = 0;
-
+            
             string text = "";
 
             for (node = 0; node < node_num; node++)
             {
                 try
                 {
-                    text = input_unit[index];
-                    index++;
+                    text = input_unit[node];
                 }
                 catch
                 {
@@ -240,7 +237,6 @@ namespace Burkardt.IO
                 for (i = n - 3; i < n; i++)
                 {
                     node_j = Convert.ToInt32(tokens[i]);
-                    index++;
                     edge_data[edge] = node_j;
                     edge = edge + 1;
                 }

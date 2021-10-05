@@ -78,7 +78,7 @@ namespace Burkardt.IO
                 //
                 //  Read, but ignore, dimension line.
                 //
-                string[] tokens = input.Split(new[] {' '});
+                string[] tokens = Helpers.splitStringByWhitespace(input);
                 if (node == -1)
                 {
                     i1 = Convert.ToInt32(tokens[0]);
@@ -160,7 +160,7 @@ namespace Burkardt.IO
             //
         {
             string input = File.ReadAllLines(node_file)[0];
-            string[] tokens = input.Split(new[] {' '});
+            string[] tokens = Helpers.splitStringByWhitespace(input);
 
             node_num = Convert.ToInt32(tokens[0]);
             node_dim = Convert.ToInt32(tokens[1]);

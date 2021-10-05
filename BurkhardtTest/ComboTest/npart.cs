@@ -293,7 +293,7 @@ namespace ComboTest
                     cout += "  " + t[i].ToString().PadLeft(4);
                 }
 
-                Console.WriteLine("");
+                Console.WriteLine(cout);
             }
         }
 

@@ -618,7 +618,7 @@ namespace ComboTest
                     cout += "  " + pi[i].ToString().PadLeft(4);
                 }
 
-                Console.WriteLine("");
+                Console.WriteLine(cout);
             }
         }
 

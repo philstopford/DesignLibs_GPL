@@ -318,7 +318,7 @@ namespace Burkardt.TriangulationNS
                 {
                     for (i = 0; i < m; i++)
                     {
-                        node_boundary[edge[i + (j - 1) * m] - 1] = true;
+                        node_boundary[(node_boundary.Length + (edge[(edge.Length + (i + (j - 1) * m)) % edge.Length] - 1)) % node_boundary.Length] = true;
                     }
                 }
 

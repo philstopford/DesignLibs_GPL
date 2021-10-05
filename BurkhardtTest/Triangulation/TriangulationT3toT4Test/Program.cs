@@ -191,12 +191,12 @@ namespace TriangulationT3toT4Test
                     for (i = 0; i < 3; i++)
                     {
                         j = element_node_t3[i + element * element_order_t3] - 1;
-                        node_xy_t4[dim + node * dim_num] = node_xy_t4[dim + node * dim_num]
-                                                           + node_xy_t3[dim + j * dim_num];
+                        node_xy_t4[((dim + node * dim_num) + node_xy_t4.Length ) % node_xy_t4.Length] = node_xy_t4[((dim + node * dim_num) + node_xy_t4.Length ) % node_xy_t4.Length]
+                                                           + node_xy_t3[((dim + j * dim_num) + node_xy_t3.Length ) % node_xy_t3.Length];
                     }
 
-                    node_xy_t4[dim + node * dim_num] = node_xy_t4[dim + node * dim_num] / 3.0;
-                    element_node_t4[3 + element * element_order_t4] = node;
+                    node_xy_t4[((dim + node * dim_num) + node_xy_t4.Length ) % node_xy_t4.Length] = node_xy_t4[((dim + node * dim_num) + node_xy_t4.Length ) % node_xy_t4.Length] / 3.0;
+                    element_node_t4[((3 + element * element_order_t4) + element_node_t4.Length ) % element_node_t4.Length] = node;
                 }
 
                 node = node + 1;

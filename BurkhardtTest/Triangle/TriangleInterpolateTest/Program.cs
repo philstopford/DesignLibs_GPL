@@ -107,11 +107,11 @@ namespace TriangleInterpolateTest
             Console.WriteLine("");
             for (j = 0; j < n; j++)
             {
-                Console.WriteLine("  " + p[0 + j * m].ToString().PadLeft(14)
-                                       + "  " + p[1 + j * m].ToString().PadLeft(14)
-                                       + "  " + v[0 + j * m].ToString().PadLeft(14)
-                                       + "  " + v[1 + j * m].ToString().PadLeft(14)
-                                       + "  " + v[2 + j * m].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + p[(0 + j * m) % p.Length].ToString().PadLeft(14)
+                                       + "  " + p[(1 + j * m) % p.Length].ToString().PadLeft(14)
+                                       + "  " + v[(0 + j * m) % v.Length].ToString().PadLeft(14)
+                                       + "  " + v[(1 + j * m) % v.Length].ToString().PadLeft(14)
+                                       + "  " + v[(2 + j * m) % v.Length].ToString().PadLeft(14) + "");
             }
         }
     }

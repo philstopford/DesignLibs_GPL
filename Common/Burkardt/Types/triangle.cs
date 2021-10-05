@@ -2015,7 +2015,7 @@ namespace Burkardt.Types
 
             foreach (string input in inputlines)
             {
-                string[] tokens = input.Split(new[] {' '});
+                string[] tokens = Helpers.splitStringByWhitespace(input);
                 /*
                 Read, but ignore, dimension line.
                 */
@@ -2126,10 +2126,10 @@ namespace Burkardt.Types
             try
             {
                 string input = File.ReadAllLines(element_file)[0];
-                string[] tokens = input.Split(new[] {' '});
+                string[] tokens = Helpers.splitStringByWhitespace(input);
                 element_num = Convert.ToInt32(tokens[0]);
-                element_order = Convert.ToInt32(tokens[2]);
-                element_att_num = Convert.ToInt32(tokens[3]);
+                element_order = Convert.ToInt32(tokens[1]);
+                element_att_num = Convert.ToInt32(tokens[2]);
             }
             catch
             {
@@ -2355,7 +2355,7 @@ namespace Burkardt.Types
 
             foreach (string input in inputlines)
             {
-                string[] tokens = input.Split(new[] {' '});
+                string[] tokens = Helpers.splitStringByWhitespace(input);
                 //
                 //  Read, but ignore, dimension line.
                 //
@@ -2483,7 +2483,7 @@ namespace Burkardt.Types
 
             input = File.ReadAllLines(node_file)[0];
 
-            string[] tokens = input.Split(new[] {' '});
+            string[] tokens = Helpers.splitStringByWhitespace(input);
 
             node_num = Convert.ToInt32(tokens[0]);
             node_dim = Convert.ToInt32(tokens[1]);

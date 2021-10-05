@@ -194,7 +194,7 @@ namespace Burkardt.TriangleNS
             m = ((d + 1) * (d + 2)) / 2;
 
             q = 0.0;
-            for (km1 = 0; km1 <= m; km1++)
+            for (km1 = 0; km1 < m; km1++)
             {
                 k = km1 + 1;
                 typeMethods.i4_to_pascal(k, ref i, ref j);

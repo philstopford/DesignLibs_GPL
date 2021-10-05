@@ -315,6 +315,8 @@ namespace Burkardt.Types
             int j;
             double r;
 
+            p = new double[n * 2];
+
             for (j = 0; j < n; j++)
             {
                 r = UniformRNG.r8_uniform_01(ref seed);
@@ -333,8 +335,8 @@ namespace Burkardt.Types
                 //
                 beta = UniformRNG.r8_uniform_01(ref seed);
 
-                p[0 + j * 2] = (1.0 - beta) * alpha;
-                p[1 + j * 2] = beta * alpha;
+                p[(0 + j * 2) % p.Length] = (1.0 - beta) * alpha;
+                p[(1 + j * 2) % p.Length] = beta * alpha;
             }
         }
 
@@ -377,6 +379,8 @@ namespace Burkardt.Types
             double r;
             double[] p12 = new double[DIM_NUM];
             double[] p13 = new double[DIM_NUM];
+
+            p = new double[2 * n];
 
             for (j = 0; j < n; j++)
             {

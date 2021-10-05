@@ -361,8 +361,8 @@ namespace TrianglePropertiesTest
 
             for (j = 0; j < 3; j++)
             {
-                t2[0 + j * 2] = t[0 + (2 - j) * 3];
-                t2[1 + j * 2] = t[1 + (2 - j) * 3];
+                t2[(0 + j * 2) % t2.Length] = t[(0 + (2 - j) * 3) % t.Length];
+                t2[(1 + j * 2) % t2.Length] = t[(1 + (2 - j) * 3) % t.Length];
             }
 
             typeMethods.r8mat_transpose_print(2, 3, t2, "  Triangle vertices (reversed):");

@@ -411,8 +411,8 @@ namespace Burkardt.Types
                 //
                 beta = UniformRNG.r8_uniform_01(ref seed);
 
-                p[pIndex + (0 + j * 2)] = (1.0 - beta) * p12[0] + beta * p13[0];
-                p[pIndex + (1 + j * 2)] = (1.0 - beta) * p12[1] + beta * p13[1];
+                p[(pIndex + (0 + j * 2) + p.Length) % p.Length] = (1.0 - beta) * p12[0] + beta * p13[0];
+                p[(pIndex + (1 + j * 2) + p.Length) % p.Length] = (1.0 - beta) * p12[1] + beta * p13[1];
             }
         }
 

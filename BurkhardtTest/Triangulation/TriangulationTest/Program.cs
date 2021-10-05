@@ -2691,7 +2691,7 @@ namespace TriangulationTest
             {
                 for (i = 0; i < DIM_NUM; i++)
                 {
-                    p[i] = xd[i + test * DIM_NUM];
+                    p[i] = xd[((i + test * DIM_NUM) + xd.Length) % xd.Length];
                 }
 
                 nnear = Helpers.points_point_near_naive_nd(DIM_NUM, NODE_NUM, node_xy,
@@ -2859,8 +2859,8 @@ namespace TriangulationTest
                     triangle_num, triangle_node, triangle_neighbor, p_test,
                     ref triangle_index2, ref alpha, ref beta, ref gamma, ref edge, ref step_num, pIndex:  + DIM_NUM * test);
 
-                Console.WriteLine("  " + p_test[0 + test * DIM_NUM].ToString().PadLeft(10)
-                    + "  " + p_test[1 + test * DIM_NUM].ToString().PadLeft(10)
+                Console.WriteLine("  " + p_test[((0 + test * DIM_NUM) + p_test.Length) % p_test.Length].ToString().PadLeft(10)
+                    + "  " + p_test[((1 + test * DIM_NUM) + p_test.Length) % p_test.Length].ToString().PadLeft(10)
                     + "  " + triangle_index1.ToString().PadLeft(8)
                     + "  " + triangle_index2.ToString().PadLeft(8)
                     + "  " + step_num.ToString().PadLeft(8) + "");

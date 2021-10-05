@@ -156,8 +156,8 @@ namespace Burkardt.TriangulationNS
                 dxb = node_xy[0 + b * 2] - node_xy[0 + c * 2];
                 dyb = node_xy[1 + b * 2] - node_xy[1 + c * 2];
 
-                dxp = p[pIndex + 0] - node_xy[0 + c * 2];
-                dyp = p[pIndex + 1] - node_xy[1 + c * 2];
+                dxp = p[((pIndex + 0) + p.Length) % p.Length] - node_xy[((0 + c * 2) + node_xy.Length) % node_xy.Length];
+                dyp = p[((pIndex + 1) + p.Length) % p.Length] - node_xy[((1 + c * 2) + node_xy.Length) % node_xy.Length];
 
                 det = dxa * dyb - dya * dxb;
                 //
@@ -323,8 +323,8 @@ namespace Burkardt.TriangulationNS
                 dxb = node_xy[0 + b * 2] - node_xy[0 + c * 2];
                 dyb = node_xy[1 + b * 2] - node_xy[1 + c * 2];
 
-                dxp = p[pIndex + 0] - node_xy[0 + c * 2];
-                dyp = p[pIndex + 1] - node_xy[1 + c * 2];
+                dxp = p[((pIndex + 0) + p.Length) % p.Length] - node_xy[((0 + c * 2) + node_xy.Length) % node_xy.Length];
+                dyp = p[((pIndex + 1) + p.Length) % p.Length] - node_xy[((1 + c * 2) + node_xy.Length) % node_xy.Length];
 
                 det = dxa * dyb - dya * dxb;
                 //

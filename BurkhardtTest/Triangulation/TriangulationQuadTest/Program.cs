@@ -163,7 +163,7 @@ namespace TriangulationQuadTest
             //  Read the vaue data.
             //
             h = typeMethods.r8mat_header_read(value_filename);
-            value_dim = h.n;
+            value_dim = h.m;
             value_num = h.n;
 
             Console.WriteLine("");

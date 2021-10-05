@@ -1165,7 +1165,8 @@ namespace Burkardt.Types
             //
             //  Print the columns of the matrix, in strips of INCX.
             //
-            for (j2lo = jlo; j2lo <= jhi; j2lo = j2lo + incx)
+            j2lo = jlo;
+            // for (j2lo = jlo; j2lo <= jhi; j2lo = j2lo + incx)
             {
                 j2hi = j2lo + incx - 1;
                 if (n < j2hi)

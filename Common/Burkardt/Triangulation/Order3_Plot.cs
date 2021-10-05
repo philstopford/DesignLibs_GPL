@@ -347,13 +347,13 @@ namespace Burkardt.TriangulationNS
                         node = triangle_node[e - 1 + triangle * 3] - 1;
 
                         x_ps = (int) (
-                            ((x_max - node_xy[0 + node * 2]) * (double) (x_ps_min)
-                             + (+node_xy[0 + node * 2] - x_min) * (double) (x_ps_max))
+                            ((x_max - node_xy[((0 + node * 2) + node_xy.Length ) % node_xy.Length]) * (double) (x_ps_min)
+                             + (+node_xy[((0 + node * 2) + node_xy.Length ) % node_xy.Length] - x_min) * (double) (x_ps_max))
                             / (x_max - x_min));
 
                         y_ps = (int) (
-                            ((y_max - node_xy[1 + node * 2]) * (double) (y_ps_min)
-                             + (node_xy[1 + node * 2] - y_min) * (double) (y_ps_max))
+                            ((y_max - node_xy[((1 + node * 2) + node_xy.Length ) % node_xy.Length]) * (double) (y_ps_min)
+                             + (node_xy[((1 + node * 2) + node_xy.Length ) % node_xy.Length] - y_min) * (double) (y_ps_max))
                             / (y_max - y_min));
 
                         if (i == 1)
@@ -394,8 +394,8 @@ namespace Burkardt.TriangulationNS
                     for (i = 1; i <= 3; i++)
                     {
                         node = triangle_node[i - 1 + triangle * 3] - 1;
-                        ave_x = ave_x + node_xy[0 + node * 2];
-                        ave_y = ave_y + node_xy[1 + node * 2];
+                        ave_x = ave_x + node_xy[((0 + node * 2) + node_xy.Length) % node_xy.Length];
+                        ave_y = ave_y + node_xy[((1 + node * 2) + node_xy.Length) % node_xy.Length];
                     }
 
                     ave_x = ave_x / 3.0;

@@ -537,7 +537,7 @@ namespace Burkardt.Types
             //    be nonnegative.
             //
         {
-            double area = Math.Abs(0.5 * (
+            double area = (0.5 * (
                 t[0 + 0 * 2] * (t[1 + 2 * 2] - t[1 + 1 * 2]) +
                 t[0 + 1 * 2] * (t[1 + 0 * 2] - t[1 + 2 * 2]) +
                 t[0 + 2 * 2] * (t[1 + 1 * 2] - t[1 + 0 * 2])));

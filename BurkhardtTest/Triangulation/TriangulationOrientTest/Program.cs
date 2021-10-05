@@ -172,7 +172,7 @@ namespace TriangulationOrientTest
                 {
                     for (i = 0; i < 2; i++)
                     {
-                        t3[i + j * 2] = node_xy[i + (triangle_node[j + triangle * triangle_order] - 1) * dim_num];
+                        t3[((i + j * 2) + t3.Length ) % t3.Length] = node_xy[((i + (triangle_node[((j + triangle * triangle_order) + triangle_node.Length) % triangle_node.Length] - 1) * dim_num) + node_xy.Length) % node_xy.Length];
                     }
                 }
 

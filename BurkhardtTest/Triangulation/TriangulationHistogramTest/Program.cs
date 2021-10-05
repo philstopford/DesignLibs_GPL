@@ -165,7 +165,7 @@ namespace TriangulationHistogramTest
             //
             h = typeMethods.r8mat_header_read(data_filename);
             dim_num = h.m;
-            node_num = h.n;
+            data_num = h.n;
 
             Console.WriteLine("");
             Console.WriteLine("  Read the header of \"" + data_filename + "\".");

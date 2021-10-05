@@ -277,7 +277,7 @@ namespace Burkardt.Types
                     for (i2 = 1; i2 <= inc; i2++)
                     {
                         i = i2lo - 1 + i2;
-                        string t = a[(i - 1) + (j - 1) * m].ToString("0.######");
+                        string t = a[(((i - 1) + (j - 1) * m) + a.Length) % a.Length].ToString("0.######");
                         cout += t.PadLeft(14);
                     }
 

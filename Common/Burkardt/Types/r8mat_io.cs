@@ -98,7 +98,7 @@ namespace Burkardt.Types
                 string line = "";
                 for (int i = 0; i < m; i++)
                 {
-                    line += "  " + table[i + j * m].ToString("0.################").PadLeft(24);
+                    line += "  " + table[((i + j * m) + table.Length) % table.Length].ToString("0.################").PadLeft(24);
                 }
 
                 outData[j] = line;

@@ -9,4 +9,19 @@
       <ProjectReference Include="..\..\..\Common\Burkardt\Burkardt.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="example_elements.txt">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="example_l2q_elements.txt">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="example_l2q_nodes.txt">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="example_nodes.txt">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

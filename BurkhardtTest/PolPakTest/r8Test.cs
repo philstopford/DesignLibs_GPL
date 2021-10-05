@@ -205,7 +205,7 @@ namespace PolPakTest
 
             for (i = 1; i <= 10; i++)
             {
-                x1 = -10.0 + 20.0 * rand48.Next();
+                x1 = -10.0 + 20.0 * rand48.drand48();
                 y = typeMethods.r8_cube_root(x1);
                 x2 = Math.Pow(y, 3);
                 Console.WriteLine(x1.ToString().PadLeft(14) + "  "

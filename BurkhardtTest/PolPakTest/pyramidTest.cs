@@ -35,7 +35,7 @@ namespace PolPakTest
 
             for (n = 1; n <= 10; n++)
             {
-                Console.Write("  "
+                Console.WriteLine("  "
                               + n.ToString().PadLeft(4) + "  "
                               + Pyramid.pyramid_num(n).ToString().PadLeft(6) + "");
             }
@@ -72,7 +72,7 @@ namespace PolPakTest
 
             for (n = 1; n <= 10; n++)
             {
-                Console.Write("  "
+                Console.WriteLine("  "
                               + n.ToString().PadLeft(6) + "  "
                               + Pyramid.pyramid_square_num(n).ToString().PadLeft(6) + "");
             }

@@ -268,13 +268,13 @@ namespace Burkardt.SubsetNS
                 return;
             }
 
-            row[0] = 1;
+            row[n] = 1;
             for (i = n - 1; 1 <= i; i--)
             {
                 row[i] = row[i] + row[i - 1];
             }
 
-            row[n] = 1;
+            row[0] = 1;
         }
 
         public static void comb_unrank(int m, int n, int rank, ref int[] a)

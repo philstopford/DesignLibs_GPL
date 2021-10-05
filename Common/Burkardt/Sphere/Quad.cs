@@ -793,7 +793,7 @@ namespace Burkardt.SphereNS
                 phi = pi / 2.0;
                 x = typeMethods.tp_to_xyz(theta, phi);
 
-                f(1, x, v);
+                v = f(1, x, v);
                 n = n + 1;
                 result = sphere_area * v[0];
             }
@@ -812,7 +812,7 @@ namespace Burkardt.SphereNS
                     theta = (double)((j - 1) * 2) * pi / (double)(theta_num);
                     phi = pi / 2.0;
                     x = typeMethods.tp_to_xyz(theta, phi);
-                    f(1, x, v);
+                    v = f(1, x, v);
                     n = n + 1;
                     result = result + sector_area * v[0];
                 }
@@ -845,7 +845,7 @@ namespace Burkardt.SphereNS
 
                     area = Triangle.sphere01_triangle_vertices_to_area(x1, x12, x22);
                     x = Triangle.sphere01_triangle_vertices_to_centroid(x1, x12, x22);
-                    f(1, x, v);
+                    v = f(1, x, v);
                     n = n + 1;
                     result = result + area * v[0];
                 }
@@ -875,13 +875,13 @@ namespace Burkardt.SphereNS
 
                         area = Triangle.sphere01_triangle_vertices_to_area(x11, x12, x22);
                         x = Triangle.sphere01_triangle_vertices_to_centroid(x11, x12, x22);
-                        f(1, x, v);
+                        v = f(1, x, v);
                         n = n + 1;
                         result = result + area * v[0];
 
                         area = Triangle.sphere01_triangle_vertices_to_area(x22, x21, x11);
                         x = Triangle.sphere01_triangle_vertices_to_centroid(x22, x21, x11);
-                        f(1, x, v);
+                        v = f(1, x, v);
                         n = n + 1;
                         result = result + area * v[0];
                     }
@@ -909,7 +909,7 @@ namespace Burkardt.SphereNS
 
                     area = Triangle.sphere01_triangle_vertices_to_area(x11, x2, x21);
                     x = Triangle.sphere01_triangle_vertices_to_centroid(x11, x2, x21);
-                    f(1, x, v);
+                    v = f(1, x, v);
                     n = n + 1;
                     result = result + area * v[0];
                 }
@@ -1013,7 +1013,7 @@ namespace Burkardt.SphereNS
                 theta = 0.0;
                 phi = pi / 2.0;
                 x = typeMethods.tp_to_xyz(theta, phi);
-                f(1, x, v);
+                v = f(1, x, v);
                 n = n + 1;
                 result = sphere_area * v[0];
             }
@@ -1032,7 +1032,7 @@ namespace Burkardt.SphereNS
                     theta = (double)((j - 1) * 2) * pi / (double)(theta_num);
                     phi = pi / 2.0;
                     x = typeMethods.tp_to_xyz(theta, phi);
-                    f(1, x, v);
+                    v = f(1, x, v);
                     n = n + 1;
                     result = result + sector_area * v[0];
                 }
@@ -1067,13 +1067,13 @@ namespace Burkardt.SphereNS
 
                     Triangle.sphere01_triangle_vertices_to_midpoints(x1, x12, x22, ref m1, ref m2, ref m3);
 
-                    f(1, m1, v);
+                    v = f(1, m1, v);
                     n = n + 1;
                     result = result + area * v[0] / 3.0;
-                    f(1, m2, v);
+                    v = f(1, m2, v);
                     n = n + 1;
                     result = result + area * v[0] / 3.0;
-                    f(1, m3, v);
+                    v = f(1, m3, v);
                     n = n + 1;
                     result = result + area * v[0] / 3.0;
                 }
@@ -1105,13 +1105,13 @@ namespace Burkardt.SphereNS
 
                         Triangle.sphere01_triangle_vertices_to_midpoints(x11, x12, x22, ref m1, ref m2, ref m3);
 
-                        f(1, m1, v);
+                        v = f(1, m1, v);
                         n = n + 1;
                         result = result + area * v[0] / 3.0;
-                        f(1, m2, v);
+                        v = f(1, m2, v);
                         n = n + 1;
                         result = result + area * v[0] / 3.0;
-                        f(1, m3, v);
+                        v = f(1, m3, v);
                         n = n + 1;
                         result = result + area * v[0] / 3.0;
 
@@ -1119,13 +1119,13 @@ namespace Burkardt.SphereNS
 
                         Triangle.sphere01_triangle_vertices_to_midpoints(x22, x21, x11, ref m1, ref m2, ref m3);
 
-                        f(1, m1, v);
+                        v = f(1, m1, v);
                         n = n + 1;
                         result = result + area * v[0] / 3.0;
-                        f(1, m2, v);
+                        v = f(1, m2, v);
                         n = n + 1;
                         result = result + area * v[0] / 3.0;
-                        f(1, m3, v);
+                        v = f(1, m3, v);
                         n = n + 1;
                         result = result + area * v[0] / 3.0;
                     }
@@ -1155,13 +1155,13 @@ namespace Burkardt.SphereNS
 
                     Triangle.sphere01_triangle_vertices_to_midpoints(x11, x2, x21, ref m1, ref m2, ref m3);
 
-                    f(1, m1, v);
+                    v = f(1, m1, v);
                     n = n + 1;
                     result = result + area * v[0] / 3.0;
-                    f(1, m2, v);
+                    v = f(1, m2, v);
                     n = n + 1;
                     result = result + area * v[0] / 3.0;
-                    f(1, m3, v);
+                    v = f(1, m3, v);
                     n = n + 1;
                     result = result + area * v[0] / 3.0;
                 }
@@ -1262,7 +1262,7 @@ namespace Burkardt.SphereNS
                 theta = 0.0;
                 phi = pi / 2.0;
                 x = typeMethods.tp_to_xyz(theta, phi);
-                f(1, x, v);
+                v = f(1, x, v);
                 result = sphere_area * v[0];
             }
             //
@@ -1280,7 +1280,7 @@ namespace Burkardt.SphereNS
                     theta = (double)((j - 1) * 2) * pi / (double)(theta_num);
                     phi = pi / 2.0;
                     x = typeMethods.tp_to_xyz(theta, phi);
-                    f(1, x, v);
+                    v = f(1, x, v);
                     n = n + 1;
                     result = result + sector_area * v[0];
                 }
@@ -1313,13 +1313,13 @@ namespace Burkardt.SphereNS
 
                     area = Triangle.sphere01_triangle_vertices_to_area(x1, x12, x22);
 
-                    f(1, x1, v);
+                    v = f(1, x1, v);
                     n = n + 1;
                     result = result + area * v[0] / 3.0;
-                    f(1, x12, v);
+                    v = f(1, x12, v);
                     n = n + 1;
                     result = result + area * v[0] / 3.0;
-                    f(1, x22, v);
+                    v = f(1, x22, v);
                     n = n + 1;
                     result = result + area * v[0] / 3.0;
                 }
@@ -1349,25 +1349,25 @@ namespace Burkardt.SphereNS
 
                         area = Triangle.sphere01_triangle_vertices_to_area(x11, x12, x22);
 
-                        f(1, x11, v);
+                        v = f(1, x11, v);
                         n = n + 1;
                         result = result + area * v[0] / 3.0;
-                        f(1, x12, v);
+                        v = f(1, x12, v);
                         n = n + 1;
                         result = result + area * v[0] / 3.0;
-                        f(1, x22, v);
+                        v = f(1, x22, v);
                         n = n + 1;
                         result = result + area * v[0] / 3.0;
 
                         area = Triangle.sphere01_triangle_vertices_to_area(x22, x21, x11);
 
-                        f(1, x22, v);
+                        v = f(1, x22, v);
                         n = n + 1;
                         result = result + area * v[0] / 3.0;
-                        f(1, x21, v);
+                        v = f(1, x21, v);
                         n = n + 1;
                         result = result + area * v[0] / 3.0;
-                        f(1, x11, v);
+                        v = f(1, x11, v);
                         n = n + 1;
                         result = result + area * v[0] / 3.0;
 
@@ -1396,13 +1396,13 @@ namespace Burkardt.SphereNS
 
                     area = Triangle.sphere01_triangle_vertices_to_area(x11, x2, x21);
 
-                    f(1, x11, v);
+                    v = f(1, x11, v);
                     n = n + 1;
                     result = result + area * v[0] / 3.0;
-                    f(1, x2, v);
+                    v = f(1, x2, v);
                     n = n + 1;
                     result = result + area * v[0] / 3.0;
-                    f(1, x21, v);
+                    v = f(1, x21, v);
                     n = n + 1;
                     result = result + area * v[0] / 3.0;
 
@@ -1466,7 +1466,7 @@ namespace Burkardt.SphereNS
 
             v = new double[n];
 
-            f(n, x, v);
+            v = f(n, x, v);
 
             result = sphere_area * typeMethods.r8vec_sum(n, v) / (double)(n);
 

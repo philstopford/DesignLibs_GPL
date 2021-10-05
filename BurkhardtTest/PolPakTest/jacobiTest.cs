@@ -60,7 +60,7 @@ namespace PolPakTest
                 c = Jacobi.jacobi_poly(n, a, b, x);
                 fx2 = c[n];
 
-                Console.Write("  "
+                Console.WriteLine("  "
                               + n.ToString().PadLeft(6) + "  "
                               + a.ToString().PadLeft(6) + "  "
                               + b.ToString().PadLeft(6) + "  "

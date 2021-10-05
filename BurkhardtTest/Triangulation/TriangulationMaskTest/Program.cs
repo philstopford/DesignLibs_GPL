@@ -224,7 +224,7 @@ namespace TriangulationMaskTest
                 {
                     for (i = 0; i < dim_num; i++)
                     {
-                        coord[i + order * dim_num] = input_node_xy[i + (nodes[order] - 1) * dim_num];
+                        coord[((i + order * dim_num) + coord.Length) % coord.Length] = input_node_xy[((i + (nodes[order] - 1) * dim_num) + input_node_xy.Length) % input_node_xy.Length];
                     }
                 }
 

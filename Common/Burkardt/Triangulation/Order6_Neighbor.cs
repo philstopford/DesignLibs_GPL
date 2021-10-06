@@ -52,19 +52,17 @@ namespace Burkardt.TriangulationNS
         //
         {
             int i;
-            int icol;
+            int irow;
             int j;
             int k;
-            int[] col;
+            int[] row;
             int side1;
             int side2;
             int tri;
             int tri1;
             int tri2;
-            int triangle_order = 6;
 
-            triangle_neighbor = new int[3*triangle_num];
-            col = new int[3 * triangle_num * 4];
+            row = new int[3 * triangle_num * 4];
             //
             //  Step 1.
             //  From the list of nodes for triangle T, of the form: (I,J,K)
@@ -78,53 +76,53 @@ namespace Burkardt.TriangulationNS
             //
             for (tri = 0; tri < triangle_num; tri++)
             {
-                i = triangle_node[0 + tri * triangle_order];
-                j = triangle_node[1 + tri * triangle_order];
-                k = triangle_node[2 + tri * triangle_order];
+                i = triangle_node[0 + tri * 6];
+                j = triangle_node[1 + tri * 6];
+                k = triangle_node[2 + tri * 6];
 
                 if (i < j)
                 {
-                    col[0+(3*tri+0)*triangle_num] = i;
-                    col[1+(3*tri+0)*triangle_num] = j;
-                    col[2+(3*tri+0)*triangle_num] = 1;
-                    col[3+(3*tri+0)*triangle_num] = tri + 1;
+                    row[3 * tri + 0 * 3 * triangle_num] = i;
+                    row[3 * tri + 1 * 3 * triangle_num] = j;
+                    row[3 * tri + 2 * 3 * triangle_num] = 1;
+                    row[3 * tri + 3 * 3 * triangle_num] = tri + 1;
                 }
                 else
                 {
-                    col[0+(3*tri+0)*triangle_num] = j;
-                    col[1+(3*tri+0)*triangle_num] = i;
-                    col[2+(3*tri+0)*triangle_num] = i;
-                    col[3+(3*tri+0)*triangle_num] = tri + 1;
+                    row[3 * tri + 0 * 3 * triangle_num] = j;
+                    row[3 * tri + 1 * 3 * triangle_num] = i;
+                    row[3 * tri + 2 * 3 * triangle_num] = 1;
+                    row[3 * tri + 3 * 3 * triangle_num] = tri + 1;
                 }
 
                 if (j < k)
                 {
-                    col[0+(3*tri+1)*triangle_num] = j;
-                    col[1+(3*tri+1)*triangle_num] = k;
-                    col[2+(3*tri+1)*triangle_num] = 2;
-                    col[3+(3*tri+1)*triangle_num] = tri + 1;
+                    row[3 * tri + 1 + 0 * 3 * triangle_num] = j;
+                    row[3 * tri + 1 + 1 * 3 * triangle_num] = k;
+                    row[3 * tri + 1 + 2 * 3 * triangle_num] = 2;
+                    row[3 * tri + 1 + 3 * 3 * triangle_num] = tri + 1;
                 }
                 else
                 {
-                    col[0+(3*tri+1)*triangle_num] = k;
-                    col[1+(3*tri+1)*triangle_num] = j;
-                    col[2+(3*tri+1)*triangle_num] = 2;
-                    col[3+(3*tri+1)*triangle_num] = tri + 1;
+                    row[3 * tri + 1 + 0 * 3 * triangle_num] = k;
+                    row[3 * tri + 1 + 1 * 3 * triangle_num] = j;
+                    row[3 * tri + 1 + 2 * 3 * triangle_num] = 2;
+                    row[3 * tri + 1 + 3 * 3 * triangle_num] = tri + 1;
                 }
 
                 if (k < i)
                 {
-                    col[0+(3*tri+2)*triangle_num] = k;
-                    col[1+(3*tri+2)*triangle_num] = i;
-                    col[2+(3*tri+2)*triangle_num] = 3;
-                    col[3+(3*tri+2)*triangle_num] = tri + 1;
+                    row[3 * tri + 2 + 0 * 3 * triangle_num] = k;
+                    row[3 * tri + 2 + 1 * 3 * triangle_num] = i;
+                    row[3 * tri + 2 + 2 * 3 * triangle_num] = 3;
+                    row[3 * tri + 2 + 3 * 3 * triangle_num] = tri + 1;
                 }
                 else
                 {
-                    col[0+(3*tri+2)*triangle_num] = i;
-                    col[1+(3*tri+2)*triangle_num] = k;
-                    col[2+(3*tri+2)*triangle_num] = 2;
-                    col[3+(3*tri+2)*triangle_num] = tri + 1;
+                    row[3 * tri + 2 + 0 * 3 * triangle_num] = i;
+                    row[3 * tri + 2 + 1 * 3 * triangle_num] = k;
+                    row[3 * tri + 2 + 2 * 3 * triangle_num] = 3;
+                    row[3 * tri + 2 + 3 * 3 * triangle_num] = tri + 1;
                 }
             }
 
@@ -139,7 +137,7 @@ namespace Burkardt.TriangulationNS
             //  we make sure that these two rows occur consecutively.  That will
             //  make it easy to notice that the triangles are neighbors.
             //
-            typeMethods.i4col_sort_a(4, 3 * triangle_num, ref col);
+            typeMethods.i4row_sort_a(3 * triangle_num, 4, ref row);
             //
             //  Step 3. Neighboring triangles show up as consecutive rows with
             //  identical first two entries.  Whenever you spot this happening,
@@ -153,31 +151,31 @@ namespace Burkardt.TriangulationNS
                 }
             }
 
-            icol = 1;
+            irow = 1;
 
             for (;;)
             {
-                if (3 * triangle_num <= icol)
+                if (3 * triangle_num <= irow)
                 {
                     break;
                 }
 
-                if ( col[0+(icol-1)*4] != col[0+icol*4] || 
-                     col[1+(icol-1)*4] != col[1+icol*4] )
+                if (row[irow - 1 + 0 * 3 * triangle_num] != row[irow + 0 * 3 * triangle_num] ||
+                    row[irow - 1 + 1 * 3 * triangle_num] != row[irow + 1 * 3 * triangle_num])
                 {
-                    icol = icol + 1;
+                    irow = irow + 1;
                     continue;
                 }
 
-                side1 = col[2+(icol-1)*4];
-                tri1 =  col[3+(icol-1)*4];
-                side2 = col[2+ icol   *4];
-                tri2 =  col[3+ icol   *4];
+                side1 = row[irow - 1 + 2 * 3 * triangle_num];
+                tri1 = row[irow - 1 + 3 * 3 * triangle_num];
+                side2 = row[irow + 2 * 3 * triangle_num];
+                tri2 = row[irow + 3 * 3 * triangle_num];
 
-                triangle_neighbor[side1-1+(tri1-1)*3] = tri2;
-                triangle_neighbor[side2-1+(tri2-1)*3] = tri1;
+                triangle_neighbor[side1 - 1 + (tri1 - 1) * 3] = tri2;
+                triangle_neighbor[side2 - 1 + (tri2 - 1) * 3] = tri1;
 
-                icol = icol + 2;
+                irow = irow + 2;
             }
         }
     }

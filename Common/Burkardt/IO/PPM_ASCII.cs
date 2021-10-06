@@ -777,9 +777,9 @@ namespace Burkardt.IO
                 rgb_num = 0;
 
                 int index = 0;
+                string tmp = "";
                 for (j = 0; j < ysize; j++)
                 {
-                    string tmp = "";
                     for (i = 0; i < xsize; i++)
                     {
                         tmp += r[index] + " " + g[index] + " " + b[index];

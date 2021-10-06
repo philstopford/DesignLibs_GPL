@@ -134,24 +134,27 @@ namespace MandelbrotPMMASCIITest
             r = new int[n * n];
             g = new int[n * n];
             b = new int[n * n];
+            int index = 0;
 
             for (i = 0; i < n; i++)
             {
                 for (j = 0; j < n; j++)
                 {
+                    index = i + j * n;
                     if (count[i + j * n] % 2 == 1)
                     {
-                        r[i + j * n] = 255;
-                        g[i + j * n] = 255;
-                        b[i + j * n] = 255;
+                        r[index] = 255;
+                        g[index] = 255;
+                        b[index] = 255;
                     }
                     else
                     {
                         c = (int) (255.0 * Math.Sqrt(Math.Sqrt(Math.Sqrt(
                             ((double) (count[i + j * n]) / (double) (c_max))))));
-                        r[i + j * n] = 3 * c / 5;
-                        g[i + j * n] = 3 * c / 5;
-                        b[i + j * n] = c;
+                        int v = 3 * c / 5;
+                        r[index] = v;
+                        g[index] = v;
+                        b[index] = c;
                     }
                 }
             }

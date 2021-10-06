@@ -204,7 +204,7 @@ namespace Burkardt.PiecewiseLinear
             
             for ( i = 0; i < ni; i++ )
             {
-                Search.triangulation_search_delaunay (ref data, nd, xyd, 3, t_num, t, t_neighbor, 
+                Search.triangulation_search_delaunay_a (ref data, nd, xyd, 3, t_num, t, t_neighbor, 
                     xyi, ref j, ref alpha, ref beta, ref gamma, ref edge, ref step_num, pIndex: +2*i);
 
                 if ( j == -1 )

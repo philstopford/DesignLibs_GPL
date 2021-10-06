@@ -214,7 +214,7 @@ namespace FEM2DProjectTest
             //
             //  Create the sample element neighbor array.
             //
-            Neighbor.triangulation_order3_neighbor_triangles(
+            Neighbor.triangulation_order3_neighbor_triangles_a(
                 sample_element_num, sample_element_node, ref sample_element_neighbor);
 
             Console.WriteLine("");

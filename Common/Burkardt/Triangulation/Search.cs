@@ -1,4 +1,6 @@
 ﻿using System;
+using Burkardt.Uniform;
+using entropyRNG;
 
 namespace Burkardt.TriangulationNS
 {
@@ -9,7 +11,232 @@ namespace Burkardt.TriangulationNS
     
     public static class Search
     {
-        public static void triangulation_search_delaunay(ref DelaunaySearchData data, int node_num, double[] node_xy,
+
+        public static void triangulation_search_delaunay ( int node_num, double[] node_xy, int triangle_order,
+        int triangle_num, int[] triangle_node, int[] triangle_neighbor, 
+        double[] p, ref int triangle, ref int edge )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    TRIANGULATION_SEARCH_DELAUNAY searches a triangulation for a point.
+        //
+        //  Discussion:
+        //
+        //    The algorithm "walks" from one triangle to its neighboring triangle,
+        //    and so on, until a triangle is found containing point P, or P is found 
+        //    to be outside the convex hull.  
+        //
+        //    The algorithm computes the barycentric coordinates of the point with 
+        //    respect to the current triangle.  If all three quantities are positive,
+        //    the point is contained in the triangle.  If the I-th coordinate is
+        //    negative, then (X,Y) lies on the far side of edge I, which is opposite
+        //    from vertex I.  This gives a hint as to where to search next.
+        //
+        //    For a Delaunay triangulation, the search is guaranteed to terminate.
+        //    For other triangulations, a cycle may occur.
+        //
+        //    Note the surprising fact that, even for a Delaunay triangulation of
+        //    a set of nodes, the nearest point to (X,Y) need not be one of the
+        //    vertices of the triangle containing (X,Y).  
+        //
+        //    The code can be called for triangulations of any order, but only
+        //    the first three nodes in each triangle are considered.  Thus, if
+        //    higher order triangles are used, and the extra nodes are intended
+        //    to give the triangle a polygonal shape, these will have no effect,
+        //    and the results obtained here might be misleading.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    27 September 2006
+        //
+        //  Author:
+        //
+        //    Barry Joe,
+        //    Department of Computing Science,
+        //    University of Alberta,
+        //    Edmonton, Alberta, Canada  T6G 2H1
+        //
+        //  Reference:
+        //
+        //    Barry Joe,
+        //    GEOMPACK - a software package for the generation of meshes
+        //    using geometric algorithms,
+        //    Advances in Engineering Software,
+        //    Volume 13, pages 325-331, 1991.
+        //
+        //  Parameters:
+        //
+        //    Input, int NODE_NUM, the number of nodes.
+        //
+        //    Input, double NODE_XY[2*NODE_NUM], the coordinates of the nodes.
+        //
+        //    Input, int TRIANGLE_ORDER, the order of the triangles.
+        //
+        //    Input, int TRIANGLE_NUM, the number of triangles in the triangulation.
+        //
+        //    Input, int TRIANGLE_NODE[TRIANGLE_ORDER*TRIANGLE_NUM], 
+        //    the nodes of each triangle.
+        //
+        //    Input, int TRIANGLE_NEIGHBOR[3*TRIANGLE_NUM], the triangle neighbor list.
+        //
+        //    Input, double P[2], the coordinates of a point.
+        //
+        //    Output, int *TRIANGLE, the index of the triangle where the search ended.
+        //    If a cycle occurred, then TRIANGLE = -1.
+        //
+        //    Output, int *EDGE, indicates the position of the point (X,Y) in
+        //    triangle TRIANGLE:
+        //    0, the interior or boundary of the triangle;
+        //    -1, outside the convex hull of the triangulation, past edge 1;
+        //    -2, outside the convex hull of the triangulation, past edge 2;
+        //    -3, outside the convex hull of the triangulation, past edge 3.
+        //
+        {
+            int a;
+            double alpha;
+            int b;
+            double beta;
+            int c;
+            int count;
+            double det;
+            double dxp;
+            double dxa;
+            double dxb;
+            double dyp;
+            double dya;
+            double dyb;
+            double gamma;
+            int seed;
+
+            count = 0;
+            edge = 0;
+
+            seed = RNG.nextint();
+
+            triangle = UniformRNG.i4_uniform(1, triangle_num, ref seed);
+
+            for (;;)
+            {
+                count = count + 1;
+
+                if (triangle_num < count)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("TRIANGULATION_SEARCH_DELAUNAY - Fatal error!");
+                    Console.WriteLine("  The algorithm seems to be cycling.");
+                    Console.WriteLine("  Current triangle is " + triangle + "");
+                    triangle = -1;
+                    edge = -1;
+                    return;
+                }
+
+                //
+                //  Get the vertices of triangle TRIANGLE.
+                //
+                a = triangle_node[0 + (triangle - 1) * triangle_order] - 1;
+                b = triangle_node[1 + (triangle - 1) * triangle_order] - 1;
+                c = triangle_node[2 + (triangle - 1) * triangle_order] - 1;
+                //
+                //  Using vertex C as a base, compute the distances to vertices A and B,
+                //  and the point (X,Y).
+                //
+                dxa = node_xy[0 + a * 2] - node_xy[0 + c * 2];
+                dya = node_xy[1 + a * 2] - node_xy[1 + c * 2];
+
+                dxb = node_xy[0 + b * 2] - node_xy[0 + c * 2];
+                dyb = node_xy[1 + b * 2] - node_xy[1 + c * 2];
+
+                dxp = p[0] - node_xy[0 + c * 2];
+                dyp = p[1] - node_xy[1 + c * 2];
+
+                det = dxa * dyb - dya * dxb;
+                //
+                //  Compute the barycentric coordinates of the point (X,Y) with respect
+                //  to this triangle.
+                //
+                alpha = (dxp * dyb - dyp * dxb) / det;
+                beta = (dxa * dyp - dya * dxp) / det;
+                gamma = 1.0 - alpha - beta;
+                //
+                //  If the barycentric coordinates are all positive, then the point
+                //  is inside the triangle and we're done.
+                //
+                if (0.0 <= alpha &&
+                    0.0 <= beta &&
+                    0.0 <= gamma)
+                {
+                    break;
+                }
+
+                //
+                //  At least one barycentric coordinate is negative.
+                //
+                //  If there is a negative barycentric coordinate for which there exists
+                //  an opposing triangle neighbor closer to the point, move to that triangle.
+                //
+                //  (Two coordinates could be negative, in which case we could go for the
+                //  most negative one, or the most negative one normalized by the actual
+                //  distance it represents).
+                //
+                if (alpha < 0.0 && 0 <= triangle_neighbor[1 + (triangle - 1) * 3])
+                {
+                    triangle = triangle_neighbor[1 + (triangle - 1) * 3];
+                    continue;
+                }
+                else if (beta < 0.0 && 0 <= triangle_neighbor[2 + (triangle - 1) * 3])
+                {
+                    triangle = triangle_neighbor[2 + (triangle - 1) * 3];
+                    continue;
+                }
+                else if (gamma < 0.0 && 0 <= triangle_neighbor[0 + (triangle - 1) * 3])
+                {
+                    triangle = triangle_neighbor[0 + (triangle - 1) * 3];
+                    continue;
+                }
+
+                //
+                //  All negative barycentric coordinates correspond to vertices opposite
+                //  sides on the convex hull.
+                //
+                //  Note the edge and exit.
+                //
+                if (alpha < 0.0)
+                {
+                    edge = -2;
+                    break;
+                }
+                else if (beta < 0.0)
+                {
+                    edge = -3;
+                    break;
+                }
+                else if (gamma < 0.0)
+                {
+                    edge = -1;
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("TRIANGULATION_SEARCH - Fatal error!");
+                    Console.WriteLine("  The algorithm seems to have reached a dead end");
+                    Console.WriteLine("  after " + count + " steps.");
+                    triangle = -1;
+                    edge = -1;
+                    return;
+                }
+            }
+
+            return;
+        }
+
+        public static void triangulation_search_delaunay_a(ref DelaunaySearchData data, int node_num, double[] node_xy,
         int triangle_order, int triangle_num, int[] triangle_node,
         int[] triangle_neighbor, double[] p, ref int triangle_index,
         ref double alpha, ref double beta, ref double gamma, ref int edge,

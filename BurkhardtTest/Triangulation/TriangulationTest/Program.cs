@@ -2707,7 +2707,7 @@ namespace TriangulationTest
                      + dnear.ToString().PadLeft(8) + "  "
                      + nnear.ToString().PadLeft(8) + "");
 
-                Search.triangulation_search_delaunay(ref data, NODE_NUM, node_xy, TRIANGLE_ORDER, triangle_num,
+                Search.triangulation_search_delaunay_a(ref data, NODE_NUM, node_xy, TRIANGLE_ORDER, triangle_num,
                     triangle_node, triangle_neighbor, p, ref triangle_index,
                     ref alpha, ref beta, ref gamma, ref edge, ref step_num);
 
@@ -2855,7 +2855,7 @@ namespace TriangulationTest
                 triangle_index1 = Search.triangulation_search_naive(NODE_NUM, node_xy,
                     TRIANGLE_ORDER, triangle_num, triangle_node, p_test, pIndex: + DIM_NUM * test);
 
-                Search.triangulation_search_delaunay(ref data, NODE_NUM, node_xy, TRIANGLE_ORDER,
+                Search.triangulation_search_delaunay_a(ref data, NODE_NUM, node_xy, TRIANGLE_ORDER,
                     triangle_num, triangle_node, triangle_neighbor, p_test,
                     ref triangle_index2, ref alpha, ref beta, ref gamma, ref edge, ref step_num, pIndex:  + DIM_NUM * test);
 

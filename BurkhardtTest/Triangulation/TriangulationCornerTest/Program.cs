@@ -174,12 +174,12 @@ namespace TriangulationCornerTest
 
                 if (triangle_order == 3)
                 {
-                    Neighbor.triangulation_order3_neighbor_triangles(
+                    Neighbor.triangulation_order3_neighbor_triangles_a(
                         triangle_num, triangle_node, ref triangle_neighbor);
                 }
                 else if (triangle_order == 6)
                 {
-                    Neighbor.triangulation_order6_neighbor_triangles(
+                    Neighbor.triangulation_order6_neighbor_triangles_a(
                         triangle_num, triangle_node, ref triangle_neighbor);
                 }
 

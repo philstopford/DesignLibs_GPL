@@ -112,7 +112,7 @@ namespace Burkardt.FEM
                 //
                 //  Find the triangle T that contains the point.
                 //
-                Search.triangulation_search_delaunay(ref data, fem_node_num, fem_node_xy,
+                Search.triangulation_search_delaunay_a(ref data, fem_node_num, fem_node_xy,
                     fem_element_order, fem_element_num, fem_element_node,
                     fem_element_neighbor, p_xy, ref t, ref alpha, ref beta, ref gammaa, ref edge, ref step);
 

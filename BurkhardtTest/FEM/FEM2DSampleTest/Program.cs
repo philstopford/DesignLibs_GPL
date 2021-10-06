@@ -166,13 +166,13 @@ namespace FEM2DSampleTest
             //
             if (fem_element_order == 3)
             {
-                Neighbor.triangulation_order3_neighbor_triangles(
-                    fem_element_num, fem_element_node, ref fem_element_neighbor);
+                fem_element_neighbor = Neighbor.triangulation_order3_neighbor_triangles(
+                    fem_element_num, fem_element_node);
             }
             else if (fem_element_order == 6)
             {
-                Neighbor.triangulation_order6_neighbor_triangles(
-                    fem_element_num, fem_element_node, ref fem_element_neighbor);
+                fem_element_neighbor = Neighbor.triangulation_order6_neighbor_triangles ( 
+                    fem_element_num, fem_element_node );
             }
             else
             {

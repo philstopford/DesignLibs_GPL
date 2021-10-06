@@ -4,75 +4,75 @@ namespace Burkardt.FEM
 {
     public static class FEM_2D_Evaluate
     {
-        public static double[] fem2d_evaluate(int fem_node_num, double[] fem_node_xy,
-                int fem_element_order, int fem_element_num, int[] fem_element_node,
-                int[] fem_element_neighbor, int fem_value_dim, double[] fem_value,
-                int sample_node_num, double[] sample_node_xy)
+        public static double[] fem2d_evaluate ( int fem_node_num, double[] fem_node_xy, 
+        int fem_element_order, int fem_element_num, int[] fem_element_node, 
+        int[] fem_element_neighbor, int fem_value_dim, double[] fem_value, 
+        int sample_node_num, double[] sample_node_xy )
 
-            //****************************************************************************80
-            //
-            //  Purpose:
-            //
-            //    GRID_SAMPLE samples a (scalar) FE function on a T3 or T6 triangulation.
-            //
-            //  Discussion:
-            //
-            //    Note that the values of U returned are true values of the underlying
-            //    finite element function.  They are NOT produced by constructing some
-            //    other function that interpolates the data at the finite element nodes
-            //    (something which MATLAB's griddata function can easily do.)  Instead, 
-            //    each sampling node is located within one of the associated finite
-            //    element triangles, and the finite element function is developed and 
-            //    evaluated there.  
-            //
-            //    MATLAB's scattered data interpolation is wonderful, but it cannot
-            //    be guaranteed to reproduce the finite element function corresponding
-            //    to nodal data.  This routine can.
-            // 
-            //    So if you are using finite elements, then using THIS routine
-            //    (but not MATLAB's griddata function), what you see is what you have.
-            //
-            //  Licensing:
-            //
-            //    This code is distributed under the GNU LGPL license. 
-            //
-            //  Modified:
-            //
-            //    01 June 2009
-            //
-            //  Author:
-            //
-            //    John Burkardt
-            //
-            //  Parameters:
-            //
-            //    Input, int FEM_NODE_NUM, the number of nodes.
-            //
-            //    Input, double FEM_NODE_XY[2*FEM_NODE_NUM], the coordinates of the nodes.
-            //
-            //    Input, int FEM_ELEMENT_ORDER, the order of the triangles, either
-            //    3 or 6.
-            //
-            //    Input, int FEM_ELEMENT_NUM, the number of triangles.
-            //
-            //    Input, int FEM_ELEMENT_NODE[FEM_ELEMENT_ORDER*FEM_ELEMENT_NUM], the
-            //    nodes that make up each element.
-            //
-            //    Input, int FEM_ELEMENT_NEIGHBOR[3*FEM_ELEMENT_NUM], the index of the
-            //    neighboring triangle on each side, or -1 if no neighbor there.
-            //
-            //    Input, int FEM_VALUE_DIM, the "dimension" of the values.
-            //
-            //    Input, double FEM_VALUE[FEM_VALUE_DIM*FEM_NODE_NUM], the finite element 
-            //    coefficient value at each node.
-            //
-            //    Input, int SAMPLE_NODE_NUM, the number of sample nodes.
-            //
-            //    Input, double SAMPLE_NODE_XY[2*SAMPLE_NODE_NUM], the sample nodes.
-            //
-            //    Output, double SAMPLE_VALUE[FEM_VALUE_DIM*SAMPLE_NODE_NUM],
-            //    the sampled values.
-            //
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    GRID_SAMPLE samples a (scalar) FE function on a T3 or T6 triangulation.
+        //
+        //  Discussion:
+        //
+        //    Note that the values of U returned are true values of the underlying
+        //    finite element function.  They are NOT produced by constructing some
+        //    other function that interpolates the data at the finite element nodes
+        //    (something which MATLAB's griddata function can easily do.)  Instead, 
+        //    each sampling node is located within one of the associated finite
+        //    element triangles, and the finite element function is developed and 
+        //    evaluated there.  
+        //
+        //    MATLAB's scattered data interpolation is wonderful, but it cannot
+        //    be guaranteed to reproduce the finite element function corresponding
+        //    to nodal data.  This routine can.
+        // 
+        //    So if you are using finite elements, then using THIS routine
+        //    (but not MATLAB's griddata function), what you see is what you have.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    01 June 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int FEM_NODE_NUM, the number of nodes.
+        //
+        //    Input, double FEM_NODE_XY[2*FEM_NODE_NUM], the coordinates of the nodes.
+        //
+        //    Input, int FEM_ELEMENT_ORDER, the order of the triangles, either
+        //    3 or 6.
+        //
+        //    Input, int FEM_ELEMENT_NUM, the number of triangles.
+        //
+        //    Input, int FEM_ELEMENT_NODE[FEM_ELEMENT_ORDER*FEM_ELEMENT_NUM], the
+        //    nodes that make up each element.
+        //
+        //    Input, int FEM_ELEMENT_NEIGHBOR[3*FEM_ELEMENT_NUM], the index of the
+        //    neighboring triangle on each side, or -1 if no neighbor there.
+        //
+        //    Input, int FEM_VALUE_DIM, the "dimension" of the values.
+        //
+        //    Input, double FEM_VALUE[FEM_VALUE_DIM*FEM_NODE_NUM], the finite element 
+        //    coefficient value at each node.
+        //
+        //    Input, int SAMPLE_NODE_NUM, the number of sample nodes.
+        //
+        //    Input, double SAMPLE_NODE_XY[2*SAMPLE_NODE_NUM], the sample nodes.
+        //
+        //    Output, double SAMPLE_VALUE[FEM_VALUE_DIM*SAMPLE_NODE_NUM],
+        //    the sampled values.
+        //
         {
             double[] b;
             double[] dbdx;
@@ -87,11 +87,6 @@ namespace Burkardt.FEM
             double[] sample_value;
             int[] t_node;
             double[] t_xy;
-            DelaunaySearchData data = new DelaunaySearchData();
-            double alpha = 0;
-            double beta = 0;
-            double gamma = 0;
-            int step = 0;
 
             b = new double[fem_element_order];
             dbdx = new double[fem_element_order];
@@ -110,9 +105,16 @@ namespace Burkardt.FEM
                 //
                 //  Find the triangle T that contains the point.
                 //
-                Search.triangulation_search_delaunay(ref data, fem_node_num, fem_node_xy,
+                /*
+                Search.triangulation_search_delaunay(fem_node_num, fem_node_xy,
                     fem_element_order, fem_element_num, fem_element_node,
-                    fem_element_neighbor, p_xy, ref t, ref alpha, ref beta, ref gamma, ref edge, ref step);
+                    fem_element_neighbor, p_xy, ref t, ref edge);
+                    */
+
+                Search.triangulation_search_delaunay ( fem_node_num, fem_node_xy, 
+                    fem_element_order, fem_element_num, fem_element_node, 
+                    fem_element_neighbor, p_xy, ref t, ref edge );
+
                 //
                 //  Evaluate the finite element basis functions at the point in T.
                 //

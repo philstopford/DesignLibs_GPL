@@ -7,7 +7,7 @@ namespace Burkardt.IO
 {
     public static class PPM_ASCII
     {
-        public static bool ppma_check_data(int xsize, int ysize, int rgb_max, int[] r,
+        public static bool ppma_check_data(int xsize, int ysize, ref int rgb_max, int[] r,
                 int[] g, int[] b)
 
             //****************************************************************************80
@@ -105,49 +105,68 @@ namespace Burkardt.IO
                 return true;
             }
 
-            for (k = 0; k < 3; k++)
+            for (k = 0; k < r.Length; k++)
             {
+                i = k % xsize;
+                j = (int)Math.Floor((double)k / xsize);
 
-                if (k == 0)
+                index = r[k];
+                c = 'R';
+                if (index < 0)
                 {
-                    index = r[k];
-                    c = 'R';
+                    Console.WriteLine("");
+                    Console.WriteLine("PPMA_CHECK_DATA - Fatal error!");
+                    Console.WriteLine("  Negative data.");
+                    Console.WriteLine("  " + c + "(" + i + "," + j + ")=" + index + "");
+                    return true;
                 }
-                else if (k == 1)
+                else if (rgb_max < index)
                 {
-                    index = g[k];
-                    c = 'G';
-                }
-                else if (k == 2)
-                {
-                    index = b[k];
-                    c = 'B';
+                    Console.WriteLine("");
+                    Console.WriteLine("PPMA_CHECK_DATA - Fatal error!");
+                    Console.WriteLine("  Data exceeds RGB_MAX = " + rgb_max + "");
+                    Console.WriteLine("  " + c + "(" + i + "," + j + ")=" + index + "");
+                    return true;
                 }
 
-                for (j = 0; j < ysize; j++)
+                index = g[k];
+                c = 'G';
+                if (index < 0)
                 {
-                    for (i = 0; i < xsize; i++)
-                    {
-                        if (index < 0)
-                        {
-                            Console.WriteLine("");
-                            Console.WriteLine("PPMA_CHECK_DATA - Fatal error!");
-                            Console.WriteLine("  Negative data.");
-                            Console.WriteLine("  " + c + "(" + i + "," + j + ")=" + index + "");
-                            return true;
-                        }
-                        else if (rgb_max < index)
-                        {
-                            Console.WriteLine("");
-                            Console.WriteLine("PPMA_CHECK_DATA - Fatal error!");
-                            Console.WriteLine("  Data exceeds RGB_MAX = " + rgb_max + "");
-                            Console.WriteLine("  " + c + "(" + i + "," + j + ")=" + index + "");
-                            return true;
-                        }
-
-                        index = index + 1;
-                    }
+                    Console.WriteLine("");
+                    Console.WriteLine("PPMA_CHECK_DATA - Fatal error!");
+                    Console.WriteLine("  Negative data.");
+                    Console.WriteLine("  " + c + "(" + i + "," + j + ")=" + index + "");
+                    return true;
                 }
+                else if (rgb_max < index)
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("PPMA_CHECK_DATA - Fatal error!");
+                    Console.WriteLine("  Data exceeds RGB_MAX = " + rgb_max + "");
+                    Console.WriteLine("  " + c + "(" + i + "," + j + ")=" + index + "");
+                    return true;
+                }
+
+                index = b[k];
+                c = 'B';
+                if (index < 0)
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("PPMA_CHECK_DATA - Fatal error!");
+                    Console.WriteLine("  Negative data.");
+                    Console.WriteLine("  " + c + "(" + i + "," + j + ")=" + index + "");
+                    return true;
+                }
+                else if (rgb_max < index)
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("PPMA_CHECK_DATA - Fatal error!");
+                    Console.WriteLine("  Data exceeds RGB_MAX = " + rgb_max + "");
+                    Console.WriteLine("  " + c + "(" + i + "," + j + ")=" + index + "");
+                    return true;
+                }
+
             }
 
             return false;
@@ -286,6 +305,7 @@ namespace Burkardt.IO
             string[] input;
             int numbytes;
 
+            int index = 0;
 
             try
             {
@@ -302,7 +322,7 @@ namespace Burkardt.IO
             //
             //  Read the header.
             //
-            error = ppma_read_header(ref input, ref xsize, ref ysize, ref rgb_max);
+            error = ppma_read_header(ref input, ref index, ref xsize, ref ysize, ref rgb_max);
 
             if (error)
             {
@@ -315,7 +335,7 @@ namespace Burkardt.IO
             //
             //  Allocate storage for the data.
             //
-            numbytes = xsize * ysize * sizeof(int);
+            numbytes = xsize * ysize;
 
             r = new int[numbytes];
             g = new int[numbytes];
@@ -323,7 +343,7 @@ namespace Burkardt.IO
             //
             //  Read the data.
             //
-            error = ppma_read_data(ref input, xsize, ysize, ref r, ref g, ref b);
+            error = ppma_read_data(ref input, ref index, xsize, ysize, ref r, ref g, ref b);
 
             if (error)
             {
@@ -336,7 +356,7 @@ namespace Burkardt.IO
             return false;
         }
 
-        public static bool ppma_read_data(ref string[] input, int xsize, int ysize, ref int[] r,
+        public static bool ppma_read_data(ref string[] input, ref int index, int xsize, int ysize, ref int[] r,
                     ref int[] g, ref int[] b)
 
                 //****************************************************************************80
@@ -371,30 +391,27 @@ namespace Burkardt.IO
                 //    false, if the data was read.
                 //
             {
-                int i;
-                int j;
-
                 int arrayIndex = 0;
-                int inputIndex = 0;
-                for (j = 0; j < ysize; j++)
+                while (index < input.Length)
                 {
-                    for (i = 0; i < xsize; i++)
+
+                    string[] tokens = Helpers.splitStringByWhitespace(input[index]);
+                    for (int i = 0; i < tokens.Length; i+=3)
                     {
-                        r[arrayIndex] = Convert.ToInt32(input[inputIndex]);
-                        inputIndex++;
-                        g[arrayIndex] = Convert.ToInt32(input[inputIndex]);
-                        inputIndex++;
-                        b[arrayIndex] = Convert.ToInt32(input[inputIndex]);
-                        inputIndex++;
+                        r[arrayIndex] = Convert.ToInt32(tokens[i]);
+                        g[arrayIndex] = Convert.ToInt32(tokens[i+1]);
+                        b[arrayIndex] = Convert.ToInt32(tokens[i+2]);
 
                         arrayIndex++;
                     }
+
+                    index++;
                 }
 
                 return false;
             }
 
-            public static bool ppma_read_header(ref string[] input, ref int xsize, ref int ysize,
+            public static bool ppma_read_header(ref string[] input, ref int index, ref int xsize, ref int ysize,
                     ref int rgb_max)
 
                 //****************************************************************************80
@@ -435,7 +452,6 @@ namespace Burkardt.IO
                 string word = "";
 
                 step = 0;
-                int index = 0;
 
                 while (true)
                 {
@@ -476,6 +492,8 @@ namespace Burkardt.IO
 
                         line = rest;
                         step = 1;
+                        index++;
+                        continue;
                     }
 
                     if (step == 1)
@@ -504,6 +522,8 @@ namespace Burkardt.IO
                         ysize = Convert.ToInt32(word);
                         line = rest;
                         step = 3;
+                        index++;
+                        continue;
                     }
 
                     if (step == 3)
@@ -517,6 +537,7 @@ namespace Burkardt.IO
 
                         rgb_max = Convert.ToInt32(word);
                         line = rest;
+                        index++;
                         break;
                     }
 
@@ -587,7 +608,7 @@ namespace Burkardt.IO
                 //
                 //  Check the data.
                 //
-                error = ppma_check_data(xsize, ysize, rgb_max, r, g, b);
+                error = ppma_check_data(xsize, ysize, ref rgb_max, r, g, b);
 
                 if (error)
                 {

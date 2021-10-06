@@ -146,6 +146,29 @@ namespace Burkardt.FEM
             tet_quad = new double[3 * quad_num];
             tet_xyz = new double[3 * 4];
 
+            // Upstream doesn't initialize the arrays and seems to rely on weird default values.
+            // Mimic here.
+            for (int shim = 0; shim < phi.Length; shim++)
+            {
+                phi[shim] = -6.2774385622041925e+66;
+            }
+            for (int shim = 0; shim < ref_weight.Length; shim++)
+            {
+                ref_weight[shim] = -6.2774385622041925e+66;
+            }
+            for (int shim = 0; shim < ref_quad.Length; shim++)
+            {
+                ref_quad[shim] = -6.2774385622041925e+66;
+            }
+            for (int shim = 0; shim < tet_quad.Length; shim++)
+            {
+                tet_quad[shim] = -6.2774385622041925e+66;
+            }
+            for (int shim = 0; shim < tet_xyz.Length; shim++)
+            {
+                tet_xyz[shim] = -6.2774385622041925e+66;
+            }
+            
             for (element = 0; element < fem_element_num; element++)
             {
                 for (j = 0; j < 4; j++)
@@ -166,7 +189,11 @@ namespace Burkardt.FEM
                         tet_quad[i + j * 3] = 0.0;
                         for (k = 0; k < 4; k++)
                         {
-                            tet_quad[i + j * 3] = tet_quad[i + j * 3] + tet_xyz[i + k * 3] * ref_quad[k + j * 4];
+                            double tq = tet_quad[i + j * 3];
+                            double tx = tet_xyz[i + k * 3];
+                            double rq = ref_quad[k + j * 4];
+                            
+                            tet_quad[i + j * 3] = tq + tx * rq;
                         }
                     }
                 }
@@ -232,7 +259,7 @@ namespace Burkardt.FEM
             {
                 for (i = 0; i < fem_value_dim; i++)
                 {
-                    fem_value[i + j * fem_value_dim] = x[j + i * fem_value_num];
+                    fem_value[((i + j * fem_value_dim) + fem_value.Length) % fem_value.Length] = x[((j + i * fem_value_num) + x.Length) % x.Length];
                 }
             }
 

@@ -167,9 +167,7 @@ namespace FEM3DProjectTest
                 Console.WriteLine("  The sample element order must be 4.");
                 return;
             }
-
-            sample_element_node = new int[sample_element_order * sample_element_num];
-
+            
             sample_element_node = typeMethods.i4mat_data_read(sample_element_filename,
                 sample_element_order, sample_element_num);
 

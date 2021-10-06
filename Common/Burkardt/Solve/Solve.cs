@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Types;
 
 namespace Burkardt.SolveNS
 {
@@ -377,13 +378,13 @@ namespace Burkardt.SolveNS
                 //
                 //  Find the maximum element in column I.
                 //
-                piv = Math.Abs(a[jcol - 1 + (jcol - 1) * n]);
+                piv = typeMethods.r8_abs(a[jcol - 1 + (jcol - 1) * n]);
                 ipiv = jcol;
                 for (i = jcol + 1; i <= n; i++)
                 {
-                    if (piv < Math.Abs(a[i - 1 + (jcol - 1) * n]))
+                    if (piv < typeMethods.r8_abs(a[i - 1 + (jcol - 1) * n]))
                     {
-                        piv = Math.Abs(a[i - 1 + (jcol - 1) * n]);
+                        piv = typeMethods.r8_abs(a[i - 1 + (jcol - 1) * n]);
                         ipiv = i;
                     }
                 }

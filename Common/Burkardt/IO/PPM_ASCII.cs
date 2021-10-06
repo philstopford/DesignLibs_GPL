@@ -105,68 +105,50 @@ namespace Burkardt.IO
                 return true;
             }
 
-            for (k = 0; k < r.Length; k++)
+            for ( k = 0; k < 3; k++ )
             {
-                i = k % xsize;
-                j = (int)Math.Floor((double)k / xsize);
+                float val = 0;
 
-                index = r[k];
-                c = 'R';
-                if (index < 0)
+                if ( k == 0 )
                 {
-                    Console.WriteLine("");
-                    Console.WriteLine("PPMA_CHECK_DATA - Fatal error!");
-                    Console.WriteLine("  Negative data.");
-                    Console.WriteLine("  " + c + "(" + i + "," + j + ")=" + index + "");
-                    return true;
+                    val = r[index];
+                    c = 'R';
                 }
-                else if (rgb_max < index)
+                else if ( k == 1 )
                 {
-                    Console.WriteLine("");
-                    Console.WriteLine("PPMA_CHECK_DATA - Fatal error!");
-                    Console.WriteLine("  Data exceeds RGB_MAX = " + rgb_max + "");
-                    Console.WriteLine("  " + c + "(" + i + "," + j + ")=" + index + "");
-                    return true;
+                    val = g[index];
+                    c = 'G';
+                }
+                else if ( k == 2 )
+                {
+                    val = b[index];
+                    c = 'B';
                 }
 
-                index = g[k];
-                c = 'G';
-                if (index < 0)
+                for ( j = 0; j < ysize; j++ )
                 {
-                    Console.WriteLine("");
-                    Console.WriteLine("PPMA_CHECK_DATA - Fatal error!");
-                    Console.WriteLine("  Negative data.");
-                    Console.WriteLine("  " + c + "(" + i + "," + j + ")=" + index + "");
-                    return true;
-                }
-                else if (rgb_max < index)
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("PPMA_CHECK_DATA - Fatal error!");
-                    Console.WriteLine("  Data exceeds RGB_MAX = " + rgb_max + "");
-                    Console.WriteLine("  " + c + "(" + i + "," + j + ")=" + index + "");
-                    return true;
-                }
+                    for ( i = 0; i < xsize; i++ )
+                    {
+                        if ( val < 0 )
+                        {
+                            Console.WriteLine("");
+                            Console.WriteLine("PPMA_CHECK_DATA - Fatal error!");
+                            Console.WriteLine("  Negative data.");
+                            Console.WriteLine("  " + c + "(" + i + "," + j + ")=" + val + "");
+                            return true;
+                        }
+                        else if ( rgb_max < val )
+                        {
+                            Console.WriteLine("");
+                            Console.WriteLine("PPMA_CHECK_DATA - Fatal error!");
+                            Console.WriteLine("  Data exceeds RGB_MAX = " + rgb_max + "");
+                            Console.WriteLine("  " + c + "(" + i + "," + j + ")=" + val + "");
+                            return true;
+                        }
 
-                index = b[k];
-                c = 'B';
-                if (index < 0)
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("PPMA_CHECK_DATA - Fatal error!");
-                    Console.WriteLine("  Negative data.");
-                    Console.WriteLine("  " + c + "(" + i + "," + j + ")=" + index + "");
-                    return true;
-                }
-                else if (rgb_max < index)
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("PPMA_CHECK_DATA - Fatal error!");
-                    Console.WriteLine("  Data exceeds RGB_MAX = " + rgb_max + "");
-                    Console.WriteLine("  " + c + "(" + i + "," + j + ")=" + index + "");
-                    return true;
-                }
-
+                        index = index + 1;
+                    }
+                } 
             }
 
             return false;
@@ -203,20 +185,20 @@ namespace Burkardt.IO
             //    true, if an error occurred.
             //
         {
-            int[] b_index;
+            int b_index;
             float f1;
             float f2;
             float f3;
-            int[] g_index;
+            int g_index;
             int i;
             int j;
-            int[] r_index;
+            int r_index;
             float x;
             float y;
 
-            r_index = r;
-            g_index = g;
-            b_index = b;
+            r_index = 0;
+            g_index = 0;
+            b_index = 0;
 
             int index = 0;
             for (i = 0; i < ysize; i++)
@@ -232,29 +214,29 @@ namespace Burkardt.IO
 
                     if (y <= f1)
                     {
-                        r_index[index] = (int) (255.0 * f1);
+                        r[index] = (int) (255.0 * f1);
                     }
                     else
                     {
-                        r_index[index] = 50;
+                        r[index] = 50;
                     }
 
                     if (y <= f2)
                     {
-                        g_index[index] = (int) (255.0 * f2);
+                        g[index] = (int) (255.0 * f2);
                     }
                     else
                     {
-                        g_index[index] = 150;
+                        g[index] = 150;
                     }
 
                     if (y <= f3)
                     {
-                        b_index[index] = (int) (255.0 * f3);
+                        b[index] = (int) (255.0 * f3);
                     }
                     else
                     {
-                        b_index[index] = 250;
+                        b[index] = 250;
                     }
 
                     index++;
@@ -671,41 +653,36 @@ namespace Burkardt.IO
                 //    false, if the file was written.
                 //
             {
-                int[] b_index;
                 bool error;
                 List<string> file_out = new List<string>();
-                int[] g_index;
                 int i;
                 int j;
-                int[] r_index;
+                int index;
                 int rgb_max;
 
                 //
                 //  Compute the maximum.
                 //
                 rgb_max = 0;
-                r_index = r;
-                g_index = g;
-                b_index = b;
+                index = 0;
 
-                int index = 0;
                 for (j = 0; j < ysize; j++)
                 {
                     for (i = 0; i < xsize; i++)
                     {
-                        if (rgb_max < r_index[index])
+                        if (rgb_max < r[index])
                         {
-                            rgb_max = r_index[index];
+                            rgb_max = r[index];
                         }
 
-                        if (rgb_max < g_index[index])
+                        if (rgb_max < g[index])
                         {
-                            rgb_max = g_index[index];
+                            rgb_max = g[index];
                         }
 
-                        if (rgb_max < b_index[index])
+                        if (rgb_max < b[index])
                         {
-                            rgb_max = b_index[index];
+                            rgb_max = b[index];
                         }
 
                         index++;
@@ -789,16 +766,10 @@ namespace Burkardt.IO
                 //    false, if the data was written.
                 //
             {
-                int[] b_index;
-                int[] g_index;
                 int i;
                 int j;
-                int[] r_index;
                 int rgb_num;
 
-                r_index = r;
-                g_index = g;
-                b_index = b;
                 rgb_num = 0;
 
                 int index = 0;
@@ -807,7 +778,7 @@ namespace Burkardt.IO
                     string tmp = "";
                     for (i = 0; i < xsize; i++)
                     {
-                        tmp += r_index[index] + " " + g_index[index] + " " + b_index[index];
+                        tmp += r[index] + " " + g[index] + " " + b[index];
                         rgb_num = rgb_num + 3;
 
                         if (rgb_num % 12 == 0 || i == xsize - 1 || rgb_num == 3 * xsize * ysize)

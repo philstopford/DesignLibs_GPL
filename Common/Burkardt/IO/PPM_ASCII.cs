@@ -149,6 +149,10 @@ namespace Burkardt.IO
                         index = index + 1;
                     }
                 } 
+                if (index >= r.Length)
+                {
+                    break;
+                }
             }
 
             return false;
@@ -790,9 +794,9 @@ namespace Burkardt.IO
                         {
                             tmp += " ";
                         }
+                        index++;
                     }
 
-                    index++;
                 }
 
                 return false;

@@ -95,12 +95,12 @@ namespace Burkardt.MeasureNS
                 b_index = triangle_node[1 + triangle * triangle_order];
                 c_index = triangle_node[2 + triangle * triangle_order];
 
-                a_x = z[0 + (a_index - 1) * 2];
-                a_y = z[1 + (a_index - 1) * 2];
-                b_x = z[0 + (b_index - 1) * 2];
-                b_y = z[1 + (b_index - 1) * 2];
-                c_x = z[0 + (c_index - 1) * 2];
-                c_y = z[1 + (c_index - 1) * 2];
+                a_x = z[((0 + (a_index - 1) * 2) + z.Length) % z.Length];
+                a_y = z[((1 + (a_index - 1) * 2) + z.Length) % z.Length];
+                b_x = z[((0 + (b_index - 1) * 2) + z.Length) % z.Length];
+                b_y = z[((1 + (b_index - 1) * 2) + z.Length) % z.Length];
+                c_x = z[((0 + (c_index - 1) * 2) + z.Length) % z.Length];
+                c_y = z[((1 + (c_index - 1) * 2) + z.Length) % z.Length];
 
                 area = 0.5 * Math.Abs(a_x * (b_y - c_y)
                                       + b_x * (c_y - a_y)
@@ -370,12 +370,12 @@ namespace Burkardt.MeasureNS
 
             for (triangle = 0; triangle < triangle_num; triangle++)
             {
-                x1 = z[0 + (triangle_node[0 + triangle * triangle_order] - 1) * 2];
-                y1 = z[1 + (triangle_node[0 + triangle * triangle_order] - 1) * 2];
-                x2 = z[0 + (triangle_node[1 + triangle * triangle_order] - 1) * 2];
-                y2 = z[1 + (triangle_node[1 + triangle * triangle_order] - 1) * 2];
-                x3 = z[0 + (triangle_node[2 + triangle * triangle_order] - 1) * 2];
-                y3 = z[1 + (triangle_node[2 + triangle * triangle_order] - 1) * 2];
+                x1 = z[((0 + (triangle_node[0 + triangle * triangle_order] - 1) * 2) + z.Length) % z.Length];
+                y1 = z[((1 + (triangle_node[0 + triangle * triangle_order] - 1) * 2) + z.Length) % z.Length];
+                x2 = z[((0 + (triangle_node[1 + triangle * triangle_order] - 1) * 2) + z.Length) % z.Length];
+                y2 = z[((1 + (triangle_node[1 + triangle * triangle_order] - 1) * 2) + z.Length) % z.Length];
+                x3 = z[((0 + (triangle_node[2 + triangle * triangle_order] - 1) * 2) + z.Length) % z.Length];
+                y3 = z[((1 + (triangle_node[2 + triangle * triangle_order] - 1) * 2) + z.Length) % z.Length];
 
                 area = 0.5 * Math.Abs(x1 * (y2 - y3)
                                       + x2 * (y3 - y1)
@@ -400,12 +400,12 @@ namespace Burkardt.MeasureNS
             area_std = 0.0;
             for (triangle = 0; triangle < triangle_num; triangle++)
             {
-                x1 = z[0 + (triangle_node[0 + triangle * triangle_order] - 1) * 2];
-                y1 = z[1 + (triangle_node[0 + triangle * triangle_order] - 1) * 2];
-                x2 = z[0 + (triangle_node[1 + triangle * triangle_order] - 1) * 2];
-                y2 = z[1 + (triangle_node[1 + triangle * triangle_order] - 1) * 2];
-                x3 = z[0 + (triangle_node[2 + triangle * triangle_order] - 1) * 2];
-                y3 = z[1 + (triangle_node[2 + triangle * triangle_order] - 1) * 2];
+                x1 = z[((0 + (triangle_node[0 + triangle * triangle_order] - 1) * 2) + z.Length) % z.Length];
+                y1 = z[((1 + (triangle_node[0 + triangle * triangle_order] - 1) * 2) + z.Length) % z.Length];
+                x2 = z[((0 + (triangle_node[1 + triangle * triangle_order] - 1) * 2) + z.Length) % z.Length];
+                y2 = z[((1 + (triangle_node[1 + triangle * triangle_order] - 1) * 2) + z.Length) % z.Length];
+                x3 = z[((0 + (triangle_node[2 + triangle * triangle_order] - 1) * 2) + z.Length) % z.Length];
+                y3 = z[((1 + (triangle_node[2 + triangle * triangle_order] - 1) * 2) + z.Length) % z.Length];
 
                 area = 0.5 * Math.Abs(x1 * (y2 - y3)
                                       + x2 * (y3 - y1)
@@ -547,28 +547,28 @@ namespace Burkardt.MeasureNS
                 c_index = triangle_node[2 + triangle * triangle_order];
 
                 ab_length = Math.Sqrt(
-                    Math.Pow(z[0 + (a_index - 1) * 2] - z[0 + (b_index - 1) * 2], 2)
-                    + Math.Pow(z[1 + (a_index - 1) * 2] - z[1 + (b_index - 1) * 2], 2));
+                    Math.Pow(z[((0 + (a_index - 1) * 2) + z.Length) % z.Length] - z[((0 + (b_index - 1) * 2) + z.Length) % z.Length], 2)
+                    + Math.Pow(z[((1 + (a_index - 1) * 2) + z.Length) % z.Length] - z[((1 + (b_index - 1) * 2) + z.Length) % z.Length], 2));
 
                 bc_length = Math.Sqrt(
-                    Math.Pow(z[0 + (b_index - 1) * 2] - z[0 + (c_index - 1) * 2], 2)
-                    + Math.Pow(z[1 + (b_index - 1) * 2] - z[1 + (c_index - 1) * 2], 2));
+                    Math.Pow(z[((0 + (b_index - 1) * 2) + z.Length) % z.Length] - z[((0 + (c_index - 1) * 2) + z.Length) % z.Length], 2)
+                    + Math.Pow(z[((1 + (b_index - 1) * 2) + z.Length) % z.Length] - z[((1 + (c_index - 1) * 2) + z.Length) % z.Length], 2));
 
                 ca_length = Math.Sqrt(
-                    Math.Pow(z[0 + (c_index - 1) * 2] - z[0 + (a_index - 1) * 2], 2)
-                    + Math.Pow(z[1 + (c_index - 1) * 2] - z[1 + (a_index - 1) * 2], 2));
+                    Math.Pow(z[((0 + (c_index - 1) * 2) + z.Length) % z.Length] - z[((0 + (a_index - 1) * 2) + z.Length) % z.Length], 2)
+                    + Math.Pow(z[((1 + (c_index - 1) * 2) + z.Length) % z.Length] - z[((1 + (a_index - 1) * 2) + z.Length) % z.Length], 2));
 
                 q = (bc_length + ca_length - ab_length)
                     * (ca_length + ab_length - bc_length)
                     * (ab_length + bc_length - ca_length)
                     / (ab_length * bc_length * ca_length);
 
-                x1 = z[0 + (triangle_node[0 + triangle * triangle_order] - 1) * 2];
-                y1 = z[1 + (triangle_node[0 + triangle * triangle_order] - 1) * 2];
-                x2 = z[0 + (triangle_node[1 + triangle * triangle_order] - 1) * 2];
-                y2 = z[1 + (triangle_node[1 + triangle * triangle_order] - 1) * 2];
-                x3 = z[0 + (triangle_node[2 + triangle * triangle_order] - 1) * 2];
-                y3 = z[1 + (triangle_node[2 + triangle * triangle_order] - 1) * 2];
+                x1 = z[((0 + (triangle_node[0 + triangle * triangle_order] - 1) * 2) + z.Length) % z.Length];
+                y1 = z[((1 + (triangle_node[0 + triangle * triangle_order] - 1) * 2) + z.Length) % z.Length];
+                x2 = z[((0 + (triangle_node[1 + triangle * triangle_order] - 1) * 2) + z.Length) % z.Length];
+                y2 = z[((1 + (triangle_node[1 + triangle * triangle_order] - 1) * 2) + z.Length) % z.Length];
+                x3 = z[((0 + (triangle_node[2 + triangle * triangle_order] - 1) * 2) + z.Length) % z.Length];
+                y3 = z[((1 + (triangle_node[2 + triangle * triangle_order] - 1) * 2) + z.Length) % z.Length];
 
                 area = 0.5 * Math.Abs(x1 * (y2 - y3)
                                     + x2 * (y3 - y1)

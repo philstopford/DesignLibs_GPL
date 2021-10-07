@@ -463,17 +463,6 @@ namespace Burkardt.TriangulationNS
                 icol = icol + 2;
             }
             
-            //
-            //  Convert to 0-based index.
-            //
-            for (j = 0; j < triangle_num; j++)
-            {
-                for (i = 0; i < 3; i++)
-                {
-                    triangle_neighbor[i + 3 * j] = triangle_neighbor[i + 3 * j] - 1;
-                }
-            }
-
             return triangle_neighbor;
         }
 

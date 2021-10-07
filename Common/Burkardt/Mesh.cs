@@ -173,8 +173,7 @@ namespace Burkardt.MeshNS
                 {
                     for (order = 0; order < element_order; order++)
                     {
-                        element_node[order + element * element_order] =
-                            element_node[order + element * element_order] - 1;
+                        element_node[order + element * element_order]--;
                     }
                 }
             }

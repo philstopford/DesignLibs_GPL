@@ -71,10 +71,10 @@ namespace Burkardt.TriangulationNS
 
             for (j = 0; j < triangle_num; j++)
             {
-                edge[0 + (j) * m] = triangle_node[0 + j * 3];
+                edge[0 + (j                   ) * m] = triangle_node[0 + j * 3];
                 edge[1 + (j) * m] = triangle_node[1 + j * 3];
-                edge[0 + (j + triangle_num) * m] = triangle_node[1 + j * 3];
-                edge[1 + (j + triangle_num) * m] = triangle_node[2 + j * 3];
+                edge[0 + (j +     triangle_num) * m] = triangle_node[1 + j * 3];
+                edge[1 + (j +     triangle_num) * m] = triangle_node[2 + j * 3];
                 edge[0 + (j + 2 * triangle_num) * m] = triangle_node[2 + j * 3];
                 edge[1 + (j + 2 * triangle_num) * m] = triangle_node[0 + j * 3];
             }

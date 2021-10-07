@@ -168,6 +168,17 @@ namespace TriangulationDelauneyDiscrepancyTest
             triangle_neighbor = NeighborElements.triangulation_neighbor_triangles(triangle_order,
                 triangle_num, triangle_node);
 
+            //
+            //  Convert to 0-based index.
+            //
+            for (int j = 0; j < triangle_num; j++)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    triangle_neighbor[i + 3 * j] = triangle_neighbor[i + 3 * j] - 1;
+                }
+            }
+            
             typeMethods.i4mat_transpose_print_some(3, triangle_num, triangle_neighbor,
                 1, 1, 3, 10, "  First 10 triangle neighbors:");
             //

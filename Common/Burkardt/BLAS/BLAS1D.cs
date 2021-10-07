@@ -1569,7 +1569,7 @@ namespace Burkardt.BLAS
                     y[i + 1 + yIndex] = temp;
 
                     temp = x[i + 2 + xIndex];
-                    x[i + 2 + xIndex] = y[i + 2] + yIndex;
+                    x[i + 2 + xIndex] = y[i + 2 + yIndex];
                     y[i + 2 + yIndex] = temp;
                 }
             }

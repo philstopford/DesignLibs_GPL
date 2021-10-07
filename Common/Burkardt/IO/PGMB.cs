@@ -77,12 +77,11 @@ namespace Burkardt.IO
             }
 
             int index = 0;
-
             for (j = 0; j < ysize; j++)
             {
                 for (i = 0; i < xsize; i++)
                 {
-                    if (maxg < index)
+                    if (maxg < g[index])
                     {
                         Console.WriteLine("");
                         Console.WriteLine("PGMB_CHECK_DATA - Fatal error!");
@@ -91,7 +90,7 @@ namespace Burkardt.IO
                         return true;
                     }
 
-                    index = index + 1;
+                    index++;
                 }
             }
 
@@ -198,7 +197,7 @@ namespace Burkardt.IO
         {
             bool error;
             string[] input;
-            int inputIndex = 0;
+            int inputIndex = -1;
 
             try
             {
@@ -282,12 +281,15 @@ namespace Burkardt.IO
             int i;
             int j;
 
+            c = 0;            
+            
             for (j = 0; j < ysize; j++)
             {
                 for (i = 0; i < xsize; i++)
                 {
-                    g[inputIndex] = Convert.ToInt32(input[inputIndex]);
+                    g[c] = Convert.ToInt32(input[inputIndex]);
                     inputIndex++;
+                    c++;
                 }
             }
 
@@ -334,6 +336,7 @@ namespace Burkardt.IO
             string word = "";
 
             step = 0;
+            inputIndex = 0;
 
             while (true)
             {

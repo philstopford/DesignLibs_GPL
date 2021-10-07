@@ -147,39 +147,23 @@ namespace Burkardt.MeshNS
             //
         {
             int element;
-            const int i4_huge = 2147483647;
             int node;
             int node_max;
             int node_min;
             int order;
 
-            node_min = +i4_huge;
-            node_max = -i4_huge;
+            node_min = node_num + 1;
+            node_max = -1;
             for (element = 0; element < element_num; element++)
             {
                 for (order = 0; order < element_order; order++)
                 {
                     node = element_node[order + element * element_order];
-                    if (node < node_min)
-                    {
-                        node_min = node;
-                    }
-
-                    if (node_max < node)
-                    {
-                        node_max = node;
-                    }
-                }
+                    node_min = Math.Min ( node_min, node );
+                    node_max = Math.Max ( node_max, node );                }
             }
 
-            if (node_min == 0 && node_max == node_num - 1)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("MESH_BASE_ZERO:");
-                Console.WriteLine("  The element indexing appears to be 0-based!");
-                Console.WriteLine("  No conversion is necessary.");
-            }
-            else if (node_min == 1 && node_max == node_num)
+            if (node_min == 1 && node_max == node_num)
             {
                 Console.WriteLine("");
                 Console.WriteLine("MESH_BASE_ZERO:");
@@ -193,6 +177,13 @@ namespace Burkardt.MeshNS
                             element_node[order + element * element_order] - 1;
                     }
                 }
+            }
+            else if (node_min == 0 && node_max == node_num - 1)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("MESH_BASE_ZERO:");
+                Console.WriteLine("  The element indexing appears to be 0-based!");
+                Console.WriteLine("  No conversion is necessary.");
             }
             else
             {

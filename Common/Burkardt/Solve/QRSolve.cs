@@ -395,6 +395,11 @@ namespace Burkardt.SolveNS
             r = new double[m];
             itask = 1;
 
+            for (int i = 0; i < qraux.Length; i++)
+            {
+                qraux[i] = -6.2774385622041925e+66;
+            }
+
             dqrls ( ref a_qr, lda, m, n, tol, ref kr, b, ref x, ref r, jpvt, qraux, itask );
 
             return x;
@@ -598,7 +603,10 @@ namespace Burkardt.SolveNS
             bool swapj;
             double t;
             double tt;
-
+            int xIndex = 0;
+            int yIndex = 0;
+            int index = 0;
+            
             pl = 1;
             pu = 0;
             //
@@ -623,7 +631,9 @@ namespace Burkardt.SolveNS
                     {
                         if (j != pl)
                         {
-                            BLAS1D.dswap(n, ref a, 1, ref a, 1, + 0 + (j - 1), 0 + (pl - 1) * lda);
+                            xIndex = +0 + (pl - 1);
+                            yIndex = 0 + (j - 1) * lda;
+                            BLAS1D.dswap(n, ref a, 1, ref a, 1, xIndex, yIndex);
                         }
 
                         jpvt[j - 1] = jpvt[pl - 1];
@@ -642,7 +652,9 @@ namespace Burkardt.SolveNS
 
                         if (j != pu)
                         {
-                            BLAS1D.dswap(n, ref a, 1, ref a, 1, 0 + (pu - 1) * lda, 0 + (j - 1) * lda);
+                            xIndex = 0 + (pu - 1) * lda;
+                            yIndex = 0 + (j - 1) * lda;
+                            BLAS1D.dswap(n, ref a, 1, ref a, 1, xIndex, yIndex);
                             jp = jpvt[pu - 1];
                             jpvt[pu - 1] = jpvt[j - 1];
                             jpvt[j - 1] = jp;
@@ -658,7 +670,8 @@ namespace Burkardt.SolveNS
             //
             for (j = pl; j <= pu; j++)
             {
-                qraux[j - 1] = BLAS1D.dnrm2(n, a, 1, + 0 + (j - 1) * lda);
+                index = +0 + (j - 1) * lda;
+                qraux[j - 1] = BLAS1D.dnrm2(n, a, 1, index);
             }
 
             for (j = pl; j <= pu; j++)
@@ -691,7 +704,9 @@ namespace Burkardt.SolveNS
 
                     if (maxj != l)
                     {
-                        BLAS1D.dswap(n, ref a, 1, ref a, 1, + 0 + (l - 1) * lda, + 0 + (maxj - 1) * lda);
+                        xIndex = +0 + (l - 1) * lda;
+                        yIndex = +0 + (maxj - 1) * lda;
+                        BLAS1D.dswap(n, ref a, 1, ref a, 1, xIndex, yIndex);
                         qraux[maxj - 1] = qraux[l - 1];
                         work[maxj - 1] = work[l - 1];
                         jp = jpvt[maxj - 1];
@@ -707,31 +722,33 @@ namespace Burkardt.SolveNS
 
                 if (l != n)
                 {
-                    nrmxl = BLAS1D.dnrm2(n - l + 1, a, 1, + l - 1 + (l - 1) * lda);
+                    index = +l - 1 + (l - 1) * lda;
+                    nrmxl = BLAS1D.dnrm2(n - l + 1, a, 1, index);
 
                     if (nrmxl != 0.0)
                     {
                         if (a[l - 1 + (l - 1) * lda] != 0.0)
                         {
-                            nrmxl = nrmxl * typeMethods.r8_sign(a[l - 1 + (l - 1) * lda]);
+                            nrmxl = nrmxl * typeMethods.r8_sign(a[index]);
                         }
 
-                        BLAS1D.dscal(n - l + 1, 1.0 / nrmxl, ref a, 1, + l - 1 + (l - 1) * lda);
-                        a[l - 1 + (l - 1) * lda] = 1.0 + a[l - 1 + (l - 1) * lda];
+                        BLAS1D.dscal(n - l + 1, 1.0 / nrmxl, ref a, 1, index);
+                        a[index] = 1.0 + a[index];
                         //
                         //  Apply the transformation to the remaining columns, updating the norms.
                         //
                         for (j = l + 1; j <= p; j++)
                         {
-                            t = -BLAS1D.ddot(n - l + 1, a, 1, a, 1, + l - 1 + (l - 1) * lda, + l - 1 + (j - 1) * lda)
-                                / a[l - 1 + (l - 1) * lda];
-                            BLAS1D.daxpy(n - l + 1, t, a, 1, ref a, 1, + l - 1 + (l - 1) * lda, + l - 1 + (j - 1) * lda);
+                            yIndex = +l - 1 + (j - 1) * lda;
+                            t = -BLAS1D.ddot(n - l + 1, a, 1, a, 1, index, yIndex)
+                                / a[index];
+                            BLAS1D.daxpy(n - l + 1, t, a, 1, ref a, 1, index, yIndex);
 
                             if (pl <= j && j <= pu)
                             {
                                 if (qraux[j - 1] != 0.0)
                                 {
-                                    tt = 1.0 - Math.Pow(Math.Abs(a[l - 1 + (j - 1) * lda]) / qraux[j - 1], 2);
+                                    tt = 1.0 - Math.Pow(Math.Abs(a[yIndex]) / qraux[j - 1], 2);
                                     tt = Math.Max(tt, 0.0);
                                     t = tt;
                                     tt = 1.0 + 0.05 * tt * Math.Pow(qraux[j - 1] / work[j - 1], 2);
@@ -742,7 +759,8 @@ namespace Burkardt.SolveNS
                                     }
                                     else
                                     {
-                                        qraux[j - 1] = BLAS1D.dnrm2(n - l, a, 1, + l + (j - 1) * lda);
+                                        int index2 = +l + (j - 1) * lda;
+                                        qraux[j - 1] = BLAS1D.dnrm2(n - l, a, 1, index2);
                                         work[j - 1] = qraux[j - 1];
                                     }
                                 }
@@ -752,13 +770,11 @@ namespace Burkardt.SolveNS
                         //
                         //  Save the transformation.
                         //
-                        qraux[l - 1] = a[l - 1 + (l - 1) * lda];
-                        a[l - 1 + (l - 1) * lda] = -nrmxl;
+                        qraux[l - 1] = a[index];
+                        a[index] = -nrmxl;
                     }
                 }
             }
-
-            return;
         }
 
         public static int dqrls(ref double[] a, int lda, int m, int n, double tol, ref int kr, double[] b,

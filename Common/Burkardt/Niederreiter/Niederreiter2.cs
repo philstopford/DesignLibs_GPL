@@ -435,6 +435,10 @@ namespace Burkardt.NiederreiterNS
         {
             public int seed_save = 0;
             public int dim_save = 0;
+            
+            public int[,] cj = new int[DIM_MAX, NBITS];
+            public int[] nextq = new int[DIM_MAX];
+            public double RECIP = 1.0 / (double) (1 << NBITS);
 
             public NiederReiter2CalcData calcdata = new NiederReiter2CalcData();
 
@@ -495,12 +499,9 @@ namespace Burkardt.NiederreiterNS
             //    the values of XI(N), multiply by RECIP.
             //
         {
-            int[,] cj = new int[DIM_MAX, NBITS];
             int gray;
             int i;
-            int[] nextq = new int[DIM_MAX];
             int r;
-            double RECIP = 1.0 / (double) (1 << NBITS);
             //
             //  Initialization.
             //
@@ -525,7 +526,7 @@ namespace Burkardt.NiederreiterNS
                 //
                 //  Calculate the C array.
                 //
-                calcc2(ref data.calcdata, data.dim_save, ref cj);
+                calcc2(ref data.calcdata, data.dim_save, ref data.cj);
             }
 
             //
@@ -541,7 +542,7 @@ namespace Burkardt.NiederreiterNS
 
                 for (i = 0; i < data.dim_save; i++)
                 {
-                    nextq[i] = 0;
+                    data.nextq[i] = 0;
                 }
 
                 r = 0;
@@ -552,7 +553,7 @@ namespace Burkardt.NiederreiterNS
                     {
                         for (i = 0; i < data.dim_save; i++)
                         {
-                            nextq[i] = (nextq[i]) ^ (cj[i,r]);
+                            data.nextq[i] = (data.nextq[i]) ^ (data.cj[i,r]);
                         }
                     }
 
@@ -567,7 +568,7 @@ namespace Burkardt.NiederreiterNS
             //
             for (i = 0; i < data.dim_save; i++)
             {
-                quasi[index + i] = ((double) nextq[i]) * RECIP;
+                quasi[index + i] = ((double) data.nextq[i]) * data.RECIP;
             }
 
             //
@@ -600,7 +601,7 @@ namespace Burkardt.NiederreiterNS
             //
             for (i = 0; i < data.dim_save; i++)
             {
-                nextq[i] = (nextq[i]) ^ (cj[i,r]);
+                data.nextq[i] = (data.nextq[i]) ^ (data.cj[i,r]);
             }
 
             data.seed_save = seed;

@@ -134,7 +134,7 @@ namespace Burkardt.TriangulationNS
 
                     for (i = 0; i < 2; i++)
                     {
-                        node_xy2[i + node * 2] = (node_xy2[i + n1 * 2] + node_xy2[i + n2 * 2]) / 2.0;
+                        node_xy2[((i + node * 2) + node_xy2.Length) % node_xy2.Length] = (node_xy2[((i + n1 * 2) + node_xy2.Length) % node_xy2.Length] + node_xy2[((i + n2 * 2) + node_xy2.Length) % node_xy2.Length]) / 2.0;
                     }
 
                     node = node + 1;

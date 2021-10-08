@@ -3231,8 +3231,8 @@ namespace Burkardt.Types
             for (i = 0; i < n / 2; i++)
             {
                 j = a[aIndex + i];
-                a[aIndex + i] = a[aIndex + (n - 1 - i)];
-                a[aIndex + (n - 1 - i)] = j;
+                a[((aIndex + i) + a.Length) % a.Length] = a[((aIndex + (n - 1 - i)) + a.Length) % a.Length];
+                a[((aIndex + (n - 1 - i)) + a.Length) % a.Length] = j;
             }
         }
 

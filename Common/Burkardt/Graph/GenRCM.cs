@@ -96,29 +96,29 @@ namespace Burkardt.Graph
                 //
                 for (i = lbegin; i <= lvlend; i++)
                 {
-                    node = ls[lsIndex + (i - 1)];
-                    jstrt = -adj_row[node - 1];
+                    node = ls[((lsIndex + (i - 1)) + ls.Length) % ls.Length];
+                    jstrt = -adj_row[((node - 1) + adj_row.Length) % adj_row.Length];
                     jstop = Math.Abs(adj_row[node]) - 1;
                     ideg = 0;
 
                     for (j = jstrt; j <= jstop; j++)
                     {
-                        nbr = adj[j - 1];
+                        nbr = adj[((j - 1) + adj.Length) % adj.Length];
 
-                        if (mask[nbr - 1] != 0)
+                        if (mask[((nbr - 1) + mask.Length) % mask.Length] != 0)
                         {
                             ideg = ideg + 1;
 
-                            if (0 <= adj_row[nbr - 1])
+                            if (0 <= adj_row[((nbr - 1) + adj_row.Length) % adj_row.Length])
                             {
-                                adj_row[nbr - 1] = -adj_row[nbr - 1];
+                                adj_row[((nbr - 1) + adj_row.Length) % adj_row.Length] = -adj_row[((nbr - 1) + adj_row.Length) % adj_row.Length];
                                 iccsze = iccsze + 1;
-                                ls[lsIndex + (iccsze - 1)] = nbr;
+                                ls[((lsIndex + (iccsze - 1)) + ls.Length) % ls.Length] = nbr;
                             }
                         }
                     }
 
-                    deg[node - 1] = ideg;
+                    deg[((node - 1) + deg.Length) % deg.Length] = ideg;
                 }
 
                 //
@@ -139,8 +139,8 @@ namespace Burkardt.Graph
             //
             for (i = 0; i < iccsze; i++)
             {
-                node = ls[lsIndex + i] - 1;
-                adj_row[node] = -adj_row[node];
+                node = ls[((lsIndex + i) + ls.Length) % ls.Length] - 1;
+                adj_row[(node + adj_row.Length) % adj_row.Length] = -adj_row[(node + adj_row.Length) % adj_row.Length];
             }
         }
 
@@ -392,13 +392,13 @@ namespace Burkardt.Graph
 
                     for (j = jstrt; j <= jstop; j++)
                     {
-                        nbr = adj[j - 1];
+                        nbr = adj[((j - 1) + adj.Length) % adj.Length];
 
-                        if (mask[nbr - 1] != 0)
+                        if (mask[((nbr - 1) + mask.Length) % mask.Length] != 0)
                         {
                             iccsze = iccsze + 1;
                             level[levelIndex + (iccsze - 1)] = nbr;
-                            mask[nbr - 1] = 0;
+                            mask[((nbr - 1) + mask.Length) % mask.Length] = 0;
                         }
                     }
                 }
@@ -544,7 +544,7 @@ namespace Burkardt.Graph
                     //  For each node in the current level...
                     //
                     node = perm[permIndex + (i - 1)];
-                    jstrt = adj_row[node - 1];
+                    jstrt = adj_row[((node - 1) + adj_row.Length) % adj_row.Length];
                     jstop = adj_row[node] - 1;
                     //
                     //  Find the unnumbered neighbors of NODE.
@@ -556,12 +556,12 @@ namespace Burkardt.Graph
 
                     for (j = jstrt; j <= jstop; j++)
                     {
-                        nbr = adj[j - 1];
+                        nbr = adj[((j - 1) + adj.Length) % adj.Length];
 
-                        if (mask[nbr - 1] != 0)
+                        if (mask[((nbr - 1) + mask.Length) % mask.Length] != 0)
                         {
                             lnbr = lnbr + 1;
-                            mask[nbr - 1] = 0;
+                            mask[((nbr - 1) + mask.Length) % mask.Length] = 0;
                             perm[permIndex + (lnbr - 1)] = nbr;
                         }
                     }
@@ -763,8 +763,8 @@ namespace Burkardt.Graph
 
                         for (k = kstrt; k <= kstop; k++)
                         {
-                            nabor = adj[k - 1];
-                            if (0 < mask[nabor - 1])
+                            nabor = adj[((k - 1) + adj.Length) % adj.Length];
+                            if (0 < mask[((nabor - 1) + mask.Length) % mask.Length])
                             {
                                 ndeg = ndeg + 1;
                             }

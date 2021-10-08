@@ -60,7 +60,7 @@ namespace Burkardt.MatrixNS
             {
                 for (j = adj_row[i]; j <= adj_row[i + 1] - 1; j++)
                 {
-                    col = adj[j];
+                    col = adj[j % adj.Length];
                     band_lo = Math.Max(band_lo, i - col);
                     band_hi = Math.Max(band_hi, col - i);
                 }
@@ -135,9 +135,9 @@ namespace Burkardt.MatrixNS
 
             for (i = 0; i < node_num; i++)
             {
-                for (j = adj_row[perm[i]]; j <= adj_row[perm[i] + 1] - 1; j++)
+                for (j = adj_row[(perm[i] + adj_row.Length) % adj_row.Length]; j <= adj_row[((perm[i] + 1) + adj_row.Length) % adj_row.Length] - 1; j++)
                 {
-                    col = perm_inv[adj[j]];
+                    col = perm_inv[(adj[(j + adj.Length) % adj.Length] + perm_inv.Length) % perm_inv.Length];
                     band_lo = Math.Max(band_lo, i - col);
                     band_hi = Math.Max(band_hi, col - i);
                 }
@@ -294,7 +294,7 @@ namespace Burkardt.MatrixNS
                                                + "   ";
                             for (j = jlo; j <= jhi; j++)
                             {
-                                cout += adj[j].ToString().PadLeft(8);
+                                cout += adj[j % adj.Length].ToString().PadLeft(8);
                             }
 
                             Console.WriteLine(cout);
@@ -304,7 +304,7 @@ namespace Burkardt.MatrixNS
                             string cout2 = "                     ";
                             for (j = jlo; j <= jhi; j++)
                             {
-                                cout2 += adj[j].ToString().PadLeft(8);
+                                cout2 += adj[j % adj.Length].ToString().PadLeft(8);
                             }
 
                             Console.WriteLine(cout2);

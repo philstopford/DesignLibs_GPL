@@ -592,8 +592,8 @@ namespace Burkardt.TetrahedronNS
                 i = pair[0 + k * 2];
                 j = pair[1 + k * 2];
 
-                adj_row[i - 1] = adj_row[i - 1] + 1;
-                adj_row[j - 1] = adj_row[j - 1] + 1;
+                adj_row[((i - 1) + adj_row.Length) % adj_row.Length] = adj_row[((i - 1) + adj_row.Length) % adj_row.Length] + 1;
+                adj_row[((j - 1) + adj_row.Length) % adj_row.Length] = adj_row[((j - 1) + adj_row.Length) % adj_row.Length] + 1;
             }
 
             //
@@ -746,10 +746,10 @@ namespace Burkardt.TetrahedronNS
                 i = pair[0 + k * 2];
                 j = pair[1 + k * 2];
 
-                adj[adj_row_copy[i]] = j;
-                adj_row_copy[i] = adj_row_copy[i] + 1;
-                adj[adj_row_copy[j]] = i;
-                adj_row_copy[j] = adj_row_copy[j] + 1;
+                adj[adj_row_copy[i % adj_row_copy.Length] % adj.Length] = j;
+                adj_row_copy[i % adj_row_copy.Length] = adj_row_copy[i % adj_row_copy.Length] + 1;
+                adj[adj_row_copy[j % adj_row_copy.Length] % adj.Length] = i;
+                adj_row_copy[j % adj_row_copy.Length] = adj_row_copy[j % adj_row_copy.Length] + 1;
             }
 
             return adj;

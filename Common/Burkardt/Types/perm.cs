@@ -278,7 +278,7 @@ namespace Burkardt.Types
 
             for ( i = 0; i < n; i++ )
             {
-                perm_inv[perm[i]] = i;
+                perm_inv[(perm[i] + perm_inv.Length) % perm_inv.Length] = i;
             }
 
             return perm_inv;

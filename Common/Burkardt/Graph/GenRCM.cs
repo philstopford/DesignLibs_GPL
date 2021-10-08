@@ -98,7 +98,7 @@ namespace Burkardt.Graph
                 {
                     node = ls[((lsIndex + (i - 1)) + ls.Length) % ls.Length];
                     jstrt = -adj_row[((node - 1) + adj_row.Length) % adj_row.Length];
-                    jstop = Math.Abs(adj_row[node]) - 1;
+                    jstop = Math.Abs(adj_row[node % adj_row.Length]) - 1;
                     ideg = 0;
 
                     for (j = jstrt; j <= jstop; j++)
@@ -388,7 +388,7 @@ namespace Burkardt.Graph
                 {
                     node = level[levelIndex + (i - 1)];
                     jstrt = adj_row[node - 1];
-                    jstop = adj_row[node] - 1;
+                    jstop = adj_row[node % adj_row.Length] - 1;
 
                     for (j = jstrt; j <= jstop; j++)
                     {
@@ -421,7 +421,7 @@ namespace Burkardt.Graph
             //
             for (i = 0; i < iccsze; i++)
             {
-                mask[level[levelIndex + i] - 1] = 1;
+                mask[((level[(levelIndex + i) % level.Length] - 1) + mask.Length) % mask.Length] = 1;
             }
         }
 
@@ -545,7 +545,7 @@ namespace Burkardt.Graph
                     //
                     node = perm[permIndex + (i - 1)];
                     jstrt = adj_row[((node - 1) + adj_row.Length) % adj_row.Length];
-                    jstop = adj_row[node] - 1;
+                    jstop = adj_row[(node + adj_row.Length) % adj_row.Length] - 1;
                     //
                     //  Find the unnumbered neighbors of NODE.
                     //
@@ -590,7 +590,7 @@ namespace Burkardt.Graph
                         {
                             lperm = perm[permIndex + (l - 1)];
 
-                            if (deg[lperm - 1] <= deg[nbr - 1])
+                            if (deg[((lperm - 1) + deg.Length) % deg.Length] <= deg[((nbr - 1) + deg.Length) % deg.Length])
                             {
                                 break;
                             }

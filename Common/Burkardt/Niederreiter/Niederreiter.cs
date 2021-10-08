@@ -185,7 +185,7 @@ namespace Burkardt.NiederreiterNS
 
             while (true)
             {
-                i = Convert.ToInt32(input[index]);
+                i = Convert.ToInt32(input[index].Trim());
                 index++;
 
                 if (i == Q)
@@ -195,12 +195,12 @@ namespace Burkardt.NiederreiterNS
 
                 for (j = 1; j <= npols; j++)
                 {
-                    e = Convert.ToInt32(input[index]);
+                    string[] tokens = Helpers.splitStringByWhitespace(input[index]);
+                    e = Convert.ToInt32(tokens[0]);
                     index++;
                     for (k = 0; k <= e; k++)
                     {
-                        px[k + 1] = Convert.ToInt32(input[index]);
-                        index++;
+                        px[k + 1] = Convert.ToInt32(tokens[k+1]);
                     }
                 }
             }
@@ -224,12 +224,12 @@ namespace Burkardt.NiederreiterNS
                 //  where n is the degree of the polynomial and the ai are
                 //  its coefficients.
                 //
-                e = Convert.ToInt32(input[index]);
+                string[] tokens = Helpers.splitStringByWhitespace(input[index]);
+                e = Convert.ToInt32(tokens[0]);
                 index++;
                 for (k = 0; k <= e; k++)
                 {
-                    px[k + 1] = Convert.ToInt32(input[index]);
-                    index++;
+                    px[k + 1] = Convert.ToInt32(tokens[k+1]);
                 }
 
                 px[0] = e;

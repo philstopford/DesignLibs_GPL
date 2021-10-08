@@ -7,34 +7,34 @@ namespace Burkardt.PDFLib
     public static partial class PDF
     {
         public static double r8_beta_pdf(double alpha, double beta, double rval)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8_BETA_PDF evaluates the PDF of a beta distribution.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    31 July 2015
-//
-//  Author:
-//
-//    Original FORTRAN90 version by Guannan Zhang.
-//    C++ version by John Burkardt.
-//
-//  Parameters:
-//
-//    Input, double ALPHA, BETA, shape parameters.
-//    0.0 < ALPHA, BETA.
-//
-//    Input, double RVAL, the point where the PDF is evaluated.
-//
-//    Output, double R8_BETA_PDF, the value of the PDF at RVAL.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_BETA_PDF evaluates the PDF of a beta distribution.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    31 July 2015
+            //
+            //  Author:
+            //
+            //    Original FORTRAN90 version by Guannan Zhang.
+            //    C++ version by John Burkardt.
+            //
+            //  Parameters:
+            //
+            //    Input, double ALPHA, BETA, shape parameters.
+            //    0.0 < ALPHA, BETA.
+            //
+            //    Input, double RVAL, the point where the PDF is evaluated.
+            //
+            //    Output, double R8_BETA_PDF, the value of the PDF at RVAL.
+            //
         {
             double temp;
             double value;
@@ -72,49 +72,49 @@ namespace Burkardt.PDFLib
         }
 
         public static double r8_beta_sample(double aa, double bb)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8_BETA_SAMPLE generates a beta random deviate.
-//
-//  Discussion:
-//
-//    This procedure returns a single random deviate from the beta distribution
-//    with parameters A and B.  The density is
-//
-//      x^(a-1) * (1-x)^(b-1) / Beta(a,b) for 0 < x < 1
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    01 May 2013
-//
-//  Author:
-//
-//    Original FORTRAN77 version by Barry Brown, James Lovato.
-//    C++ version by John Burkardt.
-//
-//  Reference:
-//
-//    Russell Cheng,
-//    Generating Beta Variates with Nonintegral Shape Parameters,
-//    Communications of the ACM,
-//    Volume 21, Number 4, April 1978, pages 317-322.
-//
-//  Parameters:
-//
-//    Input, double AA, the first parameter of the beta distribution.
-//    0.0 < AA.
-//
-//    Input, double BB, the second parameter of the beta distribution.
-//    0.0 < BB.
-//
-//    Output, double R8_BETA_SAMPLE, a beta random variate.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_BETA_SAMPLE generates a beta random deviate.
+            //
+            //  Discussion:
+            //
+            //    This procedure returns a single random deviate from the beta distribution
+            //    with parameters A and B.  The density is
+            //
+            //      x^(a-1) * (1-x)^(b-1) / Beta(a,b) for 0 < x < 1
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    01 May 2013
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Barry Brown, James Lovato.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Russell Cheng,
+            //    Generating Beta Variates with Nonintegral Shape Parameters,
+            //    Communications of the ACM,
+            //    Volume 21, Number 4, April 1978, pages 317-322.
+            //
+            //  Parameters:
+            //
+            //    Input, double AA, the first parameter of the beta distribution.
+            //    0.0 < AA.
+            //
+            //    Input, double BB, the second parameter of the beta distribution.
+            //    0.0 < BB.
+            //
+            //    Output, double R8_BETA_SAMPLE, a beta random variate.
+            //
         {
             double a;
             double alpha;
@@ -153,9 +153,9 @@ namespace Burkardt.PDFLib
                 return (1);
             }
 
-//
-//  Algorithm BB
-//
+            //
+            //  Algorithm BB
+            //
             if (1.0 < aa && 1.0 < bb)
             {
                 if (aa < bb)
@@ -201,9 +201,9 @@ namespace Burkardt.PDFLib
                     }
                 }
             }
-//
-//  Algorithm BC
-//
+            //
+            //  Algorithm BC
+            //
             else
             {
                 if (aa < bb)
@@ -289,34 +289,34 @@ namespace Burkardt.PDFLib
         }
 
         public static double r8_chi_pdf(double df, double rval)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8_CHI_PDF evaluates the PDF of a chi-squared distribution.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    01 May 2013
-//
-//  Author:
-//
-//    Original FORTRAN90 version by Guannan Zhang.
-//    C  by John Burkardt.
-//
-//  Parameters:
-//
-//    Input, double DF, the degrees of freedom.
-//    0.0 < DF.
-//
-//    Input, double RVAL, the point where the PDF is evaluated.
-//
-//    Output, double R8_CHI_PDF, the value of the PDF at RVAL.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_CHI_PDF evaluates the PDF of a chi-squared distribution.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    01 May 2013
+            //
+            //  Author:
+            //
+            //    Original FORTRAN90 version by Guannan Zhang.
+            //    C  by John Burkardt.
+            //
+            //  Parameters:
+            //
+            //    Input, double DF, the degrees of freedom.
+            //    0.0 < DF.
+            //
+            //    Input, double RVAL, the point where the PDF is evaluated.
+            //
+            //    Output, double R8_CHI_PDF, the value of the PDF at RVAL.
+            //
         {
             double temp1;
             double temp2;
@@ -348,39 +348,39 @@ namespace Burkardt.PDFLib
         }
 
         public static double r8_chi_sample(double df)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8_CHI_SAMPLE generates a Chi-Square random deviate.
-//
-//  Discussion:
-//
-//    This procedure generates a random deviate from the chi square distribution
-//    with DF degrees of freedom random variable.
-//
-//    The algorithm exploits the relation between chisquare and gamma.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    01 May 2013
-//
-//  Author:
-//
-//    Original FORTRAN77 version by Barry Brown, James Lovato.
-//    C++ version by John Burkardt.
-//
-//  Parameters:
-//
-//    Input, double DF, the degrees of freedom.
-//    0.0 < DF.
-//
-//    Output, double R8_CHI_SAMPLE, a random deviate from the distribution.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_CHI_SAMPLE generates a Chi-Square random deviate.
+            //
+            //  Discussion:
+            //
+            //    This procedure generates a random deviate from the chi square distribution
+            //    with DF degrees of freedom random variable.
+            //
+            //    The algorithm exploits the relation between chisquare and gamma.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    01 May 2013
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Barry Brown, James Lovato.
+            //    C++ version by John Burkardt.
+            //
+            //  Parameters:
+            //
+            //    Input, double DF, the degrees of freedom.
+            //    0.0 < DF.
+            //
+            //    Output, double R8_CHI_SAMPLE, a random deviate from the distribution.
+            //
         {
             double arg1;
             double arg2;
@@ -404,48 +404,48 @@ namespace Burkardt.PDFLib
         }
 
         public static double r8_choose(int n, int k)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8_CHOOSE computes the binomial coefficient C(N,K) as an R8.
-//
-//  Discussion:
-//
-//    The value is calculated in such a way as to avoid overflow and
-//    roundoff.  The calculation is done in R8 arithmetic.
-//
-//    The formula used is:
-//
-//      C(N,K) = N! / ( K! * (N-K)! )
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    09 June 2013
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Reference:
-//
-//    ML Wolfson, HV Wright,
-//    Algorithm 160:
-//    Combinatorial of M Things Taken N at a Time,
-//    Communications of the ACM,
-//    Volume 6, Number 4, April 1963, page 161.
-//
-//  Parameters:
-//
-//    Input, int N, K, the values of N and K.
-//
-//    Output, double R8_CHOOSE, the number of combinations of N
-//    things taken K at a time.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_CHOOSE computes the binomial coefficient C(N,K) as an R8.
+            //
+            //  Discussion:
+            //
+            //    The value is calculated in such a way as to avoid overflow and
+            //    roundoff.  The calculation is done in R8 arithmetic.
+            //
+            //    The formula used is:
+            //
+            //      C(N,K) = N! / ( K! * (N-K)! )
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    09 June 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    ML Wolfson, HV Wright,
+            //    Algorithm 160:
+            //    Combinatorial of M Things Taken N at a Time,
+            //    Communications of the ACM,
+            //    Volume 6, Number 4, April 1963, page 161.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, K, the values of N and K.
+            //
+            //    Output, double R8_CHOOSE, the number of combinations of N
+            //    things taken K at a time.
+            //
         {
             int i;
             int mn;
@@ -486,34 +486,34 @@ namespace Burkardt.PDFLib
 
         public static double r8_exponential_pdf(double beta, double rval)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8_EXPONENTIAL_PDF evaluates the PDF of an exponential distribution.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    01 May 2013
-//
-//  Author:
-//
-//    Original FORTRAN90 version by Guannan Zhang.
-//    C++ version by John Burkardt.
-//
-//  Parameters:
-//
-//    Input, double BETA, the scale value.
-//    0.0 < BETA.
-//
-//    Input, double RVAL, the point where the PDF is evaluated.
-//
-//    Output, double R8_EXPONENTIAL_PDF, the value of the PDF at RVAL.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_EXPONENTIAL_PDF evaluates the PDF of an exponential distribution.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    01 May 2013
+            //
+            //  Author:
+            //
+            //    Original FORTRAN90 version by Guannan Zhang.
+            //    C++ version by John Burkardt.
+            //
+            //  Parameters:
+            //
+            //    Input, double BETA, the scale value.
+            //    0.0 < BETA.
+            //
+            //    Input, double RVAL, the point where the PDF is evaluated.
+            //
+            //    Output, double R8_EXPONENTIAL_PDF, the value of the PDF at RVAL.
+            //
         {
             double value;
 
@@ -539,35 +539,35 @@ namespace Burkardt.PDFLib
 
         public static double r8_exponential_sample(double lambda)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8_EXPONENTIAL_SAMPLE samples the exponential PDF.
-//
-//  Discussion:
-//
-//    Note that the parameter LAMBDA is a multiplier.  In some formulations,
-//    it is used as a divisor instead.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    01 May 2013
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double LAMBDA, the parameter of the PDF.
-//
-//    Output, double R8_EXPONENTIAL_SAMPLE, a sample of the PDF.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_EXPONENTIAL_SAMPLE samples the exponential PDF.
+            //
+            //  Discussion:
+            //
+            //    Note that the parameter LAMBDA is a multiplier.  In some formulations,
+            //    it is used as a divisor instead.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    01 May 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double LAMBDA, the parameter of the PDF.
+            //
+            //    Output, double R8_EXPONENTIAL_SAMPLE, a sample of the PDF.
+            //
         {
             double r;
             double value;
@@ -581,30 +581,30 @@ namespace Burkardt.PDFLib
 
         public static double r8_exponential_01_pdf(double rval)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8_EXPONENTIAL_01_PDF: PDF of the standard exponential distribution.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    09 June 2013
-//
-//  Author:
-//
-//    John Burkardt.
-//
-//  Parameters:
-//
-//    Input, double RVAL, the point where the PDF is evaluated.
-//
-//    Output, double R8_EXPONENTIAL_01_PDF, the value of the PDF at RVAL.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_EXPONENTIAL_01_PDF: PDF of the standard exponential distribution.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    09 June 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt.
+            //
+            //  Parameters:
+            //
+            //    Input, double RVAL, the point where the PDF is evaluated.
+            //
+            //    Output, double R8_EXPONENTIAL_01_PDF, the value of the PDF at RVAL.
+            //
         {
             double value;
 
@@ -622,28 +622,28 @@ namespace Burkardt.PDFLib
 
         public static double r8_exponential_01_sample()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8_EXPONENTIAL_01_SAMPLE samples the standard exponential PDF.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    01 May 2013
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Output, double R8_EXPONENTIAL_01_SAMPLE, a sample of the PDF.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_EXPONENTIAL_01_SAMPLE samples the standard exponential PDF.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    01 May 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Output, double R8_EXPONENTIAL_01_SAMPLE, a sample of the PDF.
+            //
         {
             double r;
             double value;
@@ -657,37 +657,37 @@ namespace Burkardt.PDFLib
 
         public static double r8_gamma_pdf(double beta, double alpha, double rval)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8_GAMMA_PDF evaluates the PDF of a gamma distribution.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    01 May 2013
-//
-//  Author:
-//
-//    Original FORTRAN90 version by Guannan Zhang.
-//    C++ version by John Burkardt.
-//
-//  Parameters:
-//
-//    Input, double BETA, the rate parameter.
-//    0.0 < BETA.
-//
-//    Input, double ALPHA, the shape parameter.
-//    0.0 < ALPHA.
-//
-//    Input, double RVAL, the point where the PDF is evaluated.
-//
-//    Output, double R8_GAMMA_PDF, the value of the PDF at RVAL.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_GAMMA_PDF evaluates the PDF of a gamma distribution.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    01 May 2013
+            //
+            //  Author:
+            //
+            //    Original FORTRAN90 version by Guannan Zhang.
+            //    C++ version by John Burkardt.
+            //
+            //  Parameters:
+            //
+            //    Input, double BETA, the rate parameter.
+            //    0.0 < BETA.
+            //
+            //    Input, double ALPHA, the shape parameter.
+            //    0.0 < ALPHA.
+            //
+            //    Input, double RVAL, the point where the PDF is evaluated.
+            //
+            //    Output, double R8_GAMMA_PDF, the value of the PDF at RVAL.
+            //
         {
             double temp;
             double value;
@@ -725,53 +725,53 @@ namespace Burkardt.PDFLib
 
         public static double r8_gamma_sample(double a, double r)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8_GAMMA_SAMPLE generates a Gamma random deviate.
-//
-//  Discussion:
-//
-//    This procedure generates random deviates from the gamma distribution whose
-//    density is (A^R)/Gamma(R) * X^(R-1) * Exp(-A*X)
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    01 May 2013
-//
-//  Author:
-//
-//    Original FORTRAN77 version by Barry Brown, James Lovato.
-//    C++ version by John Burkardt.
-//
-//  Reference:
-//
-//    Joachim Ahrens, Ulrich Dieter,
-//    Generating Gamma Variates by a Modified Rejection Technique,
-//    Communications of the ACM,
-//    Volume 25, Number 1, January 1982, pages 47-54.
-//
-//    Joachim Ahrens, Ulrich Dieter,
-//    Computer Methods for Sampling from Gamma, Beta, Poisson and
-//    Binomial Distributions,
-//    Computing,
-//    Volume 12, Number 3, September 1974, pages 223-246.
-//
-//  Parameters:
-//
-//    Input, double A, the location parameter.
-//    A nonzero.
-//
-//    Input, double R, the shape parameter.
-//    0.0 < R.
-//
-//    Output, double R8_GAMMA_SAMPLE, a random deviate from the distribution.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_GAMMA_SAMPLE generates a Gamma random deviate.
+            //
+            //  Discussion:
+            //
+            //    This procedure generates random deviates from the gamma distribution whose
+            //    density is (A^R)/Gamma(R) * X^(R-1) * Exp(-A*X)
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    01 May 2013
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Barry Brown, James Lovato.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Joachim Ahrens, Ulrich Dieter,
+            //    Generating Gamma Variates by a Modified Rejection Technique,
+            //    Communications of the ACM,
+            //    Volume 25, Number 1, January 1982, pages 47-54.
+            //
+            //    Joachim Ahrens, Ulrich Dieter,
+            //    Computer Methods for Sampling from Gamma, Beta, Poisson and
+            //    Binomial Distributions,
+            //    Computing,
+            //    Volume 12, Number 3, September 1974, pages 223-246.
+            //
+            //  Parameters:
+            //
+            //    Input, double A, the location parameter.
+            //    A nonzero.
+            //
+            //    Input, double R, the shape parameter.
+            //    0.0 < R.
+            //
+            //    Output, double R8_GAMMA_SAMPLE, a random deviate from the distribution.
+            //
         {
             double value;
 
@@ -782,33 +782,33 @@ namespace Burkardt.PDFLib
 
         public static double r8_gamma_01_pdf(double alpha, double rval)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8_GAMMA_01_PDF evaluates the PDF of a standard gamma distribution.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    09 June 2013
-//
-//  Author:
-//
-//    John Burkardt.
-//
-//  Parameters:
-//
-//    Input, double ALPHA, the shape parameter.
-//    0.0 < ALPHA.
-//
-//    Input, double RVAL, the point where the PDF is evaluated.
-//
-//    Output, double R8_GAMMA_01_PDF, the value of the PDF at RVAL.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_GAMMA_01_PDF evaluates the PDF of a standard gamma distribution.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    09 June 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt.
+            //
+            //  Parameters:
+            //
+            //    Input, double ALPHA, the shape parameter.
+            //    0.0 < ALPHA.
+            //
+            //    Input, double RVAL, the point where the PDF is evaluated.
+            //
+            //    Output, double R8_GAMMA_01_PDF, the value of the PDF at RVAL.
+            //
         {
             double temp;
             double value;
@@ -837,45 +837,45 @@ namespace Burkardt.PDFLib
 
         public static double r8_gamma_01_sample(double a)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8_GAMMA_01_SAMPLE samples the standard Gamma distribution.
-//
-//  Discussion:
-//
-//    This procedure corresponds to algorithm GD in the reference.
-//
-//    pdf ( a; x ) = 1/gamma(a) * x^(a-1) * exp ( - x )
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    01 May 2013
-//
-//  Author:
-//
-//    Original FORTRAN77 version by Barry Brown, James Lovato.
-//    C++ version by John Burkardt.
-//
-//  Reference:
-//
-//    Joachim Ahrens, Ulrich Dieter,
-//    Generating Gamma Variates by a Modified Rejection Technique,
-//    Communications of the ACM,
-//    Volume 25, Number 1, January 1982, pages 47-54.
-//
-//  Parameters:
-//
-//    Input, double A, the shape parameter.
-//    0.0 < A.
-//
-//    Output, double R8_GAMMA_01_SAMPLE, a random deviate from the distribution.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_GAMMA_01_SAMPLE samples the standard Gamma distribution.
+            //
+            //  Discussion:
+            //
+            //    This procedure corresponds to algorithm GD in the reference.
+            //
+            //    pdf ( a; x ) = 1/gamma(a) * x^(a-1) * exp ( - x )
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    01 May 2013
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Barry Brown, James Lovato.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Joachim Ahrens, Ulrich Dieter,
+            //    Generating Gamma Variates by a Modified Rejection Technique,
+            //    Communications of the ACM,
+            //    Volume 25, Number 1, January 1982, pages 47-54.
+            //
+            //  Parameters:
+            //
+            //    Input, double A, the shape parameter.
+            //    0.0 < A.
+            //
+            //    Output, double R8_GAMMA_01_SAMPLE, a random deviate from the distribution.
+            //
         {
             double a1 = 0.3333333;
             double a2 = -0.2500030;
@@ -920,9 +920,9 @@ namespace Burkardt.PDFLib
                 s2 = a - 0.5;
                 s = Math.Sqrt(s2);
                 d = sqrt32 - 12.0 * s;
-//
-//  Immediate acceptance.
-//
+                //
+                //  Immediate acceptance.
+                //
                 t = r8_normal_01_sample();
                 x = s + 0.5 * t;
                 value = x * x;
@@ -932,9 +932,9 @@ namespace Burkardt.PDFLib
                     return value;
                 }
 
-//
-//  Squeeze acceptance.
-//
+                //
+                //  Squeeze acceptance.
+                //
                 u = r8_uniform_01_sample();
                 if (d * u <= t * t * t)
                 {
@@ -950,9 +950,9 @@ namespace Burkardt.PDFLib
                         + q3) * r
                        + q2) * r
                       + q1) * r;
-//
-//  Approximation depending on size of parameter A.
-//
+                //
+                //  Approximation depending on size of parameter A.
+                //
                 if (13.022 < a)
                 {
                     b = 1.77;
@@ -972,9 +972,9 @@ namespace Burkardt.PDFLib
                     c = 0.195 / s - 0.079 + 0.16 * s;
                 }
 
-//
-//  Quotient test.
-//
+                //
+                //  Quotient test.
+                //
                 if (0.0 < x)
                 {
                     v = 0.5 * t / s;
@@ -1015,17 +1015,17 @@ namespace Burkardt.PDFLib
                         t = b - Math.Abs(si * e);
                     }
 
-//
-//  Possible rejection.
-//
+                    //
+                    //  Possible rejection.
+                    //
                     if (t < -0.7187449)
                     {
                         continue;
                     }
 
-//
-//  Calculate V and quotient Q.
-//
+                    //
+                    //  Calculate V and quotient Q.
+                    //
                     v = 0.5 * t / s;
 
                     if (0.25 < Math.Abs(v))
@@ -1044,9 +1044,9 @@ namespace Burkardt.PDFLib
                                                 + a1) * v;
                     }
 
-//
-//  Hat acceptance.
-//
+                    //
+                    //  Hat acceptance.
+                    //
                     if (q <= 0.0)
                     {
                         continue;
@@ -1066,9 +1066,9 @@ namespace Burkardt.PDFLib
                              + e1) * q;
                     }
 
-//
-//  May have to sample again.
-//
+                    //
+                    //  May have to sample again.
+                    //
                     if (c * Math.Abs(u) <= w * Math.Exp(e - 0.5 * t * t))
                     {
                         break;
@@ -1078,9 +1078,9 @@ namespace Burkardt.PDFLib
                 x = s + 0.5 * t;
                 value = x * x;
             }
-//
-//  Method for A < 1.
-//
+            //
+            //  Method for A < 1.
+            //
             else if (a < 1.0)
             {
                 b = 1.0 + 0.3678794 * a;
@@ -1113,34 +1113,34 @@ namespace Burkardt.PDFLib
 
         public static double r8_invchi_pdf(double df, double rval)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8_INVCHI_PDF evaluates the PDF of an inverse chi-squared distribution.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    21 April 2013
-//
-//  Author:
-//
-//    Original FORTRAN90 version by Guannan Zhang.
-//    C++ version by John Burkardt.
-//
-//  Parameters:
-//
-//    Input, double DF, the degrees of freedom.
-//    0.0 < DF.
-//
-//    Input, double RVAL, the point where the PDF is evaluated.
-//
-//    Output, double R8_INVCHI_PDF, the value of the PDF at RVAL.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_INVCHI_PDF evaluates the PDF of an inverse chi-squared distribution.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    21 April 2013
+            //
+            //  Author:
+            //
+            //    Original FORTRAN90 version by Guannan Zhang.
+            //    C++ version by John Burkardt.
+            //
+            //  Parameters:
+            //
+            //    Input, double DF, the degrees of freedom.
+            //    0.0 < DF.
+            //
+            //    Input, double RVAL, the point where the PDF is evaluated.
+            //
+            //    Output, double R8_INVCHI_PDF, the value of the PDF at RVAL.
+            //
         {
             double temp1;
             double temp2;
@@ -1173,31 +1173,31 @@ namespace Burkardt.PDFLib
 
         public static double r8_invchi_sample(double df)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8_INVCHI_SAMPLE samples the inverse chi-squared distribution.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    25 May 2013
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double DF, the degrees of freedom.
-//    0.0 < DF.
-//
-//    Output, double R8_INVCHI_SAMPLE, the sample of the PDF.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_INVCHI_SAMPLE samples the inverse chi-squared distribution.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    25 May 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double DF, the degrees of freedom.
+            //    0.0 < DF.
+            //
+            //    Output, double R8_INVCHI_SAMPLE, the sample of the PDF.
+            //
         {
             double a;
             double b;
@@ -1217,37 +1217,37 @@ namespace Burkardt.PDFLib
 
         public static double r8_invgam_pdf(double beta, double alpha, double rval)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8_INVGAM_PDF evaluates the PDF of an inverse gamma distribution.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    01 May 2013
-//
-//  Author:
-//
-//    Original FORTRAN90 version by Guannan Zhang.
-//    C++ version by John Burkardt.
-//
-//  Parameters:
-//
-//    Input, double BETA, the rate parameter.
-//    0.0 < BETA.
-//
-//    Input, double ALPHA, the shape parameter.
-//    0.0 < ALPHA.
-//
-//    Input, double RVAL, the point where the PDF is evaluated.
-//
-//    Output, double R8_INVGAM_PDF, the value of the PDF at RVAL.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_INVGAM_PDF evaluates the PDF of an inverse gamma distribution.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    01 May 2013
+            //
+            //  Author:
+            //
+            //    Original FORTRAN90 version by Guannan Zhang.
+            //    C++ version by John Burkardt.
+            //
+            //  Parameters:
+            //
+            //    Input, double BETA, the rate parameter.
+            //    0.0 < BETA.
+            //
+            //    Input, double ALPHA, the shape parameter.
+            //    0.0 < ALPHA.
+            //
+            //    Input, double RVAL, the point where the PDF is evaluated.
+            //
+            //    Output, double R8_INVGAM_PDF, the value of the PDF at RVAL.
+            //
         {
             double temp;
             double value;
@@ -1285,34 +1285,34 @@ namespace Burkardt.PDFLib
 
         public static double r8_invgam_sample(double beta, double alpha)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8_INVGAM_SAMPLE samples an inverse gamma distribution.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    25 May 2013
-//
-//  Author:
-//
-//    John Burkardt.
-//
-//  Parameters:
-//
-//    Input, double BETA, the rate parameter.
-//    0.0 < BETA.
-//
-//    Input, double ALPHA, the shape parameter.
-//    0.0 < ALPHA.
-//
-//    Output, double R8_INVGAM_SAMPLE, a sample of the PDF.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_INVGAM_SAMPLE samples an inverse gamma distribution.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    25 May 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt.
+            //
+            //  Parameters:
+            //
+            //    Input, double BETA, the rate parameter.
+            //    0.0 < BETA.
+            //
+            //    Input, double ALPHA, the shape parameter.
+            //    0.0 < ALPHA.
+            //
+            //    Output, double R8_INVGAM_SAMPLE, a sample of the PDF.
+            //
         {
             double value;
 
@@ -1329,36 +1329,36 @@ namespace Burkardt.PDFLib
 
         public static double r8_normal_pdf(double av, double sd, double rval)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8_NORMAL_PDF evaluates the PDF of a normal distribution.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    01 May 2013
-//
-//  Author:
-//
-//    Original FORTRAN90 version by Guannan Zhang.
-//    C++ version by John Burkardt.
-//
-//  Parameters:
-//
-//    Input, double AV, the mean value.
-//
-//    Input, double SD, the standard deviation.
-//    0.0 < SD.
-//
-//    Input, double RVAL, the point where the PDF is evaluated.
-//
-//    Output, double R8_NORMAL_PDF, the value of the PDF at RVAL.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_NORMAL_PDF evaluates the PDF of a normal distribution.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    01 May 2013
+            //
+            //  Author:
+            //
+            //    Original FORTRAN90 version by Guannan Zhang.
+            //    C++ version by John Burkardt.
+            //
+            //  Parameters:
+            //
+            //    Input, double AV, the mean value.
+            //
+            //    Input, double SD, the standard deviation.
+            //    0.0 < SD.
+            //
+            //    Input, double RVAL, the point where the PDF is evaluated.
+            //
+            //    Output, double R8_NORMAL_PDF, the value of the PDF at RVAL.
+            //
         {
             double pi = 3.141592653589793;
             double rtemp;
@@ -1381,46 +1381,46 @@ namespace Burkardt.PDFLib
 
         public static double r8_normal_sample(double av, double sd)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8_NORMAL_SAMPLE generates a normal random deviate.
-//
-//  Discussion:
-//
-//    This procedure generates a single random deviate from a normal 
-//    distribution with mean AV, and standard deviation SD.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    01 May 2013
-//
-//  Author:
-//
-//    Original FORTRAN77 version by Barry Brown, James Lovato.
-//    C++ version by John Burkardt.
-//
-//  Reference:
-//
-//    Joachim Ahrens, Ulrich Dieter,
-//    Extensions of Forsythe's Method for Random
-//    Sampling from the Normal Distribution,
-//    Mathematics of Computation,
-//    Volume 27, Number 124, October 1973, page 927-937.
-//
-//  Parameters:
-//
-//    Input, double AV, the mean.
-//
-//    Input, double SD, the standard deviation.
-//
-//    Output, double R8_NORMAL_SAMPLE, a random deviate from the distribution.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_NORMAL_SAMPLE generates a normal random deviate.
+            //
+            //  Discussion:
+            //
+            //    This procedure generates a single random deviate from a normal 
+            //    distribution with mean AV, and standard deviation SD.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    01 May 2013
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Barry Brown, James Lovato.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Joachim Ahrens, Ulrich Dieter,
+            //    Extensions of Forsythe's Method for Random
+            //    Sampling from the Normal Distribution,
+            //    Mathematics of Computation,
+            //    Volume 27, Number 124, October 1973, page 927-937.
+            //
+            //  Parameters:
+            //
+            //    Input, double AV, the mean.
+            //
+            //    Input, double SD, the standard deviation.
+            //
+            //    Output, double R8_NORMAL_SAMPLE, a random deviate from the distribution.
+            //
         {
             double value;
 
@@ -1431,30 +1431,30 @@ namespace Burkardt.PDFLib
 
         public static double r8_normal_01_pdf(double rval)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8_NORMAL_01_PDF evaluates the PDF of a standard normal distribution.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    09 June 2013
-//
-//  Author:
-//
-//    John Burkardt.
-//
-//  Parameters:
-//
-//    Input, double RVAL, the point where the PDF is evaluated.
-//
-//    Output, double R8_NORMAL_01_PDF, the value of the PDF at RVAL.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_NORMAL_01_PDF evaluates the PDF of a standard normal distribution.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    09 June 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt.
+            //
+            //  Parameters:
+            //
+            //    Input, double RVAL, the point where the PDF is evaluated.
+            //
+            //    Output, double R8_NORMAL_01_PDF, the value of the PDF at RVAL.
+            //
         {
             double pi = 3.141592653589793;
             double value;
@@ -1466,44 +1466,44 @@ namespace Burkardt.PDFLib
 
         public static double r8_normal_01_sample()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8_NORMAL_01_SAMPLE samples the standard normal probability distribution.
-//
-//  Discussion:
-//
-//    The standard normal probability distribution function (PDF) has
-//    mean 0 and standard deviation 1.
-//
-//    The Box-Muller method is used, which is efficient, but
-//    generates two values at a time.
-//
-//    Typically, we would use one value and save the other for the next call.
-//    However, the fact that this function has saved memory makes it difficult
-//    to correctly handle cases where we want to re-initialize the code,
-//    or to run in parallel.  Therefore, we will instead use the first value
-//    and DISCARD the second.
-//
-//    EFFICIENCY must defer to SIMPLICITY.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    05 August 2013
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Output, double R8_NORMAL_01_SAMPLE, a normally distributed random value.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_NORMAL_01_SAMPLE samples the standard normal probability distribution.
+            //
+            //  Discussion:
+            //
+            //    The standard normal probability distribution function (PDF) has
+            //    mean 0 and standard deviation 1.
+            //
+            //    The Box-Muller method is used, which is efficient, but
+            //    generates two values at a time.
+            //
+            //    Typically, we would use one value and save the other for the next call.
+            //    However, the fact that this function has saved memory makes it difficult
+            //    to correctly handle cases where we want to re-initialize the code,
+            //    or to run in parallel.  Therefore, we will instead use the first value
+            //    and DISCARD the second.
+            //
+            //    EFFICIENCY must defer to SIMPLICITY.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    05 August 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Output, double R8_NORMAL_01_SAMPLE, a normally distributed random value.
+            //
         {
             const double pi = 3.14159265358979323;
             double r1;
@@ -1520,38 +1520,38 @@ namespace Burkardt.PDFLib
 
         public static double r8_scinvchi_pdf(double df, double s, double rval)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8_SCINVCHI_PDF: PDF for a scaled inverse chi-squared distribution.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    01 May 2013
-//
-//  Author:
-//
-//    Original FORTRAN90 version by Guannan Zhang.
-//    C++ version by John Burkardt.
-//
-//  Parameters:
-//
-//    Input, double DF, the degrees of freedom.
-//    0.0 < DF.
-//
-//    Input, double S, the scale factor.
-//    0.0 < S.
-//
-//    Input, double RVAL, the point where the PDF is evaluated.
-//
-//    Output, double R8_SCINVCHI_PDF, the value of the PDF at RVAL.
-//    inverse-chi-square distribution.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_SCINVCHI_PDF: PDF for a scaled inverse chi-squared distribution.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    01 May 2013
+            //
+            //  Author:
+            //
+            //    Original FORTRAN90 version by Guannan Zhang.
+            //    C++ version by John Burkardt.
+            //
+            //  Parameters:
+            //
+            //    Input, double DF, the degrees of freedom.
+            //    0.0 < DF.
+            //
+            //    Input, double S, the scale factor.
+            //    0.0 < S.
+            //
+            //    Input, double RVAL, the point where the PDF is evaluated.
+            //
+            //    Output, double R8_SCINVCHI_PDF, the value of the PDF at RVAL.
+            //    inverse-chi-square distribution.
+            //
         {
             double temp1;
             double temp2;
@@ -1593,34 +1593,34 @@ namespace Burkardt.PDFLib
 
         public static double r8_scinvchi_sample(double df, double s)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8_SCINVCHI_SAMPLE: sample a scaled inverse chi-squared distribution.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    25 May 2013
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double DF, the degrees of freedom.
-//    0.0 < DF.
-//
-//    Input, double S, the scale factor.
-//    0.0 < S.
-//
-//    Output, double R8_SCINVCHI_SAMPLE, a sample of the distribution
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_SCINVCHI_SAMPLE: sample a scaled inverse chi-squared distribution.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    25 May 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double DF, the degrees of freedom.
+            //    0.0 < DF.
+            //
+            //    Input, double S, the scale factor.
+            //    0.0 < S.
+            //
+            //    Output, double R8_SCINVCHI_SAMPLE, a sample of the distribution
+            //
         {
             double a;
             double b;
@@ -1639,34 +1639,34 @@ namespace Burkardt.PDFLib
 
         public static double r8_uniform_pdf(double lower, double upper, double rval)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8_UNIFORM_PDF evaluates the PDF of a uniform distribution.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    01 May 2013
-//
-//  Author:
-//
-//    Original FORTRAN90 version by Guannan Zhang.
-//    C++ version by John Burkardt.
-//
-//  Parameters:
-//
-//    Input, double LOWER, UPPER, the lower and upper range limits.
-//    LOWER < UPPER.
-//
-//    Input, double RVAL, the point where the PDF is evaluated.
-//
-//    Output, double R8_UNIFORM_PDF, the value of the PDF at RVAL.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_UNIFORM_PDF evaluates the PDF of a uniform distribution.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    01 May 2013
+            //
+            //  Author:
+            //
+            //    Original FORTRAN90 version by Guannan Zhang.
+            //    C++ version by John Burkardt.
+            //
+            //  Parameters:
+            //
+            //    Input, double LOWER, UPPER, the lower and upper range limits.
+            //    LOWER < UPPER.
+            //
+            //    Input, double RVAL, the point where the PDF is evaluated.
+            //
+            //    Output, double R8_UNIFORM_PDF, the value of the PDF at RVAL.
+            //
         {
             double value;
 
@@ -1697,36 +1697,36 @@ namespace Burkardt.PDFLib
 
         public static double r8_uniform_sample(double low, double high)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8_UNIFORM_SAMPLE generates a uniform random deviate.
-//
-//  Discussion:
-//
-//    This procedure generates a real deviate uniformly distributed between
-//    LOW and HIGH.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    01 May 2013
-//
-//  Author:
-//
-//    Original FORTRAN77 version by Barry Brown, James Lovato.
-//    C++ version by John Burkardt.
-//
-//  Parameters:
-//
-//    Input, double LOW, HIGH, the lower and upper bounds.
-//
-//    Output, double R8_UNIFORM_SAMPLE, a random deviate from the distribution.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_UNIFORM_SAMPLE generates a uniform random deviate.
+            //
+            //  Discussion:
+            //
+            //    This procedure generates a real deviate uniformly distributed between
+            //    LOW and HIGH.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    01 May 2013
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Barry Brown, James Lovato.
+            //    C++ version by John Burkardt.
+            //
+            //  Parameters:
+            //
+            //    Input, double LOW, HIGH, the lower and upper bounds.
+            //
+            //    Output, double R8_UNIFORM_SAMPLE, a random deviate from the distribution.
+            //
         {
             double value;
 
@@ -1737,30 +1737,30 @@ namespace Burkardt.PDFLib
 
         public static double r8_uniform_01_pdf(double rval)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8_UNIFORM_01_PDF evaluates the PDF of a standard uniform distribution.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    09 June 2013
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, double RVAL, the point where the PDF is evaluated.
-//
-//    Output, double R8_UNIFORM_01_PDF, the value of the PDF at RVAL.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_UNIFORM_01_PDF evaluates the PDF of a standard uniform distribution.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    09 June 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double RVAL, the point where the PDF is evaluated.
+            //
+            //    Output, double R8_UNIFORM_01_PDF, the value of the PDF at RVAL.
+            //
         {
             double value;
 
@@ -1782,114 +1782,114 @@ namespace Burkardt.PDFLib
 
         public static double r8_uniform_01_sample()
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8_UNIFORM_01_SAMPLE generates a uniform random deviate from [0,1].
-//
-//  Discussion:
-//
-//    This function should be the only way that the package accesses random
-//    numbers.
-//
-//    Setting OPTION to 0 accesses the R8_UNI_01() function in RNGLIB,
-//    for which there are versions in various languages, which should result
-//    in the same values being returned.  This should be the only place
-//    in this library that accesses a function from RNGLIB.
-//
-//    Setting OPTION to 1 in the C++ version calls the system
-//    random number generator "rand()".
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    05 August 2013
-//
-//  Author:
-//
-//    John Burkardt.
-//
-//  Parameters:
-//
-//    Output, double R8_UNIFORM_01_SAMPLE, a random deviate.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8_UNIFORM_01_SAMPLE generates a uniform random deviate from [0,1].
+            //
+            //  Discussion:
+            //
+            //    This function should be the only way that the package accesses random
+            //    numbers.
+            //
+            //    Setting OPTION to 0 accesses the R8_UNI_01() function in RNGLIB,
+            //    for which there are versions in various languages, which should result
+            //    in the same values being returned.  This should be the only place
+            //    in this library that accesses a function from RNGLIB.
+            //
+            //    Setting OPTION to 1 in the C++ version calls the system
+            //    random number generator "rand()".
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    05 August 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt.
+            //
+            //  Parameters:
+            //
+            //    Output, double R8_UNIFORM_01_SAMPLE, a random deviate.
+            //
         {
             const int option = 1;
             double value;
 
             value = entropyRNG.RNG.nextdouble();
 
-/*  
-if ( option == 0 )
-{
-value = r8_uni_01 ( );
-}
-else
-{
-value = ( double ) rand ( ) / ( double ) RAND_MAX;
-}
-*/
+            /*  
+            if ( option == 0 )
+            {
+            value = r8_uni_01 ( );
+            }
+            else
+            {
+            value = ( double ) rand ( ) / ( double ) RAND_MAX;
+            }
+            */
             return value;
         }
 
         public static double r8vec_multinormal_pdf(int n, double[] mu, double[] r, double c_det,
-            double[] x, int xIndex = 0)
+                double[] x, int xIndex = 0)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8VEC_MULTINORMAL_PDF evaluates a multivariate normal PDF.
-//
-//  Discussion:
-//
-//    PDF ( MU(1:N), C(1:N,1:N); X(1:N) ) = 
-//      1 / ( 2 * pi ) ^ ( N / 2 ) * 1 / sqrt ( det ( C ) )
-//      * exp ( - ( X - MU )' * inverse ( C ) * ( X - MU ) / 2 )
-//
-//    Here,
-//
-//      X is the argument vector of length N,
-//      MU is the mean vector of length N,
-//      C is an N by N positive definite symmetric covariance matrix.
-//
-//    The properties of C guarantee that it has an upper triangular
-//    matrix R, the Cholesky factor, such that C = R' * R.  It is the
-//    matrix R that is required by this routine.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    05 August 2013
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, int N, the spatial dimension.
-//
-//    Input, double MU[N], the mean vector.
-//
-//    Input, double R[N*N], the upper triangular Cholesky
-//    factor of the covariance matrix C.
-//
-//    Input, double C_DET, the determinant of the
-//    covariance matrix C.
-//
-//    Input, double X[N], a sample of the distribution.
-//
-//    Output, double R8VEC_MULTINORMAL_PDF, the PDF evaluated
-//    at X.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8VEC_MULTINORMAL_PDF evaluates a multivariate normal PDF.
+            //
+            //  Discussion:
+            //
+            //    PDF ( MU(1:N), C(1:N,1:N); X(1:N) ) = 
+            //      1 / ( 2 * pi ) ^ ( N / 2 ) * 1 / sqrt ( det ( C ) )
+            //      * exp ( - ( X - MU )' * inverse ( C ) * ( X - MU ) / 2 )
+            //
+            //    Here,
+            //
+            //      X is the argument vector of length N,
+            //      MU is the mean vector of length N,
+            //      C is an N by N positive definite symmetric covariance matrix.
+            //
+            //    The properties of C guarantee that it has an upper triangular
+            //    matrix R, the Cholesky factor, such that C = R' * R.  It is the
+            //    matrix R that is required by this routine.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    05 August 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the spatial dimension.
+            //
+            //    Input, double MU[N], the mean vector.
+            //
+            //    Input, double R[N*N], the upper triangular Cholesky
+            //    factor of the covariance matrix C.
+            //
+            //    Input, double C_DET, the determinant of the
+            //    covariance matrix C.
+            //
+            //    Input, double X[N], a sample of the distribution.
+            //
+            //    Output, double R8VEC_MULTINORMAL_PDF, the PDF evaluated
+            //    at X.
+            //
         {
             double[] b;
             int i;
@@ -1897,12 +1897,12 @@ value = ( double ) rand ( ) / ( double ) RAND_MAX;
             double pi = 3.141592653589793;
             double xcx;
             double[] y;
-//
-//  Compute:
-//    inverse(R')*(x-mu) = y
-//  by solving:
-//    R'*y = x-mu
-//
+            //
+            //  Compute:
+            //    inverse(R')*(x-mu) = y
+            //  by solving:
+            //    R'*y = x-mu
+            //
             b = new double[n];
 
             for (i = 0; i < n; i++)
@@ -1911,13 +1911,13 @@ value = ( double ) rand ( ) / ( double ) RAND_MAX;
             }
 
             y = typeMethods.r8mat_utsol(n, r, b);
-//
-//  Compute:
-//    (x-mu)' * inv(C)          * (x-mu)
-//  = (x-mu)' * inv(R'*R)       * (x-mu)
-//  = (x-mu)' * inv(R) * inv(R) * (x-mu)
-//  = y' * y.
-//
+            //
+            //  Compute:
+            //    (x-mu)' * inv(C)          * (x-mu)
+            //  = (x-mu)' * inv(R'*R)       * (x-mu)
+            //  = (x-mu)' * inv(R) * inv(R) * (x-mu)
+            //  = y' * y.
+            //
             xcx = typeMethods.r8vec_dot_product(n, y, y);
 
             pdf = 1.0 / Math.Sqrt(Math.Pow(2.0 * pi, n))
@@ -1929,60 +1929,60 @@ value = ( double ) rand ( ) / ( double ) RAND_MAX;
 
         public static double[] r8vec_multinormal_sample(int n, double[] mu, double[] r)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    R8VEC_MULTINORMAL_SAMPLE samples a multivariate normal PDF.
-//
-//  Discussion:
-//
-//    PDF ( MU(1:N), C(1:N,1:N); X(1:N) ) = 
-//      1 / ( 2 * pi ) ^ ( N / 2 ) * 1 / det ( C )
-//      * exp ( - ( X - MU )' * inverse ( C ) * ( X - MU ) / 2 )
-//
-//    Here,
-//
-//      X is the argument vector of length N,
-//      MU is the mean vector of length N,
-//      C is an N by N positive definite symmetric covariance matrix.
-//
-//    The properties of C guarantee that it has an upper triangular
-//    matrix R, the Cholesky factor, such that C = R' * R.  It is the
-//    matrix R that is required by this routine.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    10 June 2013
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, int N, the spatial dimension.
-//
-//    Input, double MU[N], the mean vector.
-//
-//    Input, double R[N*N], the upper triangular Cholesky
-//    factor of the covariance matrix C.
-//
-//    Output, double R8VEC_MULTINORMAL_SAMPLE[N], a sample of the distribution.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8VEC_MULTINORMAL_SAMPLE samples a multivariate normal PDF.
+            //
+            //  Discussion:
+            //
+            //    PDF ( MU(1:N), C(1:N,1:N); X(1:N) ) = 
+            //      1 / ( 2 * pi ) ^ ( N / 2 ) * 1 / det ( C )
+            //      * exp ( - ( X - MU )' * inverse ( C ) * ( X - MU ) / 2 )
+            //
+            //    Here,
+            //
+            //      X is the argument vector of length N,
+            //      MU is the mean vector of length N,
+            //      C is an N by N positive definite symmetric covariance matrix.
+            //
+            //    The properties of C guarantee that it has an upper triangular
+            //    matrix R, the Cholesky factor, such that C = R' * R.  It is the
+            //    matrix R that is required by this routine.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    10 June 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the spatial dimension.
+            //
+            //    Input, double MU[N], the mean vector.
+            //
+            //    Input, double R[N*N], the upper triangular Cholesky
+            //    factor of the covariance matrix C.
+            //
+            //    Output, double R8VEC_MULTINORMAL_SAMPLE[N], a sample of the distribution.
+            //
         {
             int i;
             int j;
             double[] x;
             double[] z;
-//
-//  Compute X = MU + R' * Z
-//  where Z is a vector of standard normal variates.
-//
+            //
+            //  Compute X = MU + R' * Z
+            //  where Z is a vector of standard normal variates.
+            //
             z = new double[n];
             for (j = 0; j < n; j++)
             {

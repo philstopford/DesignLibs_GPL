@@ -6,40 +6,40 @@ namespace Burkardt.PDFLib
     {
 
         public static double i4_binomial_pdf(int n, double p, int k)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    I4_BINOMIAL_PDF evaluates the binomial PDF.
-//
-//  Discussion:
-//
-//    pdf(n,p,k) = C(n,k) p^k (1-p)^(n-k)
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    24 January 2018
-//
-//  Author:
-//
-//    John Burkardt.
-//
-//  Parameters:
-//
-//    Input, int N, the number of binomial trials.
-//    0 < N.
-//
-//    Input, double P, the probability of a success in one trial.
-//
-//    Input, int K, the number of successes.
-//
-//    Output, double I4_BINOMIAL_PDF, the probability of K successes
-//    in N trials with a per-trial success probability of P.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4_BINOMIAL_PDF evaluates the binomial PDF.
+            //
+            //  Discussion:
+            //
+            //    pdf(n,p,k) = C(n,k) p^k (1-p)^(n-k)
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    24 January 2018
+            //
+            //  Author:
+            //
+            //    John Burkardt.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of binomial trials.
+            //    0 < N.
+            //
+            //    Input, double P, the probability of a success in one trial.
+            //
+            //    Input, int K, the number of successes.
+            //
+            //    Output, double I4_BINOMIAL_PDF, the probability of K successes
+            //    in N trials with a per-trial success probability of P.
+            //
         {
             double value;
 
@@ -61,51 +61,51 @@ namespace Burkardt.PDFLib
 
         public static int i4_binomial_sample(int n, double pp)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    I4_BINOMIAL_SAMPLE generates a binomial random deviate.
-//
-//  Discussion:
-//
-//    This procedure generates a single random deviate from a binomial
-//    distribution whose number of trials is N and whose
-//    probability of an event in each trial is P.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    01 May 2013
-//
-//  Author:
-//
-//    Original FORTRAN77 version by Barry Brown, James Lovato.
-//    C++ version by John Burkardt.
-//
-//  Reference:
-//
-//    Voratas Kachitvichyanukul, Bruce Schmeiser,
-//    Binomial Random Variate Generation,
-//    Communications of the ACM,
-//    Volume 31, Number 2, February 1988, pages 216-222.
-//
-//  Parameters:
-//
-//    Input, int N, the number of binomial trials, from which a
-//    random deviate will be generated.
-//    0 < N.
-//
-//    Input, double PP, the probability of an event in each trial of
-//    the binomial distribution from which a random deviate is to be generated.
-//    0.0 < PP < 1.0.
-//
-//    Output, int I4_BINOMIAL_SAMPLE, a random deviate from the
-//    distribution.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4_BINOMIAL_SAMPLE generates a binomial random deviate.
+            //
+            //  Discussion:
+            //
+            //    This procedure generates a single random deviate from a binomial
+            //    distribution whose number of trials is N and whose
+            //    probability of an event in each trial is P.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    01 May 2013
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Barry Brown, James Lovato.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Voratas Kachitvichyanukul, Bruce Schmeiser,
+            //    Binomial Random Variate Generation,
+            //    Communications of the ACM,
+            //    Volume 31, Number 2, February 1988, pages 216-222.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of binomial trials, from which a
+            //    random deviate will be generated.
+            //    0 < N.
+            //
+            //    Input, double PP, the probability of an event in each trial of
+            //    the binomial distribution from which a random deviate is to be generated.
+            //    0.0 < PP < 1.0.
+            //
+            //    Output, int I4_BINOMIAL_SAMPLE, a random deviate from the
+            //    distribution.
+            //
         {
             double al;
             double alv;
@@ -216,16 +216,16 @@ namespace Burkardt.PDFLib
             p2 = p1 * (1.0 + c + c);
             p3 = p2 + c / xll;
             p4 = p3 + c / xlr;
-//
-//  Generate a variate.
-//
+            //
+            //  Generate a variate.
+            //
             for (;;)
             {
                 u = r8_uniform_01_sample() * p4;
                 v = r8_uniform_01_sample();
-//
-//  Triangle
-//
+                //
+                //  Triangle
+                //
                 if (u < p1)
                 {
                     ix = (int) (xm - p1 * v + u);
@@ -238,9 +238,9 @@ namespace Burkardt.PDFLib
                     return value;
                 }
 
-//
-//  Parallelogram
-//
+                //
+                //  Parallelogram
+                //
                 if (u <= p2)
                 {
                     x = xl + (u - p1) / c;
@@ -371,54 +371,54 @@ namespace Burkardt.PDFLib
 
         public static int i4_uniform_sample(int a, int b)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    I4_UNIFORM_SAMPLE returns a scaled pseudorandom I4 between A and B.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    25 January 2018
-//
-//  Author:
-//
-//    John Burkardt
-//
-//  Parameters:
-//
-//    Input, int A, B, the limits of the interval.
-//
-//    Output, int I4_UNIFORM_AB, a number between A and B.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4_UNIFORM_SAMPLE returns a scaled pseudorandom I4 between A and B.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    25 January 2018
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int A, B, the limits of the interval.
+            //
+            //    Output, int I4_UNIFORM_AB, a number between A and B.
+            //
         {
             int a2;
             int b2;
             double u;
             int value;
-//
-//  We prefer A < B.
-//
+            //
+            //  We prefer A < B.
+            //
             a2 = Math.Min(a, b);
             b2 = Math.Max(a, b);
 
             u = r8_uniform_01_sample();
-//
-//  Scale to [A2-0.5,B2+0.5].
-//
+            //
+            //  Scale to [A2-0.5,B2+0.5].
+            //
             u = (1.0 - u) * ((double) (a2) - 0.5)
                 + u * ((double) (b2) + 0.5);
-//
-//  Round.
-//
+            //
+            //  Round.
+            //
             value = (int) Math.Round(u);
-//
-//  Enforce limits.
-//
+            //
+            //  Enforce limits.
+            //
             if (value < a2)
             {
                 value = a2;
@@ -433,40 +433,40 @@ namespace Burkardt.PDFLib
         }
 
         public static double i4vec_multinomial_pdf(int n, double[] p, int m, int[] x)
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    I4VEC_MULTINOMIAL_PDF evaluates the multinomial PDF.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    10 June 2013
-//
-//  Author:
-//
-//    John Burkardt.
-//
-//  Parameters:
-//
-//    Input, int N, the number of trials.
-//
-//    Input, double P[M], the probability of each outcome
-//    on any single trial.
-//
-//    Input, int M, the number of possible outcomes
-//    of a single trial.
-//
-//    Input, int X[M], the results of N trials,
-//    with X(I) the number of times outcome I occurred.
-//
-//    Output, double I4VEC_MULTINOMIAL_PDF, the probability
-//    density function evaluated at X.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_MULTINOMIAL_PDF evaluates the multinomial PDF.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    10 June 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of trials.
+            //
+            //    Input, double P[M], the probability of each outcome
+            //    on any single trial.
+            //
+            //    Input, int M, the number of possible outcomes
+            //    of a single trial.
+            //
+            //    Input, int X[M], the results of N trials,
+            //    with X(I) the number of times outcome I occurred.
+            //
+            //    Output, double I4VEC_MULTINOMIAL_PDF, the probability
+            //    density function evaluated at X.
+            //
         {
             int bot;
             int c;
@@ -474,9 +474,9 @@ namespace Burkardt.PDFLib
             int j;
             double pdf;
             int top;
-//
-//  The combinatorial coefficient is an integer.
-//
+            //
+            //  The combinatorial coefficient is an integer.
+            //
             c = 1;
             top = n;
             for (i = 0; i < m; i++)
@@ -501,49 +501,49 @@ namespace Burkardt.PDFLib
 
         public static int[] i4vec_multinomial_sample(int n, double[] p, int ncat)
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    I4VEC_MULTINOMIAL_SAMPLE generates a multinomial random deviate.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license.
-//
-//  Modified:
-//
-//    01 May 2013
-//
-//  Author:
-//
-//    Original FORTRAN77 version by Barry Brown, James Lovato.
-//    C++ version by John Burkardt.
-//
-//  Reference:
-//
-//    Luc Devroye,
-//    Non-Uniform Random Variate Generation,
-//    Springer, 1986,
-//    ISBN: 0387963057,
-//    LC: QA274.D48.
-//
-//  Parameters:
-//
-//    Input, int N, the number of events, which will be
-//    classified into one of the NCAT categories.
-//
-//    Input, double P[NCAT-1].  P(I) is the probability that an event
-//    will be classified into category I.  Thus, each P(I) must be between 
-//    0.0 and 1.0.  Only the first NCAT-1 values of P must be defined since 
-//    P(NCAT) would be 1.0 minus the sum of the first NCAT-1 P's.
-//
-//    Input, int NCAT, the number of categories.
-//
-//    Output, int I4VEC_MULTINOMIAL_SAMPLE[NCAT], a random observation from 
-//    the multinomial distribution.  All IX(i) will be nonnegative and their 
-//    sum will be N.
-//
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_MULTINOMIAL_SAMPLE generates a multinomial random deviate.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    01 May 2013
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Barry Brown, James Lovato.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Luc Devroye,
+            //    Non-Uniform Random Variate Generation,
+            //    Springer, 1986,
+            //    ISBN: 0387963057,
+            //    LC: QA274.D48.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of events, which will be
+            //    classified into one of the NCAT categories.
+            //
+            //    Input, double P[NCAT-1].  P(I) is the probability that an event
+            //    will be classified into category I.  Thus, each P(I) must be between 
+            //    0.0 and 1.0.  Only the first NCAT-1 values of P must be defined since 
+            //    P(NCAT) would be 1.0 minus the sum of the first NCAT-1 P's.
+            //
+            //    Input, int NCAT, the number of categories.
+            //
+            //    Output, int I4VEC_MULTINOMIAL_SAMPLE[NCAT], a random observation from 
+            //    the multinomial distribution.  All IX(i) will be nonnegative and their 
+            //    sum will be N.
+            //
         {
             int i;
             int icat;
@@ -601,9 +601,9 @@ namespace Burkardt.PDFLib
                 return new int[1];
             }
 
-//
-//  Initialize variables.
-//
+            //
+            //  Initialize variables.
+            //
             ntot = n;
             ptot = 1.0;
 
@@ -613,9 +613,9 @@ namespace Burkardt.PDFLib
                 ix[i] = 0;
             }
 
-//
-//  Generate the observation.
-//
+            //
+            //  Generate the observation.
+            //
             for (icat = 0; icat < ncat - 1; icat++)
             {
                 prob = p[icat] / ptot;

@@ -119,7 +119,7 @@ namespace Burkardt.Function
                 return lfun;
             }
 
-            llfun = FEM_1D_Lagrange.lagrange_value(n, x, nfun, xfun);
+            llfun = FEM_1D_Lagrange.lagrange_value_OLD(n, x, nfun, xfun);
 
             for (j = 0; j < nfun; j++)
             {

@@ -198,6 +198,108 @@ namespace Burkardt.FEM
             return lpi;
         }
 
+        public static double[] lagrange_value_OLD(int data_num, double[] t_data, int interp_num,
+                double[] t_interp)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    LAGRANGE_VALUE evaluates the Lagrange polynomials.
+            //
+            //  Discussion:
+            //
+            //    Given DATA_NUM distinct abscissas, T_DATA(1:DATA_NUM),
+            //    the I-th Lagrange polynomial L(I)(T) is defined as the polynomial of
+            //    degree DATA_NUM - 1 which is 1 at T_DATA(I) and 0 at the DATA_NUM - 1
+            //    other abscissas.
+            //
+            //    A formal representation is:
+            //
+            //      L(I)(T) = Product ( 1 <= J <= DATA_NUM, I /= J )
+            //       ( T - T(J) ) / ( T(I) - T(J) )
+            //
+            //    This routine accepts a set of INTERP_NUM values at which all the Lagrange
+            //    polynomials should be evaluated.
+            //
+            //    Given data values P_DATA at each of the abscissas, the value of the
+            //    Lagrange interpolating polynomial at each of the interpolation points
+            //    is then simple to compute by matrix multiplication:
+            //
+            //      P_INTERP(1:INTERP_NUM) =
+            //        P_DATA(1:DATA_NUM) * L_INTERP(1:DATA_NUM,1:INTERP_NUM)
+            //
+            //    or, in the case where P is multidimensional:
+            //
+            //      P_INTERP(1:M,1:INTERP_NUM) =
+            //        P_DATA(1:M,1:DATA_NUM) * L_INTERP(1:DATA_NUM,1:INTERP_NUM)
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    03 December 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int DATA_NUM, the number of data points.
+            //    DATA_NUM must be at least 1.
+            //
+            //    Input, double T_DATA[DATA_NUM], the data points.
+            //
+            //    Input, int INTERP_NUM, the number of
+            //    interpolation points.
+            //
+            //    Input, double T_INTERP[INTERP_NUM], the
+            //    interpolation points.
+            //
+            //    Output, double LAGRANGE_VALUE[DATA_NUM*INTERP_NUM], the values
+            //    of the Lagrange polynomials at the interpolation points.
+            //
+        {
+            int i;
+            int i1;
+            int i2;
+            int j;
+            double[] l_interp;
+
+            l_interp = new double[data_num * interp_num];
+            //
+            //  Evaluate the polynomial.
+            //
+            for (j = 0; j < interp_num; j++)
+            {
+                for (i = 0; i < data_num; i++)
+                {
+                    l_interp[i + j * data_num] = 1.0;
+                }
+            }
+
+            for (i1 = 0; i1 < data_num; i1++)
+            {
+                for (i2 = 0; i2 < data_num; i2++)
+                {
+                    if (i1 != i2)
+                    {
+                        for (j = 0; j < interp_num; j++)
+                        {
+                            l_interp[i1 + j * data_num] = l_interp[i1 + j * data_num]
+                                * (t_interp[j] - t_data[i2]) / (t_data[i1] - t_data[i2]);
+                        }
+                    }
+                }
+            }
+
+            return l_interp;
+        }
+
+
         public static double[] lagrange_value(int nd, double[] xd, int ni, double[] xi)
 
             //****************************************************************************80

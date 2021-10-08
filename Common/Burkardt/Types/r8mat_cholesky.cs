@@ -59,7 +59,7 @@ namespace Burkardt.Types
             double tol;
 
             flag = 0;
-            tol = Math.Sqrt(Double.Epsilon);
+            tol = Math.Sqrt(typeMethods.r8_epsilon());
 
             c = r8mat_copy_new(n, n, a);
 

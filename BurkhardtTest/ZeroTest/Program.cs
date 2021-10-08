@@ -1,6 +1,7 @@
 ﻿using System;
 using Burkardt;
 using Burkardt.SolveNS;
+using Burkardt.Types;
 
 namespace ZeroTest
 {
@@ -99,7 +100,7 @@ namespace ZeroTest
             double t;
             double z;
 
-            t = double.Epsilon;
+            t = typeMethods.r8_epsilon();
 
             z = Zero.zero(a, b, t, f, ref calls);
             fz = f(z);

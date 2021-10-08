@@ -983,6 +983,7 @@ namespace Burkardt.PolyominoNS
                     }
 
                     Console.WriteLine(cout);
+                    cout = "";
                 }
             }
         }

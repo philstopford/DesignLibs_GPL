@@ -134,7 +134,7 @@ namespace NiederreiterTest
                                           + "  " + seed_out.ToString().PadLeft(8);
                         for (dim = 0; dim < dim_num; dim++)
                         {
-                            cout += r[dim].ToString().PadLeft(10);
+                            cout += "  " + r[dim].ToString().PadLeft(10);
                         }
 
                         Console.WriteLine(cout);
@@ -213,7 +213,7 @@ namespace NiederreiterTest
                                   + "  " + seed_out.ToString().PadLeft(8);
                 for (dim = 0; dim < dim_num; dim++)
                 {
-                    cout += r[dim].ToString().PadLeft(10);
+                    cout += "  " + r[dim].ToString().PadLeft(10);
                 }
 
                 Console.WriteLine(cout);
@@ -238,7 +238,7 @@ namespace NiederreiterTest
                                   + "  " + seed_out.ToString().PadLeft(8);
                 for (dim = 0; dim < dim_num; dim++)
                 {
-                    cout += r[dim].ToString().PadLeft(10);
+                    cout += "  " + r[dim].ToString().PadLeft(10);
                 }
 
                 Console.WriteLine(cout);
@@ -263,7 +263,7 @@ namespace NiederreiterTest
                                   + "  " + seed_out.ToString().PadLeft(8);
                 for (dim = 0; dim < dim_num; dim++)
                 {
-                    cout += r[dim].ToString().PadLeft(10);
+                    cout += "  " + r[dim].ToString().PadLeft(8);
                 }
 
                 Console.WriteLine(cout);
@@ -289,7 +289,7 @@ namespace NiederreiterTest
                                   + "  " + seed_out.ToString().PadLeft(8);
                 for (dim = 0; dim < dim_num; dim++)
                 {
-                    cout += r[dim].ToString().PadLeft(10);
+                    cout += "  " + r[dim].ToString().PadLeft(10);
                 }
 
                 Console.WriteLine(cout);
@@ -370,7 +370,7 @@ namespace NiederreiterTest
                                   + "  " + seed_out.ToString().PadLeft(8);
                 for (dim = 0; dim < dim_num; dim++)
                 {
-                    cout += r[dim].ToString().PadLeft(10);
+                    cout += "  " + r[dim].ToString().PadLeft(10);
                     if (((dim + 1) % 5 == 0) && (dim != dim_num))
                     {
                         Console.WriteLine(cout);

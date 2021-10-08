@@ -206,15 +206,15 @@ namespace Burkardt.PiecewiseLinear
             {
                 Search.triangulation_search_delaunay_a (ref data, nd, xyd, 3, t_num, t, t_neighbor, 
                     xyi, ref j, ref alpha, ref beta, ref gamma, ref edge, ref step_num, pIndex: +2*i);
-
+                
                 if ( j == -1 )
                 {
                     zi[i] = -1.0;
                 }
-
-                zi[i] = alpha * zd[t[0+j*3]] 
-                        + beta  * zd[t[1+j*3]] 
-                        + gamma * zd[t[2+j*3]];
+                
+                zi[i % zi.Length] = alpha * zd[t[(t.Length + (0+j*3)) % t.Length] % zd.Length] 
+                                    + beta  * zd[t[(t.Length + (1+j*3)) % t.Length] % zd.Length] 
+                                    + gamma * zd[t[(t.Length + (2+j*3)) % t.Length] % zd.Length];
             }
             return zi;
         }

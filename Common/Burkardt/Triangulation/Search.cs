@@ -14,7 +14,7 @@ namespace Burkardt.TriangulationNS
 
         public static void triangulation_search_delaunay ( int node_num, double[] node_xy, int triangle_order,
         int triangle_num, int[] triangle_node, int[] triangle_neighbor, 
-        double[] p, ref int triangle, ref int edge )
+        double[] p, ref int triangle, ref int edge, int pIndex = 0 )
 
         //****************************************************************************80
         //
@@ -152,8 +152,8 @@ namespace Burkardt.TriangulationNS
                 dxb = node_xy[0 + b * 2] - node_xy[0 + c * 2];
                 dyb = node_xy[1 + b * 2] - node_xy[1 + c * 2];
 
-                dxp = p[0] - node_xy[0 + c * 2];
-                dyp = p[1] - node_xy[1 + c * 2];
+                dxp = p[0 + pIndex] - node_xy[0 + c * 2];
+                dyp = p[1 + pIndex] - node_xy[1 + c * 2];
 
                 det = dxa * dyb - dya * dxb;
                 //
@@ -359,20 +359,15 @@ namespace Burkardt.TriangulationNS
                     Console.WriteLine("TRIANGULATION_SEARCH_DELAUNAY - Fatal error!");
                     Console.WriteLine("  The algorithm seems to be cycling.");
                     Console.WriteLine("  Current triangle is " + triangle_index + "");
-                    triangle_index = -1;
-                    alpha = -1.0;
-                    beta = -1.0;
-                    gamma = -1.0;
-                    edge = -1;
                     return;
                 }
 
                 //
                 //  Get the vertices of triangle TRIANGLE.
                 //
-                a = triangle_node[0 + (triangle_index - 1) * triangle_order];
-                b = triangle_node[1 + (triangle_index - 1) * triangle_order];
-                c = triangle_node[2 + (triangle_index - 1) * triangle_order];
+                a = triangle_node[0 + triangle_index * triangle_order];
+                b = triangle_node[1 + triangle_index * triangle_order];
+                c = triangle_node[2 + triangle_index * triangle_order];
                 //
                 //  Using vertex C as a base, compute the distances to vertices A and B,
                 //  and the point (X,Y).
@@ -415,19 +410,19 @@ namespace Burkardt.TriangulationNS
                 //  most negative one, or the most negative one normalized by the actual
                 //  distance it represents).
                 //
-                if (alpha < 0.0 && 0 <= triangle_neighbor[1 + (triangle_index - 1) * 3])
+                if (alpha < 0.0 && 0 <= triangle_neighbor[1 + triangle_index * 3])
                 {
-                    triangle_index = triangle_neighbor[1 + (triangle_index - 1) * 3];
+                    triangle_index = triangle_neighbor[1 + triangle_index * 3];
                     continue;
                 }
-                else if (beta < 0.0 && 0 <= triangle_neighbor[2 + (triangle_index - 1) * 3])
+                else if (beta < 0.0 && 0 <= triangle_neighbor[2 + triangle_index * 3])
                 {
-                    triangle_index = triangle_neighbor[2 + (triangle_index - 1) * 3];
+                    triangle_index = triangle_neighbor[2 + triangle_index * 3];
                     continue;
                 }
-                else if (gamma < 0.0 && 0 <= triangle_neighbor[0 + (triangle_index - 1) * 3])
+                else if (gamma < 0.0 && 0 <= triangle_neighbor[0 + triangle_index * 3])
                 {
-                    triangle_index = triangle_neighbor[0 + (triangle_index - 1) * 3];
+                    triangle_index = triangle_neighbor[0 + triangle_index * 3];
                     continue;
                 }
 

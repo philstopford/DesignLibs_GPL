@@ -1,6 +1,7 @@
 ﻿using System;
 using Burkardt;
 using Burkardt.Function;
+using Burkardt.Types;
 
 namespace GlominTest
 {
@@ -39,8 +40,8 @@ namespace GlominTest
             Console.WriteLine("  in an interval [A,B], given some upper bound M ");
             Console.WriteLine("  for the second derivative of F.");
 
-            e = Math.Sqrt(double.Epsilon);
-            t = Math.Sqrt(double.Epsilon);
+            e = Math.Sqrt(typeMethods.r8_epsilon());
+            t = Math.Sqrt(typeMethods.r8_epsilon());
 
             Console.WriteLine("");
             Console.WriteLine("  Tolerances:");

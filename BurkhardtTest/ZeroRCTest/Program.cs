@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt.SolveNS;
+using Burkardt.Types;
 
 namespace ZeroRCTest
 {
@@ -100,7 +101,7 @@ namespace ZeroRCTest
             Console.WriteLine("    STATUS      X               F(X)");
             Console.WriteLine("");
 
-            double t = Double.Epsilon;
+            double t = typeMethods.r8_epsilon();
 
             int status = 0;
 

@@ -161,7 +161,7 @@ namespace LinpackBench
                 b_max = Math.Max(b_max, Math.Abs(b[i]));
             }
 
-            eps = double.Epsilon;
+            eps = typeMethods.r8_epsilon();
 
             residn = resid_max / ((double) N * a_max * b_max * eps);
 

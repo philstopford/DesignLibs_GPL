@@ -1,6 +1,7 @@
 ﻿using System;
 using Burkardt;
 using Burkardt.SolveNS;
+using Burkardt.Types;
 
 namespace LocalMinimumTest
 {
@@ -115,7 +116,7 @@ namespace LocalMinimumTest
             double t;
             double x = 0;
 
-            t = Math.Sqrt(double.Epsilon);
+            t = Math.Sqrt(typeMethods.r8_epsilon());
 
             fx = LocalMinimum.local_min(a, b, t, f, ref x, ref calls);
             fa = f(a);

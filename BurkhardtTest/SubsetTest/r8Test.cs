@@ -134,7 +134,7 @@ namespace SubsetTestNS
             Console.WriteLine("  R8_EPSILON produces the floating point machine precision.");
             Console.WriteLine("");
 
-            r = double.Epsilon;
+            r = typeMethods.r8_epsilon();
             Console.WriteLine("  R = R8_EPSILON() = " + r.ToString().PadLeft(10) + "");
 
             s = (double)(1.0 + r) - 1.0;

@@ -131,7 +131,7 @@ namespace CentroidalVoronoiTessellationTest
             Console.WriteLine("  SAMPLE =                  \"" + sample_string + "\".");
             Console.WriteLine("  Samples SAMPLE_NUM    =    " + sample_num + "");
             Console.WriteLine("  Sampling BATCH size =      " + batch + "");
-            Console.WriteLine("  EPSILON (unit roundoff) =  " + double.Epsilon + "");
+            Console.WriteLine("  EPSILON (unit roundoff) =  " + typeMethods.r8_epsilon() + "");
 
             typeMethods.r8mat_transpose_print(DIM_NUM, N, r, "  Generators (rows):");
         }
@@ -211,7 +211,7 @@ namespace CentroidalVoronoiTessellationTest
             Console.WriteLine("  SAMPLE =                  \"" + sample_string + "\".");
             Console.WriteLine("  Samples SAMPLE_NUM    =    " + sample_num + "");
             Console.WriteLine("  Sampling BATCH size =      " + batch + "");
-            Console.WriteLine("  EPSILON (unit roundoff) =  " + double.Epsilon + "");
+            Console.WriteLine("  EPSILON (unit roundoff) =  " + typeMethods.r8_epsilon() + "");
 
             typeMethods.r8mat_transpose_print(DIM_NUM, N, r, "  Generators (rows):");
         }
@@ -291,7 +291,7 @@ namespace CentroidalVoronoiTessellationTest
             Console.WriteLine("  SAMPLE =                  \"" + sample_string + "\".");
             Console.WriteLine("  Samples SAMPLE_NUM    =    " + sample_num + "");
             Console.WriteLine("  Sampling BATCH size =      " + batch + "");
-            Console.WriteLine("  EPSILON (unit roundoff) =  " + double.Epsilon + "");
+            Console.WriteLine("  EPSILON (unit roundoff) =  " + typeMethods.r8_epsilon() + "");
 
             typeMethods.r8mat_transpose_print(DIM_NUM, N, r, "  Generators (rows):");
         }
@@ -371,7 +371,7 @@ namespace CentroidalVoronoiTessellationTest
             Console.WriteLine("  SAMPLE =                  \"" + sample_string + "\".");
             Console.WriteLine("  Samples SAMPLE_NUM    =    " + sample_num + "");
             Console.WriteLine("  Sampling BATCH size =      " + batch + "");
-            Console.WriteLine("  EPSILON (unit roundoff) =  " + double.Epsilon + "");
+            Console.WriteLine("  EPSILON (unit roundoff) =  " + typeMethods.r8_epsilon() + "");
 
             typeMethods.r8mat_transpose_print(DIM_NUM, N, r, "  Generators (rows):");
         }
@@ -451,7 +451,7 @@ namespace CentroidalVoronoiTessellationTest
             Console.WriteLine("  SAMPLE =                  \"" + sample_string + "\".");
             Console.WriteLine("  Samples SAMPLE_NUM    =    " + sample_num + "");
             Console.WriteLine("  Sampling BATCH size =      " + batch + "");
-            Console.WriteLine("  EPSILON (unit roundoff) =  " + double.Epsilon + "");
+            Console.WriteLine("  EPSILON (unit roundoff) =  " + typeMethods.r8_epsilon() + "");
 
             typeMethods.r8mat_transpose_print(DIM_NUM, N, r, "  Generators (rows):");
         }
@@ -531,7 +531,7 @@ namespace CentroidalVoronoiTessellationTest
             Console.WriteLine("  SAMPLE =                  \"" + sample_string + "\".");
             Console.WriteLine("  Samples SAMPLE_NUM    =    " + sample_num + "");
             Console.WriteLine("  Sampling BATCH size =      " + batch + "");
-            Console.WriteLine("  EPSILON (unit roundoff) =  " + double.Epsilon + "");
+            Console.WriteLine("  EPSILON (unit roundoff) =  " + typeMethods.r8_epsilon() + "");
 
             typeMethods.r8mat_transpose_print(DIM_NUM, N, r, "  Generators (rows):");
         }
@@ -611,7 +611,7 @@ namespace CentroidalVoronoiTessellationTest
             Console.WriteLine("  SAMPLE =                  \"" + sample_string + "\".");
             Console.WriteLine("  Samples SAMPLE_NUM    =    " + sample_num + "");
             Console.WriteLine("  Sampling BATCH size =      " + batch + "");
-            Console.WriteLine("  EPSILON (unit roundoff) =  " + double.Epsilon + "");
+            Console.WriteLine("  EPSILON (unit roundoff) =  " + typeMethods.r8_epsilon() + "");
 
             typeMethods.r8mat_transpose_print(DIM_NUM, N, r, "  Generators (rows):");
         }
@@ -691,7 +691,7 @@ namespace CentroidalVoronoiTessellationTest
             Console.WriteLine("  SAMPLE =                  \"" + sample_string + "\".");
             Console.WriteLine("  Samples SAMPLE_NUM    =    " + sample_num + "");
             Console.WriteLine("  Sampling BATCH size =      " + batch + "");
-            Console.WriteLine("  EPSILON (unit roundoff) =  " + double.Epsilon + "");
+            Console.WriteLine("  EPSILON (unit roundoff) =  " + typeMethods.r8_epsilon() + "");
 
             typeMethods.r8mat_transpose_print(DIM_NUM, N, r, "  Generators (rows):");
         }
@@ -771,7 +771,7 @@ namespace CentroidalVoronoiTessellationTest
             Console.WriteLine("  SAMPLE =                  \"" + sample_string + "\".");
             Console.WriteLine("  Samples SAMPLE_NUM    =    " + sample_num + "");
             Console.WriteLine("  Sampling BATCH size =      " + batch + "");
-            Console.WriteLine("  EPSILON (unit roundoff) =  " + double.Epsilon + "");
+            Console.WriteLine("  EPSILON (unit roundoff) =  " + typeMethods.r8_epsilon() + "");
 
             typeMethods.r8mat_transpose_print(DIM_NUM, N, r, "  Generators (rows):");
         }
@@ -851,7 +851,7 @@ namespace CentroidalVoronoiTessellationTest
             Console.WriteLine("  SAMPLE =                  \"" + sample_string + "\".");
             Console.WriteLine("  Samples SAMPLE_NUM    =    " + sample_num + "");
             Console.WriteLine("  Sampling BATCH size =      " + batch + "");
-            Console.WriteLine("  EPSILON (unit roundoff) =  " + double.Epsilon + "");
+            Console.WriteLine("  EPSILON (unit roundoff) =  " + typeMethods.r8_epsilon() + "");
 
             typeMethods.r8mat_transpose_print_some(DIM_NUM, N, r, 1, 1, DIM_NUM, 10,
                 "  First 10 Generators (rows):");
@@ -970,7 +970,7 @@ namespace CentroidalVoronoiTessellationTest
             Console.WriteLine("  SAMPLE =                  \"" + sample_string + "\".");
             Console.WriteLine("  Samples SAMPLE_NUM    =    " + sample_num + "");
             Console.WriteLine("  Sampling BATCH size =      " + batch + "");
-            Console.WriteLine("  EPSILON (unit roundoff) =  " + double.Epsilon + "");
+            Console.WriteLine("  EPSILON (unit roundoff) =  " + typeMethods.r8_epsilon() + "");
 
             typeMethods.r8mat_transpose_print(DIM_NUM, N, r, "  Generators (rows):");
 
@@ -1091,7 +1091,7 @@ namespace CentroidalVoronoiTessellationTest
             Console.WriteLine("  SAMPLE =                  \"" + sample_string + "\".");
             Console.WriteLine("  Samples SAMPLE_NUM    =    " + sample_num + "");
             Console.WriteLine("  Sampling BATCH size =      " + batch + "");
-            Console.WriteLine("  EPSILON (unit roundoff) =  " + double.Epsilon + "");
+            Console.WriteLine("  EPSILON (unit roundoff) =  " + typeMethods.r8_epsilon() + "");
 
             typeMethods.r8mat_transpose_print(DIM_NUM, N, r, "  Generators (rows):");
             //
@@ -1128,7 +1128,7 @@ namespace CentroidalVoronoiTessellationTest
             Console.WriteLine("  SAMPLE =                  \"" + sample_string + "\".");
             Console.WriteLine("  Samples SAMPLE_NUM    =    " + sample_num + "");
             Console.WriteLine("  Sampling BATCH size =      " + batch + "");
-            Console.WriteLine("  EPSILON (unit roundoff) =  " + double.Epsilon + "");
+            Console.WriteLine("  EPSILON (unit roundoff) =  " + typeMethods.r8_epsilon() + "");
 
             typeMethods.r8mat_transpose_print(DIM_NUM, N, r, "  Generators (rows):");
             //
@@ -1165,7 +1165,7 @@ namespace CentroidalVoronoiTessellationTest
             Console.WriteLine("  SAMPLE =                  \"" + sample_string + "\".");
             Console.WriteLine("  Samples SAMPLE_NUM    =    " + sample_num + "");
             Console.WriteLine("  Sampling BATCH size =      " + batch + "");
-            Console.WriteLine("  EPSILON (unit roundoff) =  " + double.Epsilon + "");
+            Console.WriteLine("  EPSILON (unit roundoff) =  " + typeMethods.r8_epsilon() + "");
 
             typeMethods.r8mat_transpose_print(DIM_NUM, N, r, "  Generators (rows):");
         }
@@ -1248,7 +1248,7 @@ namespace CentroidalVoronoiTessellationTest
             Console.WriteLine("  SAMPLE =                  \"" + sample_string + "\".");
             Console.WriteLine("  Samples SAMPLE_NUM    =    " + sample_num + "");
             Console.WriteLine("  Sampling BATCH size =      " + batch + "");
-            Console.WriteLine("  EPSILON (unit roundoff) =  " + double.Epsilon + "");
+            Console.WriteLine("  EPSILON (unit roundoff) =  " + typeMethods.r8_epsilon() + "");
 
             typeMethods.r8mat_write(file_out_name, DIM_NUM, N, r);
         }
@@ -1327,7 +1327,7 @@ namespace CentroidalVoronoiTessellationTest
             Console.WriteLine("  SAMPLE =                  \"" + sample_string + "\".");
             Console.WriteLine("  Samples SAMPLE_NUM    =    " + sample_num + "");
             Console.WriteLine("  Sampling BATCH size =      " + batch + "");
-            Console.WriteLine("  EPSILON (unit roundoff) =  " + double.Epsilon + "");
+            Console.WriteLine("  EPSILON (unit roundoff) =  " + typeMethods.r8_epsilon() + "");
 
             typeMethods.r8mat_transpose_print(DIM_NUM, N, r, "  Generators (rows):");
         }

@@ -311,10 +311,11 @@ namespace Burkardt.IO
                         }
                         catch (Exception e)
                         {
+                            /*
                             Console.WriteLine();
                             Console.WriteLine("PBMB_CHECK_DATA - Fatal error!");
                             Console.WriteLine("  Failed reading byte " + numbyte);
-                            return true;
+                            */
                         }
                         numbyte = numbyte + 1;
                     }

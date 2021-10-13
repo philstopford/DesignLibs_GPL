@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using Burkardt.Types;
 using MiscUtil.Conversion;
 using MiscUtil.IO;
@@ -222,7 +223,7 @@ namespace Burkardt.IO
             //
             //  Read the header.
             //
-            error = pbmb_read_header(input_name, ref xsize, ref ysize);
+            error = pbmb_read_header(ref file_in, ref xsize, ref ysize);
 
             if (error)
             {
@@ -328,7 +329,7 @@ namespace Burkardt.IO
             return false;
         }
 
-        public static bool pbmb_read_header(string input_name, ref int xsize, ref int ysize)
+        public static bool pbmb_read_header(ref EndianBinaryReader br, ref int xsize, ref int ysize)
 
             //****************************************************************************80
             //
@@ -366,13 +367,20 @@ namespace Burkardt.IO
             step = 0;
             int index = 0;
 
-            string[] lines = File.ReadAllLines(input_name);
             
             while (true)
             {
                 try
                 {
-                    line = lines[index];
+                    // Read null-terminated string.
+                    List<byte> strBytes = new List<byte>();
+                    int b;
+                    while ((b = br.ReadByte()) != 0x00)
+                    {
+                        strBytes.Add((byte) b);
+                    }
+
+                    line = Encoding.ASCII.GetString(strBytes.ToArray());
                 }
                 catch
                 {
@@ -436,7 +444,6 @@ namespace Burkardt.IO
                 }
 
             }
-
             return false;
         }
 
@@ -542,9 +549,9 @@ namespace Burkardt.IO
             //    Output, bool PBMB_WRITE, is true if an error occurred.
             //
         {
-            bool error;
+            bool error = false;
             Stream file_out_s;
-            EndianBinaryWriter file_out;
+            EndianBinaryWriter file_out = null;
 
             try
             {
@@ -556,37 +563,40 @@ namespace Burkardt.IO
                 Console.WriteLine("");
                 Console.WriteLine("PBMB_WRITE: Fatal error!");
                 Console.WriteLine("  Cannot open the output file " + output_name + "");
-                return true;
+                error = true;
             }
 
-            //
-            //  Write the header.
-            //
-            error = pbmb_write_header(ref file_out, xsize, ysize);
-
-            if (error)
+            if (!error)
             {
-                Console.WriteLine("");
-                Console.WriteLine("PBMB_WRITE: Fatal error!");
-                Console.WriteLine("  PBMB_WRITE_HEADER failed.");
-                return true;
+                //
+                //  Write the header.
+                //
+                error = pbmb_write_header(ref file_out, xsize, ysize);
+
+                if (error)
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("PBMB_WRITE: Fatal error!");
+                    Console.WriteLine("  PBMB_WRITE_HEADER failed.");
+                }
+                else
+                {
+                    //
+                    //  Write the data.
+                    //
+                    error = pbmb_write_data(ref file_out, xsize, ysize, barray);
+
+                    if (error)
+                    {
+                        Console.WriteLine("");
+                        Console.WriteLine("PBMB_WRITE: Fatal error!");
+                        Console.WriteLine("  PBMB_WRITE_DATA failed.");
+                    }
+                }
+                file_out.Close();
             }
 
-            //
-            //  Write the data.
-            //
-            error = pbmb_write_data(ref file_out, xsize, ysize, barray);
-
-            if (error)
-            {
-                Console.WriteLine("");
-                Console.WriteLine("PBMB_WRITE: Fatal error!");
-                Console.WriteLine("  PBMB_WRITE_DATA failed.");
-                return true;
-            }
-            file_out.Close();
-            
-            return false;
+            return error;
         }
 
         public static bool pbmb_write_data(ref EndianBinaryWriter file_out, int xsize, int ysize, int[] barray)

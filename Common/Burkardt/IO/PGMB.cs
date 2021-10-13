@@ -199,8 +199,6 @@ namespace Burkardt.IO
             //
         {
             bool error;
-            string[] input;
-            int inputIndex = -1;
 
             Stream file_in_s;
             EndianBinaryReader file_in;
@@ -210,7 +208,7 @@ namespace Burkardt.IO
                 file_in_s = File.OpenRead(input_name);
                 file_in = new EndianBinaryReader(EndianBitConverter.Little, file_in_s);
             }
-            catch
+            catch (Exception e)
             {
                 Console.WriteLine("");
                 Console.WriteLine("PGMB_READ: Fatal error!");
@@ -347,10 +345,9 @@ namespace Burkardt.IO
             {
                 try
                 {
-                    // Read null-terminated string.
                     List<byte> strBytes = new List<byte>();
                     int b;
-                    while ((b = file_in.ReadByte()) != 0x00)
+                    while ( (step < 3) && ((b = file_in.ReadByte()) != 0x20))
                     {
                         strBytes.Add((byte) b);
                     }
@@ -421,6 +418,15 @@ namespace Burkardt.IO
 
                 if (step == 3)
                 {
+                    List<byte> strBytes = new List<byte>();
+                    int b;
+                    while ((b = file_in.ReadByte()) != 60)
+                    {
+                        strBytes.Add((byte) b);
+                    }
+
+                    line = Encoding.ASCII.GetString(strBytes.ToArray());
+
                     typeMethods.s_word_extract_first(line, ref word, ref rest);
 
                     if (typeMethods.s_len_trim(word) <= 0)
@@ -605,6 +611,8 @@ namespace Burkardt.IO
                 Console.WriteLine("  PGMB_WRITE_DATA failed.");
                 return true;
             }
+
+            file_out.Close();
 
             return false;
         }

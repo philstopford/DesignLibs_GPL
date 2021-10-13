@@ -442,6 +442,7 @@
     <projectFile>BurkhardtTest/FDM/FD1DBVPTest/FD1DBVPTest.csproj</projectFile>
     <projectFile>BurkhardtTest/IO/PBMAIOTest/PBMAIOTest.csproj</projectFile>
     <projectFile>BurkhardtTest/IO/PBMBIOTest/PBMBIOTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/IO/PGMBtoPGMA/PGMBtoPGMA.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -550,7 +551,7 @@
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C#" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunManager" selected=".NET Project.Tests\Burkhardt\IO\PBMBIOTest">
+  <component name="RunManager" selected=".NET Project.PGMBIOTest">
     <configuration name="ASA005Test" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -5015,6 +5016,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="PGMBtoPGMA" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/IO/PGMBtoPGMA/PGMBtoPGMA.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="PPMAASCIIIOTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/PPMAASCIIIOTest/Debug/net5.0/PPMAASCIIIOTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -8948,6 +8967,7 @@
       <item itemvalue=".NET Project.SquareMinimumRuleTest" />
       <item itemvalue=".NET Project.SquareMonteCarloTest" />
       <item itemvalue=".NET Project.SphereStereographTest" />
+      <item itemvalue=".NET Project.PGMBtoPGMA" />
       <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMAIOTest" />
       <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMBIOTest" />
     </list>
@@ -9002,6 +9022,19 @@
           <line>195</line>
           <properties documentPath="D:\development\git\DesignLibs_GPL\Common\Burkardt\Types\r8st.cs" initialLine="194" containingFunctionPresentation="method 'r8st_header_read'" />
           <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Common/Burkardt/IO/PGMB.cs</url>
+          <line>212</line>
+          <properties documentPath="D:\development\git\DesignLibs_GPL\Common\Burkardt\IO\PGMB.cs" initialLine="212" containingFunctionPresentation="method 'pgmb_read'">
+            <startOffsets>
+              <option value="6684" />
+            </startOffsets>
+            <endOffsets>
+              <option value="6706" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="29" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

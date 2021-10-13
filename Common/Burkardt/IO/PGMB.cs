@@ -150,7 +150,7 @@ namespace Burkardt.IO
 
                     g[indexg] = (int)(20.0 * (Math.Sin(x) - y + 2));
 
-                    indexg = indexg + 1;
+                    indexg++;
                 }
             }
 
@@ -294,7 +294,7 @@ namespace Burkardt.IO
             {
                 for (i = 0; i < xsize; i++)
                 {
-                    g[c] = br.ReadInt32();
+                    g[c] = br.ReadByte();
                     c++;
                 }
             }
@@ -642,17 +642,9 @@ namespace Burkardt.IO
             //    Output, bool PGMB_WRITE_DATA, is true if an error occurred.
             //
         {
-            int i;
-            int j;
-            int index = 0;
-
-            for (j = 0; j < ysize; j++)
+            for (int i = 0; i < g.Length; i++)
             {
-                for (i = 0; i < xsize; i++)
-                {
-                    file_out.Write(g[index]);
-                    index++;
-                }
+                file_out.Write((byte)g[i]);
             }
 
             return false;

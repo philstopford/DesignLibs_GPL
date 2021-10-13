@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Security.Principal;
+using System.Text;
 using Burkardt.Types;
+using MiscUtil.Conversion;
+using MiscUtil.IO;
 
 namespace Burkardt.IO
 {
@@ -199,9 +202,13 @@ namespace Burkardt.IO
             string[] input;
             int inputIndex = -1;
 
+            Stream file_in_s;
+            EndianBinaryReader file_in;
+
             try
             {
-                input = File.ReadAllLines(input_name);
+                file_in_s = File.OpenRead(input_name);
+                file_in = new EndianBinaryReader(EndianBitConverter.Little, file_in_s);
             }
             catch
             {
@@ -214,7 +221,7 @@ namespace Burkardt.IO
             //
             //  Read the header.
             //
-            error = pgmb_read_header(input, ref inputIndex, ref xsize, ref ysize, ref maxg);
+            error = pgmb_read_header(ref file_in, ref xsize, ref ysize, ref maxg);
 
             if (error)
             {
@@ -231,7 +238,7 @@ namespace Burkardt.IO
             //
             //  Read the data.
             //
-            error = pgmb_read_data(input, ref inputIndex, xsize, ysize, ref g);
+            error = pgmb_read_data(ref file_in, xsize, ysize, ref g);
 
             if (error)
             {
@@ -244,7 +251,7 @@ namespace Burkardt.IO
             return false;
         }
 
-        public static bool pgmb_read_data(string[] input, ref int inputIndex, int xsize, int ysize,
+        public static bool pgmb_read_data(ref EndianBinaryReader br, int xsize, int ysize,
                 ref int[] g)
 
             //****************************************************************************80
@@ -287,8 +294,7 @@ namespace Burkardt.IO
             {
                 for (i = 0; i < xsize; i++)
                 {
-                    g[c] = Convert.ToInt32(input[inputIndex]);
-                    inputIndex++;
+                    g[c] = br.ReadInt32();
                     c++;
                 }
             }
@@ -296,7 +302,7 @@ namespace Burkardt.IO
             return false;
         }
 
-        public static bool pgmb_read_header(string[] input, ref int inputIndex, ref int xsize, ref int ysize,
+        public static bool pgmb_read_header(ref EndianBinaryReader file_in, ref int xsize, ref int ysize,
                 ref int maxg)
 
             //****************************************************************************80
@@ -336,12 +342,28 @@ namespace Burkardt.IO
             string word = "";
 
             step = 0;
-            inputIndex = 0;
 
             while (true)
             {
-                line = input[inputIndex];
-                inputIndex++;
+                try
+                {
+                    // Read null-terminated string.
+                    List<byte> strBytes = new List<byte>();
+                    int b;
+                    while ((b = file_in.ReadByte()) != 0x00)
+                    {
+                        strBytes.Add((byte) b);
+                    }
+
+                    line = Encoding.ASCII.GetString(strBytes.ToArray());
+                }
+                catch
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("PGMB_READ_HEADER - Fatal error!");
+                    Console.WriteLine("  End of file.");
+                    return true;
+                }
 
                 if (line[0] == '#')
                 {
@@ -518,11 +540,27 @@ namespace Burkardt.IO
             //
         {
             bool error;
-            List<string> output = new List<string>();
             int i;
             int indexg;
             int j;
             int maxg;
+
+            Stream file_out_s;
+            EndianBinaryWriter file_out = null;
+            
+            try
+            {
+                file_out_s = File.OpenWrite(output_name);
+                file_out = new EndianBinaryWriter(EndianBitConverter.Little, file_out_s);
+            }
+            catch
+            {
+                Console.WriteLine("");
+                Console.WriteLine("PGMB_WRITE: Fatal error!");
+                Console.WriteLine("  Cannot open the output file " + output_name + "");
+                return true;
+            }
+
             //
             //  Determine the maximum gray value.
             //
@@ -545,7 +583,7 @@ namespace Burkardt.IO
             //
             //  Write the header.
             //
-            error = pgmb_write_header(ref output, xsize, ysize, maxg);
+            error = pgmb_write_header(ref file_out, xsize, ysize, maxg);
 
             if (error)
             {
@@ -558,7 +596,7 @@ namespace Burkardt.IO
             //
             //  Write the data.
             //
-            error = pgmb_write_data(ref output, xsize, ysize, g);
+            error = pgmb_write_data(ref file_out, xsize, ysize, g);
 
             if (error)
             {
@@ -568,26 +606,10 @@ namespace Burkardt.IO
                 return true;
             }
 
-            //
-            //  Open the file.
-            //
-            try
-            {
-                File.WriteAllLines(output_name, output);
-            }
-            catch
-            {
-                Console.WriteLine("");
-                Console.WriteLine("PGMB_WRITE: Fatal error!");
-                Console.WriteLine("  Cannot open the output file " + output_name + "");
-                return true;
-            }
-
-
             return false;
         }
 
-        public static bool pgmb_write_data(ref List<string> output, int xsize, int ysize,
+        public static bool pgmb_write_data(ref EndianBinaryWriter file_out, int xsize, int ysize,
                 int[] g)
 
             //****************************************************************************80
@@ -628,7 +650,7 @@ namespace Burkardt.IO
             {
                 for (i = 0; i < xsize; i++)
                 {
-                    output.Add(g[index].ToString());
+                    file_out.Write(g[index]);
                     index++;
                 }
             }
@@ -636,7 +658,7 @@ namespace Burkardt.IO
             return false;
         }
 
-        public static bool pgmb_write_header(ref List<string> output, int xsize, int ysize,
+        public static bool pgmb_write_header(ref EndianBinaryWriter file_out, int xsize, int ysize,
                 int maxg)
 
             //****************************************************************************80
@@ -669,10 +691,10 @@ namespace Burkardt.IO
             //    Output, bool PGMB_WRITE_HEADER, is true if an error occurred.
             //
         {
-            output.Add("P5" + " "
-                            + xsize + " "
-                            + ysize + " "
-                            + (int)maxg + "");
+            file_out.Write(("P5" + " "
+                                 + xsize + " "
+                                 + ysize + " "
+                                 + maxg + "").ToCharArray());
 
             return false;
         }

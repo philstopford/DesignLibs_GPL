@@ -439,6 +439,9 @@
     <projectFile>BurkhardtTest/Square/SquareMinimumRuleTest/SquareMinimumRuleTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Square/SquareMonteCarloTest/SquareMonteCarloTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Sphere/SphereStereographTest/SphereStereographTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/FDM/FD1DBVPTest/FD1DBVPTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/IO/PBMAIOTest/PBMAIOTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/IO/PBMBIOTest/PBMBIOTest.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -462,13 +465,16 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/BurkhardtTest/Polygon/PolygonPropertiesTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/bc3d7024e97f4f818de53bc3c23872b48f5790/B7/Number.Parsing.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/TestValuesTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Common/Burkardt/Sobol/SobolData.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Common/Burkardt/Blend.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/BurkhardtTest/FEM/FEM2DBVPLinearTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/BurkhardtTest/Polygon/PolygonPropertiesTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Common/Burkardt/Sobol/SobolData.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Common/Burkardt/IO/PPM_ASCII.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/bc3d7024e97f4f818de53bc3c23872b48f5790/394/FileStream.Windows.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Common/Burkardt/Sobol/SobolDataLarge.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Common/Burkardt/Types/r8mat.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/BurkhardtTest/FEM/FEM2DBVPLinearTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/FEM/FEM1DBVPTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Common/Burkardt/Quadrature/QuadratureRule.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/Interpolation/MultivariateLagrangeTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
@@ -543,7 +549,7 @@
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C#" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunManager" selected=".NET Project.ASA032Test">
+  <component name="RunManager" selected=".NET Project.Tests\Burkhardt\IO\PBMAIOTest">
     <configuration name="ASA005Test" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -6898,6 +6904,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="Tests\Burkhardt\IO\PBMAIOTest" type="DotNetProject" factoryName=".NET Project" temporary="true">
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/PBMAIOTest/Debug/net5.0/PBMAIOTest.exe" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/PBMAIOTest/Debug/net5.0" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/IO/PBMAIOTest/PBMAIOTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="net5.0" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="TetMeshBoundaryTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -8905,7 +8929,13 @@
       <item itemvalue=".NET Project.SquareMinimumRuleTest" />
       <item itemvalue=".NET Project.SquareMonteCarloTest" />
       <item itemvalue=".NET Project.SphereStereographTest" />
+      <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMAIOTest" />
     </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMAIOTest" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">

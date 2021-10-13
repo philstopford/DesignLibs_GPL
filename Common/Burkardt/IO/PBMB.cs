@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using Burkardt.Types;
+using MiscUtil.Conversion;
+using MiscUtil.IO;
 
 namespace Burkardt.IO
 {
@@ -80,7 +82,7 @@ namespace Burkardt.IO
             return false;
         }
 
-        public static bool pbmb_example(int xsize, int ysize, int[] barray)
+        public static bool pbmb_example(int xsize, int ysize, ref int[] barray)
 
             //****************************************************************************80
             //
@@ -201,9 +203,13 @@ namespace Burkardt.IO
             bool error;
             string[] input;
 
+            Stream file_in_s;
+            EndianBinaryReader file_in;
+
             try
             {
-                input = File.ReadAllLines(input_name);
+                file_in_s = File.OpenRead(input_name);
+                file_in = new EndianBinaryReader(EndianBitConverter.Big, file_in_s);
             }
             catch
             {
@@ -216,7 +222,7 @@ namespace Burkardt.IO
             //
             //  Read the header.
             //
-            error = pbmb_read_header(input, ref xsize, ref ysize);
+            error = pbmb_read_header(input_name, ref xsize, ref ysize);
 
             if (error)
             {
@@ -233,8 +239,10 @@ namespace Burkardt.IO
             //
             //  Read the data.
             //
-            error = pbmb_read_data(input, xsize, ysize, barray);
+            error = pbmb_read_data(ref file_in, xsize, ysize, ref barray);
 
+            file_in.Close();
+            
             if (error)
             {
                 Console.WriteLine("");
@@ -246,7 +254,7 @@ namespace Burkardt.IO
             return false;
         }
 
-        public static bool pbmb_read_data(string[] input, int xsize, int ysize, int[] barray)
+        public static bool pbmb_read_data(ref EndianBinaryReader br, int xsize, int ysize, ref int[] barray)
 
             //****************************************************************************80
             //
@@ -279,39 +287,48 @@ namespace Burkardt.IO
             //
         {
             int bit;
-            int c = 0;
-            uint c2 = 0;
+            short c = 0;
+            ushort c2 = 0;
             int i;
-            int indexb;
             int j;
             int k;
             int numbyte;
 
-            indexb = 0;
+            int indexb = 0;
             numbyte = 0;
 
-            for (j = 0; j < ysize; j++)
+            for ( j = 0; j < ysize; j++ )
             {
-                for (i = 0; i < xsize; i++)
+                for ( i = 0; i < xsize; i++ )
                 {
-                    if (i % 8 == 0)
+                    if ( i%8 == 0 )
                     {
-                        c = barray[indexb];
+                        try
+                        {
+                            c = br.ReadByte();
+                            c2 = ( ushort ) c;
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine();
+                            Console.WriteLine("PBMB_CHECK_DATA - Fatal error!");
+                            Console.WriteLine("  Failed reading byte " + numbyte);
+                            return true;
+                        }
                         numbyte = numbyte + 1;
                     }
 
-                    k = 7 - (i % 8);
-                    bit = (c >> k) & 1;
+                    k = 7 - ( i % 8 );
+                    bit = ( c2 >> k ) & 1;
 
                     barray[indexb] = bit;
-                    indexb = indexb + 1;
+                    indexb++;
                 }
             }
-
             return false;
         }
 
-        public static bool pbmb_read_header(string[] input, ref int xsize, ref int ysize)
+        public static bool pbmb_read_header(string input_name, ref int xsize, ref int ysize)
 
             //****************************************************************************80
             //
@@ -349,11 +366,13 @@ namespace Burkardt.IO
             step = 0;
             int index = 0;
 
+            string[] lines = File.ReadAllLines(input_name);
+            
             while (true)
             {
                 try
                 {
-                    line = input[index];
+                    line = lines[index];
                 }
                 catch
                 {
@@ -711,7 +730,7 @@ namespace Burkardt.IO
 
             barray = new int [xsize * ysize];
 
-            error = pbmb_example(xsize, ysize, barray);
+            error = pbmb_example(xsize, ysize, ref barray);
 
             if (error)
             {

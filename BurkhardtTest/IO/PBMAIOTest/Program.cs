@@ -31,7 +31,6 @@ namespace PBMAIOTest
         {
             Console.WriteLine("");
             Console.WriteLine("PBMA_IO_TEST:");
-            Console.WriteLine("  C++ version");
             Console.WriteLine("  Test the PBMA_IO library.");
 
             test01();

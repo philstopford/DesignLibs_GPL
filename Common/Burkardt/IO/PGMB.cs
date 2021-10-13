@@ -282,19 +282,12 @@ namespace Burkardt.IO
             //    Output, bool PGMB_READ_DATA, is true if an error occurred.
             //
         {
-            int c;
-            int i;
-            int j;
-
-            c = 0;            
+            int c = 0;            
             
-            for (j = 0; j < ysize; j++)
+            while (c < g.Length)
             {
-                for (i = 0; i < xsize; i++)
-                {
-                    g[c] = br.ReadByte();
-                    c++;
-                }
+                g[c] = br.ReadByte();
+                c++;
             }
 
             return false;
@@ -341,7 +334,9 @@ namespace Burkardt.IO
 
             step = 0;
 
-            while (true)
+            bool done = false;
+
+            while (!done)
             {
                 try
                 {
@@ -420,7 +415,7 @@ namespace Burkardt.IO
                 {
                     List<byte> strBytes = new List<byte>();
                     int b;
-                    while ((b = file_in.ReadByte()) != 60)
+                    while ((b = file_in.ReadByte()) != 10)
                     {
                         strBytes.Add((byte) b);
                     }
@@ -437,7 +432,7 @@ namespace Burkardt.IO
                     fred = Convert.ToInt32(word);
                     maxg = fred;
                     line = rest;
-                    break;
+                    done = true;
                 }
             }
 

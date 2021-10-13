@@ -11,8 +11,8 @@ namespace Burkardt.IO
 {
     public static class PGMB
     {
-        public static bool pgmb_check_data(int xsize, int ysize, ref int maxg,
-                ref int[] g)
+        public static bool pgmb_check_data(int xsize, int ysize, int maxg,
+                int[] g)
 
             //****************************************************************************80
             //
@@ -487,7 +487,7 @@ namespace Burkardt.IO
             //
             //  Check the data.
             //
-            error = pgmb_check_data(xsize, ysize, ref maxg, ref g);
+            error = pgmb_check_data(xsize, ysize, maxg, g);
 
             if (error)
             {
@@ -748,6 +748,87 @@ namespace Burkardt.IO
                 Console.WriteLine("");
                 Console.WriteLine("PGMB_WRITE_TEST: Fatal error!");
                 Console.WriteLine("  PGMB_WRITE failed.");
+                return true;
+            }
+
+            return false;
+        }
+        
+        public static bool pgmb_to_pgma ( string file_in_name, string file_out_name )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    PGMB_TO_PGMA converts one PGMB file to PGMA format.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    01 May 2006
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, char *FILE_IN_NAME, the name of the input PGMB file.
+            //
+            //    Input, char *FILE_OUT_NAME, the name of the output PGMA file.
+            //
+            //    Output, bool HANDLE, is true if an error occurred.
+            //
+        {
+            bool error;
+            int[] g = null;
+            int[] g2 = null;
+            int maxg = 0;
+            int xsize = 0;
+            int ysize = 0;
+            //
+            //  Read the input file.
+            //
+            error = pgmb_read ( file_in_name, ref xsize, ref ysize, ref maxg, ref g );
+
+            if ( error ) 
+            {
+                Console.WriteLine("");
+                Console.WriteLine("PGMB_TO_PGMA: Fatal error!");
+                Console.WriteLine("  PGMB_READ failed.");
+                return true;
+            }
+            //
+            //  Check the data.
+            //
+            error = pgmb_check_data ( xsize, ysize, maxg, g );
+
+            if ( error )
+            {
+                Console.WriteLine("");
+                Console.WriteLine("PGMB_TO_PGMA: Fatal error!");
+                Console.WriteLine("  PGMB_CHECK_DATA reports bad data from the file.");
+
+                return true;
+            }
+            //
+            //  Convert the data.
+            //
+            g2 = new int [ xsize *  ysize ];
+            // ucvec_to_i4vec ( xsize * ysize, g, g2 );
+            //
+            //  Write the output file.
+            //
+            PGMA.pgma_write ( file_out_name, xsize, ysize, g );
+            
+            if ( error )
+            {
+                Console.WriteLine("");
+                Console.WriteLine("PGMB_TO_PGMA: Fatal error!");
+                Console.WriteLine("  PGMA_WRITE failed.");
                 return true;
             }
 

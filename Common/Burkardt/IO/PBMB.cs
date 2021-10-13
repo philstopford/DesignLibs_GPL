@@ -696,16 +696,6 @@ namespace Burkardt.IO
             //    Output, bool PBMB_WRITE_HEADER, is true if an error occurred.
             //
         {
-            /* file_out.Write("P4" + " "
-                            + xsize + " "
-                            + ysize + "");
-            file_out.Write('P');
-            file_out.Write('4');
-            file_out.Write(' ');
-            file_out.Write(xsize.ToString().ToCharArray());
-            file_out.Write(' ');
-            file_out.Write(ysize.ToString().ToCharArray());
-            */
             file_out.Write(("P4" + " "
                             + xsize + " "
                             + ysize + "").ToCharArray());

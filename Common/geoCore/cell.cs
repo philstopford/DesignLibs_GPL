@@ -297,7 +297,7 @@ namespace geoCoreLib
         void pMove(GeoLibPoint p)
         {
             int elementListCount = elementList.Count;
-#if GCTHREADED
+#if !GCSINGLETHREADED
             Parallel.For(0, elementListCount, (f) =>
 #else
             for (int f = 0; f < elementListCount; f++)
@@ -308,7 +308,7 @@ namespace geoCoreLib
                     elementList[f].move(p);
                 }
             }
-#if GCTHREADED
+#if !GCSINGLETHREADED
             );
 #endif
         }
@@ -321,7 +321,7 @@ namespace geoCoreLib
         void pMoveSelect(GeoLibPoint p)
         {
             int elementListCount = elementList.Count;
-#if GCTHREADED
+#if !GCSINGLETHREADED
             Parallel.For(0, elementListCount, (f) =>
 #else
             for (int f = 0; f < elementListCount; f++)
@@ -332,7 +332,7 @@ namespace geoCoreLib
                     elementList[f].moveSelect(p);
                 }
             }
-#if GCTHREADED
+#if !GCSINGLETHREADED
             );
 #endif
         }
@@ -345,7 +345,7 @@ namespace geoCoreLib
         void pMoveToDataType(Int32 datatype)
         {
             int elementListCount = elementList.Count;
-#if GCTHREADED
+#if !GCSINGLETHREADED
             Parallel.For(0, elementListCount, (f) =>
 #else
             for (int f = 0; f < elementListCount; f++)
@@ -356,7 +356,7 @@ namespace geoCoreLib
                     elementList[f].moveToDataType(datatype);
                 }
             }
-#if GCTHREADED
+#if !GCSINGLETHREADED
             );
 #endif
         }
@@ -369,7 +369,7 @@ namespace geoCoreLib
         void pMoveToLayer(Int32 layer)
         {
             int elementListCount = elementList.Count;
-#if GCTHREADED
+#if !GCSINGLETHREADED
             Parallel.For(0, elementListCount, (f) =>
 #else
             for (int f = 0; f < elementListCount; f++)
@@ -380,7 +380,7 @@ namespace geoCoreLib
                     elementList[f].moveToLayer(layer);
                 }
             }
-#if GCTHREADED
+#if !GCSINGLETHREADED
             );
 #endif
         }
@@ -393,7 +393,7 @@ namespace geoCoreLib
         void pMoveToDataTypeSelect(Int32 datatype)
         {
             int elementListCount = elementList.Count;
-#if GCTHREADED
+#if !GCSINGLETHREADED
             Parallel.For(0, elementListCount, (f) =>
 #else
             for (int f = 0; f < elementListCount; f++)
@@ -404,7 +404,7 @@ namespace geoCoreLib
                     elementList[f].moveToDataTypeSelect(datatype);
                 }
             }
-#if GCTHREADED
+#if !GCSINGLETHREADED
             );
 #endif
         }
@@ -417,7 +417,7 @@ namespace geoCoreLib
         void pMoveToLayerSelect(Int32 layer)
         {
             int elementListCount = elementList.Count;
-#if GCTHREADED
+#if !GCSINGLETHREADED
             Parallel.For(0, elementListCount, (f) =>
 #else
             for (int f = 0; f < elementListCount; f++)
@@ -428,7 +428,7 @@ namespace geoCoreLib
                     elementList[f].moveToLayerSelect(layer);
                 }
             }
-#if GCTHREADED
+#if !GCSINGLETHREADED
             );
 #endif
         }
@@ -441,7 +441,7 @@ namespace geoCoreLib
         void pResize(double size)
         {
             int elementListCount = elementList.Count;
-#if GCTHREADED
+#if !GCSINGLETHREADED
             Parallel.For(0, elementListCount, (f) =>
 #else
             for (int f = 0; f < elementListCount; f++)
@@ -452,7 +452,7 @@ namespace geoCoreLib
                     elementList[f].resize(size);
                 }
             }
-#if GCTHREADED
+#if !GCSINGLETHREADED
             );
 #endif
         }
@@ -469,7 +469,7 @@ namespace geoCoreLib
             m.rotate(angle);
             m.translate(-pos.X, -pos.Y);
             int elementListCount = elementList.Count;
-#if GCTHREADED
+#if !GCSINGLETHREADED
             Parallel.For(0, elementListCount, (f) =>
 #else
             for (int f = 0; f < elementListCount; f++)
@@ -498,7 +498,7 @@ namespace geoCoreLib
                     }
                 }
             }
-#if GCTHREADED
+#if !GCSINGLETHREADED
             );
 #endif
         }
@@ -533,7 +533,7 @@ namespace geoCoreLib
             m.scale(x, y);
             m.translate(-pos.X, -pos.Y);
             int elementListCount = elementList.Count;
-#if GCTHREADED
+#if !GCSINGLETHREADED
             Parallel.For(0, elementListCount, (f) =>
 #else
             for (int f = 0; f < elementListCount; f++)
@@ -562,7 +562,7 @@ namespace geoCoreLib
                     }
                 }
             }
-#if GCTHREADED
+#if !GCSINGLETHREADED
             );
 #endif
         }
@@ -599,7 +599,7 @@ namespace geoCoreLib
                 m.translate(-p1.X, -p1.Y);
             }
             int elementListCount = elementList.Count;
-#if GCTHREADED
+#if !GCSINGLETHREADED
             Parallel.For(0, elementListCount, (f) =>
 #else
             for (int f = 0; f < elementListCount; f++)
@@ -628,7 +628,7 @@ namespace geoCoreLib
                     }
                 }
             }
-#if GCTHREADED
+#if !GCSINGLETHREADED
             );
 #endif
         }
@@ -693,7 +693,7 @@ namespace geoCoreLib
         void pUpdateCellref(GCCell oldCell, GCCell newCell)
         {
             int elementListCount = elementList.Count;
-#if GCTHREADED
+#if !GCSINGLETHREADED
             Parallel.For(0, elementListCount, (f) =>
 #else
             for (int f = 0; f < elementListCount; f++)
@@ -707,7 +707,7 @@ namespace geoCoreLib
                     }
                 }
             }
-#if GCTHREADED
+#if !GCSINGLETHREADED
             );
 #endif
         }

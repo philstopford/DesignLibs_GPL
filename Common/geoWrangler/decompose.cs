@@ -66,7 +66,7 @@ namespace geoWrangler
                     // Review orientation. Fix if needed.
                     if (Clipper.Orientation(cR[0]) != origOrient)
                     {
-#if GWTHREADED
+#if !GWSINGLETHREADED
                         Parallel.For(0, crCount, (j) =>
 #else
                         for (int j = 0; j < crCount; j++)
@@ -74,7 +74,7 @@ namespace geoWrangler
                             {
                                 cR[j].Reverse();
                             }
-#if GWTHREADED
+#if !GWSINGLETHREADED
                         );
 #endif
                     }
@@ -91,7 +91,7 @@ namespace geoWrangler
                 if (reverse)
                 {
                     int rCount = ret.Count;
-#if GWTHREADED
+#if !GWSINGLETHREADED
                     Parallel.For(0, rCount, (i) =>
 #else
                     for (int i = 0; i < rCount; i++)
@@ -99,7 +99,7 @@ namespace geoWrangler
                     {
                         ret[i].Reverse();
                     }
-#if GWTHREADED
+#if !GWSINGLETHREADED
                     );
 #endif
                 }

@@ -93,7 +93,7 @@ namespace geoCoreLib
             if (select)
             {
                 int pointArrayCount = pointarray.Length;
-#if GCTHREADED
+#if !GCSINGLETHREADED
                 Parallel.For(0, pointArrayCount, (i) =>
 #else
                 for (int i = 0; i < pointArrayCount; i++)
@@ -101,7 +101,7 @@ namespace geoCoreLib
                 {
                     pointarray[i].Offset(pos);
                 }
-#if GCTHREADED
+#if !GCSINGLETHREADED
             );
 #endif
             }
@@ -115,7 +115,7 @@ namespace geoCoreLib
         void pMove(GeoLibPoint pos)
         {
             int pointArrayCount = pointarray.Length;
-#if GCTHREADED
+#if !GCSINGLETHREADED
             Parallel.For(0, pointArrayCount, (i) =>
 #else
             for (int i = 0; i < pointArrayCount; i++)
@@ -123,7 +123,7 @@ namespace geoCoreLib
             {
                 pointarray[i].Offset(pos);
             }
-#if GCTHREADED
+#if !GCSINGLETHREADED
             );
 #endif
         }

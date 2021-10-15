@@ -139,7 +139,7 @@ namespace geoLib
             var dy = m[5];
 
             int sLength = source.Length;
-#if GEOLIBTHREADED
+#if !GEOLIBSINGLETHREADED
             Parallel.For(0, sLength, (pt) =>
 #else
             for (int pt = 0; pt < sLength; pt++)
@@ -149,7 +149,7 @@ namespace geoLib
                 double y1 = m12 * source[pt].X + m22 * source[pt].Y + dy;
                 source[pt] = new GeoLibPoint(x1, y1);
             }
-#if GEOLIBTHREADED
+#if !GEOLIBSINGLETHREADED
             );
 #endif
         }
@@ -169,7 +169,7 @@ namespace geoLib
             var dy = m[5];
 
             int sLength = source.Length;
-#if GEOLIBTHREADED
+#if !GEOLIBSINGLETHREADED
             Parallel.For(0, sLength, (pt) => 
 #else
             for (int pt = 0; pt < sLength; pt++)
@@ -179,7 +179,7 @@ namespace geoLib
                 double y1 = m12 * source[pt].X + m22 * source[pt].Y + dy;
                 source[pt] = new GeoLibPointF(x1, y1);
             }
-#if GEOLIBTHREADED
+#if !GEOLIBSINGLETHREADED
             );
 #endif
         }

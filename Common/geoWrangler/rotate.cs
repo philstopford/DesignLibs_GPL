@@ -25,7 +25,7 @@ namespace geoWrangler
             int pointListLength = pointList.Length;
             GeoLibPoint[] returnList = new GeoLibPoint[pointListLength];
 
-#if GWTHREADED
+#if !GWSINGLETHREADED
             Parallel.For(0, pointListLength, (i) =>
 #else
             for (Int32 i = 0; i < pointList.Count(); i++)
@@ -33,7 +33,7 @@ namespace geoWrangler
             {
                 returnList[i] = Rotate(pivot, pointList[i], angleDegree);
             }
-#if GWTHREADED
+#if !GWSINGLETHREADED
             );
 #endif
             return returnList;
@@ -54,7 +54,7 @@ namespace geoWrangler
             int pointListLength = pointList.Length;
             GeoLibPointF[] returnList = new GeoLibPointF[pointListLength];
 
-#if GWTHREADED
+#if !GWSINGLETHREADED
             Parallel.For(0, pointListLength, (i) =>
 #else
             for (Int32 i = 0; i < pointList.Count(); i++)
@@ -62,7 +62,7 @@ namespace geoWrangler
             {
                 returnList[i] = Rotate(pivot, pointList[i], angleDegree);
             }
-#if GWTHREADED
+#if !GWSINGLETHREADED
             );
 #endif
             return returnList;
@@ -170,7 +170,7 @@ namespace geoWrangler
         {
             int sLength = source.Length;
             GeoLibPointF[] ret = new GeoLibPointF[sLength];
-#if GWTHREADED
+#if !GWSINGLETHREADED
             Parallel.For(0, sLength, (pt) =>
 #else
             for (Int32 pt = 0; pt < source.Length; pt++)
@@ -196,7 +196,7 @@ namespace geoWrangler
                 }
                 ret[pt] = new GeoLibPointF(newX, newY);
             }
-#if GWTHREADED
+#if !GWSINGLETHREADED
             );
 #endif
             if (H ^ V)

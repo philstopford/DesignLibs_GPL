@@ -95,7 +95,7 @@ namespace geoWrangler
         {
             int sLength = source.Length;
             GeoLibPointF[] ret = new GeoLibPointF[sLength];
-#if GWTHREADED
+#if !GWSINGLETHREADED
             Parallel.For(0, sLength, (pt) =>
 #else
             for (int pt = 0; pt < sLength; pt++)
@@ -103,7 +103,7 @@ namespace geoWrangler
             {
                 ret[pt] = new GeoLibPointF(source[pt].X * factor, source[pt].Y * factor);
             }
-#if GWTHREADED
+#if !GWSINGLETHREADED
             );
 #endif
             return ret;
@@ -118,7 +118,7 @@ namespace geoWrangler
             int sLength = source.Length;
             GeoLibPoint[] ret = new GeoLibPoint[sLength];
 
-#if GWTHREADED
+#if !GWSINGLETHREADED
             Parallel.For(0, sLength, (pt) =>
 #else
             for (int pt = 0; pt < sLength; pt++)
@@ -126,7 +126,7 @@ namespace geoWrangler
             {
                 ret[pt] = new GeoLibPoint((int)(source[pt].X * factor), (int)(source[pt].Y * factor));
             }
-#if GWTHREADED
+#if !GWSINGLETHREADED
             );
 #endif
             return ret;
@@ -140,7 +140,7 @@ namespace geoWrangler
         {
             int sLength = source.Length;
             GeoLibPoint[] ret = new GeoLibPoint[sLength];
-#if GWTHREADED
+#if !GWSINGLETHREADED
             Parallel.For(0, sLength, (pt) =>
 #else
             for (int pt = 0; pt < sLength; pt++)
@@ -148,7 +148,7 @@ namespace geoWrangler
             {
                 ret[pt] = new GeoLibPoint(source[pt].X * factor, source[pt].Y * factor);
             }
-#if GWTHREADED
+#if !GWSINGLETHREADED
             );
 #endif
             return ret;
@@ -162,7 +162,7 @@ namespace geoWrangler
         static GeoLibPoint[] pResize(GeoLibPoint pivot, GeoLibPoint[] source, double factor)
         {
             GeoLibPoint[] pointarray = new GeoLibPoint[source.Length];
-#if GWTHREADED
+#if !GWSINGLETHREADED
             Parallel.For(0, pointarray.Length, (i) => 
 #else
             for (int i = 0; i < pointarray.Length; i++)
@@ -170,7 +170,7 @@ namespace geoWrangler
             {
                 pointarray[i] = new GeoLibPoint(pivot.X + ((source[i].X - pivot.X) * factor), pivot.Y + ((source[i].Y - pivot.Y) * factor));
             }
-#if GWTHREADED
+#if !GWSINGLETHREADED
             );
 #endif
             return pointarray;

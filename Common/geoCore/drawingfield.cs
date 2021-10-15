@@ -224,7 +224,7 @@ namespace geoCoreLib
         void pResize(double scale)
         {
             int cellListCount = cellList.Count;
-#if GCTHREADED
+#if !GCSINGLETHREADED
             Parallel.For(0, cellListCount, (i) =>
 #else
             for (int i = 0; i < cellListCount; i++)
@@ -235,7 +235,7 @@ namespace geoCoreLib
                     cellList[i].resize(scale);
                 }
             }
-#if GCTHREADED
+#if !GCSINGLETHREADED
             );
 #endif
 
@@ -253,7 +253,7 @@ namespace geoCoreLib
             int cellCount = cellList.Count;
             List<GCPolygon>[] ret = new List<GCPolygon>[cellCount];
 
-#if GCTHREADED
+#if !GCSINGLETHREADED
             ParallelOptions po = new ParallelOptions();
             Parallel.For(0, cellCount, po, i =>
 #else
@@ -263,7 +263,7 @@ namespace geoCoreLib
                 List<GCPolygon> cellPolys = cellList[i].convertToPolygons(layer:layer, datatype:datatype);
                 ret[i] = cellPolys.ToList();
             }
-#if GCTHREADED
+#if !GCSINGLETHREADED
             );
 #endif
             return ret.ToList();

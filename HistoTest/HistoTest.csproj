@@ -15,7 +15,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>TRACE;GWTHREADED;GCTHREADED;GEOLIBTHREADED;NOVELDRID</DefineConstants>
+    <DefineConstants>TRACE;NOVELDRID</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>

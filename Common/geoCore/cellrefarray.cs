@@ -433,7 +433,7 @@ namespace geoCoreLib
                 }
             }
 
-#if GCTHREADED
+#if !GCSINGLETHREADED
             Parallel.For(0, ret.Count, (poly, loopstate) =>
 #else
             for (int poly = 0; poly < ret.Count; poly++)
@@ -442,7 +442,7 @@ namespace geoCoreLib
                 ret[poly].rotate(trans.angle, point);
                 ret[poly].scale(trans.mag);
             }
-#if GCTHREADED
+#if !GCSINGLETHREADED
             );
 #endif
 

@@ -98,7 +98,7 @@ namespace geoWrangler
                 }
             }
             GeoLibPoint[] returnPoint = new GeoLibPoint[length];
-#if GWTHREADED
+#if !GWSINGLETHREADED
             Parallel.For(0, sCount, (pt) =>
 #else
             for (int pt = 0; pt < source.Count; pt++)
@@ -107,7 +107,7 @@ namespace geoWrangler
                 
                 returnPoint[pt] = new GeoLibPoint((Int64)Math.Round(Convert.ToDecimal(source[pt].X) / scaling), (Int64)Math.Round(Convert.ToDecimal(source[pt].Y) / scaling));
             }
-#if GWTHREADED
+#if !GWSINGLETHREADED
             );
 #endif
             // Close the shape.
@@ -202,7 +202,7 @@ namespace geoWrangler
                 length++; // close the geometry
             }
             GeoLibPointF[] returnPointF = new GeoLibPointF[length];
-#if GWTHREADED
+#if !GWSINGLETHREADED
             Parallel.For(0, sourceCount, (pt) =>
 #else
             for (int pt = 0; pt < source.Count(); pt++)
@@ -211,7 +211,7 @@ namespace geoWrangler
                 returnPointF[pt] = new GeoLibPointF((double)(source[pt].X) / scaling,
                                                     (double)(source[pt].Y) / scaling);
             }
-#if GWTHREADED
+#if !GWSINGLETHREADED
             );
 #endif
             // Close the shape.

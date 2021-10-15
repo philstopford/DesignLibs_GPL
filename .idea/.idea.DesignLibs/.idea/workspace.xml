@@ -9023,32 +9023,6 @@
           <properties documentPath="D:\development\git\DesignLibs_GPL\Common\Burkardt\Types\r8st.cs" initialLine="194" containingFunctionPresentation="method 'r8st_header_read'" />
           <option name="timeStamp" value="18" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Common/Burkardt/IO/PGMB.cs</url>
-          <line>286</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\Common\Burkardt\IO\PGMB.cs" initialLine="286" containingFunctionPresentation="method 'pgmb_read_data'">
-            <startOffsets>
-              <option value="9044" />
-            </startOffsets>
-            <endOffsets>
-              <option value="9064" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="43" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Common/Burkardt/IO/PGMB.cs</url>
-          <line>238</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\Common\Burkardt\IO\PGMB.cs" initialLine="238" containingFunctionPresentation="method 'pgmb_read'">
-            <startOffsets>
-              <option value="7483" />
-            </startOffsets>
-            <endOffsets>
-              <option value="7540" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="44" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <watches-manager>

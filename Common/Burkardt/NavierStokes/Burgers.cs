@@ -1,11 +1,237 @@
 ﻿using System;
 using Burkardt.FullertonFnLib;
+using Burkardt.Quadrature;
 using Burkardt.Types;
 
 namespace Burkardt.NavierStokesNS
 {
     public static class Burgers
     {
+        public static double[] burgers_viscous_time_exact1(double nu, int vxn, double[] vx, int vtn,
+        double[] vt )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    BURGERS_VISCOUS_TIME_EXACT1 evaluates solution #1 to the Burgers equation.
+        //
+        //  Discussion:
+        //
+        //    The form of the Burgers equation considered here is
+        //
+        //      du       du        d^2 u
+        //      -- + u * -- = nu * -----
+        //      dt       dx        dx^2
+        //
+        //    for -1.0 < x < +1.0, and 0 < t.
+        //
+        //    Initial conditions are u(x,0) = - sin(pi*x).  Boundary conditions
+        //    are u(-1,t) = u(+1,t) = 0.  The viscosity parameter nu is taken
+        //    to be 0.01 / pi, although this is not essential.
+        //
+        //    The authors note an integral representation for the solution u(x,t),
+        //    and present a better version of the formula that is amenable to
+        //    approximation using Hermite quadrature.  
+        //
+        //    This program library does little more than evaluate the exact solution
+        //    at a user-specified set of points, using the quadrature rule.
+        //    Internally, the order of this quadrature rule is set to 8, but the
+        //    user can easily modify this value if greater accuracy is desired.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    18 November 2011
+        //
+        //  Author:
+        //
+        //    John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Claude Basdevant, Michel Deville, Pierre Haldenwang, J Lacroix, 
+        //    J Ouazzani, Roger Peyret, Paolo Orlandi, Anthony Patera,
+        //    Spectral and finite difference solutions of the Burgers equation,
+        //    Computers and Fluids,
+        //    Volume 14, Number 1, 1986, pages 23-41.
+        //
+        //  Parameters:
+        //
+        //    Input, double NU, the viscosity.
+        //
+        //    Input, int VXN, the number of spatial grid points.
+        //
+        //    Input, double VX[VXN], the spatial grid points.
+        //
+        //    Input, int VTN, the number of time grid points.
+        //
+        //    Input, double VT[VTN], the time grid points.
+        //
+        //    Output, double BURGERS_VISCOUS_TIME_EXACT1[VXN*VTN], the solution of 
+        //    the Burgers equation at each space and time grid point.
+        //
+        {
+            double bot;
+            double c;
+            int qi;
+            int qn = 8;
+            double[] qw;
+            double[] qx;
+            int vti;
+            int vxi;
+            double[] vu;
+            double top;
+            //
+            //  Compute the rule.
+            //
+            qx = new double[qn];
+            qw = new double[qn];
+
+            HermiteQuadrature.hermite_ek_compute(qn, ref qx, ref qw);
+            //
+            //  Evaluate U(X,T) for later times.
+            //
+            vu = new double[vxn * vtn];
+
+            for (vti = 0; vti < vtn; vti++)
+            {
+                if (vt[vti] == 0.0)
+                {
+                    for (vxi = 0; vxi < vxn; vxi++)
+                    {
+                        vu[vxi + vti * vxn] = -Math.Sin(Math.PI * vx[vxi]);
+                    }
+                }
+                else
+                {
+                    for (vxi = 0; vxi < vxn; vxi++)
+                    {
+                        top = 0.0;
+                        bot = 0.0;
+                        for (qi = 0; qi < qn; qi++)
+                        {
+                            c = 2.0 * Math.Sqrt(nu * vt[vti]);
+
+                            top = top - qw[qi] * c * Math.Sin(Math.PI * (vx[vxi] - c * qx[qi]))
+                                * Math.Exp(-Math.Cos(Math.PI * (vx[vxi] - c * qx[qi]))
+                                      / (2.0 * Math.PI * nu));
+
+                            bot = bot + qw[qi] * c
+                                               * Math.Exp(-Math.Cos(Math.PI * (vx[vxi] - c * qx[qi]))
+                                                     / (2.0 * Math.PI * nu));
+
+                            vu[vxi + vti * vxn] = top / bot;
+                        }
+                    }
+                }
+            }
+
+            return vu;
+        }
+
+        public static double[] burgers_viscous_time_exact2(double nu, int xn, double[] x, int tn,
+        double[] t )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    BURGERS_VISCOUS_TIME_EXACT2 evaluates solution #2 to the Burgers equation.
+        //
+        //  Discussion:
+        //
+        //    The form of the Burgers equation considered here is
+        //
+        //      du       du        d^2 u
+        //      -- + u * -- = nu * -----
+        //      dt       dx        dx^2
+        //
+        //   for 0.0 < x < 2 Pi and 0 < t.
+        //
+        //    The initial condition is
+        //
+        //      u(x,0) = 4 - 2 * nu * dphi(x,0)/dx / phi(x,0)
+        //
+        //    where
+        //
+        //      phi(x,t) = exp ( - ( x-4*t      ) / ( 4*nu*(t+1) ) )
+        //               + exp ( - ( x-4*t-2*pi ) / ( 4*nu*(t+1) ) )
+        //
+        //    The boundary conditions are periodic:
+        //
+        //      u(0,t) = u(2 Pi,t)
+        //
+        //    The viscosity parameter nu may be taken to be 0.01, but other values
+        //    may be chosen.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    26 September 2015
+        //
+        //  Author:
+        //
+        //    John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Claude Basdevant, Michel Deville, Pierre Haldenwang, J Lacroix, 
+        //    J Ouazzani, Roger Peyret, Paolo Orlandi, Anthony Patera,
+        //    Spectral and finite difference solutions of the Burgers equation,
+        //    Computers and Fluids,
+        //    Volume 14, Number 1, 1986, pages 23-41.
+        //
+        //  Parameters:
+        //
+        //    Input, double NU, the viscosity.
+        //
+        //    Input, int XN, the number of spatial grid points.
+        //
+        //    Input, double X[XN], the spatial grid points.
+        //
+        //    Input, int TN, the number of time grid points.
+        //
+        //    Input, double T[TN], the time grid points.
+        //
+        //    Output, double BURGERS_VISCOUS_TIME_EXACT2[XN*TN], the solution of the 
+        //    Burgers equation at each space and time grid point.
+        //
+        {
+            double a;
+            double b;
+            double c;
+            double dphi;
+            int i;
+            int j;
+            double phi;
+            double[] u;
+
+            u = new double[xn * tn];
+
+            for (j = 0; j < tn; j++)
+            {
+                for (i = 0; i < xn; i++)
+                {
+                    a = (x[i] - 4.0 * t[j]);
+                    b = (x[i] - 4.0 * t[j] - 2.0 * Math.PI);
+                    c = 4.0 * nu * (t[j] + 1.0);
+                    phi = Math.Exp(-a * a / c) + Math.Exp(-b * b / c);
+                    dphi = -2.0 * a * Math.Exp(-a * a / c) / c
+                           - 2.0 * b * Math.Exp(-b * b / c) / c;
+                    u[i + j * xn] = 4.0 - 2.0 * nu * dphi / phi;
+                }
+            }
+
+            return u;
+        }
+
         public static void uvwp_burgers ( double nu, int n, double[] x, double[] y, 
         double[] z, double[] t, ref double[] u, ref double[] v, ref double[] w, ref double[] p )
 

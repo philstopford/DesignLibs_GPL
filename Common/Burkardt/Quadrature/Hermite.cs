@@ -8,6 +8,99 @@ namespace Burkardt.Quadrature
     using Monomial = Burkardt.MonomialNS.Monomial;
     public static class HermiteQuadrature
     {
+        
+        public static void hermite_ek_compute ( int n, ref double[] x, ref double[] w )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    HERMITE_EK_COMPUTE computes a Gauss-Hermite quadrature rule.
+        //
+        //  Discussion:
+        //
+        //    The code uses an algorithm by Elhay and Kautsky.
+        //
+        //    The abscissas are the zeros of the N-th order Hermite polynomial.
+        //
+        //    The integral:
+        //
+        //      integral ( -oo < x < +oo ) exp ( - x * x ) * f(x) dx
+        //
+        //    The quadrature rule:
+        //
+        //      sum ( 1 <= i <= n ) w(i) * f ( x(i) )
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    19 April 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Sylvan Elhay, Jaroslav Kautsky.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Sylvan Elhay, Jaroslav Kautsky,
+        //    Algorithm 655: IQPACK, FORTRAN Subroutines for the Weights of
+        //    Interpolatory Quadrature,
+        //    ACM Transactions on Mathematical Software,
+        //    Volume 13, Number 4, December 1987, pages 399-415.
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number of abscissas.
+        //
+        //    Output, double X[N], the abscissas.
+        //
+        //    Output, double W[N], the weights.
+        //
+        {
+            double arg;
+            double[] bj;
+            int i;
+            double zemu;
+            //
+            //  Define the zero-th moment.
+            //
+            arg = 0.5;
+            zemu = Helpers.Gamma ( arg );
+            //
+            //  Define the Jacobi matrix.
+            //
+            bj = new double[n];
+
+            for ( i = 0; i < n; i++ )
+            {
+                bj[i] = Math.Sqrt ( ( double ) ( i + 1 ) / 2.0 );
+            }
+
+            for ( i = 0; i < n; i++ )
+            {
+                x[i] = 0.0;
+            }
+
+            w[0] = Math.Sqrt ( zemu );
+            for ( i = 1; i < n; i++ )
+            {
+                w[i] = 0.0;
+            }
+            //
+            //  Diagonalize the Jacobi matrix.
+            //
+            IMTQLX.imtqlx ( n, ref x, ref bj, ref w );
+
+            for ( i = 0; i < n; i++ )
+            {
+                w[i] = w[i] * w[i];
+            }
+        }
+        
         public static void hermite_abscissa(int dim_num, int point_num, int[] grid_index,
         int[] grid_base, ref double[] grid_point, int gridIndex = 0, int gridBaseIndex = 0, int gridPointIndex = 0 )
 

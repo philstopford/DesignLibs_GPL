@@ -1,0 +1,246 @@
+<html>
+
+  
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/blas1_c/blas1_c.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 15:44:29 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      BLAS1_C - Basic Linear Algebra Subprograms - Level 1
+      - Single Precision Complex Arithmetic
+    </title>
+  </head>
+
+  <body bgcolor="#EEEEEE" link="#CC0000" alink="#FF3300" vlink="#000055">
+
+    <h1 align = "center">
+      BLAS1_C <br>
+      Basic Linear Algebra Subprograms <br>
+      Level 1 <br>
+      Single Precision Complex Arithmetic
+    </h1>
+
+    <hr>
+
+    <p>
+      <b>BLAS1_C</b>
+      is which
+      implements the Level 1 BLAS,
+      or Basic Linear Algebra Subprograms, using single precision complex arithmetic.
+    </p>
+
+    <p>
+      The BLAS are a small core library of linear algebra utilities,
+      which can be highly optimized for various architectures.  Software
+      that relies on the BLAS is thus highly portable, and will typically
+      run very efficiently.
+    </p>
+
+    <p>
+      The Level 1 BLAS are primarily for use in vector operations.
+      In certain cases, they may also be used to operate on the rows
+      or columns of a two-dimensional array.
+    </p>
+
+    <h3 align = "center">
+      Licensing:
+    </h3>
+
+    <p>
+      The computer code and data files described and made available on this web page
+      are distributed under
+      <a href = "https://people.math.sc.edu/Burkardt/txt/gnu_lgpl.txt">the GNU LGPL license.</a>
+    </p>
+
+    <h3 align = "center">
+      Related Data and Programs:
+    </h3>
+
+    <p>
+      <a href = "../blas0/blas0.html">
+      BLAS0</a>,
+      which
+      contains auxilliary functions for the Basic Linear Algebra Subprograms 
+      (BLAS).
+    </p>
+
+    <p>
+      <a href = "../blas1_d/blas1_d.html">
+      BLAS1_D</a>,
+      which
+      contains basic linear algebra routines for vector-vector operations,
+      using double precision real arithmetic.
+    </p>
+
+    <p>
+      <a href = "../blas1_s/blas1_s.html">
+      BLAS1_S</a>,
+      which
+      contains basic linear algebra routines for vector-vector operations,
+      using single precision real arithmetic.
+    </p>
+
+    <p>
+      <a href = "../blas1_z/blas1_z.html">
+      BLAS1_Z</a>,
+      which
+      contains basic linear algebra routines for vector-vector operations,
+      using double precision complex arithmetic.
+    </p>
+
+    <p>
+      <a href = "../blas2/blas2.html">
+      BLAS2</a>,
+      which
+      contains basic linear algebra subprograms (BLAS) 
+      for matrix-vector operations;
+    </p>
+
+    <p>
+      <a href = "../blas3/blas3.html">
+      BLAS3</a>,
+      which
+      contains basic linear algebra subprograms (BLAS) 
+      for matrix-matrix operations;
+    </p>
+
+    <p>
+      <a href = "../complex_numbers/complex_numbers.html">
+      COMPLEX_NUMBERS</a>,
+      a C++ program which
+      demonstrates some simple features involved in the use of
+      complex numbers in C programming.
+    </p>
+
+    <p>
+      <a href = "../gsl/gsl.html">
+      GSL</a>,
+      C++ programs which
+      illustrate the use of the Gnu Scientific Library;
+    </p>
+
+    <p>
+      <a href = "../linpack/linpack.html">
+      LINPACK</a>,
+      which
+      solves linear systems using single precision complex arithmetic;
+    </p>
+
+    <p>
+      <a href = "https://people.math.sc.edu/Burkardt/c_src/super_blas/super_blas.html">
+      SUPER_BLAS</a>,
+      a C library which
+      implements some of the Basic Linear Algebra Subprograms for fast execution.
+    </p>
+
+    <h3 align = "center">
+      Author:
+    </h3>
+
+    <p>
+      Original FORTRAN77 version by Charles Lawson, Richard Hanson, David Kincaid, Fred Krogh.
+      C++ version by John Burkardt.
+    </p>
+
+    <h3 align = "center">
+      Reference:
+    </h3>
+
+    <p>
+      <ol>
+        <li>
+          Thomas Coleman, Charles vanLoan,<br>
+          Handbook for Matrix Computations,<br>
+          SIAM, 1988,<br>
+          ISBN13: 978-0-898712-27-8,<br>
+          LC: QA188.C65.
+        </li>
+        <li>
+          Jack Dongarra, Jim Bunch, Cleve Moler, Pete Stewart,<br>
+          LINPACK User's Guide,<br>
+          SIAM, 1979,<br>
+          ISBN13: 978-0-898711-72-1,<br>
+          LC: QA214.L56.
+        </li>
+        <li>
+          Charles Lawson, Richard Hanson, David Kincaid, Fred Krogh,<br>
+          Algorithm 539:
+          Basic Linear Algebra Subprograms for Fortran Usage,<br>
+          ACM Transactions on Mathematical Software,<br>
+          Volume 5, Number 3, September 1979, pages 308-323.
+        </li>
+      </ol>
+    </p>
+
+
+    <h3 align = "center">
+      Examples and Tests:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <a href = "blas1_c_test.txt">blas1_c_test.txt</a>
+          the output file.
+        </li>
+      </ul>
+    </p>
+
+    <h3 align = "center">
+      List of Routines:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <b>CAXPY</b> computes a complex constant times a vector plus a vector.
+        </li>
+        <li>
+          <b>CCOPY</b> copies a complex vector X to a vector Y.
+        </li>
+        <li>
+          <b>CDOTC</b> forms the conjugated dot product of two complex vectors.
+        </li>
+        <li>
+          <b>CDOTU</b> forms the unconjugated dot product of two complex vectors.
+        </li>
+        <li>
+          <b>CROTG</b> determines a complex Givens rotation.
+        </li>
+        <li>
+          <b>CSCAL</b> scales a complex vector by a constant.
+        </li>
+        <li>
+          <b>CSROT</b> applies a complex plane rotation.
+        </li>
+        <li>
+          <b>CSSCAL</b> scales a complex vector by a real constant.
+        </li>
+        <li>
+          <b>CSWAP</b> interchanges two complex vectors.
+        </li>
+        <li>
+          <b>ICAMAX</b> indexes the complex vector element of maximum absolute value.
+        </li>
+        <li>
+          <b>SCASUM</b> takes the sum of the absolute values of a complex vector.
+        </li>
+        <li>
+          <b>SCNRM2</b> returns the euclidean norm of a complex vector.
+        </li>
+      </ul>
+    </p>
+
+
+    <hr>
+
+    <i>
+      Last revised on 23 June 2009.
+    </i>
+
+    <!-- John Burkardt -->
+
+  </body>
+
+
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/blas1_c/blas1_c.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 15:44:30 GMT -->
+</html>

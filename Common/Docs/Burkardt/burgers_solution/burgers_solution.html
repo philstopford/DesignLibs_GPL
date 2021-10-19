@@ -1,0 +1,193 @@
+<html>
+
+  
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/burgers_solution/burgers_solution.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 15:44:49 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      BURGERS_SOLUTION - Exact Solutions of Time Dependent 1D Viscous Burgers Equation
+    </title>
+  </head>
+
+  <body bgcolor="#EEEEEE" link="#CC0000" alink="#FF3300" vlink="#000055">
+
+    <h1 align = "center">
+      BURGERS_SOLUTION <br> Exact Solutions of Time Dependent 1D Viscous Burgers Equation
+    </h1>
+
+    <hr>
+
+    <p>
+      <b>BURGERS_SOLUTION</b>
+      is which
+      evaluates exact solutions of the time-dependent 1D viscous Burgers equation.
+    </p>
+
+    <p>
+      The form of the Burgers equation considered here is:
+      <pre>
+        du       du        d^2 u
+        -- + u * -- = nu * -----
+        dt       dx        dx^2
+      </pre>
+      for -1.0 < x < +1.0, and 0.0 < t.
+    </p>
+    
+    <h3 align = "center">
+      Licensing:
+    </h3>
+
+    <p>
+      The computer code and data files described and made available on this
+      web page are distributed under
+      <a href = "https://people.math.sc.edu/Burkardt/txt/gnu_lgpl.txt">the GNU LGPL license.</a>
+    </p>
+
+
+    <h3 align = "center">
+      Related Data and Programs:
+    </h3>
+
+    <p>
+      <a href = "https://people.math.sc.edu/Burkardt/datasets/burgers/burgers.html">
+      BURGERS</a>,
+      a dataset directory which
+      contains 40 solutions of the Burgers equation in one space dimension and time,
+      at equally spaced times from 0 to 1, with values
+      at 41 equally spaced nodes in [0,1];
+    </p>
+
+    <p>
+      <a href = "../fd1d_burgers_lax/fd1d_burgers_lax.html">
+      FD1D_BURGERS_LAX</a>,
+      a C++ program which
+      applies the finite difference method and the Lax-Wendroff method
+      to solve the non-viscous Burgers equation
+      in one spatial dimension and time.
+    </p>
+
+    <p>
+      <a href = "../fd1d_burgers_leap/fd1d_burgers_leap.html">
+      FD1D_BURGERS_LEAP</a>,
+      a C++ program which
+      applies the finite difference method and the leapfrog approach
+      to solve the non-viscous Burgers equation in one spatial dimension and time.
+    </p>
+
+    <h3 align = "center">
+      Reference:
+    </h3>
+
+    <p>
+      <ol>
+        <li>
+          Claude Basdevant, Michel Deville, Pierre Haldenwang, J Lacroix, 
+          J Ouazzani, Roger Peyret, Paolo Orlandi, Anthony Patera,<br>
+          Spectral and finite difference solutions of the Burgers equation,<br>
+          Computers and Fluids,<br>
+          Volume 14, Number 1, 1986, pages 23-41.
+        </li>
+      </ol>
+    </p>
+
+
+    <h3 align = "center">
+      Examples and Tests:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <a href = "burgers_solution_test.txt">burgers_solution_test.txt</a>,
+          the output file.
+        </li>
+        <li>
+          <a href = "burgers_solution_test01.txt">burgers_solution_test01.txt</a>,
+          a data file of solution #1 values for -1 <= x <= +1, 
+          0 <= t <= 3/pi, using 11 grid points in x and in t.
+        </li>
+        <li>
+          <a href = "burgers_solution_test02.txt">burgers_solution_test02.txt</a>,
+          a data file of solution #1 values for -1 <= x <= +1, 
+          0 <= t <= 3/pi, using 41 grid points in x and in t.
+        </li>
+        <li>
+          <a href = "burgers_solution_test03.txt">burgers_solution_test03.txt</a>,
+          a data file of solution #2 values for 0 <= x <= 2 Pi, 
+          0 <= t <= 1, using 11 grid points in x and in t.
+        </li>
+        <li>
+          <a href = "burgers_solution_test04.txt">burgers_solution_test04.txt</a>,
+          a data file of solution #2 values for 0 <= x <= 2 Pi, 
+          0 <= t <= 1, using 41 grid points in x and in t.
+        </li>
+      </ul>
+    </p>
+
+    <h3 align = "center">
+      List of Routines:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <b>BURGERS_VISCOUS_TIME_EXACT1</b> evaluates solution #1 to the Burgers equation.
+        </li>
+        <li>
+          <b>BURGERS_VISCOUS_TIME_EXACT1</b> evaluates solution #2 to the Burgers equation.
+        </li>
+        <li>
+          <b>HERMITE_EK_COMPUTE</b> computes a Gauss-Hermite quadrature rule.
+        </li>
+        <li>
+          <b>IMTQLX</b> diagonalizes a symmetric tridiagonal matrix.
+        </li>
+        <li>
+          <b>R8_ABS</b> returns the absolute value of an R8.
+        </li>
+        <li>
+          <b>R8_EPSILON</b> returns the R8 roundoff unit.
+        </li>
+        <li>
+          <b>R8_MAX</b> returns the maximum of two R8's.
+        </li>
+        <li>
+          <b>R8_MIN</b> returns the minimum of two R8's.
+        </li>
+        <li>
+          <b>R8_SIGN</b> returns the sign of an R8.
+        </li>
+        <li>
+          <b>R8MAT_PRINT</b> prints an R8MAT.
+        </li>
+        <li>
+          <b>R8MAT_PRINT_SOME</b> prints some of an R8MAT.
+        </li>
+        <li>
+          <b>R8MAT_WRITE</b> writes an R8MAT file.
+        </li>
+        <li>
+          <b>R8VEC_EVEN_NEW</b> returns an R8VEC of values evenly spaced between ALO and AHI.
+        </li>
+        <li>
+          <b>R8VEC_PRINT</b> prints an R8VEC.
+        </li>
+      </ul>
+    </p>
+
+
+    <hr>
+
+    <i>
+      Last revised on 26 September 2015.
+    </i>
+
+    <!-- John Burkardt -->
+
+  </body>
+
+  <!-- Initial HTML skeleton created by HTMLINDEX. -->
+
+
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/burgers_solution/burgers_solution.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 15:44:51 GMT -->
+</html>

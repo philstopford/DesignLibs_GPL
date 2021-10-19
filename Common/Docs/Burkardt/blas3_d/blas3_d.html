@@ -1,0 +1,193 @@
+<html>
+
+  
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/blas3_d/blas3_d.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 15:44:35 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      BLAS3_D - Double Precision Real Basic Linear Algebra Subprograms - Level 3
+    </title>
+  </head>
+
+  <body bgcolor="#EEEEEE" link="#CC0000" alink="#FF3300" vlink="#000055">
+
+    <h1 align = "center">
+      BLAS3_D <br> 
+      Double Precisionn Real Basic Linear Algebra Subprograms - Level 3
+    </h1>
+
+    <hr>
+
+    <p>
+      <b>BLAS3_D</b>
+      is which
+      implements the Level 3 BLAS, or Basic Linear Algebra Subprograms,
+      using double precision real arithmetic.
+    </p>
+
+    <p>
+      The BLAS are a small core library of linear algebra utilities,
+      which can be highly optimized for various architectures.  Software
+      that relies on the BLAS is thus highly portable, and will typically
+      run very efficiently.
+    </p>
+
+    <p>
+      The Level 3 BLAS are primarily for use in matrix-matrix operations,
+      such as matrix multiplication.
+      In certain cases, they may also be used to operate on the rows
+      or columns of a two-dimensional array.
+    </p>
+
+    <p>
+      The Level 3 BLAS were originally written in FORTRAN77.  This version
+      of the library only contains a subset of the BLAS3 library (at
+      the moment, mainly just DGEMM and SGEMM).  Arrays are stored according to the
+      FORTRAN convention.  Thus, an M by N mathematical array might be stored 
+      in a double precision FORTRAN array called "A" that is declared as 
+      <pre>
+        double precision a(lda,sda)
+      </pre>
+      where LDA is the "leading" dimension and SDA is the "second" dimension.
+      It is natural for LDA to equal M, but it is only necessary that 
+      M <= LDA.  The matrix is stored as a vector of concatenated column 
+      vectors, and the dimension statement is used to determine that columns 
+      should be LDA units long.  Thus, a typical entry A(I,J) of the 
+      mathematical matrix is actually stored in the location FORTRAN
+      vector location I+(J-1)*LDA.  Of course, in C, this location would be
+      I-1+(J-1)*LDA.
+    </p>
+
+    <h3 align = "center">
+      Licensing:
+    </h3>
+
+    <p>
+      The computer code and data files made available on this
+      web page are distributed under
+      <a href = "https://people.math.sc.edu/Burkardt/txt/gnu_lgpl.txt">the GNU LGPL license.</a>
+    </p>
+
+
+    <h3 align = "center">
+      Related Data and Programs:
+    </h3>
+
+    <p>
+      <a href = "../blas0/blas0.html">
+      BLAS0</a>,
+      which
+      contains auxilliary functions for the Basic Linear Algebra Subprograms 
+      (BLAS).
+    </p>
+
+    <p>
+      <a href = "../blas1_c/blas1_c.html">
+      BLAS1_C</a>,
+      which
+      contains basic linear algebra routines for vector-vector operations,
+      using single precision complex arithmetic.
+    </p>
+
+    <p>
+      <a href = "../blas1_d/blas1_d.html">
+      BLAS1_D</a>,
+      which
+      contains basic linear algebra routines for vector-vector operations,
+      using double precision real arithmetic.
+    </p>
+
+    <p>
+      <a href = "../blas1_s/blas1_s.html">
+      BLAS1_S</a>,
+      which
+      contains basic linear algebra routines for vector-vector operations,
+      using single precision real arithmetic.
+    </p>
+
+    <p>
+      <a href = "../blas1_z/blas1_z.html">
+      BLAS1_Z</a>,
+      which
+      contains basic linear algebra routines for vector-vector operations,
+      using double precision complex arithmetic.
+    </p>
+
+    <h3 align = "center">
+      Reference:
+    </h3>
+
+    <p>
+      <ol>
+        <li>
+          Thomas Coleman, Charles vanLoan,<br>
+          Handbook for Matrix Computations,<br>
+          SIAM, 1988,<br>
+          ISBN13: 978-0-898712-27-8,<br>
+          LC: QA188.C65.
+        </li>
+        <li>
+          Jack Dongarra, Jim Bunch, Cleve Moler, Pete Stewart,<br>
+          LINPACK User's Guide,<br>
+          SIAM, 1979,<br>
+          ISBN13: 978-0-898711-72-1,<br>
+          LC: QA214.L56.
+        </li>
+        <li>
+          Charles Lawson, Richard Hanson, David Kincaid, Fred Krogh,<br>
+          Algorithm 539:
+          Basic Linear Algebra Subprograms for Fortran Usage,<br>
+          ACM Transactions on Mathematical Software,<br>
+          Volume 5, Number 3, September 1979, pages 308-323.
+        </li>
+      </ol>
+    </p>
+
+
+    <h3 align = "center">
+      Examples and Tests:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <a href = "blas3_d_test.html">blas3_d_test.txt</a>,
+          the output file.
+        </li>
+      </ul>
+    </p>
+
+    <h3 align = "center">
+      List of Routines:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <b>DGEMM</b> computes C = alpha * A * B and related operations.
+        </li>
+        <li>
+          <b>DTRMM</b> performs B:=A*B or B:=B*A, A triangular, B rectangular.
+        </li>
+        <li>
+          <b>DTRSM</b> solves A*X=alpha*B or X*A=alpha*B, for triangular A, rectangular B.
+        </li>
+      </ul>
+    </p>
+
+
+    <hr>
+
+    <i>
+      Last revised on 21 March 2017.
+    </i>
+
+    <!-- John Burkardt -->
+
+  </body>
+
+  <!-- Initial HTML skeleton created by HTMLINDEX. -->
+
+
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/blas3_d/blas3_d.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 15:44:36 GMT -->
+</html>

@@ -94,7 +94,52 @@ namespace Burkardt.Types
             }
                     
             return ivec.Take(n).Min();
-        }        
+        }
+        
+        public static void i8vec_print ( int n, long[] a, string title )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    I8VEC_PRINT prints an I8VEC.
+        //
+        //  Discussion:
+        //
+        //    An I8VEC is a vector of I8's.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    07 August 2017
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number of components of the vector.
+        //
+        //    Input, long long int A[N], the vector to be printed.
+        //
+        //    Input, string TITLE, a title.
+        //
+        {
+            int i;
+
+            Console.WriteLine("");
+            Console.WriteLine(title + "");
+            Console.WriteLine("");
+            for ( i = 0; i < n; i++ )
+            {
+                Console.WriteLine("  " + i.ToString().PadLeft(8)
+                    + ": " + a[i].ToString().PadLeft(24)  + "");
+            }
+        }
 
         public static double i8vec_variance(int n, long[] x)
             //****************************************************************************80

@@ -1,0 +1,127 @@
+<html>
+
+  
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/cycle_brent/cycle_brent.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 15:46:45 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      CYCLE_BRENT - Cycle Detection by Brent's Method
+    </title>
+  </head>
+
+  <body bgcolor="#EEEEEE" link="#CC0000" alink="#FF3300" vlink="#000055">
+
+    <h1 align = "center">
+      CYCLE_BRENT <br> Cycle Detection by Brent's Method
+    </h1>
+
+    <hr>
+
+    <p>
+      <b>CYCLE_BRENT</b>
+      is which
+      analyzes a cycle in an iterated function sequence using Brent's method.
+    </p>
+
+    <p>
+      Suppose we a repeatedly apply a function f(), starting with the argument
+      x0, then f(x0), f(f(x0)) and so on.  Suppose that the range of f is finite.
+      Then eventually the iteration must reach a cycle.  Once the cycle is reached,
+      succeeding values stay within that cycle.
+    </p>
+
+    <p>
+      Starting at x0, there is a "nearest element" of the cycle, which is
+      reached after MU applications of f.
+    </p>
+
+    <p>
+      Once the cycle is entered, the cycle has a length LAM, which is the number
+      of steps required to first return to a given value.
+    </p>
+
+    <p>
+      This function uses Brent's method to determine the values of MU and LAM,
+      given F and X0.
+    </p>
+
+    <h3 align = "center">
+      Licensing:
+    </h3>
+
+    <p>
+      The computer code and data files described and made available on this
+      web page are distributed under
+      <a href = "https://people.math.sc.edu/Burkardt/txt/gnu_lgpl.txt">the GNU LGPL license.</a>
+    </p>
+
+
+    <h3 align = "center">
+      Related Data and Programs:
+    </h3>
+
+    <p>
+      <a href = "../cycle_floyd/cycle_floyd.html">
+      CYCLE_FLOYD</a>,
+      which
+      carries out an iterated function evaluation, and seeks to determine the
+      nearest element of a cycle, and the cycle's length, using Floyd's method.
+    </p>
+
+    <h3 align = "center">
+      Reference:
+    </h3>
+
+    <p>
+      <ol>
+        <li>
+          Richard Brent,<br>
+          An improved Monte Carlo factorization algorithm,<br>
+          BIT,<br>
+          Volume 20, Number 2, 1980, pages 176-184.
+        </li>
+      </ol>
+    </p>
+
+
+    <h3 align = "center">
+      Examples and Tests:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <a href = "cycle_brent_test.txt">cycle_brent_test.txt</a>,
+          the output file.
+        </li>
+      </ul>
+    </p>
+
+    <h3 align = "center">
+      List of Routines:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <b>CYCLE_BRENT</b> finds a cycle in an iterated mapping using Brent's method.
+        </li>
+      </ul>
+    </p>
+
+
+    <hr>
+
+    <i>
+      Last revised on 17 June 2012.
+    </i>
+
+    <!-- John Burkardt -->
+
+  </body>
+
+  <!-- Initial HTML skeleton created by HTMLINDEX. -->
+
+
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/cycle_brent/cycle_brent.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 15:46:46 GMT -->
+</html>

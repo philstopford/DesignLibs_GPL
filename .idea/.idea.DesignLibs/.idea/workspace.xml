@@ -445,6 +445,7 @@
     <projectFile>BurkhardtTest/IO/PGMBtoPGMA/PGMBtoPGMA.csproj</projectFile>
     <projectFile>BurkhardtTest/AlpertRuleTest/AlpertRuleTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Solve/BurgersTest/BurgersTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/ContinuedFractionTest/ContinuedFractionTest.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />

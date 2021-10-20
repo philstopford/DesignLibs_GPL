@@ -2519,6 +2519,128 @@ namespace Burkardt.FEM
             return node_num;
         }
 
+        public static void grid_t6(int nx, int ny, int nnodes, int element_num, ref int[] element_node)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    GRID_T6 produces a grid of pairs of 6 node triangles.
+            //
+            //  Example:
+            //
+            //    Input:
+            //
+            //      NX = 4, NY = 3
+            //
+            //    Output:
+            //
+            //      ELEMENT_NODE =
+            //         1,  3, 15,  2,  9,  8;
+            //        17, 15,  3, 16,  9, 10;
+            //         3,  5, 17,  4, 11, 10;
+            //        19, 17,  5, 18, 11, 12;
+            //         5,  7, 19,  6, 13, 12;
+            //        21, 19,  7, 20, 13, 14;
+            //        15, 17, 29, 16, 23, 22;
+            //        31, 29, 17, 30, 23, 24;
+            //        17, 19, 31, 18, 25, 24;
+            //        33, 31, 19, 32, 25, 26;
+            //        19, 21, 33, 20, 27, 26;
+            //        35, 33, 21, 34, 27, 28.
+            //
+            //  Diagram:
+            //
+            //   29-30-31-32-33-34-35
+            //    |\ 8  |\10  |\12  |
+            //    | \   | \   | \   |
+            //   22 23 24 25 26 27 28
+            //    |   \ |   \ |   \ |
+            //    |  7 \|  9 \| 11 \|
+            //   15-16-17-18-19-20-21
+            //    |\ 2  |\ 4  |\ 6  |
+            //    | \   | \   | \   |
+            //    8  9 10 11 12 13 14
+            //    |   \ |   \ |   \ |
+            //    |  1 \|  3 \|  5 \|
+            //    1--2--3--4--5--6--7
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    23 September 2008
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int NX, NY, controls the number of elements along the
+            //    X and Y directions.  The number of elements will be
+            //    2 * ( NX - 1 ) * ( NY - 1 ).
+            //
+            //    Input, int NNODES, the number of local nodes per element.
+            //
+            //    Input, int ELEMENT_NUM, the number of elements.
+            //
+            //    Output, int ELEMENT_NODE[NNODES*ELEMENT_NUM];
+            //    ELEMENT_NODE(I,J) is the index of the I-th node of the J-th element.
+            //
+        {
+            int c;
+            int e;
+            int element;
+            int i;
+            int j;
+            int n;
+            int ne;
+            int nw;
+            int s;
+            int se;
+            int sw;
+            int w;
+
+            element = 0;
+
+            for (j = 1; j <= ny - 1; j++)
+            {
+                for (i = 1; i <= nx - 1; i++)
+                {
+                    sw = (j - 1) * 2 * (2 * nx - 1) + 2 * i - 1;
+                    w = sw + 1;
+                    nw = sw + 2;
+
+                    s = sw + 2 * nx - 1;
+                    c = s + 1;
+                    n = s + 2;
+
+                    se = s + 2 * nx - 1;
+                    e = se + 1;
+                    ne = se + 2;
+
+                    element = element + 1;
+                    element_node[0 + (element - 1) * nnodes] = sw;
+                    element_node[1 + (element - 1) * nnodes] = se;
+                    element_node[2 + (element - 1) * nnodes] = nw;
+                    element_node[3 + (element - 1) * nnodes] = s;
+                    element_node[4 + (element - 1) * nnodes] = c;
+                    element_node[5 + (element - 1) * nnodes] = w;
+
+                    element = element + 1;
+                    element_node[0 + (element - 1) * nnodes] = ne;
+                    element_node[1 + (element - 1) * nnodes] = nw;
+                    element_node[2 + (element - 1) * nnodes] = se;
+                    element_node[3 + (element - 1) * nnodes] = n;
+                    element_node[4 + (element - 1) * nnodes] = c;
+                    element_node[5 + (element - 1) * nnodes] = e;
+                }
+            }
+        }
+
         public static void grid_test(string code)
 
             //****************************************************************************80

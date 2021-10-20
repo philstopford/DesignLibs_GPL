@@ -6,6 +6,399 @@ namespace Burkardt.Quadrature
 {
     public static class QuadratureRule
     {
+        public static void errors(double[] element_area, int[] element_node, int[] indx,
+                double[] node_xy, double[] f, int element_num, int nnodes,
+                int nunk, int node_num, ref double el2, ref double eh1, Func<double, double, ExactResult> exact)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    ERRORS calculates the error in the L2 and H1-seminorm.
+            //
+            //  Discussion:
+            //
+            //    This routine uses a 13 point quadrature rule in each element,
+            //    in order to estimate the values of
+            //
+            //      EL2 = Sqrt ( Integral ( U(x,y) - Uh(x,y) )**2 dx dy )
+            //
+            //      EH1 = Sqrt ( Integral ( Ux(x,y) - Uhx(x,y) )**2 +
+            //                            ( Uy(x,y) - Uhy(x,y) )**2 dx dy )
+            //
+            //    Here U is the exact solution, and Ux and Uy its spatial derivatives,
+            //    as evaluated by a user-supplied routine.
+            //
+            //    Uh, Uhx and Uhy are the computed solution and its spatial derivatives,
+            //    as specified by the computed finite element solution.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    23 September 2008
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double ELEMENT_AREA[ELEMENT_NUM], the area of each element.
+            //
+            //    Input, int ELEMENT_NODE[NNODES*ELEMENT_NUM]; ELEMENT_NODE(I,J) is the global
+            //    index of local node I in element J.
+            //
+            //    Input, int INDX[NODE_NUM], gives the index of the unknown quantity
+            //    associated with the given node.
+            //
+            //    Input, double NODE_XY[2*NODE_NUM], the X and Y coordinates of nodes.
+            //
+            //    Input, double F[NUNK], the coefficients of the solution.
+            //
+            //    Input, int ELEMENT_NUM, the number of elements.
+            //
+            //    Input, int NNODES, the number of nodes used to form one element.
+            //
+            //    Input, int NUNK, the number of unknowns.
+            //
+            //    Input, int NODE_NUM, the number of nodes.
+            //
+            //    Output, double precision *EL2, the L2 error.
+            //
+            //    Output, double precision *EH1, the H1 seminorm error.
+            //
+            //  Local Parameters:
+            //
+            //    Local, double AR, the weight for a given quadrature point
+            //    in a given element.
+            //
+            //    Local, double BI, DBIDX, DBIDY, a basis function and its first
+            //    derivatives evaluated at a particular quadrature point.
+            //
+            //    Local, double EH1, the H1 seminorm error.
+            //
+            //    Local, double EL2, the L2 error.
+            //
+            //    Local, int NQE, the number of points in the quadrature rule.
+            //    This is actually fixed at 13.
+            //
+            //    Local, double UEX, UEXX, UEXY, the exact solution and its first
+            //    derivatives evaluated at a particular quadrature point.
+            //
+            //    Local, double UH, UHX, UHY, the computed solution and its first
+            //    derivatives evaluated at a particular quadrature point.
+            //
+            //    Local, double WQE(NQE), stores the quadrature weights.
+            //
+            //    Local, double X, Y, the coordinates of a particular
+            //    quadrature point.
+            //
+            //    Local, double XQE(NQE), YQE(NQE), stores the location
+            //    of quadrature points in a given element.
+            //
+        {
+            int NQE = 13;
+
+            double ar;
+            double bi;
+            double dbidx;
+            double dbidy;
+            double dudx;
+            double dudxh;
+            double dudy;
+            double dudyh;
+            int element;
+            int i;
+            int in1;
+            int ip;
+            int quad;
+            double u;
+            double uh;
+            double wqe[NQE];
+            double x;
+            double xqe[NQE];
+            double y;
+            double yqe[NQE];
+
+            el2 = 0.0E+00;
+            eh1 = 0.0E+00;
+            //
+            //  For each element, retrieve the nodes, area, quadrature weights,
+            //  and quadrature points.
+            //
+            for (element = 1; element <= element_num; element++)
+            {
+                quad_e(node_xy, element_node, element, element_num,
+                    nnodes, node_num, NQE, wqe, xqe, yqe);
+                //
+                //  For each quadrature point, evaluate the computed solution and its X and
+                //  Y derivatives.
+                //
+                for (quad = 1; quad <= NQE; quad++)
+                {
+                    ar = element_area[element - 1] * wqe[quad - 1];
+                    x = xqe[quad - 1];
+                    y = yqe[quad - 1];
+
+                    uh = 0.0E+00;
+                    dudxh = 0.0E+00;
+                    dudyh = 0.0E+00;
+
+                    for (in1 = 1; in1 <= nnodes; in1++)
+                    {
+                        ip = element_node[in1 - 1 + (element - 1) * nnodes];
+
+                        qbf(x, y, element, in1, node_xy,
+                            element_node, element_num, nnodes, node_num, &bi, &dbidx, &dbidy);
+
+                        i = indx[ip - 1];
+
+                        uh = uh + bi * f[i - 1];
+                        dudxh = dudxh + dbidx * f[i - 1];
+                        dudyh = dudyh + dbidy * f[i - 1];
+                    }
+
+                    //
+                    //  Evaluate the exact solution and its X and Y derivatives.
+                    //
+                    exact(x, y, &u, &dudx, &dudy);
+                    //
+                    //  Add the weighted value at this quadrature point to the quadrature sum.
+                    //
+                    el2 = *el2 + ar * pow((uh - u), 2);
+
+                    eh1 = *eh1 + ar * (pow((dudxh - dudx), 2)
+                                       + pow((dudyh - dudy), 2));
+                }
+            }
+
+            el2 = sqrt(*el2);
+            eh1 = sqrt(*eh1);
+
+            Console.WriteLine("");
+            Console.WriteLine("*********************************************");
+            Console.WriteLine("*                                           *");
+            Console.WriteLine("*  ERRORS:                                  *");
+            Console.WriteLine("*    L2 error =          " << setw(14) << *el2 << "     *");
+            Console.WriteLine("*    H1-seminorm error = " << setw(14) << *eh1 << "     *");
+            Console.WriteLine("*                                           *");
+            Console.WriteLine("*********************************************");
+
+        }
+
+        public static void quad_a ( double[] node_xy, int[] element_node,
+        int element_num, int node_num, int nnodes, ref double[] wq, ref double[] xq,
+        ref double[] yq )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    QUAD_A sets the quadrature rule for assembly.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    23 September 2008
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double NODE_XY[2*NODE_NUM], the nodes.
+        //
+        //    Input, int ELEMENT_NODE[NNODES*ELEMENT_NUM];
+        //    ELEMENT_NODE(I,J) is the global index of local node I in element J.
+        //
+        //    Input, int ELEMENT_NUM, the number of elements.
+        //
+        //    Input, int NODE_NUM, the number of nodes.
+        //
+        //    Input, int NNODES, the number of nodes used to form one element.
+        //
+        //    Output, double WQ[3], quadrature weights.
+        //
+        //    Output, double XQ[3*ELEMENT_NUM], YQ[3*ELEMENT_NUM], the
+        //    coordinates of the quadrature points in each element.
+        //
+        {
+            int element;
+            int ip1;
+            int ip2;
+            int ip3;
+            double x1;
+            double x2;
+            double x3;
+            double y1;
+            double y2;
+            double y3;
+
+            wq[0] = 1.0E+00 / 3.0E+00;
+            wq[1] = wq[0];
+            wq[2] = wq[0];
+
+            for (element = 1; element <= element_num; element++)
+            {
+                ip1 = element_node[0 + (element - 1) * nnodes];
+                ip2 = element_node[1 + (element - 1) * nnodes];
+                ip3 = element_node[2 + (element - 1) * nnodes];
+
+                x1 = node_xy[0 + (ip1 - 1) * 2];
+                x2 = node_xy[0 + (ip2 - 1) * 2];
+                x3 = node_xy[0 + (ip3 - 1) * 2];
+
+                y1 = node_xy[1 + (ip1 - 1) * 2];
+                y2 = node_xy[1 + (ip2 - 1) * 2];
+                y3 = node_xy[1 + (ip3 - 1) * 2];
+
+                xq[0 + (element - 1) * 3] = 0.5E+00 * (x1 + x2);
+                xq[1 + (element - 1) * 3] = 0.5E+00 * (x2 + x3);
+                xq[2 + (element - 1) * 3] = 0.5E+00 * (x1 + x3);
+
+                yq[0 + (element - 1) * 3] = 0.5E+00 * (y1 + y2);
+                yq[1 + (element - 1) * 3] = 0.5E+00 * (y2 + y3);
+                yq[2 + (element - 1) * 3] = 0.5E+00 * (y1 + y3);
+            }
+
+        }
+
+        public static void quad_e ( double[] node_xy, int[] element_node,
+        int element, int element_num, int nnodes, int node_num, int nqe,
+        ref double[] wqe, ref double[] xqe, ref double[] yqe )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    QUAD_E sets a quadrature rule for the error calculation.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    23 September 2008
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double NODE_XY[2*NODE_NUM], the X and Y coordinates of nodes.
+        //
+        //    Input, int ELEMENT_NODE[NNODES*ELEMENT_NUM]; ELEMENT_NODE(I,J) is the global
+        //    index of local node I in element J.
+        //
+        //    Input, int ELEMENT, the index of the element for which the quadrature
+        //    points are to be computed.
+        //
+        //    Input, int ELEMENT_NUM, the number of elements.
+        //
+        //    Input, int NNODES, the number of nodes used to form one element.
+        //
+        //    Input, int NODE_NUM, the number of nodes.
+        //
+        //    Input, int NQE, the number of points in the quadrature rule.
+        //    This is actually fixed at 13.
+        //
+        //    Output, double WQE[NQE], the quadrature weights.
+        //
+        //    Output, double XQE[NQE], YQE[NQE], the X and Y coordinates
+        //    of the quadrature points.
+        //
+        {
+            int i;
+            int ii;
+            int iii;
+            int ip1;
+            int ip2;
+            int ip3;
+            double x1;
+            double x2;
+            double x3;
+            double y1;
+            double y2;
+            double y3;
+            double z1;
+            double z2;
+            double z3;
+            double z4;
+            double z5;
+            double z6;
+            double z7;
+
+            for (i = 1; i <= 3; i++)
+            {
+                wqe[i - 1] = 0.175615257433204E+00;
+                ii = i + 3;
+                wqe[ii - 1] = 0.053347235608839E+00;
+                ii = i + 6;
+                iii = ii + 3;
+                wqe[ii - 1] = 0.077113760890257E+00;
+                wqe[iii - 1] = wqe[ii - 1];
+            }
+
+            wqe[13 - 1] = -0.14957004446767E+00;
+
+            z1 = 0.479308067841923E+00;
+            z2 = 0.260345966079038E+00;
+            z3 = 0.869739794195568E+00;
+            z4 = 0.065130102902216E+00;
+            z5 = 0.638444188569809E+00;
+            z6 = 0.312865496004875E+00;
+            z7 = 0.048690315425316E+00;
+
+            ip1 = element_node[0 + (element - 1) * nnodes];
+            ip2 = element_node[1 + (element - 1) * nnodes];
+            ip3 = element_node[2 + (element - 1) * nnodes];
+
+            x1 = node_xy[0 + (ip1 - 1) * 2];
+            x2 = node_xy[0 + (ip2 - 1) * 2];
+            x3 = node_xy[0 + (ip3 - 1) * 2];
+
+            y1 = node_xy[1 + (ip1 - 1) * 2];
+            y2 = node_xy[1 + (ip2 - 1) * 2];
+            y3 = node_xy[1 + (ip3 - 1) * 2];
+
+            xqe[1 - 1] = z1 * x1 + z2 * x2 + z2 * x3;
+            yqe[1 - 1] = z1 * y1 + z2 * y2 + z2 * y3;
+            xqe[2 - 1] = z2 * x1 + z1 * x2 + z2 * x3;
+            yqe[2 - 1] = z2 * y1 + z1 * y2 + z2 * y3;
+            xqe[3 - 1] = z2 * x1 + z2 * x2 + z1 * x3;
+            yqe[3 - 1] = z2 * y1 + z2 * y2 + z1 * y3;
+            xqe[4 - 1] = z3 * x1 + z4 * x2 + z4 * x3;
+            yqe[4 - 1] = z3 * y1 + z4 * y2 + z4 * y3;
+            xqe[5 - 1] = z4 * x1 + z3 * x2 + z4 * x3;
+            yqe[5 - 1] = z4 * y1 + z3 * y2 + z4 * y3;
+            xqe[6 - 1] = z4 * x1 + z4 * x2 + z3 * x3;
+            yqe[6 - 1] = z4 * y1 + z4 * y2 + z3 * y3;
+            xqe[7 - 1] = z5 * x1 + z6 * x2 + z7 * x3;
+            yqe[7 - 1] = z5 * y1 + z6 * y2 + z7 * y3;
+            xqe[8 - 1] = z5 * x1 + z7 * x2 + z6 * x3;
+            yqe[8 - 1] = z5 * y1 + z7 * y2 + z6 * y3;
+            xqe[9 - 1] = z6 * x1 + z5 * x2 + z7 * x3;
+            yqe[9 - 1] = z6 * y1 + z5 * y2 + z7 * y3;
+            xqe[10 - 1] = z6 * x1 + z7 * x2 + z5 * x3;
+            yqe[10 - 1] = z6 * y1 + z7 * y2 + z5 * y3;
+            xqe[11 - 1] = z7 * x1 + z5 * x2 + z6 * x3;
+            yqe[11 - 1] = z7 * y1 + z5 * y2 + z6 * y3;
+            xqe[12 - 1] = z7 * x1 + z6 * x2 + z5 * x3;
+            yqe[12 - 1] = z7 * y1 + z6 * y2 + z5 * y3;
+            xqe[13 - 1] = (x1 + x2 + x3) / 3.0;
+            yqe[13 - 1] = (y1 + y2 + y3) / 3.0;
+
+        }
+
         public static void quad_rule ( int quad_num, ref double[] quad_w, ref double[] quad_xy )
 
         //****************************************************************************80

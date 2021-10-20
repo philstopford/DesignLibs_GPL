@@ -8,6 +8,82 @@ namespace Burkardt.FEM
 {
     public static class Element
     {
+        public static void area_set ( int node_num, double[] node_xy, int nnodes,
+        int element_num, int[] element_node, double[] element_area )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    AREA_SET sets the area of each element.
+        //
+        //  Discussion:
+        //
+        //    The areas of the elements are needed in order to adjust
+        //    the integral estimates produced by the quadrature formulas.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    23 September 2008
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int NODE_NUM, the number of nodes.
+        //
+        //    Input, double NODE_XY[2*NODE_NUM], the
+        //    coordinates of the nodes.
+        //
+        //    Input, int NNODES, the number of local nodes per element.
+        //
+        //    Input, int ELEMENT_NUM, the number of elements.
+        //
+        //    Input, int ELEMENT_NODE[NNODES*ELEMENT_NUM];
+        //    ELEMENT_NODE(I,J) is the global index of local node I in element J.
+        //
+        //    Output, double ELEMENT_AREA[ELEMENT_NUM], the area of elements.
+        //
+        {
+            int element;
+            int i1;
+            int i2;
+            int i3;
+            double x1;
+            double x2;
+            double x3;
+            double y1;
+            double y2;
+            double y3;
+
+            for ( element = 0; element < element_num; element++ )
+            {
+                i1 = element_node[0+element*nnodes];
+                x1 = node_xy[0+(i1-1)*2];
+                y1 = node_xy[1+(i1-1)*2];
+
+                i2 = element_node[1+element*nnodes];
+                x2 = node_xy[0+(i2-1)*2];
+                y2 = node_xy[1+(i2-1)*2];
+
+                i3 = element_node[2+element*nnodes];
+                x3 = node_xy[0+(i3-1)*2];
+                y3 = node_xy[1+(i3-1)*2];
+
+                element_area[element] = 0.5E+00 * Math.Abs
+                ( y1 * ( x2 - x3 )
+                  + y2 * ( x3 - x1 )
+                  + y3 * ( x1 - x2 ) );
+            }
+
+        }
+        
         public static string element_code(int i)
 
             //****************************************************************************80
@@ -717,5 +793,65 @@ namespace Burkardt.FEM
 
         }
 
+        public static void element_write ( int nnodes, int element_num, int[] element_node,
+        string output_filename )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    ELEMENT_WRITE writes the elements to a file.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    23 September 2008
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int NNODES, the number of nodes used to form one element.
+        //
+        //    Input, int ELEMENT_NUM, the number of elements.
+        //
+        //    Input, int ELEMENT_NODE[NNODES*ELEMENT_NUM]; ELEMENT_NODE(I,J) is the global
+        //    index of local node I in element J.
+        //
+        //    Input, string OUTPUT_FILENAME, the name of the file
+        //    in which the data should be stored.
+        //
+        {
+            int element;
+            int i;
+            List<string> output = new List<string>();
+            
+            for ( element = 0; element < element_num; element++ )
+            {
+                string cout = "";
+                for ( i = 0; i < nnodes; i++ )
+                {
+                    cout += element_node[i+element*nnodes].ToString().PadLeft(8);
+                }
+                output.Add(cout);
+            }
+            
+            try
+            {
+                File.WriteAllLines(output_filename, output);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("ELEMENT_WRITE - Warning!");
+                Console.WriteLine("  Could not write the node file.");
+            }
+        }
+        
     }
 }

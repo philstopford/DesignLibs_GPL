@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt.CompressedRow;
+using Burkardt.Sparse;
 using Burkardt.SparseTripletNS;
 using Burkardt.Types;
 
@@ -7,6 +8,303 @@ namespace Burkardt.SolveNS
 {
     public static class RestartedGeneralizedMinimumResidual
     {
+        public static void mgmres(double[] a, int[] ia, int[] ja, ref double[] x, double[] rhs,
+                int n, int nz_num, int itr_max, int mr, double tol_abs, double tol_rel)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    MGMRES applies the restarted GMRES iteration to a linear system.
+            //
+            //  Discussion:
+            //
+            //    The linear system A*X=B is solved iteratively.
+            //
+            //    The matrix A is assumed to be sparse.  To save on storage, only
+            //    the nonzero entries of A are stored.  For instance, the K-th nonzero
+            //    entry in the matrix is stored by:
+            //
+            //      A(K) = value of entry,
+            //      IA(K) = row of entry,
+            //      JA(K) = column of entry.
+            //
+            //    The "matrices" H and V are treated as one-dimensional vectors
+            //    which store the matrix data in row major form.
+            //
+            //    This requires that references to H[I][J] be replaced by references
+            //    to H[I+J*(MR+1)] and references to V[I][J] by V[I+J*N].
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    13 July 2007
+            //
+            //  Author:
+            //
+            //    Original C version by Lili Ju.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Richard Barrett, Michael Berry, Tony Chan, James Demmel,
+            //    June Donato, Jack Dongarra, Victor Eijkhout, Roidan Pozo,
+            //    Charles Romine, Henk van der Vorst,
+            //    Templates for the Solution of Linear Systems:
+            //    Building Blocks for Iterative Methods,
+            //    SIAM, 1994,
+            //    ISBN: 0898714710,
+            //    LC: QA297.8.T45.
+            //
+            //    Tim Kelley,
+            //    Iterative Methods for Linear and Nonlinear Equations,
+            //    SIAM, 2004,
+            //    ISBN: 0898713528,
+            //    LC: QA297.8.K45.
+            //
+            //    Yousef Saad,
+            //    Iterative Methods for Sparse Linear Systems,
+            //    Second Edition,
+            //    SIAM, 2003,
+            //    ISBN: 0898715342,
+            //    LC: QA188.S17.
+            //
+            //  Parameters:
+            //
+            //    Input, double A[NZ_NUM], the matrix values.
+            //
+            //    Input, int IA[NZ_NUM], JA[NZ_NUM], the row and column indices
+            //    of the matrix values.
+            //
+            //    Input/output, double X[N]; on input, an approximation to
+            //    the solution.  On output, an improved approximation.
+            //
+            //    Input, double RHS[N], the right hand side of the linear system.
+            //
+            //    Input, int N, the order of the linear system.
+            //
+            //    Input, int NZ_NUM, the number of nonzero matrix values.
+            //
+            //    Input, int ITR_MAX, the maximum number of (outer) iterations to take.
+            //
+            //    Input, int MR, the maximum number of (inner) iterations to take.
+            //    MR must be less than N.
+            //
+            //    Input, double TOL_ABS, an absolue tolerance applied to the
+            //    current residual.
+            //
+            //    Input, double TOL_REL, a relative tolerance comparing the
+            //    current residual to the initial residual.
+            //
+        {
+            double av;
+            double[] c;
+            double delta = 1.0e-03;
+            double[] g;
+            double[] h;
+            double htmp;
+            int i;
+            int itr;
+            int itr_used;
+            int j;
+            int k;
+            int k_copy = 0;
+            double mu;
+            double[] r;
+            double rho = 0;
+            double rho_tol = 0;
+            double[] s;
+            double[] v;
+            bool verbose = true;
+            double[] y;
+
+            c = new double[mr];
+            g = new double[mr + 1];
+            h = new double[(mr + 1) * mr];
+            r = new double[n];
+            s = new double[mr];
+            v = new double[n * (mr + 1)];
+            y = new double[mr + 1];
+
+            itr_used = 0;
+
+            if (n < mr)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("MGMRES - Fatal error!");
+                Console.WriteLine("  N < MR.");
+                Console.WriteLine("  N = " + n + "");
+                Console.WriteLine("  MR = " + mr + "");
+                return;
+            }
+
+            for (itr = 1; itr <= itr_max; itr++)
+            {
+                AX.ax(a, ia, ja, x, ref r, n, nz_num);
+
+                for (i = 0; i < n; i++)
+                {
+                    r[i] = rhs[i] - r[i];
+                }
+
+                rho = Math.Sqrt(typeMethods.r8vec_dot_product(n, r, r));
+
+                if (verbose)
+                {
+                    Console.WriteLine("  ITR = " + itr + "  Residual = " + rho + "");
+                }
+
+                if (itr == 1)
+                {
+                    rho_tol = rho * tol_rel;
+                }
+
+                for (i = 0; i < n; i++)
+                {
+                    v[i + 0 * n] = r[i] / rho;
+                }
+
+                g[0] = rho;
+                for (i = 1; i <= mr; i++)
+                {
+                    g[i] = 0.0;
+                }
+
+                for (i = 0; i < mr + 1; i++)
+                {
+                    for (j = 0; j < mr; j++)
+                    {
+                        h[i + j * (mr + 1)] = 0.0;
+                    }
+                }
+
+                for (k = 1; k <= mr; k++)
+                {
+                    k_copy = k;
+
+                    AX.ax(a, ia, ja, v, ref v, n, nz_num, xIndex:  + (k - 1) * n, wIndex:  + k * n);
+
+                    av = Math.Sqrt(typeMethods.r8vec_dot_product(n, v, v, a1Index: +k * n, a2Index: +k * n));
+
+                    for (j = 1; j <= k; j++)
+                    {
+                        h[(j - 1) + (k - 1) * (mr + 1)] =
+                            typeMethods.r8vec_dot_product(n, v, v, a1Index: +k * n, a2Index: +(j - 1) * n);
+                        for (i = 0; i < n; i++)
+                        {
+                            v[i + k * n] = v[i + k * n] - h[(j - 1) + (k - 1) * (mr + 1)] * v[i + (j - 1) * n];
+                        }
+                    }
+
+                    h[k + (k - 1) * (mr + 1)] =
+                        Math.Sqrt(typeMethods.r8vec_dot_product(n, v, v, a1Index: +k * n, a2Index: +k * n));
+
+                    if ((av + delta * h[k + (k - 1) * (mr + 1)]) == av)
+                    {
+                        for (j = 1; j <= k; j++)
+                        {
+                            htmp = typeMethods.r8vec_dot_product(n, v, v, a1Index: +k * n, a2Index: +(j - 1) * n);
+                            h[(j - 1) + (k - 1) * (mr + 1)] = h[(j - 1) + (k - 1) * (mr + 1)] + htmp;
+                            for (i = 0; i < n; i++)
+                            {
+                                v[i + k * n] = v[i + k * n] - htmp * v[i + (j - 1) * n];
+                            }
+                        }
+
+                        h[k + (k - 1) * (mr + 1)] =
+                            Math.Sqrt(typeMethods.r8vec_dot_product(n, v, v, a1Index: +k * n, a2Index: +k * n));
+                    }
+
+                    if (h[k + (k - 1) * (mr + 1)] != 0.0)
+                    {
+                        for (i = 0; i < n; i++)
+                        {
+                            v[i + k * n] = v[i + k * n] / h[k + (k - 1) * (mr + 1)];
+                        }
+                    }
+
+                    if (1 < k)
+                    {
+                        for (i = 1; i <= k + 1; i++)
+                        {
+                            y[i - 1] = h[(i - 1) + (k - 1) * (mr + 1)];
+                        }
+
+                        for (j = 1; j <= k - 1; j++)
+                        {
+                            Helpers.mult_givens(c[j - 1], s[j - 1], j - 1, ref y);
+                        }
+
+                        for (i = 1; i <= k + 1; i++)
+                        {
+                            h[i - 1 + (k - 1) * (mr + 1)] = y[i - 1];
+                        }
+                    }
+
+                    mu = Math.Sqrt(Math.Pow(h[(k - 1) + (k - 1) * (mr + 1)], 2)
+                                   + Math.Pow(h[k + (k - 1) * (mr + 1)], 2));
+                    c[k - 1] = h[(k - 1) + (k - 1) * (mr + 1)] / mu;
+                    s[k - 1] = -h[k + (k - 1) * (mr + 1)] / mu;
+                    h[(k - 1) + (k - 1) * (mr + 1)] = c[k - 1] * h[(k - 1) + (k - 1) * (mr + 1)]
+                                                      - s[k - 1] * h[k + (k - 1) * (mr + 1)];
+                    h[k + (k - 1) * (mr + 1)] = 0;
+                    Helpers.mult_givens(c[k - 1], s[k - 1], k - 1, ref g);
+
+                    rho = Math.Abs(g[k]);
+
+                    itr_used = itr_used + 1;
+
+                    if (verbose)
+                    {
+                        Console.WriteLine("  K =   " + k + "  Residual = " + rho + "");
+                    }
+
+                    if (rho <= rho_tol && rho <= tol_abs)
+                    {
+                        break;
+                    }
+                }
+
+                k = k_copy - 1;
+                y[k] = g[k] / h[k + k * (mr + 1)];
+
+                for (i = k; 1 <= i; i--)
+                {
+                    y[i - 1] = g[i - 1];
+                    for (j = i + 1; j <= k + 1; j++)
+                    {
+                        y[i - 1] = y[i - 1] - h[(i - 1) + (j - 1) * (mr + 1)] * y[j - 1];
+                    }
+
+                    y[i - 1] = y[i - 1] / h[(i - 1) + (i - 1) * (mr + 1)];
+                }
+
+                for (i = 1; i <= n; i++)
+                {
+                    for (j = 1; j <= k + 1; j++)
+                    {
+                        x[i - 1] = x[i - 1] + v[(i - 1) + (j - 1) * n] * y[j - 1];
+                    }
+                }
+
+                if (rho <= rho_tol && rho <= tol_abs)
+                {
+                    break;
+                }
+            }
+
+            if (verbose)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("MGMRES");
+                Console.WriteLine("  Number of iterations = " + itr_used + "");
+                Console.WriteLine("  Final residual = " + rho + "");
+            }
+        }
+
         public static void mgmres_st(int n, int nz_num, int[] ia, int[] ja, double[] a, ref double[] x,
                 double[] rhs, int itr_max, int mr, double tol_abs, double tol_rel)
 

@@ -1,0 +1,186 @@
+<html>
+
+  
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/elliptic_integral/elliptic_integral.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 15:48:02 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      ELLIPTIC_INTEGRAL - Elliptic Integrals
+    </title>
+  </head>
+
+  <body bgcolor="#EEEEEE" link="#CC0000" alink="#FF3300" vlink="#000055">
+
+    <h1 align = "center">
+      ELLIPTIC_INTEGRAL <br> Elliptic Integrals
+    </h1>
+
+    <hr>
+
+    <p>
+      <b>ELLIPTIC_INTEGRAL</b>,
+      which
+      evaluates elliptic integral functions using Carlson's elliptic
+      functions.
+    </p>
+
+    <p>
+      The complete and incomplete elliptic integrals of the first, second and 
+      third kind can be evaluated, with parameters A (angle in degrees), 
+      K (sine of A) or M (the modulus, K^2).
+    </p>
+
+    <p>
+      Routines are also supplied to evaluate Jacobi's elliptic functions CN,
+      DN and SN.
+    </p>
+
+
+    <h3 align = "center">
+      Related Data and Programs:
+    </h3>
+
+    <p>
+      <a href = "../test_values/test_values.html">
+      TEST_VALUES</a>,
+      which
+      supplies test values of various mathematical functions.
+    </p>
+
+    <p>
+      <a href = "../toms577/toms577.html">
+      TOMS577</a>,
+      which
+      evaluates Carlson's elliptic integral functions RC, RD, RF and RJ.
+      This is a version of ACM TOMS algorithm 577;
+    </p>
+
+    <h3 align = "center">
+      Reference:
+    </h3>
+
+    <p>
+      <ol>
+        <li>
+          Bille Carlson,<br>
+          Computing Elliptic Integrals by Duplication,<br>
+          Numerische Mathematik,<br>
+          Volume 33, 1979, pages 1-16.
+        </li>
+        <li>
+          Bille Carlson, Elaine Notis,<br>
+          Algorithm 577, Algorithms for Incomplete Elliptic Integrals,<br>
+          ACM Transactions on Mathematical Software,<br>
+          Volume 7, Number 3, pages 398-403, September 1981.
+        </li>
+      </ol>
+    </p>
+
+
+    <h3 align = "center">
+      Examples and Tests:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <a href = "elliptic_integral_test.txt">elliptic_integral_test.txt</a>,
+          the output file.
+        </li>
+      </ul>
+    </p>
+
+    <h3 align = "center">
+      List of Routines:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <b>ELLIPTIC_EA</b> evaluates the complete elliptic integral E(A).
+        </li>
+        <li>
+          <b>ELLIPTIC_EA_VALUES:</b> values of the complete elliptic integral E(ALPHA).
+        </li>
+        <li>
+          <b>ELLIPTIC_EK</b> evaluates the complete elliptic integral E(K).
+        </li>
+        <li>
+          <b>ELLIPTIC_EK_VALUES</b> returns values of the complete elliptic integral E(K).
+        </li>
+        <li>
+          <b>ELLIPTIC_EM</b> evaluates the complete elliptic integral E(M).
+        </li>
+        <li>
+          <b>ELLIPTIC_EM_VALUES</b> returns values of the complete elliptic integral E(M).
+        </li>
+        <li>
+          <b>ELLIPTIC_FA</b> evaluates the complete elliptic integral F(A).
+        </li>
+        <li>
+          <b>ELLIPTIC_FA_VALUES:</b> values of the complete elliptic integral F(ALPHA).
+        </li>
+        <li>
+          <b>ELLIPTIC_FK</b> evaluates the complete elliptic integral F(K).
+        </li>
+        <li>
+          <b>ELLIPTIC_FK_VALUES</b> returns values of the complete elliptic integral F(K).
+        </li>
+        <li>
+          <b>ELLIPTIC_FM</b> evaluates the complete elliptic integral F(M).
+        </li>
+        <li>
+          <b>ELLIPTIC_FM_VALUES</b> returns values of the complete elliptic integral F(M).
+        </li>
+        <li>
+          <b>ELLIPTIC_PIA</b> evaluates the complete elliptic integral Pi(N,A).
+        </li>
+        <li>
+          <b>ELLIPTIC_PIA_VALUES</b> returns values of the complete elliptic integral Pi(N,A).
+        </li>
+        <li>
+          <b>ELLIPTIC_PIK</b> evaluates the complete elliptic integral Pi(N,K).
+        </li>
+        <li>
+          <b>ELLIPTIC_PIK_VALUES</b> returns values of the complete elliptic integral Pi(N,K).
+        </li>
+        <li>
+          <b>ELLIPTIC_PIM</b> evaluates the complete elliptic integral Pi(N,M).
+        </li>
+        <li>
+          <b>ELLIPTIC_PIM_VALUES</b> returns values of the complete elliptic integral Pi(N,M).
+        </li>
+        <li>
+          <b>RC</b> computes the elementary integral RC(X,Y).
+        </li>
+        <li>
+          <b>RD</b> computes an incomplete elliptic integral of the second kind, RD(X,Y,Z).
+        </li>
+        <li>
+          <b>RF</b> computes an incomplete elliptic integral of the first kind, RF(X,Y,Z).
+        </li>
+        <li>
+          <b>RJ</b> computes an incomplete elliptic integral of the third kind, RJ(X,Y,Z,P).
+        </li>
+        <li>
+          <b>TIMESTAMP</b> prints out the current YMDHMS date as a timestamp.
+        </li>
+      </ul>
+    </p>
+
+
+    <hr>
+
+    <i>
+      Last revised on 03 June 2018.
+    </i>
+
+    <!-- John Burkardt -->
+
+  </body>
+
+  <!-- Initial HTML skeleton created by HTMLINDEX. -->
+
+
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/elliptic_integral/elliptic_integral.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 15:48:03 GMT -->
+</html>

@@ -1,0 +1,21 @@
+PriorType  num of pdf parameters    pdf parameters
+uniform
+2          -10.0         10.0
+uniform
+2          -10.0         10.0
+uniform
+2          -10.0         10.0
+uniform
+2          -10.0         10.0
+uniform
+2          -10.0         10.0
+uniform
+2          -10.0         10.0
+uniform
+2          -10.0         10.0
+uniform
+2          -10.0         10.0
+uniform
+2          -10.0         10.0
+uniform
+2          -10.0         10.0

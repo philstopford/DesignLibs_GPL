@@ -1,0 +1,449 @@
+<html>
+
+  
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/dream1/dream1.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 16:05:22 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      DREAM1 - Markov Chain Monte Carlo acceleration by Differential Evolution
+    </title>
+  </head>
+
+  <body bgcolor="#EEEEEE" link="#CC0000" alink="#FF3300" vlink="#000055">
+
+    <h1 align = "center">
+      DREAM1 <br> Markov Chain Monte Carlo acceleration by Differential Evolution
+    </h1>
+
+    <hr>
+
+    <p>
+      <b>DREAM1</b>
+      is which
+      is an older implementation of the DREAM algorithm for accelerating 
+      Markov Chain Monte Carlo (MCMC) convergence using differential evolution,
+      by Guannan Zhang.
+    </p>
+
+    <p>
+      Using the <b>DREAM1</b> library to solve a problem requires:
+      <ul>
+        <li>
+          compiling a main program, for example, the DREAM1_test.CPP file; 
+        </li>
+        <li>
+          linking the main program with the DREAM1 and RNGLIB libraries;
+        </li>
+        <li>
+          supplying two text files that define the input parameters and the
+          prior probability density function, such as the examples
+          given below.
+        </li>
+      </ul>
+    </p>
+
+    <p>
+      A more recent version of the algorithm, with a simplified interface
+      involving 5 user functions, is available as DREAM.
+    </p>
+
+    <h3 align = "center">
+      Licensing:
+    </h3>
+
+    <p>
+      The computer code and data files described and made available on this
+      web page are distributed under
+      <a href = "https://people.math.sc.edu/Burkardt/txt/gnu_lgpl.txt">the GNU LGPL license.</a>
+    </p>
+
+
+    <h3 align = "center">
+      Related Data and Programs:
+    </h3>
+
+    <p>
+      <a href = "../dream/dream.html">
+      DREAM</a>,
+      a C++ program which
+      implements the DREAM algorithm for accelerating 
+      Markov Chain Monte Carlo (MCMC)
+      convergence using differential evolution, 
+      using five user functions to define the problem, by Guannan Zhang.
+    </p>
+
+    <p>
+      <a href = "../ranlib/ranlib.html">
+      RANLIB</a>,
+      which
+      produces random samples from Probability Density Functions (PDF's), 
+      including Beta, Chi-square Exponential, F, Gamma, Multivariate normal,
+      Noncentral chi-square, Noncentral F, Univariate normal, 
+      random permutations, Real uniform, Binomial, Negative Binomial,
+      Multinomial, Poisson and Integer uniform,
+      by Barry Brown and James Lovato.
+    </p>
+
+    <p>
+      <a href = "../rnglib/rnglib.html">
+      RNGLIB</a>,
+      which
+      implements a random number generator (RNG) with splitting facilities,
+      allowing multiple independent streams to be computed,
+      by L'Ecuyer and Cote.
+    </p>
+
+    <h3 align = "center">
+      Author:
+    </h3>
+
+    <p>
+      Original FORTRAN90 version by Guannan Zhang;
+      C++ version by John Burkardt.
+    </p>
+
+    <h3 align = "center">
+      Reference:
+    </h3>
+
+    <p>
+      <ol>
+        <li>
+          Pierre LEcuyer, Serge Cote,<br>
+          Implementing a Random Number Package with Splitting Facilities,<br>
+          ACM Transactions on Mathematical Software,<br>
+          Volume 17, Number 1, March 1991, pages 98-111.
+        </li>
+        <li>
+          Jasper Vrugt, CJF ter Braak, CGH Diks, Bruce Robinson, James Hyman, 
+          Dave Higdon,<br>
+          Accelerating Markov Chain Monte Carlo Simulation by Differential 
+          Evolution with Self-Adaptive Randomized Subspace Sampling,<br>
+          International Journal of Nonlinear Sciences and Numerical
+          Simulation,<br>
+          Volume 10, Number 3, March 2009, pages 271-288.
+        </li>
+      </ol>
+    </p>
+
+
+    <h3 align = "center">
+      Examples and Tests:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <a href = "dream1_test.txt">dream1_test.txt</a>,
+          the output file.
+        </li>
+      </ul>
+    </p>
+
+    <p>
+      Input files:
+      <ul>
+        <li>
+          <a href = "input.txt">input.txt</a>,
+          an input file, containing parameter values, read by INPUT_READ.
+        </li>
+        <li>
+          <a href = "prior.txt">prior.txt</a>,
+          an input file, defining the prior density functions for
+          the parameters, read by PRIOR_READ.
+        </li>
+      </ul>
+    </p>
+
+    <p>
+      Output files:
+      <ul>
+        <li>
+          <a href = "chain000.txt">chain000.txt</a>,
+          an output file, containing the sample values for chain 0, written by CHAIN_WRITE.
+        </li>
+        <li>
+          <a href = "chain001.txt">chain001.txt</a>,
+          an output file, containing the sample values for chain 1, written by CHAIN_WRITE.
+        </li>
+        <li>
+          <a href = "chain002.txt">chain002.txt</a>,
+          an output file, containing the sample values for chain 2, written by CHAIN_WRITE.
+        </li>
+        <li>
+          <a href = "chain003.txt">chain003.txt</a>,
+          an output file, containing the sample values for chain 3, written by CHAIN_WRITE.
+        </li>
+        <li>
+          <a href = "chain004.txt">chain004.txt</a>,
+          an output file, containing the sample values for chain 4, written by CHAIN_WRITE.
+        </li>
+        <li>
+          <a href = "chain005.txt">chain005.txt</a>,
+          an output file, containing the sample values for chain 5, written by CHAIN_WRITE.
+        </li>
+        <li>
+          <a href = "chain006.txt">chain006.txt</a>,
+          an output file, containing the sample values for chain 6, written by CHAIN_WRITE.
+        </li>
+        <li>
+          <a href = "chain007.txt">chain007.txt</a>,
+          an output file, containing the sample values for chain 7, written by CHAIN_WRITE.
+        </li>
+        <li>
+          <a href = "chain008.txt">chain008.txt</a>,
+          an output file, containing the sample values for chain 8, written by CHAIN_WRITE.
+        </li>
+        <li>
+          <a href = "chain009.txt">chain009.txt</a>,
+          an output file, containing the sample values for chain 9, written by CHAIN_WRITE.
+        </li>
+        <li>
+          <a href = "gr.txt">gr.txt</a>,
+          an output file, the Gelman-Rubin statistic file, created by GR_WRITE.
+        </li>
+        <li>
+          <a href = "restart_write.txt">restart_write.txt</a>,
+          an output file, containing restart information, written by RESTART_WRITE.
+        </li>
+      </ul>
+    </p>
+
+    <h3 align = "center">
+      List of Routines:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <b>CHAIN_INIT</b> starts Markov chains from a prior distribution.
+        </li>
+        <li>
+          <b>CHAIN_INIT_PRINT</b> prints the initial values for Markov chains.
+        </li>
+        <li>
+          <b>CHAIN_OUTLIERS</b> identifies and modifies outlier chains during burn-in.
+        </li>
+        <li>
+          <b>CHAIN_WRITE</b> writes samples of each chain to separate files.
+        </li>
+        <li>
+          <b>CR_DIS_UPDATE</b> updates the CR distance.
+        </li>
+        <li>
+          <b>CR_INDEX_CHOOSE</b> chooses a CR index.
+        </li>
+        <li>
+          <b>CR_INIT</b> initializes the crossover probability values.
+        </li>
+        <li>
+          <b>CR_PROB_UPDATE</b> updates the CR probabilities.
+        </li>
+        <li>
+          <b>DIFF_COMPUTE</b> computes the differential evolution.
+        </li>
+        <li>
+          <b>DREAM_ALGM</b> gets a candidate parameter sample.
+        </li>
+        <li>
+          <b>FILENAME_INC</b> increments a partially numeric file name.
+        </li>
+        <li>
+          <b>GR_COMPUTE</b> computes the Gelman Rubin statistics R used to check convergence.
+        </li>
+        <li>
+          <b>GR_INIT</b> initializes Gelman-Rubin variables.
+        </li>
+        <li>
+          <b>GR_WRITE</b> writes Gelman-Rubin R statistics into a file.
+        </li>
+        <li>
+          <b>I4_BINOMIAL_SAMPLE</b> generates a binomial random deviate.
+        </li>
+        <li>
+          <b>I4VEC_MULTINOMIAL_SAMPLE</b> generates a multinomial random deviate.
+        </li>
+        <li>
+          <b>I4VEC_ZERO_NEW</b> creates and zeroes an I4VEC.
+        </li>
+        <li>
+          <b>INPUT_PRINT</b> prints the data from the input file.
+        </li>
+        <li>
+          <b>INPUT_READ</b> reads the data from the input file.
+        </li>
+        <li>
+          <b>INPUT_SIZE</b> reads the parameter size variable from the input file.
+        </li>
+        <li>
+          <b>JUMPRATE_CHOOSE</b> chooses a jump rate from the jump rate table.
+        </li>
+        <li>
+          <b>JUMPRATE_TABLE_INIT</b> initializes the jump rate table.
+        </li>
+        <li>
+          <b>JUMPRATE_TABLE_PRINT</b> prints the jump rate table.
+        </li>
+        <li>
+          <b>MNOR_INIT</b> initializes information for multivariate normal prior densities.
+        </li>
+        <li>
+          <b>MNOR_PROCESS</b> sets data for the generation of multivariate normal deviates.
+        </li>
+        <li>
+          <b>MNOR_READ</b> reads a file for multivariate normal prior densities.
+        </li>
+        <li>
+          <b>OB_READ</b> reads observational data from a file.
+        </li>
+        <li>
+          <b>PRIOR_DENSITY</b> evaluates the prior density function.
+        </li>
+        <li>
+          <b>PRIOR_PRINT</b> prints information about the prior density.
+        </li>
+        <li>
+          <b>PRIOR_READ</b> reads information about the prior density.
+        </li>
+        <li>
+          <b>PRIOR_SAMPLE</b> samples from the prior distribution.
+        </li>
+        <li>
+          <b>R8_BETA_PDF</b> evaluates the PDF of a beta distribution.
+        </li>
+        <li>
+          <b>R8_BETA_SAMPLE</b> generates a beta random deviate.
+        </li>
+        <li>
+          <b>R8_CHI_PDF</b> evaluates the PDF of a chi-squared distribution.
+        </li>
+        <li>
+          <b>R8_CHI_SAMPLE</b> generates a Chi-Square random deviate.
+        </li>
+        <li>
+          <b>R8_EPSILON</b> returns the R8 round off unit.
+        </li>
+        <li>
+          <b>R8_EXPONENTIAL_PDF</b> evaluates the PDF of an exponential distribution.
+        </li>
+        <li>
+          <b>R8_EXPONENTIAL_SAMPLE</b> samples the exponential PDF.
+        </li>
+        <li>
+          <b>R8_EXPONENTIAL_01_SAMPLE</b> samples the standard exponential PDF.
+        </li>
+        <li>
+          <b>R8_GAMMA_LOG</b> evaluates the logarithm of the gamma function.
+        </li>
+        <li>
+          <b>R8_GAMMA_PDF</b> evaluates the PDF of a gamma distribution.
+        </li>
+        <li>
+          <b>R8_GAMMA_SAMPLE</b> generates a Gamma random deviate.
+        </li>
+        <li>
+          <b>R8_GAMMA_01_SAMPLE</b> samples the standard Gamma distribution.
+        </li>
+        <li>
+          <b>R8_INVCHI_PDF</b> evaluates the PDF of an inverse chi-squared distribution.
+        </li>
+        <li>
+          <b>R8_INVGAM_PDF</b> evaluates the PDF of an inverse gamma distribution.
+        </li>
+        <li>
+          <b>R8_MAX</b> returns the maximum of two R8's.
+        </li>
+        <li>
+          <b>R8_MIN</b> returns the minimum of two R8's.
+        </li>
+        <li>
+          <b>R8_MNOR_PDF</b> evaluates the PDF of a multivariate normal distribution.
+        </li>
+        <li>
+          <b>R8_NORMAL_PDF</b> evaluates the PDF of a normal distribution.
+        </li>
+        <li>
+          <b>R8_NORMAL_SAMPLE</b> generates a normal random deviate.
+        </li>
+        <li>
+          <b>R8_NORMAL_01_SAMPLE</b> samples the standard normal probability distribution.
+        </li>
+        <li>
+          <b>R8_ROUND_I4</b> rounds an R8, returning an I4.
+        </li>
+        <li>
+          <b>R8_SCINVCHI_PDF:</b> PDF for a scaled inverse chi-squared distribution.
+        </li>
+        <li>
+          <b>R8_UNIFORM_PDF</b> evaluates the PDF of a uniform distribution.
+        </li>
+        <li>
+          <b>R8_UNIFORM_SAMPLE</b> generates a uniform random deviate.
+        </li>
+        <li>
+          <b>R8_UNIFORM_01_SAMPLE</b> generates a uniform random deviate from [0,1].
+        </li>
+        <li>
+          <b>R8BLOCK_ZERO_NEW</b> returns a new zeroed R8BLOCK.
+        </li>
+        <li>
+          <b>R8MAT_POFA</b> factors a real symmetric positive definite matrix.
+        </li>
+        <li>
+          <b>R8MAT_ZERO_NEW</b> returns a new zeroed R8MAT.
+        </li>
+        <li>
+          <b>R8VEC_COPY_NEW</b> copies an R8VEC.
+        </li>
+        <li>
+          <b>R8VEC_HEAP_D</b> reorders an R8VEC into a descending heap.
+        </li>
+        <li>
+          <b>R8VEC_MNOR_SAMPLE</b> generates a multivariate normal deviate.
+        </li>
+        <li>
+          <b>R8VEC_SORT_HEAP_A</b> ascending sorts an R8VEC using heap sort.
+        </li>
+        <li>
+          <b>R8VEC_SUM</b> returns the sum of an R8VEC.
+        </li>
+        <li>
+          <b>R8VEC_ZERO_NEW</b> creates and zeroes an R8VEC.
+        </li>
+        <li>
+          <b>RESTART_READ</b> reads parameter sample data from a restart file.
+        </li>
+        <li>
+          <b>RESTART_WRITE</b> writes a restart file.
+        </li>
+        <li>
+          <b>SAMPLE_CANDIDATE</b> generates candidate parameter samples.
+        </li>
+        <li>
+          <b>SAMPLE_LIKELIHOOD</b> computes the log likelihood function.
+        </li>
+        <li>
+          <b>SAMPLE_LIMITS</b> enforces limits on a sample variable.
+        </li>
+        <li>
+          <b>STD_COMPUTE</b> computes the current standard deviations, for each parameter.
+        </li>
+      </ul>
+    </p>
+
+
+    <hr>
+
+    <i>
+      Last revised on 01 May 2013.
+    </i>
+
+    <!-- John Burkardt -->
+
+  </body>
+
+  <!-- Initial HTML skeleton created by HTMLINDEX. -->
+
+
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/dream1/dream1.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 16:05:26 GMT -->
+</html>

@@ -9046,10 +9046,10 @@
       <item itemvalue=".NET Project.PGMBtoPGMA" />
       <item itemvalue=".NET Project.AlpertRuleTest" />
       <item itemvalue=".NET Project.BurgersTest" />
-      <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMAIOTest" />
-      <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMBIOTest" />
       <item itemvalue=".NET Project.ContinuedFractionTest" />
       <item itemvalue=".NET Project.DiaphonyTest" />
+      <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMAIOTest" />
+      <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMBIOTest" />
     </list>
     <recent_temporary>
       <list>

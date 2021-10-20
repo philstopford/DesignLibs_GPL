@@ -1,0 +1,34 @@
+number of parameters:
+10
+lower and upper bounds for parameters
+-10.0  10.0
+-10.0  10.0
+-10.0  10.0
+-10.0  10.0
+-10.0  10.0
+-10.0  10.0
+-10.0  10.0
+-10.0  10.0
+-10.0  10.0
+-10.0  10.0
+maximum generations:
+10
+number of Markov chains:
+10
+observed data file name:
+ob_data.dat
+number of observed data
+20
+npair: number of pairs for building a candidate
+3
+nCR: number of CR values
+3
+step interval for long jump
+5
+step interval to print out Gelman-Rubin R statistic
+10
+Gelman-Rubin R threshold used to check chain convergence
+1.2
+restart indicator(yes/no)
+no
+

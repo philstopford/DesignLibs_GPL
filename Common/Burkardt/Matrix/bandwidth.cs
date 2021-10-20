@@ -1,7 +1,63 @@
-﻿namespace Burkardt.MatrixNS
+﻿using System;
+
+namespace Burkardt.MatrixNS
 {
     public static partial class Matrix
     {
+        public static int bandwidth ( int element_num, int[] element_node )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    BANDWIDTH determines the bandwidth of the coefficient matrix.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    06 January 2006
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int ELEMENT_NUM, the number of elements.
+            //
+            //    Input,  ELEMENT_NODE[3*ELEMENT_NUM];
+            //    ELEMENT_NODE(I,J) is the global index of local node I in element J.
+            //
+            //    Output, int BANDWIDTH, the half bandwidth of the matrix.
+            //
+        {
+            int element;
+            int global_i;
+            int global_j;
+            int local_i;
+            int local_j;
+            int nhba;
+
+            nhba = 0;
+
+            for ( element = 0; element < element_num; element++ )
+            {
+                for ( local_i = 0; local_i < 3; local_i++ )
+                {
+                    global_i = element_node[local_i+element*3];
+                    for ( local_j = 1; local_j <= 3; local_j++ )
+                    {
+                        global_j = element_node[local_j+element*3];
+                        nhba = Math.Max ( nhba, Math.Abs ( global_j - global_i ) );
+                    }
+                }
+            }
+
+            return nhba;
+        }
         public static void bandwidth ( int m, int n, double[] a, ref int b, ref int l, ref int d, ref int u )
 
         //****************************************************************************80

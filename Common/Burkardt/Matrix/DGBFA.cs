@@ -5,6 +5,182 @@ namespace Burkardt.MatrixNS
 {
     public static partial class Matrix
     {
+        public static int dgb_fa ( int n, int ml, int mu, ref double[] a, ref int[] pivot )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    DGB_FA performs a LINPACK-style PLU factorization of a DGB matrix.
+        //
+        //  Discussion:
+        //
+        //    The DGB storage format is used for an M by N banded matrix, with lower bandwidth ML
+        //    and upper bandwidth MU.  Storage includes room for ML extra superdiagonals,
+        //    which may be required to store nonzero entries generated during Gaussian
+        //    elimination.
+        //
+        //    The original M by N matrix is "collapsed" downward, so that diagonals
+        //    become rows of the storage array, while columns are preserved.  The
+        //    collapsed array is logically 2*ML+MU+1 by N.
+        //
+        //    The two dimensional array can be further reduced to a one dimensional
+        //    array, stored by columns.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    16 September 2003
+        //
+        //  Author:
+        //
+        //    FORTRAN77 original version by Dongarra, Bunch, Moler, Stewart.
+        //    C++ version by John Burkardt.
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order of the matrix.
+        //    N must be positive.
+        //
+        //    Input, int ML, MU, the lower and upper bandwidths.
+        //    ML and MU must be nonnegative, and no greater than N-1.
+        //
+        //    Input/output, double A[(2*ML+MU+1)*N], the matrix in band storage.
+        //    On output, A has been overwritten by the LU factors.
+        //
+        //    Output, int PIVOT[N], the pivot vector.
+        //
+        //    Output, int DGB_FA, singularity flag.
+        //    0, no singularity detected.
+        //    nonzero, the factorization failed on the INFO-th step.
+        //
+        {
+        int col = 2 * ml + mu + 1;
+        int i;
+        int i0;
+        int j;
+        int j0;
+        int j1;
+        int ju;
+        int jz;
+        int k;
+        int l;
+        int lm;
+        int m;
+        int mm;
+        double t;
+
+        m = ml + mu + 1;
+        //
+        //  Zero out the initial fill-in columns.
+        //
+        j0 = mu + 2;
+        j1 = Math.Min ( n, m ) - 1;
+
+        for ( jz = j0; jz <= j1; jz++ )
+        {
+        i0 = m + 1 - jz;
+        for ( i = i0; i <= ml; i++ )
+        {
+        a[i-1+(jz-1)*col] = 0.0;
+        }
+        }
+
+        jz = j1;
+        ju = 0;
+
+        for ( k = 1; k <= n-1; k++ )
+        {
+        //
+        //  Zero out the next fill-in column.
+        //
+        jz = jz + 1;
+        if ( jz <= n )
+        {
+        for ( i = 1; i <= ml; i++ )
+        {
+        a[i-1+(jz-1)*col] = 0.0;
+        }
+        }
+        //
+        //  Find L = pivot index.
+        //
+        lm = Math.Min ( ml, n-k );
+        l = m;
+
+        for ( j = m+1; j <= m + lm; j++ )
+        {
+        if ( Math.Abs ( a[l-1+(k-1)*col] ) < Math.Abs ( a[j-1+(k-1)*col] ) )
+        {
+        l = j;
+        }
+        }
+
+        pivot[k-1] = l + k - m;
+        //
+        //  Zero pivot implies this column already triangularized.
+        //
+        if ( a[l-1+(k-1)*col] == 0.0 )
+        {
+        Console.WriteLine("");
+        Console.WriteLine("DGB_FA - Fatal error!");
+        Console.WriteLine("  Zero pivot on step " + k + "");
+        return k;
+        }
+        //
+        //  Interchange if necessary.
+        //
+        t                = a[l-1+(k-1)*col];
+        a[l-1+(k-1)*col] = a[m-1+(k-1)*col];
+        a[m-1+(k-1)*col] = t;
+        //
+        //  Compute multipliers.
+        //
+        for ( i = m+1; i <= m+lm; i++ )
+        {
+        a[i-1+(k-1)*col] = - a[i-1+(k-1)*col] / a[m-1+(k-1)*col];
+        }
+        //
+        //  Row elimination with column indexing.
+        //
+        ju = Math.Max ( ju, mu + pivot[k-1] );
+        ju = Math.Min ( ju, n );
+        mm = m;
+
+        for ( j = k+1; j <= ju; j++ )
+        {
+        l = l - 1;
+        mm = mm - 1;
+
+        if ( l != mm )
+        {
+        t                 = a[l-1+(j-1)*col];
+        a[l-1+(j-1)*col]  = a[mm-1+(j-1)*col];
+        a[mm-1+(j-1)*col] = t;
+        }
+        for ( i = 1; i <= lm; i++ )
+        {
+        a[mm+i-1+(j-1)*col] = a[mm+i-1+(j-1)*col]
+        + a[mm-1+(j-1)*col] * a[m+i-1+(k-1)*col];
+        }
+        }
+        }
+
+        pivot[n-1] = n;
+
+        if ( a[m-1+(n-1)*col] == 0.0 )
+        {
+        Console.WriteLine("");
+        Console.WriteLine("DGB_FA - Fatal error!");
+        Console.WriteLine("  Zero pivot on step " + n + "");
+        return n;
+        }
+
+        return 0;
+        }
         public static int dgbfa(ref double[] abd, int lda, int n, int ml, int mu, ref int[] ipvt )
 
         //****************************************************************************80

@@ -447,6 +447,8 @@
     <projectFile>BurkhardtTest/Solve/BurgersTest/BurgersTest.csproj</projectFile>
     <projectFile>BurkhardtTest/ContinuedFractionTest/ContinuedFractionTest.csproj</projectFile>
     <projectFile>BurkhardtTest/DiaphonyTest/DiaphonyTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/FEM/FEM2DHeatTest/FEM2DHeatTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/FEM/FEM2DHeatRectangleTest/FEM2DHeatRectangleTest.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -2946,6 +2948,42 @@
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
       <option name="PROJECT_TFM" value="net5.0" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="FEM2DHeatRectangleTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/FEM/FEM2DHeatRectangleTest/FEM2DHeatRectangleTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="FEM2DHeatTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/FEM/FEM2DHeatTest/FEM2DHeatTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
       <method v="2">
         <option name="Build" />
       </method>
@@ -9048,6 +9086,8 @@
       <item itemvalue=".NET Project.BurgersTest" />
       <item itemvalue=".NET Project.ContinuedFractionTest" />
       <item itemvalue=".NET Project.DiaphonyTest" />
+      <item itemvalue=".NET Project.FEM2DHeatTest" />
+      <item itemvalue=".NET Project.FEM2DHeatRectangleTest" />
       <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMAIOTest" />
       <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMBIOTest" />
     </list>

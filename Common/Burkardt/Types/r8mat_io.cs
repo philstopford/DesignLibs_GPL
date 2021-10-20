@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Burkardt.Table;
@@ -114,6 +115,69 @@ namespace Burkardt.Types
                 Console.WriteLine("R8MAT_WRITE - Fatal error!");
                 Console.WriteLine("  Could not open the output file: \"" + output_filename + "\"");
                 throw;
+            }
+        }
+        
+        public static void r8mat_write0 ( string output_filename, int m, int n, double[] table )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8MAT_WRITE0 writes an R8MAT file with no header.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    29 June 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, string OUTPUT_FILENAME, the output filename.
+            //
+            //    Input, int M, the spatial dimension.
+            //
+            //    Input, int N, the number of points.
+            //
+            //    Input, double TABLE[M*N], the table data.
+            //
+        {
+            int i;
+            int j;
+            List<string> output = new List<string>();
+
+            //
+            //  Write the data.
+            //  For greater precision, try
+            //
+            //    output << "  " << setw(24) << setprecision(16) << table[i+j*m];
+            //
+            for ( j = 0; j < n; j++ )
+            {
+                string cout = "";
+                for ( i = 0; i < m; i++ )
+                {
+                    cout += "  " + table[i+j*m].ToString().PadLeft(10);
+                }
+                output.Add(cout);
+            }
+
+            try
+            {
+                File.WriteAllLines(output_filename, output);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("R8MAT_WRITE0 - Fatal error!");
+                Console.WriteLine("  Could not open the output file.");
             }
         }
 

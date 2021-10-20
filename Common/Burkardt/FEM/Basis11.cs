@@ -5,6 +5,97 @@ namespace Burkardt.FEM
 {
     public class Basis11
     {
+        public static void basis_one_t3(double[] t, int i, double[] p, ref double qi,
+                ref double dqidx, ref double dqidy)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    BASIS_ONE_T3 evaluates basis functions for a linear triangular element.
+            //
+            //  Discussion:
+            //
+            //    The routine is given the coordinates of the nodes of a triangle.
+            //
+            //           3
+            //          / .
+            //         /   .
+            //        /     .
+            //       1-------2
+            //
+            //    It evaluates the linear basis function Q(I)(X,Y) associated with
+            //    node I, which has the property that it is a linear function
+            //    which is 1 at node I and zero at the other two nodes.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    06 January 2006
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double T[2*3], the coordinates of the nodes.
+            //
+            //    Input, int I, the index of the desired basis function.
+            //    I should be between 1 and 3.
+            //
+            //    Input, double P[2], the coordinates of the point where
+            //    the basis function is to be evaluated.
+            //
+            //    Output, double *QI, *DQIDX, *DQIDY, the value of the I-th basis function
+            //    and its X and Y derivatives.
+            //
+        {
+            double area;
+            int ip1;
+            int ip2;
+
+            area = t[0 + 0 * 2] * (t[1 + 1 * 2] - t[1 + 2 * 2])
+                   + t[0 + 1 * 2] * (t[1 + 2 * 2] - t[1 + 0 * 2])
+                   + t[0 + 2 * 2] * (t[1 + 0 * 2] - t[1 + 1 * 2]);
+
+            if (area == 0.0)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("BASIS_ONE_T3 - Fatal error!");
+                Console.WriteLine("  Element has zero area.");
+                Console.WriteLine("  Area = " + area + "");
+                Console.WriteLine("");
+                Console.WriteLine("  Node 1: ( " + t[0 + 0 * 2] + ", " + t[1 + 0 * 2] + " )");
+                Console.WriteLine("  Node 2: ( " + t[0 + 1 * 2] + ", " + t[1 + 1 * 2] + " )");
+                Console.WriteLine("  Node 3: ( " + t[0 + 2 * 2] + ", " + t[1 + 2 * 2] + " )");
+                return;
+            }
+
+            if (i < 1 || 3 < i)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("BASIS_ONE_T3 - Fatal error!");
+                Console.WriteLine("  Basis index I is not between 1 and 3.");
+                Console.WriteLine("  I = " + i + "");
+                return;
+            }
+
+            ip1 = typeMethods.i4_wrap(i + 1, 1, 3);
+            ip2 = typeMethods.i4_wrap(i + 2, 1, 3);
+
+            qi = ((t[0 + (ip2 - 1) * 2] - t[0 + (ip1 - 1) * 2])
+                   * (p[1] - t[1 + (ip1 - 1) * 2])
+                   - (t[1 + (ip2 - 1) * 2] - t[1 + (ip1 - 1) * 2])
+                   * (p[0] - t[0 + (ip1 - 1) * 2])) / area;
+
+            dqidx = -(t[1 + (ip2 - 1) * 2] - t[1 + (ip1 - 1) * 2]) / area;
+            dqidy = (t[0 + (ip2 - 1) * 2] - t[0 + (ip1 - 1) * 2]) / area;
+        }
+
         public static void basis_11_t3(double[] t, int i, double[] p, ref double qi,
                 ref double dqidx, ref double dqidy)
 

@@ -6,6 +6,294 @@ namespace Burkardt.Quadrature
 {
     public static class QuadratureRule
     {
+        public static void quad_rule ( int quad_num, ref double[] quad_w, ref double[] quad_xy )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    QUAD_RULE sets the quadrature rule for assembly.
+        //
+        //  Discussion:
+        //
+        //    The quadrature rule is given for a reference element.
+        //
+        //      0 <= X,
+        //      0 <= Y, and
+        //      X + Y <= 1.
+        //
+        //      ^
+        //    1 | *
+        //      | |.
+        //    Y | | .
+        //      | |  .
+        //    0 | *---*
+        //      +------->
+        //        0 X 1
+        //
+        //    The rules have the following precision:
+        //
+        //    QUAD_NUM  Precision
+        //
+        //     1        1
+        //     3        2
+        //     4        3
+        //     6        4
+        //     7        5
+        //     9        6
+        //    13        7
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    06 January 2006
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int QUAD_NUM, the number of quadrature nodes.
+        //
+        //    Output, double QUAD_W[QUAD_NUM], the quadrature weights.
+        //
+        //    Output, double QUAD_XY[2*QUAD_NUM],
+        //    the coordinates of the quadrature nodes.
+        //
+        {
+            double a;
+            double b;
+            double c;
+            double d;
+            double e;
+            double f;
+            double g;
+            double h;
+            double t;
+            double u;
+            double v;
+            double w;
+
+            if (quad_num == 1)
+            {
+                quad_xy[0 + 0 * 2] = 1.0 / 3.0;
+                quad_xy[1 + 0 * 2] = 1.0 / 3.0;
+
+                quad_w[0] = 1.0;
+            }
+            else if (quad_num == 3)
+            {
+                quad_xy[0 + 0 * 2] = 0.5;
+                quad_xy[1 + 0 * 2] = 0.0;
+                quad_xy[0 + 1 * 2] = 0.5;
+                quad_xy[1 + 1 * 2] = 0.5;
+                quad_xy[0 + 2 * 2] = 0.0;
+                quad_xy[1 + 2 * 2] = 0.5;
+
+                quad_w[0] = 1.0 / 3.0;
+                quad_w[1] = 1.0 / 3.0;
+                quad_w[2] = 1.0 / 3.0;
+            }
+            else if (quad_num == 4)
+            {
+                a = 6.0 / 30.0;
+                b = 10.0 / 30.0;
+                c = 18.0 / 30.0;
+
+                d = 25.0 / 48.0;
+                e = -27.0 / 48.0;
+
+                quad_xy[0 + 0 * 2] = b;
+                quad_xy[1 + 0 * 2] = b;
+                quad_xy[0 + 1 * 2] = c;
+                quad_xy[1 + 1 * 2] = a;
+                quad_xy[0 + 2 * 2] = a;
+                quad_xy[1 + 2 * 2] = c;
+                quad_xy[0 + 3 * 2] = a;
+                quad_xy[1 + 3 * 2] = a;
+
+                quad_w[0] = e;
+                quad_w[1] = d;
+                quad_w[2] = d;
+                quad_w[3] = d;
+            }
+            else if (quad_num == 6)
+            {
+                a = 0.816847572980459;
+                b = 0.091576213509771;
+                c = 0.108103018168070;
+                d = 0.445948490915965;
+                v = 0.109951743655322;
+                w = 0.223381589678011;
+
+                quad_xy[0 + 0 * 2] = a;
+                quad_xy[1 + 0 * 2] = b;
+                quad_xy[0 + 1 * 2] = b;
+                quad_xy[1 + 1 * 2] = a;
+                quad_xy[0 + 2 * 2] = b;
+                quad_xy[1 + 2 * 2] = b;
+                quad_xy[0 + 3 * 2] = c;
+                quad_xy[1 + 3 * 2] = d;
+                quad_xy[0 + 4 * 2] = d;
+                quad_xy[1 + 4 * 2] = c;
+                quad_xy[0 + 5 * 2] = d;
+                quad_xy[1 + 5 * 2] = d;
+
+                quad_w[0] = v;
+                quad_w[1] = v;
+                quad_w[2] = v;
+                quad_w[3] = w;
+                quad_w[4] = w;
+                quad_w[5] = w;
+            }
+            else if (quad_num == 7)
+            {
+                a = 1.0 / 3.0;
+                b = (9.0 + 2.0 * sqrt(15.0)) / 21.0;
+                c = (6.0 - sqrt(15.0)) / 21.0;
+                d = (9.0 - 2.0 * sqrt(15.0)) / 21.0;
+                e = (6.0 + sqrt(15.0)) / 21.0;
+                u = 0.225;
+                v = (155.0 - sqrt(15.0)) / 1200.0;
+                w = (155.0 + sqrt(15.0)) / 1200.0;
+
+                quad_xy[0 + 0 * 2] = a;
+                quad_xy[1 + 0 * 2] = a;
+                quad_xy[0 + 1 * 2] = b;
+                quad_xy[1 + 1 * 2] = c;
+                quad_xy[0 + 2 * 2] = c;
+                quad_xy[1 + 2 * 2] = b;
+                quad_xy[0 + 3 * 2] = c;
+                quad_xy[1 + 3 * 2] = c;
+                quad_xy[0 + 4 * 2] = d;
+                quad_xy[1 + 4 * 2] = e;
+                quad_xy[0 + 5 * 2] = e;
+                quad_xy[1 + 5 * 2] = d;
+                quad_xy[0 + 6 * 2] = e;
+                quad_xy[1 + 6 * 2] = e;
+
+                quad_w[0] = u;
+                quad_w[1] = v;
+                quad_w[2] = v;
+                quad_w[3] = v;
+                quad_w[4] = w;
+                quad_w[5] = w;
+                quad_w[6] = w;
+            }
+            else if (quad_num == 9)
+            {
+                a = 0.124949503233232;
+                b = 0.437525248383384;
+                c = 0.797112651860071;
+                d = 0.165409927389841;
+                e = 0.037477420750088;
+
+                u = 0.205950504760887;
+                v = 0.063691414286223;
+
+                quad_xy[0 + 0 * 2] = a;
+                quad_xy[1 + 0 * 2] = b;
+                quad_xy[0 + 1 * 2] = b;
+                quad_xy[1 + 1 * 2] = a;
+                quad_xy[0 + 2 * 2] = b;
+                quad_xy[1 + 2 * 2] = b;
+                quad_xy[0 + 3 * 2] = c;
+                quad_xy[1 + 3 * 2] = d;
+                quad_xy[0 + 4 * 2] = c;
+                quad_xy[1 + 4 * 2] = e;
+                quad_xy[0 + 5 * 2] = d;
+                quad_xy[1 + 5 * 2] = c;
+                quad_xy[0 + 6 * 2] = d;
+                quad_xy[1 + 6 * 2] = e;
+                quad_xy[0 + 7 * 2] = e;
+                quad_xy[1 + 7 * 2] = c;
+                quad_xy[0 + 8 * 2] = e;
+                quad_xy[1 + 8 * 2] = d;
+
+                quad_w[0] = u;
+                quad_w[1] = u;
+                quad_w[2] = u;
+                quad_w[3] = v;
+                quad_w[4] = v;
+                quad_w[5] = v;
+                quad_w[6] = v;
+                quad_w[7] = v;
+                quad_w[8] = v;
+            }
+            else if (quad_num == 13)
+            {
+                h = 1.0 / 3.0;
+                a = 0.479308067841923;
+                b = 0.260345966079038;
+                c = 0.869739794195568;
+                d = 0.065130102902216;
+                e = 0.638444188569809;
+                f = 0.312865496004875;
+                g = 0.048690315425316;
+
+                w = -0.149570044467670;
+                t = 0.175615257433204;
+                u = 0.053347235608839;
+                v = 0.077113760890257;
+
+                quad_xy[0 + 0 * 2] = h;
+                quad_xy[1 + 0 * 2] = h;
+                quad_xy[0 + 1 * 2] = a;
+                quad_xy[1 + 1 * 2] = b;
+                quad_xy[0 + 2 * 2] = b;
+                quad_xy[1 + 2 * 2] = a;
+                quad_xy[0 + 3 * 2] = b;
+                quad_xy[1 + 3 * 2] = b;
+
+                quad_xy[0 + 4 * 2] = c;
+                quad_xy[1 + 4 * 2] = d;
+                quad_xy[0 + 5 * 2] = d;
+                quad_xy[1 + 5 * 2] = c;
+                quad_xy[0 + 6 * 2] = d;
+                quad_xy[1 + 6 * 2] = d;
+
+                quad_xy[0 + 7 * 2] = e;
+                quad_xy[1 + 7 * 2] = f;
+                quad_xy[0 + 8 * 2] = e;
+                quad_xy[1 + 8 * 2] = g;
+                quad_xy[0 + 9 * 2] = f;
+                quad_xy[1 + 9 * 2] = e;
+
+                quad_xy[0 + 10 * 2] = f;
+                quad_xy[1 + 10 * 2] = g;
+                quad_xy[0 + 11 * 2] = g;
+                quad_xy[1 + 11 * 2] = e;
+                quad_xy[0 + 12 * 2] = g;
+                quad_xy[1 + 12 * 2] = f;
+
+                quad_w[0] = w;
+                quad_w[1] = t;
+                quad_w[2] = t;
+                quad_w[3] = t;
+                quad_w[4] = u;
+                quad_w[5] = u;
+                quad_w[6] = u;
+                quad_w[7] = v;
+                quad_w[8] = v;
+                quad_w[9] = v;
+                quad_w[10] = v;
+                quad_w[11] = v;
+                quad_w[12] = v;
+            }
+            else
+            {
+                Console.WriteLine("");
+                Console.WriteLine("QUAD_RULE - Fatal error!");
+                Console.WriteLine("  No rule is available of order QUAD_NUM = " + quad_num + "");
+                return;
+            }
+
+        }
+
         public static void quad_rule_print ( int m, int n, double[] x, double[] w, string title )
 
         //****************************************************************************80

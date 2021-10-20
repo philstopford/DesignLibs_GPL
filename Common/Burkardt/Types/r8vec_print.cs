@@ -365,6 +365,54 @@ namespace Burkardt.Types
             }
         }
         
+        public static void r8vec_print_some ( int n, double[] a, int i_lo, int i_hi, string title )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8VEC_PRINT_SOME prints "some" of an R8VEC.
+        //
+        //  Discussion:
+        //
+        //    An R8VEC is a vector of R8 values.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    16 October 2006
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number of entries of the vector.
+        //
+        //    Input, double A[N], the vector to be printed.
+        //
+        //    Input, integer I_LO, I_HI, the first and last indices to print.
+        //    The routine expects 1 <= I_LO <= I_HI <= N.
+        //
+        //    Input, string TITLE, a title.
+        //
+        {
+            int i;
+
+            Console.WriteLine("");
+            Console.WriteLine(title + "");
+            Console.WriteLine("");
+            for ( i = Math.Max ( 1, i_lo ); i <= Math.Min ( n, i_hi ); i++ )
+            {
+                Console.WriteLine("  " + i.ToString().PadLeft(8)       + "  "
+                    + "  " + a[i-1].ToString().PadLeft(14)  + "");
+            }
+        }
+        
         public static void r8vec_mask_print ( int n, double[] a, int mask_num, int[] mask,
         string title )
 

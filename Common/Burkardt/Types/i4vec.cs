@@ -1476,6 +1476,48 @@ namespace Burkardt.Types
                                        + ": " + a[i].ToString().PadLeft(8) + "");
             }
         }
+        
+        public static void i4vec2_print ( int n, int[] a1, int[] a2, string title )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    I4VEC2_PRINT prints an I4VEC2.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    14 November 2003
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the size of the vectors.
+        //
+        //    Input, int A1[N], int A2[N], the vectors to be printed.
+        //
+        //    Input, string TITLE, a title.
+        //
+        {
+            int i;
+
+            Console.WriteLine("");
+            Console.WriteLine(title + "");
+            Console.WriteLine("");
+            for ( i = 0; i <= n - 1; i++ )
+            {
+                Console.WriteLine(i.ToString().PadLeft(6)     + ": "
+                    + a1[i].ToString().PadLeft(8) + "  "
+                    + a2[i].ToString().PadLeft(8) + "");
+            }
+        }
 
         public static int[] i4vec_sort_heap_index_a(int n, int[] a)
 

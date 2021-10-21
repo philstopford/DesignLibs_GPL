@@ -1090,6 +1090,42 @@ namespace Burkardt
             }
             return p;
         }
+        
+        public static double radians_to_degrees ( double angle )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    RADIANS_TO_DEGREES converts an angle from radians to degrees.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    27 August 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double ANGLE, an angle in radians.
+            //
+            //    Output, double RADIANS_TO_DEGREES, the equivalent angle in degrees.
+            //
+        {
+            double r8_pi = 3.141592653589793;
+            double value;
+
+            value = ( angle / r8_pi ) * 180.0;
+
+            return value;
+        }
+
         public static void sincos(double input, ref double outsin, ref double outcos)
         {
             outsin = Math.Sin(input);

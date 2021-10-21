@@ -1,0 +1,77 @@
+
+19 January 2008 12:22:56 PM
+
+GEN_HERMITE_RULE
+  C++ version
+
+  Compiled on Jan 19 2008 at 12:02:33.
+
+  Compute a generalized Gauss-Hermite rule for approximating
+
+    Integral ( -oo < x < oo ) |X|^ALPHA exp(-x^2) f(x) dx
+
+  of order ORDER and parameter ALPHA.
+
+  The user specifies ORDER, ALPHA, OPTION, and OUTPUT.
+
+  OPTION is:
+
+    0 to get the standard rule for handling:
+      Integral ( -oo < x < oo ) |x|^ALPHA exp(-x^2) f(x) dx
+
+    1 to get the modified rule for handling:
+      Integral ( -oo < x < oo )                   f(x) dx
+
+    For OPTION = 1, the weights of the standard rule
+    are divided by |x|^ALPHA * exp(-x^2).
+
+  OUTPUT is:
+
+  "C++" for printed C++ output;
+  "F77" for printed Fortran77 output;
+  "F90" for printed Fortran90 output;
+  "MAT" for printed MATLAB output;
+
+  or:
+
+  "filename" to generate 3 files:
+
+    filename_w.txt - the weight file
+    filename_x.txt - the abscissa file.
+    filename_r.txt - the region file.
+
+  The requested order of the rule is = 4
+
+  The requested ALPHA = 0
+
+  The requested value of OPTION = 1
+
+  OUTPUT option is "F90".
+!
+!  Weights W, abscissas X and range R
+!  for a generalized Gauss-Hermite quadrature rule
+!  ORDER = 4
+!  ALPHA = 0
+!
+!  OPTION = 1, modified rule:
+!    Integral ( -oo < x < oo ) f(x) dx
+!    is to be approximated by
+!    sum ( 1 <= I <= ORDER ) w(i) * f(x(i)).
+!
+  w(1) = 1.240225817695815
+  w(2) = 1.05996448289497
+  w(3) = 1.05996448289497
+  w(4) = 1.240225817695815
+
+  x(1) = -1.650680123885784
+  x(2) = -0.5246476232752902
+  x(3) = 0.5246476232752902
+  x(4) = 1.650680123885784
+
+  r(1) = -1e+30
+  r(2) = 1e+30
+
+GEN_LAGUERRE_RULE:
+  Normal end of execution.
+
+19 January 2008 12:22:56 PM

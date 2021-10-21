@@ -1,0 +1,85 @@
+
+19 January 2008 12:23:12 PM
+
+GEN_HERMITE_RULE
+  C++ version
+
+  Compiled on Jan 19 2008 at 12:02:33.
+
+  Compute a generalized Gauss-Hermite rule for approximating
+
+    Integral ( -oo < x < oo ) |X|^ALPHA exp(-x^2) f(x) dx
+
+  of order ORDER and parameter ALPHA.
+
+  The user specifies ORDER, ALPHA, OPTION, and OUTPUT.
+
+  OPTION is:
+
+    0 to get the standard rule for handling:
+      Integral ( -oo < x < oo ) |x|^ALPHA exp(-x^2) f(x) dx
+
+    1 to get the modified rule for handling:
+      Integral ( -oo < x < oo )                   f(x) dx
+
+    For OPTION = 1, the weights of the standard rule
+    are divided by |x|^ALPHA * exp(-x^2).
+
+  OUTPUT is:
+
+  "C++" for printed C++ output;
+  "F77" for printed Fortran77 output;
+  "F90" for printed Fortran90 output;
+  "MAT" for printed MATLAB output;
+
+  or:
+
+  "filename" to generate 3 files:
+
+    filename_w.txt - the weight file
+    filename_x.txt - the abscissa file.
+    filename_r.txt - the region file.
+
+  The requested order of the rule is = 8
+
+  The requested ALPHA = 3
+
+  The requested value of OPTION = 0
+
+  OUTPUT option is "MAT".
+%
+%  Weights W, abscissas X and range R
+%  for a generalized Gauss-Hermite quadrature rule
+%  ORDER = 8
+%  ALPHA = 3
+%
+%  OPTION = 0, Standard rule:
+%   Integral ( -oo < x < oo ) |x|^ALPHA exp(-x^2) f(x) dx
+%   is to be approximated by
+%   sum ( 1 <= I <= ORDER ) w(i) * f(x(i)).
+%
+  w(1) = 0.0006579248431516193;
+  w(2) = 0.03708889236552609;
+  w(3) = 0.2388178861819341;
+  w(4) = 0.2234352966093881;
+  w(5) = 0.2234352966093881;
+  w(6) = 0.2388178861819341;
+  w(7) = 0.03708889236552609;
+  w(8) = 0.0006579248431516193;
+
+  x(1) = -3.309666797833763;
+  x(2) = -2.393988043347147;
+  x(3) = -1.603631817982631;
+  x(4) = -0.8621437977399313;
+  x(5) = 0.8621437977399313;
+  x(6) = 1.603631817982631;
+  x(7) = 2.393988043347147;
+  x(8) = 3.309666797833763;
+
+  r(1) = -1e+30;
+  r(2) = 1e+30;
+
+GEN_LAGUERRE_RULE:
+  Normal end of execution.
+
+19 January 2008 12:23:12 PM

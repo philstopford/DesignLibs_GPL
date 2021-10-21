@@ -1,0 +1,88 @@
+
+18 January 2008 09:39:03 AM
+
+GEN_LAGUERRE_RULE
+  C++ version
+
+  Compiled on Jan 18 2008 at 09:36:44.
+
+  Compute a generalized Gauss-Laguerre rule for approximating
+
+    Integral ( A <= x < oo ) x^ALPHA exp(-x) f(x) dx
+
+  of order ORDER and parameter ALPHA.
+
+  For now, A is fixed at 0.0.
+
+  The user specifies ORDER, ALPHA, OPTION, and OUTPUT.
+
+  OPTION is:
+
+    0 to get the standard rule for handling:
+      Integral ( A <= x < oo ) x^ALPHA exp(-x) f(x) dx
+
+    1 to get the modified rule for handling:
+      Integral ( A <= x < oo )                 f(x) dx
+
+    For OPTION = 1, the weights of the standard rule
+    are multiplied by x^(-ALPHA) * exp(+x).
+
+  OUTPUT is:
+
+  "C++" for printed C++ output;
+  "F77" for printed Fortran77 output;
+  "F90" for printed Fortran90 output;
+  "MAT" for printed MATLAB output;
+
+  or:
+
+  "filename" to generate 3 files:
+
+    filename_w.txt - the weight file
+    filename_x.txt - the abscissa file.
+    filename_r.txt - the region file.
+
+  The requested order of the rule is = 8
+
+  The requested ALPHA = 1.5
+
+  The requested value of OPTION = 0
+
+  OUTPUT option is "MAT".
+%
+%  Weights W, abscissas X and range R
+%  for a generalized Gauss-Laguerre quadrature rule
+%  ORDER = 8
+%  A = 0
+%  ALPHA = 1.5
+%
+%  OPTION = 0, Standard rule:
+%   Integral ( A <= x < oo ) x^ALPHA exp(-x) f(x) dx
+%    is to be approximated by
+%    sum ( 1 <= I <= ORDER ) w(i) * f(x(i)).
+%
+  w(1) = 0.1900505753913609;
+  w(2) = 0.5604380973781606;
+  w(3) = 0.4360070168210791;
+  w(4) = 0.1274485793102171;
+  w(5) = 0.01476947042302809;
+  w(6) = 0.0006195794633122049;
+  w(7) = 7.16438948756851e-06;
+  w(8) = 1.070030801415182e-08;
+
+  x(1) = 0.5487420203051167;
+  x(2) = 1.638181097086517;
+  x(3) = 3.315036043679075;
+  x(4) = 5.640313098679649;
+  x(5) = 8.715661629230398;
+  x(6) = 12.71773901227562;
+  x(7) = 17.99242472404181;
+  x(8) = 25.43190237470182;
+
+  r(1) = 0;
+  r(2) = 1e+30;
+
+GEN_LAGUERRE_RULE:
+  Normal end of execution.
+
+18 January 2008 09:39:03 AM

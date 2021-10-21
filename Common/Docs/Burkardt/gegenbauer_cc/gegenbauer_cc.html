@@ -1,0 +1,140 @@
+<html>
+
+  
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/gegenbauer_cc/gegenbauer_cc.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 15:50:03 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      GEGENBAUER_CC - Gegenbauer Integral of a Function
+    </title>
+  </head>
+
+  <body bgcolor="#eeeeee" link="#cc0000" alink="#ff3300" vlink="#000055">
+
+    <h1 align = "center">
+      GEGENBAUER_CC <br> Gegenbauer Integral of a Function
+    </h1>
+
+    <hr>
+
+    <p>
+      <b>GEGENBAUER_CC</b>
+      is which
+      uses a Clenshaw-Curtis approach to approximate the integral of a 
+      function f(x) with a Gegenbauer weight.
+    </p>
+
+    <p>
+      The Gegenbauer integral of a function f(x) is:
+      <pre>
+        value = integral ( -1 <= x <= + 1 ) ( 1 - x^2 )^(lambda-1/2) * f(x) dx
+      </pre>
+      where -0.5 < lambda. 
+    </p>
+
+    <h3 align = "center">
+      Licensing:
+    </h3>
+
+    <p>
+      The computer code and data files made available on this web page
+      are distributed under
+      <a href = "https://people.math.sc.edu/Burkardt/txt/gnu_lgpl.txt">the GNU LGPL license.</a>
+    </p>
+
+
+    <h3 align = "center">
+      Related Data and Programs:
+    </h3>
+
+    <p>
+      <a href = "../gegenbauer_polynomial/gegenbauer_polynomial.html">
+      GEGENBAUER_POLYNOMIAL</a>,
+      which
+      evaluates the Gegenbauer polynomial and associated functions.
+    </p>
+
+    <h3 align = "center">
+      Reference:
+    </h3>
+
+    <p>
+      <ol>
+        <li>
+          D B Hunter, H V Smith,<br>
+          A quadrature formula of Clenshaw-Curtis type for the Gegenbauer weight function,<br>
+          Journal of Computational and Applied Mathematics,<br>
+          Volume 177, 2005, pages 389-400.
+        </li>
+      </ol>
+    </p>
+
+
+    <h3 align = "center">
+      Examples and Tests:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <a href = "gegenbauer_cc_test.txt">gegenbauer_cc_test.txt</a>,
+          the output file.
+        </li>
+      </ul>
+    </p>
+
+    <h3 align = "center">
+      List of Routines:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <b>BESSELJ</b> evaluates the Bessel J function at an arbitrary real order.
+        </li>
+        <li>
+          <b>CHEBYSHEV_EVEN1</b> returns the even Chebyshev coefficients of F.
+        </li>
+        <li>
+          <b>CHEBYSHEV_EVEN2</b> returns the even Chebyshev coefficients of F.
+        </li>
+        <li>
+          <b>GEGENBAUER_CC1</b> estimates the Gegenbauer integral of a function.
+        </li>
+        <li>
+          <b>GEGENBAUER_CC2</b> estimates the Gegenbauer integral of a function.
+        </li>
+        <li>
+          <b>I4_UNIFORM_AB</b> returns a scaled pseudorandom I4 between A and B.
+        </li>
+        <li>
+          <b>R8_MOP</b> returns the I-th power of -1 as an R8 value.
+        </li>
+        <li>
+          <b>R8VEC_PRINT</b> prints an R8VEC.
+        </li>
+        <li>
+          <b>R8VEC2_PRINT</b> prints an R8VEC2.
+        </li>
+        <li>
+          <b>RJBESL</b> evaluates a sequence of Bessel J functions.
+        </li>
+      </ul>
+    </p>
+
+
+    <hr>
+
+    <i>
+      Last revised on 15 January 2016.
+    </i>
+
+    <!-- John Burkardt -->
+
+  </body>
+
+  <!-- Initial HTML skeleton created by HTMLINDEX. -->
+
+
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/gegenbauer_cc/gegenbauer_cc.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 15:50:04 GMT -->
+</html>

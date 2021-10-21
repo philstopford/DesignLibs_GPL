@@ -1,0 +1,244 @@
+<html>
+
+  
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/gegenbauer_polynomial/gegenbauer_polynomial.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 15:50:06 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      GEGENBAUER_POLYNOMIAL - Gegenbauer Polynomials
+    </title>
+  </head>
+
+  <body bgcolor="#eeeeee" link="#cc0000" alink="#ff3300" vlink="#000055">
+
+    <h1 align = "center">
+      GEGENBAUER_POLYNOMIAL <br> Gegenbauer Polynomials
+    </h1>
+
+    <hr>
+
+    <p>
+      <b>GEGENBAUER_POLYNOMIAL</b>
+      is which
+      evaluates Gegenbauer polynomials and associated functions.
+    </p>
+
+    <p>
+      The Gegenbauer polynomial C(n,alpha,x) can be defined by:
+      <pre>
+        C(0,alpha,x) = 1
+        C(1,alpha,x) = 2 * alpha * x
+        C(n,alpha,x) = (1/n) * ( 2*x*(n+alpha-1) * C(n-1,alpha,x) - (n+2*alpha-2) * C(n-2,alpha,x) )
+      </pre>
+      where n is a nonnegative integer, and -1/2 < alpha, 0 =/= alpha.
+    </p>
+
+    <p>
+      The N zeroes of C(n,alpha,x) are the abscissas used for Gauss-Gegenbauer
+      quadrature of the integral of a function F(X) with weight function 
+      (1-x^2)^(alpha-1/2) over the interval [-1,1].
+    </p>
+
+    <p>
+      The Gegenbauer polynomials are orthogonal under the inner product defined
+      as weighted integration from -1 to 1:
+      <pre>
+        Integral ( -1 <= x <= 1 ) (1-x^2)^(alpha-1/2) * C(i,alpha,x) * C(j,alpha,x) dx 
+          = 0 if i =/= j
+          = pi * 2^(1-2*alpha) * Gamma(n+2*alpha) / n! / (n+alpha) / (Gamma(alpha))^2 if i = j.
+      </pre>
+    </p>
+
+    <h3 align = "center">
+      Licensing:
+    </h3>
+
+    <p>
+      The computer code and data files described and made available on this
+      web page are distributed under
+      <a href = "https://people.math.sc.edu/Burkardt/txt/gnu_lgpl.txt">the GNU LGPL license.</a>
+    </p>
+
+
+    <h3 align = "center">
+      Related Data and Programs:
+    </h3>
+
+    <p>
+      <a href = "../bernstein_polynomial/bernstein_polynomial.html">
+      BERNSTEIN_POLYNOMIAL</a>,
+      which
+      evaluates the Bernstein polynomials, 
+      useful for uniform approximation of functions;
+    </p>
+
+    <p>
+      <a href = "../chebyshev_polynomial/chebyshev_polynomial.html">
+      CHEBYSHEV_POLYNOMIAL</a>,
+      which
+      considers the Chebyshev polynomials T(i,x), U(i,x), V(i,x) and W(i,x).
+      Functions are provided to evaluate the polynomials, determine their zeros, 
+      produce their polynomial coefficients, produce related quadrature rules,
+      project other functions onto these polynomial bases, and integrate
+      double and triple products of the polynomials.
+    </p>
+
+    <p>
+      <a href = "../gegenbauer_cc/gegenbauer_cc.html">
+      GEGENBAUER_CC</a>,
+      which
+      estimates the Gegenbauer weighted integral of a function f(x)
+      using a Clenshaw-Curtis approach.
+    </p>
+
+    <p>
+      <a href = "../gegenbauer_rule/gegenbauer_rule.html">
+      GEGENBAUER_RULE</a>,
+      a C++ program which
+      can generate a Gauss-Gegenbauer quadrature
+      rule on request.
+    </p>
+
+    <p>
+      <a href = "../hermite_polynomial/hermite_polynomial.html">
+      HERMITE_POLYNOMIAL</a>,
+      which
+      evaluates the physicist's Hermite polynomial, the probabilist's Hermite polynomial,
+      the Hermite function, and related functions.
+    </p>
+
+    <p>
+      <a href = "../jacobi_polynomial/jacobi_polynomial.html">
+      JACOBI_POLYNOMIAL</a>,
+      which
+      evaluates the Jacobi polynomial and associated functions.
+    </p>
+
+    <p>
+      <a href = "../laguerre_polynomial/laguerre_polynomial.html">
+      LAGUERRE_POLYNOMIAL</a>,
+      which
+      evaluates the Laguerre polynomial, the generalized Laguerre polynomial,
+      and the Laguerre function.
+    </p>
+
+    <p>
+      <a href = "../legendre_polynomial/legendre_polynomial.html">
+      LEGENDRE_POLYNOMIAL</a>,
+      which
+      evaluates the Legendre polynomial and associated functions.
+    </p>
+
+    <p>
+      <a href = "../legendre_shifted_polynomial/legendre_shifted_polynomial.html">
+      LEGENDRE_SHIFTED_POLYNOMIAL</a>,
+      which
+      evaluates the shifted Legendre polynomial, with domain [0,1].
+    </p>
+
+    <p>
+      <a href = "../lobatto_polynomial/lobatto_polynomial.html">
+      LOBATTO_POLYNOMIAL</a>,
+      which
+      evaluates Lobatto polynomials, similar to Legendre polynomials
+      except that they are zero at both endpoints.
+    </p>
+
+    <p>
+      <a href = "../polpak/polpak.html">
+      POLPAK</a>,
+      which
+      evaluates a variety of mathematical functions.
+    </p>
+
+
+
+    <h3 align = "center">
+      Examples and Tests:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <a href = "gegenbauer_polynomial_test.txt">gegenbauer_polynomial_test.txt</a>,
+          the output file.
+        </li>
+      </ul>
+    </p>
+
+    <h3 align = "center">
+      List of Routines:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <b>GEGENBAUER_ALPHA_CHECK</b> checks the value of ALPHA.
+        </li>
+        <li>
+          <b>GEGENBAUER_EK_COMPUTE</b> computes a Gauss-Gegenbauer quadrature rule.
+        </li>
+        <li>
+          <b>GEGENBAUER_INTEGRAL:</b> the integral of a monomial with Gegenbauer weight.
+        </li>
+        <li>
+          <b>GEGENBAUER_POLYNOMIAL_VALUE</b> computes the Gegenbauer polynomials C(I,ALPHA)(X).
+        </li>
+        <li>
+          <b>GEGENBAUER_POLYNOMIAL_VALUES</b> returns some values of the Gegenbauer polynomials.
+        </li>
+        <li>
+          <b>GEGENBAUER_SS_COMPUTE</b> computes a Gauss-Gegenbauer quadrature rule.
+        </li>
+        <li>
+          <b>GEGENBAUER_SS_RECUR:</b> value and derivative of a Gegenbauer polynomial.
+        </li>
+        <li>
+          <b>GEGENBAUER_SS_ROOT</b> improves an approximate root of a Gegenbauer polynomial.
+        </li>
+        <li>
+          <b>HYPER_2F1_VALUES</b> returns some values of the hypergeometric function 2F1.
+        </li>
+        <li>
+          <b>IMTQLX</b> diagonalizes a symmetric tridiagonal matrix.
+        </li>
+        <li>
+          <b>R8_EPSILON</b> returns the R8 round off unit.
+        </li>
+        <li>
+          <b>R8_GAMMA</b> evaluates Gamma(X) for a real argument.
+        </li>
+        <li>
+          <b>R8_HYPER_2F1</b> evaluates the hypergeometric function 2F1(A,B,C,X).
+        </li>
+        <li>
+          <b>R8_PSI</b> evaluates the function Psi(X).
+        </li>
+        <li>
+          <b>R8_SIGN</b> returns the sign of an R8.
+        </li>
+        <li>
+          <b>R8_UNIFORM_AB</b> returns a pseudorandom R8 scaled to [A,B].
+        </li>
+        <li>
+          <b>R8VEC_PRINT</b> prints an R8VEC.
+        </li>
+      </ul>
+    </p>
+
+
+    <hr>
+
+    <i>
+      Last revised on 30 November 2015.
+    </i>
+
+    <!-- John Burkardt -->
+
+  </body>
+
+  <!-- Initial HTML skeleton created by HTMLINDEX. -->
+
+
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/gegenbauer_polynomial/gegenbauer_polynomial.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 15:50:07 GMT -->
+</html>

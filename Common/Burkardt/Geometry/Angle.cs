@@ -382,7 +382,7 @@ namespace Burkardt.Geometry
             return value;
         }
 
-        public static double[] angle_half_2d(double[] p1, double[] p2, double[] p3)
+        public static double[] angle_half_2d(double[] p1, double[] p2, double[] p3, int p1Index = 0, int p2Index = 0, int p3Index = 0)
 
             //****************************************************************************80
             //
@@ -431,20 +431,20 @@ namespace Burkardt.Geometry
 
             p4 = new double[2];
 
-            norm = Math.Sqrt((p1[0] - p2[0]) * (p1[0] - p2[0])
-                             + (p1[1] - p2[1]) * (p1[1] - p2[1]));
+            norm = Math.Sqrt((p1[(0 + p1Index) % p1.Length] - p2[(0 + p2Index) % p2.Length]) * (p1[(0 + p1Index) % p1.Length] - p2[(0 + p2Index) % p2.Length])
+                             + (p1[(1 + p1Index) % p1.Length] - p2[(1 + p2Index) % p2.Length]) * (p1[(1 + p1Index) % p1.Length] - p2[(1 + p2Index) % p2.Length]));
 
             for (i = 0; i < 2; i++)
             {
-                p4[i] = (p1[i] - p2[i]) / norm;
+                p4[i] = (p1[(i + p1Index) % p1.Length] - p2[(i + p2Index) % p2.Length]) / norm;
             }
 
-            norm = Math.Sqrt((p3[0] - p2[0]) * (p3[0] - p2[0])
-                             + (p3[1] - p2[1]) * (p3[1] - p2[1]));
+            norm = Math.Sqrt((p3[(0 + p3Index) % p3.Length] - p2[(0 + p2Index) % p2.Length]) * (p3[(0 + p3Index) % p3.Length] - p2[(0 + p2Index) % p2.Length])
+                             + (p3[(1 + p3Index) % p3.Length] - p2[(1 + p2Index) % p2.Length]) * (p3[(1 + p3Index) % p3.Length] - p2[(1 + p2Index) % p2.Length]));
 
             for (i = 0; i < 2; i++)
             {
-                p4[i] = p4[i] + (p3[i] - p2[i]) / norm;
+                p4[i] = p4[i] + (p3[(i + p3Index) % p3.Length] - p2[(i + p2Index) % p2.Length]) / norm;
             }
 
             for (i = 0; i < 2; i++)
@@ -456,7 +456,7 @@ namespace Burkardt.Geometry
 
             for (i = 0; i < 2; i++)
             {
-                p4[i] = p2[i] + p4[i] / norm;
+                p4[i] = p2[(i + p2Index) % p2.Length] + p4[i] / norm;
             }
 
             return p4;

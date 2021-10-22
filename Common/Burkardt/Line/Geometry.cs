@@ -111,7 +111,7 @@ namespace Burkardt.LineNS
         }
 
         public static double[] line_exp_perp_2d(double[] p1, double[] p2, double[] p3,
-                ref bool flag)
+                ref bool flag, int p1Index = 0, int p2Index = 0, int p3Index = 0)
 
             //****************************************************************************80
             //
@@ -159,7 +159,7 @@ namespace Burkardt.LineNS
             p4 = new double[DIM_NUM];
             flag = false;
 
-            bot = Math.Pow(p2[0] - p1[0], 2) + Math.Pow(p2[1] - p1[1], 2);
+            bot = Math.Pow(p2[(0 + p2Index) % p2.Length] - p1[(0 + p1Index) % p1.Length], 2) + Math.Pow(p2[(1 + p2Index) % p2.Length] - p1[(1 + p1Index) % p1.Length], 2);
 
             if (bot == 0.0)
             {
@@ -175,11 +175,11 @@ namespace Burkardt.LineNS
             //  (P3-P1) dot (P2-P1) / Norm(P3-P1)^2 = normalized coordinate T
             //  of the projection of (P3-P1) onto (P2-P1).
             //
-            t = ((p1[0] - p3[0]) * (p1[0] - p2[0])
-                 + (p1[1] - p3[1]) * (p1[1] - p2[1])) / bot;
+            t = ((p1[(0 + p1Index) % p1.Length] - p3[(0 + p3Index) % p3.Length]) * (p1[(0 + p1Index) % p1.Length] - p2[(0 + p2Index) % p2.Length])
+                 + (p1[(1 + p1Index) % p1.Length] - p3[(1 + p3Index) % p3.Length]) * (p1[(1 + p1Index) % p1.Length] - p2[(1 + p2Index) % p2.Length])) / bot;
 
-            p4[0] = p1[0] + t * (p2[0] - p1[0]);
-            p4[1] = p1[1] + t * (p2[1] - p1[1]);
+            p4[0] = p1[(0 + p1Index) % p1.Length] + t * (p2[(0 + p2Index) % p2.Length] - p1[(0 + p1Index) % p1.Length]);
+            p4[1] = p1[(1 + p1Index) % p1.Length] + t * (p2[(1 + p2Index) % p2.Length] - p1[(1 + p1Index) % p1.Length]);
 
             return p4;
         }
@@ -341,7 +341,7 @@ namespace Burkardt.LineNS
             return dist;
         }
 
-        public static double line_exp_point_dist_signed_2d(double[] p1, double[] p2, double[] p)
+        public static double line_exp_point_dist_signed_2d(double[] p1, double[] p2, double[] p, int p1Index = 0, int p2Index = 0)
 
             //****************************************************************************80
             //
@@ -400,7 +400,7 @@ namespace Burkardt.LineNS
             //
             //  Convert the line to A*x+B*y+C form.
             //
-            line_exp2imp_2d(p1, p2, ref a, ref b, ref c);
+            line_exp2imp_2d(p1, p2, ref a, ref b, ref c, p1Index, p2Index);
             //
             //  Compute the signed distance from the point to the line.
             //
@@ -573,7 +573,7 @@ namespace Burkardt.LineNS
         }
 
         public static void line_exp2imp_2d(double[] p1, double[] p2, ref double a, ref double b,
-                ref double c)
+                ref double c, int p1Index = 0, int p2Index = 0)
 
             //****************************************************************************80
             //
@@ -614,19 +614,19 @@ namespace Burkardt.LineNS
             //
             //  Take care of degenerate cases.
             //
-            if (typeMethods.r8vec_eq(2, p1, p2))
+            if (typeMethods.r8vec_eq(2, p1, p2, p1Index, p2Index))
             {
                 Console.WriteLine("");
                 Console.WriteLine("LINE_EXP2IMP_2D - Fatal error!");
                 Console.WriteLine("  P1 = P2");
-                Console.WriteLine("  P1 = " + p1[0] + " " + p1[1] + "");
-                Console.WriteLine("  P2 = " + p2[0] + " " + p2[1] + "");
+                Console.WriteLine("  P1 = " + p1[(0 + p1Index) % p1.Length] + " " + p1[(1 + p1Index) % p1.Length] + "");
+                Console.WriteLine("  P2 = " + p2[(0 + p2Index) % p2.Length] + " " + p2[(1 + p2Index) % p2.Length] + "");
                 return;
             }
 
-            a = p2[1] - p1[1];
-            b = p1[0] - p2[0];
-            c = p2[0] * p1[1] - p1[0] * p2[1];
+            a = p2[(1 + p2Index) % p2.Length] - p1[(1 + p1Index) % p1.Length];
+            b = p1[(0 + p1Index) % p1.Length] - p2[(0 + p2Index) % p2.Length];
+            c = p2[(0 + p2Index) % p2.Length] * p1[(1 + p1Index) % p1.Length] - p1[(0 + p1Index) % p1.Length] * p2[(1 + p2Index) % p2.Length];
 
         }
 
@@ -1981,7 +1981,7 @@ namespace Burkardt.LineNS
         }
 
         public static void lines_exp_int_2d(double[] p1, double[] p2, double[] p3, double[] p4,
-                ref int ival, ref double[] p)
+                ref int ival, ref double[] p, int p1Index = 0, int p2Index = 0, int p3Index = 0, int p4Index = 0)
 
             //****************************************************************************80
             //
@@ -2039,7 +2039,7 @@ namespace Burkardt.LineNS
             //
             //  Check whether either line is a point.
             //
-            if (typeMethods.r8vec_eq(DIM_NUM, p1, p2))
+            if (typeMethods.r8vec_eq(DIM_NUM, p1, p2, p1Index, p2Index))
             {
                 point_1 = true;
             }
@@ -2048,7 +2048,7 @@ namespace Burkardt.LineNS
                 point_1 = false;
             }
 
-            if (typeMethods.r8vec_eq(DIM_NUM, p3, p4))
+            if (typeMethods.r8vec_eq(DIM_NUM, p3, p4, p3Index, p4Index))
             {
                 point_2 = true;
             }
@@ -2062,12 +2062,12 @@ namespace Burkardt.LineNS
             //
             if (!point_1)
             {
-                line_exp2imp_2d(p1, p2, ref a1, ref b1, ref c1);
+                line_exp2imp_2d(p1, p2, ref a1, ref b1, ref c1, p1Index, p2Index);
             }
 
             if (!point_2)
             {
-                line_exp2imp_2d(p3, p4, ref a2, ref b2, ref c2);
+                line_exp2imp_2d(p3, p4, ref a2, ref b2, ref c2, p3Index, p4Index);
             }
 
             //
@@ -2075,26 +2075,26 @@ namespace Burkardt.LineNS
             //
             if (point_1 && point_2)
             {
-                if (typeMethods.r8vec_eq(DIM_NUM, p1, p3))
+                if (typeMethods.r8vec_eq(DIM_NUM, p1, p3, p1Index, p3Index))
                 {
                     ival = 1;
-                    typeMethods.r8vec_copy(DIM_NUM, p1, ref p);
+                    typeMethods.r8vec_copy(DIM_NUM, p1, ref p, p1Index);
                 }
             }
             else if (point_1)
             {
-                if (a2 * p1[0] + b2 * p1[1] == c2)
+                if (a2 * p1[(0 + p1Index) % p1.Length] + b2 * p1[(1 + p1Index) % p1.Length] == c2)
                 {
                     ival = 1;
-                    typeMethods.r8vec_copy(DIM_NUM, p1, ref p);
+                    typeMethods.r8vec_copy(DIM_NUM, p1, ref p, p1Index);
                 }
             }
             else if (point_2)
             {
-                if (a1 * p3[0] + b1 * p3[1] == c1)
+                if (a1 * p3[(0 + p3Index) % p3.Length] + b1 * p3[(1 + p3Index) % p3.Length] == c1)
                 {
                     ival = 1;
-                    typeMethods.r8vec_copy(DIM_NUM, p3, ref p);
+                    typeMethods.r8vec_copy(DIM_NUM, p3, ref p, p3Index);
                 }
             }
             else

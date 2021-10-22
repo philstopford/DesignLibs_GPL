@@ -1489,6 +1489,104 @@ namespace Burkardt.Types
             return a;
         }
         
+        public static bool r8vec_negative_strict ( int n, double[] a )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8VEC_NEGATIVE_STRICT: all entries of R8VEC are strictly negative.
+            //
+            //  Discussion:
+            //
+            //    An R8VEC is a vector of R8's.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    24 June 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the dimension of the vector.
+            //
+            //    Input, double A[N], the vector.
+            //
+            //    Output, bool R8VEC_NEGATIVE_STRICT, is TRUE if every entry of
+            //    A is strictly negative.
+            //
+        {
+            int i;
+            bool value;
+
+            for ( i = 0; i < n; i++ )
+            {
+                if ( 0 <= a[i] )
+                {
+                    value = false;
+                    return value;
+                }
+            }
+            value = true;
+            return value;
+        }
+        
+        public static bool r8vec_positive_strict ( int n, double[] a )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8VEC_POSITIVE_STRICT: all entries of R8VEC are strictly positive.
+            //
+            //  Discussion:
+            //
+            //    An R8VEC is a vector of R8's.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    24 June 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the dimension of the vector.
+            //
+            //    Input, double A[N], the vector.
+            //
+            //    Output, bool R8VEC_POSITIVE_STRICT, is TRUE if every entry of
+            //    A is strictly positive.
+            //
+        {
+            int i;
+            bool value;
+
+            for ( i = 0; i < n; i++ )
+            {
+                if ( a[i] <= 0.0 )
+                {
+                    value = false;
+                    return value;
+                }
+            }
+            value = true;
+            return value;
+        }
+        
         public static double[] r8vec_ones_new ( int n )
 
             //****************************************************************************80

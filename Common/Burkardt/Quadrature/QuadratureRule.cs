@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Function;
 using Burkardt.SortNS;
 using Burkardt.Types;
 
@@ -102,10 +103,10 @@ namespace Burkardt.Quadrature
         {
             int NQE = 13;
 
-            double ar;
-            double bi;
-            double dbidx;
-            double dbidy;
+            double ar = 0;
+            double bi = 0;
+            double dbidx = 0;
+            double dbidy = 0;
             double dudx;
             double dudxh;
             double dudy;
@@ -117,11 +118,11 @@ namespace Burkardt.Quadrature
             int quad;
             double u;
             double uh;
-            double wqe[NQE];
+            double[] wqe = new double[NQE];
             double x;
-            double xqe[NQE];
+            double[] xqe = new double[NQE];
             double y;
-            double yqe[NQE];
+            double[] yqe = new double[NQE];
 
             el2 = 0.0E+00;
             eh1 = 0.0E+00;
@@ -132,7 +133,7 @@ namespace Burkardt.Quadrature
             for (element = 1; element <= element_num; element++)
             {
                 quad_e(node_xy, element_node, element, element_num,
-                    nnodes, node_num, NQE, wqe, xqe, yqe);
+                    nnodes, node_num, NQE, ref wqe, ref xqe, ref yqe);
                 //
                 //  For each quadrature point, evaluate the computed solution and its X and
                 //  Y derivatives.
@@ -151,8 +152,8 @@ namespace Burkardt.Quadrature
                     {
                         ip = element_node[in1 - 1 + (element - 1) * nnodes];
 
-                        qbf(x, y, element, in1, node_xy,
-                            element_node, element_num, nnodes, node_num, &bi, &dbidx, &dbidy);
+                        Quadratic.qbf(x, y, element, in1, node_xy,
+                            element_node, element_num, nnodes, node_num, ref bi, ref dbidx, ref dbidy);
 
                         i = indx[ip - 1];
 
@@ -164,26 +165,29 @@ namespace Burkardt.Quadrature
                     //
                     //  Evaluate the exact solution and its X and Y derivatives.
                     //
-                    exact(x, y, &u, &dudx, &dudy);
+                    ExactResult res = exact(x, y);
+                    u = res.u;
+                    dudx = res.dudx;
+                    dudy = res.dudy;
                     //
                     //  Add the weighted value at this quadrature point to the quadrature sum.
                     //
-                    el2 = *el2 + ar * pow((uh - u), 2);
+                    el2 = el2 + ar * Math.Pow((uh - u), 2);
 
-                    eh1 = *eh1 + ar * (pow((dudxh - dudx), 2)
-                                       + pow((dudyh - dudy), 2));
+                    eh1 = eh1 + ar * (Math.Pow((dudxh - dudx), 2)
+                                      + Math.Pow((dudyh - dudy), 2));
                 }
             }
 
-            el2 = sqrt(*el2);
-            eh1 = sqrt(*eh1);
+            el2 = Math.Sqrt(el2);
+            eh1 = Math.Sqrt(eh1);
 
             Console.WriteLine("");
             Console.WriteLine("*********************************************");
             Console.WriteLine("*                                           *");
             Console.WriteLine("*  ERRORS:                                  *");
-            Console.WriteLine("*    L2 error =          " << setw(14) << *el2 << "     *");
-            Console.WriteLine("*    H1-seminorm error = " << setw(14) << *eh1 << "     *");
+            Console.WriteLine("*    L2 error =          " + el2.ToString().PadLeft(14) + "     *");
+            Console.WriteLine("*    H1-seminorm error = " + eh1.ToString().PadLeft(14) + "     *");
             Console.WriteLine("*                                           *");
             Console.WriteLine("*********************************************");
 
@@ -546,13 +550,13 @@ namespace Burkardt.Quadrature
             else if (quad_num == 7)
             {
                 a = 1.0 / 3.0;
-                b = (9.0 + 2.0 * sqrt(15.0)) / 21.0;
-                c = (6.0 - sqrt(15.0)) / 21.0;
-                d = (9.0 - 2.0 * sqrt(15.0)) / 21.0;
-                e = (6.0 + sqrt(15.0)) / 21.0;
+                b = (9.0 + 2.0 * Math.Sqrt(15.0)) / 21.0;
+                c = (6.0 - Math.Sqrt(15.0)) / 21.0;
+                d = (9.0 - 2.0 * Math.Sqrt(15.0)) / 21.0;
+                e = (6.0 + Math.Sqrt(15.0)) / 21.0;
                 u = 0.225;
-                v = (155.0 - sqrt(15.0)) / 1200.0;
-                w = (155.0 + sqrt(15.0)) / 1200.0;
+                v = (155.0 - Math.Sqrt(15.0)) / 1200.0;
+                w = (155.0 + Math.Sqrt(15.0)) / 1200.0;
 
                 quad_xy[0 + 0 * 2] = a;
                 quad_xy[1 + 0 * 2] = a;

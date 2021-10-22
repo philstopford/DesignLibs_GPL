@@ -108,7 +108,7 @@ namespace Burkardt.Plane
             v1[1] = p2[1] - p1[1];
             v1[2] = p2[2] - p1[2];
 
-            vector_unit_nd(DIM_NUM, v1);
+            Burkardt.Vector.Geometry.vector_unit_nd(DIM_NUM, ref v1);
 
             v2[0] = p3[0] - p1[0];
             v2[1] = p3[1] - p1[1];
@@ -126,7 +126,7 @@ namespace Burkardt.Plane
                 v2[i] = v2[i] - dot * v1[i];
             }
 
-            vector_unit_nd(DIM_NUM, v2);
+            Burkardt.Vector.Geometry.vector_unit_nd(DIM_NUM, ref v2);
             //
             //  Compute the (V1,V2) coordinate range of the input data, if any.
             //
@@ -428,7 +428,7 @@ namespace Burkardt.Plane
             v1[1] = p2[1] - p1[1];
             v1[2] = p2[2] - p1[2];
 
-            vector_unit_nd(3, v1);
+            Burkardt.Vector.Geometry.vector_unit_nd(3, ref v1);
 
             v2[0] = p3[0] - p1[0];
             v2[1] = p3[1] - p1[1];
@@ -441,7 +441,7 @@ namespace Burkardt.Plane
                 v2[i] = v2[i] - dot * v1[i];
             }
 
-            vector_unit_nd(3, v2);
+            Burkardt.Vector.Geometry.vector_unit_nd(3, ref v2);
             //
             //  Now decompose each point.
             //
@@ -1702,7 +1702,7 @@ namespace Burkardt.Plane
 
             plane_imp2normal_3d(a, b, c, d, ref pp, ref pn);
 
-            plane_normal2exp_3d(pp, pn, p1, p2, p3);
+            plane_normal2exp_3d(pp, pn, ref p1, ref p2, ref p3);
 
         }
 
@@ -2261,7 +2261,7 @@ namespace Burkardt.Plane
             //
             if (int_num == 4)
             {
-                area1 = quad_area_3d(pint);
+                area1 = Burkardt.Quadrilateral.Geometry.quad_area_3d(pint);
                 for (i = 0; i < 3; i++)
                 {
                     temp = pint[i + 3 * 3];
@@ -2269,7 +2269,7 @@ namespace Burkardt.Plane
                     pint[i + 4 * 3] = temp;
                 }
 
-                area2 = quad_area_3d(pint);
+                area2 = Burkardt.Quadrilateral.Geometry.quad_area_3d(pint);
                 if (area2 < area1)
                 {
                     temp = pint[i + 3 * 3];

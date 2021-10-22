@@ -464,7 +464,7 @@ namespace Burkardt.Polygon
                 t[1 + 2 * 3] = v[1 + (n - 1) * 3];
                 t[2 + 2 * 3] = v[2 + (n - 1) * 3];
 
-                area_vector_triangle = triangle_area_vector_3d(t);
+                area_vector_triangle = Burkardt.TriangleNS.Geometry.triangle_area_vector_3d(t);
 
                 for (i = 0; i < DIM_NUM; i++)
                 {
@@ -896,7 +896,7 @@ namespace Burkardt.Polygon
                 t[0 + 2 * 2] = v[0 + (i + 1) * 2];
                 t[1 + 2 * 2] = v[1 + (i + 1) * 2];
 
-                if (triangle_contains_point_2d_1(t, p))
+                if (Burkardt.TriangleNS.Geometry.triangle_contains_point_2d_1(t, p))
                 {
                     return true;
                 }

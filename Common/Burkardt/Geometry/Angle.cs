@@ -353,7 +353,6 @@ namespace Burkardt.Geometry
 
             double angle_rad;
             double[] p = new double[DIM_NUM];
-            double r8_pi = 3.141592653589793;
             double value;
 
             p[0] = (p1[0] - p2[0]) * (p3[0] - p2[0])
@@ -372,7 +371,7 @@ namespace Burkardt.Geometry
 
                 if (angle_rad < 0.0)
                 {
-                    angle_rad = angle_rad + 2.0 * r8_pi;
+                    angle_rad = angle_rad + 2.0 * Math.PI;
                 }
 
                 value = Helpers.radians_to_degrees(angle_rad);
@@ -733,7 +732,6 @@ namespace Burkardt.Geometry
             int DIM_NUM = 2;
 
             double[] p = new double[DIM_NUM];
-            double r8_pi = 3.141592653589793;
             double turn;
 
             p[0] = (p3[0] - p2[0]) * (p1[0] - p2[0])
@@ -748,7 +746,7 @@ namespace Burkardt.Geometry
             }
             else
             {
-                turn = r8_pi - typeMethods.r8_atan(p[1], p[0]);
+                turn = Math.PI - typeMethods.r8_atan(p[1], p[0]);
             }
 
             return turn;
@@ -787,7 +785,6 @@ namespace Burkardt.Geometry
             int DIM_NUM = 2;
 
             double[] p = new double[DIM_NUM];
-            double r8_pi = 3.141592653589793;
             double value;
 
             p[0] = (p1[0] - p2[0]) * (p3[0] - p2[0])
@@ -806,7 +803,7 @@ namespace Burkardt.Geometry
 
                 if (value < 0.0)
                 {
-                    value = value + 2.0 * r8_pi;
+                    value = value + 2.0 * Math.PI;
                 }
 
                 value = Helpers.radians_to_degrees(value);
@@ -821,7 +818,7 @@ namespace Burkardt.Geometry
             return value;
         }
 
-        public static double anglei_rad_2d(double[] p1, double[] p2, double[] p3)
+        public static double anglei_rad_2d(double[] p1, double[] p2, double[] p3, int p1Index = 0, int p2Index = 0, int p3Index = 0)
 
             //****************************************************************************80
             //
@@ -854,14 +851,13 @@ namespace Burkardt.Geometry
             int DIM_NUM = 2;
 
             double[] p = new double[DIM_NUM];
-            double r8_pi = 3.141592653589793;
             double value;
 
-            p[0] = (p1[0] - p2[0]) * (p3[0] - p2[0])
-                   + (p1[1] - p2[1]) * (p3[1] - p2[1]);
+            p[0] = (p1[(0 + p1Index) % p1.Length] - p2[(0 + p2Index) % p2.Length]) * (p3[(0 + p3Index) % p3.Length] - p2[(0 + p2Index) % p2.Length])
+                   + (p1[(1 + p1Index) % p1.Length] - p2[(1 + p2Index) % p2.Length]) * (p3[(1 + p3Index) % p3.Length] - p2[(1 + p2Index) % p2.Length]);
 
-            p[1] = (p1[0] - p2[0]) * (p3[1] - p2[1])
-                   - (p1[1] - p2[1]) * (p3[0] - p2[0]);
+            p[1] = (p1[(0 + p1Index) % p1.Length] - p2[(0 + p2Index) % p2.Length]) * (p3[(1 + p3Index) % p3.Length] - p2[(1 + p2Index) % p2.Length])
+                   - (p1[(1 + p1Index) % p1.Length] - p2[(1 + p2Index) % p2.Length]) * (p3[(0 + p3Index) % p3.Length] - p2[(0 + p2Index) % p2.Length]);
 
             if (p[0] == 0.0 && p[1] == 0.0)
             {
@@ -873,12 +869,12 @@ namespace Burkardt.Geometry
 
                 if (value < 0.0)
                 {
-                    value = value + 2.0 * r8_pi;
+                    value = value + 2.0 * Math.PI;
                 }
 
-                if (r8_pi < value)
+                if (Math.PI < value)
                 {
-                    value = 2.0 * r8_pi - value;
+                    value = 2.0 * Math.PI - value;
                 }
 
             }

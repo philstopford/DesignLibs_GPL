@@ -798,6 +798,62 @@ namespace Burkardt.Types
             return x.Take(n).Average();
         }
 
+        public static int i4vec_lcm ( int n, int[] v )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4VEC_LCM returns the least common multiple of an I4VEC.
+            //
+            //  Discussion:
+            //
+            //    An I4VEC is a vector of I4's.
+            //
+            //    The value LCM returned has the property that it is the smallest integer
+            //    which is evenly divisible by every element of V.
+            //
+            //    The entries in V may be negative.
+            //
+            //    If any entry of V is 0, then LCM is 0.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 July 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order of V.
+            //
+            //    Input, int V[N], the vector.
+            //
+            //    Output, int I4VEC_LCM, the least common multiple of V.
+            //
+        {
+            int i;
+            int lcm;
+
+            lcm = 1;
+
+            for ( i = 0; i < n; i++ )
+            {
+                if ( v[i] == 0 )
+                {
+                    lcm = 0;
+                    break;
+                }
+                lcm = i4_lcm ( lcm, v[i] );
+            }
+            return lcm;
+        }
         public static int i4vec_max(int n, int[] ivec)
         {
             if (ivec.Length <= 0)

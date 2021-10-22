@@ -344,7 +344,6 @@ namespace Burkardt.PointsNS
             }
 
             return colin;
-# undef DIM_NUM
         }
 
         public static double points_colin_3d(double[] p1, double[] p2, double[] p3)
@@ -1172,8 +1171,6 @@ namespace Burkardt.PointsNS
             d_min = Math.Sqrt(d_min);
 
             return p_min;
-
-# undef DIM_NUM
         }
 
         public static int points_point_near_naive_nd(int dim_num, int nset, double[] pset,

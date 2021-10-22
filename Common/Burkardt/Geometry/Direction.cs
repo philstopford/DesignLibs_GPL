@@ -107,7 +107,7 @@ namespace Burkardt.Geometry
                 psi = UniformRNG.r8_uniform_01(ref seed);
                 psi = 2.0 * Math.PI * psi;
 
-                vector_rotate_3d(p, vbase, psi, vran);
+                Burkardt.Vector.Geometry.vector_rotate_3d(p, vbase, psi, ref vran);
             }
 
             return vran;
@@ -257,7 +257,7 @@ namespace Burkardt.Geometry
             //
             //  Normalize the vector.
             //
-            vector_unit_nd(dim_num, a);
+            Burkardt.Vector.Geometry.vector_unit_nd(dim_num, ref a);
 
             return a;
         }

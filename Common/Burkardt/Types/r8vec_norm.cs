@@ -1020,7 +1020,7 @@ namespace Burkardt.Types
             return v;
         }
 
-        public static double r8vec_normsq_affine ( int n, double[] v0, double[] v1 )
+        public static double r8vec_normsq_affine ( int n, double[] v0, double[] v1, int v0Index = 0, int v1Index = 0 )
 
         //****************************************************************************80
         //
@@ -1065,7 +1065,7 @@ namespace Burkardt.Types
 
             for ( i = 0; i < n; i++ )
             {
-                value = value + ( v1[i] - v0[i] ) * ( v1[i] - v0[i] );
+                value = value + ( v1[(i + v1Index) % v1Index] - v0[(i + v0Index) % v0Index] ) * ( v1[(i + v1Index) % v1Index] - v0[(i + v0Index) % v0Index] );
             }
             return value;
         }

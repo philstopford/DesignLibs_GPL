@@ -190,10 +190,9 @@ namespace Burkardt
             //    Output, double EXACT, the value of the exact solution.
             //
         {
-            double r8_pi = 3.141592653589793;
             double u;
 
-            u = Math.Sin ( r8_pi * x ) * Math.Sin ( r8_pi * y ) + x;
+            u = Math.Sin ( Math.PI * x ) * Math.Sin ( Math.PI * y ) + x;
        
             return u;
         }
@@ -295,6 +294,46 @@ namespace Burkardt
 
         }
         
+        public static double dms_to_radians ( int degrees, int minutes, int seconds )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    DMS_TO_RADIANS converts an angle from degrees/minutes/seconds to radians.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    01 September 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int DEGREES, MINUTES, SECONDS, an angle in degrees, minutes,
+            //    and seconds.
+            //
+            //    Output, double DMS_TO_RADIANS, the equivalent angle in radians.
+            //
+        {
+            double angle;
+            double radians;
+
+            angle =   ( double ) degrees
+                      + ( ( ( double ) minutes )
+                          + ( ( ( double ) seconds ) / 60.0 ) ) / 60.0;
+
+            radians = ( angle / 180.0 ) * Math.PI;
+
+            return radians;
+        }
+        
         public static double enorm ( int n, double[] x, int xIndex = 0 )
 
             //****************************************************************************80
@@ -335,6 +374,50 @@ namespace Burkardt
                 value = value + x[xIndex + i] * x[xIndex + i];
             }
             value = Math.Sqrt ( value );
+            return value;
+        }
+        
+        public static double enorm0_nd ( int dim_num, double[] x, double[] y )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    ENORM0_ND computes the Euclidean norm of a (X-Y) in N space.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    18 April 1999
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int DIM_NUM, the dimension of the space.
+            //
+            //    Input, double X[DIM_NUM], Y[DIM_NUM], the coordinates of the vectors.
+            //
+            //    Output, double ENORM0_ND, the Euclidean norm of the vector.
+            //
+        {
+            int i;
+            double value;
+
+            value = 0.0;
+
+            for ( i = 0; i < dim_num; i++ )
+            {
+                value = value + ( x[i] - y[i] ) * ( x[i] - y[i] );
+            }
+
+            value = Math.Sqrt ( value );
+
             return value;
         }
         
@@ -1118,10 +1201,9 @@ namespace Burkardt
             //    Output, double RADIANS_TO_DEGREES, the equivalent angle in degrees.
             //
         {
-            double r8_pi = 3.141592653589793;
             double value;
 
-            value = ( angle / r8_pi ) * 180.0;
+            value = ( angle / Math.PI ) * 180.0;
 
             return value;
         }

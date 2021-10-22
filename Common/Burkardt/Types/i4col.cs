@@ -115,6 +115,147 @@ namespace Burkardt.Types
             return 0;
         }
 
+        public static void i4col_find_item(int m, int n, int[] table, int item,
+                ref int row, ref int col)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4COL_FIND_ITEM searches an I4COL for a given value.
+            //
+            //  Discussion:
+            //
+            //    The two dimensional information in TABLE is stored as a one dimensional
+            //    array, by columns.
+            //
+            //    The values ROW and COL will be one-based indices.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    23 August 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns
+            //    in the table.
+            //
+            //    Input, int TABLE[M*N], the table to search.
+            //
+            //    Input, int ITEM, the value to search for.
+            //
+            //    Output, int *ROW, *COL, the row and column indices
+            //    of the first occurrence of the value ITEM.  The search
+            //    is conducted by rows.  If the item is not found, then
+            //    ROW = COL = -1.
+            //
+        {
+            int i;
+            int j;
+
+            for (j = 0; j < n; j++)
+            {
+                for (i = 0; i < m; i++)
+                {
+                    if (table[i + j * m] == item)
+                    {
+                        row = i + 1;
+                        col = j + 1;
+                        return;
+                    }
+                }
+            }
+
+            row = -1;
+            col = -1;
+
+        }
+
+        public static void i4col_find_pair_wrap(int m, int n, int[] a, int item1, int item2,
+                ref int row, ref int col)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    I4COL_FIND_PAIR_WRAP wrap searches an I4COL for a pair of items.
+            //
+            //  Discussion:
+            //
+            //    The items (ITEM1, ITEM2) must occur consecutively.
+            //    However, wrapping is allowed, that is, if ITEM1 occurs
+            //    in the last row, and ITEM2 "follows" it in the first row
+            //    of the same column, a match is declared.
+            //
+            //    If the pair of items is not found, then ROW = COL = -1.
+            //
+            //    The values ROW and COL will be one-based indices.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    23 August 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns
+            //    in the table.
+            //
+            //    Input, int A[M*N], the table to search.
+            //
+            //    Input, int ITEM1, ITEM2, the values to search for.
+            //
+            //    Output, int *ROW, *COL, the row and column indices
+            //    of the first occurrence of the value ITEM1 followed immediately
+            //    by ITEM2.
+            //
+        {
+            int i;
+            int i2;
+            int j;
+
+            for (j = 1; j <= n; j++)
+            {
+                for (i = 1; i <= m; i++)
+                {
+                    if (a[i - 1 + (j - 1) * m] == item1)
+                    {
+                        i2 = i + 1;
+
+                        if (m < i2)
+                        {
+                            i2 = 1;
+                        }
+
+                        if (a[i2 - 1 + (j - 1) * m] == item2)
+                        {
+                            row = i;
+                            col = j;
+                            return;
+                        }
+                    }
+                }
+            }
+
+            row = -1;
+            col = -1;
+        }
+
         public static void i4col_sort2_a ( int m, int n, ref int[] a )
 
             //****************************************************************************80

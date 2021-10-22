@@ -614,7 +614,7 @@ namespace Burkardt.Cylinder
             //
             //  Compute vectors V2 and V3 that form an orthogonal triple with AXIS.
             //
-            Burkardt.Plane.Geometry.plane_normal_basis_3d(p1, axis, v2, v3);
+            Burkardt.Plane.Geometry.plane_normal_basis_3d(p1, axis, ref v2, ref v3);
             //
             //  Assemble the randomized information.
             //

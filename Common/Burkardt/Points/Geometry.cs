@@ -436,7 +436,7 @@ namespace Burkardt.PointsNS
             return colin;
         }
 
-        public static double points_dist_2d(double[] p1, double[] p2)
+        public static double points_dist_2d(double[] p1, double[] p2, int p1Index = 0, int p2Index = 0)
 
             //****************************************************************************80
             //
@@ -465,13 +465,13 @@ namespace Burkardt.PointsNS
         {
             double dist;
 
-            dist = Math.Sqrt(Math.Pow(p1[0] - p2[0], 2)
-                             + Math.Pow(p1[1] - p2[1], 2));
+            dist = Math.Sqrt(Math.Pow(p1[(0 + p1Index) % p1.Length] - p2[(0 + p2Index) % p2.Length], 2)
+                             + Math.Pow(p1[(1 + p1Index) % p1.Length] - p2[(1 + p2Index) % p2.Length], 2));
 
             return dist;
         }
 
-        public static double points_dist_3d(double[] p1, double[] p2)
+        public static double points_dist_3d(double[] p1, double[] p2, int p1Index = 0, int p2Index = 0)
 
             //****************************************************************************80
             //
@@ -500,9 +500,9 @@ namespace Burkardt.PointsNS
         {
             double dist;
 
-            dist = Math.Sqrt(Math.Pow(p1[0] - p2[0], 2)
-                             + Math.Pow(p1[1] - p2[1], 2)
-                             + Math.Pow(p1[2] - p2[2], 2));
+            dist = Math.Sqrt(Math.Pow(p1[(0 + p1Index) % p1.Length] - p2[(0 + p2Index) % p2.Length], 2)
+                             + Math.Pow(p1[(1 + p1Index) % p1.Length] - p2[(1 + p2Index) % p2.Length], 2)
+                             + Math.Pow(p1[(2 + p1Index) % p1.Length] - p2[(2 + p2Index) % p2.Length], 2));
 
             return dist;
         }

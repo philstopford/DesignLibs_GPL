@@ -995,7 +995,7 @@ namespace Burkardt.CircleNS
             n1 = new double[DIM_NUM];
             n2 = new double[DIM_NUM];
 
-            Burkardt.Plane.Geometry.plane_normal_basis_3d(pc, nc, n1, n2);
+            Burkardt.Plane.Geometry.plane_normal_basis_3d(pc, nc, ref n1, ref n2);
             //
             //  Rotate R units away from PC in the plane of N1 and N2.
             //

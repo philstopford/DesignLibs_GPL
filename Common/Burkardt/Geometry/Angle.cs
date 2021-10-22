@@ -529,7 +529,7 @@ namespace Burkardt.Geometry
             return value;
         }
 
-        public static double angle_rad_3d(double[] p1, double[] p2, double[] p3)
+        public static double angle_rad_3d(double[] p1, double[] p2, double[] p3, int p1Index = 0, int p2Index = 0, int p3Index = 0)
 
             //****************************************************************************80
             //
@@ -578,7 +578,7 @@ namespace Burkardt.Geometry
             v1norm = 0.0;
             for (i = 0; i < DIM_NUM; i++)
             {
-                v1norm = v1norm + Math.Pow(p1[i] - p2[i], 2);
+                v1norm = v1norm + Math.Pow(p1[(i + p1Index) % p1.Length] - p2[(i + p2Index) % p2.Length], 2);
             }
 
             v1norm = Math.Sqrt(v1norm);
@@ -592,7 +592,7 @@ namespace Burkardt.Geometry
             v2norm = 0.0;
             for (i = 0; i < DIM_NUM; i++)
             {
-                v2norm = v2norm + Math.Pow(p3[i] - p2[i], 2);
+                v2norm = v2norm + Math.Pow(p3[(i + p3Index) % p3.Length] - p2[(i + p2Index) % p2.Length], 2);
             }
 
             v2norm = Math.Sqrt(v2norm);
@@ -606,7 +606,7 @@ namespace Burkardt.Geometry
             dot = 0.0;
             for (i = 0; i < DIM_NUM; i++)
             {
-                dot = dot + (p1[i] - p2[i]) * (p3[i] - p2[i]);
+                dot = dot + (p1[(i + p1Index) % p1.Length] - p2[(i + p2Index) % p2.Length]) * (p3[(i + p3Index) % p3.Length] - p2[(i + p2Index) % p2.Length]);
             }
 
             value = typeMethods.r8_acos(dot / (v1norm * v2norm));

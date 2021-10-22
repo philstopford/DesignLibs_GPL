@@ -1275,6 +1275,53 @@ namespace Burkardt
             return value;
         }
 
+        public static void radians_to_dms ( double radians, ref int degrees, ref int minutes, ref int seconds )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    RADIANS_TO_DMS converts an angle from radians to degrees/minutes/seconds.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    01 September 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double RADIANS, the angle in radians.
+            //
+            //    Output, int *DEGREES, *MINUTES, *SECONDS, the equivalent angle in
+            //    degrees, minutes, and seconds.
+            //
+        {
+            double angle;
+
+            angle = 180.0 * Math.Abs ( radians ) / Math.PI;
+
+            degrees = ( int ) angle;
+            angle = ( angle - ( ( double ) degrees ) ) * 60.0;
+            minutes = ( int ) angle;
+            angle = ( angle - ( ( double ) minutes ) ) * 60.0;
+            seconds = ( int ) angle;
+
+            if ( radians < 0.0 )
+            {
+                degrees = - degrees;
+                minutes = - minutes;
+                seconds = - seconds;
+            }
+        }
+        
+        
         public static void sincos(double input, ref double outsin, ref double outcos)
         {
             outsin = Math.Sin(input);

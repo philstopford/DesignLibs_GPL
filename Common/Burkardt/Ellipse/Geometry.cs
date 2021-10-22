@@ -104,7 +104,7 @@ namespace Burkardt.Ellipse
             //    axes aligned with the coordinate axes.  Any point P on the ellipse
             //    satisfies
             //
-            //      pow (  P[0] / R1, 2 ) + pow ( P[1] / R2, 2 ) == 1
+            //      Math.Pow (  P[0] / R1, 2 ) + Math.Pow ( P[1] / R2, 2 ) == 1
             //
             //  Licensing:
             //
@@ -147,7 +147,7 @@ namespace Burkardt.Ellipse
             //    axes aligned with the coordinate axes.  Any point P on the ellipse
             //    satisfies
             //
-            //      pow (  P[0] / R1, 2 ) + pow ( P[1] / R2, 2 ) == 1
+            //      Math.Pow (  P[0] / R1, 2 ) + Math.Pow ( P[1] / R2, 2 ) == 1
             //
             //  Licensing:
             //
@@ -364,7 +364,7 @@ namespace Burkardt.Ellipse
             //    axes aligned with the coordinate axes.  Any point P on the ellipse
             //    satisfies
             //
-            //      pow (  P[0] / R1, 2 ) + pow ( P[1] / R2, 2 ) == 1
+            //      Math.Pow (  P[0] / R1, 2 ) + Math.Pow ( P[1] / R2, 2 ) == 1
             //
             //    The points are "equally spaced" in the angular sense.  They are
             //    not equally spaced along the perimeter of the ellipse.
@@ -429,7 +429,7 @@ namespace Burkardt.Ellipse
             //    axes aligned with the coordinate axes.  Any point P on the ellipse
             //    satisfies
             //
-            //      pow (  P[0] / R1, 2 ) + pow ( P[1] / R2, 2 ) == 1
+            //      Math.Pow (  P[0] / R1, 2 ) + Math.Pow ( P[1] / R2, 2 ) == 1
             //
             //    The points are "equally spaced" in the angular sense.  They are
             //    not equally spaced along the perimeter of the ellipse.
@@ -497,6 +497,96 @@ namespace Burkardt.Ellipse
             }
 
         }
+        
+        public static void super_ellipse_points_2d ( double[] pc, double r1, double r2,
+        double expo, double psi, int n, ref double[] p )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    SUPER_ELLIPSE_POINTS_2D returns N points on a tilted superellipse in 2D.
+        //
+        //  Discussion:
+        //
+        //    The points are "equally spaced" in the angular sense.  They are
+        //    not equally spaced along the perimeter.
+        //
+        //    The parametric formula of the (untilted) superellipse is:
+        //
+        //      X = R1 * Math.Cos**EXPO ( THETA )
+        //      Y = R2 * Math.Sin**EXPO ( THETA )
+        //
+        //    An implicit form of the (untilted) superellipse is:
+        //
+        //      (X/R1)**(2/EXPO) + (Y/R2)**(2/EXPO) = 1
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    04 July 2005
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Martin Gardner,
+        //    The Mathematical Carnival,
+        //    Knopf, 1975, pages 240-254.
+        //
+        //  Parameters:
+        //
+        //    Input, double PC[2], the coordinates of the center of the superellipse.
+        //
+        //    Input, double R1, R2, the "radius" of the superellipse in the major
+        //    and minor axis directions.  A circle has these values equal.
+        //
+        //    Input, double EXPO, the exponent of the superellipse.
+        //    0 = a rectangle;
+        //    between 0 and 1, a "rounded" rectangle;
+        //    1.0 = an ellipse;
+        //    2.0 = a diamond;
+        //    > 2.0 a pinched shape.
+        //
+        //    Input, double PSI, the angle that the major axis of the superellipse
+        //    makes with the X axis.  A value of 0.0 means that the major and
+        //    minor axes of the superellipse will be the X and Y coordinate axes.
+        //
+        //    Input, int N, the number of points desired.  N must be at least 1.
+        //
+        //    Output, double P[2*N], the coordinates of points on the superellipse.
+        //
+        {
+            double act;
+            double ast;
+            int i;
+            double sct;
+            double sst;
+            double theta;
+
+            for (i = 0; i < n; i++)
+            {
+                theta = (2.0 * Math.PI * (double) (i)) / (double) (n);
+
+                act = Math.Abs(Math.Cos(theta));
+                sct = typeMethods.r8_sign(Math.Cos(theta));
+                ast = Math.Abs(Math.Sin(theta));
+                sst = typeMethods.r8_sign(Math.Sin(theta));
+
+                p[0 + i * 2] = pc[0] + r1 * Math.Cos(psi) * sct * Math.Pow(act, expo)
+                               - r2 * Math.Sin(psi) * sst * Math.Pow(ast, expo);
+
+                p[1 + i * 2] = pc[1] + r1 * Math.Sin(psi) * sct * Math.Pow(act, expo)
+                                     + r2 * Math.Cos(psi) * sst * Math.Pow(ast, expo);
+
+            }
+        }
+
 
     }
 }

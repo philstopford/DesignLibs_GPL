@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.SortNS;
 using Burkardt.Types;
 
 namespace Burkardt.Geometry
@@ -1363,6 +1364,292 @@ namespace Burkardt.Geometry
             flag = 1;
 
         }
+
+        public static void string_2d(int vec_num, double[] p1, double[] p2, ref int string_num,
+                ref int[] order, ref int[] string_)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    STRING_2D groups line segments into connected lines in 2D.
+            //
+            //  Discussion:
+            //
+            //    The routine receives an unordered set of line segments, described by
+            //    pairs of coordinates P1 and P2, and tries to group them
+            //    into ordered lists that constitute connected jagged lines.
+            //
+            //    This routine will not match two endpoints unless they are exactly equal.
+            //
+            //    On input, line segment I has endpoints PI(I) and P2(I).
+            //
+            //    On output, the order of the components may have been
+            //    switched.  That is, for some I, P1(I) and P2(I) may have been swapped.
+            //
+            //    More importantly, all the entries P1(I) and P2(I)
+            //    may have been swapped with another index J.
+            //
+            //    The resulting coordinates will have been sorted in order
+            //    of the string to which they belong, and then by the order
+            //    of their traversal within that string.
+            //
+            //    The array STRING(I) identifies the string to which segment I belongs.
+            //
+            //    If two segments I and J have the same value of STRING, then
+            //    ORDER(I) and ORDER(J) give the relative order of the two segments
+            //    in the string.  Thus if ORDER(I) = -3 and ORDER(J) = 2, then when
+            //    the string is traversed, segment I is traversed first, then four other
+            //    segments are traversed, and then segment J is traversed.
+            //
+            //    For each string, the segment with ORDER(I) = 0 is the initial segment
+            //    from which the entire string was "grown" (with growth possible to both the
+            //    left and the right).
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    29 July 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int VEC_NUM, the number of line segments to be analyzed.
+            //
+            //    Input/output, double P1[2*VEC_NUM], P2[2*VEC_NUM], the line segments.
+            //
+            //    Output, int *STRING_NUM, the number of strings created.
+            //
+            //    Output, int ORDER[VEC_NUM], the order vector.
+            //
+            //    Output, int STRING[VEC_NUM], the string to which each segment I belongs.
+            //
+        {
+            int i;
+            int indx;
+            int isgn;
+            int itemp;
+            int j;
+            int jval;
+            int kval;
+            int match;
+            int seed;
+            double temp;
+            double x1val;
+            double x2val;
+            double y1val;
+            double y2val;
+            //
+            //  Mark STRING so that each segment is alone.
+            //
+            for (i = 0; i < vec_num; i++)
+            {
+                order[i] = 0;
+                string_[i] = vec_num + i + 1;
+            }
+
+            //
+            //  Starting with the lowest numbered group of line segments,
+            //  see if any higher numbered groups belong.
+            //
+            seed = 0;
+            string_num = 1;
+            string_[seed] = string_num;
+
+            for (;;)
+            {
+                x1val = p1[0 + seed * 2];
+                x2val = p2[0 + seed * 2];
+                y1val = p1[1 + seed * 2];
+                y2val = p2[1 + seed * 2];
+                jval = order[seed];
+                kval = order[seed];
+
+                for (;;)
+                {
+                    match = 0;
+
+                    for (j = 0; j < vec_num; j++)
+                    {
+                        if (string_num < string_[j])
+                        {
+                            if (x1val == p1[0 + j * 2] && y1val == p1[1 + j * 2])
+                            {
+                                jval = jval - 1;
+                                order[j] = jval;
+                                string_[j] = string_num;
+                                x1val = p2[0 + j * 2];
+                                y1val = p2[1 + j * 2];
+                                match = match + 1;
+
+                                temp = p1[0 + j * 2];
+                                p1[0 + j * 2] = p2[0 + j * 2];
+                                p2[0 + j * 2] = temp;
+
+                                temp = p1[1 + j * 2];
+                                p1[1 + j * 2] = p2[1 + j * 2];
+                                p2[1 + j * 2] = temp;
+                            }
+                            else if (x1val == p2[0 + j * 2] && y1val == p2[1 + j * 2])
+                            {
+                                jval = jval - 1;
+                                order[j] = jval;
+                                string_[j] = string_num;
+                                x1val = p1[0 + j * 2];
+                                y1val = p1[1 + j * 2];
+                                match = match + 1;
+                            }
+                            else if (x2val == p1[0 + j * 2] && y2val == p1[1 + j * 2])
+                            {
+                                kval = kval + 1;
+                                order[j] = kval;
+                                string_[j] = string_num;
+                                x2val = p2[0 + j * 2];
+                                y2val = p2[1 + j * 2];
+                                match = match + 1;
+                            }
+                            else if (x2val == p2[0 + j * 2] && y2val == p2[1 + j * 2])
+                            {
+                                kval = kval + 1;
+                                order[j] = kval;
+                                string_[j] = string_num;
+                                x2val = p1[0 + j * 2];
+                                y2val = p1[1 + j * 2];
+                                match = match + 1;
+
+                                temp = p1[0 + j * 2];
+                                p1[0 + j * 2] = p2[0 + j * 2];
+                                p2[0 + j * 2] = temp;
+
+                                temp = p1[1 + j * 2];
+                                p1[1 + j * 2] = p2[1 + j * 2];
+                                p2[1 + j * 2] = temp;
+                            }
+                        }
+                    }
+
+                    //
+                    //  If the string has closed on itself, then we don't want to
+                    //  look for any more matches for this string.
+                    //
+                    if (x1val == x2val && y1val == y2val)
+                    {
+                        break;
+                    }
+
+                    //
+                    //  If we made no matches this pass, we're done.
+                    //
+                    if (match <= 0)
+                    {
+                        break;
+                    }
+                }
+
+                //
+                //  This string is "exhausted".  Are there any line segments we
+                //  haven't looked at yet?
+                //
+                seed = 0;
+
+                for (i = 0; i < vec_num; i++)
+                {
+                    if (string_num < string_[i])
+                    {
+                        seed = i;
+                        string_num = string_num + 1;
+                        string_[i] = string_num;
+                        break;
+                    }
+                }
+
+                if (seed == 0)
+                {
+                    break;
+                }
+            }
+
+            //
+            //  There are no more line segments to look at.  Renumber the
+            //  isolated segments.
+            //
+            //  Question: Can this ever happen?
+            //
+            for (i = 0; i < vec_num; i++)
+            {
+                if (vec_num < string_[i])
+                {
+                    string_num = string_num + 1;
+                    string_[i] = string_num;
+                }
+            }
+
+            //
+            //  Now sort the line segments by string and by order of traversal.
+            //
+            i = 0;
+            isgn = 0;
+            j = 0;
+
+            indx = 0;
+
+            SortHeapExternalData data = new SortHeapExternalData();
+
+            for (;;)
+            {
+                Sort.sort_heap_external(ref data, vec_num, ref indx, ref i, ref j, isgn);
+
+                if (0 < indx)
+                {
+                    itemp = order[i - 1];
+                    order[i - 1] = order[j - 1];
+                    order[j - 1] = itemp;
+
+                    itemp = string_[i - 1];
+                    string_[i - 1] = string_[j - 1];
+                    string_[j - 1] = itemp;
+
+                    temp = p1[0 + (i - 1) * 2];
+                    p1[0 + (i - 1) * 2] = p1[0 + (j - 1) * 2];
+                    p1[0 + (j - 1) * 2] = temp;
+
+                    temp = p1[1 + (i - 1) * 2];
+                    p1[1 + (i - 1) * 2] = p1[1 + (j - 1) * 2];
+                    p1[1 + (j - 1) * 2] = temp;
+
+                    temp = p2[0 + (i - 1) * 2];
+                    p2[0 + (i - 1) * 2] = p2[0 + (j - 1) * 2];
+                    p2[0 + (j - 1) * 2] = temp;
+
+                    temp = p2[1 + (i - 1) * 2];
+                    p2[1 + (i - 1) * 2] = p2[1 + (j - 1) * 2];
+                    p2[1 + (j - 1) * 2] = temp;
+                }
+                else if (indx < 0)
+                {
+                    if ((string_[i - 1] < string_[j - 1]) ||
+                        (string_[i - 1] == string_[j - 1] && order[i - 1] < order[j - 1]))
+                    {
+                        isgn = -1;
+                    }
+                    else
+                    {
+                        isgn = +1;
+                    }
+                }
+                else if (indx == 0)
+                {
+                    break;
+                }
+            }
+        }
+
 
     }
 }

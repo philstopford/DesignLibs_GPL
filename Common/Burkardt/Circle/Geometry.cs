@@ -995,7 +995,7 @@ namespace Burkardt.CircleNS
             n1 = new double[DIM_NUM];
             n2 = new double[DIM_NUM];
 
-            plane_normal_basis_3d(pc, nc, n1, n2);
+            Burkardt.Plane.Geometry.plane_normal_basis_3d(pc, nc, n1, n2);
             //
             //  Rotate R units away from PC in the plane of N1 and N2.
             //
@@ -1336,9 +1336,9 @@ namespace Burkardt.CircleNS
             //
             //  Compute the normals N1 and N2.
             //
-            n1 = line_exp_normal_2d(p1, p2);
+            n1 = Burkardt.LineNS.Geometry.line_exp_normal_2d(p1, p2);
 
-            n2 = line_exp_normal_2d(q1, q2);
+            n2 = Burkardt.LineNS.Geometry.line_exp_normal_2d(q1, q2);
             //
             //  Set the linear system.
             //
@@ -1781,7 +1781,7 @@ namespace Burkardt.CircleNS
                 pc[i + 1 * DIM_NUM] = 0.5 * (p2[i] + p1[i]) - h * v[i];
             }
 
-            plane_exp_normal_3d(p1, p2, p3, normal);
+            Burkardt.Plane.Geometry.plane_exp_normal_3d(p1, p2, p3, ref normal);
         }
 
         public static double[] circle_ppr2imp_2d(double[] p1, double[] p2, double r)

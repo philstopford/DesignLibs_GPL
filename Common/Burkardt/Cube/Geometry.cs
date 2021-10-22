@@ -211,7 +211,7 @@ namespace Burkardt.Cube
 
             }
 
-            lines_exp_int_2d(pa, pb, pc, pd, ref ival, pint);
+            Burkardt.LineNS.Geometry.lines_exp_int_2d(pa, pb, pc, pd, ref ival, ref pint);
         }
 
         public static int box_segment_clip_2d(double[] p1, double[] p2, double[] pa,

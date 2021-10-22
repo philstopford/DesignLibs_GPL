@@ -462,7 +462,7 @@ namespace Burkardt.Geometry
             return p4;
         }
 
-        public static double angle_rad_2d(double[] p1, double[] p2, double[] p3)
+        public static double angle_rad_2d(double[] p1, double[] p2, double[] p3, int p1Index = 0, int p2Index = 0, int p3Index = 0)
 
             //****************************************************************************80
             //
@@ -504,15 +504,14 @@ namespace Burkardt.Geometry
             //
         {
             double[] p = new double[2];
-            const double r8_pi = 3.141592653589793;
             double value;
 
-            p[0] = (p3[0] - p2[0]) * (p1[0] - p2[0])
-                   + (p3[1] - p2[1]) * (p1[1] - p2[1]);
+            p[0] = (p3[(0 + p3Index) % p3.Length] - p2[(0 + p2Index) % p2.Length]) * (p1[(0 + p1Index) % p1.Length] - p2[(0 + p2Index) % p2.Length])
+                   + (p3[(1 + p3Index) % p3.Length] - p2[(1 + p2Index) % p2.Length]) * (p1[(1 + p1Index) % p1.Length] - p2[(1 + p2Index) % p2.Length]);
 
 
-            p[1] = (p3[0] - p2[0]) * (p1[1] - p2[1])
-                   - (p3[1] - p2[1]) * (p1[0] - p2[0]);
+            p[1] = (p3[(0 + p3Index) % p3.Length] - p2[(0 + p2Index) % p2.Length]) * (p1[(1 + p1Index) % p1.Length] - p2[(1 + p2Index) % p2.Length])
+                   - (p3[(1 + p3Index) % p3.Length] - p2[(1 + p2Index) % p2.Length]) * (p1[(0 + p1Index) % p1.Length] - p2[(0 + p2Index) % p2.Length]);
 
             if (p[0] == 0.0 && p[1] == 0.0)
             {
@@ -524,7 +523,7 @@ namespace Burkardt.Geometry
 
             if (value < 0.0)
             {
-                value = value + 2.0 * r8_pi;
+                value = value + 2.0 * Math.PI;
             }
 
             return value;

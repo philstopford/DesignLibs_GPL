@@ -6,7 +6,7 @@ using Burkardt.Uniform;
 
 namespace GeometryTest
 {
-public public static class CircleTest
+public static class CircleTest
 {
 public static void circle_dia2imp_2d_test ( )
 
@@ -335,7 +335,7 @@ Console.WriteLine("");
 Console.WriteLine("  The arc extends from THETA1 = " + theta1 + "");
 Console.WriteLine("  to THETA2 = " + theta2 + "");
 
-Geometry.circle_imp_points_arc_2d ( r, pc, theta1, theta2, N, p );
+Geometry.circle_imp_points_arc_2d ( r, pc, theta1, theta2, N, ref p );
 
 typeMethods.r8mat_transpose_print ( DIM_NUM, N, p, "  Sample results:" );
 }
@@ -436,20 +436,20 @@ Console.WriteLine("  Center #4: ( "
 //
 //  Check that the lines are the right distance from the center.
 //
-d1 = line_exp_point_dist_2d ( p1, p2, pc+0*2 );
-d2 = line_exp_point_dist_2d ( p1, p2, pc+1*2 );
-d3 = line_exp_point_dist_2d ( p1, p2, pc+2*2 );
-d4 = line_exp_point_dist_2d ( p1, p2, pc+3*2 );
+d1 = Burkardt.LineNS.Geometry.line_exp_point_dist_2d ( p1, p2, pc, +0*2 );
+d2 = Burkardt.LineNS.Geometry.line_exp_point_dist_2d ( p1, p2, pc, +1*2 );
+d3 = Burkardt.LineNS.Geometry.line_exp_point_dist_2d ( p1, p2, pc, +2*2 );
+d4 = Burkardt.LineNS.Geometry.line_exp_point_dist_2d ( p1, p2, pc, +3*2 );
 
 Console.WriteLine("  " + d1.ToString().PadLeft(12)
 + "  " + d2.ToString().PadLeft(12)
 + "  " + d3.ToString().PadLeft(12)
 + "  " + d4.ToString().PadLeft(12) + "");
 
-d1 = line_exp_point_dist_2d ( q1, q2, pc+0*2 );
-d2 = line_exp_point_dist_2d ( q1, q2, pc+1*2 );
-d3 = line_exp_point_dist_2d ( q1, q2, pc+2*2 );
-d4 = line_exp_point_dist_2d ( q1, q2, pc+3*2 );
+d1 = Burkardt.LineNS.Geometry.line_exp_point_dist_2d ( q1, q2, pc, +0*2 );
+d2 = Burkardt.LineNS.Geometry.line_exp_point_dist_2d ( q1, q2, pc, +1*2 );
+d3 = Burkardt.LineNS.Geometry.line_exp_point_dist_2d ( q1, q2, pc, +2*2 );
+d4 = Burkardt.LineNS.Geometry.line_exp_point_dist_2d ( q1, q2, pc, +3*2 );
 
 Console.WriteLine("  " + d1.ToString().PadLeft(12)
 + "  " + d2.ToString().PadLeft(12)
@@ -809,10 +809,10 @@ Console.WriteLine("  Center #2: ( "
 //
 //  Check that the points are the right distance from the center.
 //
-d11 = typeMethods.r8vec_distance ( DIM_NUM, p1, pc+0*DIM_NUM );
-d21 = typeMethods.r8vec_distance ( DIM_NUM, p2, pc+0*DIM_NUM );
-d12 = typeMethods.r8vec_distance ( DIM_NUM, p1, pc+1*DIM_NUM );
-d22 = typeMethods.r8vec_distance ( DIM_NUM, p2, pc+1*DIM_NUM );
+d11 = typeMethods.r8vec_distance ( DIM_NUM, p1, pc, +0*DIM_NUM );
+d21 = typeMethods.r8vec_distance ( DIM_NUM, p2, pc, +0*DIM_NUM );
+d12 = typeMethods.r8vec_distance ( DIM_NUM, p1, pc, +1*DIM_NUM );
+d22 = typeMethods.r8vec_distance ( DIM_NUM, p2, pc, +1*DIM_NUM );
 
 Console.WriteLine("  " + d11.ToString().PadLeft(12)
 + "  " + d21.ToString().PadLeft(12)
@@ -917,10 +917,10 @@ Console.WriteLine("  Center #2: ( "
 + pc[0+1*DIM_NUM].ToString().PadLeft(12) + ","
 + pc[1+1*DIM_NUM].ToString().PadLeft(12) + ")");
 
-d11 = typeMethods.r8vec_distance ( DIM_NUM, p1, pc+0*DIM_NUM );
-d21 = typeMethods.r8vec_distance ( DIM_NUM, p2, pc+0*DIM_NUM );
-d12 = typeMethods.r8vec_distance ( DIM_NUM, p1, pc+1*DIM_NUM );
-d22 = typeMethods.r8vec_distance ( DIM_NUM, p2, pc+1*DIM_NUM );
+d11 = typeMethods.r8vec_distance ( DIM_NUM, p1, pc, +0*DIM_NUM );
+d21 = typeMethods.r8vec_distance ( DIM_NUM, p2, pc, +0*DIM_NUM );
+d12 = typeMethods.r8vec_distance ( DIM_NUM, p1, pc, +1*DIM_NUM );
+d22 = typeMethods.r8vec_distance ( DIM_NUM, p2, pc, +1*DIM_NUM );
 
 Console.WriteLine("  " + d11.ToString().PadLeft(12)
 + "  " + d21.ToString().PadLeft(12)

@@ -519,7 +519,7 @@ namespace Burkardt.Types
             return v3;
         }
         
-        public static double r8vec_distance(int dim_num, double[] v1, double[] v2)
+        public static double r8vec_distance(int dim_num, double[] v1, double[] v2, int v2Index = 0)
 
             //****************************************************************************80
             //
@@ -559,7 +559,7 @@ namespace Burkardt.Types
             value = 0.0;
             for (i = 0; i < dim_num; i++)
             {
-                value = Math.Pow(v1[i] - v2[i], 2);
+                value = Math.Pow(v1[i] - v2[(i + v2Index) % v2.Length], 2);
             }
 
             value = Math.Sqrt(value);

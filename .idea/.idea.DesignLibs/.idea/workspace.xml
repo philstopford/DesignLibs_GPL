@@ -9306,10 +9306,10 @@
       <item itemvalue=".NET Project.FeynmanKac1DTest" />
       <item itemvalue=".NET Project.FeynmanKac2DTest" />
       <item itemvalue=".NET Project.FeynmanKac3DTest" />
-      <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMAIOTest" />
-      <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMBIOTest" />
       <item itemvalue=".NET Project.FFTSerialTest" />
       <item itemvalue=".NET Project.GeometryTest" />
+      <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMAIOTest" />
+      <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMBIOTest" />
     </list>
     <recent_temporary>
       <list>

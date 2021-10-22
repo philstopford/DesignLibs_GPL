@@ -89,22 +89,22 @@ CircleTest.test0165 ( );
 CircleTest.circles_intersect_area_2d_test ( );
 CircleTest.circles_intersect_points_2d_test ( );
 
-test020 ( );
+CubeTest.test020 ( );
 
-cube01_volume_test ( );
+CubeTest.cube01_volume_test ( );
 
-cylinder_point_dist_3d_test ( );
-cylinder_point_dist_signed_3d_test ( );
+CylinderTest.cylinder_point_dist_3d_test ( );
+CylinderTest.cylinder_point_dist_signed_3d_test ( );
 
-test0202 ( );
-test0203 ( );
-test02035 ( );
-test0204 ( );
-test0205 ( );
-test021 ( );
-test022 ( );
+CylinderTest.test0202 ( );
+CylinderTest.test0203 ( );
+CylinderTest.test02035 ( );
+CylinderTest.test0204 ( );
+DegRadTest.test0205 ( );
+DirectionTest.test021 ( );
+DirectionTest.test022 ( );
 
-direction_uniform_nd_test ( );
+DirectionTest.direction_uniform_nd_test ( );
 
 disk_point_dist_3d_test ( );
 

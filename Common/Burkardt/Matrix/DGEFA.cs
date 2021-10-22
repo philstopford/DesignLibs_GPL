@@ -1,9 +1,216 @@
-﻿using Burkardt.BLAS;
+﻿using System;
+using Burkardt.BLAS;
 
 namespace Burkardt.MatrixNS
 {
     public static partial class Matrix
     {
+        public static double dge_det(int n, double[] a, int[] pivot)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    DGE_DET computes the determinant of a matrix factored by SGE_FA.
+            //
+            //  Discussion:
+            //
+            //    The doubly dimensioned array A is treated as a one dimensional vector,
+            //    stored by COLUMNS:
+            //
+            //      A(0,0), A(1,0), A(2,0), ..., A(N-1,0) // A(1,0), A(1,1), ... A(N-1,1)
+            //
+            //    Entry A(I,J) is stored as A[I+J*N]
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    04 September 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Jack Dongarra, James Bunch, Cleve Moler, Pete Stewart,
+            //    LINPACK User's Guide,
+            //    SIAM, 1979
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order of the matrix.
+            //    N must be positive.
+            //
+            //    Input, double A[N*N], the LU factors computed by DGE_FA.
+            //
+            //    Input, int PIVOT[N], as computed by DGE_FA.
+            //
+            //    Output, double DGE_DET, the determinant of the matrix.
+            //
+        {
+            double det;
+            int i;
+
+            det = 1.0;
+
+            for (i = 0; i < n; i++)
+            {
+                det = det * a[i + i * n];
+                if (pivot[i] != i + 1)
+                {
+                    det = -det;
+                }
+            }
+
+            return det;
+        }
+
+        public static int dge_fa(int n, ref double[] a, ref int[] pivot)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    DGE_FA factors a general matrix.
+            //
+            //  Discussion:
+            //
+            //    DGE_FA is a simplified version of the LINPACK routine SGEFA.
+            //
+            //    The doubly dimensioned array A is treated as a one dimensional vector,
+            //    stored by COLUMNS:
+            //
+            //      A(0,0), A(1,0), A(2,0), ..., A(N-1,0) // A(1,0), A(1,1), ... A(N-1,1)
+            //
+            //    Entry A(I,J) is stored as A[I+J*N]
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    05 September 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Jack Dongarra, James Bunch, Cleve Moler, Pete Stewart,
+            //    LINPACK User's Guide,
+            //    SIAM, 1979
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order of the matrix.
+            //    N must be positive.
+            //
+            //    Input/output, double A[N*N], the matrix to be factored.
+            //    On output, A contains an upper triangular matrix and the multipliers
+            //    which were used to obtain it.  The factorization can be written
+            //    A = L * U, where L is a product of permutation and unit lower
+            //    triangular matrices and U is upper triangular.
+            //
+            //    Output, int PIVOT[N], a vector of pivot indices.
+            //
+            //    Output, int DGE_FA, singularity flag.
+            //    0, no singularity detected.
+            //    nonzero, the factorization failed on the DGE_FA-th step.
+            //
+        {
+            int i;
+            int ii;
+            int info;
+            int j;
+            int k;
+            int l;
+            double t;
+
+            info = 0;
+
+            for (k = 1; k <= n - 1; k++)
+            {
+                //
+                //  Find L, the index of the pivot row.
+                //
+                l = k;
+                for (i = k + 1; i <= n; i++)
+                {
+                    if (Math.Abs(a[l - 1 + (k - 1) * n]) < Math.Abs(a[i - 1 + (k - 1) * n]))
+                    {
+                        l = i;
+                    }
+                }
+
+                pivot[k - 1] = l;
+                //
+                //  If the pivot index is zero, the algorithm has failed.
+                //
+                if (a[l - 1 + (k - 1) * n] == 0.0)
+                {
+                    info = k;
+                    Console.WriteLine("");
+                    Console.WriteLine("DGE_FA - Warning!");
+                    Console.WriteLine("  Zero pivot on step " + info + "");
+                    return info;
+                }
+
+                //
+                //  Interchange rows L and K if necessary.
+                //
+                if (l != k)
+                {
+                    t = a[l - 1 + (k - 1) * n];
+                    a[l - 1 + (k - 1) * n] = a[k - 1 + (k - 1) * n];
+                    a[k - 1 + (k - 1) * n] = t;
+                }
+
+                //
+                //  Normalize the values that lie below the pivot entry A(K,K).
+                //
+                for (j = k + 1; j <= n; j++)
+                {
+                    a[j - 1 + (k - 1) * n] = -a[j - 1 + (k - 1) * n] / a[k - 1 + (k - 1) * n];
+                }
+
+                //
+                //  Row elimination with column indexing.
+                //
+                for (j = k + 1; j <= n; j++)
+                {
+                    if (l != k)
+                    {
+                        t = a[l - 1 + (j - 1) * n];
+                        a[l - 1 + (j - 1) * n] = a[k - 1 + (j - 1) * n];
+                        a[k - 1 + (j - 1) * n] = t;
+                    }
+
+                    for (ii = k; ii < n; ii++)
+                    {
+                        a[ii + (j - 1) * n] = a[ii + (j - 1) * n] + a[ii + (k - 1) * n] * a[k - 1 + (j - 1) * n];
+                    }
+                }
+            }
+
+            pivot[n - 1] = n;
+
+            if (a[n - 1 + (n - 1) * n] == 0.0)
+            {
+                info = n;
+                Console.WriteLine("");
+                Console.WriteLine("DGE_FA - Warning!");
+                Console.WriteLine("  Zero pivot on step " + info + "");
+            }
+
+            return info;
+        }
+
         public static int dgefa(ref double[] a, int lda, int n, ref int[] ipvt )
 
         //****************************************************************************80

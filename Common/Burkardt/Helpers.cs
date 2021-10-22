@@ -743,6 +743,42 @@ namespace Burkardt
             return value;
         }
 
+        public static double haversine ( double a )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    HAVERSINE computes the haversine of an angle.
+            //
+            //  Discussion:
+            //
+            //    haversine(A) = ( 1 - cos ( A ) ) / 2
+            //
+            //    The haversine is useful in spherical trigonometry.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 September 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, double A, the angle.
+            //
+            //    Output, double HAVERSINE, the haversine of the angle.
+            //
+        {
+            return ( ( 1.0 - Math.Cos ( a ) ) / 2.0 );
+        }
+
         public static double inverse_error ( int n, double[] a, double[] b )
 
         //****************************************************************************80
@@ -933,6 +969,37 @@ namespace Burkardt
             return y;
         }
 
+        public static void polar_to_xy ( double r, double t, ref double[] xy )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    POLAR_TO_XY converts polar coordinates to XY coordinates.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    10 January 2007
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, double R, T, the radius and angle (in radians).
+        //
+        //    Output, double XY[2], the Cartesian coordinates.
+        //
+        {
+            xy[0] = r * Math.Cos ( t );
+            xy[1] = r * Math.Sin ( t );
+
+        }
         public static int power_mod(int a, int n, int m)
 
             //****************************************************************************80

@@ -2194,5 +2194,512 @@ namespace Burkardt.Polygon
 
             return result;
         }
+
+        public static double[] polyline_arclength_nd(int dim_num, int n, double[] p)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    POLYLINE_ARCLENGTH_ND computes the arclength of points on a polyline in ND.
+            //
+            //  Discussion:
+            //
+            //    A polyline of order N is the geometric structure consisting of
+            //    the N-1 line segments that lie between successive elements of a list
+            //    of N points.
+            //
+            //    An ordinary line segment is a polyline of order 2.
+            //    The letter "V" is a polyline of order 3.
+            //    The letter "N" is a polyline of order 4, and so on.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    28 February 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int DIM_NUM, the spatial dimension.
+            //
+            //    Input, int N, the number of points defining the polyline.
+            //
+            //    Input, double P[DIM_NUM*N], the points defining the polyline.
+            //
+            //    Output, double POLYLINE_ARCLENGTH_ND[N], the arclength coordinates
+            //    of each point.  The first point has arclength 0 and the
+            //    last point has arclength equal to the length of the entire polyline.
+            //
+        {
+            int i;
+            int j;
+            double[] s;
+            double temp;
+
+            s = new double[n];
+
+            s[0] = 0.0;
+
+            for (j = 1; j < n; j++)
+            {
+                temp = 0.0;
+                for (i = 0; i < dim_num; i++)
+                {
+                    temp = temp + Math.Pow(p[i + j * dim_num] - p[i + (j - 1) * dim_num], 2);
+                }
+
+                temp = Math.Sqrt(temp);
+                s[j] = s[j - 1] + temp;
+            }
+
+            return s;
+        }
+
+        public static double[] polyline_index_point_nd(int dim_num, int n, double[] p, double t)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    POLYLINE_INDEX_POINT_ND evaluates a polyline at a given arclength in ND.
+            //
+            //  Discussion:
+            //
+            //    The polyline is defined as the set of M-1 line segments lying
+            //    between a sequence of M points.  The arclength of a point lying
+            //    on the polyline is simply the length of the broken line from the
+            //    initial point.  Any point on the polyline can be found by
+            //    specifying its arclength.
+            //
+            //    If the given arclength coordinate is less than 0, or greater
+            //    than the arclength coordinate of the last given point, then
+            //    extrapolation is used, that is, the first and last line segments
+            //    are extended as necessary.
+            //
+            //    The arclength coordinate system measures the distance between
+            //    any two points on the polyline as the length of the segment of the
+            //    line that joins them.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    21 September 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int DIM_NUM, the dimension of the space in which
+            //    the points lie.  The second dimension of XPTS.
+            //
+            //    Input, int N, the number of points.
+            //
+            //    Input, double P[DIM_NUM*N], a set of N coordinates
+            //    in DIM_NUM space, describing a set of points that define
+            //    a polyline.
+            //
+            //    Input, double T, the desired arclength coordinate.
+            //
+            //    Output, double POLYLINE_INDEX_POINT_ND[DIM_NUM], a point lying on the
+            //    polyline defined by P, and having arclength coordinate T.
+            //
+        {
+            int i;
+            int j;
+            double s;
+            double temp;
+            double tleft;
+            double trite;
+            double[] pt;
+
+            if (n <= 0)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("POLYLINE_INDEX_POINT_ND - Fatal error!");
+                Console.WriteLine("  The input quantity N is nonpositive.");
+                Console.WriteLine("  N = " + n + "");
+                return null;
+            }
+
+            pt = new double[dim_num];
+
+            if (n == 1)
+            {
+                for (i = 0; i < dim_num; i++)
+                {
+                    pt[i] = p[i + 0 * dim_num];
+                }
+            }
+            else
+            {
+                trite = 0.0;
+                for (i = 1; i <= n - 1; i++)
+                {
+                    //
+                    //  Find the distance between points I and I+1.
+                    //
+                    tleft = trite;
+                    temp = 0.0;
+                    for (j = 0; j < dim_num; j++)
+                    {
+                        temp = temp + (p[j + i * dim_num] - p[j + (i - 1) * dim_num])
+                            * (p[j + i * dim_num] - p[j + (i - 1) * dim_num]);
+                    }
+
+                    trite = trite + Math.Sqrt(temp);
+                    //
+                    //  Interpolate or extrapolate in an interval.
+                    //
+                    if (t <= trite || i == n - 1)
+                    {
+                        s = (t - tleft) / (trite - tleft);
+                        for (j = 0; j < dim_num; j++)
+                        {
+                            pt[j] = (1.0 - s) * p[j + (i - 1) * dim_num]
+                                    + s * p[j + i * dim_num];
+                        }
+
+                        break;
+                    }
+                }
+            }
+
+            return pt;
+        }
+
+        public static double polyline_length_nd(int dim_num, int n, double[] p)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    POLYLINE_LENGTH_ND computes the length of a polyline in ND.
+            //
+            //  Discussion:
+            //
+            //    A polyline of order M is the geometric structure consisting of
+            //    the M-1 line segments that lie between successive elements of a list
+            //    of M points.
+            //
+            //    An ordinary line segment is a polyline of order 2.
+            //    The letter "V" is a polyline of order 3.
+            //    The letter "N" is a polyline of order 4, and so on.
+            //
+            //    DIST(I+1,I) = sqrt ( sum ( 1 <= J <= DIM_NUM ) ( X(I+1) - X(I) )^2 )
+            //
+            //    LENGTH = sum ( 1 <= I <= NPOINT-1 ) DIST(I+1,I)
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    04 July 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int DIM_NUM, the number of dimensions of the points.
+            //
+            //    Input, int N, the number of points.
+            //
+            //    Input, double P[DIM_NUM*N], the coordinates of the points.
+            //
+            //    Output, double POLYLINE_LENGTH_ND, the arclength of the polyline.
+            //
+        {
+            int i;
+            int j;
+            double length;
+            double step;
+
+            length = 0.0;
+
+            for (j = 1; j < n; j++)
+            {
+                step = 0.0;
+                for (i = 0; i < dim_num; i++)
+                {
+                    step = step + (p[i + j * dim_num] - p[i + (j - 1) * dim_num])
+                        * (p[i + j * dim_num] - p[i + (j - 1) * dim_num]);
+                }
+
+                length = length + Math.Sqrt(step);
+            }
+
+            return length;
+        }
+
+        public static double[] polyline_points_nd(int dim_num, int n, double[] p, int nt)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    POLYLINE_POINTS_ND computes equally spaced points on a polyline in ND.
+            //
+            //  Discussion:
+            //
+            //    A polyline of order N is the geometric structure consisting of
+            //    the N-1 line segments that lie between successive elements of a list
+            //    of N points.
+            //
+            //    An ordinary line segment is a polyline of order 2.
+            //    The letter "V" is a polyline of order 3.
+            //    The letter "N" is a polyline of order 4, and so on.
+            //
+            //    Thanks to Rick Richardson for pointing out an indexing error in the
+            //    storage of the values.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    20 February 2006
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int DIM_NUM, the spatial dimension.
+            //
+            //    Input, int N, the number of points defining the polyline.
+            //
+            //    Input, double P[DIM_NUM*N], the points defining the polyline.
+            //
+            //    Input, int NT, the number of points to be sampled.
+            //
+            //    Output, double POLYLINE_POINTS_ND[DIM_NUM*NT], equally spaced points
+            //    on the polyline.
+            //
+        {
+            int i;
+            int it;
+            int j;
+            double[] pt;
+            double[] s;
+            double st;
+
+            pt = new double[dim_num * nt];
+
+            s = polyline_arclength_nd(dim_num, n, p);
+
+            j = 1;
+
+            for (it = 1; it <= nt; it++)
+            {
+                st = ((double) (nt - it) * 0.0 +
+                      (double) (it - 1) * s[n - 1])
+                     / (double) (nt - 1);
+
+                for (;;)
+                {
+                    if (s[j - 1] <= st && st <= s[j])
+                    {
+                        break;
+                    }
+
+                    if (n - 1 <= j)
+                    {
+                        break;
+                    }
+
+                    j = j + 1;
+                }
+
+                for (i = 0; i < dim_num; i++)
+                {
+                    pt[i + (it - 1) * dim_num] = ((s[j] - st) * p[i + (j - 1) * dim_num]
+                                                  + (st - s[j - 1]) * p[i + j * dim_num])
+                                                 / (s[j] - s[j - 1]);
+                }
+            }
+
+            return pt;
+        }
+
+        public static double[] polyloop_arclength_nd(int dim_num, int nk, double[] pk)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    POLYLOOP_ARCLENGTH_ND computes the arclength of points on a polyloop in ND.
+            //
+            //  Discussion:
+            //
+            //    A polyloop of order NK is the geometric structure consisting of
+            //    the NK line segments that lie between successive elements of a list
+            //    of NK points, with the last point joined to the first.
+            //
+            //    Warning: I just made up the word "polyloop".
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    20 July 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int DIM_NUM, the spatial dimension.
+            //
+            //    Input, int NK, the number of points defining the polyloop.
+            //
+            //    Input, double PK[DIM_NUM*NK], the points defining the polyloop.
+            //
+            //    Output, double POLYLOOP_ARCLENGTH_ND[NK+1], the arclength coordinates
+            //    of each point.  The first point has two arc length values,
+            //    namely SK(1) = 0 and SK(NK+1) = LENGTH.
+            //
+        {
+            int i;
+            int j;
+            int j2;
+            double[] sk;
+            double temp;
+
+            sk = new double[nk + 1];
+
+            sk[0] = 0.0;
+
+            for (j = 1; j <= nk; j++)
+            {
+                if (j == nk)
+                {
+                    j2 = 0;
+                }
+                else
+                {
+                    j2 = j;
+                }
+
+                temp = 0.0;
+                for (i = 0; i < dim_num; i++)
+                {
+                    temp = temp + Math.Pow(pk[i + j2 * dim_num] - pk[i + (j - 1) * dim_num], 2);
+                }
+
+                sk[j] = sk[j - 1] + Math.Sqrt(temp);
+            }
+
+            return sk;
+        }
+
+        public static double[] polyloop_points_nd(int dim_num, int nk, double[] pk, int nt)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    POLYLOOP_POINTS_ND computes equally spaced points on a polyloop in ND.
+            //
+            //  Discussion:
+            //
+            //    A polyloop of order NK is the geometric structure consisting of
+            //    the NK line segments that lie between successive elements of a list
+            //    of NK points, including a segment from the last point to the first.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    20 July 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int DIM_NUM, the spatial dimension.
+            //
+            //    Input, int NK, the number of points defining the polyloop.
+            //
+            //    Input, double PK[DIM_NUM*NK], the points defining the polyloop.
+            //
+            //    Input, int NT, the number of points to be sampled.
+            //
+            //    Input, double POLYLOOP_POINTS_ND[DIM_NUM*NT], equally spaced points
+            //    on the polyloop.
+            //
+        {
+            int i;
+            int it;
+            int j;
+            int jp1;
+            double[] pt;
+            double[] sk;
+            double st;
+
+            pt = new double[dim_num * nt];
+
+            sk = polyloop_arclength_nd(dim_num, nk, pk);
+
+            j = 1;
+
+            for (it = 1; it <= nt; it++)
+            {
+                st = ((double) (nt - it) * 0.0 +
+                      (double) (it - 1) * sk[nk])
+                     / (double) (nt - 1);
+
+                for (;;)
+                {
+                    if (sk[j - 1] <= st && st <= sk[j])
+                    {
+                        break;
+                    }
+
+                    if (nk <= j)
+                    {
+                        break;
+                    }
+
+                    j = j + 1;
+                }
+
+                jp1 = typeMethods.i4_wrap(j + 1, 1, nk);
+
+                for (i = 0; i < dim_num; i++)
+                {
+                    pt[i + (it - 1) * dim_num] =
+                        ((sk[j] - st) * pk[i + (j - 1) * dim_num]
+                         + (st - sk[j - 1]) * pk[i + (jp1 - 1) * dim_num])
+                        / (sk[j] - sk[j - 1]);
+                }
+            }
+
+            return pt;
+        }
+
     }
 }

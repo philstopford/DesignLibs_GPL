@@ -446,5 +446,109 @@ namespace Burkardt.Vector
 
         }
 
+        public static void provec(int m, int n, double[] base_, double[] vecm, ref double[] vecn,
+                ref double[] vecnm)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    PROVEC projects a vector from M space into N space.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    20 July 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, the dimension of the higher order space.
+            //
+            //    Input, int N, the dimension of the lower order space.
+            //
+            //    Input, double BASE[M*N].  The columns of BASE contain
+            //    N vectors, each of length M, which form the basis for
+            //    a space of dimension N.
+            //
+            //    Input, double VECM[M], is an M dimensional vector.
+            //
+            //    Output, double VECN[N], the projection of VECM into the
+            //    lower dimensional space.  These values represent
+            //    coordinates in the lower order space.
+            //
+            //    Output, double VECNM[M], the projection of VECM into the
+            //    lower dimensional space, but using coordinates in
+            //    the higher dimensional space.
+            //
+        {
+            int i;
+            int j;
+            int k;
+            double temp;
+            //
+            //  For each vector, remove all projections onto previous vectors,
+            //  and then normalize.  This should result in a matrix BASE
+            //  whose columns are orthonormal.
+            //
+            for (j = 0; j < n; j++)
+            {
+                for (k = 0; k < j; k++)
+                {
+                    temp = typeMethods.r8vec_dot_product(m, base_, base_, a1Index: +k * m, a2Index: +j * m);
+
+                    for (i = 0; i < m; i++)
+                    {
+                        base_[i + j * m] = base_[i + j * m] - temp * base_[i + k * m];
+                    }
+                }
+
+                temp = 0.0;
+                for (i = 0; i < m; i++)
+                {
+                    temp = temp + Math.Pow(base_[i + j * m], 2);
+                }
+
+                temp = Math.Sqrt(temp);
+
+                if (0.0 < temp)
+                {
+                    for (i = 0; i < m; i++)
+                    {
+                        base_[i + j * m] = base_[i + j * m] / temp;
+                    }
+                }
+            }
+
+            //
+            //  Compute the coordinates of the projection of the vector
+            //  simply by taking dot products.
+            //
+            for (j = 0; j < n; j++)
+            {
+                vecn[j] = typeMethods.r8vec_dot_product(m, vecm, base_, a2Index: +j * m);
+            }
+
+            //
+            //  Compute the coordinates of the projection in terms of
+            //  the original space.
+            //
+            for (i = 0; i < m; i++)
+            {
+                vecnm[i] = 0.0;
+                for (j = 0; j < n; j++)
+                {
+                    vecnm[i] = vecnm[i] + base_[i + j * n] * vecn[j];
+                }
+            }
+
+        }
+
     }
 }

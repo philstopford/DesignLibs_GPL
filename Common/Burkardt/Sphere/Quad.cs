@@ -84,7 +84,7 @@ namespace Burkardt.SphereNS
             //
             //  Size the icosahedron.
             //
-            Icosahedron.icos_size(ref point_num, ref edge_num, ref face_num, ref face_order_max);
+            Icosahedron.Geometry.icos_size(ref point_num, ref edge_num, ref face_num, ref face_order_max);
             //
             //  Set the icosahedron.
             //
@@ -93,7 +93,7 @@ namespace Burkardt.SphereNS
             face_order = new int[face_num];
             face_point = new int[face_order_max * face_num];
 
-            Icosahedron.icos_shape(point_num, edge_num, face_num, face_order_max,
+            Icosahedron.Geometry.icos_shape(point_num, edge_num, face_num, face_order_max,
                 ref point_coord, ref edge_point, ref face_order, ref face_point);
             //
             //  Initialize the integral data.
@@ -262,7 +262,7 @@ namespace Burkardt.SphereNS
             //
             //  Size the icosahedron.
             //
-            Icosahedron.icos_size(ref point_num, ref edge_num, ref face_num, ref face_order_max);
+            Icosahedron.Geometry.icos_size(ref point_num, ref edge_num, ref face_num, ref face_order_max);
             //
             //  Set the icosahedron.
             //
@@ -271,7 +271,7 @@ namespace Burkardt.SphereNS
             face_order = new int[face_num];
             face_point = new int[face_order_max * face_num];
 
-            Icosahedron.icos_shape(point_num, edge_num, face_num, face_order_max,
+            Icosahedron.Geometry.icos_shape(point_num, edge_num, face_num, face_order_max,
                 ref point_coord, ref edge_point, ref face_order, ref face_point);
             //
             //  Initialize the integral data.
@@ -442,7 +442,7 @@ namespace Burkardt.SphereNS
             //
             //  Size the icosahedron.
             //
-            Icosahedron.icos_size(ref point_num, ref edge_num, ref face_num, ref face_order_max);
+            Icosahedron.Geometry.icos_size(ref point_num, ref edge_num, ref face_num, ref face_order_max);
             //
             //  Set the icosahedron.
             //
@@ -451,7 +451,7 @@ namespace Burkardt.SphereNS
             face_order = new int[face_num];
             face_point = new int[face_order_max * face_num];
 
-            Icosahedron.icos_shape(point_num, edge_num, face_num, face_order_max,
+            Icosahedron.Geometry.icos_shape(point_num, edge_num, face_num, face_order_max,
                 ref point_coord, ref edge_point, ref face_order, ref face_point);
             //
             //  Initialize the integral data.
@@ -613,7 +613,7 @@ namespace Burkardt.SphereNS
             //
             //  Size the icosahedron.
             //
-            Icosahedron.icos_size(ref point_num, ref edge_num, ref face_num, ref face_order_max);
+            Icosahedron.Geometry.icos_size(ref point_num, ref edge_num, ref face_num, ref face_order_max);
             //
             //  Set the icosahedron.
             //
@@ -622,7 +622,7 @@ namespace Burkardt.SphereNS
             face_order = new int[face_num];
             face_point = new int[face_order_max * face_num];
 
-            Icosahedron.icos_shape(point_num, edge_num, face_num, face_order_max,
+            Icosahedron.Geometry.icos_shape(point_num, edge_num, face_num, face_order_max,
                 ref point_coord, ref edge_point, ref face_order, ref face_point);
             //
             //  Initialize the integral data.

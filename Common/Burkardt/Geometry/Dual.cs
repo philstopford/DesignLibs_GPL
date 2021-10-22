@@ -7,7 +7,7 @@ namespace Burkardt.Geometry
     {
         public static void dual_shape_3d(int point_num, int face_num, int face_order_max,
                 double[] point_coord, int[] face_order, int[] face_point, int point_num2,
-                int face_num2, int face_order_max2, ref double[] point_coord2, int[] face_order2,
+                int face_num2, int face_order_max2, ref double[] point_coord2, ref int[] face_order2,
                 ref int[] face_point2)
 
             //****************************************************************************80

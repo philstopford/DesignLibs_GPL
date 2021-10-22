@@ -106,14 +106,14 @@ DirectionTest.test022 ( );
 
 DirectionTest.direction_uniform_nd_test ( );
 
-disk_point_dist_3d_test ( );
+DiskPointTest.disk_point_dist_3d_test ( );
 
 test0234 ( );
 test0235 ( );
 test0236 ( );
 
-dual_size_3d_test ( );
-dual_shape_3d_test ( );
+DualTest.dual_size_3d_test ( );
+DualTest.dual_shape_3d_test ( );
 
 
 test025 ( );

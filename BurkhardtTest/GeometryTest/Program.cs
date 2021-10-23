@@ -108,101 +108,101 @@ DirectionTest.direction_uniform_nd_test ( );
 
 DiskPointTest.disk_point_dist_3d_test ( );
 
-test0234 ( );
-test0235 ( );
-test0236 ( );
+r8MatSolveTest.test0234 ( );
+dmsradTest.test0235 ( );
+DodecahedronTest.test0236 ( );
 
 DualTest.dual_size_3d_test ( );
 DualTest.dual_shape_3d_test ( );
 
 
-test025 ( );
+EllipseTest.test025 ( );
 
-ellipse_area1_test ( );
-ellipse_area2_test ( );
-ellipse_area3_test ( );
-ellipse_point_near_2d_test ( );
+EllipseTest.ellipse_area1_test ( );
+EllipseTest.ellipse_area2_test ( );
+EllipseTest.ellipse_area3_test ( );
+EllipseTest.ellipse_point_near_2d_test ( );
 
-test026 ( );
+EllipseTest.test026 ( );
 
-ellipse_points_arc_2d_test ( );
+EllipseTest.ellipse_points_arc_2d_test ( );
 
-halfplane_contains_point_2d_test ( );
+HalfTest.halfplane_contains_point_2d_test ( );
 
-test029 ( );
-test030 ( );
-test031 ( );
-test0315 ( );
-test032 ( );
-test0321 ( );
-test0322 ( );
-test0323 ( );
-test0325 ( );
-test0327 ( );
+HalfTest.test029 ( );
+HalfTest.test030 ( );
+HaversineTest.test031 ( );
+HexagonTest.test0315 ( );
+HexagonTest.test032 ( );
+HexagonTest.test0321 ( );
+i4Test.test0322 ( );
+i4Test.test0323 ( );
+IcosahedronTest.test0325 ( );
+LinesTest.test0327 ( );
 
-line_exp_perp_2d_test ( );
-line_exp_point_dist_2d ( );
+LinesTest.line_exp_perp_2d_test ( );
+LinesTest.line_exp_point_dist_2d ( );
 
-test0336 ( );
-test0337 ( );
-test034 ( );
-test0345 ( );
-test0346 ( );
+LinesTest.test0336 ( );
+LinesTest.test0337 ( );
+LinesTest.test034 ( );
+LinesTest.test0345 ( );
+LinesTest.test0346 ( );
 
-line_imp_point_dist_2d_test ( );
+LinesTest.line_imp_point_dist_2d_test ( );
 
-test0351 ( );
-test0352 ( );
-test038 ( );
-test0385 ( );
-test03855 ( );
-test0386 ( );
+LinesTest.test0351 ( );
+LinesTest.test0352 ( );
+LinesTest.test038 ( );
+LinesTest.test0385 ( );
+LinesTest.test03855 ( );
+LinesTest.test0386 ( );
 
-lines_exp_int_2d_test ( );
+LinesTest.lines_exp_int_2d_test ( );
 
-test040 ( );
-test041 ( );
-test0415 ( );
-test0416 ( );
-test0418 ( );
-test042 ( );
-test043 ( );
-test044 ( );
-test045 ( );
-test046 ( );
-test047 ( );
-test0475 ( );
-test0477 ( );
-test0478 ( );
+LinesTest.test040 ( );
+LinesTest.test041 ( );
+LinesTest.test0415 ( );
+LinesTest.test0416 ( );
+SegmentTest.test0418 ( );
+SegmentTest.test042 ( );
+SegmentTest.test043 ( );
+SegmentTest.test044 ( );
+SegmentTest.test045 ( );
+LocalMinimumTest.test046 ( );
+LocalMinimumTest.test047 ( );
+OctahedronTest.test0475 ( );
+ParallelogramTest.test0477 ( );
+ParallelogramTest.test0478 ( );
 
-parallelogram_contains_point_2d_test ( );
-parallelogram_contains_point_2d_test2 ( );
-parallelogram_contains_point_3d_test ( );
+ParallelogramTest.parallelogram_contains_point_2d_test ( );
+ParallelogramTest.parallelogram_contains_point_2d_test2 ( );
+ParallelogramTest.parallelogram_contains_point_3d_test ( );
 
-test0493 ( );
-test0495 ( );
+ParabolaTest.test0493 ( );
+ParallelepipedTest.test0495 ( );
 
-plane_exp_normal_3d_test ( );
+PlaneTest.plane_exp_normal_3d_test ( );
 
-test051 ( );
-test052 ( );
-test053 ( );
-test054 ( );
+PlaneTest.test051 ( );
+PlaneTest.test052 ( );
+PlaneTest.test053 ( );
+PlaneTest.test054 ( );
 
-plane_imp2normal_3d_test ( );
-plane_imp_line_par_int_3d_test ( );
+PlaneTest.plane_imp2normal_3d_test ( );
+PlaneTest.plane_imp_line_par_int_3d_test ( );
 
-test057 ( );
-test058 ( );
-test059 ( );
-test060 ( );
-test061 ( );
-test0615 ( );
-test0616 ( );
-test0617 ( );
-test062 ( );
-test063 ( );
-test064 ( );
+PlaneTest.test057 ( );
+PlaneTest.test058 ( );
+PlaneTest.test059 ( );
+PlaneTest.test060 ( );
+PlaneTest.test061 ( );
+PlaneTest.test0615 ( );
+PlaneTest.test0616 ( );
+PlaneTest.test0617 ( );
+PlaneTest.test062 ( );
+PlaneTest.test063 ( );
+PlaneTest.test064 ( );
 
 points_centroid_2d_test ( );
 points_colin_2d_test ( );

@@ -519,7 +519,7 @@ namespace Burkardt.Plane
         }
 
         public static void plane_exp_project_3d(double[] p1, double[] p2, double[] p3,
-                double[] pf, int n, double[] po, ref double[] pp, int[] ivis)
+                double[] pf, int n, double[] po, ref double[] pp, ref int[] ivis)
 
             //****************************************************************************80
             //
@@ -735,7 +735,7 @@ namespace Burkardt.Plane
         }
 
         public static void plane_exp2normal_3d(double[] p1, double[] p2, double[] p3,
-                double[] pp, double[] pn)
+                ref double[] pp, ref double[] pn)
 
             //****************************************************************************80
             //

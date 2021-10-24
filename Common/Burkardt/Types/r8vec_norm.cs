@@ -1065,7 +1065,7 @@ namespace Burkardt.Types
 
             for ( i = 0; i < n; i++ )
             {
-                value = value + ( v1[(i + v1Index) % v1Index] - v0[(i + v0Index) % v0Index] ) * ( v1[(i + v1Index) % v1Index] - v0[(i + v0Index) % v0Index] );
+                value = value + ( v1[(i + v1Index) % v1.Length] - v0[(i + v0Index) % v0.Length] ) * ( v1[(i + v1Index) % v1.Length] - v0[(i + v0Index) % v0.Length] );
             }
             return value;
         }

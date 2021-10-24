@@ -2264,17 +2264,17 @@ namespace Burkardt.Plane
                 area1 = Burkardt.Quadrilateral.Geometry.quad_area_3d(pint);
                 for (i = 0; i < 3; i++)
                 {
-                    temp = pint[i + 3 * 3];
-                    pint[i + 3 * 3] = pint[i + 4 * 3];
-                    pint[i + 4 * 3] = temp;
+                    temp = pint[(i + 3 * 3) % pint.Length];
+                    pint[(i + 3 * 3) % pint.Length] = pint[(i + 4 * 3) % pint.Length];
+                    pint[(i + 4 * 3) % pint.Length] = temp;
                 }
 
                 area2 = Burkardt.Quadrilateral.Geometry.quad_area_3d(pint);
                 if (area2 < area1)
                 {
-                    temp = pint[i + 3 * 3];
-                    pint[i + 3 * 3] = pint[i + 4 * 3];
-                    pint[i + 4 * 3] = temp;
+                    temp = pint[(i + 3 * 3) % pint.Length];
+                    pint[(i + 3 * 3) % pint.Length] = pint[(i + 4 * 3) % pint.Length];
+                    pint[(i + 4 * 3) % pint.Length] = temp;
                 }
             }
         }

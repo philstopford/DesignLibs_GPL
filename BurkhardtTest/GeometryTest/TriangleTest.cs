@@ -616,23 +616,23 @@ namespace GeometryTest
                     {
                         for (i = 0; i < m1; i++)
                         {
-                            t1[i + j * m1] = t_test[i + j * m1 + test * m1 * 3];
+                            t1[(i + j * m1) % t1.Length] = t_test[(i + j * m1 + test * m1 * 3) % t_test.Length];
                         }
                     }
 
                     for (j = 0; j < 3; j++)
                     {
-                        t1[i + j * m1] = t1[i + j * m1] - o1[i];
+                        t1[(i + j * m1) % t1.Length] = t1[(i + j * m1) % t1.Length] - o1[i % o1.Length];
                     }
 
                     for (j = 0; j < 3; j++)
                     {
                         for (i = 0; i < m2; i++)
                         {
-                            t2[i + j * m2] = 0.0;
+                            t2[(i + j * m2) % t2.Length] = 0.0;
                             for (k = 0; k < m1; k++)
                             {
-                                t2[i + j * m2] = t2[i + j * m2] + a12[i + k * m2] * t1[k + j * m1];
+                                t2[(i + j * m2) % t2.Length] = t2[(i + j * m2) % t2.Length] + a12[(i + k * m2) % a12.Length] * t1[(k + j * m1) % t1.Length];
                             }
                         }
                     }
@@ -641,7 +641,7 @@ namespace GeometryTest
                     {
                         for (i = 0; i < m2; i++)
                         {
-                            t2[i + j * m2] = t2[i + j * m2] + o2[i];
+                            t2[(i + j * m2) % t2.Length] = t2[(i + j * m2) % t2.Length] + o2[i];
                         }
                     }
 
@@ -891,7 +891,7 @@ namespace GeometryTest
             {
                 2.0, 1.0, 5.0
             };
-            double[] pint = null;
+            double[] pint = new double[DIM_NUM];
             double[] t =
             {
                 8.0, 4.0, 2.0,

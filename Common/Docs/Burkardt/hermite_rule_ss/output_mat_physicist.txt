@@ -1,0 +1,80 @@
+
+20 May 2009 12:52:03 AM
+
+HERMITE_RULE
+  C++ version
+
+  Compiled on May 20 2009 at 00:45:39.
+
+  Compute a Gauss-Hermite quadrature rule for approximating
+
+    Integral ( -oo < x < +oo ) w(x) f(x) dx
+
+  of order ORDER.
+
+  The user specifies ORDER, OPTION, and OUTPUT.
+
+  OPTION specifies the weight function w(x):
+
+    0, the unweighted rule for:
+      Integral ( -oo < x < +oo )             f(x) dx
+
+    1, the physicist weighted rule for:
+      Integral ( -oo < x < +oo ) exp(-x*x)   f(x) dx
+
+    2, the probabilist weighted rule for:
+      Integral ( -oo < x < +oo ) exp(-x*x/2) f(x) dx
+
+  OUTPUT is:
+
+  "C++" for printed C++ output;
+  "F77" for printed Fortran77 output;
+  "F90" for printed Fortran90 output;
+  "MAT" for printed MATLAB output;
+
+  or:
+
+  "filename" to generate 3 files:
+
+    filename_w.txt - the weight file
+    filename_x.txt - the abscissa file.
+    filename_r.txt - the region file.
+
+  ORDER =  8
+  OPTION = 1
+  OUTPUT = "MAT".
+%
+%  Weights W, abscissas X and range R
+%  for a Gauss-Hermite quadrature rule
+%  ORDER = 8
+%
+%  OPTION = 1, physicist weighted rule:
+%    Integral ( -oo < x < +oo ) exp(-x*x) f(x) dx
+%    is to be approximated by
+%    sum ( 1 <= I <= ORDER ) w(i) * f(x(i)).
+%
+  w(1) = 0.0001996040722107464;
+  w(2) = 0.01707798300736032;
+  w(3) = 0.207802325814245;
+  w(4) = 0.6611470125561838;
+  w(5) = 0.6611470125561838;
+  w(6) = 0.207802325814245;
+  w(7) = 0.01707798300736032;
+  w(8) = 0.0001996040722107464;
+
+  x(1) = -2.930637420257244;
+  x(2) = -1.981656756695843;
+  x(3) = -1.15719371244678;
+  x(4) = -0.3811869902073221;
+  x(5) = 0.3811869902073221;
+  x(6) = 1.15719371244678;
+  x(7) = 1.981656756695843;
+  x(8) = 2.930637420257244;
+
+  r(1) = -1e+30;
+  r(2) = 1e+30;
+
+HERMITE_RULE:
+  Normal end of execution.
+
+20 May 2009 12:52:03 AM

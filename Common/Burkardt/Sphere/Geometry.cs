@@ -3656,8 +3656,8 @@ namespace Burkardt.SphereNS
                     k = (j + 1) % (n + 1);
                     lam1 = lam2;
                     beta1 = beta2;
-                    lam2 = lon[k];
-                    beta2 = lat[k];
+                    lam2 = lon[k % lon.Length];
+                    beta2 = lat[k % lat.Length];
                     cos_b1 = cos_b2;
                     cos_b2 = Math.Cos(beta2);
                 }

@@ -1,0 +1,178 @@
+<html>
+
+  
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/hankel_pds/hankel_pds.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 15:50:51 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      HANKEL_PDS - Cholesky Factors Generating Positive Definite Symmetric Hankel Matrices
+    </title>
+  </head>
+
+  <body bgcolor="#eeeeee" link="#cc0000" alink="#ff3300" vlink="#000055">
+
+    <h1 align = "center">
+      HANKEL_PDS <br> Cholesky Factors Generating Positive Definite Symmetric Hankel Matrices
+    </h1>
+
+    <hr>
+
+    <p>
+      <b>HANKEL_PDS</b>
+      is which
+      can compute a lower triangular matrix L which is the Cholesky factor
+      of a positive definite (symmetric) Hankel matrix H, that is,
+      H = L * L'.
+    </p>
+
+    <p>
+      A Hankel matrix is a matrix which is constant along all antidiagonals.  
+      A schematic of a 5x5 Hankel matrix would be:
+      <pre>
+        a  b  c  d  e
+        b  c  d  e  f
+        c  d  e  f  g
+        d  e  f  g  h
+        e  f  g  h  i
+      </pre>
+    </p>
+
+    <p>
+      Let J represent the exchange matrix, formed by reverse the order
+      of the columns of the identity matrix.
+      If H is a Hankel matrix, then J*H and J*H are Toeplitz matrices,
+      and similarly in the other direction.  Hence many algorithms
+      that apply to one class can be easily adapted to the other.
+    </p>
+
+    <h3 align = "center">
+      Licensing:
+    </h3>
+
+    <p>
+      The computer code and data files described and made available on this web page
+      are distributed under
+      <a href = "https://people.math.sc.edu/Burkardt/txt/gnu_lgpl.txt">the GNU LGPL license.</a>
+    </p>
+
+    <h3 align = "center">
+      Languages:
+    </h3>
+
+    <p>
+      <b>HANKEL_PDS</b> is available in
+      <a href = "https://people.math.sc.edu/Burkardt/c_src/hankel_pds/hankel_pds.html">a C version</a> and
+      <a href = "hankel_pds.html">a C++ version</a> and
+      <a href = "https://people.math.sc.edu/Burkardt/f_src/hankel_pds/hankel_pds.html">a FORTRAN90 version</a> and
+      <a href = "https://people.math.sc.edu/Burkardt/m_src/hankel_pds/hankel_pds.html">a MATLAB version</a> and
+      <a href = "https://people.math.sc.edu/Burkardt/py_src/hankel_pds/hankel_pds.html">a Python version</a>.
+    </p>
+
+    <h3 align = "center">
+      Related Data and Programs:
+    </h3>
+
+    <p>
+      <a href = "../asa006/asa006.html">
+      ASA006</a>,
+      which
+      computes the Cholesky factorization of a symmetric positive definite
+      matrix, by Michael Healy.
+      This is a MATLAB version of Applied Statistics Algorithm 6;
+    </p>
+
+    <p>
+      <a href = "../hankel_cholesky/hankel_cholesky.html">
+      HANKEL_CHOLESKY</a>,
+      which
+      computes the upper Cholesky factor R of a nonnegative definite symmetric
+      Hankel matrix H so that H = R' * R..
+    </p>
+
+    <h3 align = "center">
+      Reference:
+    </h3>
+
+    <p>
+      <ol>
+        <li>
+          S Al-Homidan, M Alshahrani,<br>
+          Positive Definite Hankel Matrices Using Cholesky Factorization,<br>
+          Computational Methods in Applied Mathematics,<br>
+          Volume 9, Number 3, 2009, pages 221-225.
+        </li>
+      </ol>
+    </p>
+
+    <h3 align = "center">
+      Source Code:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <a href = "hankel_pds.cpp">hankel_pds.cpp</a>, the source code.
+        </li>
+        <li>
+          <a href = "hankel_pds.hpp">hankel_pds.hpp</a>, the include file.
+        </li>
+      </ul>
+    </p>
+
+    <h3 align = "center">
+      Examples and Tests:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <a href = "hankel_pds_test.cpp">hankel_pds_test.cpp</a>,
+          a sample calling program.
+        </li>
+        <li>
+          <a href = "hankel_pds_test.txt">hankel_pds_test.txt</a>,
+          the output file.
+        </li>
+      </ul>
+    </p>
+
+    <h3 align = "center">
+      List of Routines:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <b>HANKEL_PDS_CHOLESKY_LOWER</b> returns L such that L*L' is Hankel PDS.
+        </li>
+        <li>
+          <b>R8MAT_CHOLESKY_FACTOR</b> computes the Cholesky factor of a symmetric matrix.
+        </li>
+        <li>
+          <b>R8MAT_PRINT</b> prints an R8MAT.
+        </li>
+        <li>
+          <b>R8MAT_PRINT_SOME</b> prints some of an R8MAT.
+        </li>
+        <li>
+          <b>R8VEC_UNIFORM_01</b> returns a unit pseudorandom R8VEC.
+        </li>
+      </ul>
+    </p>
+
+
+    <hr>
+
+    <i>
+      Last revised on 27 January 2017.
+    </i>
+
+    <!-- John Burkardt -->
+
+  </body>
+
+  <!-- Initial HTML skeleton created by HTMLINDEX. -->
+
+
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/hankel_pds/hankel_pds.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 15:50:52 GMT -->
+</html>

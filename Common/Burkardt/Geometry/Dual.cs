@@ -278,7 +278,7 @@ namespace Burkardt.Geometry
                     }
 
                     ;
-                    face_order2[face2 - 1] = face_order2[face2 - 1] + 1;
+                    face_order2[((face2 - 1) + face_order2.Length) % face_order2.Length] = face_order2[((face2 - 1) + face_order2.Length) % face_order2.Length] + 1;
                 }
             }
 

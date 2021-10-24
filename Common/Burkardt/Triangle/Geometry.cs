@@ -245,37 +245,37 @@ namespace Burkardt.TriangleNS
             //
             if (a == 0.0 && b == 0.0 && c == 0.0)
             {
-                angle[(0 + angleIndex) % angleIndex] = 2.0 * Math.PI / 3.0;
-                angle[(1 + angleIndex) % angleIndex] = 2.0 * Math.PI / 3.0;
-                angle[(2 + angleIndex) % angleIndex] = 2.0 * Math.PI / 3.0;
+                angle[(0 + angleIndex) % angle.Length] = 2.0 * Math.PI / 3.0;
+                angle[(1 + angleIndex) % angle.Length] = 2.0 * Math.PI / 3.0;
+                angle[(2 + angleIndex) % angle.Length] = 2.0 * Math.PI / 3.0;
                 return;
             }
 
             if (c == 0.0 || a == 0.0)
             {
-                angle[(0 + angleIndex) % angleIndex] = Math.PI;
+                angle[(0 + angleIndex) % angle.Length] = Math.PI;
             }
             else
             {
-                angle[(0 + angleIndex) % angleIndex] = typeMethods.r8_acos((c * c + a * a - b * b) / (2.0 * c * a));
+                angle[(0 + angleIndex) % angle.Length] = typeMethods.r8_acos((c * c + a * a - b * b) / (2.0 * c * a));
             }
 
             if (a == 0.0 || b == 0.0)
             {
-                angle[(1 + angleIndex) % angleIndex] = Math.PI;
+                angle[(1 + angleIndex) % angle.Length] = Math.PI;
             }
             else
             {
-                angle[(1 + angleIndex) % angleIndex] = typeMethods.r8_acos((a * a + b * b - c * c) / (2.0 * a * b));
+                angle[(1 + angleIndex) % angle.Length] = typeMethods.r8_acos((a * a + b * b - c * c) / (2.0 * a * b));
             }
 
             if (b == 0.0 || c == 0.0)
             {
-                angle[(2 + angleIndex) % angleIndex] = Math.PI;
+                angle[(2 + angleIndex) % angle.Length] = Math.PI;
             }
             else
             {
-                angle[(2 + angleIndex) % angleIndex] = typeMethods.r8_acos((b * b + c * c - a * a) / (2.0 * b * c));
+                angle[(2 + angleIndex) % angle.Length] = typeMethods.r8_acos((b * b + c * c - a * a) / (2.0 * b * c));
             }
             
         }

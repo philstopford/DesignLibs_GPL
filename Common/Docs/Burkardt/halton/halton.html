@@ -1,0 +1,202 @@
+<html>
+
+  
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/halton/halton.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 15:50:44 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      HALTON - The Halton Quasi Monte Carlo (QMC) Sequence
+    </title>
+  </head>
+
+  <body bgcolor="#EEEEEE" link="#CC0000" alink="#FF3300" vlink="#000055">
+
+    <h1 align = "center">
+      HALTON <br> The Halton Quasi Monte Carlo (QMC) Sequence
+    </h1>
+
+    <hr>
+
+    <p>
+      <b>HALTON</b>
+      is which
+      computes elements of a Halton Quasi Monte Carlo (QMC) sequence
+      using a simple interface.
+    </p>
+
+    <p>
+      A more sophisticated library is available in HALTON_ADVANCED,
+      but I find this simple version to be preferable for everyday use!
+    </p>
+
+    <p>
+      The standard M-dimensional Halton sequence is simply composed of
+      M 1-dimensional van der Corput sequences, using as bases the first
+      M primes.
+    </p>
+
+    <p>
+      The HALTON function will return the M-dimensional element of this
+      sequence with index I.
+    </p>
+
+    <p>
+      The HALTON_SEQUENCE function will return the M-dimensional elements 
+      of this sequence with indices I1 through I2.
+    </p>
+
+    <p>
+      The HALTON_INVERSE function accepts an M-dimensional value, presumably
+      computed by HALTON, and returns its original index I.
+    </p>
+
+    <p>
+      The HALTON_BASE function allows the user to replace the standard
+      basis of primes with some other choice.
+    </p>
+
+    <h3 align = "center">
+      Licensing:
+    </h3>
+
+    <p>
+      The computer code and data files described and made available on this web page
+      are distributed under
+      <a href = "https://people.math.sc.edu/Burkardt/txt/gnu_lgpl.txt">the GNU LGPL license.</a>
+    </p>
+
+
+    <h3 align = "center">
+      Related Data and Programs:
+    </h3>
+
+    <p>
+      <a href = "../hammersley/hammersley.html">
+      HAMMERSLEY</a>,
+      which
+      computes elements of a Hammersley Quasi Monte Carlo (QMC) sequence,
+      using a simple interface.
+    </p>
+
+    <p>
+      <a href = "../latin_random/latin_random.html">
+      LATIN_RANDOM</a>,
+      which
+      computes elements of a Latin Hypercube dataset, choosing
+      points at random.
+    </p>
+
+    <p>
+      <a href = "../normal/normal.html">
+      NORMAL</a>,
+      which
+      computes elements of a sequence of pseudorandom normally distributed values.
+    </p>
+
+    <p>
+      <a href = "../uniform/uniform.html">
+      UNIFORM</a>,
+      which
+      computes elements of a uniform pseudorandom sequence.
+    </p>
+
+    <p>
+      <a href = "../van_der_corput/van_der_corput.html">
+      VAN_DER_CORPUT</a>,
+      which
+      computes elements of a 1D van der Corput Quasi Monte Carlo (QMC) sequence
+      using a simple interface.
+    </p>
+
+    <h3 align = "center">
+      Reference:
+    </h3>
+
+    <p>
+      <ol>
+        <li>
+          John Halton,<br>
+          On the efficiency of certain quasi-random sequences of points
+          in evaluating multi-dimensional integrals,<br>
+          Numerische Mathematik,<br>
+          Volume 2, 1960, pages 84-90.
+        </li>
+        <li>
+          John Halton, GB Smith,<br>
+          Algorithm 247: Radical-Inverse Quasi-Random Point Sequence,<br>
+          Communications of the ACM,<br>
+          Volume 7, 1964, pages 701-702.
+        </li>
+        <li>
+          Ladislav Kocis, William Whiten,<br>
+          Computational Investigations of Low-Discrepancy Sequences,<br>
+          ACM Transactions on Mathematical Software,<br>
+          Volume 23, Number 2, 1997, pages 266-294.
+        </li>
+      </ol>
+    </p>
+
+
+    <h3 align = "center">
+      Examples and Tests:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <a href = "halton_test.txt">halton_test.txt</a>,
+          the output file.
+        </li>
+      </ul>
+    </p>
+
+    <h3 align = "center">
+      List of Routines:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <b>HALTON</b> computes an element of a Halton sequence.
+        </li>
+        <li>
+          <b>HALTON_BASE</b> computes an element of a Halton sequence with user bases.
+        </li>
+        <li>
+          <b>HALTON_INVERSE</b> inverts an element of the Halton sequence.
+        </li>
+        <li>
+          <b>HALTON_SEQUENCE</b> computes elements I1 through I2 of a Halton sequence.
+        </li>
+        <li>
+          <b>I4VEC_SUM</b> sums the entries of an I4VEC.
+        </li>
+        <li>
+          <b>PRIME</b> returns any of the first PRIME_MAX prime numbers.
+        </li>
+        <li>
+          <b>R8_MOD</b> returns the remainder of R8 division.
+        </li>
+        <li>
+          <b>R8MAT_PRINT</b> prints an R8MAT.
+        </li>
+        <li>
+          <b>R8MAT_PRINT_SOME</b> prints some of an R8MAT.
+        </li>
+      </ul>
+    </p>
+
+
+    <hr>
+
+    <i>
+      Last revised on 19 August 2016.
+    </i>
+
+    <!-- John Burkardt -->
+
+  </body>
+
+
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/halton/halton.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 15:50:45 GMT -->
+</html>

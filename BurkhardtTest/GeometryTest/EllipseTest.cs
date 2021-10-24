@@ -395,5 +395,57 @@ namespace GeometryTest
 
         }
 
+        public static void test202 ( )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TEST202 tests SUPER_ELLIPSE_POINTS_2D;
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    29 July 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            int DIM_NUM = 2;
+            int N = 24;
+
+            double[] pc = { 5.0, -2.0 };
+            double expo;
+            double[] p = new double[DIM_NUM*N];
+            double psi;
+            double r1;
+            double r2;
+
+            r1 = 3.0;
+            r2 = 1.0;
+            expo = 1.5;
+            psi = Math.PI / 6.0;
+
+            Console.WriteLine("");
+            Console.WriteLine("TEST202");
+            Console.WriteLine("  SUPER_ELLIPSE_POINTS_2D returns points on a super ellipse;");
+
+            typeMethods.r8vec_print ( DIM_NUM, pc, "  Superellipse center:" );
+
+            Console.WriteLine("");
+            Console.WriteLine("  radii R1 = " + r1 + " R2 = " + r2 + "");
+            Console.WriteLine("  exponent EXPO = " + expo + "");
+            Console.WriteLine("  and angle PSI = " + psi + "");
+
+            Geometry.super_ellipse_points_2d ( pc, r1, r2, expo, psi, N, ref p );
+
+            typeMethods.r8mat_transpose_print ( DIM_NUM, N, p, "  Sample points:" );
+        }
+
     }
 }

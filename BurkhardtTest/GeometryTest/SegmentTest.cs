@@ -1237,5 +1237,109 @@ namespace GeometryTest
 
         }
 
+        public static void test201 ( )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TEST201 tests STRING_2D.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    29 July 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            int DIM_NUM = 2;
+            int VEC_NUM = 15;
+
+            int i;
+            int jstrng;
+            int[] order = new int[VEC_NUM];
+            double[] p1 = {
+                0.0, 0.0,
+                3.0, 4.0,
+                2.0, 2.0,
+                3.0, 2.0,
+                2.0, 1.0,
+                1.0, 1.0,
+                0.0, 5.0,
+                1.0, 2.0,
+                3.0, 2.0,
+                0.0, 0.0,
+                5.0, 5.0,
+                3.0, 3.0,
+                2.0, 4.0,
+                7.0, 4.0,
+                1.0, 0.0 };
+            double[] p2 = {
+                1.0, 1.0,
+                2.0, 4.0,
+                1.0, 3.0,
+                2.0, 3.0,
+                2.0, 2.0,
+                1.0, 2.0,
+                1.0, 6.0,
+                1.0, 3.0,
+                3.0, 3.0,
+                1.0, 0.0,
+                6.0, 6.0,
+                3.0, 4.0,
+                2.0, 3.0,
+                5.0, 5.0,
+                2.0, 1.0 };
+            int[] string_ = new int[VEC_NUM];
+            int string_num = 0;
+
+            Console.WriteLine("");
+            Console.WriteLine("TEST201");
+            Console.WriteLine("  STRING_2D takes a set of line segments, and");
+            Console.WriteLine("  strings them together.");
+            Console.WriteLine("");
+            Console.WriteLine("  I     P1     P2");
+            Console.WriteLine("");
+            for ( i = 0; i < VEC_NUM; i++ )
+            {
+                Console.WriteLine("  " + i.ToString().PadLeft(6)
+                                  + "  " + p1[0+i*2].ToString().PadLeft(10)
+                                  + "  " + p1[1+i*2].ToString().PadLeft(10)
+                                  + "  " + p2[0+i*2].ToString().PadLeft(10)
+                                  + "  " + p1[1+i*2].ToString().PadLeft(10) + "");
+            }
+
+            Segments.string_2d ( VEC_NUM, p1, p2, ref string_num, ref order, ref string_ );
+
+            Console.WriteLine("");
+            Console.WriteLine("  Found " + string_num + " groups of segments.");
+            Console.WriteLine("");
+            Console.WriteLine("  STRING, ORDER, P1, P2");
+            Console.WriteLine("");
+
+            jstrng = 1;
+
+            for ( i = 0; i < VEC_NUM; i++ )
+            {
+                if ( jstrng < string_[i] )
+                {
+                    Console.WriteLine("");
+                    jstrng = jstrng + 1;
+                }
+                Console.WriteLine("  " + string_[i].ToString().PadLeft(3)
+                                  + "  " + order[i].ToString().PadLeft(3)
+                                  + "  " + p1[0+i*2].ToString().PadLeft(10)
+                                  + "  " + p1[1+i*2].ToString().PadLeft(10)
+                                  + "  " + p2[0+i*2].ToString().PadLeft(10)
+                                  + "  " + p2[1+i*2].ToString().PadLeft(10) + "");
+            }
+
+        }
     }
 }

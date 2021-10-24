@@ -1827,7 +1827,78 @@ namespace GeometryTest
             }
         }
 
+        public static void test200()
 
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TEST200 tests SPHERE_TRIANGLE_SIDES_TO_ANGLES.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    29 July 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            double a = 0;
+            double as_;
+            double b = 0;
+            double bs = 0;
+            double c = 0;
+            double cs = 0;
+            double r = 10.0;
+
+            Console.WriteLine("");
+            Console.WriteLine("TEST200");
+            Console.WriteLine("  SPHERE_TRIANGLE_SIDES_TO_ANGLES takes the sides of a");
+            Console.WriteLine("  spherical triangle and determines the angles.");
+
+            as_ = 121.0 + (15.4 / 60.0);
+            bs = 104.0 + (54.7 / 60.0);
+            cs = 65.0 + (42.5 / 60.0);
+
+            as_ = Helpers.degrees_to_radians(as_);
+            bs = Helpers.degrees_to_radians(bs);
+            cs = Helpers.degrees_to_radians(cs);
+
+            as_ = r * as_;
+            bs = r * bs;
+            cs = r * cs;
+            //
+            //  Get the spherical angles.
+            //
+            Geometry.sphere_triangle_sides_to_angles(r, as_, bs, cs, ref a, ref b, ref c);
+
+            Console.WriteLine("");
+            Console.WriteLine("  A       = " + a + " (radians)");
+            a = Helpers.radians_to_degrees(a);
+            Console.WriteLine("          = " + a + " ( degrees )");
+            a = 117.0 + (58.0 / 60.0);
+            Console.WriteLine("  Correct = " + a + " (degrees)");
+
+            Console.WriteLine("");
+            Console.WriteLine("  B       = " + b + " (radians)");
+            b = Helpers.radians_to_degrees(b);
+            Console.WriteLine("          = " + b + " ( degrees )");
+            b = 93.0 + (13.8 / 60.0);
+            Console.WriteLine("  Correct = " + b + " (degrees)");
+
+            Console.WriteLine("");
+            Console.WriteLine("  C       = " + c + " (radians)");
+            c = Helpers.radians_to_degrees(c);
+            Console.WriteLine("          = " + c + " ( degrees )");
+            c = 70.0 + (20.6 / 60.0);
+            Console.WriteLine("  Correct = " + c + " (degrees)");
+
+        }
 
     }
 }

@@ -2344,7 +2344,7 @@ namespace Burkardt.TriangleNS
 
         }
 
-        public static void triangle_incenter_2d(double[] t, double[] pc)
+        public static void triangle_incenter_2d(double[] t, ref double[] pc)
 
             //****************************************************************************80
             //
@@ -2421,7 +2421,7 @@ namespace Burkardt.TriangleNS
 
         }
 
-        public static void triangle_incircle_2d(double[] t, double[] pc, ref double r)
+        public static void triangle_incircle_2d(double[] t, ref double[] pc, ref double r)
 
             //****************************************************************************80
             //

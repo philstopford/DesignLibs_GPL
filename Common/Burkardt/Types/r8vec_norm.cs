@@ -394,7 +394,7 @@ namespace Burkardt.Types
             return v;
         }
         
-        public static double r8vec_norm_affine(int n, double[] v0, double[] v1)
+        public static double r8vec_norm_affine(int n, double[] v0, double[] v1, int v0Index = 0, int v1Index = 0)
             //****************************************************************************80
             //
             //  Purpose:
@@ -435,7 +435,7 @@ namespace Burkardt.Types
 
             for (int i = 0; i < n; i++)
             {
-                value = value + (v1[i] - v0[i]) * (v1[i] - v0[i]);
+                value = value + (v1[(i + v1Index ) % v1.Length] - v0[(i + v0Index ) % v0.Length]) * (v1[(i + v1Index ) % v1.Length] - v0[(i + v0Index ) % v0.Length]);
             }
 
             value = Math.Sqrt(value);

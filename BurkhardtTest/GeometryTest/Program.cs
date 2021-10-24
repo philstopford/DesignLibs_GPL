@@ -302,68 +302,68 @@ ShapeTest.test196 ( );
 ShapeTest.test197 ( );
 ShapeTest.test198 ( );
 ShapeTest.test199 ( );
-test200 ( );
-test201 ( );
-test202 ( );
-test203 ( );
-test2031 ( );
-test2032 ( );
-test20321 ( );
-test20322 ( );
+SphereTest.test200 ( );
+SegmentTest.test201 ( );
+EllipseTest.test202 ( );
+TetrahedronTest.test203 ( );
+TetrahedronTest.test2031 ( );
+TetrahedronTest.test2032 ( );
+TetrahedronTest.test20321 ( );
+TetrahedronTest.test20322 ( );
 
-tetrahedron_lattice_layer_point_next_test ( );
+TetrahedronTest.tetrahedron_lattice_layer_point_next_test ( );
 
-test203225 ( );
-test20323 ( );
-test203232 ( );
-test203233 ( );
-test203234 ( );
-test203235 ( );
-test20324 ( );
-test20325 ( );
+TetrahedronTest.test203225 ( );
+TetrahedronTest.test20323 ( );
+TetrahedronTest.test203232 ( );
+TetrahedronTest.test203233 ( );
+TetrahedronTest.test203234 ( );
+TetrahedronTest.test203235 ( );
+TetrahedronTest.test20324 ( );
+TetrahedronTest.test20325 ( );
 
-tetrahedron_solid_angles_3d_test ( );
+TetrahedronTest.tetrahedron_solid_angles_3d_test ( );
 
-test2033 ( );
-test204 ( );
-test205 ( );
+TetrahedronTest.test2033 ( );
+TransMatTest.test204 ( );
+TransMatTest.test205 ( );
 
-triangle_angles_2d_test ( );
+TriangleTest.triangle_angles_2d_test ( );
 
-test20605 ( );
-test2061 ( );
-test2062 ( );
-test209 ( );
-test20655 ( );
-test2066 ( );
-test2094 ( );
-test2101 ( );
-test21011 ( );
-test2067 ( );
-test21015 ( );
+TriangleTest.test20605 ( );
+TriangleTest.test2061 ( );
+TriangleTest.test2062 ( );
+TriangleTest.test209 ( );
+TriangleTest.test20655 ( );
+TriangleTest.test2066 ( );
+TriangleTest.test2094 ( );
+TriangleTest.test2101 ( );
+TriangleTest.test21011 ( );
+TriangleTest.test2067 ( );
+TriangleTest.test21015 ( );
 
-triangle_contains_line_exp_3d_test ( );
-triangle_contains_line_par_3d_test ( );
+TriangleTest.triangle_contains_line_exp_3d_test ( );
+TriangleTest.triangle_contains_line_par_3d_test ( );
 
-test207 ( );
-test2075 ( );
-test208 ( );
-test2102 ( );
-test2070 ( );
-test20701 ( );
-test2104 ( );
-test2105 ( );
-test211 ( );
-test2103 ( );
-test2071 ( );
-test20715 ( );
+TriangleTest.test207 ( );
+TriangleTest.test2075 ( );
+TriangleTest.test208 ( );
+TriangleTest.test2102 ( );
+TriangleTest.test2070 ( );
+TriangleTest.test20701 ( );
+TriangleTest.test2104 ( );
+TriangleTest.test2105 ( );
+TriangleTest.test211 ( );
+TriangleTest.test2103 ( );
+TriangleTest.test2071 ( );
+TriangleTest.test20715 ( );
 
-triangle_point_dist_3d_test ( );
-triangle_point_near_2d_test ( );
-triangle_quality_2d_test ( );
+TriangleTest.triangle_point_dist_3d_test ( );
+TriangleTest.triangle_point_near_2d_test ( );
+TriangleTest.triangle_quality_2d_test ( );
 
-test212 ( );
-test213 ( );
+TriangleTest.test212 ( );
+TriangleTest.test213 ( );
 
 tube_2d_test ( );
 

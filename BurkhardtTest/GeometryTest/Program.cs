@@ -108,7 +108,7 @@ DirectionTest.direction_uniform_nd_test ( );
 
 DiskPointTest.disk_point_dist_3d_test ( );
 
-r8MatSolveTest.test0234 ( );
+r8Test.test0234 ( );
 dmsradTest.test0235 ( );
 DodecahedronTest.test0236 ( );
 
@@ -204,104 +204,104 @@ PlaneTest.test062 ( );
 PlaneTest.test063 ( );
 PlaneTest.test064 ( );
 
-points_centroid_2d_test ( );
-points_colin_2d_test ( );
+PointsTest.points_centroid_2d_test ( );
+PointsTest.points_colin_2d_test ( );
 
-test068 ( );
-test0685 ( );
-test0755 ( );
+SphereTest.test068 ( );
+PolarTest.test0685 ( );
+PolygonTest.test0755 ( );
 
-polygon_angles_2d_test ( );
+PolygonTest.polygon_angles_2d_test ( );
 
-test076 ( );
-test0765 ( );
-test078 ( );
-test0782 ( );
-test0784 ( );
+PolygonTest.test076 ( );
+PolygonTest.test0765 ( );
+PolygonTest.test078 ( );
+PolygonTest.test0782 ( );
+PolygonTest.test0784 ( );
 
-polygon_centroid_3d_test ( );
-polygon_contains_point_2d_test ( );
-polygon_contains_point_2d_2_test ( );
-polygon_contains_point_2d_3_test ( );
+PolygonTest.polygon_centroid_3d_test ( );
+PolygonTest.polygon_contains_point_2d_test ( );
+PolygonTest.polygon_contains_point_2d_2_test ( );
+PolygonTest.polygon_contains_point_2d_3_test ( );
 
-test080 ( );
-test0803 ( );
-test0805 ( );
+PolygonTest.test080 ( );
+PolygonTest.test0803 ( );
+PolygonTest.test0805 ( );
 
-polygon_solid_angle_3d_test ( );
+PolygonTest.polygon_solid_angle_3d_test ( );
 
-polyhedron_area_3d_test ( );
-polyhedron_centroid_3d_test ( );
+PolyhedronTest.polyhedron_area_3d_test ( );
+PolyhedronTest.polyhedron_centroid_3d_test ( );
 
-test0825 ( );
-test083 ( );
-test084 ( );
+PolyhedronTest.test0825 ( );
+PolyhedronTest.test083 ( );
+PolylineTest.test084 ( );
 
-polyline_points_nd_test ( );
+PolylineTest.polyline_points_nd_test ( );
 
-test0845 ( );
-test0846 ( );
+PolyloopTest.test0845 ( );
+PolyloopTest.test0846 ( );
 
-plane_exp_pro3_test ( );
+PlaneTest.plane_exp_pro3_test ( );
 
-test170 ( );
-test171 ( );
-test1712 ( );
-test1715 ( );
+ProvecTest.test170 ( );
+QuadrilateralTest.test171 ( );
+QuadrilateralTest.test1712 ( );
+QuadrilateralTest.test1715 ( );
 
-r8_acos_test ( );
-r8_asin_test ( );
-r8_atan_test ( );
+r8Test.r8_acos_test ( );
+r8Test.r8_asin_test ( );
+r8Test.r8_atan_test ( );
 
-test0243 ( );
-test0245 ( );
-test173 ( );
-test174 ( );
-test1745 ( );
-test1746 ( );
-test1787 ( );
-test1893 ( );
-test036 ( );
-test0365 ( );
+r8Test.test0243 ( );
+r8Test.test0245 ( );
+RadecTest.test173 ( );
+RadecTest.test174 ( );
+r8Test.test1745 ( );
+r8Test.test1746 ( );
+DGETest.test1787 ( );
+XYTest.test1893 ( );
+SegmentTest.test036 ( );
+SegmentTest.test0365 ( );
 
-segment_point_dist_3d_test ( );
-segment_point_near_2d_test ( );
-segment_point_near_3d_test ( );
-segment_point_near_3d_test2 ( );
+SegmentTest.segment_point_dist_3d_test ( );
+SegmentTest.segment_point_near_2d_test ( );
+SegmentTest.segment_point_near_3d_test ( );
+SegmentTest.segment_point_near_3d_test2 ( );
 
-test1788 ( );
-test1789 ( );
-test179 ( );
-test180 ( );
-test1805 ( );
-test0125 ( );
-test0126 ( );
-test0127 ( );
+SimplexTest.test1788 ( );
+SimplexTest.test1789 ( );
+IcosahedronTest.test179 ( );
+SortHeapTest.test180 ( );
+SimplexTest.test1805 ( );
+SphereTest.test0125 ( );
+SphereTest.test0126 ( );
+SphereTest.test0127 ( );
 
-sphere_dia2imp_3d_test ( );
+SphereTest.sphere_dia2imp_3d_test ( );
 
-test182 ( );
-test183 ( );
-test1835 ( );
-test1836 ( );
-test187 ( );
-test188 ( );
-test189 ( );
-test1892 ( );
-test1895 ( );
-test190 ( );
-test191 ( );
-test192 ( );
-test193 ( );
+SphereTest.test182 ( );
+SphereTest.test183 ( );
+SphereTest.test1835 ( );
+SphereTest.test1836 ( );
+SphereTest.test187 ( );
+SphereTest.test188 ( );
+SphereTest.test189 ( );
+SphereTest.test1892 ( );
+SphereTest.test1895 ( );
+SphereTest.test190 ( );
+SphereTest.test191 ( );
+SphereTest.test192 ( );
+SphereTest.test193 ( );
 
-sphere_unit_sample_nd_2_test ( );
+SphereTest.sphere_unit_sample_nd_2_test ( );
 
-test195 ( );
-test1955 ( );
-test196 ( );
-test197 ( );
-test198 ( );
-test199 ( );
+SphereTest.test195 ( );
+SphereTest.test1955 ( );
+ShapeTest.test196 ( );
+ShapeTest.test197 ( );
+ShapeTest.test198 ( );
+ShapeTest.test199 ( );
 test200 ( );
 test201 ( );
 test202 ( );

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Burkardt.Geometry;
+using Burkardt.Uniform;
 
 namespace GeometryTest
 {
@@ -745,6 +746,495 @@ namespace GeometryTest
                     Console.WriteLine(cout);
                 }
             }
+        }
+
+        public static void test036()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TEST036 tests SEGMENT_CONTAINS_POINT_1D.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    11 July 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            int TEST_NUM = 4;
+
+            double p;
+            double[] p_test = {3.0, 7.5, 20.0, 5.0};
+            double p1;
+            double[] p1_test = {2.0, 10.0, 8.0, 88.0};
+            double p2;
+            double[] p2_test = {6.0, -10.0, 10.0, 88.0};
+            double t = 0;
+            int test;
+
+            Console.WriteLine("");
+            Console.WriteLine("TEST036");
+            Console.WriteLine("  SEGMENT_CONTAINS_POINT_1D determines if a point");
+            Console.WriteLine("  lies within a line segment in 1D.");
+            Console.WriteLine("");
+            Console.WriteLine("       P1     P       T");
+            Console.WriteLine("");
+
+            for (test = 0; test < TEST_NUM; test++)
+            {
+                p1 = p1_test[test];
+                p2 = p2_test[test];
+                p = p_test[test];
+
+                Segments.segment_contains_point_1d(p1, p2, p, ref t);
+
+                Console.WriteLine("  " + p1.ToString().PadLeft(7)
+                                       + "  " + p2.ToString().PadLeft(7)
+                                       + "  " + p.ToString().PadLeft(7)
+                                       + "  " + t.ToString().PadLeft(12) + "");
+            }
+
+        }
+
+        public static void test0365()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TEST0365 tests SEGMENT_POINT_DIST_2D.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    02 May 2006
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            int DIM_NUM = 2;
+
+            double dist;
+            int i;
+            double[] p;
+            double[] p1;
+            double[] p2;
+            int seed = 123456789;
+            int test;
+            int test_num = 3;
+
+            Console.WriteLine("");
+            Console.WriteLine("TEST0365");
+            Console.WriteLine("  SEGMENT_POINT_DIST_2D computes the distance");
+            Console.WriteLine("  between a line segment and point in 2D");
+
+            for (test = 1; test <= test_num; test++)
+            {
+                p1 = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
+                p2 = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
+                p = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
+
+                dist = Segments.segment_point_dist_2d(p1, p2, p);
+
+                Console.WriteLine("");
+                Console.WriteLine("  TEST = " + test.ToString().PadLeft(2) + "");
+                string cout = "  P1 =   ";
+                for (i = 0; i < DIM_NUM; i++)
+                {
+                    cout += p1[i].ToString().PadLeft(12);
+                }
+
+                Console.WriteLine(cout);
+                cout = "  P2 =   ";
+                for (i = 0; i < DIM_NUM; i++)
+                {
+                    cout += p2[i].ToString().PadLeft(12);
+                }
+
+                Console.WriteLine(cout);
+                cout = "  P =    ";
+                for (i = 0; i < DIM_NUM; i++)
+                {
+                    cout += p[i].ToString().PadLeft(12);
+                }
+
+                Console.WriteLine(cout);
+                Console.WriteLine("  DIST = " + dist.ToString().PadLeft(12) + "");
+            }
+
+        }
+
+        public static void segment_point_dist_3d_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    SEGMENT_POINT_DIST_3D_TEST tests SEGMENT_POINT_DIST_3D.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    02 May 2006
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            int DIM_NUM = 3;
+
+            double dist;
+            int i;
+            double[] p;
+            double[] p1;
+            double[] p2;
+            int seed = 123456789;
+            int test;
+            int test_num = 3;
+
+            Console.WriteLine("");
+            Console.WriteLine("SEGMENT_POINT_DIST_3D_TEST");
+            Console.WriteLine("  SEGMENT_POINT_DIST_3D computes the distance");
+            Console.WriteLine("  between a line segment and point in 3D");
+
+            for (test = 1; test <= test_num; test++)
+            {
+                p1 = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
+                p2 = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
+                p = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
+
+                dist = Segments.segment_point_dist_3d(p1, p2, p);
+
+                Console.WriteLine("");
+                Console.WriteLine("  TEST = " + test.ToString().PadLeft(12) + "");
+                string cout = "  P1 =   ";
+                for (i = 0; i < DIM_NUM; i++)
+                {
+                    cout += p1[i].ToString().PadLeft(12);
+                }
+
+                Console.WriteLine(cout);
+                cout = "  P2 =   ";
+                for (i = 0; i < DIM_NUM; i++)
+                {
+                    cout += p2[i].ToString().PadLeft(12);
+                }
+
+                Console.WriteLine(cout);
+                cout = "  P =    ";
+                for (i = 0; i < DIM_NUM; i++)
+                {
+                    cout += p[i].ToString().PadLeft(12);
+                }
+
+                Console.WriteLine(cout);
+                Console.WriteLine("  DIST = " + dist.ToString().PadLeft(12) + "");
+            }
+
+        }
+
+        public static void segment_point_near_2d_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    SEGMENT_POINT_NEAR_2D_TEST tests SEGMENT_POINT_NEAR_2D.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    03 May 2006
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            int DIM_NUM = 2;
+
+            double dist = 0;
+            int i;
+            double[] p;
+            double[] p1;
+            double[] p2;
+            double[] pn = new double[DIM_NUM];
+            int seed = 123456789;
+            double t = 0;
+            int test;
+            int test_num = 3;
+
+            Console.WriteLine("");
+            Console.WriteLine("SEGMENT_POINT_NEAR_2D_TEST");
+            Console.WriteLine("  SEGMENT_POINT_NEAR_2D computes the nearest point");
+            Console.WriteLine("  on a line segment to a point in 2D");
+
+            for (test = 1; test <= test_num; test++)
+            {
+                p1 = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
+                p2 = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
+                p = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
+
+                Segments.segment_point_near_2d(p1, p2, p, ref pn, ref dist, ref t);
+
+                Console.WriteLine("");
+                Console.WriteLine("  TEST = " + test.ToString().PadLeft(2) + "");
+                string cout = "  P1 =   ";
+                for (i = 0; i < DIM_NUM; i++)
+                {
+                    cout += p1[i].ToString().PadLeft(12);
+                }
+
+                Console.WriteLine(cout);
+                cout = "  P2 =   ";
+                for (i = 0; i < DIM_NUM; i++)
+                {
+                    cout += p2[i].ToString().PadLeft(12);
+                }
+
+                Console.WriteLine(cout);
+                cout = "  P =    ";
+                for (i = 0; i < DIM_NUM; i++)
+                {
+                    cout += p[i].ToString().PadLeft(12);
+                }
+
+                Console.WriteLine(cout);
+                cout = "  PN =   ";
+                for (i = 0; i < DIM_NUM; i++)
+                {
+                    cout += pn[i].ToString().PadLeft(12);
+                }
+
+                Console.WriteLine("");
+                Console.WriteLine("  DIST = " + dist.ToString().PadLeft(12) + "");
+                Console.WriteLine("  T =    " + t.ToString().PadLeft(12) + "");
+            }
+
+        }
+
+        public static void segment_point_near_3d_test()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    SEGMENT_POINT_NEAR_3D_TEST tests SEGMENT_POINT_NEAR_3D.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    03 May 2006
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            int DIM_NUM = 3;
+
+            double dist = 0;
+            int i;
+            double[] p;
+            double[] p1;
+            double[] p2;
+            double[] pn = new double[DIM_NUM];
+            int seed = 123456789;
+            double t = 0;
+            int test;
+            int test_num = 3;
+
+            Console.WriteLine("");
+            Console.WriteLine("SEGMENT_POINT_NEAR_3D_TEST");
+            Console.WriteLine("  SEGMENT_POINT_NEAR_3D computes the nearest point");
+            Console.WriteLine("  on a line segment to a point in 3D");
+
+            for (test = 1; test <= test_num; test++)
+            {
+                p1 = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
+                p2 = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
+                p = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
+
+                Segments.segment_point_near_3d(p1, p2, p, ref pn, ref dist, ref t);
+
+                Console.WriteLine("");
+                Console.WriteLine("  TEST = " + test.ToString().PadLeft(2) + "");
+                string cout = "  P1 =   ";
+                for (i = 0; i < DIM_NUM; i++)
+                {
+                    cout += p1[i].ToString().PadLeft(12);
+                }
+
+                Console.WriteLine(cout);
+                cout = "  P2 =   ";
+                for (i = 0; i < DIM_NUM; i++)
+                {
+                    cout += p2[i].ToString().PadLeft(12);
+                }
+
+                Console.WriteLine(cout);
+                cout = "  P =    ";
+                for (i = 0; i < DIM_NUM; i++)
+                {
+                    cout += p[i].ToString().PadLeft(12);
+                }
+
+                Console.WriteLine(cout);
+                cout = "  PN =   ";
+                for (i = 0; i < DIM_NUM; i++)
+                {
+                    cout += pn[i].ToString().PadLeft(12);
+                }
+
+                Console.WriteLine("");
+                Console.WriteLine("  DIST = " + dist.ToString().PadLeft(12) + "");
+                Console.WriteLine("  T    = " + t.ToString().PadLeft(12) + "");
+            }
+
+        }
+
+        public static void segment_point_near_3d_test2()
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    SEGMENT_POINT_NEAR_3D_TEST2 tests SEGMENT_POINT_NEAR_3D.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    17 January 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+        {
+            int DIM_NUM = 3;
+
+            double dist = 0;
+            double[] p = new double[DIM_NUM];
+            double[] p1 = new double[DIM_NUM];
+            double[] p2 = new double[DIM_NUM];
+            double[] pn = new double[DIM_NUM];
+            double t = 0;
+
+            Console.WriteLine("");
+            Console.WriteLine("SEGMENT_POINT_NEAR_3D_TEST2");
+            Console.WriteLine("  SEGMENT_POINT_NEAR_3D computes the nearest point on a");
+            Console.WriteLine("  line segment, to a given point, in 3 space.");
+            Console.WriteLine("");
+            Console.WriteLine("  Case  T  Distance    PN");
+            Console.WriteLine("");
+            //
+            //  Case 1, point is nearest end of segment.
+            //
+            //  LS: (2,3,0) + t * (2,1,0) for t = 0 to 3.
+            //  P (11,6,4)
+            //  Distance is 5.
+            //
+            p1[0] = 2.0;
+            p1[1] = 3.0;
+            p1[2] = 0.0;
+
+            p2[0] = 8.0;
+            p2[1] = 6.0;
+            p2[2] = 0.0;
+
+            p[0] = 11.0;
+            p[1] = 6.0;
+            p[2] = 4.0;
+
+            Segments.segment_point_near_3d(p1, p2, p, ref pn, ref dist, ref t);
+
+            Console.WriteLine("  " + 1.ToString().PadLeft(6)
+                                   + "  " + t.ToString().PadLeft(10)
+                                   + "  " + dist.ToString().PadLeft(10)
+                                   + "  " + pn[0].ToString().PadLeft(10)
+                                   + "  " + pn[1].ToString().PadLeft(10)
+                                   + "  " + pn[2].ToString().PadLeft(10) + "");
+            //
+            //  Case 2, point is nearest interior point of segment.
+            //
+            //  LS: (2,3,0) + t * (2,1,0) for t = 0 to 3.
+            //  P (4,4,1)
+            //  Distance is 1.
+            //
+            p1[0] = 2.0;
+            p1[1] = 3.0;
+            p1[2] = 0.0;
+
+            p2[0] = 8.0;
+            p2[1] = 6.0;
+            p2[2] = 0.0;
+
+            p[0] = 4.0;
+            p[1] = 4.0;
+            p[2] = 1.0;
+
+            Segments.segment_point_near_3d(p1, p2, p, ref pn, ref dist, ref t);
+
+            Console.WriteLine("  " + 2.ToString().PadLeft(6)
+                                   + "  " + t.ToString().PadLeft(10)
+                                   + "  " + dist.ToString().PadLeft(10)
+                                   + "  " + pn[0].ToString().PadLeft(10)
+                                   + "  " + pn[1].ToString().PadLeft(10)
+                                   + "  " + pn[2].ToString().PadLeft(10) + "");
+            //
+            //  Case 3, point is on the line.
+            //
+            //  LS: (2,3,0) + t * (2,1,0) for t = 0 to 3.
+            //  P (6,5,0)
+            //  Distance is 0.
+            //
+            p1[0] = 2.0;
+            p1[1] = 3.0;
+            p1[2] = 0.0;
+
+            p2[0] = 8.0;
+            p2[1] = 6.0;
+            p2[2] = 0.0;
+
+            p[0] = 6.0;
+            p[1] = 5.0;
+            p[2] = 0.0;
+
+            Segments.segment_point_near_3d(p1, p2, p, ref pn, ref dist, ref t);
+
+            Console.WriteLine("  " + 3.ToString().PadLeft(6)
+                                   + "  " + t.ToString().PadLeft(10)
+                                   + "  " + dist.ToString().PadLeft(10)
+                                   + "  " + pn[0].ToString().PadLeft(10)
+                                   + "  " + pn[1].ToString().PadLeft(10)
+                                   + "  " + pn[2].ToString().PadLeft(10) + "");
+
         }
 
     }

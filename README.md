@@ -7,7 +7,7 @@ DesignLibs comprises a multitude of libraries. These are primarily built for use
 
 ### Burkardt:
 
-This is a WIP port of the huge resource available at https://people.sc.fsu.edu/~jburkardt/cpp_src/cpp_src.html. Validation is being tracked at https://github.com/philstopford/DesignLibs_GPL/issues/2
+This is a WIP port of the huge resource available at https://people.sc.fsu.edu/~jburkardt/cpp_src/cpp_src.html. Validation is being tracked at https://github.com/philstopford/DesignLibs_GPL/issues/2. The port was constrained in scope (a subset of the reference has been tackled, focussed on areas I found most interesting / useful) and the port is also kept as close to the original design as possible to limit the initial scope. The upstream code makes practically no use of object orientation and has Fortran-isms and usage patterns that aren't fully addressed (yet) in this effort. Functionality and correctness were the initial goals.
 
 
 ### Color:

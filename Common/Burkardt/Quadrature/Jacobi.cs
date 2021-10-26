@@ -8,6 +8,215 @@ namespace Burkardt.Quadrature
 {
     public static class JacobiQuadrature
     {
+        public static void jacobi_handle(int order, double alpha, double beta, string output)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    JACOBI_HANDLE computes the requested Gauss-Jacobi rule and outputs it.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    16 January 2008
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int ORDER, the order of the rule.
+            //
+            //    Input, double ALPHA, BETA, the parameters.
+            //
+            //    Input, string OUTPUT_FILE, specifies the output.
+            //    * "C++'", print as C++ code.
+            //    * "F77", print as FORTRAN77 code.
+            //    * "F90", print as FORTRAN90 code.
+            //    * "MAT", print as MATLAB code.
+            //    * file,  write files "file_w.txt", "file_x.txt", "file_r.txt" 
+            //      defining weights, abscissas, and region.
+            // 
+        {
+            int i;
+            string output_r;
+            string output_w;
+            string output_x;
+            double[] r;
+            double[] w;
+            double[] x;
+
+            r = new double[2];
+            w = new double[order];
+            x = new double[order];
+
+            r[0] = -1.0;
+            r[1] = +1.0;
+
+            jacobi_compute(order, alpha, beta, ref x, ref w);
+
+            if (output == "C++")
+            {
+                Console.WriteLine("//");
+                Console.WriteLine("//  Weights W, abscissas X and range R");
+                Console.WriteLine("//  for a Gauss-Jacobi quadrature rule");
+                Console.WriteLine("//  ORDER = " + order + "");
+                Console.WriteLine("//  ALPHA = " + alpha + "");
+                Console.WriteLine("//  BETA  = " + beta + "");
+                Console.WriteLine("//");
+                Console.WriteLine("//  Standard rule:");
+                Console.WriteLine("//    Integral ( -1 <= x <= +1 ) (1-x)^ALPHA (1+x)^BETA f(x) dx");
+                Console.WriteLine("//    is to be approximated by");
+                Console.WriteLine("//    sum ( 1 <= I <= ORDER ) w(i) * f(x(i)).");
+                Console.WriteLine("//");
+
+                for (i = 0; i < order; i++)
+                {
+                    Console.WriteLine("  w[" + i + "] = "
+                                      + w[i].ToString("0.################") + ";");
+                }
+
+                Console.WriteLine("");
+                for (i = 0; i < order; i++)
+                {
+                    Console.WriteLine("  x[" + i + "] = "
+                                      + x[i].ToString("0.################") + ";");
+                }
+
+                Console.WriteLine("");
+                for (i = 0; i < 2; i++)
+                {
+                    Console.WriteLine("  r[" + i + "] = " + r[i] + ";");
+                }
+            }
+            else if (output == "F77")
+            {
+                Console.WriteLine("c");
+                Console.WriteLine("c  Weights W, abscissas X and range R");
+                Console.WriteLine("c  for a Gauss-Jacobi quadrature rule");
+                Console.WriteLine("c  ORDER = " + order + "");
+                Console.WriteLine("c  ALPHA = " + alpha + "");
+                Console.WriteLine("c  BETA  = " + beta + "");
+                Console.WriteLine("c");
+                Console.WriteLine("c  Standard rule:");
+                Console.WriteLine("c    Integral ( -1 <= x <= +1 ) (1-x)^ALPHA (1+x)^BETA f(x) dx");
+                Console.WriteLine("c    is to be approximated by");
+                Console.WriteLine("c    sum ( 1 <= I <= ORDER ) w(i) * f(x(i)).");
+                Console.WriteLine("c");
+
+                for (i = 0; i < order; i++)
+                {
+                    Console.WriteLine("      w(" + i + 1 + ") = "
+                                      + w[i].ToString("0.################") + "");
+                }
+
+                Console.WriteLine("");
+                for (i = 0; i < order; i++)
+                {
+                    Console.WriteLine("      x(" + i + 1 + ") = "
+                                      + x[i].ToString("0.################") + "");
+                }
+
+                Console.WriteLine("");
+                for (i = 0; i < 2; i++)
+                {
+                    Console.WriteLine("      r(" + i + 1 + ") = " + r[i] + "");
+                }
+            }
+            else if (output == "F90")
+            {
+                Console.WriteLine("!");
+                Console.WriteLine("!  Weights W, abscissas X and range R");
+                Console.WriteLine("!  for a Gauss-Jacobi quadrature rule");
+                Console.WriteLine("!  ORDER = " + order + "");
+                Console.WriteLine("!  ALPHA = " + alpha + "");
+                Console.WriteLine("!  BETA  = " + beta + "");
+                Console.WriteLine("!");
+                Console.WriteLine("!  Standard rule:");
+                Console.WriteLine("!    Integral ( -1 <= x <= +1 ) (1-x)^ALPHA (1+x)^BETA f(x) dx");
+                Console.WriteLine("!    is to be approximated by");
+                Console.WriteLine("!    sum ( 1 <= I <= ORDER ) w(i) * f(x(i)).");
+                Console.WriteLine("!");
+
+                for (i = 0; i < order; i++)
+                {
+                    Console.WriteLine("  w(" + i + 1 + ") = "
+                                      + w[i].ToString("0.################") + "");
+                }
+
+                Console.WriteLine("");
+                for (i = 0; i < order; i++)
+                {
+                    Console.WriteLine("  x(" + i + 1 + ") = "
+                                      + x[i].ToString("0.################") + "");
+                }
+
+                Console.WriteLine("");
+                for (i = 0; i < 2; i++)
+                {
+                    Console.WriteLine("  r(" + i + 1 + ") = " + r[i] + "");
+                }
+            }
+            else if (output == "MAT")
+            {
+                Console.WriteLine("%");
+                Console.WriteLine("%  Weights W, abscissas X and range R");
+                Console.WriteLine("%  for a Gauss-Jacobi quadrature rule");
+                Console.WriteLine("%  ORDER = " + order + "");
+                Console.WriteLine("%  ALPHA = " + alpha + "");
+                Console.WriteLine("%  BETA  = " + beta + "");
+                Console.WriteLine("%");
+                Console.WriteLine("%  Standard rule:");
+                Console.WriteLine("%    Integral ( -1 <= x <= +1 ) (1-x)^ALPHA (1+x)^BETA f(x) dx");
+                Console.WriteLine("%    is to be approximated by");
+                Console.WriteLine("%    sum ( 1 <= I <= ORDER ) w(i) * f(x(i)).");
+                Console.WriteLine("%");
+
+                for (i = 0; i < order; i++)
+                {
+                    Console.WriteLine("  w(" + i + 1 + ") = "
+                                      + w[i].ToString("0.################") + ";");
+                }
+
+                Console.WriteLine("");
+                for (i = 0; i < order; i++)
+                {
+                    Console.WriteLine("  x(" + i + 1 + ") = "
+                                      + x[i].ToString("0.################") + ";");
+                }
+
+                Console.WriteLine("");
+                for (i = 0; i < 2; i++)
+                {
+                    Console.WriteLine("  r(" + i + 1 + ") = " + r[i] + ";");
+                }
+            }
+            else
+            {
+                output_w = output + "%s_w.txt";
+                output_x = output + "%s_x.txt";
+                output_r = output + "%s_r.txt";
+
+                Console.WriteLine("");
+                Console.WriteLine("  Creating quadrature files.");
+                Console.WriteLine("");
+                Console.WriteLine("  Root file name is     \"" + output + "\".");
+                Console.WriteLine("");
+                Console.WriteLine("  Weight file will be   \"" + output_w + "\".");
+                Console.WriteLine("  Abscissa file will be \"" + output_x + "\".");
+                Console.WriteLine("  Region file will be   \"" + output_r + "\".");
+
+                typeMethods.r8mat_write(output_w, 1, order, w);
+                typeMethods.r8mat_write(output_x, 1, order, x);
+                typeMethods.r8mat_write(output_r, 1, 2, r);
+            }
+        }
+
         public static void j_quadrature_rule(int n, double alpha, double beta, ref double[] x,
         ref double[] w )
 

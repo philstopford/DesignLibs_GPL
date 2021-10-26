@@ -4,6 +4,423 @@ namespace Burkardt.Types
 {
     public static partial class typeMethods
     {
+        public static char[] s_substring ( char[] s, int a, int b )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    S_SUBSTRING returns a substring of a given string.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    10 April 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, char *S, a pointer to a string.
+            //
+            //    Input, int A, B, the indices of the first and last character of S to copy.
+            //    These are 1-based indices!  B should be 
+            //
+            //    Output, char *S_SUBSTRING, a pointer to the substring.
+            //
+        {
+            int i;
+            int j;
+            char[] t;
+
+            t = new char[b+2-a];
+
+            j = 0;
+            for ( i = a; i <= b; i++ )
+            {
+                t[j] = s[i-1];
+                j = j + 1;
+            }
+            t[j] = '\0';
+
+            return t;
+        }
+
+        public static void s_to_format(char[] s, ref int r, ref char code, ref int w, ref int m)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    S_TO_FORMAT reads a FORTRAN format from a string.
+            //
+            //  Discussion:
+            //
+            //    This routine will read as many characters as possible until it reaches
+            //    the end of the string, or encounters a character which cannot be
+            //    part of the format.  This routine is limited in its ability to
+            //    recognize FORTRAN formats.  In particular, we are only expecting
+            //    a single format specification, and cannot handle extra features
+            //    such as 'ES' and 'EN' codes, '5X' spacing, and so on.
+            //
+            //    Legal input is:
+            //
+            //       0 nothing
+            //       1 blanks
+            //       2 optional '('
+            //       3 blanks
+            //       4 optional repeat factor R
+            //       5 blanks
+            //       6 CODE ( 'A', 'B', 'E', 'F', 'G', 'I', 'L', 'O', 'Z', '*' )
+            //       7 blanks
+            //       8 width W
+            //       9 optional decimal point
+            //      10 optional mantissa M
+            //      11 blanks
+            //      12 optional ')'
+            //      13 blanks
+            //
+            //  Example:
+            //
+            //    S                 R   CODE   W    M
+            //
+            //    'I12              1   I      12   0
+            //    'E8.0'            1   E       8   0
+            //    'F10.5'           1   F      10   5
+            //    '2G14.6'          2   G      14   6
+            //    '*'               1   *      -1  -1
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    10 April 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, char *S, the string containing the
+            //    data to be read.  Reading will begin at position 1 and
+            //    terminate at the end of the string, or when no more
+            //    characters can be read.
+            //
+            //    Output, int *R, the repetition factor, which defaults to 1.
+            //
+            //    Output, char *CODE, the format code.
+            //
+            //    Output, int *W, the field width.
+            //
+            //    Output, int *M, the mantissa width.
+            //
+        {
+            char c;
+            int d;
+            bool debug = true;
+            int LEFT = 1;
+            int paren_sum;
+            int pos;
+            int RIGHT = -1;
+            int s_length;
+            int state;
+
+            state = 0;
+            paren_sum = 0;
+            pos = 0;
+            s_length = s_len_trim(s);
+
+            r = 0;
+            w = 0;
+            code = '?';
+            m = 0;
+
+            while (pos < s_length)
+            {
+                c = s[pos];
+                pos = pos + 1;
+                //
+                //  BLANK character:
+                //
+                if (c == ' ')
+                {
+                    if (state == 4)
+                    {
+                        state = 5;
+                    }
+                    else if (state == 6)
+                    {
+                        state = 7;
+                    }
+                    else if (state == 10)
+                    {
+                        state = 11;
+                    }
+                    else if (state == 12)
+                    {
+                        state = 13;
+                    }
+                }
+                //
+                //  LEFT PAREN
+                //
+                else if (c == '(')
+                {
+                    if (state < 2)
+                    {
+                        paren_sum = paren_sum + LEFT;
+                    }
+                    else
+                    {
+                        if (debug)
+                        {
+                            Console.WriteLine("");
+                            Console.WriteLine("S_TO_FORMAT - Fatal error!");
+                            Console.WriteLine("  Current state = " + state + "");
+                            Console.WriteLine("  Input character = '" + c + "'.");
+                        }
+
+                        state = -1;
+                        break;
+                    }
+                }
+                //
+                //  DIGIT (R, F, or W)
+                //
+                else if (ch_is_digit(c))
+                {
+                    if (state <= 3)
+                    {
+                        state = 4;
+                        r = ch_to_digit(c);
+                    }
+                    else if (state == 4)
+                    {
+                        d = ch_to_digit(c);
+                        r = 10 * (r) + d;
+                    }
+                    else if (state == 6 || state == 7)
+                    {
+                        if (code == '*')
+                        {
+                            if (debug)
+                            {
+                                Console.WriteLine("");
+                                Console.WriteLine("S_TO_FORMAT - Fatal error!");
+                                Console.WriteLine("  Current state = " + state + "");
+                                Console.WriteLine("  Current code = '" + code + "'.");
+                                Console.WriteLine("  Input character = '" + c + "'.");
+                            }
+
+                            state = -1;
+                            break;
+                        }
+
+                        state = 8;
+                        w = ch_to_digit(c);
+                    }
+                    else if (state == 8)
+                    {
+                        d = ch_to_digit(c);
+                        w = 10 * (w) + d;
+                    }
+                    else if (state == 9)
+                    {
+                        state = 10;
+                        m = ch_to_digit(c);
+                    }
+                    else if (state == 10)
+                    {
+                        d = ch_to_digit(c);
+                        m = 10 * (m) + d;
+                    }
+                    else
+                    {
+                        if (debug)
+                        {
+                            Console.WriteLine("");
+                            Console.WriteLine("S_TO_FORMAT - Fatal error!");
+                            Console.WriteLine("  Current state = " + state + "");
+                            Console.WriteLine("  Input character = '" + c + "'.");
+                        }
+
+                        state = -1;
+                        break;
+                    }
+                }
+                //
+                //  DECIMAL POINT
+                //
+                else if (c == '.')
+                {
+                    if (state == 8)
+                    {
+                        state = 9;
+                    }
+                    else
+                    {
+                        if (debug)
+                        {
+                            Console.WriteLine("");
+                            Console.WriteLine("S_TO_FORMAT - Fatal error!");
+                            Console.WriteLine("  Current state = " + state + "");
+                            Console.WriteLine("  Input character = '" + c + "'.");
+                        }
+
+                        state = -1;
+                        break;
+                    }
+                }
+                //
+                //  RIGHT PAREN
+                //
+                else if (c == ')')
+                {
+                    paren_sum = paren_sum + RIGHT;
+
+                    if (paren_sum != 0)
+                    {
+                        if (debug)
+                        {
+                            Console.WriteLine("");
+                            Console.WriteLine("S_TO_FORMAT - Fatal error!");
+                            Console.WriteLine("  Current paren sum = " + paren_sum + "");
+                            Console.WriteLine("  Input character = '" + c + "'.");
+                        }
+
+                        state = -1;
+                        break;
+                    }
+
+                    if (state == 6 && code == '*')
+                    {
+                        state = 12;
+                    }
+                    else if (6 <= state)
+                    {
+                        state = 12;
+                    }
+                    else
+                    {
+                        if (debug)
+                        {
+                            Console.WriteLine("");
+                            Console.WriteLine("S_TO_FORMAT - Fatal error!");
+                            Console.WriteLine("  Current state = " + state + "");
+                            Console.WriteLine("  Input character = '" + c + "'.");
+                        }
+
+                        state = -1;
+                        break;
+                    }
+                }
+                //
+                //  Code
+                //
+                else if (ch_is_format_code(c))
+                {
+                    if (state < 6)
+                    {
+                        state = 6;
+                        code = c;
+                    }
+                    else
+                    {
+                        if (debug)
+                        {
+                            Console.WriteLine("");
+                            Console.WriteLine("S_TO_FORMAT - Fatal error!");
+                            Console.WriteLine("  Current state = " + state + "");
+                            Console.WriteLine("  Input character = '" + c + "'.");
+                        }
+
+                        state = -1;
+                        break;
+                    }
+                }
+                //
+                //  Unexpected character
+                //
+                else
+                {
+                    if (debug)
+                    {
+                        Console.WriteLine("");
+                        Console.WriteLine("S_TO_FORMAT - Fatal error!");
+                        Console.WriteLine("  Current state = " + state + "");
+                        Console.WriteLine("  Input character = '" + c + "'.");
+                    }
+
+                    state = -1;
+                    break;
+                }
+            }
+
+            if (paren_sum != 0)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("S_TO_FORMAT - Fatal error!");
+                Console.WriteLine("  Parentheses mismatch.");
+                return;
+            }
+
+            if (state < 0)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("S_TO_FORMAT - Fatal error!");
+                Console.WriteLine("  Parsing error.");
+                return;
+            }
+
+            if (r == 0)
+            {
+                r = 1;
+            }
+
+            return;
+        }
+
+        public static void s_trim ( ref char[] s )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    S_TRIM promotes the final null forward through trailing blanks.
+            //
+            //  Discussion:
+            //
+            //    What we're trying to say is that we reposition the null character
+            //    so that trailing blanks are no longer visible.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    10 April 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input/output, char *S, the string to be trimmed.
+            //
+        {
+            s = String.Join("",s).TrimEnd().ToCharArray();
+        }
+        
         public static void s_word_extract_first ( string s, ref string s1, ref string s2 )
 
         //****************************************************************************80
@@ -86,6 +503,52 @@ namespace Burkardt.Types
             return a.ToLower() == b.ToLower();
         }
 
+        public static int s_len_trim ( char[] s )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    S_LEN_TRIM returns the length of a string to the last nonblank.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    26 April 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, char *S, a pointer to a string.
+            //
+            //    Output, int S_LEN_TRIM, the length of the string to the last nonblank.
+            //    If S_LEN_TRIM is 0, then the string is entirely blank.
+            //
+        {
+            int n;
+            int t;
+
+            n =  ( s.Length );
+            t = n  - 1;
+
+            while ( 0 < n ) 
+            {
+                if ( s[t] != ' ' )
+                {
+                    return n;
+                }
+                t--;
+                n--;
+            }
+
+            return n;
+        }
         public static int s_len_trim(string line)
         {
             //****************************************************************************80
@@ -133,6 +596,42 @@ namespace Burkardt.Types
             return index;
         }
 
+        public static bool ch_is_digit ( char c )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    CH_IS_DIGIT returns TRUE if a character is a decimal digit.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    05 December 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, char C, the character to be analyzed.
+            //
+            //    Output, bool CH_IS_DIGIT, is TRUE if C is a digit.
+            //
+        {
+            if ( '0' <= c && c <= '9' )
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         public static int ch_to_digit(char ch)
             //****************************************************************************80
             //
@@ -187,6 +686,134 @@ namespace Burkardt.Types
             }
 
             return digit;
+        }
+        
+        public static bool ch_is_format_code ( char c )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    CH_IS_FORMAT_CODE returns TRUE if a character is a FORTRAN format code.
+            //
+            //  Discussion:
+            //
+            //    The format codes accepted here are not the only legal format
+            //    codes in FORTRAN90.  However, they are more than sufficient
+            //    for my needs!
+            //
+            //  Table:
+            //
+            //    A  Character
+            //    B  Binary digits
+            //    D  Real number, exponential representation
+            //    E  Real number, exponential representation
+            //    F  Real number, fixed point
+            //    G  General format
+            //    I  Integer
+            //    L  Logical variable
+            //    O  Octal digits
+            //    Z  Hexadecimal digits
+            //    *  Free format
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    21 November 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, char C, the character to be analyzed.
+            //
+            //    Output, bool CH_IS_FORMAT_CODE, is TRUE if C is a FORTRAN format code.
+            //
+        {
+            if ( ch_eqi ( c, 'A' ) ) 
+            {
+                return true;
+            }
+            else if ( ch_eqi ( c, 'B' ) )
+            {
+                return true;
+            }
+            else if ( ch_eqi ( c, 'D' ) )
+            {
+                return true;
+            }
+            else if ( ch_eqi ( c, 'E' ) )
+            {
+                return true;
+            }
+            else if ( ch_eqi ( c, 'F' ) )
+            {
+                return true;
+            }
+            else if ( ch_eqi ( c, 'G' ) )
+            {
+                return true;
+            }
+            else if ( ch_eqi ( c, 'I' ) )
+            {
+                return true;
+            }
+            else if ( ch_eqi ( c, 'L' ) )
+            {
+                return true;
+            }
+            else if ( ch_eqi ( c, 'O' ) )
+            {
+                return true;
+            }
+            else if ( ch_eqi ( c, 'Z' ) )
+            {
+                return true;
+            }
+            else if ( c == '*' )
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        
+        public static bool ch_eqi ( char c1, char c2 )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    CH_EQI is true if two characters are equal, disregarding case.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    13 June 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, char C1, C2, the characters to compare.
+            //
+            //    Output, bool CH_EQI, is true if the two characters are equal,
+            //    disregarding case.
+            //
+        {
+            return ( c1.ToString().ToLower() == c2.ToString().ToLower() );
         }
 
         public static int s_to_i4(string st, ref int last, ref bool error )

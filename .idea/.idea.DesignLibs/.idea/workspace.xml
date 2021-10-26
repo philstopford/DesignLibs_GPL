@@ -466,6 +466,9 @@
     <projectFile>BurkhardtTest/IHSDatasetTest/IHSDatasetTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Jacobi/JacobiRuleSSTest/JacobiRuleSSTest.csproj</projectFile>
     <projectFile>BurkhardtTest/ImageDenoiseTest/ImageDenoiseTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Latin/LatinCenterDatasetTest/LatinCenterDatasetTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Latin/LatinEdgeDatasetTest/LatinEdgeDatasetTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Latin/LatinRandomDatasetTest/LatinRandomDatasetTest.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -4590,6 +4593,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="LatinCenterDatasetTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Latin/LatinCenterDatasetTest/LatinCenterDatasetTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="LatinCenterTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/LatinCenterTest/Debug/net5.0/LatinCenterTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -4644,6 +4665,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="LatinEdgeDatasetTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Latin/LatinEdgeDatasetTest/LatinEdgeDatasetTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="LatinEdgeTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/LatinEdgeTest/Debug/net5.0/LatinEdgeTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -4658,6 +4697,24 @@
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
       <option name="PROJECT_TFM" value="net5.0" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="LatinRandomDatasetTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Latin/LatinRandomDatasetTest/LatinRandomDatasetTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
       <method v="2">
         <option name="Build" />
       </method>
@@ -9431,6 +9488,9 @@
       <item itemvalue=".NET Project.IHSDatasetTest" />
       <item itemvalue=".NET Project.JacobiRuleSSTest" />
       <item itemvalue=".NET Project.ImageDenoiseTest" />
+      <item itemvalue=".NET Project.LatinCenterDatasetTest" />
+      <item itemvalue=".NET Project.LatinEdgeDatasetTest" />
+      <item itemvalue=".NET Project.LatinRandomDatasetTest" />
     </list>
     <recent_temporary>
       <list>

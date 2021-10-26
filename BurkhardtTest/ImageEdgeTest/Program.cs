@@ -67,7 +67,7 @@ namespace ImageEdgeTest
             }
 
             int inputIndex = 0;
-            PGMA.pgma_read_header(ref input_unit, ref inputIndex, ref m, ref n, ref g_max);
+            PGMA.pgma_read_header(input_unit, ref inputIndex, ref m, ref n, ref g_max);
 
             Console.WriteLine("");
             Console.WriteLine("  Number of rows =          " + m + "");
@@ -76,7 +76,7 @@ namespace ImageEdgeTest
 
             g = new int[m * n];
 
-            PGMA.pgma_read_data(ref input_unit, ref inputIndex, m, n, ref g);
+            PGMA.pgma_read_data(input_unit, ref inputIndex, m, n, ref g);
 
 
             g_histo = typeMethods.i4mat_histogram(m, n, g, 255);

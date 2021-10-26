@@ -218,7 +218,7 @@ namespace Burkardt.IO
             //
             //  Read the header.
             //
-            pgma_read_header(ref input, ref inputIndex, ref xsize, ref ysize, ref maxg);
+            pgma_read_header(input, ref inputIndex, ref xsize, ref ysize, ref maxg);
             //
             //  Allocate storage for the data.
             //
@@ -228,10 +228,10 @@ namespace Burkardt.IO
             //
             //  Read the data.
             //
-            pgma_read_data(ref input, ref inputIndex, xsize, ysize, ref g);
+            pgma_read_data(input, ref inputIndex, xsize, ysize, ref g);
         }
 
-        public static void pgma_read_data(ref string[] input, ref int inputIndex, int xsize, int ysize, ref int[] g)
+        public static void pgma_read_data(string[] input, ref int inputIndex, int xsize, int ysize, ref int[] g)
 
             //****************************************************************************80
             //
@@ -279,7 +279,7 @@ namespace Burkardt.IO
             }
         }
 
-        public static void pgma_read_header(ref string[] input, ref int inputIndex, ref int xsize, ref int ysize,
+        public static void pgma_read_header(string[] input, ref int inputIndex, ref int xsize, ref int ysize,
                 ref int maxg)
 
             //****************************************************************************80

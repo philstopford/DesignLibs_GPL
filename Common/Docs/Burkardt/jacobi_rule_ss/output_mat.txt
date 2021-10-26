@@ -1,0 +1,41 @@
+
+16 January 2008 08:49:53 AM
+
+JACOBI_RULE
+  C++ version
+
+  Compiled on Jan 16 2008 at 08:48:29.
+
+  Compute a Gauss-Jacobi quadrature rule for approximating
+
+    Integral ( -1 <= x <= +1 ) (1-x)^ALPHA (1+x)^BETA f(x) dx
+
+  of order ORDER.
+
+  The user specifies ORDER, ALPHA, BETA, and OUTPUT.
+
+  OUTPUT is:
+
+  "C++" for printed C++ output;
+  "F77" for printed Fortran77 output;
+  "F90" for printed Fortran90 output;
+  "MAT" for printed MATLAB output;
+
+  or:
+
+  "filename" to generate 3 files:
+
+    filename_w.txt - the weight file
+    filename_x.txt - the abscissa file.
+    filename_r.txt - the region file.
+
+  The requested order of the rule is = 4
+
+  The requested value of ALPHA = -1.99811
+
+  The requested value of BETA = -3.22452e-232
+
+  OUTPUT option is "MAT".
+
+JACOBI_COMPUTE - Fatal error!
+  -1.0 < ALPHA is required.

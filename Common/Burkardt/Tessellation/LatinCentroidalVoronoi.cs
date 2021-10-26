@@ -292,6 +292,175 @@ namespace Burkardt.Tessellation
             }
         }
 
+        public static void lcvt_write(int dim_num, int n, int seed_start, int sample_function_init,
+                string file_in_name, int sample_function_cvt, int sample_num, int cvt_it,
+                double cvt_energy, int latin_it, double latin_energy, double[] cell_generator,
+                string file_out_name)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    LCVT_WRITE writes a Latinized CVT dataset to a file.
+            //
+            //  Discussion:
+            //
+            //    The initial lines of the file are comments, which begin with a
+            //    "#" character.
+            //
+            //    Thereafter, each line of the file contains the M-dimensional
+            //    components of the next entry of the dataset.
+            //
+            //  Modified:
+            //
+            //    09 September 2006
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int DIM_NUM, the spatial dimension.
+            //
+            //    Input, int N, the number of points.
+            //
+            //    Input, int SEED_START, the initial random number seed.
+            //
+            //    Input, int SAMPLE_FUNCTION_INIT, specifies how the initial
+            //    generators are chosen:
+            //    -1, the initialization function is RANDOM (C++ intrinsic),
+            //    0, the initialization function is UNIFORM,
+            //    1, the initialization function is HALTON,
+            //    2, the initialization function is GRID,
+            //    3, the initial values are read in from a file.
+            //
+            //    Input, char *FILE_IN_NAME, the name of the file
+            //    from which initialization values were read for the generators,
+            //    if SAMPLE_FUNCTION_INIT = 3.
+            //
+            //    Input, int SAMPLE_FUNCTION_CVT, specifies how the region is sampled:
+            //    -1, the sampling function is RANDOM (C++ intrinsic),
+            //    0, the sampling function is UNIFORM,
+            //    1, the sampling function is HALTON,
+            //    2, the sampling function is GRID.
+            //
+            //    Input, int SAMPLE_NUM, the number of sampling points used on
+            //    each CVT iteration.
+            //
+            //    Input, int CVT_IT, the number of CVT iterations.
+            //
+            //    Input, double CVT_ENERGY, the energy of the final CVT dataset.
+            //
+            //    Input, int LATIN_IT, the number of Latin iterations.
+            //
+            //    Input, double LATIN_ENERGY, the energy of the Latinized
+            //    CVT dataset.
+            //
+            //    Input, double CELL_GENERATOR[DIM_NUM*N], the points.
+            //
+            //    Input, char *FILE_OUT_NAME, the name of
+            //    the output file.
+            //
+        {
+            bool comment = true;
+            List<string> file_out = new List<string>();
+            int i;
+            int j;
+
+
+            if (comment)
+            {
+                file_out.Add("#  " + file_out_name + "");
+                file_out.Add("#  created by routine LCVT_WRITE.C" + "");
+                file_out.Add("#");
+
+                file_out.Add("#  Dimension DIM_NUM =        " + dim_num + "");
+                file_out.Add("#  Number of points N =       " + n + "");
+                file_out.Add("#  EPSILON (unit roundoff) =  " + typeMethods.r8_epsilon() + "");
+
+                if (sample_function_init == 0 ||
+                    sample_function_init == 1 ||
+                    sample_function_cvt == 0 ||
+                    sample_function_cvt == 0)
+                {
+                    file_out.Add("#");
+                    file_out.Add("#  Initial SEED      =        " + seed_start + "");
+                }
+
+                file_out.Add("#");
+                if (sample_function_init == -1)
+                {
+                    file_out.Add("#  Initialization by RANDOM (C++ STDLIB intrinsic).");
+                }
+                else if (sample_function_init == 0)
+                {
+                    file_out.Add("#  Initialization by UNIFORM.");
+                }
+                else if (sample_function_init == 1)
+                {
+                    file_out.Add("#  Initialization by HALTON.");
+                }
+                else if (sample_function_init == 2)
+                {
+                    file_out.Add("#  Initialization by GRID.");
+                }
+                else if (sample_function_init == 3)
+                {
+                    file_out.Add("#  Initialization from file \"" + file_in_name + "\".");
+                }
+
+                if (sample_function_cvt == -1)
+                {
+                    file_out.Add("#  Sampling by RANDOM (C++ STDLIB intrinsic).");
+                }
+                else if (sample_function_cvt == 0)
+                {
+                    file_out.Add("#  Sampling by UNIFORM.");
+                }
+                else if (sample_function_cvt == 1)
+                {
+                    file_out.Add("#  Sampling by HALTON.");
+                }
+                else if (sample_function_cvt == 2)
+                {
+                    file_out.Add("#  Sampling by GRID.");
+                }
+
+                file_out.Add("#  Number of sample points    " + sample_num + "");
+                file_out.Add("#  Number of CVT iterations   " + cvt_it + "");
+                file_out.Add("#  Energy of CVT dataset      " + cvt_energy + "");
+                file_out.Add("#  Number of Latin iterations " + latin_it + "");
+                file_out.Add("#  Energy of Latin dataset    " + latin_energy + "");
+
+                file_out.Add("#");
+            }
+
+            for (j = 0; j < n; j++)
+            {
+                string cout = "";
+                for (i = 0; i < dim_num; i++)
+                {
+                    cout += cell_generator[i + j * dim_num].ToString().PadLeft(10) + "  ";
+                }
+
+                file_out.Add(cout);
+            }
+
+
+            try
+            {
+                File.WriteAllLines(file_out_name, file_out);
+            }
+            catch
+            {
+                Console.WriteLine("");
+                Console.WriteLine("LCVT_WRITE - Fatal error!");
+                Console.WriteLine("  Could not open the output file.");
+            }
+
+        }
+
         public static void cvt_write(int dim_num, int n, int batch, int seed_init, int seed,
             string init_string, int it_max, int it_fixed, int it_num,
             double it_diff, double energy, string sample_string, int sample_num,

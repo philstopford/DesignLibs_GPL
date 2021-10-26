@@ -460,6 +460,7 @@
     <projectFile>BurkhardtTest/FeynmanKac/FeynmanKac3DTest/FeynmanKac3DTest.csproj</projectFile>
     <projectFile>BurkhardtTest/FFTSerialTest/FFTSerialTest.csproj</projectFile>
     <projectFile>BurkhardtTest/GeometryTest/GeometryTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/IO/HBIOTest/HBIOTest.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -3662,6 +3663,24 @@
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
       <option name="PROJECT_TFM" value="net5.0" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="HBIOTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/IO/HBIOTest/HBIOTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
       <method v="2">
         <option name="Build" />
       </method>
@@ -9311,6 +9330,7 @@
       <item itemvalue=".NET Project.GeometryTest" />
       <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMAIOTest" />
       <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMBIOTest" />
+      <item itemvalue=".NET Project.HBIOTest" />
     </list>
     <recent_temporary>
       <list>

@@ -1412,6 +1412,86 @@ namespace Burkardt
             }
         }
         
+        public static int fibonacci ( int k )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    FIBONACCI returns the Fibonacci number of given index.
+            //
+            //  Example:
+            //
+            //    K   Fibonacci
+            //
+            //    0   0
+            //    1   1
+            //    2   1
+            //    3   2
+            //    4   3
+            //    5   5
+            //    6   8
+            //    7  13
+            //    8  21
+            //    9  34
+            //   10  55
+            //   11  89
+            //   12 144
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    19 April 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int K, the index of the Fibonacci number to be used.
+            //    K must be at least 1.
+            //
+            //    Output, int FIBONACCI, the value of the K-th Fibonacci number.
+            //
+        {
+            int a;
+            int b;
+            int c;
+            int kk;
+
+            if ( k < 0 )
+            {
+                a = - typeMethods.i4_huge ( );
+                return a;
+            }
+            else if ( k == 0 )
+            {
+                a = 0;
+                return a;
+            }
+            else if ( k == 1 )
+            {
+                a = 1;
+                return a;
+            }
+
+            c = 0;
+            b = 0;
+            a = 1;
+
+            for ( kk = 2; kk <= k; kk++ )
+            {
+                c = b;
+                b = a;
+                a = c + b;
+            }
+            return a;
+        }
+        
         public static double Gamma(double z)
         {
             if (z < 0.5)

@@ -31,7 +31,6 @@ namespace SubsetTestNS
             int change;
             int[] g = new int[4];
             int i;
-            int k;
             int n = 4;
 
             Console.WriteLine("");
@@ -44,11 +43,12 @@ namespace SubsetTestNS
             Console.WriteLine("");
 
             change = -n;
-            k = 0;
 
+            typeMethods.GrayData data = new typeMethods.GrayData();
+            
             for (;;)
             {
-                typeMethods.gray_next(n, ref change, ref k, ref a);
+                typeMethods.gray_next(ref data, n, ref change);
 
                 if (change == -n)
                 {
@@ -67,7 +67,7 @@ namespace SubsetTestNS
                 }
 
                 string cout = "  "
-                              + k.ToString().PadLeft(2) + "  "
+                              + data.k.ToString().PadLeft(2) + "  "
                               + change.ToString().PadLeft(6) + "  ";
                 for (i = 0; i < n; i++)
                 {

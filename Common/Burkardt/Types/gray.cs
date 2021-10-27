@@ -4,7 +4,7 @@ namespace Burkardt.Types
 {
     public static partial class typeMethods
     {
-                public static bool gray_code_check(int n, int[] t)
+        public static bool gray_code_check(int n, int[] t)
 
             //****************************************************************************80
             // 
@@ -87,11 +87,11 @@ namespace Burkardt.Types
             //    Output, int GRAY_CODE_ENUM, the number of distinct elements.
             // 
         {
-            int value = (int)Math.Pow(2, n);
+            int value = (int) Math.Pow(2, n);
 
             return value;
         }
-        
+
         public static void gray_code_successor(int n, ref int[] t, ref int rank)
 
             //****************************************************************************80
@@ -231,7 +231,189 @@ namespace Burkardt.Types
             }
         }
 
-        public static void gray_next(int n, ref int change, ref int k, ref int[] a)
+        public class GrayData
+        {
+            public int k = 0;
+            public int n_save = -1;
+            public int[] a = null;
+        }
+
+        public static void gray_next_(ref GrayData data, int n, ref int change)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    GRAY_NEXT generates the next Gray code by switching one item at a time.
+            //
+            //  Discussion:
+            //
+            //    On the first call only, the user must set CHANGE = -N.
+            //    This initializes the routine to the Gray code for N zeroes.
+            //
+            //    Each time it is called thereafter, it returns in CHANGE the index
+            //    of the item to be switched in the Gray code.  The sign of CHANGE
+            //    indicates whether the item is to be added or subtracted (or
+            //    whether the corresponding bit should become 1 or 0).  When
+            //    CHANGE is equal to N+1 on output, all the Gray codes have been
+            //    generated.
+            //
+            //    The routine has internal memory that is set up on call with
+            //    CHANGE = -N, and released on final return.
+            //
+            //  Example:
+            //
+            //    N  CHANGE         Subset in/out   Binary Number
+            //                      Interpretation  Interpretation
+            //                       1 2 4 8
+            //   --  ---------      --------------  --------------
+            //
+            //    4   -4 / 0         0 0 0 0         0
+            //
+            //        +1             1 0 0 0         1
+            //          +2           1 1 0 0         3
+            //        -1             0 1 0 0         2
+            //            +3         0 1 1 0         6
+            //        +1             1 1 1 0         7
+            //          -2           1 0 1 0         5
+            //        -1             0 0 1 0         4
+            //              +4       0 0 1 1        12
+            //        +1             1 0 1 1        13
+            //          +2           1 1 1 1        15
+            //        -1             0 1 1 1        14
+            //            -3         0 1 0 1        10
+            //        +1             1 1 0 1        11
+            //          -2           1 0 0 1         9
+            //        -1             0 0 0 1         8
+            //              -4       0 0 0 0         0
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    14 May 2003
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Albert Nijenhuis, Herbert Wilf,
+            //    Combinatorial Algorithms for Computers and Calculators,
+            //    Second Edition,
+            //    Academic Press, 1978,
+            //    ISBN: 0-12-519260-6,
+            //    LC: QA164.N54.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order of the total set from which
+            //    subsets will be drawn.
+            //
+            //    Input/output, int *CHANGE.  This item is used for input only
+            //    on the first call for a particular sequence of Gray codes,
+            //    at which time it must be set to -N.  This corresponds to
+            //    all items being excluded, or all bits being 0, in the Gray code.
+            //    On output, CHANGE indicates which of the N items must be "changed", 
+            //    and the sign indicates whether the item is to be added or removed
+            //    (or the bit is to become 1 or 0).  Note that on return from the 
+            //    first call, CHANGE is set to 0, indicating that we begin with
+            //    the empty set.
+            //
+        {
+            int i;
+
+            if (n <= 0)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("GRAY_NEXT - Fatal error!");
+                Console.WriteLine("  Input value of N <= 0.");
+                return;
+            }
+
+            if (change == -n)
+            {
+
+                data.a = new int[n];
+                for (i = 0; i < n; i++)
+                {
+                    data.a[i] = 0;
+                }
+
+                data.n_save = n;
+                data.k = 1;
+                change = 0;
+
+                return;
+            }
+
+            if (n != data.n_save)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("GRAY_NEXT - Fatal error!");
+                Console.WriteLine("  Input value of N has changed from definition value.");
+            }
+
+            //
+            //  First determine WHICH item is to be changed.
+            //
+            if ((data.k % 2) == 1)
+            {
+                change = 1;
+            }
+            else
+            {
+                for (i = 1; i <= data.n_save; i++)
+                {
+                    if (data.a[i - 1] == 1)
+                    {
+                        change = i + 1;
+                        break;
+                    }
+                }
+            }
+
+            //
+            //  Take care of the terminal case CHANGE = N + 1.
+            //
+            if (change == n + 1)
+            {
+                change = n;
+            }
+
+            //
+            //  Now determine HOW the item is to be changed.
+            //
+            if (data.a[change - 1] == 0)
+            {
+                data.a[change - 1] = 1;
+            }
+            else if (data.a[change - 1] == 1)
+            {
+                data.a[change - 1] = 0;
+                change = -(change);
+            }
+
+            //
+            //  Update the counter.
+            //
+            data.k = data.k + 1;
+            //
+            //  If the output CHANGE = -N_SAVE, then we're done.
+            //
+            if (change == -data.n_save)
+            {
+                data.a = null;
+                data.n_save = 0;
+                data.k = 0;
+            }
+
+        }
+
+        public static void gray_next(ref GrayData data, int n, ref int change)
 
             //****************************************************************************80
             //
@@ -337,10 +519,10 @@ namespace Burkardt.Types
             if (change == -n)
             {
                 change = 0;
-                k = 1;
+                data.k = 1;
                 for (i = 0; i < n; i++)
                 {
-                    a[i] = 0;
+                    data.a[i] = 0;
                 }
 
                 return;
@@ -349,7 +531,7 @@ namespace Burkardt.Types
             //
             //  First determine WHICH item is to be changed.
             //
-            if ((k % 2) == 1)
+            if ((data.k % 2) == 1)
             {
                 change = 1;
             }
@@ -357,7 +539,7 @@ namespace Burkardt.Types
             {
                 for (i = 1; i <= n; i++)
                 {
-                    if (a[i - 1] == 1)
+                    if (data.a[i - 1] == 1)
                     {
                         change = i + 1;
                         break;
@@ -376,26 +558,26 @@ namespace Burkardt.Types
             //
             //  Now determine HOW the item is to be changed.
             //
-            if (a[change - 1] == 0)
+            if (data.a[change - 1] == 0)
             {
-                a[change - 1] = 1;
+                data.a[change - 1] = 1;
             }
-            else if (a[change - 1] == 1)
+            else if (data.a[change - 1] == 1)
             {
-                a[change - 1] = 0;
+                data.a[change - 1] = 0;
                 change = -(change);
             }
 
             //
             //  Update the counter.
             //
-            k = k + 1;
+            data.k = data.k + 1;
             //
             //  If the output CHANGE = -N, then we're done.
             //
             if (change == -n)
             {
-                k = 0;
+                data.k = 0;
             }
 
         }

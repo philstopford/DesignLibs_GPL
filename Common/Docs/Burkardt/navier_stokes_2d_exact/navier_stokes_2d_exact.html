@@ -1,0 +1,327 @@
+<html>
+
+  
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/navier_stokes_2d_exact/navier_stokes_2d_exact.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 15:54:09 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      NAVIER_STOKES_2D_EXACT - Exact solutions to the 2D Incompressible Time-Dependent Navier Stokes Equations
+    </title>
+  </head>
+
+  <body bgcolor="#EEEEEE" link="#CC0000" alink="#FF3300" vlink="#000055">
+
+    <h1 align = "center">
+      NAVIER_STOKES_2D_EXACT<br> 
+      Exact solutions to the <br>
+      2D Incompressible Time-Dependent Navier Stokes Equations
+    </h1>
+
+    <hr>
+
+    <p>
+      <b>NAVIER_STOKES_2D_EXACT</b>,
+      which
+      evaluates exact solutions to the incompressible time-dependent
+      Navier-Stokes equations over an arbitrary domain in 2D.
+    </p>
+
+    <p>
+      <ul>
+        <li>
+          <b>Lukas</b>: steady flow, pressure is zero everywhere;
+        </li>
+        <li>
+          <b>Poiseuille</b>: steady flow, vertical velocity and right hand side are zero everywhere;
+        </li>
+        <li>
+          <b>Spiral</b>: velocity is zero on the boundary of the unit square;
+        </li>
+        <li>
+          <b>Taylor</b>: source term is zero everywhere.
+        </li>
+        <li>
+          <b>Vortex</b>: steady vortex flow.
+        </li>
+      </ul>
+    </p>
+
+    <h3 align = "center">
+      Licensing:
+    </h3>
+ 
+    <p>
+      The computer code and data files made available on this web page 
+      are distributed under
+      <a href = "https://people.math.sc.edu/Burkardt/txt/gnu_lgpl.txt">the GNU LGPL license.</a>
+    </p>
+
+
+    <h3 align = "center">
+      Related Data and Programs:
+    </h3>
+
+    <p>
+      <a href = "../navier_stokes_3d_exact/navier_stokes_3d_exact.html">
+      NAVIER_STOKES_3D_EXACT</a>,
+      which
+      evaluates an exact solution to the incompressible time-dependent
+      Navier-Stokes equations over an arbitrary domain in 3D.
+    </p>
+
+    <p>
+      <a href = "https://people.math.sc.edu/Burkardt/m_src/navier_stokes_mesh2d/navier_stokes_mesh2d.html">
+      NAVIER_STOKES_MESH2D</a>,
+      MATLAB data files which
+      define triangular meshes for several
+      2D test problems involving the Navier Stokes equations
+      for fluid flow, provided by Leo Rebholz.
+    </p>
+
+    <p>
+      <a href = "../spiral_data/spiral_data.html">
+      SPIRAL_DATA</a>,
+      which
+      computes a velocity vector field that satisfies the continuity 
+      equation, writing the data to a file that can be plotted
+      by gnuplot.
+    </p>
+
+    <p>
+      <a href = "../stokes_2d_exact/stokes_2d_exact.html">
+      STOKES_2D_EXACT</a>,
+      which
+      evaluates exact solutions to the incompressible steady
+      Stokes equations over the unit square in 2D.
+    </p>
+
+    <h3 align = "center">
+      Reference:
+    </h3>
+
+    <p>
+      <ol>
+        <li>
+          Maxim Olshanskii, Leo Rebholz,<br>
+          Application of barycenter refined meshes in linear elasticity
+          and incompressible fluid dynamics,<br>
+          ETNA: Electronic Transactions in Numerical Analysis,<br>
+          Volume 38, pages 258-274, 2011.
+        </li>
+        <li>
+          Geoffrey Taylor,<br>
+          On the decay of vortices in a viscous fluid,<br>
+          Philosophical Magazine,<br>
+          Volume 46, 1923, pages 671-674.
+        </li>
+        <li>
+          Geoffrey Taylor, A E Green,<br>
+          Mechanism for the production of small eddies from large ones,<br>
+          Proceedings of the Royal Society of London, <br>
+          Series A, Volume 158, 1937, pages 499-521.
+        </li>
+      </ol>
+    </p>
+
+
+    <h3 align = "center">
+      Examples and Tests:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <a href = "ns2de_test-2.html">ns2de_test.txt</a>,
+          the output file.
+        </li>
+      </ul>
+    </p>
+
+    <p>
+      Lukas Bystricky flow:
+      <ul>
+        <li>
+          <a href = "lukas_commands.txt">lukas_commands.txt</a>,
+          commands to draw the velocity field.
+        </li>
+        <li>
+          <a href = "lukas_data.txt">lukas_data.txt</a>,
+          velocity field data.
+        </li>
+        <li>
+          <a href = "lukas.png">lukas.png</a>,
+          a PNG plot of the velocity field.
+        </li>
+      </ul>
+    </p>
+
+    <p>
+      Poiseuille flow:
+      <ul>
+        <li>
+          <a href = "poiseuille_commands.txt">poiseuille_commands.txt</a>,
+          commands to draw the velocity field.
+        </li>
+        <li>
+          <a href = "poiseuille_data.txt">poiseuille_data.txt</a>,
+          velocity field data.
+        </li>
+        <li>
+          <a href = "poiseuille.png">poiseuille.png</a>,
+          a PNG plot of the velocity field.
+        </li>
+      </ul>
+    </p>
+
+    <p>
+      Spiral flow:
+      <ul>
+        <li>
+          <a href = "spiral_commands.txt">spiral_commands.txt</a>,
+          commands to draw the velocity field.
+        </li>
+        <li>
+          <a href = "spiral_data.txt">spiral_data.txt</a>,
+          velocity field data.
+        </li>
+        <li>
+          <a href = "spiral.png">spiral.png</a>,
+          a PNG plot of the velocity field.
+        </li>
+      </ul>
+    </p>
+
+    <p>
+      Taylor flow:
+      <ul>
+        <li>
+          <a href = "taylor_commands.txt">taylor_commands.txt</a>,
+          commands to draw the velocity field.
+        </li>
+        <li>
+          <a href = "taylor_data.txt">taylor_data.txt</a>,
+          velocity field data.
+        </li>
+        <li>
+          <a href = "taylor.png">taylor.png</a>,
+          a PNG plot of the velocity field.
+        </li>
+      </ul>
+    </p>
+
+    <p>
+      Vortex flow:
+      <ul>
+        <li>
+          <a href = "vortex_commands.txt">vortex_commands.txt</a>,
+          commands to draw the velocity field.
+        </li>
+        <li>
+          <a href = "vortex_data.txt">vortex_data.txt</a>,
+          velocity field data.
+        </li>
+        <li>
+          <a href = "vortex.png">vortex.png</a>,
+          a PNG plot of the velocity field.
+        </li>
+      </ul>
+    </p>
+
+    <h3 align = "center">
+      List of Routines:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <b>GRID_2D</b> returns a regular 2D grid.
+        </li>
+        <li>
+          <b>NS2DE_GNUPLOT</b> writes the Navier-Stokes solution to files for GNUPLOT.
+        </li>
+        <li>
+          <b>R8VEC_AMAX</b> returns the maximum absolute value in an R8VEC.
+        </li>
+        <li>
+          <b>R8VEC_AMIN</b> returns the minimum absolute value in an R8VEC.
+        </li>
+        <li>
+          <b>R8VEC_LINSPACE</b> creates a vector of linearly spaced values.
+        </li>
+        <li>
+          <b>R8VEC_MAX</b> returns the value of the maximum element in an R8VEC.
+        </li>
+        <li>
+          <b>R8VEC_MIN</b> returns the value of the minimum element in an R8VEC.
+        </li>
+        <li>
+          <b>R8VEC_NORM_L2</b> returns the L2 norm of an R8VEC.
+        </li>
+        <li>
+          <b>R8VEC_UNIFORM_AB_NEW</b> returns a scaled pseudorandom R8VEC.
+        </li>
+        <li>
+          <b>RESID_LUKAS</b> returns Lukas Bystricky residuals.
+        </li>
+        <li>
+          <b>RESID_POISEUILLE</b> returns Poiseuille residuals.
+        </li>
+        <li>
+          <b>RESID_SPIRAL</b> evaluates Spiral residuals.
+        </li>
+        <li>
+          <b>RESID_TAYLOR</b> returns Taylor residuals.
+        </li>
+        <li>
+          <b>RESID_VORTEX</b> returns Vortex residuals.
+        </li>
+        <li>
+          <b>RHS_LUKAS</b> evaluates Lukas Bystricky right hand sides.
+        </li>
+        <li>
+          <b>RHS_POISEUILLE</b> evaluates Poiseuille right hand sides.
+        </li>
+        <li>
+          <b>RHS_SPIRAL</b> evaluates Spiral right hand sides.
+        </li>
+        <li>
+          <b>RHS_TAYLOR</b> returns Taylor right hand sides.
+        </li>
+        <li>
+          <b>RHS_VORTEX</b> returns Vortex right hand sides.
+        </li>
+        <li>
+          <b>UVP_LUKAS</b> evaluates Lukas Bystricky's solution.
+        </li>
+        <li>
+          <b>UVP_POISEUILLE</b> evaluate Poiseuille solutions.
+        </li>
+        <li>
+          <b>UVP_SPIRAL</b> evaluates Spiral solutions.
+        </li>
+        <li>
+          <b>UVP_TAYLOR</b> evaluates Taylor solutions.
+        </li>
+        <li>
+          <b>UVP_VORTEX</b> evaluates Vortex solutions.
+        </li>
+      </ul>
+    </p>
+
+
+    <hr>
+
+    <i>
+      Last revised on 26 July 2015.
+    </i>
+
+    <!-- John Burkardt -->
+
+  </body>
+
+  <!-- Initial HTML skeleton created by HTMLINDEX. -->
+
+
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/navier_stokes_2d_exact/navier_stokes_2d_exact.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 15:54:13 GMT -->
+</html>
+

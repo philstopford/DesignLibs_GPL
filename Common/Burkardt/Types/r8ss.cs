@@ -5,7 +5,7 @@ namespace Burkardt.Types
 {
     public static partial class typeMethods
     {
-        public static void r8ss_dif2(int n, ref int na, int[] diag, double[] a)
+        public static void r8ss_dif2(int n, ref int na, ref int[] diag, ref double[] a)
 
             //****************************************************************************80
             //
@@ -171,7 +171,7 @@ namespace Burkardt.Types
             return false;
         }
 
-        public static double[] r8ss_indicator(int n, ref int na, int[] diag)
+        public static double[] r8ss_indicator(int n, ref int na, ref int[] diag)
 
             //****************************************************************************80
             //
@@ -546,7 +546,7 @@ namespace Burkardt.Types
             }
         }
 
-        public static void r8ss_random(int n, ref int na, int[] diag, double[] a, ref int seed)
+        public static void r8ss_random(int n, ref int na, ref int[] diag, ref double[] a, ref int seed)
 
             //****************************************************************************80
             //
@@ -740,7 +740,7 @@ namespace Burkardt.Types
             return b;
         }
 
-        public static double[] r8ss_zeros(int n, int na, int[] diag)
+        public static double[] r8ss_zeros(int n, int na, ref int[] diag)
 
             //****************************************************************************80
             //

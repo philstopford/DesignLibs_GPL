@@ -1,0 +1,332 @@
+<html>
+
+  
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/pwl_interp_1d/pwl_interp_1d.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 15:56:05 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      PWL_INTERP_1D - Piecewise Linear Interpolation in 1D
+    </title>
+  </head>
+
+  <body bgcolor="#eeeeee" link="#cc0000" alink="#ff3300" vlink="#000055">
+
+    <h1 align = "center">
+      PWL_INTERP_1D <br> Piecewise Linear Interpolation in 1D
+    </h1>
+
+    <hr>
+
+    <p>
+      <b>PWL_INTERP_1D</b>
+      is which
+      interpolates a set of data with a piecewise linear function,
+      creating graphics files for processing by GNUPLOT.
+    </p>
+
+    <p>
+      The PWL_INTERP_1D test code needs the R8LIB and TEST_INTERP libraries.
+    </p>
+
+    <h3 align = "center">
+      Licensing:
+    </h3>
+
+    <p>
+      The computer code and data files made available on this web page
+      are distributed under
+      <a href = "https://people.math.sc.edu/Burkardt/txt/gnu_lgpl.txt">the GNU LGPL license.</a>
+    </p>
+
+
+    <h3 align = "center">
+      Related Data and Programs:
+    </h3>
+
+    <p>
+      <a href = "../barycentric_interp_1d/barycentric_interp_1d.html">
+      BARYCENTRIC_INTERP_1D</a>,
+      which
+      defines and evaluates the barycentric Lagrange polynomial p(x) 
+      which interpolates a set of data, so that p(x(i)) = y(i).
+      The barycentric approach means that very high degree polynomials can
+      safely be used.
+    </p>
+
+    <p>
+      <a href = "../chebyshev_interp_1d/chebyshev_interp_1d.html">
+      CHEBYSHEV_INTERP_1D</a>,
+      which
+      determines the combination of Chebyshev polynomials which 
+      interpolates a set of data, so that p(x(i)) = y(i).
+    </p>
+
+    <p>
+      <a href = "../gnuplot/gnuplot.html">
+      GNUPLOT</a>,
+      C++ programs which
+      illustrate the use of the gnuplot graphics program.
+    </p>
+
+    <p>
+      <a href = "../lagrange_interp_1d/lagrange_interp_1d.html">
+      LAGRANGE_INTERP_1D</a>,
+      which
+      defines and evaluates the Lagrange polynomial p(x) 
+      which interpolates a set of data, so that p(x(i)) = y(i).
+    </p>
+
+    <p>
+      <a href = "../nearest_interp_1d/nearest_interp_1d.html">
+      NEAREST_INTERP_1D</a>,
+      which
+      interpolates a set of data using a piecewise constant interpolant
+      defined by the nearest neighbor criterion.
+    </p>
+
+    <p>
+      <a href = "../newton_interp_1d/newton_interp_1d.html">
+      NEWTON_INTERP_1D</a>,
+      which
+      finds a polynomial interpolant to data using Newton divided differences.
+    </p>
+
+    <p>
+      <a href = "../pwl_approx_1d/pwl_approx_1d.html">
+      PWL_APPROX_1D</a>,
+      which
+      approximates a set of data using a piecewise linear function.
+    </p>
+
+    <p>
+      <a href = "../pwl_interp_2d/pwl_interp_2d.html">
+      PWL_INTERP_2D</a>,
+      which
+      evaluates a piecewise linear interpolant to data defined on
+      a regular 2D grid.
+    </p>
+
+    <p>
+      <a href = "../r8lib/r8lib.html">
+      R8LIB</a>,
+      which
+      contains many utility routines using double precision real (R8) arithmetic.
+    </p>
+
+    <p>
+      <a href = "../rbf_interp_1d/rbf_interp_1d.html">
+      RBF_INTERP_1D</a>,
+      which
+      defines and evaluates radial basis function (RBF) interpolants to 1D data.
+    </p>
+
+    <p>
+      <a href = "../shepard_interp_1d/shepard_interp_1d.html">
+      SHEPARD_INTERP_1D</a>,
+      which
+      defines and evaluates Shepard interpolants to 1D data,
+      based on inverse distance weighting.
+    </p>
+
+    <p>
+      <a href = "../test_interp/test_interp.html">
+      TEST_INTERP</a>,
+      which
+      defines a number of test problems for interpolation, 
+      provided as a set of (x,y) data.
+    </p>
+
+    <p>
+      <a href = "../test_interp_1d/test_interp_1d.html">
+      TEST_INTERP_1D</a>,
+      which
+      defines test problems for interpolation of data y(x),
+      depending on a 2D argument.
+    </p>
+
+    <p>
+      <a href = "https://people.math.sc.edu/Burkardt/c_src/vandermonde_interp_1d/vandermonde_interp_1d.html">
+      VANDERMONDE_INTERP_1D</a>,
+      a C library which
+      finds a polynomial interpolant to data y(x) of a 1D argument,
+      by setting up and solving a linear system for the polynomial coefficients,
+      involving the Vandermonde matrix.
+    </p>
+
+    <h3 align = "center">
+      Reference:
+    </h3>
+
+    <p>
+      <ol>
+        <li>
+          Kendall Atkinson,<br>
+          An Introduction to Numerical Analysis,<br>
+          Prentice Hall, 1989,<br>
+          ISBN: 0471624896,<br>
+          LC: QA297.A94.1989.
+        </li>
+        <li>
+          Philip Davis,<br>
+          Interpolation and Approximation,<br>
+          Dover, 1975,<br>
+          ISBN: 0-486-62495-1,<br>
+          LC: QA221.D33
+        </li>
+        <li>
+          David Kahaner, Cleve Moler, Steven Nash,<br>
+          Numerical Methods and Software,<br>
+          Prentice Hall, 1989,<br>
+          ISBN: 0-13-627258-4,<br>
+          LC: TA345.K34.
+        </li>
+      </ol>
+    </p>
+
+
+    <h3 align = "center">
+      Examples and Tests:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <a href = "pwl_interp_1d_test.txt">pwl_interp_1d_test.txt</a>,
+          the output file.
+        </li>
+      </ul>
+    </p>
+
+    <p>
+      The test program makes data files that can be used by GNUPLOT to create graphics:
+      <ul>
+        <li>
+          <a href = "data1.txt">data1.txt</a>
+        </li>
+        <li>
+          <a href = "interp1.txt">interp1.txt</a>
+        </li>
+        <li>
+          <a href = "commands1.txt">commands1.txt</a>
+        </li>
+        <li>
+          <a href = "plot1.png">plot1.png</a>
+        </li>
+        <li>
+          <a href = "data2.txt">data2.txt</a>
+        </li>
+        <li>
+          <a href = "interp2.txt">interp2.txt</a>
+        </li>
+        <li>
+          <a href = "commands2.txt">commands2.txt</a>
+        </li>
+        <li>
+          <a href = "plot2.png">plot2.png</a>
+        </li>
+        <li>
+          <a href = "data3.txt">data3.txt</a>
+        </li>
+        <li>
+          <a href = "interp3.txt">interp3.txt</a>
+        </li>
+        <li>
+          <a href = "commands3.txt">commands3.txt</a>
+        </li>
+        <li>
+          <a href = "plot3.png">plot3.png</a>
+        </li>
+        <li>
+          <a href = "data4.txt">data4.txt</a>
+        </li>
+        <li>
+          <a href = "interp4.txt">interp4.txt</a>
+        </li>
+        <li>
+          <a href = "commands4.txt">commands4.txt</a>
+        </li>
+        <li>
+          <a href = "plot4.png">plot4.png</a>
+        </li>
+        <li>
+          <a href = "data5.txt">data5.txt</a>
+        </li>
+        <li>
+          <a href = "interp5.txt">interp5.txt</a>
+        </li>
+        <li>
+          <a href = "commands5.txt">commands5.txt</a>
+        </li>
+        <li>
+          <a href = "plot5.png">plot5.png</a>
+        </li>
+        <li>
+          <a href = "data6.txt">data6.txt</a>
+        </li>
+        <li>
+          <a href = "interp6.txt">interp6.txt</a>
+        </li>
+        <li>
+          <a href = "commands6.txt">commands6.txt</a>
+        </li>
+        <li>
+          <a href = "plot6.png">plot6.png</a>
+        </li>
+        <li>
+          <a href = "data7.txt">data7.txt</a>
+        </li>
+        <li>
+          <a href = "interp7.txt">interp7.txt</a>
+        </li>
+        <li>
+          <a href = "commands7.txt">commands7.txt</a>
+        </li>
+        <li>
+          <a href = "plot7.png">plot7.png</a>
+        </li>
+        <li>
+          <a href = "data8.txt">data8.txt</a>
+        </li>
+        <li>
+          <a href = "interp8.txt">interp8.txt</a>
+        </li>
+        <li>
+          <a href = "commands8.txt">commands8.txt</a>
+        </li>
+        <li>
+          <a href = "plot8.png">plot8.png</a>
+        </li>
+      </ul>
+    </p>
+
+    <h3 align = "center">
+      List of Routines:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <b>PWL_BASIS_1D</b> evaluates a 1D piecewise linear basis function.
+        </li>
+        <li>
+          <b>PWL_INTERP_1D</b> evaluates the piecewise linear interpolant.
+        </li>
+      </ul>
+    </p>
+
+
+    <hr>
+
+    <i>
+      Last revised on 31 May 2013.
+    </i>
+
+    <!-- John Burkardt -->
+
+  </body>
+
+  <!-- Initial HTML skeleton created by HTMLINDEX. -->
+
+
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/pwl_interp_1d/pwl_interp_1d.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 15:56:13 GMT -->
+</html>

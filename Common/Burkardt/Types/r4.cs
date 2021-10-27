@@ -18,6 +18,41 @@ namespace Burkardt.Types
 
     public static partial class typeMethods
     {
+        public static float r4_epsilon ( )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R4_EPSILON returns the R4 roundoff unit.
+            //
+            //  Discussion:
+            //
+            //    The roundoff unit is a number R which is a power of 2 with the
+            //    property that, to the precision of the computer's arithmetic,
+            //      1 < 1 + R
+            //    but
+            //      1 = ( 1 + R / 2 )
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    01 September 2012
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Output, double R4_EPSILON, the R4 round-off unit.
+            //
+        {
+            return 1.19209290E-07f;
+        }
         public static r4 s_to_r4 ( string s )
         //****************************************************************************80
         //

@@ -469,6 +469,9 @@
     <projectFile>BurkhardtTest/Latin/LatinCenterDatasetTest/LatinCenterDatasetTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Latin/LatinEdgeDatasetTest/LatinEdgeDatasetTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Latin/LatinRandomDatasetTest/LatinRandomDatasetTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Tessellation/LatinCentroidalVoronoiTessellationDatasetTest/LatinCentroidalVoronoiTessellationDatasetTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/OrdinaryDifferentialEquation/ThreeBodySimulation/ThreeBodySimulation.csproj</projectFile>
+    <projectFile>BurkhardtTest/OrdinaryDifferentialEquation/RungeKuttaFehlbergTest/RungeKuttaFehlbergTest.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -4629,6 +4632,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="LatinCentroidalVoronoiTessellationDatasetTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Tessellation/LatinCentroidalVoronoiTessellationDatasetTest/LatinCentroidalVoronoiTessellationDatasetTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="LatinCentroidalVoronoiTessellationTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -6137,6 +6158,24 @@
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
       <option name="PROJECT_TFM" value="net5.0" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="RungeKuttaFehlbergTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/OrdinaryDifferentialEquation/RungeKuttaFehlbergTest/RungeKuttaFehlbergTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
       <method v="2">
         <option name="Build" />
       </method>
@@ -7833,6 +7872,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="ThreeBodySimulation" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/OrdinaryDifferentialEquation/ThreeBodySimulation/ThreeBodySimulation.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="ToeplitzMatrixTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -9480,8 +9537,6 @@
       <item itemvalue=".NET Project.FeynmanKac3DTest" />
       <item itemvalue=".NET Project.FFTSerialTest" />
       <item itemvalue=".NET Project.GeometryTest" />
-      <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMAIOTest" />
-      <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMBIOTest" />
       <item itemvalue=".NET Project.HBIOTest" />
       <item itemvalue=".NET Project.HeatedPlateTest" />
       <item itemvalue=".NET Project.HistogramData2DSampleTest" />
@@ -9491,6 +9546,11 @@
       <item itemvalue=".NET Project.LatinCenterDatasetTest" />
       <item itemvalue=".NET Project.LatinEdgeDatasetTest" />
       <item itemvalue=".NET Project.LatinRandomDatasetTest" />
+      <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMAIOTest" />
+      <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMBIOTest" />
+      <item itemvalue=".NET Project.LatinCentroidalVoronoiTessellationDatasetTest" />
+      <item itemvalue=".NET Project.ThreeBodySimulation" />
+      <item itemvalue=".NET Project.RungeKuttaFehlbergTest" />
     </list>
     <recent_temporary>
       <list>

@@ -5,27 +5,26 @@ namespace Burkardt.Types
 {
     public static partial class typeMethods
     {
-
-        public static double r8ut_det(int n, double[] a)
+        public static double r8utt_det(int n, double[] a)
 
             //****************************************************************************80
             //
             //  Purpose:
             //
-            //    R8UT_DET computes the determinant of an R8UT matrix.
+            //    R8UTT_DET computes the determinant of a R8UTT matrix.
             //
             //  Discussion:
             //
-            //    The R8UT storage format is used for an M by N upper triangular matrix,
-            //    and allocates space even for the zero entries.
+            //    The R8UTT storage format is used for an N by N upper triangular Toeplitz
+            //    matrix.
             //
             //  Licensing:
             //
-            //    This code is distributed under the GNU LGPL license. 
+            //    This code is distributed under the GNU LGPL license.
             //
             //  Modified:
             //
-            //    28 September 2003
+            //    16 November 2015
             //
             //  Author:
             //
@@ -34,46 +33,39 @@ namespace Burkardt.Types
             //  Parameters:
             //
             //    Input, int N, the order of the matrix.
-            //    N must be positive.
             //
-            //    Input, double A[N*N], the R8UT matrix.
+            //    Input, double A[N], the matrix.
             //
-            //    Output, double R8UT_DET, the determinant of the matrix.
+            //    Output, double R8UTT_DET, the determinant of the matrix.
             //
         {
             double det;
-            int i;
 
-            det = 1.0;
-
-            for (i = 0; i < n; i++)
-            {
-                det = det * a[i + i * n];
-            }
+            det = Math.Pow(a[0], n);
 
             return det;
         }
 
-        public static double[] r8ut_indicator(int m, int n)
+        public static double[] r8utt_indicator(int n)
 
             //****************************************************************************80
             //
             //  Purpose:
             //
-            //    R8UT_INDICATOR sets up an R8UT indicator matrix.
+            //    R8UTT_INDICATOR sets up a R8UTT indicator matrix.
             //
             //  Discussion:
             //
-            //    The R8UT storage format is used for an M by N upper triangular matrix,
-            //    and allocates space even for the zero entries.
+            //    The R8UTT storage format is used for an N by N upper triangular Toeplitz
+            //    matrix.
             //
             //  Licensing:
             //
-            //    This code is distributed under the GNU LGPL license. 
+            //    This code is distributed under the GNU LGPL license.
             //
             //  Modified:
             //
-            //    01 February 2004
+            //    16 November 2015
             //
             //  Author:
             //
@@ -81,150 +73,133 @@ namespace Burkardt.Types
             //
             //  Parameters:
             //
-            //    Input, int M, N, the number of rows and columns of the matrix.
-            //    M and N must be positive.
+            //    Input, int N, the order of the matrix.
             //
-            //    Output, double R8UT_INDICATOR[M*N], the R8UT matrix.
+            //    Output, double A[N], the matrix.
             //
         {
             double[] a;
-            int fac;
-            int i;
             int j;
 
-            a = new double[m * n];
+            a = new double[n];
 
-            fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
-
-            for (i = 1; i <= m; i++)
+            for (j = 0; j < n; j++)
             {
-                for (j = 1; j <= Math.Min(i - 1, n); j++)
-                {
-                    a[i - 1 + (j - 1) * m] = 0.0;
-                }
-
-                for (j = i; j <= n; j++)
-                {
-                    a[i - 1 + (j - 1) * m] = (double) (fac * i + j);
-                }
+                a[j] = (double) (j + 1);
             }
 
             return a;
         }
 
-        public static double[] r8ut_inverse(int n, double[] a)
+        public static double[] r8utt_inverse(int n, double[] a)
 
             //****************************************************************************80
             //
             //  Purpose:
             //
-            //    R8UT_INVERSE computes the inverse of a R8UT matrix.
+            //    R8UTT_INVERSE computes the inverse of a R8UTT matrix.
             //
             //  Discussion:
             //
-            //    The R8UT storage format is used for an M by N upper triangular matrix,
-            //    and allocates space even for the zero entries.
+            //    The R8UTT storage format is used for an N by N upper triangular Toeplitz
+            //    matrix.
             //
             //  Licensing:
             //
-            //    This code is distributed under the GNU LGPL license. 
+            //    This code is distributed under the GNU LGPL license.
             //
             //  Modified:
             //
-            //    28 September 2003
+            //    16 November 2015
             //
             //  Author:
             //
             //    John Burkardt
             //
-            //  Reference:
-            //
-            //    Albert Nijenhuis, Herbert Wilf,
-            //    Combinatorial Algorithms,
-            //    Academic Press, 1978, second edition,
-            //    ISBN 0-12-519260-6
-            //
             //  Parameters:
             //
             //    Input, int N, the order of the matrix.
             //
-            //    Input, double A[N*N], the R8UT matrix.
+            //    Input, double A[N], the matrix to be inverted.
             //
-            //    Output, double R8UT_INVERSE[N*N], the inverse of the upper
-            //    triangular matrix.
+            //    Output, double R8UTT_INVERSE[N], the inverse matrix.
             //
         {
             double[] b;
+            double d;
             int i;
             int j;
-            int k;
+            double[] p;
+            double[] pn;
+            double[] pnn;
             //
-            //  Check.
+            //  Initialize B.
             //
-            for (i = 0; i < n; i++)
+            d = 1.0 / a[0];
+            b = new double[n];
+            b[0] = d;
+            for (i = 1; i < n; i++)
             {
-                if (a[i + i * n] == 0.0)
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("R8UT_INVERSE - Fatal error!");
-                    Console.WriteLine("  Zero diagonal element.");
-                    return null;
-                }
+                b[i] = 0.0;
             }
 
-            b = new double[n * n];
-
-            for (j = n - 1; 0 <= j; j--)
+            //
+            //  Set the strict upper triangle.
+            //
+            p = new double[n];
+            p[0] = 0.0;
+            for (i = 1; i < n; i++)
             {
-                for (i = n - 1; 0 <= i; i--)
+                p[i] = a[i];
+            }
+
+            //
+            //  PN will hold powers of P.
+            //
+            pn = new double[n];
+            pn[0] = 1.0;
+            for (i = 1; i < n; i++)
+            {
+                pn[i] = 0.0;
+            }
+
+            //
+            //  Add N-1 powers of strict upper triangle.
+            //
+            for (j = 1; j < n; j++)
+            {
+                d = -d / a[0];
+                pnn = r8utt_mm(n, p, pn);
+                for (i = 0; i < n; i++)
                 {
-                    if (j < i)
-                    {
-                        b[i + j * n] = 0.0;
-                    }
-                    else if (i == j)
-                    {
-                        b[i + j * n] = 1.0 / a[i + j * n];
-                    }
-                    else if (i < j)
-                    {
-                        b[i + j * n] = 0.0;
-
-                        for (k = i + 1; k <= j; k++)
-                        {
-                            b[i + j * n] = b[i + j * n] - a[i + k * n] * b[k + j * n];
-                        }
-
-                        b[i + j * n] = b[i + j * n] / a[i + i * n];
-                    }
+                    b[i] = b[i] + d * pnn[i];
+                    pn[i] = pnn[i];
                 }
             }
 
             return b;
         }
 
-        public static double[] r8ut_mm(int n, double[] a, double[] b)
+        public static double[] r8utt_mm(int n, double[] a, double[] b)
 
             //****************************************************************************80
             //
             //  Purpose:
             //
-            //    R8UT_MM computes C = A * B, where A and B are R8UT matrices.
+            //    R8UTT_MM computes C = A * B, where A and B are R8UTT matrices.
             //
             //  Discussion:
             //
-            //    The R8UT storage format is used for an M by N upper triangular matrix,
-            //    and allocates space even for the zero entries.
-            //
-            //    The product C will also be an upper trangular matrix.
+            //    The R8UTT storage format is used for an N by N upper triangular Toeplitz
+            //    matrix.
             //
             //  Licensing:
             //
-            //    This code is distributed under the GNU LGPL license. 
+            //    This code is distributed under the GNU LGPL license.
             //
             //  Modified:
             //
-            //    03 August 2015
+            //    16 November 2015
             //
             //  Author:
             //
@@ -233,62 +208,60 @@ namespace Burkardt.Types
             //  Parameters:
             //
             //    Input, int N, the order of the matrices.
-            //    N must be positive.
             //
-            //    Input, double A[N*N], B[N*N], the R8UT factor matrices.
+            //    Input, double A[N], the first factor.
             //
-            //    Output, double R8UT_MM[N*N], the R8UT product matrix.
+            //    Input, double B[N], the second factor.
+            //
+            //    Output, double R8UTT_MM[N], the product.
             //
         {
             double[] c;
-            int i;
-            int j;
+            double[] d;
+            double[] e;
             int k;
 
-            c = new double[n * n];
+            d = new double[n];
 
-            for (i = 0; i < n; i++)
+            for (k = 0; k < n; k++)
             {
-                for (j = 0; j < i; j++)
-                {
-                    c[i + j * n] = 0.0;
-                }
+                d[k] = b[n - 1 - k];
+            }
 
-                for (j = i; j < n; j++)
-                {
-                    c[i + j * n] = 0.0;
-                    for (k = i; k <= j; k++)
-                    {
-                        c[i + j * n] = c[i + j * n] + a[i + k * n] * b[k + j * n];
-                    }
-                }
+            e = r8utt_mv(n, a, d);
+
+            c = new double[n];
+
+            for (k = 0; k < n; k++)
+            {
+                c[k] = e[n - 1 - k];
             }
 
             return c;
         }
 
-        public static double[] r8ut_mtm(int n, double[] a, double[] b)
+        public static double[] r8utt_mtm(int n, double[] a, double[] b)
 
             //****************************************************************************80
             //
             //  Purpose:
             //
-            //    R8UT_MTM computes C = A' * B, where A and B are R8UT matrices.
+            //    R8UTT_MTM computes C = A' * B, where A and B are R8UTT matrices.
             //
             //  Discussion:
             //
-            //    The R8UT storage format is used for an M by N upper triangular matrix,
-            //    and allocates space even for the zero entries.
+            //    The R8UTT storage format is used for an N by N upper triangular Toeplitz
+            //    matrix.
             //
-            //    The product C will NOT be an R8UT matrix.
+            //    Note that the result C is a dense matrix, of type R8GE.
             //
             //  Licensing:
             //
-            //    This code is distributed under the GNU LGPL license. 
+            //    This code is distributed under the GNU LGPL license.
             //
             //  Modified:
             //
-            //    03 August 2015
+            //    16 November 2015
             //
             //  Author:
             //
@@ -297,18 +270,16 @@ namespace Burkardt.Types
             //  Parameters:
             //
             //    Input, int N, the order of the matrices.
-            //    N must be positive.
             //
-            //    Input, double A[N*N], B[N*N], the factors.
+            //    Input, double A[N], B[N], the factors.
             //
-            //    Output, double R8UT_MTM[N*N], the product.
+            //    Output, double R8UTT_MTM[N*N], the product.
             //
         {
             double[] c;
             int i;
             int j;
             int k;
-            int k_hi;
 
             c = new double[n * n];
 
@@ -316,11 +287,10 @@ namespace Burkardt.Types
             {
                 for (j = 0; j < n; j++)
                 {
-                    k_hi = Math.Min(i, j);
                     c[i + j * n] = 0.0;
-                    for (k = 0; k <= k_hi; k++)
+                    for (k = 0; k <= Math.Min(i, j); k++)
                     {
-                        c[i + j * n] = c[i + j * n] + a[k + i * n] * b[k + j * n];
+                        c[i + j * n] = c[i + j * n] + a[i - k] * b[j - k];
                     }
                 }
             }
@@ -328,26 +298,26 @@ namespace Burkardt.Types
             return c;
         }
 
-        public static double[] r8ut_mtv(int m, int n, double[] a, double[] x)
+        public static double[] r8utt_mtv(int n, double[] a, double[] x)
 
             //****************************************************************************80
             //
             //  Purpose:
             //
-            //    R8UT_MTV multiplies a vector times an R8UT matrix.
+            //    R8UTT_MTV computes b = A'*x, where A is an R8UTT matrix.
             //
             //  Discussion:
             //
-            //    The R8UT storage format is used for an M by N upper triangular matrix,
-            //    and allocates space even for the zero entries.
+            //    The R8UTT storage format is used for an N by N upper triangular Toeplitz
+            //    matrix.
             //
             //  Licensing:
             //
-            //    This code is distributed under the GNU LGPL license. 
+            //    This code is distributed under the GNU LGPL license.
             //
             //  Modified:
             //
-            //    28 September 2003
+            //    16 November 2015
             //
             //  Author:
             //
@@ -355,20 +325,17 @@ namespace Burkardt.Types
             //
             //  Parameters:
             //
-            //    Input, int M, the number of rows of the matrix.
-            //    M must be positive.
+            //    Input, int N, the order of the matrix.
             //
-            //    Input, int N, the number of columns of the matrix.
-            //    N must be positive.
+            //    Input, double A[N], the matrix.
             //
-            //    Input, double A[M*N], the R8UT matrix.
+            //    Input, double X[N], the vector to be multiplied by A.
             //
-            //    Input, double X[M], the vector to be multiplied by A.
-            //
-            //    Output, double R8UT_MTV[N], the product A' * x.
+            //    Output, double R8UTT_MTV[N], the product A' * x.
             //
         {
             double[] b;
+            int d;
             int i;
             int j;
 
@@ -377,35 +344,40 @@ namespace Burkardt.Types
             for (j = 0; j < n; j++)
             {
                 b[j] = 0.0;
-                for (i = 0; i <= j && i < m; i++)
+            }
+
+            for (d = 0; d < n; d++)
+            {
+                for (j = d; j < n; j++)
                 {
-                    b[j] = b[j] + x[i] * a[i + j * m];
+                    i = j - d;
+                    b[j] = b[j] + a[j - i] * x[i];
                 }
             }
 
             return b;
         }
 
-        public static double[] r8ut_mv(int m, int n, double[] a, double[] x)
+        public static double[] r8utt_mv(int n, double[] a, double[] x)
 
             //****************************************************************************80
             //
             //  Purpose:
             //
-            //    R8UT_MV multiplies an R8UT matrix times a vector.
+            //    R8UTT_MV computes b=A*x, where A is an R8UTT matrix.
             //
             //  Discussion:
             //
-            //    The R8UT storage format is used for an M by N upper triangular matrix,
-            //    and allocates space even for the zero entries.
+            //    The R8UTT storage format is used for an N by N upper triangular Toeplitz
+            //    matrix.
             //
             //  Licensing:
             //
-            //    This code is distributed under the GNU LGPL license. 
+            //    This code is distributed under the GNU LGPL license.
             //
             //  Modified:
             //
-            //    28 September 2003
+            //    16 November 2015
             //
             //  Author:
             //
@@ -413,49 +385,51 @@ namespace Burkardt.Types
             //
             //  Parameters:
             //
-            //    Input, int M, the number of rows of the matrix.
-            //    M must be positive.
+            //    Input, int N, the order of the matrix.
             //
-            //    Input, int N, the number of columns of the matrix.
-            //    N must be positive.
-            //
-            //    Input, double A[M*N], the R8UT matrix.
+            //    Input, double A[N], the matrix.
             //
             //    Input, double X[N], the vector to be multiplied by A.
             //
-            //    Output, double R8UT_MV[M], the product A * x.
+            //    Output, double R8UTT_MV[N], the product A * x.
             //
         {
             double[] b;
+            int d;
             int i;
             int j;
 
-            b = new double[m];
+            b = new double[n];
 
-            for (i = 0; i < m; i++)
+            for (i = 0; i < n; i++)
             {
                 b[i] = 0.0;
-                for (j = i; j < n; j++)
+            }
+
+            for (d = 0; d < n; d++)
+            {
+                for (j = d; j < n; j++)
                 {
-                    b[i] = b[i] + a[i + j * m] * x[j];
+                    i = j - d;
+                    b[i] = b[i] + a[j - i] * x[j];
                 }
             }
 
             return b;
         }
 
-        public static void r8ut_print(int m, int n, double[] a, string title)
+        public static void r8utt_print(int n, double[] a, string title)
 
             //****************************************************************************80
             //
             //  Purpose:
             //
-            //    R8UT_PRINT prints an R8UT matrix.
+            //    R8UTT_PRINT prints an R8UTT matrix.
             //
             //  Discussion:
             //
-            //    The R8UT storage format is used for an M by N upper triangular matrix,
-            //    and allocates space even for the zero entries.
+            //    The R8UTT storage format is used for an N by N upper triangular Toeplitz
+            //    matrix.
             //
             //  Licensing:
             //
@@ -463,7 +437,7 @@ namespace Burkardt.Types
             //
             //  Modified:
             //
-            //    18 August 2015
+            //    16 November 2015
             //
             //  Author:
             //
@@ -471,35 +445,30 @@ namespace Burkardt.Types
             //
             //  Parameters:
             //
-            //    Input, int M, the number of rows of the matrix.
-            //    M must be positive.
+            //    Input, int N, the number of rows and columns of the matrix.
             //
-            //    Input, int N, the number of columns of the matrix.
-            //    N must be positive.
-            //
-            //    Input, double A[M*N], the R8UT matrix.
+            //    Input, double A[N], the R8UTT matrix.
             //
             //    Input, string TITLE, a title.
             //
         {
-            r8ut_print_some(m, n, a, 0, 0, m - 1, n - 1, title);
+            r8utt_print_some(n, a, 0, 0, n - 1, n - 1, title);
 
-            return;
         }
 
-        public static void r8ut_print_some(int m, int n, double[] a, int ilo, int jlo, int ihi,
+        public static void r8utt_print_some(int n, double[] a, int ilo, int jlo, int ihi,
                 int jhi, string title)
 
             //****************************************************************************80
             //
             //  Purpose:
             //
-            //    R8UT_PRINT_SOME prints some of an R8UT matrix.
+            //    R8UTT_PRINT_SOME prints some of an R8UTT matrix.
             //
             //  Discussion:
             //
-            //    The R8UT storage format is used for an M by N upper triangular matrix,
-            //    and allocates space even for the zero entries.
+            //    The R8UTT storage format is used for an N by N upper triangular Toeplitz
+            //    matrix.
             //
             //  Licensing:
             //
@@ -507,7 +476,7 @@ namespace Burkardt.Types
             //
             //  Modified:
             //
-            //    18 August 2015
+            //    16 November 2015
             //
             //  Author:
             //
@@ -515,13 +484,9 @@ namespace Burkardt.Types
             //
             //  Parameters:
             //
-            //    Input, int M, the number of rows of the matrix.
-            //    M must be positive.
+            //    Input, int N, the number of rows and columns of the matrix.
             //
-            //    Input, int N, the number of columns of the matrix.
-            //    N must be positive.
-            //
-            //    Input, double A[M*N], the R8UT matrix.
+            //    Input, double A[N], the R8UTT matrix.
             //
             //    Input, int ILO, JLO, IHI, JHI, designate the first row and
             //    column, and the last row and column to be printed.
@@ -568,7 +533,7 @@ namespace Burkardt.Types
                 //
                 i2lo = Math.Max(ilo, 0);
 
-                i2hi = Math.Min(ihi, m - 1);
+                i2hi = Math.Min(ihi, n - 1);
 
                 for (i = i2lo; i <= i2hi; i++)
                 {
@@ -585,36 +550,35 @@ namespace Burkardt.Types
                         }
                         else
                         {
-                            cout += a[i + j * m].ToString().PadLeft(12) + "  ";
+                            cout += a[j - i].ToString().PadLeft(12) + "  ";
                         }
                     }
 
                     Console.WriteLine(cout);
                 }
             }
-
         }
 
-        public static double[] r8ut_random(int m, int n, ref int seed)
+        public static double[] r8utt_random(int n, ref int seed)
 
             //****************************************************************************80
             //
             //  Purpose:
             //
-            //    R8UT_RANDOM randomizes an R8UT matrix.
+            //    R8UTT_RANDOM randomizes an R8UTT matrix.
             //
             //  Discussion:
             //
-            //    The R8UT storage format is used for an M by N upper triangular matrix,
-            //    and allocates space even for the zero entries.
+            //    The R8UTT storage format is used for an N by N upper triangular Toeplitz
+            //    matrix.
             //
             //  Licensing:
             //
-            //    This code is distributed under the GNU LGPL license. 
+            //    This code is distributed under the GNU LGPL license.
             //
             //  Modified:
             //
-            //    18 August 2015
+            //    16 November 2015
             //
             //  Author:
             //
@@ -622,58 +586,42 @@ namespace Burkardt.Types
             //
             //  Parameters:
             //
-            //    Input, int M, N, the number of rows and columns of the matrix.
-            //    M and N must be positive.
+            //    Input, int N, the order of the matrix.
             //
             //    Input/output, int &SEED, a seed for the random number generator.
             //
-            //    Output, double R8UT_RANDOM[M*N], the R8UT matrix.
+            //    Output, double R8UTT_RANDOM[N], the R8UTT matrix.
             //
         {
             double[] a;
-            int i;
-            int j;
 
-            a = new double[m * n];
-
-            for (j = 0; j < n; j++)
-            {
-                for (i = 0; i <= Math.Min(j, m - 1); i++)
-                {
-                    a[i + j * m] = UniformRNG.r8_uniform_01(ref seed);
-                }
-
-                for (i = j + 1; i < m; i++)
-                {
-                    a[i + j * m] = 0.0;
-                }
-            }
+            a = UniformRNG.r8vec_uniform_01_new(n, ref seed);
 
             return a;
         }
 
-        public static double[] r8ut_sl(int n, double[] a, double[] b)
+        public static double[] r8utt_sl(int n, double[] a, double[] b)
 
             //****************************************************************************80
             //
             //  Purpose:
             //
-            //    R8UT_SL solves a linear system A*x=b with R8UT matrix.
+            //    R8UTT_SL solves a linear system A*x=b with an R8UTT matrix.
             //
             //  Discussion:
             //
-            //    The R8UT storage format is used for an M by N upper triangular matrix,
-            //    and allocates space even for the zero entries.
+            //    The R8UTT storage format is used for an N by N upper triangular Toeplitz
+            //    matrix.
             //
             //    No factorization of the upper triangular matrix is required.
             //
             //  Licensing:
             //
-            //    This code is distributed under the GNU LGPL license. 
+            //    This code is distributed under the GNU LGPL license.
             //
             //  Modified:
             //
-            //    03 August 2015
+            //    16 November 2015
             //
             //  Author:
             //
@@ -683,11 +631,11 @@ namespace Burkardt.Types
             //
             //    Input, int N, the order of the matrix.
             //
-            //    Input, double A[N*N], the R8UT matrix.
+            //    Input, double A[N], the R8UTT matrix.
             //
             //    Input, double B[N], the right hand side.
             //
-            //    Output, double R8UT_SL[N], the solution vector.
+            //    Output, double R8UTT_SL[N], the solution vector.
             //
         {
             int i;
@@ -696,45 +644,45 @@ namespace Burkardt.Types
 
             x = new double[n];
 
-            for (i = 0; i < n; i++)
+            for (j = 0; j < n; j++)
             {
-                x[i] = b[i];
+                x[j] = b[j];
             }
 
             for (j = n - 1; 0 <= j; j--)
             {
-                x[j] = x[j] / a[j + j * n];
+                x[j] = x[j] / a[0];
                 for (i = 0; i < j; i++)
                 {
-                    x[i] = x[i] - a[i + j * n] * x[j];
+                    x[i] = x[i] - a[j - i] * x[j];
                 }
             }
 
             return x;
         }
 
-        public static double[] r8ut_slt(int n, double[] a, double[] b)
+        public static double[] r8utt_slt(int n, double[] a, double[] b)
 
             //****************************************************************************80
             //
             //  Purpose:
             //
-            //    R8UT_SLT solves a linear system A'*x=b with R8UT matrix.
+            //    R8UTT_SLT solves a linear system A'*x=b with an R8UTT matrix.
             //
             //  Discussion:
             //
-            //    The R8UT storage format is used for an M by N upper triangular matrix,
-            //    and allocates space even for the zero entries.
+            //    The R8UTT storage format is used for an N by N upper triangular Toeplitz
+            //    matrix.
             //
             //    No factorization of the upper triangular matrix is required.
             //
             //  Licensing:
             //
-            //    This code is distributed under the GNU LGPL license. 
+            //    This code is distributed under the GNU LGPL license.
             //
             //  Modified:
             //
-            //    03 August 2015
+            //    16 November 2015
             //
             //  Author:
             //
@@ -744,11 +692,11 @@ namespace Burkardt.Types
             //
             //    Input, int N, the order of the matrix.
             //
-            //    Input, double A[N*N], the R8UT matrix.
+            //    Input, double A[N], the R8UTT matrix.
             //
             //    Input, double B[N], the right hand side.
             //
-            //    Output, double R8UT_SLT[N], the solution vector.
+            //    Output, double R8UTT_SLT[N], the solution vector.
             //
         {
             int i;
@@ -756,36 +704,32 @@ namespace Burkardt.Types
             double[] x;
 
             x = new double[n];
-
-            for (i = 0; i < n; i++)
+            for (j = 0; j < n; j++)
             {
-                x[i] = b[i];
+                x[j] = b[j];
             }
 
             for (j = 0; j < n; j++)
             {
-                x[j] = x[j] / a[j + j * n];
+                x[j] = x[j] / a[0];
                 for (i = j + 1; i < n; i++)
                 {
-                    x[i] = x[i] - a[j + i * n] * x[j];
+                    x[i] = x[i] - x[j] * a[i - j];
                 }
             }
 
             return x;
         }
 
-        public static double[] r8ut_to_r8ge(int m, int n, double[] a_ut)
+        public static double[] r8utt_to_r8ge(int n, double[] a_utt)
 
             //****************************************************************************80
             //
             //  Purpose:
             //
-            //    R8UT_TO_R8GE copies an R8UT matrix to an R8GE matrix.
+            //    R8UTT_TO_R8GE copies an R8UTT matrix to an R8GE matrix.
             //
             //  Discussion:
-            //
-            //    The R8UT storage format is used for an M by N upper triangular matrix,
-            //    and allocates space even for the zero entries.
             //
             //    The R8GE storage format is used for a general M by N matrix.  A storage 
             //    space is made for each entry.  The two dimensional logical
@@ -794,13 +738,16 @@ namespace Burkardt.Types
             //    and so on.  Considered as a vector, the entry A(I,J) is then stored
             //    in vector location I+(J-1)*M.
             //
+            //    The R8UTT storage format is used for an N by N upper triangular Toeplitz
+            //    matrix.
+            //
             //  Licensing:
             //
-            //    This code is distributed under the GNU LGPL license. 
+            //    This code is distributed under the GNU LGPL license.
             //
             //  Modified:
             //
-            //    19 August 2015
+            //    14 November 2015
             //
             //  Author:
             //
@@ -808,49 +755,52 @@ namespace Burkardt.Types
             //
             //  Parameters:
             //
-            //    Input, int M, N, the order of the matrix.
+            //    Input, int N, the order of the matrix.
             //
-            //    Input, double A_UT[M,N], the R8UT matrix.
+            //    Input, double A_UTT[N], the R8UTT matrix.
             //
-            //    Output, double R8UT_TO_R8GE[M,N], the R8GE matrix.
+            //    Output, double R8UTT_TO_R8GE[N*N], the R8GE matrix.
             //
         {
             double[] a_ge;
+            int d;
             int i;
             int j;
 
-            a_ge = new double[m * n];
+            a_ge = new double[n * n];
 
             for (j = 0; j < n; j++)
             {
-                for (i = 0; i < m; i++)
+                for (i = 0; i < n; i++)
                 {
-                    if (i <= j)
-                    {
-                        a_ge[i + j * m] = a_ut[i + j * m];
-                    }
-                    else
-                    {
-                        a_ge[i + j * m] = 0.0;
-                    }
+                    a_ge[i + j * n] = 0.0;
+                }
+            }
+
+            for (d = 0; d < n; d++)
+            {
+                for (j = d; j < n; j++)
+                {
+                    i = j - d;
+                    a_ge[i + j * n] = a_utt[j - i];
                 }
             }
 
             return a_ge;
         }
 
-        public static double[] r8ut_zeros(int m, int n)
+        public static double[] r8utt_zeros(int n)
 
             //****************************************************************************80
             //
             //  Purpose:
             //
-            //    R8UT_ZEROS zeros an R8UT matrix.
+            //    R8UTT_ZEROS zeros an R8UTT matrix.
             //
             //  Discussion:
             //
-            //    The R8UT storage format is used for an M by N upper triangular matrix,
-            //    and allocates space even for the zero entries.
+            //    The R8UTT storage format is used for an N by N upper triangular Toeplitz
+            //    matrix.
             //
             //  Licensing:
             //
@@ -858,7 +808,7 @@ namespace Burkardt.Types
             //
             //  Modified:
             //
-            //    14 September 2003
+            //    16 November 2015
             //
             //  Author:
             //
@@ -866,27 +816,19 @@ namespace Burkardt.Types
             //
             //  Parameters:
             //
-            //    Input, int M, the number of rows of the matrix.
-            //    M must be positive.
+            //    Input, int N, the number of rows and columns of the matrix.
             //
-            //    Input, int N, the number of columns of the matrix.
-            //    N must be positive.
-            //
-            //    Output, double R8UT_ZERO[M*N], the R8UT matrix.
+            //    Output, double R8UTT_ZEROS[M*N], the R8UTT matrix.
             //
         {
             double[] a;
             int i;
-            int j;
 
-            a = new double[m * n];
+            a = new double[n];
 
-            for (j = 0; j < n; j++)
+            for (i = 0; i < n; i++)
             {
-                for (i = 0; i < m; i++)
-                {
-                    a[i + j * m] = 0.0;
-                }
+                a[i] = 0.0;
             }
 
             return a;

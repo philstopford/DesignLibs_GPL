@@ -9634,12 +9634,6 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Common/Burkardt/Types/r8st.cs</url>
-          <line>70</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\Common\Burkardt\Types\r8st.cs" initialLine="69" containingFunctionPresentation="method 'r8st_data_read'" />
-          <option name="timeStamp" value="17" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Common/Burkardt/Types/r8st.cs</url>
           <line>195</line>
           <properties documentPath="D:\development\git\DesignLibs_GPL\Common\Burkardt\Types\r8st.cs" initialLine="194" containingFunctionPresentation="method 'r8st_header_read'" />
           <option name="timeStamp" value="18" />

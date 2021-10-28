@@ -1,0 +1,176 @@
+<html>
+
+  
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/sparse_count/sparse_count.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 15:59:04 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      SPARSE_COUNT - Sparse Grids Using a Single Factor
+    </title>
+  </head>
+
+  <body bgcolor="#EEEEEE" link="#CC0000" alink="#FF3300" vlink="#000055">
+
+    <h1 align = "center">
+      SPARSE_COUNT <br> Sparse Grids Using a Single Factor
+    </h1>
+
+    <hr>
+
+    <p>
+      <b>SPARSE_COUNT</b>
+      is which
+      contains routines for the analysis and construction of sparse grids
+      in which a fixed family of 1D quadrature rules is used for all spatial
+      dimensions.
+    </p>
+
+    <p>
+      By contrast, library MIXED allows different rules to
+      be used in different dimensions.
+    </p>
+
+    <h3 align = "center">
+      Licensing:
+    </h3>
+
+    <p>
+      The computer code and data files described and made available on this web page
+      are distributed under
+      <a href = "https://people.math.sc.edu/Burkardt/txt/gnu_lgpl.txt">the GNU LGPL license.</a>
+    </p>
+
+
+    <h3 align = "center">
+      Related Data and Programs:
+    </h3>
+
+    <p>
+      <a href = "../sparse_grid_mixed/sparse_grid_mixed.html">
+      MIXED</a>,
+      a library which
+      creates a sparse grid dataset based on a mixed set of 1D factor rules.
+    </p>
+
+    <h3 align = "center">
+      Reference:
+    </h3>
+
+    <p>
+      <ol>
+        <li>
+          Volker Barthelmann, Erich Novak, Klaus Ritter,<br>
+          High Dimensional Polynomial Interpolation on Sparse Grids,<br>
+          Advances in Computational Mathematics,<br>
+          Volume 12, Number 4, 2000, pages 273-288.
+        </li>
+        <li>
+          Thomas Gerstner, Michael Griebel,<br>
+          Numerical Integration Using Sparse Grids,<br>
+          Numerical Algorithms,<br>
+          Volume 18, Number 3-4, 1998, pages 209-232.
+        </li>
+        <li>
+          Albert Nijenhuis, Herbert Wilf,<br>
+          Combinatorial Algorithms for Computers and Calculators,<br>
+          Second Edition,<br>
+          Academic Press, 1978,<br>
+          ISBN: 0-12-519260-6,<br>
+          LC: QA164.N54.
+        </li>
+        <li>
+          Fabio Nobile, Raul Tempone, Clayton Webster,<br>
+          A Sparse Grid Stochastic Collocation Method for Partial Differential
+          Equations with Random Input Data,<br>
+          SIAM Journal on Numerical Analysis,<br>
+          Volume 46, Number 5, 2008, pages 2309-2345.
+        </li>
+        <li>
+          Sergey Smolyak,<br>
+          Quadrature and Interpolation Formulas for Tensor Products of
+          Certain Classes of Functions,<br>
+          Doklady Akademii Nauk SSSR,<br>
+          Volume 4, 1963, pages 240-243.
+        </li>
+        <li>
+          Dennis Stanton, Dennis White,<br>
+          Constructive Combinatorics,<br>
+          Springer, 1986,<br>
+          ISBN: 0387963472,<br>
+          LC: QA164.S79.
+        </li>
+      </ol>
+    </p>
+
+
+    <h3 align = "center">
+      Examples and Tests:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <a href = "sparse_count_test.txt">sparse_count_test.txt</a>,
+          the output file.
+        </li>
+      </ul>
+    </p>
+
+    <h3 align = "center">
+      List of Routines:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <b>CC_S_SIZE:</b> Clenshaw Curtis Slow Exponential Growth.
+        </li>
+        <li>
+          <b>CFN_E_SIZE;</b> Closed Fully Nested, Exponential Growth.
+        </li>
+        <li>
+          <b>COMP_NEXT</b> computes the compositions of the integer N into K parts.
+        </li>
+        <li>
+          <b>F2_S_SIZE:</b> Fejer Type 2 Slow Growth.
+        </li>
+        <li>
+          <b>GP_S_SIZE:</b> Gauss Patterson, Slow Growth.
+        </li>
+        <li>
+          <b>I4_CHOOSE</b> computes the binomial coefficient C(N,K).
+        </li>
+        <li>
+          <b>OFN_E_SIZE:</b> Open Fully Nested, Exponential Growth.
+        </li>
+        <li>
+          <b>ONN_E_SIZE:</b> Open Non Nested, Exponential Growth.
+        </li>
+        <li>
+          <b>ONN_L_SIZE:</b> Open Non Nested, Linear Growth.
+        </li>
+        <li>
+          <b>OWN_E_SIZE:</b> Open Weakly Nested, Exponential Growth.
+        </li>
+        <li>
+          <b>OWN_L2_SIZE:</b> Open Weakly Nested, Linear 2 Growth.
+        </li>
+      </ul>
+    </p>
+
+
+    <hr>
+
+    <i>
+      Last revised on 25 April 2014.
+    </i>
+
+    <!-- John Burkardt -->
+
+  </body>
+
+  <!-- Initial HTML skeleton created by HTMLINDEX. -->
+
+
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/sparse_count/sparse_count.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 15:59:05 GMT -->
+</html>

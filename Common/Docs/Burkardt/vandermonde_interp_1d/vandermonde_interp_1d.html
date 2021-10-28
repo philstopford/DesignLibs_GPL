@@ -1,0 +1,393 @@
+<html>
+
+  
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/vandermonde_interp_1d/vandermonde_interp_1d.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 16:04:34 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      VANDERMONDE_INTERP_1D - Polynomial Interpolation with the Vandermonde Matrix
+    </title>
+  </head>
+
+  <body bgcolor="#eeeeee" link="#cc0000" alink="#ff3300" vlink="#000055">
+
+    <h1 align = "center">
+      VANDERMONDE_INTERP_1D <br> Polynomial Interpolation with the Vandermonde Matrix
+    </h1>
+
+    <hr>
+
+    <p>
+      <b>VANDERMONDE_INTERP_1D</b>
+      is a C++ library which
+      finds a polynomial interpolant to data by setting up and
+      solving a linear system involving the Vandermonde matrix,
+      creating graphics files for processing by gnuplot.
+    </p>
+
+    <p>
+      This software is primarily intended as an illustration of the problems
+      that can occur when the interpolation problem is naively formulated
+      using the Vandermonde matrix.  If the underlying interpolating basis
+      is the usual family of monomials, then the Vandermonde matrix will 
+      very quickly become ill-conditioned for almost any set of nodes.
+    </p>
+
+    <p>
+      If the nodes can be selected, this can provide a small amount of improvement,
+      but, if a polynomial interpolant is desired, a better strategy is to change
+      the basis, which is what is done with the Lagrange interpolation method,
+      in which case, essentially, the linear system to be solved becomes the
+      identity matrix.
+    </p>
+
+    <p>
+      VANDERMONDE_INTERP_1D needs access to the QR_SOLVE and R8LIB libraries.
+      The test code also needs access to the CONDITION and TEST_INTERP libraries. 
+    </p>
+
+    <h3 align = "center">
+      Licensing:
+    </h3>
+
+    <p>
+      The computer code and data files made available on this web page
+      are distributed under
+      <a href = "https://people.math.sc.edu/Burkardt/txt/gnu_lgpl.txt">the GNU LGPL license.</a>
+    </p>
+
+
+    <h3 align = "center">
+      Related Data and Programs:
+    </h3>
+
+    <p>
+      <a href = "../barycentric_interp_1d/barycentric_interp_1d.html">
+      BARYCENTRIC_INTERP_1D</a>,
+      a C++ library which
+      defines and evaluates the barycentric Lagrange polynomial p(x) 
+      which interpolates a set of data, so that p(x(i)) = y(i).
+      The barycentric approach means that very high degree polynomials can
+      safely be used.
+    </p>
+
+    <p>
+      <a href = "../chebyshev_interp_1d/chebyshev_interp_1d.html">
+      CHEBYSHEV_INTERP_1D</a>,
+      a C++ library which
+      determines the combination of Chebyshev polynomials which 
+      interpolates a set of data, so that p(x(i)) = y(i).
+    </p>
+
+    <p>
+      <a href = "../condition/condition.html">
+      CONDITION</a>,
+      a C++ library which
+      implements methods of computing or estimating the condition number of a matrix.
+    </p>
+
+    <p>
+      <a href = "../divdif/divdif.html">
+      DIVDIF</a>,
+      a C++ library which
+      uses divided differences to compute the polynomial interpolant 
+      to a given set of data.
+    </p>
+
+    <p>
+      <a href = "../gnuplot/gnuplot.html">
+      GNUPLOT</a>,
+      C++ programs which
+      illustrate how a program can write data and command files
+      so that gnuplot can create plots of the program results.
+    </p>
+
+    <p>
+      <a href = "../hermite/hermite.html">
+      HERMITE</a>,
+      a C++ library which
+      computes the Hermite interpolant, a polynomial that matches function values
+      and derivatives.
+    </p>
+
+    <p>
+      <a href = "../lagrange_interp_1d/lagrange_interp_1d.html">
+      LAGRANGE_INTERP_1D</a>,
+      a C++ library which
+      defines and evaluates the Lagrange polynomial p(x) 
+      which interpolates a set of data, so that p(x(i)) = y(i).
+    </p>
+
+    <p>
+      <a href = "../nearest_interp_1d/nearest_interp_1d.html">
+      NEAREST_INTERP_1D</a>,
+      a C++ library which
+      interpolates a set of data using a piecewise constant interpolant
+      defined by the nearest neighbor criterion.
+    </p>
+
+    <p>
+      <a href = "../newton_interp_1d/newton_interp_1d.html">
+      NEWTON_INTERP_1D</a>,
+      a C++ library which
+      finds a polynomial interpolant to data using Newton divided differences.
+    </p>
+
+    <p>
+      <a href = "../pwl_interp_1d/pwl_interp_1d.html">
+      PWL_INTERP_1D</a>,
+      a C++ library which
+      interpolates a set of data using a piecewise linear interpolant.
+    </p>
+
+    <p>
+      <a href = "../qr_solve/qr_solve.html">
+      QR_SOLVE</a>,
+      a C++ library which
+      computes the least squares solution of a linear system A*x=b.
+    </p>
+
+    <p>
+      <a href = "../r8lib/r8lib.html">
+      R8LIB</a>, 
+      a C++ library which
+      contains many utility routines, using double precision real (R8) arithmetic.
+    </p>
+
+    <p>
+      <a href = "../rbf_interp_1d/rbf_interp_1d.html">
+      RBF_INTERP_1D</a>,
+      a C++ library which
+      defines and evaluates radial basis function (RBF) interpolants to 1D data.
+    </p>
+
+    <p>
+      <a href = "../shepard_interp_1d/shepard_interp_1d.html">
+      SHEPARD_INTERP_1D</a>,
+      a C++ library which
+      defines and evaluates Shepard interpolants to 1D data,
+      based on inverse distance weighting.
+    </p>
+
+    <p>
+      <a href = "../spline/spline.html">
+      SPLINE</a>,
+      a C++ library which
+      constructs and evaluates spline interpolants and approximants.
+    </p>
+
+    <p>
+      <a href = "../test_interp/test_interp.html">
+      TEST_INTERP</a>,
+      a C++ library which
+      defines a number of test problems for interpolation, 
+      provided as a set of (x,y) data.
+    </p>
+
+    <p>
+      <a href = "../test_interp_1d/test_interp_1d.html">
+      TEST_INTERP_1D</a>,
+      a C++ library which
+      defines test problems for interpolation of data y(x),
+      depending on a 2D argument.
+    </p>
+
+    <p>
+      <a href = "../vandermonde_approx_1d/vandermonde_approx_1d.html">
+      VANDERMONDE_APPROX_1D</a>,
+      a C++ library which
+      finds a polynomial approximant to data of a 1D argument
+      by setting up and solving an overdetermined linear system for the polynomial coefficients,
+      involving the Vandermonde matrix.
+    </p>
+
+    <p>
+      <a href = "../vandermonde_interp_2d/vandermonde_interp_2d.html">
+      VANDERMONDE_INTERP_2D</a>,
+      a C++ library which
+      finds a polynomial interpolant to data z(x,y) of a 2D argument
+      by setting up and solving a linear system for the polynomial coefficients,
+      involving the Vandermonde matrix.
+    </p>
+
+    <h3 align = "center">
+      Reference:
+    </h3>
+
+    <p>
+      <ol>
+        <li>
+          Kendall Atkinson,<br>
+          An Introduction to Numerical Analysis,<br>
+          Prentice Hall, 1989,<br>
+          ISBN: 0471624896,<br>
+          LC: QA297.A94.1989.
+        </li>
+        <li>
+          Philip Davis,<br>
+          Interpolation and Approximation,<br>
+          Dover, 1975,<br>
+          ISBN: 0-486-62495-1,<br>
+          LC: QA221.D33
+        </li>
+        <li>
+          David Kahaner, Cleve Moler, Steven Nash,<br>
+          Numerical Methods and Software,<br>
+          Prentice Hall, 1989,<br>
+          ISBN: 0-13-627258-4,<br>
+          LC: TA345.K34.
+        </li>
+      </ol>
+    </p>
+
+
+    <h3 align = "center">
+      Examples and Tests:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <a href = "vandermonde_interp_1d_test.txt">vandermonde_interp_1d_test.txt</a>,
+          the output file.
+        </li>
+      </ul>
+    </p>
+
+    <p>
+      The test program makes data files that can be used by GNUPLOT to create graphics:
+      <ul>
+        <li>
+          <a href = "data1.txt">data1.txt</a>
+        </li>
+        <li>
+          <a href = "interp1.txt">interp1.txt</a>
+        </li>
+        <li>
+          <a href = "commands1.txt">commands1.txt</a>
+        </li>
+        <li>
+          <a href = "plot1.png">plot1.png</a>
+        </li>
+        <li>
+          <a href = "data2.txt">data2.txt</a>
+        </li>
+        <li>
+          <a href = "interp2.txt">interp2.txt</a>
+        </li>
+        <li>
+          <a href = "commands2.txt">commands2.txt</a>
+        </li>
+        <li>
+          <a href = "plot2.png">plot2.png</a>
+        </li>
+        <li>
+          <a href = "data3.txt">data3.txt</a>
+        </li>
+        <li>
+          <a href = "interp3.txt">interp3.txt</a>
+        </li>
+        <li>
+          <a href = "commands3.txt">commands3.txt</a>
+        </li>
+        <li>
+          <a href = "plot3.png">plot3.png</a>
+        </li>
+        <li>
+          <a href = "data4.txt">data4.txt</a>
+        </li>
+        <li>
+          <a href = "interp4.txt">interp4.txt</a>
+        </li>
+        <li>
+          <a href = "commands4.txt">commands4.txt</a>
+        </li>
+        <li>
+          <a href = "plot4.png">plot4.png</a>
+        </li>
+        <li>
+          <a href = "data5.txt">data5.txt</a>
+        </li>
+        <li>
+          <a href = "interp5.txt">interp5.txt</a>
+        </li>
+        <li>
+          <a href = "commands5.txt">commands5.txt</a>
+        </li>
+        <li>
+          <a href = "plot5.png">plot5.png</a>
+        </li>
+        <li>
+          <a href = "data6.txt">data6.txt</a>
+        </li>
+        <li>
+          <a href = "interp6.txt">interp6.txt</a>
+        </li>
+        <li>
+          <a href = "commands6.txt">commands6.txt</a>
+        </li>
+        <li>
+          <a href = "plot6.png">plot6.png</a>
+        </li>
+        <li>
+          <a href = "data7.txt">data7.txt</a>
+        </li>
+        <li>
+          <a href = "interp7.txt">interp7.txt</a>
+        </li>
+        <li>
+          <a href = "commands7.txt">commands7.txt</a>
+        </li>
+        <li>
+          <a href = "plot7.png">plot7.png</a>
+        </li>
+        <li>
+          <a href = "data8.txt">data8.txt</a>
+        </li>
+        <li>
+          <a href = "interp8.txt">interp8.txt</a>
+        </li>
+        <li>
+          <a href = "commands8.txt">commands8.txt</a>
+        </li>
+        <li>
+          <a href = "plot8.png">plot8.png</a>
+        </li>
+      </ul>
+    </p>
+
+    <h3 align = "center">
+      List of Routines:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <b>VANDERMONDE_INTERP_1D_COEF</b> computes a 1D polynomial interpolant.
+        </li>
+        <li>
+          <b>VANDERMONDE_INTERP_1D_MATRIX</b> computes a Vandermonde 1D interpolation matrix.
+        </li>
+      </ul>
+    </p>
+
+    <p>
+      You can go up one level to <a href = "../cpp_src.html">
+      the C++ source codes</a>.
+    </p>
+
+    <hr>
+
+    <i>
+      Last revised on 02 June 2013.
+    </i>
+
+    <!-- John Burkardt -->
+
+  </body>
+
+  <!-- Initial HTML skeleton created by HTMLINDEX. -->
+
+
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/vandermonde_interp_1d/vandermonde_interp_1d.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 16:04:42 GMT -->
+</html>

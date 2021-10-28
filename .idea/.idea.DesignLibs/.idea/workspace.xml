@@ -9588,9 +9588,9 @@
       <item itemvalue=".NET Project.ThreeBodySimulation" />
       <item itemvalue=".NET Project.RungeKuttaFehlbergTest" />
       <item itemvalue=".NET Project.Ising2DTest" />
+      <item itemvalue=".NET Project.LatticeRuleTest" />
       <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMAIOTest" />
       <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMBIOTest" />
-      <item itemvalue=".NET Project.LatticeRuleTest" />
     </list>
     <recent_temporary>
       <list>

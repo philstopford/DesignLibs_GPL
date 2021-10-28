@@ -1,0 +1,224 @@
+<html>
+
+  
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/toms446/toms446.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 16:02:27 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      TOMS446 - Ten Subroutines for the Manipulation of Chebyshev Series
+    </title>
+  </head>
+
+  <body bgcolor="#EEEEEE" link="#CC0000" alink="#FF3300" vlink="#000055">
+
+    <h1 align = "center">
+      TOMS446 <br> Ten Subroutines for the Manipulation of Chebyshev Series
+    </h1>
+
+    <hr>
+
+    <p>
+      <b>TOMS446</b>
+      is which
+      implements ACM TOMS algorithm 446, for the manipulation
+      of Chebyshev series,
+      by Roger Broucke.
+    </p>
+
+    <p>
+      While the text of many ACM TOMS algorithms is available online
+      through ACM:
+              <a href = "http://www.acm.org/pubs/calgo/">
+                         http://www.acm.org/pubs/calgo</a>
+      or NETLIB:
+      <a href = "http://www.netlib.org/toms/index.html">
+      http://www.netlib.org/toms/index.html</a>, most of the early
+      algorithms are not available.  This is one of them.  I typed it
+      in.
+    </p>
+
+    <h3 align = "center">
+      Licensing:
+    </h3>
+
+    <p>
+      The computer code and data files described and made available on this web page 
+      are distributed under
+      <a href = "https://people.math.sc.edu/Burkardt/txt/gnu_lgpl.txt">the GNU LGPL license.</a>
+    </p>
+
+
+    <h3 align = "center">
+      Related Data and Programs:
+    </h3>
+
+    <p>
+      <a href = "../bernstein/bernstein.html">
+      BERNSTEIN</a>,
+      which
+      evaluates the Bernstein polynomials, 
+      useful for uniform approximation of functions;
+    </p>
+
+    <p>
+      <a href = "../chebyshev/chebyshev.html">
+      CHEBYSHEV</a>,
+      which
+      computes the Chebyshev interpolant/approximant to a given function
+      over an interval.
+    </p>
+
+    <p>
+      <a href = "../chebyshev_series/chebyshev_series.html">
+      CHEBYSHEV_SERIES</a>,
+      which
+      can evaluate a Chebyshev series approximating a function f(x),
+      while efficiently computing one, two or three derivatives of the
+      series, which approximate f'(x), f''(x), and f'''(x),
+      by Manfred Zimmer.
+    </p>
+
+    <p>
+      <a href = "../divdif/divdif.html">
+      DIVDIF</a>,
+      which
+      computes interpolants by divided differences.
+    </p>
+
+    <p>
+      <a href = "../hermite/hermite.html">
+      HERMITE</a>,
+      which
+      computes the Hermite interpolant, a polynomial that matches function values
+      and derivatives.
+    </p>
+
+    <p>
+      <a href = "../spline/spline.html">
+      SPLINE</a>,
+      which
+      can construct and evaluate spline interpolants and approximants.
+    </p>
+
+    <p>
+      <a href = "../test_approx/test_approx.html">
+      TEST_APPROX</a>,
+      which
+      defines test functions for approximation and interpolation.
+    </p>
+
+    <h3 align = "center">
+      Author:
+    </h3>
+
+    <p>
+      Original FORTRAN77 version by Roger Broucke;
+      C++ version by John Burkardt.
+    </p>
+
+    <h3 align = "center">
+      Reference:
+    </h3>
+
+    <p>
+      <ol>
+        <li>
+          Roger Broucke,<br>
+          Algorithm 446:
+          Ten Subroutines for the Manipulation of Chebyshev Series,<br>
+          Communications of the ACM,<br>
+          October 1973, Volume 16, Number 4, pages 254-256.
+        </li>
+      </ol>
+    </p>
+
+
+    <h3 align = "center">
+      Examples and Tests:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <a href = "toms446_test.txt">toms446_test.txt</a>,
+          the output from a run of the sample program.
+        </li>
+      </ul>
+    </p>
+
+    <h3 align = "center">
+      List of Routines:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <b>BINOM:</b> binomial expansion series for the (-1/M) power of a Chebyshev series.
+        </li>
+        <li>
+          <b>CHEBY</b> carries out the Chebyshev analysis of one or more functions.
+        </li>
+        <li>
+          <b>DFRNT</b> determines the derivative of a Chebyshev series.
+        </li>
+        <li>
+          <b>ECHEB</b> evaluates a Chebyshev series at a point.
+        </li>
+        <li>
+          <b>EDCHEB</b> evaluates the derivative of a Chebyshev series at a point.
+        </li>
+        <li>
+          <b>INVERT</b> computes the inverse Chebyshev series.
+        </li>
+        <li>
+          <b>MLTPLY_NEW</b> multiplies two Chebyshev series.
+        </li>
+        <li>
+          <b>MLTPLY_NEW</b> multiplies two Chebyshev series.
+        </li>
+        <li>
+          <b>NTGRT</b> determines the integral of a Chebyshev series.
+        </li>
+        <li>
+          <b>R8_ABS</b> returns the absolute value of an R8.
+        </li>
+        <li>
+          <b>R8VEC_ADD</b> adds one R8VEC to another.
+        </li>
+        <li>
+          <b>R8VEC_COPY</b> copies an R8VEC.
+        </li>
+        <li>
+          <b>R8VEC_COPY_NEW</b> copies an R8VEC to a "new" R8VEC.
+        </li>
+        <li>
+          <b>R8VEC_SCALE</b> multiples an R8VEC by a scale factor.
+        </li>
+        <li>
+          <b>R8VEC_ZERO_NEW</b> creates and zeroes an R8VEC.
+        </li>
+        <li>
+          <b>XALFA2</b> computes a Chebyshev series raised to the (-1/M) power.
+        </li>
+        <li>
+          <b>XALFA3</b> computes a Chebyshev series raised to the (-1/M) power.
+        </li>
+      </ul>
+    </p>
+
+
+    <hr>
+
+    <i>
+      Last revised on 23 September 2011.
+    </i>
+
+    <!-- John Burkardt -->
+
+  </body>
+
+  <!-- Initial HTML skeleton created by HTMLINDEX. -->
+
+
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/toms446/toms446.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 16:02:29 GMT -->
+</html>

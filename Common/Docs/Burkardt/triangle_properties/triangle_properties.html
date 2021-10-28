@@ -1,0 +1,289 @@
+<html>
+
+  
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/triangle_properties/triangle_properties.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 16:03:06 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      TRIANGLE_PROPERTIES - Properties of a Triangle
+    </title>
+  </head>
+
+  <body bgcolor="#EEEEEE" link="#CC0000" alink="#FF3300" vlink="#000055">
+
+    <h1 align = "center">
+      TRIANGLE_PROPERTIES <br> Properties of a Triangle
+    </h1>
+
+    <hr>
+
+    <p>
+      <b>TRIANGLE_PROPERTIES</b>
+      is which
+      can compute properties of a triangle, including angles, area, centroid, circumcircle,
+      edge lengths, incircle, orientation, orthocenter, and quality.
+    </p>
+
+    <p>
+      These properties include:
+      <ul>
+        <li>
+          Angles;
+        </li>
+        <li>
+          Area;
+        </li>
+        <li>
+          Centroid;
+        </li>
+        <li>
+          Circumcircle (center and radius);
+        </li>
+        <li>
+          Edge lengths;
+        </li>
+        <li>
+          Incircle (center and radius);
+        </li>
+        <li>
+          Orientation;
+        </li>
+        <li>
+          Orthocenter;
+        </li>
+        <li>
+          Quality: ratio of incircle radius / circumcircle radius;
+        </li>
+      </ul>
+    </p>
+
+    <h3 align = "center">
+      Licensing:
+    </h3>
+
+    <p>
+      The computer code and data files described and made available on this web page
+      are distributed under
+      <a href = "https://people.math.sc.edu/Burkardt/txt/gnu_lgpl.txt">the GNU LGPL license.</a>
+    </p>
+
+
+    <h3 align = "center">
+      Related Data and Programs:
+    </h3>
+
+    <p>
+      <a href = "../geometry/geometry.html">
+      GEOMETRY</a>,
+      which
+      performs geometric calculations in 2, 3 and N dimensional space.
+    </p>
+
+    <p>
+      <a href = "../hypersphere_properties/hypersphere_properties.html">
+      HYPERSPHERE_PROPERTIES</a>,
+      which
+      carries out various operations for an M-dimensional hypersphere, including 
+      converting between Cartesian and spherical coordinates, 
+      stereographic projection, sampling the surface of the sphere, and
+      computing the surface area and volume.
+    </p>
+
+    <p>
+      <a href = "../polygon_properties/polygon_properties.html">
+      POLYGON_PROPERTIES</a>,
+      which
+      computes properties of an arbitrary polygon in the plane, defined
+      by a sequence of vertices, including interior angles, area, centroid,
+      containment of a point, convexity, diameter, distance to a point, 
+      inradius, lattice area, nearest point in set, outradius, uniform sampling.
+    </p>
+
+    <p>
+      <a href = "../tetrahedron_properties/tetrahedron_properties.html">
+      TETRAHEDRON_PROPERTIES</a>,
+      a C++ program which
+      computes properties of a given tetrahedron.
+    </p>
+
+    <p>
+      <a href = "../triangle_analyze/triangle_analyze.html">
+      TRIANGLE_ANALYZE</a>,
+      a C++ program which
+      reads a triangle from a file, and then reports various properties.
+    </p>
+
+    <p>
+      <a href = "../triangle_interpolate/triangle_interpolate.html">
+      TRIANGLE_INTERPOLATE</a>,
+      which
+      shows how vertex data can be interpolated at any point
+      in the interior of a triangle.
+    </p>
+
+    <p>
+      <a href = "https://people.math.sc.edu/Burkardt/datasets/triangles/triangles.html">
+      TRIANGLES</a>,
+      a dataset directory which
+      contains examples of triangles;
+    </p>
+
+
+    <h3 align = "center">
+      Examples and Tests:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <a href = "triangle_properties_test.txt">triangle_properties_test.txt</a>,
+          the output file.
+        </li>
+      </ul>
+    </p>
+
+    <h3 align = "center">
+      List of Routines:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <b>I4_MODP</b> returns the nonnegative remainder of I4 division.
+        </li>
+        <li>
+          <b>I4_WRAP</b> forces an I4 to lie between given limits by wrapping.
+        </li>
+        <li>
+          <b>LINE_EXP_IS_DEGENERATE_ND</b> finds if an explicit line is degenerate in ND.
+        </li>
+        <li>
+          <b>LINE_EXP_PERP</b> computes a line perpendicular to a line and through a point.
+        </li>
+        <li>
+          <b>LINE_EXP2IMP</b> converts an explicit line to implicit form in 2D.
+        </li>
+        <li>
+          <b>LINE_IMP_IS_DEGENERATE</b> finds if an implicit point is degenerate in 2D.
+        </li>
+        <li>
+          <b>LINES_EXP_INT</b> determines where two explicit lines intersect in 2D.
+        </li>
+        <li>
+          <b>LINES_IMP_INT</b> determines where two implicit lines intersect in 2D.
+        </li>
+        <li>
+          <b>R8_ACOS</b> computes the arc cosine function, with argument truncation.
+        </li>
+        <li>
+          <b>R8_HUGE</b> returns a "huge" R8.
+        </li>
+        <li>
+          <b>R8_MAX</b> returns the maximum of two R8's.
+        </li>
+        <li>
+          <b>R8_MIN</b> returns the minimum of two R8's.
+        </li>
+        <li>
+          <b>R8_UNIFORM_01</b> returns a pseudorandom R8 scaled to [0,1].
+        </li>
+        <li>
+          <b>R8MAT_INVERSE_2D</b> inverts a 2 by 2 R8MAT using Cramer's rule.
+        </li>
+        <li>
+          <b>R8MAT_SOLVE</b> uses Gauss-Jordan elimination to solve an N by N linear system.
+        </li>
+        <li>
+          <b>R8MAT_TRANSPOSE_PRINT</b> prints an R8MAT, transposed.
+        </li>
+        <li>
+          <b>R8MAT_TRANSPOSE_PRINT_SOME</b> prints some of an R8MAT, transposed.
+        </li>
+        <li>
+          <b>R8VEC_COPY</b> copies an R8VEC.
+        </li>
+        <li>
+          <b>R8VEC_EQ</b> is true if two R8VEC's are equal.
+        </li>
+        <li>
+          <b>R8VEC_NORM</b> returns the L2 norm of an R8VEC.
+        </li>
+        <li>
+          <b>R8VEC_PRINT</b> prints an R8VEC.
+        </li>
+        <li>
+          <b>SEGMENT_POINT_DIST:</b> distance ( line segment, point ) in 2D.
+        </li>
+        <li>
+          <b>SEGMENT_POINT_NEAR</b> finds the point on a line segment nearest a point in 2D.
+        </li>
+        <li>
+          <b>TRIANGLE_ANGLES</b> computes the angles of a triangle in 2D.
+        </li>
+        <li>
+          <b>TRIANGLE_AREA</b> computes the area of a triangle in 2D.
+        </li>
+        <li>
+          <b>TRIANGLE_CENTROID</b> computes the centroid of a triangle in 2D.
+        </li>
+        <li>
+          <b>TRIANGLE_CIRCUMCIRCLE</b> computes the circumcircle of a triangle in 2D.
+        </li>
+        <li>
+          <b>TRIANGLE_CONTAINS_POINT</b> finds if a point is inside a triangle in 2D.
+        </li>
+        <li>
+          <b>TRIANGLE_DIAMETER</b> computes the diameter of a triangle in 2D.
+        </li>
+        <li>
+          <b>TRIANGLE_EDGE_LENGTH</b> returns edge lengths of a triangle in 2D.
+        </li>
+        <li>
+          <b>TRIANGLE_INCIRCLE</b> computes the inscribed circle of a triangle in 2D.
+        </li>
+        <li>
+          <b>TRIANGLE_ORIENTATION</b> determines the orientation of a triangle in 2D.
+        </li>
+        <li>
+          <b>TRIANGLE_ORTHOCENTER</b> computes the orthocenter of a triangle in 2D.
+        </li>
+        <li>
+          <b>TRIANGLE_POINT_DIST:</b> distance ( triangle, point ) in 2D.
+        </li>
+        <li>
+          <b>TRIANGLE_POINT_NEAR</b> computes the nearest triangle point to a point in 2D.
+        </li>
+        <li>
+          <b>TRIANGLE_QUALITY:</b> "quality" of a triangle in 2D.
+        </li>
+        <li>
+          <b>TRIANGLE_REFERENCE_SAMPLE</b> returns random points in the reference triangle.
+        </li>
+        <li>
+          <b>TRIANGLE_SAMPLE</b> returns random points in a triangle.
+        </li>
+        <li>
+          <b>TRIANGLE_XSI_TO_XY</b> converts from barycentric to XY coordinates in 2D.
+        </li>
+        <li>
+          <b>TRIANGLE_XY_TO_XSI</b> converts from XY to barycentric in 2D.
+        </li>
+      </ul>
+    </p>
+
+
+    <hr>
+
+    <i>
+      Last revised on 09 November 2015.
+    </i>
+
+    <!-- John Burkardt -->
+
+  </body>
+
+  <!-- Initial HTML skeleton created by HTMLINDEX. -->
+
+
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/triangle_properties/triangle_properties.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 16:03:07 GMT -->
+</html>

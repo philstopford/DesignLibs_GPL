@@ -1,0 +1,265 @@
+<html>
+
+  
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/triangulation_quad/triangulation_quad.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 16:03:58 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      TRIANGULATION_QUAD - Integral Estimate Over a Triangulated Region
+    </title>
+  </head>
+
+  <body bgcolor="#EEEEEE" link="#CC0000" alink="#FF3300" vlink="#000055">
+
+    <h1 align = "center">
+      TRIANGULATION_QUAD <br>
+      Integral Estimate Over a Triangulated Region
+    </h1>
+
+    <hr>
+
+    <p>
+      <b>TRIANGULATION_QUAD</b>
+      is a C++ program which
+      reads information defining a triangulation, and estimates the integral of
+      a function whose values are given at the nodes.
+    </p>
+
+    <p>
+      Note that this program only expects to recieve values of the function <b>f(x,y)</b>
+      at the nodes of the triangulation, that is, as a simple list of values.  No formula
+      for <b>f</b> is expected or used.  A much better estimate for the integral might
+      be possible if a formula for <b>f(x,y)</b> were available, in which case a higher
+      order quadrature scheme could be employed.
+    </p>
+
+    <p>
+      This program should be able to compute exactly the integrals of 1, x, y, and any
+      linear combination of these.  It will only be able to approximate the integrals
+      of other functions, and the accuracy of the approximation will depend in part
+      on the size of the triangles in the triangulation.
+    </p>
+
+    <h3 align = "center">
+      Usage:
+    </h3>
+
+    <p>
+      <blockquote>
+        <b>triangulation_quad</b> <i>prefix</i>
+      </blockquote>
+      where <i>'prefix'</i> is the common prefix for the node, element, and value files
+      <ul>
+        <li>
+          <i>prefix</i><b>_nodes.txt</b>,    the node coordinates;
+        </li>
+        <li>
+          <i>prefix</i><b>_elements.txt</b>,    the elements of the triangulation.
+        </li>
+        <li>
+          <i>prefix</i><b>_values.txt</b>,    the value (which may be a scalar or vector)
+          of some function at each node.
+        </li>
+        <li>
+          <i>quad</i> is the (scalar or vector) result of the integration estimate, which
+          is computed and printed out by the program.
+        </li>
+      </ul>
+    </p>
+
+    <h3 align = "center">
+      Licensing:
+    </h3>
+
+    <p>
+      The computer code and data files described and made available on this web page
+      are distributed under
+      <a href = "https://people.math.sc.edu/Burkardt/txt/gnu_lgpl.txt">the GNU LGPL license.</a>
+    </p>
+
+
+    <h3 align = "center">
+      Related Data and Programs:
+    </h3>
+
+    <p>
+      <a href = "../stroud/stroud.html">
+      STROUD</a>,
+      which
+      defines quadrature rules for a variety of multidimensional reqions.
+    </p>
+
+    <p>
+      <a href = "../tet_mesh_quad/tet_mesh_quad.html">
+      TET_MESH_QUAD</a>,
+      a C++ program which
+      estimates the integral of a function over a region defined by a tetrahedral mesh.
+    </p>
+
+    <p>
+      <a href = "https://people.math.sc.edu/Burkardt/f77_src/toms706/toms706.html">
+      TOMS706</a>,
+      a FORTRAN77 library which
+      estimates the integral of a function
+      over a triangulated region.
+    </p>
+
+    <p>
+      <a href = "../triangulation/triangulation.html">
+      TRIANGULATION</a>,
+      which
+      carries out various operations on order 3 ("linear") or order 6
+      ("quadratic") triangulations.
+    </p>
+
+    <p>
+      <a href = "../triangulation_node_to_element/triangulation_node_to_element.html">
+      TRIANGULATION_NODE_TO_ELEMENT</a>,
+      a C++ program which 
+      reads files describing a set of nodes, their triangulation, and the
+      value of one or more quantities at each node, and outputs a file
+      that averages the quantities for each element.  This operation 
+      in effect creates an "order1" finite element model of the data.
+    </p>
+
+
+    <h3 align = "center">
+      Examples and Tests:
+    </h3>
+
+    <p>
+      <b>EXAMPLE</b> is a set of nodes in the unit square, which have
+      been arranged into an order 3 triangulation.
+      <ul>
+        <li>
+          <a href = "example_nodes.txt">example_nodes.txt</a>,
+          the node file.
+        </li>
+        <li>
+          <a href = "example_elements.txt">example_elements.txt</a>,
+          the element file.
+        </li>
+        <li>
+          <a href = "example_values.txt">example_values.txt</a>,
+          the values file, containing 4 values at each node.
+          (These values are actually the values of 1, x, y, and x*y,
+          which have exact integrals of 1, 1/2, 1/2, and 1/4.)
+          Only the first three integrals will be estimated exactly.
+        </li>
+        <li>
+          <a href = "example_output.txt">example_output.txt</a>,
+          the output file from the command<br>
+          triangulation_quad example
+        </li>
+      </ul>
+    </p>
+
+    <h3 align = "center">
+      List of Routines:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <b>MAIN</b> is the main program for TRIANGULATION_QUAD.
+        </li>
+        <li>
+          <b>CH_CAP</b> capitalizes a single character.
+        </li>
+        <li>
+          <b>CH_EQI</b> is true if two characters are equal, disregarding case.
+        </li>
+        <li>
+          <b>CH_TO_DIGIT</b> returns the integer value of a base 10 digit.
+        </li>
+        <li>
+          <b>FILE_COLUMN_COUNT</b> counts the columns in the first line of a file.
+        </li>
+        <li>
+          <b>FILE_ROW_COUNT</b> counts the number of row records in a file.
+        </li>
+        <li>
+          <b>I4_MAX</b> returns the maximum of two I4's.
+        </li>
+        <li>
+          <b>I4_MIN</b> returns the minimum of two I4's.
+        </li>
+        <li>
+          <b>I4MAT_DATA_READ</b> reads data from an I4MAT file.
+        </li>
+        <li>
+          <b>I4MAT_HEADER_READ</b> reads the header from an I4MAT file.
+        </li>
+        <li>
+          <b>I4MAT_TRANSPOSE_PRINT</b> prints an I4MAT, transposed.
+        </li>
+        <li>
+          <b>I4MAT_TRANSPOSE_PRINT_SOME</b> prints some of an I4MAT, transposed.
+        </li>
+        <li>
+          <b>MESH_BASE_ZERO</b> ensures that the element definition is zero-based.
+        </li>
+        <li>
+          <b>R8_ABS</b> returns the absolute value of an R8.
+        </li>
+        <li>
+          <b>R8_HUGE</b> returns a "huge" R8.
+        </li>
+        <li>
+          <b>R8_MAX</b> returns the maximum of two R8's.
+        </li>
+        <li>
+          <b>R8_MIN</b> returns the minimum of two R8's.
+        </li>
+        <li>
+          <b>R8MAT_DATA_READ</b> reads the data from an R8MAT file.
+        </li>
+        <li>
+          <b>R8MAT_HEADER_READ</b> reads the header from an R8MAT file.
+        </li>
+        <li>
+          <b>R8MAT_TRANSPOSE_PRINT</b> prints an R8MAT, transposed.
+        </li>
+        <li>
+          <b>R8MAT_TRANSPOSE_PRINT_SOME</b> prints some of an R8MAT, transposed.
+        </li>
+        <li>
+          <b>R8VEC_PRINT</b> prints an R8VEC.
+        </li>
+        <li>
+          <b>S_LEN_TRIM</b> returns the length of a string to the last nonblank.
+        </li>
+        <li>
+          <b>S_TO_I4</b> reads an I4 from a string.
+        </li>
+        <li>
+          <b>S_TO_I4VEC</b> reads an I4VEC from a string.
+        </li>
+        <li>
+          <b>S_TO_R8</b> reads an R8 from a string.
+        </li>
+        <li>
+          <b>S_TO_R8VEC</b> reads an R8VEC from a string.
+        </li>
+        <li>
+          <b>S_WORD_COUNT</b> counts the number of "words" in a string.
+        </li>
+      </ul>
+    </p>
+
+
+    <hr>
+
+    <i>
+      Last revised on 15 October 2009.
+    </i>
+
+    <!-- John Burkardt -->
+
+  </body>
+
+  <!-- Initial HTML skeleton created by HTMLINDEX. -->
+
+
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/triangulation_quad/triangulation_quad.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 16:03:59 GMT -->
+</html>

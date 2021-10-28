@@ -1,0 +1,162 @@
+<html>
+
+  
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/polyomino_embed/polyomino_embed.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 15:55:46 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      POLYOMINO_EMBED - Embed a Polyomino in a Region
+    </title>
+  </head>
+
+  <body bgcolor="#EEEEEE" link="#CC0000" alink="#FF3300" vlink="#000055">
+
+    <h1 align = "center">
+      POLYOMINO_EMBED <br> Embed a Polyomino in a Region
+    </h1>
+
+    <hr>
+
+    <p>
+      <b>POLYOMINO_EMBED</b>,
+      which
+      is given matrices defining a region R and a polyomino P, and determines
+      the number of possible embeddings of the polyomino into the region, and
+      the translations necessary to achieve them.
+    </p>
+
+    <p>
+      A region R is a subset of an MRxNR grid of squares.
+    </p>
+
+    <p>
+      A polyomino P is a subset of an MPxNP grid of squares.
+    </p>
+
+    <p>
+      Both objects are represented by binary matrices, with the property that
+      there are no initial or final zero rows or columns.
+    </p>
+
+    <p>
+      For this computation, we regard P as a "fixed" polyomino; in other words,
+      no reflections or rotations will be allowed.
+    </p>
+
+    <p>
+      An "embedding" of P into R is an offset (MI,NJ) such that 
+<pre>
+  P(I,J) = R(I+MI,J+NJ) 
+  for 1 <=  I <=    MP, 1 <=  J <=    NP, and 
+  for 0 <= MI <= MR-MP, 0 <= MJ <= NR-NP.
+</pre>
+      We can detect an embedding simply by taking what amounts to a kind of
+      dot product of P with a corresponding subregion of R.
+    </p>
+
+    <h3 align = "center">
+      Licensing:
+    </h3>
+ 
+    <p>
+      The computer code and data files described and made available on this web page 
+      are distributed under
+      <a href = "https://people.math.sc.edu/Burkardt/txt/gnu_lgpl.txt">the GNU LGPL license.</a>
+    </p>
+
+
+    <h3 align = "center">
+      Related Data and Programs:
+    </h3>
+
+    <p>
+      <a href = "../pentominoes/pentominoes.html">
+      PENTOMINOES</a>,
+      which
+      provides some utilities for manipulating pentominoes.
+    </p>
+
+    <p>
+      <a href = "../polyomino_condense/polyomino_condense.html">
+      POLYOMINO_CONDENSE</a>,
+      a C++ program which
+      cleans up a matrix that represents a polyomino by setting all nonzero
+      entries to 1, and removing initial and final rows and columns of zeros.
+    </p>
+
+    <p>
+      <a href = "../polyomino_enumerate/polyomino_enumerate.html">
+      POLYOMINO_ENUMERATE</a>,
+      which
+      enumerates chiral, fixed and free polyominoes up to a moderate order.
+    </p>
+
+    <p>
+      <a href = "../polyomino_index/polyomino_index.html">
+      POLYOMINO_INDEX</a>,
+      which
+      is given a matrix defining a polyomino P, and determines
+      a correspondingly shaped matrix which contains an index for each
+      nonzero entry in P.
+    </p>
+
+    <p>
+      <a href = "../polyomino_lp_write/polyomino_lp_write.html">
+      POLYOMINO_LP_WRITE</a>,
+      a C++ program which
+      writes an LP file describing a (binary) integer programming problem
+      related to the tiling of a region R by copies of polyomino
+      shapes, with possible reflections and rotations.
+    </p>
+
+    <p>
+      <a href = "../polyomino_transform/polyomino_transform.html">
+      POLYOMINO_TRANSFORM</a>,
+      a C++ program which
+      applies reflection and rotation transforms to the matrix that
+      represents a polyomino.
+    </p>
+
+    <h3>
+      Reference:
+    </h3>
+
+    <p>
+      <ol>
+        <li>
+          Solomon Golomb,<br>
+          Polyominoes: Puzzles, Patterns, Problems, and Packings,<br>
+          Princeton University Press, 1996,<br>
+          ISBN: 9780691024448
+        </li>
+      </ol>
+    </p>
+
+
+    <h3 align = "center">
+      Examples and Tests:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <a href = "polyomino_embed_test.txt">polyomino_embed_test.txt</a>
+        </li>
+      </ul>
+    </p>
+
+    <hr>
+
+    <i>
+      Last revised on 01 May 2018.
+    </i>
+
+    <!-- John Burkardt -->
+
+  </body>
+
+  <!-- Initial HTML skeleton created by HTMLINDEX. -->
+
+
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/polyomino_embed/polyomino_embed.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 15:55:47 GMT -->
+</html>

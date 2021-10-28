@@ -1,0 +1,390 @@
+<html>
+
+  
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/square_minimal_rule/square_minimal_rule.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 15:59:58 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      SQUARE_MINIMAL_RULE - Quadrature Rules for the Symmetric Square.
+    </title>
+  </head>
+
+  <body bgcolor="#EEEEEE" link="#CC0000" alink="#FF3300" vlink="#000055">
+
+    <h1 align = "center">
+      SQUARE_MINIMAL_RULE <br> Quadrature Rules for the Symmetric Square.
+    </h1>
+
+    <hr>
+
+    <p>
+      <b>SQUARE_MINIMAL_RULE</b>
+      is which
+      returns "almost minimal" quadrature rules, 
+      with exactness up to total degree 55,
+      over the interior of the symmetric unit square in 2D,
+      by Mattia Festa and Alvise Sommariva.
+    </p>
+
+    <h3 align = "center">
+      Licensing:
+    </h3>
+
+    <p>
+      The computer code and data files made available on this
+      web page are distributed under
+      <a href = "https://people.math.sc.edu/Burkardt/txt/gnu_lgpl.txt">the GNU LGPL license.</a>
+    </p>
+
+
+    <h3 align = "center">
+      Related Data and Programs:
+    </h3>
+
+    <p>
+      <a href = "../annulus_rule/annulus_rule.html">
+      ANNULUS_RULE</a>,
+      which
+      computes a quadrature rule for estimating integrals of a function 
+      over the interior of a circular annulus in 2D.
+    </p>
+
+    <p>
+      <a href = "../square_arbq_rule/square_arbq_rule.html">
+      SQUARE_ARBQ_RULE</a>,
+      which
+      returns quadrature rules, 
+      with exactness up to total degree 20,
+      over the interior of the symmetric square in 2D,
+      by Hong Xiao and Zydrunas Gimbutas.
+    </p>
+
+    <p>
+      <a href = "../square_exactness/square_exactness.html">
+      SQUARE_EXACTNESS</a>,
+      which
+      investigates the polynomial exactness of quadrature rules
+      over the interior of a cube in 3D.
+    </p>
+
+    <p>
+      <a href = "../square_felippa_rule/square_felippa_rule.html">
+      SQUARE_FELIPPA_RULE</a>,
+      which
+      returns the points and weights of a Felippa quadrature rule
+      over the interior of a square in 2D.
+    </p>
+
+    <p>
+      <a href = "../square_grid/square_grid.html">
+      SQUARE_GRID</a>,
+      which
+      computes a grid of points
+      over the interior of a square in 2D.
+    </p>
+
+    <p>
+      <a href = "../square_integrals/square_integrals.html">
+      SQUARE_INTEGRALS</a>,
+      which
+      returns the exact value of the integral of any monomial
+      over the interior of the unit square in 2D.
+    </p>
+
+    <p>
+      <a href = "../square_monte_carlo/square_monte_carlo.html">
+      SQUARE_MONTE_CARLO</a>,
+      which
+      uses the Monte Carlo method to estimate the integral of a function
+      over the interior of the unit square in 2D.
+    </p>
+
+    <p>
+      <a href = "../square_symq_rule/square_symq_rule.html">
+      SQUARE_SYMQ_RULE</a>,
+      which
+      returns efficient symmetric quadrature rules, 
+      with exactness up to total degree 15,
+      over the interior of a symmetric square in 2D,
+      by Hong Xiao and Zydrunas Gimbutas.
+    </p>
+
+    <p>
+      <a href = "../stroud/stroud.html">
+      STROUD</a>,
+      which
+      defines quadrature rules for a variety of M-dimensional regions, 
+      including the interior of the square, cube and hypercube, the pyramid,
+      cone and ellipse, the hexagon, the M-dimensional octahedron,
+      the circle, sphere and hypersphere, the triangle, tetrahedron and simplex,
+      and the surface of the circle, sphere and hypersphere.
+    </p>
+
+    <p>
+      <a href = "../toms886/toms886.html">
+      TOMS886</a>,
+      which
+      defines the Padua points for interpolation in a 2D region,
+      including the rectangle, triangle, and ellipse,
+      by Marco Caliari, Stefano de Marchi, Marco Vianello.
+      This is a version of ACM TOMS algorithm 886.
+    </p>
+
+    <h3 align = "center">
+      Reference:
+    </h3>
+
+    <p>
+      <ol>
+        <li>
+          Mattia Festa, Alvise Sommariva,<br>
+          Computing almost minimal formulas on the square,<br>
+          Journal of Computational and Applied Mathematics,<br>
+          Volume 17, Number 236, November 2012, pages 4296-4302.
+        </li>
+      </ol>
+    </p>
+
+
+    <h3 align = "center">
+      Examples and Tests:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <a href = "square_minimal_rule_test.txt">square_minimal_rule_test.txt</a>,
+          the output file.
+        </li>
+      </ul>
+    </p>
+
+    <h3 align = "center">
+      List of Routines:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <b>R8MAT_COPY_NEW</b> copies one R8MAT to a "new" R8MAT.
+        </li>
+        <li>
+          <b>R8VEC_SUM</b> returns the sum of an R8VEC.
+        </li>
+        <li>
+          <b>SMR00</b> returns the SMR rule of degree 0.
+        </li>
+        <li>
+          <b>SMR01</b> returns the SMR rule of degree 1.
+        </li>
+        <li>
+          <b>SMR02</b> returns the SMR rule of degree 2.
+        </li>
+        <li>
+          <b>SMR03</b> returns the SMR rule of degree 3.
+        </li>
+        <li>
+          <b>SMR04</b> returns the SMR rule of degree 4.
+        </li>
+        <li>
+          <b>SMR05</b> returns the SMR rule of degree 5.
+        </li>
+        <li>
+          <b>SMR06</b> returns the SMR rule of degree 6.
+        </li>
+        <li>
+          <b>SMR07</b> returns the SMR rule of degree 7.
+        </li>
+        <li>
+          <b>SMR08</b> returns the SMR rule of degree 8.
+        </li>
+        <li>
+          <b>SMR09</b> returns the SMR rule of degree 9.
+        </li>
+        <li>
+          <b>SMR10</b> returns the SMR rule of degree 10.
+        </li>
+        <li>
+          <b>SMR11</b> returns the SMR rule of degree 11.
+        </li>
+        <li>
+          <b>SMR12</b> returns the SMR rule of degree 12.
+        </li>
+        <li>
+          <b>SMR13</b> returns the SMR rule of degree 13.
+        </li>
+        <li>
+          <b>SMR14</b> returns the SMR rule of degree 14.
+        </li>
+        <li>
+          <b>SMR15</b> returns the SMR rule of degree 15.
+        </li>
+        <li>
+          <b>SMR16</b> returns the SMR rule of degree 16.
+        </li>
+        <li>
+          <b>SMR17</b> returns the SMR rule of degree 17.
+        </li>
+        <li>
+          <b>SMR18</b> returns the SMR rule of degree 18.
+        </li>
+        <li>
+          <b>SMR19</b> returns the SMR rule of degree 19.
+        </li>
+        <li>
+          <b>SMR19S</b> returns the rotationally invariant SMR rule of degree 19.
+        </li>
+        <li>
+          <b>SMR20</b> returns the SMR rule of degree 20.
+        </li>
+        <li>
+          <b>SMR21</b> returns the SMR rule of degree 21.
+        </li>
+        <li>
+          <b>SMR22</b> returns the SMR rule of degree 22.
+        </li>
+        <li>
+          <b>SMR23</b> returns the SMR rule of degree 23.
+        </li>
+        <li>
+          <b>SMR24</b> returns the SMR rule of degree 24.
+        </li>
+        <li>
+          <b>SMR25</b> returns the SMR rule of degree 25.
+        </li>
+        <li>
+          <b>SMR26</b> returns the SMR rule of degree 26.
+        </li>
+        <li>
+          <b>SMR27</b> returns the SMR rule of degree 27.
+        </li>
+        <li>
+          <b>SMR28</b> returns the SMR rule of degree 28.
+        </li>
+        <li>
+          <b>SMR29</b> returns the SMR rule of degree 29.
+        </li>
+        <li>
+          <b>SMR29S</b> returns the rotatonally invariant SMR rule of degree 29.
+        </li>
+        <li>
+          <b>SMR30</b> returns the SMR rule of degree 30.
+        </li>
+        <li>
+          <b>SMR31</b> returns the SMR rule of degree 31.
+        </li>
+        <li>
+          <b>SMR31S</b> returns the rotationally invariant SMR rule of degree 31.
+        </li>
+        <li>
+          <b>SMR32</b> returns the SMR rule of degree 32.
+        </li>
+        <li>
+          <b>SMR33</b> returns the SMR rule of degree 33.
+        </li>
+        <li>
+          <b>SMR34</b> returns the SMR rule of degree 34.
+        </li>
+        <li>
+          <b>SMR35</b> returns the SMR rule of degree 35.
+        </li>
+        <li>
+          <b>SMR35S</b> returns the rotationally invariant SMR rule of degree 35.
+        </li>
+        <li>
+          <b>SMR36</b> returns the SMR rule of degree 36.
+        </li>
+        <li>
+          <b>SMR37</b> returns the SMR rule of degree 37.
+        </li>
+        <li>
+          <b>SMR38</b> returns the SMR rule of degree 38.
+        </li>
+        <li>
+          <b>SMR39</b> returns the SMR rule of degree 39.
+        </li>
+        <li>
+          <b>SMR40</b> returns the SMR rule of degree 40.
+        </li>
+        <li>
+          <b>SMR41</b> returns the SMR rule of degree 41.
+        </li>
+        <li>
+          <b>SMR42</b> returns the SMR rule of degree 42.
+        </li>
+        <li>
+          <b>SMR43</b> returns the SMR rule of degree 43.
+        </li>
+        <li>
+          <b>SMR44</b> returns the SMR rule of degree 44.
+        </li>
+        <li>
+          <b>SMR45</b> returns the SMR rule of degree 45.
+        </li>
+        <li>
+          <b>SMR46</b> returns the SMR rule of degree 46.
+        </li>
+        <li>
+          <b>SMR47</b> returns the SMR rule of degree 47.
+        </li>
+        <li>
+          <b>SMR48</b> returns the SMR rule of degree 48.
+        </li>
+        <li>
+          <b>SMR49</b> returns the SMR rule of degree 49.
+        </li>
+        <li>
+          <b>SMR50</b> returns the SMR rule of degree 50.
+        </li>
+        <li>
+          <b>SMR51</b> returns the SMR rule of degree 51.
+        </li>
+        <li>
+          <b>SMR52</b> returns the SMR rule of degree 52.
+        </li>
+        <li>
+          <b>SMR53</b> returns the SMR rule of degree 53.
+        </li>
+        <li>
+          <b>SMR54</b> returns the SMR rule of degree 54.
+        </li>
+        <li>
+          <b>SMR55</b> returns the SMR rule of degree 55.
+        </li>
+        <li>
+          <b>SQUARE_MINIMAL_RULE</b> returns a minimal rule for the square.
+        </li>
+        <li>
+          <b>SQUARE_MINIMAL_RULE_DEGREE_MAX</b> returns the maximum rule degree.
+        </li>
+        <li>
+          <b>SQUARE_MINIMAL_RULE_ERROR_MAX</b> returns the maximum error.
+        </li>
+        <li>
+          <b>SQUARE_MINIMAL_RULE_ORDER</b> returns the order of a minimal square rule.
+        </li>
+        <li>
+          <b>SQUARESYM_AREA:</b> area of the symmetric unit square in 2D.
+        </li>
+        <li>
+          <b>SQUARESYM_MONOMIAL_INTEGRAL:</b> integrals over the symmetric unit square in 2D.
+        </li>
+      </ul>
+    </p>
+
+
+    <hr>
+
+    <i>
+      Last revised on 22 February 2018.
+    </i>
+
+    <!-- John Burkardt -->
+
+  </body>
+
+  <!-- Initial HTML skeleton created by HTMLINDEX. -->
+
+
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/square_minimal_rule/square_minimal_rule.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 15:59:59 GMT -->
+</html>

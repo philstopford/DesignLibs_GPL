@@ -1,0 +1,169 @@
+<html>
+
+  
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/polyomino_condense/polyomino_condense.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 15:55:45 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      POLYOMINO_CONDENSE - Reflect and Rotate a Polyomino
+    </title>
+  </head>
+
+  <body bgcolor="#EEEEEE" link="#CC0000" alink="#FF3300" vlink="#000055">
+
+    <h1 align = "center">
+      POLYOMINO_CONDENSE <br> Reflect and Rotate a Polyomino
+    </h1>
+
+    <hr>
+
+    <p>
+      <b>POLYOMINO_CONDENSE</b>,
+      which
+      cleans up a matrix that represents a polyomino by setting all nonzero
+      entries to 1, and removing initial and final rows and columns of zeros.
+    </p>
+
+    <p>
+      A polyomino is a shape formed by connecting unit squares edgewise.
+    </p>
+
+    <p>
+      A polyomino can be represented by an MxN matrix, whose entries are
+      1 for squares that are part of the polyomino, and 0 otherwise.
+    </p>
+
+    <p>
+      This program is given an MxN matrix that is meant to represent a 
+      polyomino.  It first replaces all nonzero entries by the value 1.
+      It then "condenses" the matrix, if possible, by removing initial and
+      final rows and columns that are entirely zero.
+    </p>
+
+    <p>
+      While this procedure might save a slight amount of space, its purpose
+      is to simplify the task of manipulating polyominos, embedding them in
+      larger shapes, and detecting whether two polyominos describe the same
+      shape.
+    </p>
+
+    <p>
+      It is entirely possible, and usual, that the output quantities are
+      simply copies of the input quantities.
+    </p>
+
+    <h3 align = "center">
+      Licensing:
+    </h3>
+ 
+    <p>
+      The computer code and data files described and made available on this web page 
+      are distributed under
+      <a href = "https://people.math.sc.edu/Burkardt/txt/gnu_lgpl.txt">the GNU LGPL license.</a>
+    </p>
+
+
+    <h3 align = "center">
+      Related Data and Programs:
+    </h3>
+
+    <p>
+      <a href = "../pentominoes/pentominoes.html">
+      PENTOMINOES</a>,
+      which
+      provides some utilities for manipulating pentominoes.
+    </p>
+
+    <p>
+      <a href = "../polyomino_embed/polyomino_embed.html">
+      POLYOMINO_EMBED</a>,
+      which
+      is given matrices defining a region R and a polyomino P, and determines
+      the number of possible embeddings of the polyomino into the region, and
+      the translations necessary to achieve them.
+    </p>
+
+    <p>
+      <a href = "../polyomino_enumerate/polyomino_enumerate.html">
+      POLYOMINO_ENUMERATE</a>,
+      which
+      enumerates chiral, fixed and free polyominoes up to a moderate order.
+    </p>
+
+    <p>
+      <a href = "../polyomino_index/polyomino_index.html">
+      POLYOMINO_INDEX</a>,
+      which
+      is given a matrix defining a polyomino P, and determines
+      a correspondingly shaped matrix which contains an index for each
+      nonzero entry in P.
+    </p>
+
+    <p>
+      <a href = "../polyomino_lp_write/polyomino_lp_write.html">
+      POLYOMINO_LP_WRITE</a>,
+      a C++ program which
+      writes an LP file describing a (binary) integer programming problem
+      related to the tiling of a region R by copies of polyomino
+      shapes, with possible reflections and rotations.
+    </p>
+
+    <p>
+      <a href = "../polyomino_transform/polyomino_transform.html">
+      POLYOMINO_TRANSFORM</a>,
+      a C++ program which
+      applies reflection and rotation transforms to the matrix that
+      represents a polyomino.
+    </p>
+
+    <h3>
+      Reference:
+    </h3>
+
+    <p>
+      <ol>
+        <li>
+          Solomon Golomb,<br>
+          Polyominoes: Puzzles, Patterns, Problems, and Packings,<br>
+          Princeton University Press, 1996,<br>
+          ISBN: 9780691024448
+        </li>
+      </ol>
+    </p>
+
+    <h3 align = "center">
+      Source Code:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <a href = "polyomino_condense.cpp">polyomino_condense.cpp</a>
+        </li>
+        <li>
+          <a href = "polyomino_condense-2.html">polyomino_condense.hpp</a>
+        </li>
+        <li>
+          <a href = "polyomino_condense_test.cpp">polyomino_condense_test.cpp</a>
+        </li>
+        <li>
+          <a href = "polyomino_condense_test.txt">polyomino_condense_test.txt</a>
+        </li>
+      </ul>
+    </p>
+
+    <hr>
+
+    <i>
+      Last revised on 29 April 2018.
+    </i>
+
+    <!-- John Burkardt -->
+
+  </body>
+
+  <!-- Initial HTML skeleton created by HTMLINDEX. -->
+
+
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/polyomino_condense/polyomino_condense.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 15:55:46 GMT -->
+</html>

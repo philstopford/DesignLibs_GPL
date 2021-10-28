@@ -1,0 +1,129 @@
+<html>
+
+  
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/sor/sor.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 15:59:02 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      SOR - Linear System Solution by Successive Over-Relaxation
+    </title>
+  </head>
+
+  <body bgcolor="#EEEEEE" link="#CC0000" alink="#FF3300" vlink="#000055">
+
+    <h1 align = "center">
+      SOR <br> Linear System Solution by Successive Over-Relaxation
+    </h1>
+
+    <hr>
+
+    <p>
+      <b>SOR</b>
+      is which
+      implements a simple version of the successive over-relaxation method
+      for the iterative solution of a system of linear equations.
+    </p>
+
+    <h3 align = "center">
+      Licensing:
+    </h3>
+
+    <p>
+      The computer code and data files described and made available on this
+      web page are distributed under
+      <a href = "https://people.math.sc.edu/Burkardt/txt/gnu_lgpl.txt">the GNU LGPL license.</a>
+    </p>
+
+
+    <h3 align = "center">
+      Related Data and Programs:
+    </h3>
+
+    <p>
+      <a href = "../jacobi/jacobi.html">
+      JACOBI</a>,
+      which
+      implements the Jacobi iteration for solving symmetric positive definite 
+      systems of linear equations.
+    </p>
+
+    <p>
+      <a href = "../test_mat/test_mat.html">
+      TEST_MAT</a>,
+      which
+      defines test matrices.
+    </p>
+
+    <h3 align = "center">
+      Reference:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          Tim Kelley,<br>
+          Iterative Methods for Linear and Nonlinear Equations,<br>
+          SIAM, 2004,<br>
+          ISBN: 0898713528,<br>
+          LC: QA297.8.K45.
+        </li>
+      </ul>
+    </p>
+
+
+    <h3 align = "center">
+      Examples and Tests:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <a href = "sor_test.txt">sor_test.txt</a>,
+          the output file.
+        </li>
+      </ul>
+    </p>
+
+    <h3 align = "center">
+      List of Routines:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <b>DIF2</b> returns the DIF2 matrix.
+        </li>
+        <li>
+          <b>R8MAT_MV</b> multiplies a matrix times a vector.
+        </li>
+        <li>
+          <b>R8MAT_RESIDUAL_NORM</b> returns the norm of A*x-b.
+        </li>
+        <li>
+          <b>R8VEC_COPY</b> copies an R8VEC.
+        </li>
+        <li>
+          <b>R8VEC_DIFF_NORM_SQUARED:</b> square of the L2 norm of the difference of R8VEC's.
+        </li>
+        <li>
+          <b>R8VEC_PRINT</b> prints an R8VEC.
+        </li>
+      </ul>
+    </p>
+
+
+    <hr>
+
+    <i>
+      Last revised on 25 December 2011.
+    </i>
+
+    <!-- John Burkardt -->
+
+  </body>
+
+  <!-- Initial HTML skeleton created by HTMLINDEX. -->
+
+
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/sor/sor.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 15:59:03 GMT -->
+</html>

@@ -1,0 +1,23 @@
+30 April 2018 09:56:12 PM
+
+POLYOMINO_INDEX_TEST
+  C++ version
+  POLYOMINO_INDEX assigns an index to each nonzero entry
+  of a polyomino.
+
+  The polyomino P:
+
+ 1 0 1 1
+ 1 1 1 0
+ 0 1 1 0
+
+  PIN: Index vector for P:
+
+ 1 0 5 8
+ 2 3 6 0
+ 0 4 7 0
+
+POLYOMINO_INDEX_TEST
+  Normal end of execution.
+
+30 April 2018 09:56:12 PM

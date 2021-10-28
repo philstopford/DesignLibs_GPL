@@ -3128,6 +3128,146 @@
           problems.
         </li>
         <li>
+          <a href = "tet_mesh/tet_mesh.html">
+          tet_mesh</a>,
+          a library which
+          works with tetrahedral meshes in 3D;
+        </li>
+        <li>
+          <a href = "tet_mesh_boundary/tet_mesh_boundary.html">
+          tet_mesh_boundary</a>,
+          a program which
+          reads information defining
+          a tetrahedral mesh of points in 3D, and determines the triangular
+          faces that form the boundary of the mesh; it writes files containing
+          the nodes and elements defining this tri_surface data.
+        </li>
+        <li>
+          <a href = "tet_mesh_l2q/tet_mesh_l2q.html">
+          tet_mesh_l2q</a>,
+          a program which
+          reads information about a 4-node (linear) tet mesh and
+          creates data defining a corresponding 10-node (quadratic)
+          tet mesh;
+        </li>
+        <li>
+          <a href = "tet_mesh_q2l/tet_mesh_q2l.html">
+          tet_mesh_q2l</a>,
+          a program which
+          reads information about a 10-node (quadratic) tet mesh and
+          creates data defining a corresponding 4-node (linear)
+          tet mesh;
+        </li>
+        <li>
+          <a href = "tet_mesh_quad/tet_mesh_quad.html">
+          tet_mesh_quad</a>,
+          a program which
+          estimates the integral of a function over a region 
+          defined by a tetrahedral mesh.
+        </li>
+        <li>
+          <a href = "tet_mesh_quality/tet_mesh_quality.html">
+          tet_mesh_quality</a>,
+          a program which
+          reads a node coordinate file
+          and a tetrahedron file and returns quality measures for
+          the tetrahedronal mesh;
+        </li>
+        <li>
+          <a href = "tet_mesh_rcm/tet_mesh_rcm.html">
+          tet_mesh_rcm</a>,
+          a program which
+          computes the Reverse Cuthill McKee (RCM) reordering for the nodes
+          of a tet_mesh that uses 4-node or 10-node tetrahedrons;
+        </li>
+        <li>
+          <a href = "tet_mesh_refine/tet_mesh_refine.html">
+          tet_mesh_refine</a>,
+          a program which
+          refines a tet mesh;
+        </li>
+        <li>
+          <a href = "tet_mesh_tet_neighbors/tet_mesh_tet_neighbors.html">
+          tet_mesh_tet_neighbors</a>,
+          a program which
+          reads information about a tet mesh and writes out a list of the
+          tetrahedrons that are adjacent to a given tetrahedron;
+        </li>
+        <li>
+          <a href = "tet_mesh_volumes/tet_mesh_volumes.html">
+          tet_mesh_volumes</a>,
+          a program which
+          computes the volume of each tetrahedron in a tet mesh;
+        </li>
+        <li>
+          <a href = "tetrahedron_arbq_rule/tetrahedron_arbq_rule.html">
+          tetrahedron_arbq_rule</a>,
+          a library which
+          returns quadrature rules, 
+          with exactness up to total degree 15,
+          over the interior of a tetrahedron in 3D,
+          by Hong Xiao and Zydrunas Gimbutas.
+        </li>
+        <li>
+          <a href = "tetrahedron_exactness/tetrahedron_exactness.html">
+          tetrahedron_exactness</a>,
+          a program which
+          tests the polynomial
+          exactness of a quadrature rule
+          over the interior of a tetrahedron in 3D.
+        </li>
+        <li>
+          <a href = "tetrahedron_grid/tetrahedron_grid.html">
+          tetrahedron_grid</a>,
+          a library which
+          computes a grid of points 
+          over the interior of a tetrahedron in 3D.
+        </li>
+        <li>
+          <a href = "tetrahedron_integrals/tetrahedron_integrals.html">
+          tetrahedron_integrals</a>,
+          a library which
+          returns the exact value of the integral of any monomial
+          over the interior of the unit tetrahedron in 3D.
+        </li>
+        <li>
+          <a href = "tetrahedron_keast_rule/tetrahedron_keast_rule.html">
+          tetrahedron_keast_rule</a>,
+          a library which
+          defines ten quadrature rules, of degree of exactness 0 through 8,
+          over the interior of the tetrahedron in 3D.
+        </li>
+        <li>
+          <a href = "tetrahedron_monte_carlo/tetrahedron_monte_carlo.html">
+          tetrahedron_monte_carlo</a>,
+          a library which
+          uses the Monte Carlo method to estimate an integral 
+          over the interior of a general tetrahedron in 3D.
+        </li>
+        <li>
+          <a href = "tetrahedron_ncc_rule/tetrahedron_ncc_rule.html">
+          tetrahedron_ncc_rule</a>,
+          a library which
+          defines Newton-Cotes closed (NCC) quadrature rules
+          over the interior of a tetrahedron in 3D.
+        </li>
+        <li>
+          <a href = "tetrahedron_nco_rule/tetrahedron_nco_rule.html">
+          tetrahedron_nco_rule</a>,
+          a library which
+          defines Newton-Cotes open (NCO) quadrature rules
+          over the interior of a tetrahedron in 3D.
+        </li>
+        <li>
+          <a href = "tetrahedron_properties/tetrahedron_properties.html">
+          tetrahedron_properties</a>,
+          a program which
+          computes properties including the centroid,
+          circumsphere, dihedral angles, edge lengths, face angles, face areas,
+          insphere, quality, solid angles, and volume
+          of a tetrahedron in 3D.
+        </li>
+        <li>
           <a href = "toeplitz_cholesky/toeplitz_cholesky.html">
           toeplitz_cholesky</a>,
           a library which
@@ -3245,6 +3385,13 @@
           evaluates the Wright Omega function,
           by Piers Lawrence, Robert Corless, David Jeffrey.
           This is a version of ACM TOMS algorithm 917.
+        </li>
+        <li>
+          <a href = "treepack/treepack.html">
+          treepack</a>,
+          a library which
+          carries out computations on trees, 
+          a simple kind of graph that is minimally connected.
         </li>
         <li>
           <a href = "triangle_analyze/triangle_analyze.html">
@@ -4947,95 +5094,8 @@
           demonstrates the use of
           a set of test integrand functions chosen by Alan Genz.
         </li>
-        <li>
-          <a href = "tet_mesh/tet_mesh.html">
-          tet_mesh</a>,
-          a library which
-          works with tetrahedral meshes in 3D;
-        </li>
-        <li>
-          <a href = "tet_mesh_boundary/tet_mesh_boundary.html">
-          tet_mesh_boundary</a>,
-          a program which
-          reads information defining
-          a tetrahedral mesh of points in 3D, and determines the triangular
-          faces that form the boundary of the mesh; it writes files containing
-          the nodes and elements defining this tri_surface data.
-        </li>
-        <li>
-          <a href = "tet_mesh_l2q/tet_mesh_l2q.html">
-          tet_mesh_l2q</a>,
-          a program which
-          reads information about a 4-node (linear) tet mesh and
-          creates data defining a corresponding 10-node (quadratic)
-          tet mesh;
-        </li>
-        <li>
-          <a href = "tet_mesh_q2l/tet_mesh_q2l.html">
-          tet_mesh_q2l</a>,
-          a program which
-          reads information about a 10-node (quadratic) tet mesh and
-          creates data defining a corresponding 4-node (linear)
-          tet mesh;
-        </li>
-        <li>
-          <a href = "tet_mesh_quad/tet_mesh_quad.html">
-          tet_mesh_quad</a>,
-          a program which
-          estimates the integral of a function over a region 
-          defined by a tetrahedral mesh.
-        </li>
-        <li>
-          <a href = "tet_mesh_quality/tet_mesh_quality.html">
-          tet_mesh_quality</a>,
-          a program which
-          reads a node coordinate file
-          and a tetrahedron file and returns quality measures for
-          the tetrahedronal mesh;
-        </li>
-        <li>
-          <a href = "tet_mesh_rcm/tet_mesh_rcm.html">
-          tet_mesh_rcm</a>,
-          a program which
-          computes the Reverse Cuthill McKee (RCM) reordering for the nodes
-          of a tet_mesh that uses 4-node or 10-node tetrahedrons;
-        </li>
-        <li>
-          <a href = "tet_mesh_refine/tet_mesh_refine.html">
-          tet_mesh_refine</a>,
-          a program which
-          refines a tet mesh;
-        </li>
-        <li>
-          <a href = "tet_mesh_tet_neighbors/tet_mesh_tet_neighbors.html">
-          tet_mesh_tet_neighbors</a>,
-          a program which
-          reads information about a tet mesh and writes out a list of the
-          tetrahedrons that are adjacent to a given tetrahedron;
-        </li>
-        <li>
-          <a href = "tet_mesh_volumes/tet_mesh_volumes.html">
-          tet_mesh_volumes</a>,
-          a program which
-          computes the volume of each tetrahedron in a tet mesh;
-        </li>
-        <li>
-          <a href = "tetrahedron_arbq_rule/tetrahedron_arbq_rule.html">
-          tetrahedron_arbq_rule</a>,
-          a library which
-          returns quadrature rules, 
-          with exactness up to total degree 15,
-          over the interior of a tetrahedron in 3D,
-          by Hong Xiao and Zydrunas Gimbutas.
-        </li>
-        <li>
-          <a href = "tetrahedron_exactness/tetrahedron_exactness.html">
-          tetrahedron_exactness</a>,
-          a program which
-          tests the polynomial
-          exactness of a quadrature rule
-          over the interior of a tetrahedron in 3D.
-        </li>
+
+
         <li>
           <a href = "tetrahedron_felippa_rule/tetrahedron_felippa_rule.html">
           tetrahedron_felippa_rule</a>,
@@ -5043,57 +5103,7 @@
           returns Felippa's quadratures rules for approximating integrals
           over the interior of a tetrahedron in 3D.
         </li>
-        <li>
-          <a href = "tetrahedron_grid/tetrahedron_grid.html">
-          tetrahedron_grid</a>,
-          a library which
-          computes a grid of points 
-          over the interior of a tetrahedron in 3D.
-        </li>
-        <li>
-          <a href = "tetrahedron_integrals/tetrahedron_integrals.html">
-          tetrahedron_integrals</a>,
-          a library which
-          returns the exact value of the integral of any monomial
-          over the interior of the unit tetrahedron in 3D.
-        </li>
-        <li>
-          <a href = "tetrahedron_keast_rule/tetrahedron_keast_rule.html">
-          tetrahedron_keast_rule</a>,
-          a library which
-          defines ten quadrature rules, of degree of exactness 0 through 8,
-          over the interior of the tetrahedron in 3D.
-        </li>
-        <li>
-          <a href = "tetrahedron_monte_carlo/tetrahedron_monte_carlo.html">
-          tetrahedron_monte_carlo</a>,
-          a library which
-          uses the Monte Carlo method to estimate an integral 
-          over the interior of a general tetrahedron in 3D.
-        </li>
-        <li>
-          <a href = "tetrahedron_ncc_rule/tetrahedron_ncc_rule.html">
-          tetrahedron_ncc_rule</a>,
-          a library which
-          defines Newton-Cotes closed (NCC) quadrature rules
-          over the interior of a tetrahedron in 3D.
-        </li>
-        <li>
-          <a href = "tetrahedron_nco_rule/tetrahedron_nco_rule.html">
-          tetrahedron_nco_rule</a>,
-          a library which
-          defines Newton-Cotes open (NCO) quadrature rules
-          over the interior of a tetrahedron in 3D.
-        </li>
-        <li>
-          <a href = "tetrahedron_properties/tetrahedron_properties.html">
-          tetrahedron_properties</a>,
-          a program which
-          computes properties including the centroid,
-          circumsphere, dihedral angles, edge lengths, face angles, face areas,
-          insphere, quality, solid angles, and volume
-          of a tetrahedron in 3D.
-        </li>
+
         <li>
           <a href = "tetrahedron01_monte_carlo/tetrahedron01_monte_carlo.html">
           tetrahedron01_monte_carlo</a>,
@@ -5116,13 +5126,7 @@
           a library which
           blends a pattern repeatedly into a region in 3D;
         </li>
-        <li>
-          <a href = "treepack/treepack.html">
-          treepack</a>,
-          a library which
-          carries out computations on trees, 
-          a simple kind of graph that is minimally connected.
-        </li>
+
         <li>
           <a href = "tri_surface_io/tri_surface_io.html">
           tri_surface_io</a>,

@@ -2635,6 +2635,19 @@
           computes the linear least squares (LLS) solution of a system A*x=b.
         </li>
         <li>
+          <a href = "quad_mesh/quad_mesh.html">
+          quad_mesh</a>,
+          a library which
+          handles meshes of quadrilaterals over a 2D region;
+        </li>
+        <li>
+          <a href = "quad_mesh_rcm/quad_mesh_rcm.html">
+          quad_mesh_rcm</a>,
+          a program which
+          computes the Reverse Cuthill-McKee (RCM) reordering for nodes 
+          in a mesh of 4-node quadrilaterals.
+        </li>
+        <li>
           <a href = "r83_np/r83_np.html">
           r83_np</a>,
           a library which
@@ -3118,6 +3131,31 @@
           by Hong Xiao and Zydrunas Gimbutas.
         </li>
         <li>
+          <a href = "st_io/st_io.html">
+          st_io</a>,
+          a library which
+          reads and writes sparse linear systems stored in the 
+          Sparse Triplet (ST) format.
+        </li>
+        <li>
+          <a href = "st_to_cc/st_to_cc.html">
+          st_to_cc</a>,
+          a library which
+          converts sparse matrix data from Sparse Triplet (ST) format 
+          to Compressed Column (CC) format;
+        </li>
+        <li>
+          <a href = "stroud/stroud.html">
+          stroud</a>,
+          a library which
+          defines quadrature rules for a variety of M-dimensional regions, 
+          including the interior of the square, cube and hypercube, 
+          the pyramid, cone and ellipse, the hexagon, 
+          the M-dimensional octahedron,
+          the circle, sphere and hypersphere, the triangle, tetrahedron
+          and simplex, and the surface of the circle, sphere and hypersphere.
+        </li>
+        <li>
           <a href = "subset/subset.html">
           subset</a>,
           a library which
@@ -3392,6 +3430,13 @@
           a library which
           carries out computations on trees, 
           a simple kind of graph that is minimally connected.
+        </li>
+        <li>
+          <a href = "tri_surface_io/tri_surface_io.html">
+          tri_surface_io</a>,
+          a library which
+          reads and writes the 3D graphics information
+          in a tri_surface file;
         </li>
         <li>
           <a href = "triangle_analyze/triangle_analyze.html">
@@ -4200,19 +4245,7 @@
           test pthreads, the posix thread library, to carry out
           parallel program execution.
         </li>
-        <li>
-          <a href = "quad_mesh/quad_mesh.html">
-          quad_mesh</a>,
-          a library which
-          handles meshes of quadrilaterals over a 2D region;
-        </li>
-        <li>
-          <a href = "quad_mesh_rcm/quad_mesh_rcm.html">
-          quad_mesh_rcm</a>,
-          a program which
-          computes the Reverse Cuthill-McKee (RCM) reordering for nodes 
-          in a mesh of 4-node quadrilaterals.
-        </li>
+
         <li>
           <a href = "quad_serial/quad_serial.html">
           quad_serial</a>,
@@ -4780,20 +4813,6 @@
         </li>
 -->
         <li>
-          <a href = "st_io/st_io.html">
-          st_io</a>,
-          a library which
-          reads and writes sparse linear systems stored in the 
-          Sparse Triplet (ST) format.
-        </li>
-        <li>
-          <a href = "st_to_cc/st_to_cc.html">
-          st_to_cc</a>,
-          a library which
-          converts sparse matrix data from Sparse Triplet (ST) format 
-          to Compressed Column (CC) format;
-        </li>
-        <li>
           <a href = "star_discrepancy/star_discrepancy.html">
           star_discrepancy</a>,
           a program which
@@ -4843,17 +4862,6 @@
           simulates the behavior of a vibrating string
           by solving the corresponding initial boundary value problem (IBVP),
           creating files that can be displayed by gnuplot.
-        </li>
-        <li>
-          <a href = "stroud/stroud.html">
-          stroud</a>,
-          a library which
-          defines quadrature rules for a variety of M-dimensional regions, 
-          including the interior of the square, cube and hypercube, 
-          the pyramid, cone and ellipse, the hexagon, 
-          the M-dimensional octahedron,
-          the circle, sphere and hypersphere, the triangle, tetrahedron
-          and simplex, and the surface of the circle, sphere and hypersphere.
         </li>
         <li>
           <a href = "subpak/subpak.html">
@@ -5127,13 +5135,6 @@
           blends a pattern repeatedly into a region in 3D;
         </li>
 
-        <li>
-          <a href = "tri_surface_io/tri_surface_io.html">
-          tri_surface_io</a>,
-          a library which
-          reads and writes the 3D graphics information
-          in a tri_surface file;
-        </li>
 
 
         <li>
@@ -5151,20 +5152,6 @@
           describe a triangular mesh, and writes a corresponding MESH file
           for input to medit().
         </li>
-        <li>
-          <a href = "triangle01_integrals/triangle01_integrals.html">
-          triangle01_integrals</a>,
-          a library which
-          returns the integral of any monomial
-          over the interior of the unit triangle in 2D.
-        </li>
-        <li>
-          <a href = "triangle01_monte_carlo/triangle01_monte_carlo.html">
-          triangle01_monte_carlo</a>,
-          a library which
-          uses the Monte Carlo method to estimate an integral 
-          over the interior of the unit triangle in 2D.
-        </li>
 
         <li>
           <a href = "triangulation_rcm/triangulation_rcm.html">
@@ -5172,23 +5159,6 @@
           a program which
           computes the Reverse Cuthill McKee (RCM) reordering for the nodes
           of a triangulation that uses 3-node or 6-node triangles;
-        </li>
-        <li>
-          <a href = "tsg/tsg.html">
-          tsg</a>,
-          programs which
-          demonstrate the use of the TasmanianSparseGrid (TSG) package,
-          which implements routines for working with sparse grids,
-          to efficiently estimate integrals or compute interpolants of
-          scalar functions of multidimensional arguments,
-          by Miroslav Stoyanov.
-        </li>
-        <li>
-          <a href = "tsp_brute/tsp_brute.html">
-          tsp_brute</a>,
-          a program which
-          reads a file of city-to-city distances and solves a (small!) 
-          traveling salesperson problem, using brute force.
         </li>
         <li>
           <a href = "ubvec/ubvec.html">
@@ -5221,20 +5191,6 @@
           uniform_dataset</a>,
           a program which
           creates a file of uniform pseudorandom values;
-        </li>
-        <li>
-          <a href = "upc/upc.html">
-          upc</a>,
-          is a library which
-          computes the check digit of a uniform product code (UPC),
-          or reports whether a full 12-digit UPC is actually valid.
-        </li>
-        <li>
-          <a href = "valgrind_test/valgrind_test.html">
-          valgrind_test</a>,
-          programs which
-          illustrate the use of the VALGRIND suite of programs which includes
-          a memory leak detector.
         </li>
         <li>
           <a href = "van_der_corput/van_der_corput.html">

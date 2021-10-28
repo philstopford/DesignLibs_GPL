@@ -1,0 +1,974 @@
+09 August 2018 12:47:35 PM
+
+R8POLY_TEST
+  C version
+  Test the R8POLY library.
+
+R8_SIGN_TEST
+  R8_SIGN returns the sign of an R8.
+
+      R8      R8_SIGN(R8)
+
+     -1.25          -1
+     -0.25          -1
+         0           1
+       0.5           1
+         9           1
+
+R82POLY2_PRINT_TEST
+  R82POLY2_PRINT prints an R82POLY2,
+  a quadratic polynomial in x and y.
+
+  Coefficients a, b, c, d, e, f
+  1  2  3  4  5  6
+
+         1 * x^2 +        2 * y^2 +        3 * xy  + 
+         4 * x   +        5 * y   +        6
+
+R82POLY2_TYPE_TEST
+  R82POLY2_TYPE determines the type of a second order
+  equation in two variables.
+
+
+         9 * x^2 +       -4 * y^2 +        0 * xy  + 
+       -36 * x   +      -24 * y   +      -36
+  Type = 1
+  The set of solutions forms a hyperbola.
+
+         4 * x^2 +        1 * y^2 +       -4 * xy  + 
+         3 * x   +       -4 * y   +        1
+  Type = 2
+  The set of solutions forms a parabola.
+
+         9 * x^2 +       16 * y^2 +        0 * xy  + 
+        36 * x   +      -32 * y   +      -92
+  Type = 3
+  The set of solutions forms an ellipse.
+
+         1 * x^2 +        1 * y^2 +        0 * xy  + 
+        -6 * x   +      -10 * y   +      115
+  Type = 4
+  The set of solutions forms an imaginary ellipse.
+  (There are no real solutions).
+
+         0 * x^2 +        0 * y^2 +        1 * xy  + 
+         3 * x   +       -1 * y   +       -3
+  Type = 5
+  The set of solutions forms a pair of intersecting lines.
+
+         1 * x^2 +        2 * y^2 +        0 * xy  + 
+        -2 * x   +       16 * y   +       33
+  Type = 6
+  The set of solutions is a single point.
+
+         0 * x^2 +        1 * y^2 +        0 * xy  + 
+         0 * x   +       -6 * y   +        8
+  Type = 7
+  The set of solutions form a pair of distinct parallel lines.
+
+         0 * x^2 +        1 * y^2 +        0 * xy  + 
+         0 * x   +       -6 * y   +       10
+  Type = 8
+  The set of solutions forms a pair of imaginary parallel lines.
+  (There are no real solutions).
+
+         0 * x^2 +        1 * y^2 +        0 * xy  + 
+         0 * x   +       -2 * y   +        1
+  Type = 9
+  The set of solutions forms a pair of coincident lines.
+
+         0 * x^2 +        0 * y^2 +        0 * xy  + 
+         2 * x   +       -1 * y   +        1
+  Type = 10
+  The set of solutions forms a single line.
+
+         0 * x^2 +        0 * y^2 +        0 * xy  + 
+         0 * x   +        0 * y   +        0
+  Type = 11
+  The set of solutions is all space.
+
+         0 * x^2 +        0 * y^2 +        0 * xy  + 
+         0 * x   +        0 * y   +        1
+  Type = 12
+  The set of solutions is empty.
+
+R8MAT_INVERSE_3D_TEST
+  R8MAT_INVERSE_3D inverts a 3 by 3 matrix.
+
+  Matrix A:
+
+  Col:          0             1             2       
+  Row
+
+    0:            3             2             1  
+    1:            2             2             1  
+    2:            0             1             1  
+
+  Inverse matrix B:
+
+  Col:          0             1             2       
+  Row
+
+    0:            1            -1             0  
+    1:           -2             3            -1  
+    2:            2            -3             2  
+
+  C = A * B:
+
+  Col:          0             1             2       
+  Row
+
+    0:            1             0             0  
+    1:            0             1             0  
+    2:            0             0             1  
+
+R8MAT_PRINT_TEST
+  R8MAT_PRINT prints an R8MAT.
+
+  The R8MAT:
+
+  Col:          0             1             2             3       
+  Row
+
+    0:           11            12            13            14  
+    1:           21            22            23            24  
+    2:           31            32            33            34  
+    3:           41            42            43            44  
+    4:           51            52            53            54  
+    5:           61            62            63            64  
+
+R8MAT_PRINT_SOME_TEST
+  R8MAT_PRINT_SOME prints some of an R8MAT.
+
+  The R8MAT, rows 2:4, cols 1:2:
+
+  Col:          0             1       
+  Row
+
+    1:           21            22  
+    2:           31            32  
+    3:           41            42  
+
+R8POLY_DEGREE_TEST
+  R8POLY_DEGREE determines the degree of an R8POLY.
+
+  The R8POLY:
+
+  p(x) =               4 * x ^ 3
+         +             3 * x ^ 2
+         +             2 * x
+         +             1
+  Dimensioned degree = 3,  Actual degree = 3
+
+  The R8POLY:
+
+  p(x) =               0 * x ^ 3
+         +             3 * x ^ 2
+         +             2 * x
+         +             1
+  Dimensioned degree = 3,  Actual degree = 2
+
+  The R8POLY:
+
+  p(x) =               4 * x ^ 3
+         +             2 * x
+         +             1
+  Dimensioned degree = 3,  Actual degree = 3
+
+  The R8POLY:
+
+  p(x) =               0 * x ^ 3
+         +             1
+  Dimensioned degree = 3,  Actual degree = 0
+
+  The R8POLY:
+
+  p(x) =               0 * x ^ 3
+  Dimensioned degree = 3,  Actual degree = 0
+
+R8POLY_DERIV_TEST
+  R8POLY_DERIV computes the coefficients of
+  the derivative of a polynomial.
+
+  The initial polynomial
+
+  p(x) =               1 * x ^ 4
+         -            10 * x ^ 3
+         +            35 * x ^ 2
+         -            50 * x
+         +            24
+
+  The derivative of order 0
+
+
+ 
+
+  p(x) =               1 * x ^ 4
+         -            10 * x ^ 3
+         +            35 * x ^ 2
+         -            50 * x
+         +            24
+
+  The derivative of order 1
+
+
+ 
+
+  p(x) =               4 * x ^ 3
+         -            30 * x ^ 2
+         +            70 * x
+         -            50
+
+  The derivative of order 2
+
+
+ 
+
+  p(x) =              12 * x ^ 2
+         -            60 * x
+         +            70
+
+  The derivative of order 3
+
+
+ 
+
+  p(x) =              24 * x
+         -            60
+
+  The derivative of order 4
+
+
+ 
+
+  p(x) =              24
+
+R8POLY_LAGRANGE_COEF_TEST
+  R8POLY_LAGRANGE_COEF returns the coefficients for
+  a Lagrange basis polynomial.
+
+  Abscissas:
+
+         0:              1
+         1:              2
+         2:              3
+
+  Lagrange basis polynomial    1:
+
+         3     0
+      -2.5     1
+       0.5     2
+
+  Lagrange basis polynomial    2:
+
+        -3     0
+         4     1
+        -1     2
+
+  Lagrange basis polynomial    3:
+
+         1     0
+      -1.5     1
+       0.5     2
+
+R8POLY_LAGRANGE_0_TEST
+  R8POLY_LAGRANGE_0 evaluates the Lagrange
+  factor W(X) at a point.
+
+  The number of data points is 5
+
+  Abscissas:
+
+         0:              0
+         1:              1
+         2:              2
+         3:              3
+         4:              4
+
+      X          W(X)
+
+           0             0
+    0.222222       3.22444
+    0.444444       3.48998
+    0.666667       2.30453
+    0.888889      0.720757
+     1.11111     -0.598825
+     1.33333      -1.31687
+     1.55556      -1.35616
+     1.77778     -0.834561
+           2             0
+     2.22222      0.834561
+     2.44444       1.35616
+     2.66667       1.31687
+     2.88889      0.598825
+     3.11111     -0.720757
+     3.33333      -2.30453
+     3.55556      -3.48998
+     3.77778      -3.22444
+           4             0
+
+R8POLY_LAGRANGE_1_TEST
+  R8POLY_LAGRANGE_1 evaluates the Lagrange
+  factor W'(X) at a point.
+
+  The number of data points is 5
+
+  Abscissas:
+
+         0:              0
+         1:              1
+         2:              2
+         3:              3
+         4:              4
+
+      X          W'(X)
+
+           0            24
+    0.222222        6.5362
+    0.444444      -3.02027
+    0.666667       -6.8642
+    0.888889      -6.89773
+     1.11111      -4.73038
+     1.33333      -1.67901
+     1.55556       1.23213
+     1.77778       3.27145
+           2             4
+     2.22222       3.27145
+     2.44444       1.23213
+     2.66667      -1.67901
+     2.88889      -4.73038
+     3.11111      -6.89773
+     3.33333       -6.8642
+     3.55556      -3.02027
+     3.77778        6.5362
+           4            24
+
+R8POLY_LAGRANGE_2_TEST
+  R8POLY_LAGRANGE_2 evaluates the Lagrange
+  factor W''(X) at a point.
+
+  The number of data points is 5
+
+  Abscissas:
+
+         0:              0
+         1:              1
+         2:              2
+         3:              3
+         4:              4
+
+      X          W''(X)
+
+           0          -100
+    0.222222      -59.0398
+    0.444444      -28.6145
+    0.666667      -7.40741
+    0.888889       5.89849
+     1.11111         12.62
+     1.33333       14.0741
+     1.55556       11.5775
+     1.77778       6.44719
+           2             0
+     2.22222      -6.44719
+     2.44444      -11.5775
+     2.66667      -14.0741
+     2.88889        -12.62
+     3.11111      -5.89849
+     3.33333       7.40741
+     3.55556       28.6145
+     3.77778       59.0398
+           4           100
+
+R8POLY_LAGRANGE_FACTOR_TEST
+  R8POLY_LAGRANGE_FACTOR evaluates the Lagrange
+  factor W(X) at a point.
+
+  For this test, we use 5 functions.
+
+  Abscissas:
+
+         0:              0
+         1:            0.8
+         2:            1.6
+         3:            2.4
+         4:            3.2
+
+      X          W(X)          W'(X)
+
+       4.5    131.818    274.543
+         4    39.3216     112.23
+       3.5    5.92515    32.1429
+         3    -1.1088     2.0304
+       2.5   -0.26775    -2.8571
+         2     0.4608     0.2304
+       1.5   -0.16065     1.5429
+         1    -0.3696    -1.1696
+
+R8POLY_LAGRANGE_VAL_TEST
+  R8POLY_LAGRANGE_VAL evaluates a Lagrange
+  interpolating polynomial at a point.
+
+  For this test, we use 5 functions.
+
+  Abscissas:
+
+         0:              0
+         1:              1
+         2:              2
+         3:              3
+         4:              4
+
+  Here are the values of the functions at
+  several points:
+
+      X          L1          L2          L3      L4          L5
+
+       4.5    0.273438    -1.40625     2.95312    -3.28125     2.46094  
+         4           0          -0           0          -0           1  
+       3.5  -0.0390625     0.21875   -0.546875     1.09375    0.273438  
+         3          -0           0          -0           1           0  
+       2.5   0.0234375    -0.15625    0.703125     0.46875  -0.0390625  
+         2           0          -0           1           0          -0  
+       1.5  -0.0390625     0.46875    0.703125    -0.15625   0.0234375  
+         1          -0           1           0          -0           0  
+       0.5    0.273438     1.09375   -0.546875     0.21875  -0.0390625  
+
+  And the derivatives:
+
+      X          L'1         L'2         L'3     L'4         L'5
+
+       4.5   0.916667     -4.625      9.375   -9.54167      3.875 
+         4       0.25   -1.33333          3         -4    2.08333 
+       3.5 -0.0416667   0.208333     -0.375  -0.708333   0.916667 
+         3 -0.0833333        0.5       -1.5   0.833333       0.25 
+       2.5          0  0.0416667     -1.125      1.125 -0.0416667 
+         2  0.0833333  -0.666667          0   0.666667 -0.0833333 
+       1.5  0.0416667     -1.125      1.125 -0.0416667          0 
+         1      -0.25  -0.833333        1.5       -0.5  0.0833333 
+       0.5  -0.916667   0.708333      0.375  -0.208333  0.0416667 
+
+R8POLY_PRINT_TEST
+  R8POLY_PRINT prints an R8POLY.
+
+  The R8POLY:
+
+  p(x) =               9 * x ^ 5
+         +          0.78 * x ^ 4
+         +            56 * x ^ 2
+         -           3.4 * x
+         +             2
+
+R8POLY_VALUE_TEST
+  R8POLY_VALUE evaluates a polynomial at
+  one point, using a naive method.
+
+  The polynomial coefficients:
+
+  p(x) =               1 * x ^ 4
+         -            10 * x ^ 3
+         +            35 * x ^ 2
+         -            50 * x
+         +            24
+
+   I    X    P(X)
+
+   0         0              24
+   1  0.333333         10.8642
+   2  0.666667         3.45679
+   3         1               0
+   4   1.33333       -0.987654
+   5   1.66667       -0.691358
+   6         2               0
+   7   2.33333        0.493827
+   8   2.66667        0.493827
+   9         3               0
+  10   3.33333       -0.691358
+  11   3.66667       -0.987654
+  12         4               0
+  13   4.33333         3.45679
+  14   4.66667         10.8642
+  15         5              24
+
+R8POLY_VALUE_HORNER_TEST
+  R8POLY_VALUE_HORNER evaluates a polynomial at
+  one point, using Horner's method.
+
+  The polynomial coefficients:
+
+  p(x) =               1 * x ^ 4
+         -            10 * x ^ 3
+         +            35 * x ^ 2
+         -            50 * x
+         +            24
+
+   I    X    P(X)
+
+   0         0              24
+   1  0.333333         10.8642
+   2  0.666667         3.45679
+   3         1               0
+   4   1.33333       -0.987654
+   5   1.66667       -0.691358
+   6         2               0
+   7   2.33333        0.493827
+   8   2.66667        0.493827
+   9         3               0
+  10   3.33333       -0.691358
+  11   3.66667       -0.987654
+  12         4               0
+  13   4.33333         3.45679
+  14   4.66667         10.8642
+  15         5              24
+
+R8POLY_VALUES_HORNER_TEST
+  R8POLY_VALUES_HORNER evaluates a polynomial at a
+  point, using Horner's method.
+
+  The polynomial:
+
+  p(x) =               1 * x ^ 4
+         -            10 * x ^ 3
+         +            35 * x ^ 2
+         -            50 * x
+         +            24
+
+  X, P(X):
+
+     0:              0              24
+     1:       0.333333         10.8642
+     2:       0.666667         3.45679
+     3:              1               0
+     4:        1.33333       -0.987654
+     5:        1.66667       -0.691358
+     6:              2               0
+     7:        2.33333        0.493827
+     8:        2.66667        0.493827
+     9:              3               0
+    10:        3.33333       -0.691358
+    11:        3.66667       -0.987654
+    12:              4               0
+    13:        4.33333         3.45679
+    14:        4.66667         10.8642
+    15:              5              24
+
+R8POLY2_EX_TEST
+  R8POLY2_EX finds the extreme value
+  of a parabola determined by three points.
+
+  Parabolic coefficients A = 2, B = -4, c = 10
+
+  X, Y data:
+
+  1  8  2  10  3  16
+  R8POLY2_EX returns XMIN = 1, YMIN = 8
+
+R8POLY2_EX2_TEST
+  R8POLY2_EX2 finds the extreme value
+  of a parabola determined by three points.
+
+  Parabolic coefficients A = 2, B = -4, c = 10
+
+  X, Y data:
+
+  1  8  2  10  3  16
+  R8POLY2_EX2 returns XMIN = 1, YMIN = 8
+  and A = 2, B = -4, c = 10
+
+R8POLY2_ROOT_TEST
+  R8POLY2_ROOT finds quadratic equation roots.
+
+         A         B         C     R1         R2
+
+  2  -2  -24  (4,0)  (-3,0)
+  1  -20  100  (10,0)  (10,0)
+  1  -2  10  (1,3)  (1,-3)
+
+R8POLY2_RROOT_TEST
+  R8POLY2_RROOT finds the real parts of quadratic equation roots.
+
+         A         B         C     R1         R2
+
+  2  -2  -24  4  -3
+  1  -20  100  10  10
+  1  -2  10  -1  -1
+  1  0  1  0  0
+  1  -6  10  -3  -3
+
+R8POLY2_VAL_TEST
+  R8POLY2_VAL evaluates a parabola given
+  3 data points.
+
+  Our parabola will be 2*x^2 + 3 * x + 1.
+
+  Case 1: 3 distinct data points:
+
+  -1 0
+  1 6
+  3 28
+
+  Sampled data:
+
+  X, Y, Y', Y''
+
+  0  1  3  4
+  1  6  7  4
+  2  15  11  4
+  3  28  15  4
+
+  Case 2: X1=X2, X3 distinct:
+
+  -1  0
+  -1  -1
+  3  28
+
+  Sampled data:
+
+   X, Y, Y', Y''
+
+  0  1  3  4
+  1  6  7  4
+  2  15  11  4
+  3  28  15  4
+
+  Case 3: X1=X2=X3:
+
+  -1  0
+  -1  -1
+  -1  4
+
+  Sampled data:
+
+  X, Y, Y', Y''
+
+  0  1  3  4
+  1  6  7  4
+  2  15  11  4
+  3  28  15  4
+
+R8POLY2_VAL2_TEST
+  R8POLY2_VAL2 evaluates parabolas through
+  3 points in a table
+
+  Our data tables will actually be parabolas:
+    A: 2*x^2 + 3 * x + 1.
+    B: 4*x^2 - 2 * x + 5.
+
+     0          2          15          17
+     1          4          45          61
+     2          6          91         137
+     3          8         153         245
+     4         10         231         385
+
+  Interpolated data:
+
+  LEFT, X, Y1, Y2
+
+     0           1           6           7
+     1           3          28          35
+     2           5          66          95
+     2           7         120         187
+     2           9         190         311
+
+R8POLY3_ROOT_TEST
+  R8POLY3_ROOT finds roots of cubic equations.
+
+
+  Polynomial coefficients A, B, C, D:
+
+  1  -6  11  -6
+
+  Roots:
+
+  (1,0)
+  (3,0)
+  (2,0)
+
+  Polynomial coefficients A, B, C, D:
+
+  9  -36  54  -27
+
+  Roots:
+
+  (1,0)
+  (-nan,0)
+  (-nan,-0)
+
+  Polynomial coefficients A, B, C, D:
+
+  1  -5  8  -4
+
+  Roots:
+
+  (1,0)
+  (-nan,0)
+  (-nan,-0)
+
+  Polynomial coefficients A, B, C, D:
+
+  1  -8  25  -26
+
+  Roots:
+
+  (2,0)
+  (-nan,0)
+  (-nan,-0)
+
+R8POLY4_ROOT_TEST
+  R8POLY4_ROOT finds roots of quartic equations.
+
+
+  Polynomial coefficients A, B, C, D, E:
+
+  1  -10  35  -50  24
+
+  Roots:
+
+  (4,0)
+  (1,0)
+  (3,-0)
+  (2,0)
+
+  Polynomial coefficients A, B, C, D, E:
+
+  1  -5  1  21  -18
+
+  Roots:
+
+  (3,0)
+  (3,0)
+  (1,-0)
+  (-2,0)
+
+  Polynomial coefficients A, B, C, D, E:
+
+  1  -22  141  -220  100
+
+  Roots:
+
+  (10,0)
+  (10,0)
+  (1,-0)
+  (1,0)
+
+  Polynomial coefficients A, B, C, D, E:
+
+  1  -16  72  -128  80
+
+  Roots:
+
+  (10,0)
+  (2,0)
+  (2,-0)
+  (2,0)
+
+  Polynomial coefficients A, B, C, D, E:
+
+  1  -20  150  -500  625
+
+  Roots:
+
+  (5,0)
+  (5,0)
+  (5,-0)
+  (5,0)
+
+  Polynomial coefficients A, B, C, D, E:
+
+  1  2  1  8  -12
+
+  Roots:
+
+  (-1.66533e-16,2)
+  (-1.66533e-16,-2)
+  (1,-0)
+  (-3,0)
+
+  Polynomial coefficients A, B, C, D, E:
+
+  1  0  13  0  36
+
+  Roots:
+
+  (0,3)
+  (0,2)
+  (0,-3)
+  (-0,-2)
+
+R8VEC_EVEN_NEW_TEST
+  R8VEC_EVEN_NEW computes N evenly spaced values
+  between XLO and XHI.
+
+  XLO = 0
+  XHI = 99
+  while N = 10
+
+  Resulting array:
+
+         0:              0
+         1:             11
+         2:             22
+         3:             33
+         4:             44
+         5:             55
+         6:             66
+         7:             77
+         8:             88
+         9:             99
+
+R8VEC_EVEN_SELECT_TEST
+  R8VEC_EVEN_SELECT computes one of N evenly spaced values
+  between XLO and XHI.
+
+  XLO = 0
+  XHI = 99
+  while N = 10
+   2              11
+   5              44
+   8              77
+
+R8VEC_INDICATOR1_NEW_TEST
+  R8VEC_INDICATOR1_NEW returns an indicator1 vector.
+
+  Indicator1 vector:
+
+         0:              1
+         1:              2
+         2:              3
+         3:              4
+         4:              5
+         5:              6
+         6:              7
+         7:              8
+         8:              9
+         9:             10
+
+R8VEC_IS_DISTINCT_TEST
+  R8VEC_IS_DISTINCT is TRUE if an R8VEC only contains
+  distinct entries.
+
+  X:               0             0             0
+  X is NOT distinct.
+
+  X:               1             0             1
+  X is NOT distinct.
+
+  X:               0             2             1
+  X is distinct.
+
+R8VEC_LINSPACE_NEW_TEST
+  For a R8VEC:
+  R8VEC_LINSPACE_NEW: evenly spaced points between A and B;
+
+  r8vec_linspace ( 5, 10, 20 )
+
+         0:             10
+         1:           12.5
+         2:             15
+         3:           17.5
+         4:             20
+
+R8VEC_PRINT_TEST
+  R8VEC_PRINT prints an R8VEC.
+
+  The R8VEC:
+
+         0:        123.456
+         1:          5e-06
+         2:         -1e+06
+         3:        3.14159
+
+R8VEC_TRANSPOSE_PRINT_TEST
+  R8VEC_TRANSPOSE_PRINT prints an R8VEC "transposed",
+  that is, placing multiple entries on a line.
+  The vector X:        0.218418      0.956318      0.829509      0.561695      0.415307
+                      0.0661187      0.257578      0.109957      0.043829      0.633966
+                      0.0617272      0.449539
+
+R8VEC_UNIFORM_01_NEW_TEST
+  R8VEC_UNIFORM_01_NEW returns a random R8VEC
+  with entries in [ 0.0, 1.0 ]
+
+  Input SEED = 123456789
+
+
+  Random R8VEC:
+
+         0:       0.218418
+         1:       0.956318
+         2:       0.829509
+         3:       0.561695
+         4:       0.415307
+         5:      0.0661187
+         6:       0.257578
+         7:       0.109957
+         8:       0.043829
+         9:       0.633966
+
+  Input SEED = 1361431000
+
+
+  Random R8VEC:
+
+         0:      0.0617272
+         1:       0.449539
+         2:       0.401306
+         3:       0.754673
+         4:       0.797287
+         5:     0.00183837
+         6:       0.897504
+         7:       0.350752
+         8:      0.0945448
+         9:      0.0136169
+
+  Input SEED = 29242052
+
+
+  Random R8VEC:
+
+         0:       0.859097
+         1:       0.840847
+         2:       0.123104
+         3:     0.00751236
+         4:       0.260303
+         5:       0.912484
+         6:       0.113664
+         7:       0.351629
+         8:       0.822887
+         9:       0.267132
+
+R8VEC2_PRINT_TEST
+  R8VEC2_PRINT prints a pair of R8VEC's.
+
+  Squares and square roots:
+
+     0:              1               1
+     1:              4         1.41421
+     2:              9         1.73205
+     3:             16               2
+     4:             25         2.23607
+
+ROOTS_TO_R8POLY_TEST:
+  ROOTS_TO_R8POLY is given N real roots,
+  and constructs the coefficient vector
+  of the corresponding polynomial.
+
+  N real roots:
+
+         0:              1
+         1:             -4
+         2:              3
+         3:              0
+         4:              3
+
+  Corresponding polynomial:
+
+  p(x) =               1 * x ^ 5
+         -             3 * x ^ 4
+         -            13 * x ^ 3
+         +            51 * x ^ 2
+         -            36 * x
+
+R8POLY_TEST
+  Normal end of execution.
+
+09 August 2018 12:47:35 PM

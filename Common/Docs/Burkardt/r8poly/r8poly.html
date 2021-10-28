@@ -1,0 +1,230 @@
+<html>
+
+  
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/r8poly/r8poly.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 15:57:10 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      R8POLY - Polynomials with R8 Coefficients
+    </title>
+  </head>
+
+  <body bgcolor="#EEEEEE" link="#CC0000" alink="#FF3300" vlink="#000055">
+
+    <h1 align = "center">
+      R8POLY <br> Polynomials with R8 Coefficients
+    </h1>
+
+    <hr>
+
+    <p>
+      <b>R8POLY</b>
+      is which
+      contains a number of utilities for polynomials with R8 coefficients,
+      that is, using double precision or 64 bit real arithmetic.
+    </p>
+
+    <h3 align = "center">
+      Licensing:
+    </h3>
+
+    <p>
+      The computer code and data files made available on this web page
+      are distributed under
+      <a href = "https://people.math.sc.edu/Burkardt/txt/gnu_lgpl.txt">the GNU LGPL license.</a>
+    </p>
+
+
+    <h3 align = "center">
+      Related Data and Programs:
+    </h3>
+
+    <p>
+      <a href = "../legendre_product_polynomial/legendre_product_polynomial.html">
+      LEGENDRE_PRODUCT_POLYNOMIAL</a>,
+      which
+      defines Legendre product polynomials, creating a multivariate 
+      polynomial as the product of univariate Legendre polynomials.
+    </p>
+
+    <p>
+      <a href = "../monomial/monomial.html">
+      MONOMIAL</a>,
+      which enumerates, lists, ranks, unranks and randomizes 
+      multivariate monomials in a space of M dimensions, with total degree 
+      less than N, equal to N, or lying within a given range.
+    </p>
+
+    <p>
+      <a href = "../polynomial/polynomial.html">
+      POLYNOMIAL</a>,
+      which
+      adds, multiplies, differentiates, evaluates and prints multivariate 
+      polynomials in a space of M dimensions.
+    </p>
+
+
+    <h3 align = "center">
+      Examples and Tests:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <a href = "r8poly_test.txt">r8poly_test.txt</a>,
+          the output file.
+        </li>
+      </ul>
+    </p>
+
+    <h3 align = "center">
+      List of Routines:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <b>I4_MAX</b> returns the maximum of two I4's.
+        </li>
+        <li>
+          <b>I4_MIN</b> returns the smaller of two I4's.
+        </li>
+        <li>
+          <b>R8_SIGN</b> returns the sign of an R8.
+        </li>
+        <li>
+          <b>R82POLY2_PRINT</b> prints a second order polynomial in two variables.
+        </li>
+        <li>
+          <b>R82POLY2_TYPE</b> analyzes a second order polynomial in two variables.
+        </li>
+        <li>
+          <b>R82POLY2_TYPE_PRINT</b> prints the meaning of the output from R82POLY2_TYPE.
+        </li>
+        <li>
+          <b>R8MAT_DET_3D</b> computes the determinant of a 3 by 3 R8MAT.
+        </li>
+        <li>
+          <b>R8MAT_INVERSE_3D</b> inverts a 3 by 3 R8MAT using Cramer's rule.
+        </li>
+        <li>
+          <b>R8MAT_PRINT</b> prints an R8MAT.
+        </li>
+        <li>
+          <b>R8MAT_PRINT_SOME</b> prints some of an R8MAT.
+        </li>
+        <li>
+          <b>R8POLY_DEGREE</b> returns the degree of a polynomial.
+        </li>
+        <li>
+          <b>R8POLY_DERIV</b> returns the derivative of a polynomial.
+        </li>
+        <li>
+          <b>R8POLY_LAGRANGE_0</b> evaluates the Lagrange factor at a point.
+        </li>
+        <li>
+          <b>R8POLY_LAGRANGE_1</b> evaluates the first derivative of the Lagrange factor.
+        </li>
+        <li>
+          <b>R8POLY_LAGRANGE_2</b> evaluates the second derivative of the Lagrange factor.
+        </li>
+        <li>
+          <b>R8POLY_LAGRANGE_COEF</b> returns the coefficients of a Lagrange polynomial.
+        </li>
+        <li>
+          <b>R8POLY_LAGRANGE_FACTOR</b> evaluates the polynomial Lagrange factor at a point.
+        </li>
+        <li>
+          <b>R8POLY_LAGRANGE_VAL</b> evaluates the IPOL-th Lagrange polynomial.
+        </li>
+        <li>
+          <b>R8POLY_ORDER</b> returns the order of a polynomial.
+        </li>
+        <li>
+          <b>R8POLY_PRINT</b> prints out a polynomial.
+        </li>
+        <li>
+          <b>R8POLY_SHIFT</b> adjusts the coefficients of a polynomial for a new argument.
+        </li>
+        <li>
+          <b>R8POLY_VALUE</b> evaluates a polynomial using a naive method.
+        </li>
+        <li>
+          <b>R8POLY_VALUE_HORNER</b> evaluates a polynomial using Horner's method.
+        </li>
+        <li>
+          <b>R8POLY_VALUES_HORNER</b> evaluates a polynomial using Horner's method.
+        </li>
+        <li>
+          <b>R8POLY_VALUE_2D</b> evaluates a polynomial in 2 variables, X and Y.
+        </li>
+        <li>
+          <b>R8POLY2_EX</b> finds the extremal point of a parabola determined by three points.
+        </li>
+        <li>
+          <b>R8POLY2_EX2</b> finds the extremal point of a parabola determined by three points.
+        </li>
+        <li>
+          <b>R8POLY2_RROOT</b> returns the real parts of the roots of a quadratic polynomial.
+        </li>
+        <li>
+          <b>R8POLY2_VAL</b> evaluates a parabola defined by three data values.
+        </li>
+        <li>
+          <b>R8POLY2_VAL2</b> evaluates a parabolic function through 3 points in a table.
+        </li>
+        <li>
+          <b>R8R8_PRINT</b> prints an R8R8.
+        </li>
+        <li>
+          <b>R8VEC_COPY_NEW</b> copies an R8VEC.
+        </li>
+        <li>
+          <b>R8VEC_EVEN_NEW</b> returns an R8VEC of values evenly spaced between ALO and AHI.
+        </li>
+        <li>
+          <b>R8VEC_EVEN_SELECT</b> returns the I-th of N evenly spaced values in [ XLO, XHI ].
+        </li>
+        <li>
+          <b>R8VEC_INDICATOR1_NEW</b> sets an R8VEC to the indicator vector {1,2,3,...}.
+        </li>
+        <li>
+          <b>R8VEC_IS_DISTINCT</b> is true if the entries in an R8VEC are distinct.
+        </li>
+        <li>
+          <b>R8VEC_LINSPACE_NEW</b> creates a vector of linearly spaced values.
+        </li>
+        <li>
+          <b>R8VEC_PRINT</b> prints an R8VEC.
+        </li>
+        <li>
+          <b>R8VEC_TRANSPOSE_PRINT</b> prints an R8VEC "transposed".
+        </li>
+        <li>
+          <b>R8VEC_ZEROS_NEW</b> creates and zeroes an R8VEC.
+        </li>
+        <li>
+          <b>ROOTS_TO_R8POLY</b> converts polynomial roots to polynomial coefficients.
+        </li>
+        <li>
+          <b>S_LEN_TRIM</b> returns the length of a string to the last nonblank.
+        </li>
+      </ul>
+    </p>
+
+
+    <hr>
+
+    <i>
+      Last revised on 09 August 2018.
+    </i>
+
+    <!-- John Burkardt -->
+
+  </body>
+
+  <!-- Initial HTML skeleton created by HTMLINDEX. -->
+
+
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/r8poly/r8poly.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 15:57:10 GMT -->
+</html>

@@ -1,0 +1,194 @@
+28 January 2017 05:10:02 PM
+
+TOEPLITZ_CHOLESKY_PRB:
+  C++ version
+  Test the TOEPLITZ_CHOLESKY library.
+
+T_CHOLESKY_LOWER_TEST
+  T_CHOLESKY_LOWER computes the lower Cholesky factor L
+  of a positive definites symmetric Toeplitz matrix
+  defined by the first row.
+
+  First row of Toeplitz matrix T:
+
+         0:              1
+         1:            0.5
+         2:         -0.375
+
+  Computed lower Cholesky factor L:
+
+  Col:          0             1             2       
+  Row
+
+    0:            1             0             0  
+    1:          0.5      0.866025             0  
+    2:       -0.375      0.793857      0.478714  
+
+  Product LL':
+
+  Col:          0             1             2       
+  Row
+
+    0:            1           0.5        -0.375  
+    1:          0.5             1           0.5  
+    2:       -0.375           0.5             1  
+
+TOEP_CHOLESKY_LOWER_TEST
+  TOEP_CHOLESKY_LOWER computes the lower Cholesky factor L
+  of a positive definites symmetric Toeplitz matrix
+  defined by a (2,N) array.
+
+  Compressed Toeplitz matrix G:
+
+  Col:          0             1             2       
+  Row
+
+    0:            1           0.5        -0.375  
+    1:            0           0.5        -0.375  
+
+  Computed lower Cholesky factor L:
+
+  Col:          0             1             2       
+  Row
+
+    0:            1             0             0  
+    1:          0.5      0.866025             0  
+    2:       -0.375      0.793857      0.478714  
+
+  Product LL':
+
+  Col:          0             1             2       
+  Row
+
+    0:            1           0.5        -0.375  
+    1:          0.5             1           0.5  
+    2:       -0.375           0.5             1  
+
+TOEPLITZ_CHOLESKY_LOWER_TEST
+  TOEPLITZ_CHOLESKY_LOWER computes the lower Cholesky factor L
+  of a positive definites symmetric Toeplitz matrix
+  defined as an NxN array.
+
+  Toeplitz matrix A:
+
+  Col:          0             1             2       
+  Row
+
+    0:            1           0.5        -0.375  
+    1:          0.5             1           0.5  
+    2:       -0.375           0.5             1  
+
+  Computed lower Cholesky factor L:
+
+  Col:          0             1             2       
+  Row
+
+    0:            1             0             0  
+    1:          0.5      0.866025             0  
+    2:       -0.375      0.793857      0.478714  
+
+  Product LL':
+
+  Col:          0             1             2       
+  Row
+
+    0:            1           0.5        -0.375  
+    1:          0.5             1           0.5  
+    2:       -0.375           0.5             1  
+
+T_CHOLESKY_UPPER_TEST
+  T_CHOLESKY_UPPER computes the upper Cholesky factor R
+  of a positive definites symmetric Toeplitz matrix
+  defined by the first row.
+
+  First row of Toeplitz matrix T:
+
+         0:              1
+         1:            0.5
+         2:         -0.375
+
+  Computed upper Cholesky factor R:
+
+  Col:          0             1             2       
+  Row
+
+    0:            1           0.5        -0.375  
+    1:            0      0.866025      0.793857  
+    2:            0             0      0.478714  
+
+  Product R'R:
+
+  Col:          0             1             2       
+  Row
+
+    0:            1           0.5        -0.375  
+    1:          0.5             1           0.5  
+    2:       -0.375           0.5             1  
+
+TOEP_CHOLESKY_UPPER_TEST
+  TOEP_CHOLESKY_UPPER computes the upper Cholesky factor L
+  of a positive definites symmetric Toeplitz matrix
+  defined by a (2,N) array.
+
+  Compressed Toeplitz matrix G:
+
+  Col:          0             1             2       
+  Row
+
+    0:            1           0.5        -0.375  
+    1:            0           0.5        -0.375  
+
+  Computed upper Cholesky factor R:
+
+  Col:          0             1             2       
+  Row
+
+    0:            1           0.5        -0.375  
+    1:            0      0.866025      0.793857  
+    2:            0             0      0.478714  
+
+  Product R'R:
+
+  Col:          0             1             2       
+  Row
+
+    0:            1           0.5        -0.375  
+    1:          0.5             1           0.5  
+    2:       -0.375           0.5             1  
+
+TOEPLITZ_CHOLESKY_UPPER_TEST
+  TOEPLITZ_CHOLESKY_UPPER computes the upper Cholesky factor L
+  of a positive definites symmetric Toeplitz matrix
+  defined as an NxN array.
+
+  Toeplitz matrix A:
+
+  Col:          0             1             2       
+  Row
+
+    0:            1           0.5        -0.375  
+    1:          0.5             1           0.5  
+    2:       -0.375           0.5             1  
+
+  Computed upper Cholesky factor R:
+
+  Col:          0             1             2       
+  Row
+
+    0:            1           0.5        -0.375  
+    1:            0      0.866025      0.793857  
+    2:            0             0      0.478714  
+
+  Product R'R:
+
+  Col:          0             1             2       
+  Row
+
+    0:            1           0.5        -0.375  
+    1:          0.5             1           0.5  
+    2:       -0.375           0.5             1  
+
+TOEPLITZ_CHOLESKY_PRB:
+  Normal end of execution.
+
+28 January 2017 05:10:02 PM

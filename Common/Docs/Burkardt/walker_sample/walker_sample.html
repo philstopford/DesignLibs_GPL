@@ -1,0 +1,190 @@
+<html>
+
+  
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/walker_sample/walker_sample.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 16:04:44 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      WALKER_SAMPLE - Efficient Probability Vector Sampling
+    </title>
+  </head>
+
+  <body bgcolor="#EEEEEE" link="#CC0000" alink="#FF3300" vlink="#000055">
+
+    <h1 align = "center">
+      WALKER_SAMPLE <br> Efficient Probability Vector Sampling
+    </h1>
+
+    <hr>
+
+    <p>
+      <b>WALKER_SAMPLE</b>
+      is which
+      efficiently samples a discrete probability vector.
+    </p>
+
+    <p>
+      For outcomes labeled 1, 2, 3, ..., N, a discrete probability vector
+      X is an array of N non-negative values which sum to 1, such that X[i]
+      is the probability of outcome i.
+    </p>
+
+    <p>
+      To sample the probability vector is to produce a sequence of outcomes
+      i1, i2, i3, ..., which are each drawn with probability corresponding 
+      to X.  For a general discrete probability vector X, a single sample
+      operation might be expected to take a time that is proportional to O(N),
+      the number of outcomes.  Walker showed that, by constructing a new
+      data structure, it was possible to carry out a sample in time of order 
+      O(1), that is, independent of the number of possible outcomes.
+    </p>
+
+    <h3 align = "center">
+      Licensing:
+    </h3>
+
+    <p>
+      The computer code and data files described and made available on this web page
+      are distributed under
+      <a href = "https://people.math.sc.edu/Burkardt/txt/gnu_lgpl.txt">the GNU LGPL license.</a>
+    </p>
+
+
+    <h3 align = "center">
+      Related Data and Programs:
+    </h3>
+
+    <p>
+      <a href = "../histogram_data_2d_sample/histogram_data_2d_sample.html">
+      HISTOGRAM_DATA_2D_SAMPLE</a>,
+      a C++ program which
+      demonstrates how to construct a Probability Density Function (PDF)
+      from a frequency table over a 2D domain, and then to use that PDF 
+      to create new samples.
+    </p>
+
+    <p>
+      <a href = "../pdflib/pdflib.html">
+      PDFLIB</a>,
+      which
+      evaluates Probability Density Functions (PDF's)
+      and produces random samples from them,
+      including beta, binomial, chi, exponential, gamma, inverse chi,
+      inverse gamma, multinomial, normal, scaled inverse chi, and uniform.
+    </p>
+
+    <p>
+      <a href = "../prob/prob.html">
+      PROB</a>,
+      which
+      evaluates, samples, inverts, and characterizes a number of 
+      Probability Density Functions (PDF's) 
+      and Cumulative Density Functions (CDF's), including anglit, arcsin,
+      benford, birthday, bernoulli, beta_binomial, beta, binomial, bradford,
+      burr, cardiod, cauchy, chi, chi squared, circular, cosine, deranged,
+      dipole, dirichlet mixture, discrete, empirical, english sentence and
+      word length, error, exponential, extreme values, f, fisk, folded normal,
+      frechet, gamma, generalized logistic, geometric, gompertz, gumbel,
+      half normal, hypergeometric, inverse gaussian, laplace, levy, logistic,
+      log normal, log series, log uniform, lorentz, maxwell, multinomial,
+      nakagami, negative binomial, normal, pareto, planck, poisson,
+      power, quasigeometric, rayleigh, reciprocal, runs, sech, semicircular,
+      student t, triangle, uniform, von mises, weibull, zipf.
+    </p>
+
+    <p>
+      <a href = "../ranlib/ranlib.html">
+      RANLIB</a>,
+      which
+      produces random samples from Probability Density Functions (PDF's), 
+      including Beta, Chi-square Exponential, F, Gamma, Multivariate normal,
+      Noncentral chi-square, Noncentral F, Univariate normal, 
+      random permutations, Real uniform, Binomial, Negative Binomial,
+      Multinomial, Poisson and Integer uniform,
+      by Barry Brown and James Lovato.
+    </p>
+
+    <h3 align = "center">
+      Reference:
+    </h3>
+
+    <p>
+      <ol>
+        <li>
+          Donald Knuth,<br>
+          Seminumerical algorithms,<br>
+          Addison-Wesley-Longman, 1999.
+        </li>
+        <li>
+          Warren Smith,<br>
+          How to sample from a probability distribution,<br>
+          April 18, 2002.
+        </li>
+        <li>
+          Alastair Walker,<br>
+          An efficient method for generating discrete random variables
+          with general distributions,<br>
+          ACM Transactions on Mathematical Software,<br>
+          Volume 3, Number 3, September 1977, pages 253-256.
+        </li>
+      </ol>
+    </p>
+
+
+    <h3 align = "center">
+      Examples and Tests:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <a href = "walker_sample_test.txt">walker_sample_test.txt</a>,
+          the output file.
+        </li>
+      </ul>
+    </p>
+
+    <h3 align = "center">
+      List of Routines:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <b>NORMALIZE</b> scales a vector X so its entries sum to 1.
+        </li>
+        <li>
+          <b>RANDOM_PERMUTATION</b> applies a random permutation to an array.
+        </li>
+        <li>
+          <b>WALKER_BUILD</b> sets up the data for a Walker sampler.
+        </li>
+        <li>
+          <b>WALKER_SAMPLE</b> returns a random sample i=1..N with prob X[i].
+        </li>
+        <li>
+          <b>WALKER_TEST01</b> tests the Walker sampler with a Zipf-type probability vector.
+        </li>
+        <li>
+          <b>WALKER_VERIFY</b> verifies a Walker Sampler structure.
+        </li>
+        <li>
+          <b>ZIPF_PROBABILITY</b> sets up a Zipf probability vector.
+        </li>
+      </ul>
+    </p>
+
+
+    <hr>
+
+    <i>
+      Last revised on 19 February 2016.
+    </i>
+
+    <!-- John Burkardt -->
+
+  </body>
+
+
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/walker_sample/walker_sample.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 16:04:44 GMT -->
+</html>

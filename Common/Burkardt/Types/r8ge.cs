@@ -2039,7 +2039,7 @@ namespace Burkardt.Types
             return d;
         }
 
-        public static int r8ge_fa(int n, ref double[] a, ref int[] pivot)
+        public static int r8ge_fa(int n, ref double[] a, ref int[] pivot, int aIndex = 0, int pivotIndex = 0)
 
             //****************************************************************************80
             //
@@ -2112,17 +2112,17 @@ namespace Burkardt.Types
 
                 for (i = k + 1; i <= n; i++)
                 {
-                    if (Math.Abs(a[l - 1 + (k - 1) * n]) < Math.Abs(a[i - 1 + (k - 1) * n]))
+                    if (Math.Abs(a[((l - 1 + (k - 1) * n) + aIndex) % a.Length]) < Math.Abs(a[((i - 1 + (k - 1) * n) + aIndex) % a.Length]))
                     {
                         l = i;
                     }
                 }
 
-                pivot[k - 1] = l;
+                pivot[((k - 1) + pivotIndex) % pivot.Length] = l;
                 //
                 //  If the pivot index is zero, the algorithm has failed.
                 //
-                if (a[l - 1 + (k - 1) * n] == 0.0)
+                if (a[((l - 1 + (k - 1) * n) + aIndex) % a.Length] == 0.0)
                 {
                     Console.WriteLine("");
                     Console.WriteLine("R8GE_FA - Fatal error!");
@@ -2135,9 +2135,9 @@ namespace Burkardt.Types
                 //
                 if (l != k)
                 {
-                    t = a[l - 1 + (k - 1) * n];
-                    a[l - 1 + (k - 1) * n] = a[k - 1 + (k - 1) * n];
-                    a[k - 1 + (k - 1) * n] = t;
+                    t = a[((l - 1 + (k - 1) * n) + aIndex) % a.Length];
+                    a[((l - 1 + (k - 1) * n) + aIndex) % a.Length] = a[((k - 1 + (k - 1) * n) + aIndex) % a.Length];
+                    a[((k - 1 + (k - 1) * n) + aIndex) % a.Length] = t;
                 }
 
                 //
@@ -2145,7 +2145,7 @@ namespace Burkardt.Types
                 //
                 for (i = k + 1; i <= n; i++)
                 {
-                    a[i - 1 + (k - 1) * n] = -a[i - 1 + (k - 1) * n] / a[k - 1 + (k - 1) * n];
+                    a[((i - 1 + (k - 1) * n) + aIndex) % a.Length] = -a[((i - 1 + (k - 1) * n) + aIndex) % a.Length] / a[((k - 1 + (k - 1) * n) + aIndex) % a.Length];
                 }
 
                 //
@@ -2155,24 +2155,24 @@ namespace Burkardt.Types
                 {
                     if (l != k)
                     {
-                        t = a[l - 1 + (j - 1) * n];
-                        a[l - 1 + (j - 1) * n] = a[k - 1 + (j - 1) * n];
-                        a[k - 1 + (j - 1) * n] = t;
+                        t = a[((l - 1 + (j - 1) * n) + aIndex) % a.Length];
+                        a[((l - 1 + (j - 1) * n) + aIndex) % a.Length] = a[((k - 1 + (j - 1) * n) + aIndex) % a.Length];
+                        a[((k - 1 + (j - 1) * n) + aIndex) % a.Length] = t;
                     }
 
                     for (i = k + 1; i <= n; i++)
                     {
-                        a[i - 1 + (j - 1) * n] =
-                            a[i - 1 + (j - 1) * n] + a[i - 1 + (k - 1) * n] * a[k - 1 + (j - 1) * n];
+                        a[((i - 1 + (j - 1) * n) + aIndex) % a.Length] =
+                            a[((i - 1 + (j - 1) * n) + aIndex) % a.Length] + a[((i - 1 + (k - 1) * n) + aIndex) % a.Length] * a[((k - 1 + (j - 1) * n) + aIndex) % a.Length];
                     }
 
                 }
 
             }
 
-            pivot[n - 1] = n;
+            pivot[((n - 1) + pivotIndex) % pivot.Length] = n;
 
-            if (a[n - 1 + (n - 1) * n] == 0.0)
+            if (a[((n - 1 + (n - 1) * n) + aIndex) % a.Length] == 0.0)
             {
                 Console.WriteLine("");
                 Console.WriteLine("R8GE_FA - Fatal error!");
@@ -3619,7 +3619,7 @@ namespace Burkardt.Types
             return x_new;
         }
 
-        public static double[] r8ge_sl_new(int n, double[] a_lu, int[] pivot, double[] b, int job)
+        public static double[] r8ge_sl_new(int n, double[] a_lu, int[] pivot, double[] b, int job, int aluIndex = 0, int pivotIndex = 0, int bIndex = 0)
 
             //****************************************************************************80
             //
@@ -3676,7 +3676,7 @@ namespace Burkardt.Types
 
             for (i = 0; i < n; i++)
             {
-                x[i] = b[i];
+                x[i] = b[(bIndex + i) % b.Length];
             }
 
             //
@@ -3689,7 +3689,7 @@ namespace Burkardt.Types
                 //
                 for (k = 1; k <= n - 1; k++)
                 {
-                    l = pivot[k - 1];
+                    l = pivot[((k - 1) + pivotIndex) % pivot.Length];
 
                     if (l != k)
                     {
@@ -3700,7 +3700,7 @@ namespace Burkardt.Types
 
                     for (i = k + 1; i <= n; i++)
                     {
-                        x[i - 1] = x[i - 1] + a_lu[i - 1 + (k - 1) * n] * x[k - 1];
+                        x[i - 1] = x[i - 1] + a_lu[((i - 1 + (k - 1) * n) + aluIndex) % a_lu.Length] * x[k - 1];
                     }
                 }
 
@@ -3709,10 +3709,10 @@ namespace Burkardt.Types
                 //
                 for (k = n; 1 <= k; k--)
                 {
-                    x[k - 1] = x[k - 1] / a_lu[k - 1 + (k - 1) * n];
+                    x[k - 1] = x[k - 1] / a_lu[((k - 1 + (k - 1) * n) + aluIndex) % a_lu.Length];
                     for (i = 1; i <= k - 1; i++)
                     {
-                        x[i - 1] = x[i - 1] - a_lu[i - 1 + (k - 1) * n] * x[k - 1];
+                        x[i - 1] = x[i - 1] - a_lu[((i - 1 + (k - 1) * n) + aluIndex) % a_lu.Length] * x[k - 1];
                     }
                 }
             }
@@ -3729,10 +3729,10 @@ namespace Burkardt.Types
                     t = 0.0;
                     for (i = 1; i <= k - 1; i++)
                     {
-                        t = t + x[i - 1] * a_lu[i - 1 + (k - 1) * n];
+                        t = t + x[i - 1] * a_lu[((i - 1 + (k - 1) * n) + aluIndex) % a_lu.Length];
                     }
 
-                    x[k - 1] = (x[k - 1] - t) / a_lu[k - 1 + (k - 1) * n];
+                    x[k - 1] = (x[k - 1] - t) / a_lu[((k - 1 + (k - 1) * n) + aluIndex) % a_lu.Length];
                 }
 
                 //
@@ -3743,12 +3743,12 @@ namespace Burkardt.Types
                     t = 0.0;
                     for (i = k + 1; i <= n; i++)
                     {
-                        t = t + x[i - 1] * a_lu[i - 1 + (k - 1) * n];
+                        t = t + x[i - 1] * a_lu[((i - 1 + (k - 1) * n) + aluIndex) % a_lu.Length];
                     }
 
                     x[k - 1] = x[k - 1] + t;
 
-                    l = pivot[k - 1];
+                    l = pivot[((k - 1) + pivotIndex) % pivot.Length];
 
                     if (l != k)
                     {
@@ -5022,6 +5022,54 @@ namespace Burkardt.Types
                 }
             }
 
+            return a;
+        }
+        
+        public static double[] r8ge_zeros_new ( int m, int n )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8GE_ZEROS_NEW returns a new zeroed R8GE.
+            //
+            //  Discussion:
+            //
+            //    An R8GE is a doubly dimensioned array of R8 values, stored as a vector
+            //    in column-major order.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    03 October 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns.
+            //
+            //    Output, double R8GE_ZEROS_NEW[M*N], the new zeroed matrix.
+            //
+        {
+            double[] a;
+            int i;
+            int j;
+
+            a = new double[m*n];
+
+            for ( j = 0; j < n; j++ )
+            {
+                for ( i = 0; i < m; i++ )
+                {
+                    a[i+j*m] = 0.0;
+                }
+            }
             return a;
         }
 

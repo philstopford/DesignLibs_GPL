@@ -1,105 +1,106 @@
 ﻿using System;
+using Burkardt.Uniform;
 
 namespace Burkardt.Types
 {
     public static partial class typeMethods
     {
-        public static void r83_print ( int n, double[] a, string title )
+        public static void r83_print(int n, double[] a, string title)
 
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    R83_PRINT prints a R83 matrix.
-        //
-        //  Discussion:
-        //
-        //    The R83 storage format is used for a tridiagonal matrix.
-        //    The superdiagonal is stored in entries (1,2:N), the diagonal in
-        //    entries (2,1:N), and the subdiagonal in (3,1:N-1).  Thus, the
-        //    original matrix is "collapsed" vertically into the array.
-        //
-        //  Example:
-        //
-        //    Here is how a R83 matrix of order 5 would be stored:
-        //
-        //       *  A12 A23 A34 A45
-        //      A11 A22 A33 A44 A55
-        //      A21 A32 A43 A54  *
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license. 
-        //
-        //  Modified:
-        //
-        //    06 April 2006
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int N, the order of the matrix.
-        //    N must be positive.
-        //
-        //    Input, double A[3*N], the R83 matrix.
-        //
-        //    Input, string TITLE, a title.
-        //
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R83_PRINT prints a R83 matrix.
+            //
+            //  Discussion:
+            //
+            //    The R83 storage format is used for a tridiagonal matrix.
+            //    The superdiagonal is stored in entries (1,2:N), the diagonal in
+            //    entries (2,1:N), and the subdiagonal in (3,1:N-1).  Thus, the
+            //    original matrix is "collapsed" vertically into the array.
+            //
+            //  Example:
+            //
+            //    Here is how a R83 matrix of order 5 would be stored:
+            //
+            //       *  A12 A23 A34 A45
+            //      A11 A22 A33 A44 A55
+            //      A21 A32 A43 A54  *
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    06 April 2006
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order of the matrix.
+            //    N must be positive.
+            //
+            //    Input, double A[3*N], the R83 matrix.
+            //
+            //    Input, string TITLE, a title.
+            //
         {
-            r83_print_some ( n, a, 1, 1, n, n, title );
+            r83_print_some(n, a, 1, 1, n, n, title);
         }
-        
-        public static void r83_print_some ( int n, double[] a, int ilo, int jlo, int ihi, int jhi,
-        string title )
 
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    R83_PRINT_SOME prints some of a R83 matrix.
-        //
-        //  Discussion:
-        //
-        //    The R83 storage format is used for a tridiagonal matrix.
-        //    The superdiagonal is stored in entries (1,2:N), the diagonal in
-        //    entries (2,1:N), and the subdiagonal in (3,1:N-1).  Thus, the
-        //    original matrix is "collapsed" vertically into the array.
-        //
-        //  Example:
-        //
-        //    Here is how a R83 matrix of order 5 would be stored:
-        //
-        //       *  A12 A23 A34 A45
-        //      A11 A22 A33 A44 A55
-        //      A21 A32 A43 A54  *
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license. 
-        //
-        //  Modified:
-        //
-        //    06 April 2006
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int N, the order of the matrix.
-        //    N must be positive.
-        //
-        //    Input, double A[3*N], the R83 matrix.
-        //
-        //    Input, int ILO, JLO, IHI, JHI, designate the first row and
-        //    column, and the last row and column, to be printed.
-        //
-        //    Input, string TITLE, a title.
-        //
+        public static void r83_print_some(int n, double[] a, int ilo, int jlo, int ihi, int jhi,
+                string title)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R83_PRINT_SOME prints some of a R83 matrix.
+            //
+            //  Discussion:
+            //
+            //    The R83 storage format is used for a tridiagonal matrix.
+            //    The superdiagonal is stored in entries (1,2:N), the diagonal in
+            //    entries (2,1:N), and the subdiagonal in (3,1:N-1).  Thus, the
+            //    original matrix is "collapsed" vertically into the array.
+            //
+            //  Example:
+            //
+            //    Here is how a R83 matrix of order 5 would be stored:
+            //
+            //       *  A12 A23 A34 A45
+            //      A11 A22 A33 A44 A55
+            //      A21 A32 A43 A54  *
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    06 April 2006
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order of the matrix.
+            //    N must be positive.
+            //
+            //    Input, double A[3*N], the R83 matrix.
+            //
+            //    Input, int ILO, JLO, IHI, JHI, designate the first row and
+            //    column, and the last row and column, to be printed.
+            //
+            //    Input, string TITLE, a title.
+            //
         {
             int INCX = 5;
 
@@ -336,7 +337,7 @@ namespace Burkardt.Types
                 }
             }
         }
-
+        
         public static double[] r83_dif2(int m, int n)
 
             //****************************************************************************80
@@ -512,6 +513,280 @@ namespace Burkardt.Types
             return a;
         }
 
+        public static double[] r83_indicator(int m, int n)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R83_INDICATOR sets up an R83 indicator matrix.
+            //
+            //  Discussion:
+            //
+            //    The R83 storage format is used for a tridiagonal matrix.
+            //    The superdiagonal is stored in entries (1,2:min(M+1,N)).
+            //    The diagonal in entries (2,1:min(M,N)).
+            //    The subdiagonal in (3,min(M-1,N)).
+            //    R8GE A(I,J) = R83 A[I-J+1+J*3] (0 based indexing).
+            //
+            //  Example:
+            //
+            //    An R83 matrix of order 3x5 would be stored:
+            //
+            //       *  A12 A23 A34  *
+            //      A11 A22 A33  *   *
+            //      A21 A32  *   *   *
+            //
+            //    An R83 matrix of order 5x5 would be stored:
+            //
+            //       *  A12 A23 A34 A45
+            //      A11 A22 A33 A44 A55
+            //      A21 A32 A43 A54  *
+            //
+            //    An R83 matrix of order 5x3 would be stored:
+            //
+            //       *  A12 A23
+            //      A11 A22 A33
+            //      A21 A32 A43
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    02 September 2015
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the order of the matrix.
+            //
+            //    Output, double R83_INDICATOR[3*N], the R83 indicator matrix.
+            //
+        {
+            double[] a;
+            int fac;
+            int i;
+            int i_hi;
+            int i_lo;
+            int j;
+
+            fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
+
+            a = r8ge_zeros_new(3, n);
+
+            for (j = 0; j < n; j++)
+            {
+                i_lo = Math.Max(0, j - 1);
+                i_hi = Math.Min(m - 1, j + 1);
+                for (i = i_lo; i <= i_hi; i++)
+                {
+                    a[i - j + 1 + j * 3] = (double) (fac * (i + 1) + j + 1);
+                }
+            }
+
+            return a;
+        }
+
+        public static void r83_jac_sl(int n, double[] a, double[] b, ref double[] x, int it_max)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R83_JAC_SL solves an R83 system using Jacobi iteration.
+            //
+            //  Discussion:
+            //
+            //    The R83 storage format is used for a tridiagonal matrix.
+            //    The superdiagonal is stored in entries (1,2:min(M+1,N)).
+            //    The diagonal in entries (2,1:min(M,N)).
+            //    The subdiagonal in (3,min(M-1,N)).
+            //    R8GE A(I,J) = R83 A[I-J+1+J*3] (0 based indexing).
+            //
+            //    This routine simply applies a given number of steps of the
+            //    iteration to an input approximate solution.  On first call, you can
+            //    simply pass in the zero vector as an approximate solution.  If
+            //    the returned value is not acceptable, you may call again, using
+            //    it as the starting point for additional iterations.
+            //
+            //  Example:
+            //
+            //    An R83 matrix of order 3x5 would be stored:
+            //
+            //       *  A12 A23 A34  *
+            //      A11 A22 A33  *   *
+            //      A21 A32  *   *   *
+            //
+            //    An R83 matrix of order 5x5 would be stored:
+            //
+            //       *  A12 A23 A34 A45
+            //      A11 A22 A33 A44 A55
+            //      A21 A32 A43 A54  *
+            //
+            //    An R83 matrix of order 5x3 would be stored:
+            //
+            //       *  A12 A23
+            //      A11 A22 A33
+            //      A21 A32 A43
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    02 September 2015
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order of the matrix.
+            //    N must be at least 2.
+            //
+            //    Input, double A[3*N], the R83 matrix.
+            //
+            //    Input, double B[N], the right hand side of the linear system.
+            //
+            //    Input/output, double X[N], an approximate solution to the system.
+            //
+            //    Input, int IT_MAX, the maximum number of iterations to take.
+            //
+        {
+            int i;
+            int it_num;
+            double[] xnew;
+
+            xnew = new double[n];
+            //
+            //  No diagonal matrix entry can be zero.
+            //
+            for (i = 0; i < n; i++)
+            {
+                if (a[1 + i * 3] == 0.0)
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("R83_JAC_SL - Fatal error!");
+                    Console.WriteLine("  Zero diagonal entry, index = " + i + "");
+                    return;
+                }
+            }
+
+            for (it_num = 1; it_num <= it_max; it_num++)
+            {
+                //
+                //  Solve A*x=b:
+                //
+                xnew[0] = b[0] - a[0 + 1 * 3] * x[1];
+                for (i = 1; i < n - 1; i++)
+                {
+                    xnew[i] = b[i] - a[2 + (i - 1) * 3] * x[i - 1] - a[0 + (i + 1) * 3] * x[i + 1];
+                }
+
+                xnew[n - 1] = b[n - 1] - a[2 + (n - 2) * 3] * x[n - 2];
+                //
+                //  Divide by the diagonal term, and overwrite X.
+                //
+                for (i = 0; i < n; i++)
+                {
+                    x[i] = xnew[i] / a[1 + i * 3];
+                }
+            }
+
+        }
+
+        public static double[] r83_mtv(int m, int n, double[] a, double[] x)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R83_MTV multiplies a vector times an R83 matrix.
+            //
+            //  Discussion:
+            //
+            //    The R83 storage format is used for a tridiagonal matrix.
+            //    The superdiagonal is stored in entries (1,2:min(M+1,N)).
+            //    The diagonal in entries (2,1:min(M,N)).
+            //    The subdiagonal in (3,min(M-1,N)).
+            //    R8GE A(I,J) = R83 A[I-J+1+J*3] (0 based indexing).
+            //
+            //  Example:
+            //
+            //    An R83 matrix of order 3x5 would be stored:
+            //
+            //       *  A12 A23 A34  *
+            //      A11 A22 A33  *   *
+            //      A21 A32  *   *   *
+            //
+            //    An R83 matrix of order 5x5 would be stored:
+            //
+            //       *  A12 A23 A34 A45
+            //      A11 A22 A33 A44 A55
+            //      A21 A32 A43 A54  *
+            //
+            //    An R83 matrix of order 5x3 would be stored:
+            //
+            //       *  A12 A23
+            //      A11 A22 A33
+            //      A21 A32 A43
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    02 September 2015
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the order of the linear system.
+            //
+            //    Input, double A[3*N], the R83 matrix.
+            //
+            //    Input, double X[M], the vector to be multiplied by A'.
+            //
+            //    Output, double R83_MTV[N], the product A' * x.
+            //
+        {
+            double[] b;
+            int i;
+            int i_hi;
+            int i_lo;
+            int j;
+
+            b = new double[n];
+
+            for (i = 0; i < n; i++)
+            {
+                b[i] = 0.0;
+            }
+
+            for (j = 0; j < n; j++)
+            {
+                i_lo = Math.Max(0, j - 1);
+                i_hi = Math.Min(m - 1, j + 1);
+                for (i = i_lo; i <= i_hi; i++)
+                {
+                    b[j] = b[j] + x[i] * a[i - j + 1 + j * 3];
+                }
+            }
+
+            return b;
+        }
+
         public static double[] r83_mv(int m, int n, double[] a, double[] x)
 
             //****************************************************************************80
@@ -598,6 +873,84 @@ namespace Burkardt.Types
             return b;
         }
 
+        public static double[] r83_random(int m, int n, ref int seed)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R83_RANDOM randomizes an R83 matrix.
+            //
+            //  Discussion:
+            //
+            //    The R83 storage format is used for a tridiagonal matrix.
+            //    The superdiagonal is stored in entries (1,2:min(M+1,N)).
+            //    The diagonal in entries (2,1:min(M,N)).
+            //    The subdiagonal in (3,min(M-1,N)).
+            //    R8GE A(I,J) = R83 A[I-J+1+J*3] (0 based indexing).
+            //
+            //  Example:
+            //
+            //    An R83 matrix of order 3x5 would be stored:
+            //
+            //       *  A12 A23 A34  *
+            //      A11 A22 A33  *   *
+            //      A21 A32  *   *   *
+            //
+            //    An R83 matrix of order 5x5 would be stored:
+            //
+            //       *  A12 A23 A34 A45
+            //      A11 A22 A33 A44 A55
+            //      A21 A32 A43 A54  *
+            //
+            //    An R83 matrix of order 5x3 would be stored:
+            //
+            //       *  A12 A23
+            //      A11 A22 A33
+            //      A21 A32 A43
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    02 September 2015
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the order of the linear system.
+            //
+            //    Input/output, int &SEED, a seed for the random number generator.
+            //
+            //    Output, double R83_RANDOM[3*N], the R83 matrix.
+            //
+        {
+            double[] a;
+            int i;
+            int i_hi;
+            int i_lo;
+            int j;
+
+            a = r8ge_zeros_new(3, n);
+
+            for (j = 0; j < n; j++)
+            {
+                i_lo = Math.Max(0, j - 1);
+                i_hi = Math.Min(m - 1, j + 1);
+                for (i = i_lo; i <= i_hi; i++)
+                {
+                    a[i - j + 1 + j * 3] = UniformRNG.r8_uniform_01(ref seed);
+                }
+            }
+
+            return a;
+        }
+
         public static double[] r83_res(int m, int n, double[] a, double[] x, double[] b)
 
             //****************************************************************************80
@@ -648,7 +1001,7 @@ namespace Burkardt.Types
             return r;
         }
 
-        public static double r83_norm ( double x, double y, double z )
+        public static double r83_norm(double x, double y, double z)
 
             //****************************************************************************80
             //
@@ -681,9 +1034,150 @@ namespace Burkardt.Types
         {
             double value;
 
-            value = Math.Sqrt ( x * x + y * y + z * z );
+            value = Math.Sqrt(x * x + y * y + z * z);
 
             return value;
         }
+
+        public static double[] r83_to_r8ge(int m, int n, double[] a)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R83_TO_R8GE copies an R83 matrix to an R8GE matrix.
+            //
+            //  Discussion:
+            //
+            //    The R83 storage format is used for a tridiagonal matrix.
+            //    The superdiagonal is stored in entries (1,2:min(M+1,N)).
+            //    The diagonal in entries (2,1:min(M,N)).
+            //    The subdiagonal in (3,min(M-1,N)).
+            //    R8GE A(I,J) = R83 A[I-J+1+J*3] (0 based indexing).
+            //
+            //  Example:
+            //
+            //    An R83 matrix of order 3x5 would be stored:
+            //
+            //       *  A12 A23 A34  *
+            //      A11 A22 A33  *   *
+            //      A21 A32  *   *   *
+            //
+            //    An R83 matrix of order 5x5 would be stored:
+            //
+            //       *  A12 A23 A34 A45
+            //      A11 A22 A33 A44 A55
+            //      A21 A32 A43 A54  *
+            //
+            //    An R83 matrix of order 5x3 would be stored:
+            //
+            //       *  A12 A23
+            //      A11 A22 A33
+            //      A21 A32 A43
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    08 September 2015
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the order of the matrix.
+            //
+            //    Input, double A[3*N], the R83 matrix.
+            //
+            //    Output, double R83_TO_R8GE[M*N], the R8GE matrix.
+            //
+        {
+            double[] b;
+            int i;
+            int i_hi;
+            int i_lo;
+            int j;
+
+            b = r8ge_zeros_new(m, n);
+
+            for (j = 0; j < n; j++)
+            {
+                i_lo = Math.Max(0, j - 1);
+                i_hi = Math.Min(m - 1, j + 1);
+                for (i = i_lo; i <= i_hi; i++)
+                {
+                    b[i + j * m] = a[i - j + 1 + j * 3];
+                }
+            }
+
+            return b;
+        }
+
+        public static double[] r83_zeros(int m, int n)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R83_ZEROS zeros an R83 matrix.
+            //
+            //  Discussion:
+            //
+            //    The R83 storage format is used for a tridiagonal matrix.
+            //    The superdiagonal is stored in entries (1,2:min(M+1,N)).
+            //    The diagonal in entries (2,1:min(M,N)).
+            //    The subdiagonal in (3,min(M-1,N)).
+            //    R8GE A(I,J) = R83 A[I-J+1+J*3] (0 based indexing).
+            //
+            //  Example:
+            //
+            //    An R83 matrix of order 3x5 would be stored:
+            //
+            //       *  A12 A23 A34  *
+            //      A11 A22 A33  *   *
+            //      A21 A32  *   *   *
+            //
+            //    An R83 matrix of order 5x5 would be stored:
+            //
+            //       *  A12 A23 A34 A45
+            //      A11 A22 A33 A44 A55
+            //      A21 A32 A43 A54  *
+            //
+            //    An R83 matrix of order 5x3 would be stored:
+            //
+            //       *  A12 A23
+            //      A11 A22 A33
+            //      A21 A32 A43
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    02 September 2015
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the order of the matrix.
+            //
+            //    Output, double R83_ZERO[3*N], the R83 matrix.
+            //
+        {
+            double[] a;
+
+            a = r8ge_zeros_new(3, n);
+
+            return a;
+        }
+
     }
 }

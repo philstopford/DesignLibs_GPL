@@ -3427,7 +3427,7 @@ namespace Burkardt.Types
             }
         }
 
-        public static int i4vec_search_binary_a(int n, int[] a, int b )
+        public static int i4vec_search_binary_a(int n, int[] a, int b, int aIndex = 0 )
 
         //****************************************************************************80
         //
@@ -3498,16 +3498,16 @@ namespace Burkardt.Types
             {
                 mid = (low + high) / 2;
 
-                if (a[mid - 1] == b)
+                if (a[((mid - 1) + aIndex ) % a.Length] == b)
                 {
                     index = mid;
                     break;
                 }
-                else if (a[mid - 1] < b)
+                else if (a[((mid - 1) + aIndex ) % a.Length] < b)
                 {
                     low = mid + 1;
                 }
-                else if (b < a[mid - 1])
+                else if (b < a[((mid - 1) + aIndex ) % a.Length])
                 {
                     high = mid - 1;
                 }

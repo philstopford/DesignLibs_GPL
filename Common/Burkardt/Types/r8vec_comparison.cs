@@ -2,7 +2,7 @@
 {
     public static partial class typeMethods
     {
-        public static int r8vec_compare(int n, double[] a, double[] b)
+        public static int r8vec_compare(int n, double[] a, double[] b, int aIndex = 0, int bIndex = 0)
 
             //****************************************************************************80
             //
@@ -58,12 +58,12 @@
 
             for (k = 0; k < n; k++)
             {
-                if (a[k] < b[k])
+                if (a[(k + aIndex) % a.Length ] < b[(k + bIndex) % b.Length])
                 {
                     isgn = -1;
                     return isgn;
                 }
-                else if (b[k] < a[k])
+                else if (b[(k + bIndex) % b.Length] < a[(k + aIndex) % a.Length])
                 {
                     isgn = +1;
                     return isgn;

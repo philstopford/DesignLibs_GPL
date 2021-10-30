@@ -1,9 +1,2771 @@
 ﻿using System;
+using Burkardt.SortNS;
+using Burkardt.Uniform;
 
 namespace Burkardt.Types
 {
     public static partial class typeMethods
     {
+        public static int r8col_compare ( int m, int n, double[] a, int i, int j )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8COL_COMPARE compares two columns in an R8COL.
+        //
+        //  Discussion:
+        //
+        //    An R8COL is an M by N array of R8's, regarded as an array of N columns,
+        //    each of length M.
+        //
+        //  Example:
+        //
+        //    Input:
+        //
+        //      M = 3, N = 4, I = 2, J = 4
+        //
+        //      A = (
+        //        1.  2.  3.  4.
+        //        5.  6.  7.  8.
+        //        9. 10. 11. 12. )
+        //
+        //    Output:
+        //
+        //      R8COL_COMPARE = -1
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    13 September 2005
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int M, N, the number of rows and columns.
+        //
+        //    Input, double A[M*N], the M by N array.
+        //
+        //    Input, int I, J, the columns to be compared.
+        //    I and J must be between 1 and N.
+        //
+        //    Output, int R8COL_COMPARE, the results of the comparison:
+        //    -1, column I < column J,
+        //     0, column I = column J,
+        //    +1, column J < column I.
+        //
+        {
+            int k;
+            int value;
+            //
+            //  Check.
+            //
+            if (i < 1 || n < i)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("R8COL_COMPARE - Fatal error!");
+                Console.WriteLine("  Column index I is out of bounds.");
+                Console.WriteLine("  I = " + i + "");
+                return(1);
+            }
+
+            if (j < 1 || n < j)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("R8COL_COMPARE - Fatal error!");
+                Console.WriteLine("  Column index J is out of bounds.");
+                Console.WriteLine("  J = " + j + "");
+                return(1);
+            }
+
+            value = 0;
+
+            if (i == j)
+            {
+                return value;
+            }
+
+            k = 0;
+
+            while (k < m)
+            {
+                if (a[k + (i - 1) * m] < a[k + (j - 1) * m])
+                {
+                    value = -1;
+                    return value;
+                }
+                else if (a[k + (j - 1) * m] < a[k + (i - 1) * m])
+                {
+                    value = +1;
+                    return value;
+                }
+
+                k = k + 1;
+            }
+
+            return value;
+        }
+
+        public static double[] r8col_duplicates(int m, int n, int n_unique, ref int seed)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8COL_DUPLICATES generates an R8COL with some duplicate columns.
+            //
+            //  Discussion:
+            //
+            //    An R8COL is an M by N array of R8's, regarded as an array of N columns,
+            //    each of length M.
+            //
+            //    This routine generates a random R8COL with a specified number of
+            //    duplicate columns.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    21 July 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, the number of rows in each column of A.
+            //
+            //    Input, int N, the number of columns in A.
+            //
+            //    Input, int N_UNIQUE, the number of unique columns in A.
+            //    1 <= N_UNIQUE <= N.
+            //
+            //    Input/output, int &SEED, a seed for the random
+            //    number generator.
+            //
+            //    Output, double R8COL_DUPLICATES[M*N], the array.
+            //
+        {
+            double[] a;
+            int i;
+            int j1;
+            int j2;
+            double temp;
+
+            if (n_unique < 1 || n < n_unique)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("R8COL_DUPLICATES - Fatal error!");
+                Console.WriteLine("  1 <= N_UNIQUE <= N is required.");
+                return (null);
+            }
+
+            a = UniformRNG.r8col_uniform_01_new(m, n_unique, ref seed);
+            //
+            //  Randomly copy unique columns.
+            //
+            for (j1 = n_unique; j1 < n; j1++)
+            {
+                j2 = UniformRNG.i4_uniform_ab(0, n_unique - 1, ref seed);
+                for (i = 0; i < m; i++)
+                {
+                    a[i + j1 * m] = a[i + j2 * m];
+                }
+            }
+
+            //
+            //  Permute the columns.
+            //
+            for (j1 = 0; j1 < n; j1++)
+            {
+                j2 = UniformRNG.i4_uniform_ab(j1, n - 1, ref seed);
+                for (i = 0; i < m; i++)
+                {
+                    temp = a[i + j1 * m];
+                    a[i + j1 * m] = a[i + j2 * m];
+                    a[i + j2 * m] = temp;
+                }
+            }
+
+            return a;
+        }
+
+        public static int r8col_find(int m, int n, double[] a, double[] x)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8COL_FIND seeks a column value in an R8COL.
+            //
+            //  Discussion:
+            //
+            //    An R8COL is an M by N array of R8's, regarded as an array of N columns,
+            //    each of length M.
+            //
+            //  Example:
+            //
+            //    Input:
+            //
+            //      M = 3,
+            //      N = 4,
+            //
+            //      A = (
+            //        1.  2.  3.  4.
+            //        5.  6.  7.  8.
+            //        9. 10. 11. 12. )
+            //
+            //      x = ( 3.,
+            //            7.,
+            //           11. )
+            //
+            //    Output:
+            //
+            //      R8COL_FIND = 3
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    05 December 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns.
+            //
+            //    Input, double A[M*N], a table of numbers, regarded as
+            //    N columns of vectors of length M.
+            //
+            //    Input, double X[M], a vector to be matched with a column of A.
+            //
+            //    Output, int R8COL_FIND, the (one-based) index of the first column of A
+            //    which exactly matches every entry of X, or -1 if no match
+            //    could be found.
+            //
+        {
+            int col;
+            int i;
+            int j;
+
+            col = -1;
+
+            for (j = 1; j <= n; j++)
+            {
+                col = j;
+
+                for (i = 1; i <= m; i++)
+                {
+                    if (x[i - 1] != a[i - 1 + (j - 1) * m])
+                    {
+                        col = -1;
+                        break;
+                    }
+                }
+
+                if (col != -1)
+                {
+                    return col;
+                }
+            }
+
+            return col;
+        }
+
+        public static int[] r8col_first_index(int m, int n, double[] a, double tol)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8COL_FIRST_INDEX indexes the first occurrence of values in an R8COL.
+            //
+            //  Discussion:
+            //
+            //    An R8COL is an M by N array of R8's, regarded as an array of N columns,
+            //    each of length M.
+            //
+            //    For element A(1:M,J) of the matrix, FIRST_INDEX(J) is the index in A of
+            //    the first column whose entries are equal to A(1:M,J).
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    24 November 2008
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns of A.
+            //    The length of an "element" of A, and the number of "elements".
+            //
+            //    Input, double A[M*N], the array.
+            //
+            //    Input, double TOL, a tolerance for equality.
+            //
+            //    Output, int R8COL_FIRST_INDEX[N], the first occurrence index.
+            //
+        {
+            double diff;
+            int[] first_index;
+            int i;
+            int j1;
+            int j2;
+
+            first_index = new int[n];
+
+            for (j1 = 0; j1 < n; j1++)
+            {
+                first_index[j1] = -1;
+            }
+
+            for (j1 = 0; j1 < n; j1++)
+            {
+                if (first_index[j1] == -1)
+                {
+                    first_index[j1] = j1;
+
+                    for (j2 = j1 + 1; j2 < n; j2++)
+                    {
+                        diff = 0.0;
+                        for (i = 0; i < m; i++)
+                        {
+                            diff = Math.Max(diff, Math.Abs(a[i + j1 * m] - a[i + j2 * m]));
+                        }
+
+                        if (diff <= tol)
+                        {
+                            first_index[j2] = j1;
+                        }
+                    }
+                }
+            }
+
+            return first_index;
+        }
+
+        public static void r8col_flip(int m, int n, ref double[] a)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8COL_FLIP flips the entries in each column of an R8COL.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    05 May 2017
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns.
+            //
+            //    Input/output, double A[M*N], the array to be flipped.
+            //
+        {
+            int i;
+            int ihi;
+            int j;
+            double t;
+
+            ihi = m / 2;
+
+            for (j = 0; j < n; j++)
+            {
+                for (i = 0; i < ihi; i++)
+                {
+                    t = a[i + j * m];
+                    a[i + j * m] = a[m + 1 - i + j * m];
+                    a[m - 1 - j + j * m] = t;
+                }
+            }
+
+            return;
+        }
+
+        public static double[] r8col_indicator_new(int m, int n)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8COL_INDICATOR_NEW sets up an "indicator" R8COL.
+            //
+            //  Discussion:
+            //
+            //    An R8COL is an M by N array of R8's, regarded as an array of N columns,
+            //    each of length M.
+            //
+            //    The value of each entry suggests its location, as in:
+            //
+            //      11  12  13  14
+            //      21  22  23  24
+            //      31  32  33  34
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    25 January 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, the number of rows of the matrix.
+            //    M must be positive.
+            //
+            //    Input, int N, the number of columns of the matrix.
+            //    N must be positive.
+            //
+            //    Output, double R8COL_INDICATOR_NEW[M*N], the table.
+            //
+        {
+            double[] a;
+            int fac;
+            int i;
+            int j;
+
+            a = new double[m * n];
+
+            fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
+
+            for (i = 1; i <= m; i++)
+            {
+                for (j = 1; j <= n; j++)
+                {
+                    a[i - 1 + (j - 1) * m] = (double) (fac * i + j);
+                }
+            }
+
+            return a;
+        }
+
+        public static int r8col_insert(int n_max, int m, ref int n, ref double[] a, double[] x)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8COL_INSERT inserts a column into an R8COL.
+            //
+            //  Discussion:
+            //
+            //    An R8COL is an M by N array of R8's, regarded as an array of N columns,
+            //    each of length M.
+            //
+            //  Example:
+            //
+            //    Input:
+            //
+            //      N_MAX = 10,
+            //      M = 3,
+            //      N = 4,
+            //
+            //      A = (
+            //        1.  2.  3.  4.
+            //        5.  6.  7.  8.
+            //        9. 10. 11. 12. )
+            //
+            //      X = ( 3., 4., 18. )
+            //
+            //    Output:
+            //
+            //      N = 5,
+            //
+            //      A = (
+            //        1.  2.  3.  3.  4.
+            //        5.  6.  4.  7.  8.
+            //        9. 10. 18. 11. 12. )
+            //
+            //      R8COL_INSERT = 3
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    16 September 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N_MAX, the maximum number of columns in A.
+            //
+            //    Input, int M, the number of rows.
+            //
+            //    Input/output, int N, the number of columns.
+            //    If the new column is inserted into the table, then the output
+            //    value of N will be increased by 1.
+            //
+            //    Input/output, double A[M*N_MAX], a table of numbers, regarded
+            //    as an array of columns.  The columns must have been sorted
+            //    lexicographically.
+            //
+            //    Input, double X[M], a vector of data which will be inserted
+            //    into the table if it does not already occur.
+            //
+            //    Output, int R8COL_INSERT.
+            //    I, X was inserted into column I.
+            //    -I, column I was already equal to X.
+            //    0, N = N_MAX.
+            //
+        {
+            int col;
+            int high;
+            int i;
+            int isgn;
+            int j;
+            int low;
+            int mid;
+            //
+            //  Refuse to work if N_MAX <= N.
+            //
+            if (n_max <= n)
+            {
+                col = 0;
+                return col;
+            }
+
+            //
+            //  Stick X temporarily in column N+1, just so it's easy to use R8COL_COMPARE.
+            //
+            for (i = 0; i < m; i++)
+            {
+                a[i + n * m] = x[i];
+            }
+
+            //
+            //  Do a binary search.
+            //
+            low = 1;
+            high = n;
+
+            for (;;)
+            {
+                if (high < low)
+                {
+                    col = low;
+                    break;
+                }
+
+                mid = (low + high) / 2;
+
+                isgn = r8col_compare(m, n + 1, a, mid, n + 1);
+
+                if (isgn == 0)
+                {
+                    col = -mid;
+                    return col;
+                }
+                else if (isgn == -1)
+                {
+                    low = mid + 1;
+                }
+                else if (isgn == +1)
+                {
+                    high = mid - 1;
+                }
+            }
+
+            //
+            //  Shift part of the table up to make room.
+            //
+            for (j = n - 1; col - 1 <= j; j--)
+            {
+                for (i = 0; i < m; i++)
+                {
+                    a[i + (j + 1) * m] = a[i + j * m];
+                }
+            }
+
+            //
+            //  Insert the new column.
+            //
+            for (i = 0; i < m; i++)
+            {
+                a[i + (col - 1) * m] = x[i];
+            }
+
+            n = n + 1;
+
+            return col;
+        }
+
+        public static double[] r8col_max(int m, int n, double[] a)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8COL_MAX returns the column maximums of an R8COL.
+            //
+            //  Discussion:
+            //
+            //    An R8COL is an M by N array of R8's, regarded as an array of N columns,
+            //    each of length M.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    15 September 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns.
+            //
+            //    Input, double A[M*N], the array to be examined.
+            //
+            //    Output, double R8COL_MAX[N], the maximums of the columns.
+            //
+        {
+            double[] amax;
+            int i;
+            int j;
+
+            amax = new double[n];
+
+            for (j = 0; j < n; j++)
+            {
+                amax[j] = a[0 + j * m];
+                for (i = 0; i < m; i++)
+                {
+                    amax[j] = Math.Max(amax[j], a[i + j * m]);
+                }
+            }
+
+            return amax;
+        }
+
+        public static int[] r8col_max_index(int m, int n, double[] a)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8COL_MAX_INDEX returns the indices of column maximums in an R8COL.
+            //
+            //  Discussion:
+            //
+            //    An R8COL is an M by N array of R8's, regarded as an array of N columns,
+            //    each of length M.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    15 September 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns.
+            //
+            //    Input, double A[M*N], the array to be examined.
+            //
+            //    Output, int R8COL_MAX_INDEX[N]; entry I is the row of A in which
+            //    the maximum for column I occurs.
+            //
+        {
+            double amax;
+            int i;
+            int[] imax;
+            int j;
+
+            imax = new int[n];
+
+            for (j = 0; j < n; j++)
+            {
+                imax[j] = 1;
+                amax = a[0 + j * m];
+
+                for (i = 1; i < m; i++)
+                {
+                    if (amax < a[i + j * m])
+                    {
+                        imax[j] = i + 1;
+                        amax = a[i + j * m];
+                    }
+                }
+            }
+
+            return imax;
+        }
+
+        public static void r8col_max_one(int m, int n, ref double[] a)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8COL_MAX_ONE rescales an R8COL so each column maximum is 1.
+            //
+            //  Discussion:
+            //
+            //    An R8COL is an M by N array of R8's, regarded as an array of N columns,
+            //    each of length M.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    08 May 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns.
+            //
+            //    Input/output, double A[M*N], the array to be rescaled.
+            //
+        {
+            int i;
+            int i_big;
+            int j;
+            double temp;
+
+            for (j = 0; j < n; j++)
+            {
+                i_big = 0;
+                for (i = 1; i < m; i++)
+                {
+                    if (Math.Abs(a[i_big + j * m]) < Math.Abs(a[i + j * m]))
+                    {
+                        i_big = i;
+                    }
+                }
+
+                temp = a[i_big + j * m];
+
+                if (temp != 0.0)
+                {
+                    for (i = 0; i < m; i++)
+                    {
+                        a[i + j * m] = a[i + j * m] / temp;
+                    }
+                }
+            }
+        }
+
+        public static void r8col_sort_heap_a ( int m, int n, ref double[] a )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8COL_SORT_HEAP_A ascending heapsorts an R8COL.
+        //
+        //  Discussion:
+        //
+        //    An R8COL is an M by N array of R8's, regarded as an array of N columns,
+        //    each of length M.
+        //
+        //    In lexicographic order, the statement "X < Y", applied to two real
+        //    vectors X and Y of length M, means that there is some index I, with
+        //    1 <= I <= M, with the property that
+        //
+        //      X(J) = Y(J) for J < I,
+        //    and
+        //      X(I) < Y(I).
+        //
+        //    In other words, the first time they differ, X is smaller.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    15 September 2005
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int M, N, the number of rows and columns.
+        //
+        //    Input/output, double A[M*N].
+        //    On input, the array of N columns of M-vectors.
+        //    On output, the columns of A have been sorted in lexicographic order.
+        //
+        {
+        int i;
+        int indx;
+        int isgn;
+        int j;
+        SortHeapExternalData data = new SortHeapExternalData();
+
+        if ( m <= 0 )
+        {
+        return;
+        }
+
+        if ( n <= 1 )
+        {
+        return;
+        }
+        //
+        //  Initialize.
+        //
+        i = 0;
+        indx = 0;
+        isgn = 0;
+        j = 0;
+        //
+        //  Call the external heap sorter.
+        //
+        for ( ; ; )
+        {
+        Sort.sort_heap_external ( ref data, n, ref indx, ref i, ref j, isgn );
+        //
+        //  Interchange the I and J objects.
+        //
+        if ( 0 < indx )
+        {
+        r8col_swap ( m, n, a, i, j );
+        }
+        //
+        //  Compare the I and J objects.
+        //
+        else if ( indx < 0 )
+        {
+        isgn = r8col_compare ( m, n, a, i, j );
+        }
+        else if ( indx == 0 )
+        {
+        break;
+        }
+        }
+
+        return;
+        }
+
+        public static int[] r8col_sort_heap_index_a(int m, int n, double[] a)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8COL_SORT_HEAP_INDEX_A does an indexed heap ascending sort of an R8COL.
+            //
+            //  Discussion:
+            //
+            //    An R8COL is an M by N array of R8's, regarded as an array of N columns,
+            //    each of length M.
+            //
+            //    The sorting is not actually carried out.  Rather an index array is
+            //    created which defines the sorting.  This array may be used to sort
+            //    or index the array, or to sort or index related arrays keyed on the
+            //    original array.
+            //
+            //    A(*,J1) < A(*,J2) if the first nonzero entry of A(*,J1)-A(*,J2) is negative.
+            //
+            //    Once the index array is computed, the sorting can be carried out
+            //    "implicitly:
+            //
+            //      A(*,INDX(*)) is sorted,
+            //
+            //    Note that the index vector is 0-based.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    03 June 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, the number of rows in each column of A.
+            //
+            //    Input, int N, the number of columns in A.
+            //
+            //    Input, double A[M*N], the array.
+            //
+            //    Output, int R8COL_SORT_HEAP_INDEX_A[N], contains the sort index.  The
+            //    I-th column of the sorted array is A(*,INDX(I)).
+            //
+        {
+            double[] column;
+            int i;
+            int[] indx;
+            int indxt;
+            int ir;
+            int isgn;
+            int j;
+            int k;
+            int l;
+
+            if (n < 1)
+            {
+                return null;
+            }
+
+            indx = new int[n];
+
+            for (i = 0; i < n; i++)
+            {
+                indx[i] = i;
+            }
+
+            if (n == 1)
+            {
+                indx[0] = indx[0];
+                return indx;
+            }
+
+            column = new double[m];
+
+            l = n / 2 + 1;
+            ir = n;
+
+            for (;;)
+            {
+                if (1 < l)
+                {
+                    l = l - 1;
+                    indxt = indx[l - 1];
+                    for (k = 0; k < m; k++)
+                    {
+                        column[k] = a[k + indxt * m];
+                    }
+                }
+                else
+                {
+                    indxt = indx[ir - 1];
+                    for (k = 0; k < m; k++)
+                    {
+                        column[k] = a[k + indxt * m];
+                    }
+
+                    indx[ir - 1] = indx[0];
+                    ir = ir - 1;
+
+                    if (ir == 1)
+                    {
+                        indx[0] = indxt;
+                        break;
+                    }
+                }
+
+                i = l;
+                j = l + l;
+
+                while (j <= ir)
+                {
+                    if (j < ir)
+                    {
+                        isgn = r8vec_compare(m, a, a, aIndex: + indx[j - 1] * m, bIndex: + indx[j] * m);
+
+                        if (isgn < 0)
+                        {
+                            j = j + 1;
+                        }
+                    }
+
+                    isgn = r8vec_compare(m, column, a, bIndex: + indx[j - 1] * m);
+
+                    if (isgn < 0)
+                    {
+                        indx[i - 1] = indx[j - 1];
+                        i = j;
+                        j = j + j;
+                    }
+                    else
+                    {
+                        j = ir + 1;
+                    }
+                }
+
+                indx[i - 1] = indxt;
+            }
+
+            return indx;
+        }
+
+        public static void r8col_sort_quick_a(int m, int n, ref double[] a)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8COL_SORT_QUICK_A ascending quick sorts an R8COL.
+            //
+            //  Discussion:
+            //
+            //    An R8COL is an M by N array of R8's, regarded as an array of N columns,
+            //    each of length M.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    17 September 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, the row order of A, and the length of a column.
+            //
+            //    Input, int N, the number of columns of A.
+            //
+            //    Input/output, double A[M*N].
+            //    On input, the array to be sorted.
+            //    On output, the array has been sorted.
+            //
+        {
+            int LEVEL_MAX = 30;
+
+            int base_;
+            int l_segment = 0;
+            int level;
+            int n_segment;
+            int[] rsave = new int[LEVEL_MAX];
+            int r_segment = 0;
+
+            if (m <= 0)
+            {
+                return;
+            }
+
+            if (n < 1)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("R8COL_SORT_QUICK_A - Fatal error!");
+                Console.WriteLine("  N < 1.");
+                Console.WriteLine("  N = " + n + "");
+                return;
+            }
+
+            if (n == 1)
+            {
+                return;
+            }
+
+            level = 1;
+            rsave[level - 1] = n + 1;
+            base_ = 1;
+            n_segment = n;
+
+            for (;;)
+            {
+                //
+                //  Partition the segment.
+                //
+                r8col_part_quick_a(m, n_segment, ref a, ref l_segment, ref r_segment, aIndex: + (base_ - 1) * m);
+                //
+                //  If the left segment has more than one element, we need to partition it.
+                //
+                if (1 < l_segment)
+                {
+                    if (LEVEL_MAX < level)
+                    {
+                        Console.WriteLine("");
+                        Console.WriteLine("R8COL_SORT_QUICK_A - Fatal error!");
+                        Console.WriteLine("  Exceeding recursion maximum of " + LEVEL_MAX + "");
+                        return;
+                    }
+
+                    level = level + 1;
+                    n_segment = l_segment;
+                    rsave[level - 1] = r_segment + base_ - 1;
+                }
+                //
+                //  The left segment and the middle segment are sorted.
+                //  Must the right segment be partitioned?
+                //
+                else if (r_segment < n_segment)
+                {
+                    n_segment = n_segment + 1 - r_segment;
+                    base_ = base_ + r_segment - 1;
+                }
+                //
+                //  Otherwise, we back up a level if there is an earlier one.
+                //
+                else
+                {
+                    for (;;)
+                    {
+                        if (level <= 1)
+                        {
+                            return;
+                        }
+
+                        base_ = rsave[level - 1];
+                        n_segment = rsave[level - 2] - rsave[level - 1];
+                        level = level - 1;
+
+                        if (0 < n_segment)
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        public static void r8col_sorted_tol_undex ( int m, int n, double[] a, int unique_num,
+        double tol, ref int[] undx, ref int[] xdnu )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8COL_SORTED_TOL_UNDEX: index tolerably unique entries of a sorted R8COL.
+        //
+        //  Discussion:
+        //
+        //    An R8COL is an M by N array of R8's, regarded as an array of N columns,
+        //    each of length M.
+        //
+        //    The goal of this routine is to determine a vector UNDX,
+        //    which points, to the unique elements of A, in sorted order,
+        //    and a vector XDNU, which identifies, for each entry of A, the index of
+        //    the unique sorted element of A.
+        //
+        //    This is all done with index vectors, so that the elements of
+        //    A are never moved.
+        //
+        //    Assuming A is already sorted, we examine the entries of A in order,
+        //    noting the unique entries, creating the entries of XDNU and
+        //    UNDX as we go.
+        //
+        //    Once this process has been completed, the vector A could be
+        //    replaced by a compressed vector XU, containing the unique entries
+        //    of X in sorted order, using the formula
+        //
+        //      XU(*) = A(UNDX(*)).
+        //
+        //    We could then, if we wished, reconstruct the entire vector A, or
+        //    any element of it, by index, as follows:
+        //
+        //      A(I) = XU(XDNU(I)).
+        //
+        //    We could then replace A by the combination of XU and XDNU.
+        //
+        //    Later, when we need the I-th entry of A, we can locate it as
+        //    the XDNU(I)-th entry of XU.
+        //
+        //    Here is an example of a vector A, the unique sort and inverse unique
+        //    sort vectors and the compressed unique sorted vector.
+        //
+        //      I      A      XU  Undx  Xdnu
+        //    ----+------+------+-----+-----+
+        //      0 | 11.0 |  11.0    0     0
+        //      1 | 11.0 |  22.0    4     0
+        //      2 | 11.0 |  33.0    7     0
+        //      3 | 11.0 |  55.0    8     0
+        //      4 | 22.0 |                1
+        //      5 | 22.0 |                1
+        //      6 | 22.0 |                1
+        //      7 | 33.0 |                2
+        //      8 | 55.0 |                3
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    17 July 2010
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int M, the dimension of the data values.
+        //
+        //    Input, int N, the number of data values,
+        //
+        //    Input, double A[M*N], the data values.
+        //
+        //    Input, int UNIQUE_NUM, the number of unique values in A.
+        //    This value is only required for languages in which the size of
+        //    UNDX must be known in advance.
+        //
+        //    Input, double TOL, a tolerance for equality.
+        //
+        //    Output, int UNDX[UNIQUE_NUM], the UNDX vector.
+        //
+        //    Output, int XDNU[N], the XDNU vector.
+        //
+        {
+        double diff;
+        int i;
+        int i2;
+        int i3;
+        int j;
+        int k;
+        bool unique;
+        //
+        //  Consider entry I = 0.
+        //  It is unique, so set the number of unique items to K.
+        //  Set the K-th unique item to I.
+        //  Set the representative of item I to the K-th unique item.
+        //
+        i = 0;
+        k = 0;
+        undx[k] = i;
+        xdnu[i] = k;
+        //
+        //  Consider entry I.
+        //
+        //  If it is unique, increase the unique count K, set the
+        //  K-th unique item to I, and set the representative of I to K.
+        //
+        //  If it is not unique, set the representative of item I to a
+        //  previously determined unique item that is close to it.
+        //
+        for ( i = 1; i < n; i++ )
+        {
+        unique = true;
+
+        for ( j = 0; j <= k; j++ )
+        {
+        i2 = undx[j];
+        diff = 0.0;
+        for ( i3 = 0; i3 < m; i3++ )
+        {
+        diff = Math.Max ( diff, Math.Abs ( a[i3+i*m] - a[i3+i2*m] ) );
+        }
+        if ( diff <= tol )
+        {
+        unique = false;
+        xdnu[i] = j;
+        break;
+        }
+        }
+        if ( unique )
+        {
+        k = k + 1;
+        undx[k] = i;
+        xdnu[i] = k;
+        }
+        }
+        }
+
+        public static int r8col_sorted_tol_unique(int m, int n, double[] a, double tol)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8COL_SORTED_TOL_UNIQUE keeps tolerably unique elements in a sorted R8COL.
+            //
+            //  Discussion:
+            //
+            //    An R8COL is an M by N array of R8's, regarded as an array of N columns,
+            //    each of length M.
+            //
+            //    The columns of the array can be ascending or descending sorted.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    16 July 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns.
+            //
+            //    Input/output, double A(M,N).
+            //    On input, the sorted array of N columns of M-vectors.
+            //    On output, a sorted array of columns of M-vectors.
+            //
+            //    Input, double TOL, a tolerance for equality.
+            //
+            //    Output, int R8COL_SORTED_TOL_UNIQUE, the number of unique columns.
+            //
+        {
+            double diff;
+            int i;
+            int j;
+            int k;
+            bool unique;
+            int unique_num;
+
+            if (n <= 0)
+            {
+                unique_num = 0;
+                return unique_num;
+            }
+
+            unique_num = 1;
+
+            for (i = 1; i < n; i++)
+            {
+                unique = true;
+                for (j = 0; j < unique_num; j++)
+                {
+                    diff = 0.0;
+                    for (k = 0; k < m; k++)
+                    {
+                        diff = Math.Max(diff, Math.Abs(a[k + i * m] - a[k + j * m]));
+                    }
+
+                    if (diff < tol)
+                    {
+                        unique = false;
+                        break;
+                    }
+                }
+
+                if (unique)
+                {
+                    for (k = 0; k < m; k++)
+                    {
+                        a[k + unique_num * m] = a[k + i * m];
+                    }
+
+                    unique_num = unique_num + 1;
+                }
+            }
+
+            return unique_num;
+        }
+
+        public static int r8col_sorted_tol_unique_count(int m, int n, double[] a, double tol)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8COL_SORTED_TOL_UNIQUE_COUNT counts tolerably unique elements in a sorted R8COL.
+            //
+            //  Discussion:
+            //
+            //    An R8COL is an M by N array of R8's, regarded as an array of N columns,
+            //    each of length M.
+            //
+            //    The columns of the array may be ascending or descending sorted.
+            //
+            //    If the tolerance is large enough, then the concept of uniqueness
+            //    can become ambiguous.  If we have a tolerance of 1.5, then in the
+            //    list ( 1, 2, 3, 4, 5, 6, 7, 8, 9 ) is it fair to say we have only
+            //    one unique entry?  That would be because 1 may be regarded as unique,
+            //    and then 2 is too close to 1 to be unique, and 3 is too close to 2 to
+            //    be unique and so on.
+            //
+            //    This seems wrongheaded.  So I prefer the idea that an item is not
+            //    unique under a tolerance only if it is close to something that IS unique.
+            //    Thus, the unique items are guaranteed to cover the space if we include
+            //    a disk of radius TOL around each one.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    19 July 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns.
+            //
+            //    Input, double A[M*N], a sorted array, containing
+            //    N columns of data.
+            //
+            //    Input, double TOL, a tolerance for equality.
+            //
+            //    Output, int R8COL_SORTED_UNIQUE_COUNT, the number of unique columns.
+            //
+        {
+            double diff;
+            int i;
+            int i2;
+            int i3;
+            int j;
+            int k;
+            int[] undx;
+            bool unique;
+
+            undx = new int[n];
+            //
+            //  Consider entry I = 0.
+            //  It is unique, so set the number of unique items to K.
+            //  Set the K-th unique item to I.
+            //  Set the representative of item I to the K-th unique item.
+            //
+            i = 0;
+            k = 0;
+            undx[k] = i;
+            //
+            //  Consider entry I.
+            //
+            //  If it is unique, increase the unique count K, set the
+            //  K-th unique item to I, and set the representative of I to K.
+            //
+            //  If it is not unique, set the representative of item I to a
+            //  previously determined unique item that is close to it.
+            //
+            for (i = 1; i < n; i++)
+            {
+                unique = true;
+
+                for (j = 0; j <= k; j++)
+                {
+                    i2 = undx[j];
+                    diff = 0.0;
+                    for (i3 = 0; i3 < m; i3++)
+                    {
+                        diff = Math.Max(diff, Math.Abs(a[i3 + i * m] - a[i3 + i2 * m]));
+                    }
+
+                    if (diff <= tol)
+                    {
+                        unique = false;
+                        break;
+                    }
+                }
+
+                if (unique)
+                {
+                    k = k + 1;
+                    undx[k] = i;
+                }
+            }
+
+            k = k + 1;
+
+            return k;
+        }
+
+        public static void r8col_sorted_undex(int m, int n, double[] a, int unique_num,
+                int[] undx, int[] xdnu)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8COL_SORTED_UNDEX returns unique sorted indexes for a sorted R8COL.
+            //
+            //  Discussion:
+            //
+            //    An R8COL is an M by N array of R8's, regarded as an array of N columns,
+            //    each of length M.
+            //
+            //    The goal of this routine is to determine a vector UNDX,
+            //    which points, to the unique elements of A, in sorted order,
+            //    and a vector XDNU, which identifies, for each entry of A, the index of
+            //    the unique sorted element of A.
+            //
+            //    This is all done with index vectors, so that the elements of
+            //    A are never moved.
+            //
+            //    Assuming A is already sorted, we examine the entries of A in order,
+            //    noting the unique entries, creating the entries of XDNU and
+            //    UNDX as we go.
+            //
+            //    Once this process has been completed, the vector A could be
+            //    replaced by a compressed vector XU, containing the unique entries
+            //    of X in sorted order, using the formula
+            //
+            //      XU(*) = A(UNDX(*)).
+            //
+            //    We could then, if we wished, reconstruct the entire vector A, or
+            //    any element of it, by index, as follows:
+            //
+            //      A(I) = XU(XDNU(I)).
+            //
+            //    We could then replace A by the combination of XU and XDNU.
+            //
+            //    Later, when we need the I-th entry of A, we can locate it as
+            //    the XDNU(I)-th entry of XU.
+            //
+            //    Here is an example of a vector A, the unique sort and inverse unique
+            //    sort vectors and the compressed unique sorted vector.
+            //
+            //      I      A      XU  Undx  Xdnu
+            //    ----+------+------+-----+-----+
+            //      0 | 11.0 |  11.0    0     0
+            //      1 | 11.0 |  22.0    4     0
+            //      2 | 11.0 |  33.0    7     0
+            //      3 | 11.0 |  55.0    8     0
+            //      4 | 22.0 |                1
+            //      5 | 22.0 |                1
+            //      6 | 22.0 |                1
+            //      7 | 33.0 |                2
+            //      8 | 55.0 |                3
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    17 July 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, the dimension of the data values.
+            //
+            //    Input, int N, the number of data values,
+            //
+            //    Input, double A[M*N], the data values.
+            //
+            //    Input, int UNIQUE_NUM, the number of unique values in A.
+            //    This value is only required for languages in which the size of
+            //    UNDX must be known in advance.
+            //
+            //    Output, int UNDX[UNIQUE_NUM], the UNDX vector.
+            //
+            //    Output, int XDNU[N], the XDNU vector.
+            //
+        {
+            double diff;
+            int i;
+            int j;
+            int k;
+            //
+            //  Walk through the sorted array.
+            //
+            i = 0;
+
+            j = 0;
+            undx[j] = i;
+
+            xdnu[i] = j;
+
+            for (i = 1; i < n; i++)
+            {
+                diff = 0.0;
+                for (k = 0; k < m; k++)
+                {
+                    diff = Math.Max(diff, Math.Abs(a[k + i * m] - a[k + undx[j] * m]));
+                }
+
+                if (0.0 < diff)
+                {
+                    j = j + 1;
+                    undx[j] = i;
+                }
+
+                xdnu[i] = j;
+            }
+
+            return;
+        }
+
+        public static int r8col_sorted_unique(int m, int n, double[] a)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8COL_SORTED_UNIQUE keeps unique elements in a sorted R8COL.
+            //
+            //  Discussion:
+            //
+            //    An R8COL is an M by N array of R8's, regarded as an array of N columns,
+            //    each of length M.
+            //
+            //    The columns of the array can be ascending or descending sorted.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    16 July 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns.
+            //
+            //    Input/output, double A(M,N).
+            //    On input, the sorted array of N columns of M-vectors.
+            //    On output, a sorted array of columns of M-vectors.
+            //
+            //    Output, int UNIQUE_NUM, the number of unique columns.
+            //
+        {
+            bool equal;
+            int i;
+            int j1;
+            int j2;
+            int unique_num;
+
+            if (n <= 0)
+            {
+                unique_num = 0;
+                return unique_num;
+            }
+
+            j1 = 0;
+
+            for (j2 = 1; j2 < n; j2++)
+            {
+                equal = true;
+                for (i = 0; i < m; i++)
+                {
+                    if (a[i + j1 * m] != a[i + j2 * m])
+                    {
+                        equal = false;
+                        break;
+                    }
+                }
+
+                if (!equal)
+                {
+                    j1 = j1 + 1;
+                    for (i = 0; i < m; i++)
+                    {
+                        a[i + j1 * m] = a[i + j2 * m];
+                    }
+                }
+            }
+
+            unique_num = j1 + 1;
+
+            return unique_num;
+        }
+
+        public static int r8col_sorted_unique_count(int m, int n, double[] a)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8COL_SORTED_UNIQUE_COUNT counts unique elements in a sorted R8COL.
+            //
+            //  Discussion:
+            //
+            //    An R8COL is an M by N array of R8's, regarded as an array of N columns,
+            //    each of length M.
+            //
+            //    The columns of the array may be ascending or descending sorted.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    16 July 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns.
+            //
+            //    Input, double A[M*N], a sorted array, containing
+            //    N columns of data.
+            //
+            //    Output, int R8COL_SORTED_UNIQUE_COUNT, the number of unique columns.
+            //
+        {
+            bool equal;
+            int i;
+            int j1;
+            int j2;
+            int unique_num;
+
+            unique_num = 0;
+
+            if (n <= 0)
+            {
+                return unique_num;
+            }
+
+            unique_num = 1;
+            j1 = 0;
+
+            for (j2 = 1; j2 < n; j2++)
+            {
+                equal = true;
+                for (i = 0; i < m; i++)
+                {
+                    if (a[i + j1 * m] != a[i + j2 * m])
+                    {
+                        equal = false;
+                        break;
+                    }
+                }
+
+                if (!equal)
+                {
+                    unique_num = unique_num + 1;
+                    j1 = j2;
+                }
+            }
+
+            return unique_num;
+        }
+
+        public static void r8col_sortr_a(int m, int n, ref double[] a, int key)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8COL_SORTR_A ascending sorts one column of an R8COL, adjusting all entries.
+            //
+            //  Discussion:
+            //
+            //    An R8COL is an M by N array of R8's, regarded as an array of N columns,
+            //    each of length M.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    15 September 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns.
+            //
+            //    Input/output, double A[M*N].
+            //    On input, an unsorted M by N array.
+            //    On output, rows of the array have been shifted in such
+            //    a way that column KEY of the array is in nondecreasing order.
+            //
+            //    Input, int KEY, the column in which the "key" value
+            //    is stored.  On output, column KEY of the array will be
+            //    in nondecreasing order.
+            //
+        {
+            int i;
+            int indx;
+            int isgn;
+            int j;
+            int k;
+            double t;
+            SortHeapExternalData data = new SortHeapExternalData();
+
+            if (m <= 0)
+            {
+                return;
+            }
+
+            if (key < 1 || n < key)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("R8COL_SORTR_A - Fatal error!");
+                Console.WriteLine("  The value of KEY is not a legal column index.");
+                Console.WriteLine("  KEY = " + key + "");
+                Console.WriteLine("  N = " + n + "");
+                return;
+            }
+
+            //
+            //  Initialize.
+            //
+            i = 0;
+            indx = 0;
+            isgn = 0;
+            j = 0;
+            //
+            //  Call the external heap sorter.
+            //
+            for (;;)
+            {
+                Sort.sort_heap_external(ref data, m, ref indx, ref i, ref j, isgn);
+                //
+                //  Interchange the I and J objects.
+                //
+                if (0 < indx)
+                {
+                    for (k = 0; k < n; k++)
+                    {
+                        t = a[i - 1 + k * m];
+                        a[i - 1 + k * m] = a[j - 1 + k * m];
+                        a[j - 1 + k * m] = t;
+                    }
+                }
+                //
+                //  Compare the I and J objects.
+                //
+                else if (indx < 0)
+                {
+                    if (a[i - 1 + (key - 1) * m] < a[j - 1 + (key - 1) * m])
+                    {
+                        isgn = -1;
+                    }
+                    else
+                    {
+                        isgn = +1;
+                    }
+                }
+                else if (indx == 0)
+                {
+                    break;
+                }
+            }
+
+        }
+
+        public static double[] r8col_sum(int m, int n, double[] a)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8COL_SUM sums the columns of an R8COL.
+            //
+            //  Discussion:
+            //
+            //    An R8COL is an M by N array of R8's, regarded as an array of N columns,
+            //    each of length M.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    15 September 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns.
+            //
+            //    Input, double A[M*N], the array to be examined.
+            //
+            //    Output, double R8COL_SUM[N], the sums of the columns.
+            //
+        {
+            double[] colsum;
+            int i;
+            int j;
+
+            colsum = new double[n];
+
+            for (j = 0; j < n; j++)
+            {
+                colsum[j] = 0.0;
+                for (i = 0; i < m; i++)
+                {
+                    colsum[j] = colsum[j] + a[i + j * m];
+                }
+            }
+
+            return colsum;
+        }
+
+        public static void r8col_swap(int m, int n, double[] a, int j1, int j2)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8COL_SWAP swaps columns J1 and J2 of an R8COL.
+            //
+            //  Discussion:
+            //
+            //    An R8COL is an M by N array of R8's, regarded as an array of N columns,
+            //    each of length M.
+            //
+            //  Example:
+            //
+            //    Input:
+            //
+            //      M = 3, N = 4, J1 = 2, J2 = 4
+            //
+            //      A = (
+            //        1.  2.  3.  4.
+            //        5.  6.  7.  8.
+            //        9. 10. 11. 12. )
+            //
+            //    Output:
+            //
+            //      A = (
+            //        1.  4.  3.  2.
+            //        5.  8.  7.  6.
+            //        9. 12. 11. 10. )
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    23 October 2008
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns.
+            //
+            //    Input/output, double A[M*N], the M by N array.
+            //
+            //    Input, int J1, J2, the columns to be swapped.
+            //    These columns are 1-based.
+            //
+        {
+            int i;
+            double temp;
+
+            if (j1 < 1 || n < j1 || j2 < 1 || n < j2)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("R8COL_SWAP - Fatal error!");
+                Console.WriteLine("  J1 or J2 is out of bounds.");
+                Console.WriteLine("  J1 =   " + j1 + "");
+                Console.WriteLine("  J2 =   " + j2 + "");
+                Console.WriteLine("  NCOL = " + n + "");
+                return;
+            }
+
+            if (j1 == j2)
+            {
+                return;
+            }
+
+            for (i = 0; i < m; i++)
+            {
+                temp = a[i + (j1 - 1) * m];
+                a[i + (j1 - 1) * m] = a[i + (j2 - 1) * m];
+                a[i + (j2 - 1) * m] = temp;
+            }
+
+        }
+
+        public static double[] r8col_to_r8vec(int m, int n, double[] a)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8COL_TO_R8VEC converts an R8COL to an R8VEC.
+            //
+            //  Discussion:
+            //
+            //    An R8COL is an M by N array of R8's, regarded as an array of N columns,
+            //    each of length M.
+            //
+            //    This routine is not really useful in our C++ implementation, since
+            //    we actually store an M by N matrix exactly as a vector already.
+            //
+            //  Example:
+            //
+            //    M = 3, N = 4
+            //
+            //    A =
+            //      11 12 13 14
+            //      21 22 23 24
+            //      31 32 33 34
+            //
+            //    R8COL_TO_R8VEC = ( 11, 21, 31, 12, 22, 32, 13, 23, 33, 14, 24, 34 )
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    05 December 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns.
+            //
+            //    Input, double A[M*N], the M by N array.
+            //
+            //    Output, double X[M*N], a vector containing the N columns of A.
+            //
+        {
+            int i;
+            int j;
+            int k;
+            double[] x;
+
+            x = new double[m * n];
+
+            k = 0;
+            for (j = 0; j < n; j++)
+            {
+                for (i = 0; i < m; i++)
+                {
+                    x[k] = a[i + j * m];
+                    k = k + 1;
+                }
+            }
+
+            return x;
+        }
+
+        public static void r8col_tol_undex(int m, int n, double[] a, int unique_num, double tol,
+                ref int[] undx, ref int[] xdnu)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8COL_TOL_UNDEX indexes tolerably unique entries of an R8COL.
+            //
+            //  Discussion:
+            //
+            //    An R8COL is an M by N array of R8's, regarded as an array of N columns,
+            //    each of length M.
+            //
+            //    The goal of this routine is to determine a vector UNDX,
+            //    which points to the unique elements of A, in sorted order,
+            //    and a vector XDNU, which identifies, for each entry of A, the index of
+            //    the unique sorted element of A.
+            //
+            //    This is all done with index vectors, so that the elements of
+            //    A are never moved.
+            //
+            //    The first step of the algorithm requires the indexed sorting
+            //    of A, which creates arrays INDX and XDNI.  (If all the entries
+            //    of A are unique, then these arrays are the same as UNDX and XDNU.)
+            //
+            //    We then use INDX to examine the entries of A in sorted order,
+            //    noting the unique entries, creating the entries of XDNU and
+            //    UNDX as we go.
+            //
+            //    Once this process has been completed, the vector A could be
+            //    replaced by a compressed vector XU, containing the unique entries
+            //    of A in sorted order, using the formula
+            //
+            //      XU(*) = A(UNDX(*)).
+            //
+            //    We could then, if we wished, reconstruct the entire vector A, or
+            //    any element of it, by index, as follows:
+            //
+            //      A(I) = XU(XDNU(I)).
+            //
+            //    We could then replace A by the combination of XU and XDNU.
+            //
+            //    Later, when we need the I-th entry of A, we can locate it as
+            //    the XDNU(I)-th entry of XU.
+            //
+            //    Here is an example of a vector A, the sort and inverse sort
+            //    index vectors, and the unique sort and inverse unique sort vectors
+            //    and the compressed unique sorted vector.
+            //
+            //      I     A  Indx  Xdni       XU  Undx  Xdnu
+            //    ----+-----+-----+-----+--------+-----+-----+
+            //      0 | 11.     0     0 |    11.     0     0
+            //      1 | 22.     2     4 |    22.     1     1
+            //      2 | 11.     5     1 |    33.     3     0
+            //      3 | 33.     8     7 |    55.     4     2
+            //      4 | 55.     1     8 |                  3
+            //      5 | 11.     6     2 |                  0
+            //      6 | 22.     7     5 |                  1
+            //      7 | 22.     3     6 |                  1
+            //      8 | 11.     4     3 |                  0
+            //
+            //    INDX(2) = 3 means that sorted item(2) is A(3).
+            //    XDNI(2) = 5 means that A(2) is sorted item(5).
+            //
+            //    UNDX(3) = 4 means that unique sorted item(3) is at A(4).
+            //    XDNU(8) = 2 means that A(8) is at unique sorted item(2).
+            //
+            //    XU(XDNU(I))) = X(I).
+            //    XU(I)        = X(UNDX(I)).
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    19 July 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, the dimension of the data values.
+            //
+            //    Input, int N, the number of data values,
+            //
+            //    Input, double A[M*N], the data values.
+            //
+            //    Input, int UNIQUE_NUM, the number of unique values in A.
+            //    This value is only required for languages in which the size of
+            //    UNDX must be known in advance.
+            //
+            //    Input, double TOL, a tolerance for equality.
+            //
+            //    Output, int UNDX[UNIQUE_NUM], the UNDX vector.
+            //
+            //    Output, int XDNU[N], the XDNU vector.
+            //
+        {
+            double diff;
+            int i;
+            int i2;
+            int[] indx;
+            int j;
+            int k;
+            bool unique;
+            //
+            //  Implicitly sort the array.
+            //
+            indx = r8col_sort_heap_index_a(m, n, a);
+            //
+            //  Consider entry I = 0.
+            //  It is unique, so set the number of unique items to K.
+            //  Set the K-th unique item to I.
+            //  Set the representative of item I to the K-th unique item.
+            //
+            i = 0;
+            k = 0;
+            undx[k] = indx[i];
+            xdnu[indx[i]] = k;
+            //
+            //  Consider entry I.
+            //
+            //  If it is unique, increase the unique count K, set the
+            //  K-th unique item to I, and set the representative of I to K.
+            //
+            //  If it is not unique, set the representative of item I to a
+            //  previously determined unique item that is close to it.
+            //
+            for (i = 1; i < n; i++)
+            {
+                unique = true;
+                for (j = 0; j <= k; j++)
+                {
+                    diff = 0.0;
+                    for (i2 = 0; i2 < m; i2++)
+                    {
+                        diff = Math.Max(diff, Math.Abs(a[i2 + indx[i] * m] - a[i2 + undx[j] * m]));
+                    }
+
+                    if (diff <= tol)
+                    {
+                        unique = false;
+                        xdnu[indx[i]] = j;
+                        break;
+                    }
+                }
+
+                if (unique)
+                {
+                    k = k + 1;
+                    undx[k] = indx[i];
+                    xdnu[indx[i]] = k;
+                }
+            }
+        }
+
+        public static int r8col_tol_unique_count(int m, int n, double[] a, double tol)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8COL_TOL_UNIQUE_COUNT counts tolerably unique entries in an R8COL.
+            //
+            //  Discussion:
+            //
+            //    An R8COL is an M by N array of R8's, regarded as an array of N columns,
+            //    each of length M.
+            //
+            //    The columns of the array may be ascending or descending sorted.
+            //
+            //    If the tolerance is large enough, then the concept of uniqueness
+            //    can become ambiguous.  If we have a tolerance of 1.5, then in the
+            //    list ( 1, 2, 3, 4, 5, 6, 7, 8, 9 ) is it fair to say we have only
+            //    one unique entry?  That would be because 1 may be regarded as unique,
+            //    and then 2 is too close to 1 to be unique, and 3 is too close to 2 to
+            //    be unique and so on.
+            //
+            //    This seems wrongheaded.  So I prefer the idea that an item is not
+            //    unique under a tolerance only if it is close to something that IS unique.
+            //    Thus, the unique items are guaranteed to cover the space if we include
+            //    a disk of radius TOL around each one.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    19 July 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns.
+            //
+            //    Input, double A[M*N], the array of N columns of data.
+            //
+            //    Input, double TOL, a tolerance for equality.
+            //
+            //    Output, int R8COL_TOL_UNIQUE_COUNT, the number of unique columns.
+            //
+        {
+            double diff;
+            int i;
+            int i2;
+            int[] indx;
+            int j;
+            int k;
+            bool unique;
+            int[] undx;
+
+            undx = new int[n];
+            //
+            //  Implicitly sort the array.
+            //
+            indx = r8col_sort_heap_index_a(m, n, a);
+            //
+            //  Consider entry I = 0.
+            //  It is unique, so set the number of unique items to K.
+            //  Set the K-th unique item to I.
+            //  Set the representative of item I to the K-th unique item.
+            //
+            i = 0;
+            k = 0;
+            undx[k] = indx[i];
+            //
+            //  Consider entry I.
+            //
+            //  If it is unique, increase the unique count K, set the
+            //  K-th unique item to I, and set the representative of I to K.
+            //
+            //  If it is not unique, set the representative of item I to a
+            //  previously determined unique item that is close to it.
+            //
+            for (i = 1; i < n; i++)
+            {
+                unique = true;
+                for (j = 0; j <= k; j++)
+                {
+                    diff = 0.0;
+                    for (i2 = 0; i2 < m; i2++)
+                    {
+                        diff = Math.Max(diff, Math.Abs(a[i2 + indx[i] * m] - a[i2 + undx[j] * m]));
+                    }
+
+                    if (diff <= tol)
+                    {
+                        unique = false;
+                        break;
+                    }
+                }
+
+                if (unique)
+                {
+                    k = k + 1;
+                    undx[k] = indx[i];
+                }
+            }
+
+            k = k + 1;
+
+            return k;
+        }
+
+        public static int[] r8col_tol_unique_index(int m, int n, double[] a, double tol)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8COL_TOL_UNIQUE_INDEX indexes tolerably unique entries in an R8COL.
+            //
+            //  Discussion:
+            //
+            //    An R8COL is an M by N array of R8's, regarded as an array of N columns,
+            //    each of length M.
+            //
+            //    For element A(1:M,J) of the matrix, UNIQUE_INDEX(J) is the uniqueness index
+            //    of A(1:M,J).  That is, if A_UNIQUE contains the unique elements of A,
+            //    gathered in order, then
+            //
+            //      A_UNIQUE ( 1:M, UNIQUE_INDEX(J) ) = A(1:M,J)
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    19 July 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns of A.
+            //
+            //    Input, double A[M*N], the array.
+            //
+            //    Input, double TOL, a tolerance for equality.
+            //
+            //    Output, int R8COL_TOL_UNIQUE_INDEX[N], the unique index.
+            //
+        {
+            double diff;
+            int i;
+            int j1;
+            int j2;
+            int[] unique_index;
+            int unique_num;
+
+            unique_index = new int[n];
+
+            for (j1 = 0; j1 < n; j1++)
+            {
+                unique_index[j1] = -1;
+            }
+
+            unique_num = 0;
+
+            for (j1 = 0; j1 < n; j1++)
+            {
+                if (unique_index[j1] == -1)
+                {
+                    unique_index[j1] = unique_num;
+
+                    for (j2 = j1 + 1; j2 < n; j2++)
+                    {
+                        diff = 0.0;
+                        for (i = 0; i < m; i++)
+                        {
+                            diff = Math.Max(diff, Math.Abs(a[i + j1 * m] - a[i + j2 * m]));
+                        }
+
+                        if (diff <= tol)
+                        {
+                            unique_index[j2] = unique_num;
+                        }
+                    }
+
+                    unique_num = unique_num + 1;
+                }
+            }
+
+            return unique_index;
+        }
+
+        public static void r8col_transpose_print(int m, int n, double[] a, string title)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8COL_TRANSPOSE_PRINT prints an R8MAT, transposed.
+            //
+            //  Discussion:
+            //
+            //    An R8COL is an M by N array of R8's, regarded as an array of N columns,
+            //    each of length M.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    10 September 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns.
+            //
+            //    Input, double A[M*N], an M by N matrix to be printed.
+            //
+            //    Input, string TITLE, a title.
+            //
+        {
+            r8col_transpose_print_some(m, n, a, 1, 1, m, n, title);
+
+            return;
+        }
+
+        public static void r8col_transpose_print_some(int m, int n, double[] a, int ilo, int jlo,
+                int ihi, int jhi, string title)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8COL_TRANSPOSE_PRINT_SOME prints some of an R8MAT, transposed.
+            //
+            //  Discussion:
+            //
+            //    An R8COL is an M by N array of R8's, regarded as an array of N columns,
+            //    each of length M.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    07 April 2014
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns.
+            //
+            //    Input, double A[M*N], an M by N matrix to be printed.
+            //
+            //    Input, int ILO, JLO, the first row and column to print.
+            //
+            //    Input, int IHI, JHI, the last row and column to print.
+            //
+            //    Input, string TITLE, a title.
+            //
+        {
+            int INCX = 5;
+
+            int i;
+            int i2;
+            int i2hi;
+            int i2lo;
+            int i2lo_hi;
+            int i2lo_lo;
+            int inc;
+            int j;
+            int j2hi;
+            int j2lo;
+            string cout = "";
+
+            Console.WriteLine("");
+            Console.WriteLine(title + "");
+
+            if (m <= 0 || n <= 0)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("  (None)");
+                return;
+            }
+
+            if (ilo < 1)
+            {
+                i2lo_lo = 1;
+            }
+            else
+            {
+                i2lo_lo = ilo;
+            }
+
+            if (ihi < m)
+            {
+                i2lo_hi = m;
+            }
+            else
+            {
+                i2lo_hi = ihi;
+            }
+
+            for (i2lo = i2lo_lo; i2lo <= i2lo_hi; i2lo = i2lo + INCX)
+            {
+                i2hi = i2lo + INCX - 1;
+
+                if (m < i2hi)
+                {
+                    i2hi = m;
+                }
+
+                if (ihi < i2hi)
+                {
+                    i2hi = ihi;
+                }
+
+                inc = i2hi + 1 - i2lo;
+
+                Console.WriteLine("");
+                cout = "  Row: ";
+                for (i = i2lo; i <= i2hi; i++)
+                {
+                    cout += (i - 1).ToString().PadLeft(7) + "       ";
+                }
+
+                Console.WriteLine(cout);
+                Console.WriteLine("  Col");
+                Console.WriteLine("");
+
+                if (jlo < 1)
+                {
+                    j2lo = 1;
+                }
+                else
+                {
+                    j2lo = jlo;
+                }
+
+                if (n < jhi)
+                {
+                    j2hi = n;
+                }
+                else
+                {
+                    j2hi = jhi;
+                }
+
+                for (j = j2lo; j <= j2hi; j++)
+                {
+                    cout = (j - 1).ToString().PadLeft(5) + ":";
+                    for (i2 = 1; i2 <= inc; i2++)
+                    {
+                        i = i2lo - 1 + i2;
+                        cout += a[(i - 1) + (j - 1) * m].ToString().PadLeft(14);
+                    }
+
+                    Console.WriteLine(cout);
+                }
+            }
+        }
+
+        public static void r8col_undex(int m, int n, double[] a, int unique_num, ref int[] undx,
+                ref int[] xdnu)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8COL_UNDEX indexes unique entries in an R8COL.
+            //
+            //  Discussion:
+            //
+            //    An R8COL is an M by N array of R8's, regarded as an array of N columns,
+            //    each of length M.
+            //
+            //    The goal of this routine is to determine a vector UNDX,
+            //    which points to the unique elements of A, in sorted order,
+            //    and a vector XDNU, which identifies, for each entry of A, the index of
+            //    the unique sorted element of A.
+            //
+            //    This is all done with index vectors, so that the elements of
+            //    A are never moved.
+            //
+            //    The first step of the algorithm requires the indexed sorting
+            //    of A, which creates arrays INDX and XDNI.  (If all the entries
+            //    of A are unique, then these arrays are the same as UNDX and XDNU.)
+            //
+            //    We then use INDX to examine the entries of A in sorted order,
+            //    noting the unique entries, creating the entries of XDNU and
+            //    UNDX as we go.
+            //
+            //    Once this process has been completed, the vector A could be
+            //    replaced by a compressed vector XU, containing the unique entries
+            //    of A in sorted order, using the formula
+            //
+            //      XU(*) = A(UNDX(*)).
+            //
+            //    We could then, if we wished, reconstruct the entire vector A, or
+            //    any element of it, by index, as follows:
+            //
+            //      A(I) = XU(XDNU(I)).
+            //
+            //    We could then replace A by the combination of XU and XDNU.
+            //
+            //    Later, when we need the I-th entry of A, we can locate it as
+            //    the XDNU(I)-th entry of XU.
+            //
+            //    Here is an example of a vector A, the sort and inverse sort
+            //    index vectors, and the unique sort and inverse unique sort vectors
+            //    and the compressed unique sorted vector.
+            //
+            //      I     A  Indx  Xdni       XU  Undx  Xdnu
+            //    ----+-----+-----+-----+--------+-----+-----+
+            //      0 | 11.     0     0 |    11.     0     0
+            //      1 | 22.     2     4 |    22.     1     1
+            //      2 | 11.     5     1 |    33.     3     0
+            //      3 | 33.     8     7 |    55.     4     2
+            //      4 | 55.     1     8 |                  3
+            //      5 | 11.     6     2 |                  0
+            //      6 | 22.     7     5 |                  1
+            //      7 | 22.     3     6 |                  1
+            //      8 | 11.     4     3 |                  0
+            //
+            //    INDX(2) = 3 means that sorted item(2) is A(3).
+            //    XDNI(2) = 5 means that A(2) is sorted item(5).
+            //
+            //    UNDX(3) = 4 means that unique sorted item(3) is at A(4).
+            //    XDNU(8) = 2 means that A(8) is at unique sorted item(2).
+            //
+            //    XU(XDNU(I))) = A(I).
+            //    XU(I)        = A(UNDX(I)).
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    19 July 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, the dimension of the data values.
+            //
+            //    Input, int N, the number of data values,
+            //
+            //    Input, double A[M*N], the data values.
+            //
+            //    Input, int UNIQUE_NUM, the number of unique values in A.
+            //    This value is only required for languages in which the size of
+            //    UNDX must be known in advance.
+            //
+            //    Output, int UNDX[UNIQUE_NUM], the UNDX vector.
+            //
+            //    Output, int XDNU[N], the XDNU vector.
+            //
+        {
+            double diff;
+            int i;
+            int[] indx;
+            int j;
+            int k;
+            //
+            //  Implicitly sort the array.
+            //
+            indx = r8col_sort_heap_index_a(m, n, a);
+            //
+            //  Walk through the implicitly sorted array.
+            //
+            i = 0;
+
+            j = 0;
+            undx[j] = indx[i];
+
+            xdnu[indx[i]] = j;
+
+            for (i = 1; i < n; i++)
+            {
+                diff = 0.0;
+                for (k = 0; k < m; k++)
+                {
+                    diff = Math.Max(diff, Math.Abs(a[k + indx[i] * m] - a[k + undx[j] * m]));
+                }
+
+                if (0.0 < diff)
+                {
+                    j = j + 1;
+                    undx[j] = indx[i];
+                }
+
+                xdnu[indx[i]] = j;
+            }
+        }
+
         public static double[] r8col_variance(int m, int n, double[] a)
             //****************************************************************************80
             //
@@ -125,6 +2887,322 @@ namespace Burkardt.Types
 
             return mean;
         }
+
+        public static double[] r8col_min ( int m, int n, double[] a )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8COL_MIN returns the column minimums of an R8COL.
+        //
+        //  Discussion:
+        //
+        //    An R8COL is an M by N array of R8's, regarded as an array of N columns,
+        //    each of length M.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    15 September 2005
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int M, N, the number of rows and columns.
+        //
+        //    Input, double A[M*N], the array to be examined.
+        //
+        //    Output, double R8COL_MIN[N], the minimums of the columns.
+        //
+        {
+        double[] amin;
+        int i;
+        int j;
+
+        amin = new double[n];
+
+        for ( j = 0; j < n; j++ )
+        {
+        amin[j] = a[0+j*m];
+        for ( i = 0; i < m; i++ )
+        {
+        amin[j] = Math.Min ( amin[j], a[i+j*m] );
+        }
+        }
+
+        return amin;
+        }
+
+        public static int[] r8col_min_index(int m, int n, double[] a)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8COL_MIN_INDEX returns the indices of column minimums in an R8COL.
+            //
+            //  Discussion:
+            //
+            //    An R8COL is an M by N array of R8's, regarded as an array of N columns,
+            //    each of length M.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    15 September 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns.
+            //
+            //    Input, double A[M*N], the array to be examined.
+            //
+            //    Output, int R8COL_MIN_INDEX[N]; entry I is the row of A in which
+            //    the minimum for column I occurs.
+            //
+        {
+            double amin;
+            int i;
+            int[] imin;
+            int j;
+
+            imin = new int[n];
+
+            for (j = 0; j < n; j++)
+            {
+                imin[j] = 1;
+                amin = a[0 + j * m];
+
+                for (i = 1; i < m; i++)
+                {
+                    if (a[i + j * m] < amin)
+                    {
+                        imin[j] = i + 1;
+                        amin = a[i + j * m];
+                    }
+                }
+            }
+
+            return imin;
+        }
+
+        public static void r8col_normalize_li(int m, int n, ref double[] a)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8COL_NORMALIZE_LI normalizes an R8COL with the column infinity norm.
+            //
+            //  Discussion:
+            //
+            //    Each column is scaled so that the entry of maximum norm has the value 1.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    08 February 2012
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns.
+            //
+            //    Input/output, double A[M*N], the array to be normalized.
+            //
+        {
+            double c;
+            int i;
+            int j;
+
+            for (j = 0; j < n; j++)
+            {
+                c = a[0 + j * m];
+                for (i = 1; i < m; i++)
+                {
+                    if (Math.Abs(c) < Math.Abs(a[i + j * m]))
+                    {
+                        c = a[i + j * m];
+                    }
+                }
+
+                if (c != 0.0)
+                {
+                    for (i = 0; i < m; i++)
+                    {
+                        a[i + m * j] = a[i + m * j] / c;
+                    }
+                }
+            }
+
+            return;
+        }
+
+        public static void r8col_part_quick_a(int m, int n, ref double[] a, ref int l, ref int r, int aIndex = 0)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8COL_PART_QUICK_A reorders the columns of an R8COL.
+            //
+            //  Discussion:
+            //
+            //    An R8COL is an M by N array of R8's, regarded as an array of N columns,
+            //    each of length M.
+            //
+            //    The routine reorders the columns of A.  Using A(1:M,1) as a
+            //    key, all entries of A that are less than or equal to the key will
+            //    precede the key, which precedes all entries that are greater than the key.
+            //
+            //  Example:
+            //
+            //    Input:
+            //
+            //      M = 2, N = 8
+            //      A = ( 2  8  6  0 10 10  0  5
+            //            4  8  2  2  6  0  6  8 )
+            //
+            //    Output:
+            //
+            //      L = 2, R = 4
+            //
+            //      A = (  0  0  2  8  6 10 10  4
+            //             2  6  4  8  2  6  0  8 )
+            //             ----     -------------
+            //             LEFT KEY     RIGHT
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    17 September 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, the row dimension of A, and the length of a column.
+            //
+            //    Input, int N, the column dimension of A.
+            //
+            //    Input/output, double A[M*N].  On input, the array to be checked.
+            //    On output, A has been reordered as described above.
+            //
+            //    Output, int &L, &R, the indices of A that define the three segments.
+            //    Let KEY = the input value of A(1:M,1).  Then
+            //    I <= L                 A(1:M,I) < KEY;
+            //         L < I < R         A(1:M,I) = KEY;
+            //                 R <= I    KEY < A(1:M,I).
+            //
+        {
+            int i;
+            int j;
+            int k;
+            double[] key;
+
+            if (n < 1)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("R8COL_PART_QUICK_A - Fatal error!");
+                Console.WriteLine("  N < 1.");
+                return;
+            }
+
+            if (n == 1)
+            {
+                l = 0;
+                r = 2;
+                return;
+            }
+
+            key = new double[m];
+
+            for (i = 0; i < m; i++)
+            {
+                key[i] = a[((i + 0 * m) + aIndex ) % a.Length];
+            }
+
+            k = 1;
+            //
+            //  The elements of unknown size have indices between L+1 and R-1.
+            //
+            l = 1;
+            r = n + 1;
+
+            for (j = 1; j < n; j++)
+            {
+                if (r8vec_gt(m, a, key, a1Index: +l * m))
+                {
+                    r = r - 1;
+                    r8vec_swap(m, ref a, ref a, startIndexA1: (+(r - 1) * m) + aIndex, startIndexA2: (+l * m) + aIndex);
+                }
+                else if (r8vec_eq(m, a, key, startIndexA1: (+l * m) + aIndex))
+                {
+                    k = k + 1;
+                    r8vec_swap(m, ref a, ref a, startIndexA1: (+(k - 1) * m) + aIndex, startIndexA2: (+l * m) + aIndex);
+                    l = l + 1;
+                }
+                else if (r8vec_lt(m, a, key, startIndexA1: (+l * m) + aIndex))
+                {
+                    l = l + 1;
+                }
+            }
+
+            //
+            //  Shift small elements to the left.
+            //
+            for (j = 0; j < l - k; j++)
+            {
+                for (i = 0; i < m; i++)
+                {
+                    a[((i + j * m) + aIndex ) % a.Length] = a[((i + (j + k) * m) + aIndex ) % a.Length];
+                }
+            }
+
+            //
+            //  Shift KEY elements to center.
+            //
+            for (j = l - k; j < l; j++)
+            {
+                for (i = 0; i < m; i++)
+                {
+                    a[((i + j * m) + aIndex ) % a.Length] = key[i];
+                }
+            }
+
+            //
+            //  Update L.
+            //
+            l = l - k;
+
+        }
+
+
 
         public static void r8col_permute ( int m, int n, int[] p, int base_, double[] a )
 
@@ -444,6 +3522,242 @@ namespace Burkardt.Types
             {
                 p[i] = p[i] - 1;
             }
+        }
+
+        public static void r8col_print(int m, int n, double[] a, string title)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8COL_PRINT prints an R8COL.
+            //
+            //  Discussion:
+            //
+            //    An R8COL is an M by N array of R8's, regarded as an array of N columns,
+            //    each of length M.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    10 September 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, the number of rows in A.
+            //
+            //    Input, int N, the number of columns in A.
+            //
+            //    Input, double A[M*N], the M by N matrix.
+            //
+            //    Input, string TITLE, a title.
+            //
+        {
+            r8col_print_some(m, n, a, 1, 1, m, n, title);
+
+            return;
+        }
+
+        public static void r8col_print_some(int m, int n, double[] a, int ilo, int jlo, int ihi,
+                int jhi, string title)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8COL_PRINT_SOME prints some of an R8COL.
+            //
+            //  Discussion:
+            //
+            //    An R8COL is an M by N array of R8's, regarded as an array of N columns,
+            //    each of length M.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    26 June 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, the number of rows of the matrix.
+            //    M must be positive.
+            //
+            //    Input, int N, the number of columns of the matrix.
+            //    N must be positive.
+            //
+            //    Input, double A[M*N], the matrix.
+            //
+            //    Input, int ILO, JLO, IHI, JHI, designate the first row and
+            //    column, and the last row and column to be printed.
+            //
+            //    Input, string TITLE, a title.
+            //
+        {
+            int INCX = 5;
+
+            int i;
+            int i2hi;
+            int i2lo;
+            int j;
+            int j2hi;
+            int j2lo;
+            string cout = "";
+
+            Console.WriteLine("");
+            Console.WriteLine(title + "");
+
+            if (m <= 0 || n <= 0)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("  (None)");
+                return;
+            }
+
+            //
+            //  Print the columns of the matrix, in strips of 5.
+            //
+            for (j2lo = jlo; j2lo <= jhi; j2lo = j2lo + INCX)
+            {
+                j2hi = j2lo + INCX - 1;
+                if (n < j2hi)
+                {
+                    j2hi = n;
+                }
+
+                if (jhi < j2hi)
+                {
+                    j2hi = jhi;
+                }
+
+                Console.WriteLine("");
+                //
+                //  For each column J in the current range...
+                //
+                //  Write the header.
+                //
+                cout = "  Col:    ";
+                for (j = j2lo; j <= j2hi; j++)
+                {
+                    cout += (j - 1).ToString().PadLeft(7) + "       ";
+                }
+
+                Console.WriteLine(cout);
+                Console.WriteLine("  Row");
+                Console.WriteLine("");
+                //
+                //  Determine the range of the rows in this strip.
+                //
+                if (1 < ilo)
+                {
+                    i2lo = ilo;
+                }
+                else
+                {
+                    i2lo = 1;
+                }
+
+                if (ihi < m)
+                {
+                    i2hi = ihi;
+                }
+                else
+                {
+                    i2hi = m;
+                }
+
+                for (i = i2lo; i <= i2hi; i++)
+                {
+                    //
+                    //  Print out (up to) 5 entries in row I, that lie in the current strip.
+                    //
+                    cout = (i - 1).ToString().PadLeft(5) + ": ";
+                    for (j = j2lo; j <= j2hi; j++)
+                    {
+                        cout += a[i - 1 + (j - 1) * m].ToString().PadLeft(12) + "  ";
+                    }
+
+                    Console.WriteLine(cout);
+                }
+            }
+        }
+
+        public static void r8col_reverse(int m, int n, ref double[] a)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8COL_REVERSE reverses the order of the columns of an R8COL.
+            //
+            //  Discussion:
+            //
+            //    An R8COL is an M by N array of R8's, regarded as an array of N columns,
+            //    each of length M.
+            //
+            //    To reverse the columns is to start with something like
+            //
+            //      11 12 13 14 15
+            //      21 22 23 24 25
+            //      31 32 33 34 35
+            //      41 42 43 44 45
+            //      51 52 53 54 55
+            //
+            //    and return
+            //
+            //      15 14 13 12 11
+            //      25 24 23 22 21
+            //      35 34 33 32 31
+            //      45 44 43 42 41
+            //      55 54 53 52 51
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    06 May 2013
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns.
+            //
+            //    Input/output, double A[M*N], the matrix whose columns are to be flipped.
+            //
+        {
+            int i;
+            int j;
+            double t;
+
+            for (i = 0; i < m; i++)
+            {
+                for (j = 0; j < (n / 2); j++)
+                {
+                    t = a[i + j * m];
+                    a[i + j * m] = a[i + (n - 1 - j) * m];
+                    a[i + (n - 1 - j) * m] = t;
+                }
+            }
+
+            return;
         }
 
         public static void r8col_separation(int m, int n, double[] a, ref double d_min, ref double d_max)

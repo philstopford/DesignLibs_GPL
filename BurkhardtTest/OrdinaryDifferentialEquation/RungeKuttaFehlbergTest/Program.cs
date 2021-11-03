@@ -1,5 +1,5 @@
 ﻿using System;
-using Burkardt.ODE.RungeKuttaFehlberg;
+using Burkardt.ODENS.RungeKuttaFehlberg;
 using Burkardt.Types;
 
 namespace RungeKuttaFehlbergTest

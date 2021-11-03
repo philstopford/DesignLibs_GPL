@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace Burkardt.ODE
+namespace Burkardt.ODENS
 {
     public static class PredatorPrey
     {

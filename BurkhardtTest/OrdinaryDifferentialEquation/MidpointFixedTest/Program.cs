@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using Burkardt;
-using Burkardt.ODE;
+using Burkardt.ODENS;
 using Burkardt.Types;
 
 namespace MidpointFixedTest

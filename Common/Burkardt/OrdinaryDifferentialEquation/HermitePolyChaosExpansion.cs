@@ -1,6 +1,6 @@
 ﻿using Burkardt.IntegralNS;
 
-namespace Burkardt.ODE
+namespace Burkardt.ODENS
 {
     public static class HermitePolyChaosExpansion
     {

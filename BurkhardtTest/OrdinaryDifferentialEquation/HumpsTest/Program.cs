@@ -1,6 +1,6 @@
 ﻿using System;
 using Burkardt;
-using Burkardt.ODE;
+using Burkardt.ODENS;
 
 namespace HumpsTest
 {

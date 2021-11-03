@@ -1,7 +1,7 @@
 ﻿using System;
 using Burkardt.Types;
 
-namespace Burkardt.ODE.RungeKuttaFehlberg
+namespace Burkardt.ODENS.RungeKuttaFehlberg
 {
     public static partial class RungeKuttaFehlberg
     {

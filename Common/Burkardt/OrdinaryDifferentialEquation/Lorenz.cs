@@ -1,4 +1,4 @@
-﻿namespace Burkardt.ODE
+﻿namespace Burkardt.ODENS
 {
     public static class Lorenz
     {

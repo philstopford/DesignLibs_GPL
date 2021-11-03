@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Burkardt.Types;
 
-namespace Burkardt.ODE
+namespace Burkardt.ODENS
 {
     public static class Humps
     {

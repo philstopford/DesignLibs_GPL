@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Burkardt.ODE
+namespace Burkardt.ODENS
 {
     public static class Euler
     {

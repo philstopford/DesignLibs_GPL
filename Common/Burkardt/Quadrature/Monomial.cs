@@ -1,12 +1,201 @@
 ﻿using System;
-using Burkardt.Elliptic;
-using Burkardt.MonomialNS;
+using Burkardt.IntegralNS;
 using Burkardt.Types;
+using Monomial = Burkardt.MonomialNS.Monomial;
 
 namespace Burkardt.Quadrature
 {
     public static class MonomialQuadrature
     {
+        public static double monomial_quadrature_chebyshev1 ( int expon, int order, double[] w, 
+        double[] x )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    MONOMIAL_QUADRATURE_CHEBYSHEV1 approximates a Chebyshev type 1 monomial integral.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    02 March 2008
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int EXPON, the exponent.
+        //
+        //    Input, int ORDER, the number of points in the rule.
+        //
+        //    Input, double W[ORDER], the quadrature weights.
+        //
+        //    Input, double X[ORDER], the quadrature points.
+        //
+        //    Output, double MONOMIAL_QUADRATURE_CHEBYSHEV1, the quadrature error.
+        //
+        {
+            double exact;
+            int i;
+            double quad;
+            double quad_error;
+            //
+            //  Get the exact value of the integral.
+            //
+            exact = Integral.chebyshev1_integral ( expon );
+            //
+            //  Evaluate the monomial at the quadrature points
+            //  and compute the weighted sum.
+            //
+            quad = 0.0;
+            for ( i = 0; i < order; i++ )
+            {
+                quad = quad + w[i] * Math.Pow ( x[i], expon );
+            }
+            //
+            //  Error:
+            //
+            if ( exact == 0.0 )
+            {
+                quad_error = Math.Abs ( quad - exact );
+            }
+            else
+            {
+                quad_error = Math.Abs ( ( quad - exact ) / exact );
+            }
+
+            return quad_error;
+        }
+        
+        public static double monomial_quadrature_chebyshev2 ( int expon, int order, double[] w, 
+        double[] x )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    MONOMIAL_QUADRATURE_CHEBYSHEV2 approximates a Chebyshev type 2 monomial integral.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    03 March 2008
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int EXPON, the exponent.
+        //
+        //    Input, int ORDER, the number of points in the rule.
+        //
+        //    Input, double W[ORDER], the quadrature weights.
+        //
+        //    Input, double X[ORDER], the quadrature points.
+        //
+        //    Output, double MONOMIAL_QUADRATURE_CHEBYSHEV2, the quadrature error.
+        //
+        {
+            double exact;
+            int i;
+            double quad;
+            double quad_error;
+            //
+            //  Get the exact value of the integral.
+            //
+            exact = Integral.chebyshev2_integral ( expon );
+            //
+            //  Evaluate the monomial at the quadrature points
+            //  and compute the weighted sum.
+            //
+            quad = 0.0;
+            for ( i = 0; i < order; i++ )
+            {
+                quad = quad + w[i] * Math.Pow ( x[i], expon );
+            }
+            //
+            //  Error:
+            //
+            if ( exact == 0.0 )
+            {
+                quad_error = Math.Abs ( quad - exact );
+            }
+            else
+            {
+                quad_error = Math.Abs ( ( quad - exact ) / exact );
+            }
+
+            return quad_error;
+        }
+        
+        public static double monomial_quadrature ( int expon, int order, double[] w, double[] x )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    MONOMIAL_QUADRATURE applies a quadrature rule to a monomial.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    25 January 2008
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int EXPON, the exponent.
+        //
+        //    Input, int ORDER, the number of points in the rule.
+        //
+        //    Input, double W[ORDER], the quadrature weights.
+        //
+        //    Input, double X[ORDER], the quadrature points.
+        //
+        //    Output, double MONOMIAL_QUADRATURE, the quadrature error.
+        //
+        {
+            double exact;
+            int i;
+            double quad;
+            double quad_error;
+            //
+            //  Get the exact value of the integral.
+            //
+            exact = 1.0 / ( double ) ( expon + 1 );
+            //
+            //  Evaluate the monomial at the quadrature points.
+            //
+            quad = 0.0;
+            for ( i = 0; i < order; i++ )
+            {
+                quad = quad + w[i] * Math.Pow ( x[i], expon );
+            }
+            //
+            //  Relative error:
+            //
+            quad_error = Math.Abs ( quad - exact ) / exact;
+
+            return quad_error;
+        }
+        
         public static double monomial_quadrature ( int dim_num, int[] expon, int point_num, 
         double[] weight, double[] x )
 

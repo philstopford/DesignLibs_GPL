@@ -480,6 +480,11 @@
     <projectFile>BurkhardtTest/SingleValueDecomposition/SVDDemo/SVDDemo.csproj</projectFile>
     <projectFile>BurkhardtTest/ZigguratTest/ZigguratTest.csproj</projectFile>
     <projectFile>BurkhardtTest/OrdinaryDifferentialEquation/ODETest/ODETest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Quadrature/IntExactnessTest/IntExactnessTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Quadrature/IntExactnessChebyshev1/IntExactnessChebyshev1.csproj</projectFile>
+    <projectFile>BurkhardtTest/Quadrature/IntExactnessChebyshev2/IntExactnessChebyshev2.csproj</projectFile>
+    <projectFile>BurkhardtTest/IntExactnessGenHermite/IntExactnessGenHermite.csproj</projectFile>
+    <projectFile>BurkhardtTest/Quadrature/IntExactnessGenLaguerre/IntExactnessGenLaguerre.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -4272,6 +4277,96 @@
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
       <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/IndexTest/IndexTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="IntExactnessChebyshev1" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Quadrature/IntExactnessChebyshev1/IntExactnessChebyshev1.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="IntExactnessChebyshev2" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Quadrature/IntExactnessChebyshev2/IntExactnessChebyshev2.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="IntExactnessGenHermite" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/IntExactnessGenHermite/IntExactnessGenHermite.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="IntExactnessGenLaguerre" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Quadrature/IntExactnessGenLaguerre/IntExactnessGenLaguerre.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="IntExactnessTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Quadrature/IntExactnessTest/IntExactnessTest.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
@@ -9708,10 +9803,15 @@
       <item itemvalue=".NET Project.rootsRCTest" />
       <item itemvalue=".NET Project.SVDBasisTest" />
       <item itemvalue=".NET Project.SVDDemo" />
-      <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMAIOTest" />
-      <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMBIOTest" />
       <item itemvalue=".NET Project.ZigguratTest" />
       <item itemvalue=".NET Project.ODETest" />
+      <item itemvalue=".NET Project.IntExactnessTest" />
+      <item itemvalue=".NET Project.IntExactnessChebyshev1" />
+      <item itemvalue=".NET Project.IntExactnessChebyshev2" />
+      <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMAIOTest" />
+      <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMBIOTest" />
+      <item itemvalue=".NET Project.IntExactnessGenHermite" />
+      <item itemvalue=".NET Project.IntExactnessGenLaguerre" />
     </list>
     <recent_temporary>
       <list>

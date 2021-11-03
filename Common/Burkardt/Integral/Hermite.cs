@@ -5,6 +5,64 @@ namespace Burkardt.IntegralNS
 {
     public static partial class Integral
     {
+        public static double gen_hermite_integral ( int expon, double alpha )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    GEN_HERMITE_INTEGRAL evaluates a monomial generalized Hermite integral.
+            //
+            //  Discussion:
+            //
+            //    H(n,alpha) = Integral ( -oo < x < +oo ) x^n |x|^alpha exp(-x^2) dx
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    19 February 2008
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int EXPON, the exponent of the monomial.
+            //    0 <= EXPON.
+            //
+            //    Input, double ALPHA, the exponent of |X| in the weight function.
+            //    -1.0 < ALPHA.
+            //
+            //    Output, double GEN_HERMITE_INTEGRAL, the value of the integral.
+            //
+        {
+            double a;
+            double arg;
+            double value;
+
+            if ( ( expon % 2 ) == 1 )
+            {
+                value = 0.0;
+            }
+            else
+            {
+                a = alpha + ( double ) ( expon );
+                if ( a <= - 1.0 )
+                {
+                    value = - typeMethods.r8_huge ( );
+                }
+                else
+                {
+                    arg = ( a + 1.0 ) / 2.0;
+                    value = typeMethods.r8_gamma ( arg );
+                }
+            }
+            return value;
+        }
         public static double fn_integral ( int d )
 
             //****************************************************************************80

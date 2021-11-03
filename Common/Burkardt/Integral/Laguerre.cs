@@ -4,6 +4,49 @@ namespace Burkardt.IntegralNS
 {
     public static partial class Integral
     {
+        public static double gen_laguerre_integral ( int expon, double alpha )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    GEN_LAGUERRE_INTEGRAL evaluates a monomial generalized Laguerre integral.
+            //
+            //  Discussion:
+            //
+            //    L(n,alpha) = Integral ( 0 <= x < +oo ) x^n * x^alpha exp(-x) dx
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    20 February 2008
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int EXPON, the exponent of the monomial.
+            //    0 <= EXPON.
+            //
+            //    Input, double ALPHA, the exponent of X in the weight function.
+            //    -1.0 < ALPHA.
+            //
+            //    Output, double GEN_LAGUERRE_INTEGRAL, the value of the integral.
+            //
+        {
+            double arg;
+            double value;
+
+            arg = alpha + ( double ) ( expon + 1.0 );
+            value = typeMethods.r8_gamma ( arg );
+
+            return value;
+        }
         public static double laguerre_integral ( int p )
 
             //****************************************************************************80

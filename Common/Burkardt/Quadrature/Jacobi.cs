@@ -8,6 +8,189 @@ namespace Burkardt.Quadrature
 {
     public static class JacobiQuadrature
     {
+        public class ParameterData
+        {
+            //
+            //  Two global variables needed to support the "parameter" function.
+            //
+            public double[] P;
+            public int[] NP;
+
+            public double value;
+        }
+        public static ParameterData jacobi_points(Func<ParameterData, int, int, ParameterData> parameter, ParameterData data, int n, int dim, ref double[] x)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    JACOBI_POINTS computes Jacobi quadrature points.
+            //
+            //  Discussion:
+            //
+            //    This function assumes the existence of a function:
+            //      double parameter ( int dim, int offset )
+            //    which can supply the values of the ALPHA and BETA parameters.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 April 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order.
+            //
+            //    Input, int DIM, the spatial dimension represented by this rule,
+            //    in cases where a multidimensional product rule is being formed.
+            //
+            //    Output, double X[N], the abscissas.
+            //
+        {
+            double alpha;
+            double beta;
+
+            data = parameter(data, dim, 0);
+            alpha = data.value;
+            data = parameter(data, dim, 1);
+            
+            beta = data.value;
+
+            jacobi_compute_points(n, alpha, beta, ref x);
+
+            return data;
+        }
+
+        public static void jacobi_compute_points ( int order, double alpha, double beta,
+                ref double[] x )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    JACOBI_COMPUTE_POINTS computes Jacobi quadrature points.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    14 October 2008
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int ORDER, the order.
+            //
+            //    Input, double ALPHA, BETA, the exponents of the (1-X) and (1+X) factors.
+            //
+            //    Output, double X[ORDER], the abscissas.
+            //
+        {
+            double[] w;
+
+            w = new double[order];
+
+            jacobi_compute ( order, alpha, beta, ref x, ref w );
+        }
+        
+        public static ParameterData jacobi_weights(Func<ParameterData, int, int, ParameterData> parameter, ParameterData data, int n, int dim, ref double[] w)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    JACOBI_WEIGHTS computes Jacobi quadrature weights.
+            //
+            //  Discussion:
+            //
+            //    This function assumes the existence of a function:
+            //      double parameter ( int dim, int offset )
+            //    which can supply the values of the ALPHA and BETA parameters.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    02 April 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order.
+            //
+            //    Input, int DIM, the spatial dimension represented by this rule,
+            //    in cases where a multidimensional product rule is being formed.
+            //
+            //    Output, double W[N], the weights.
+            //
+        {
+            double alpha;
+            double beta;
+
+            data = parameter(data, dim, 0);
+            alpha = data.value;
+            data = parameter(data, dim, 1);
+            beta = data.value;
+
+            jacobi_compute_weights(n, alpha, beta, ref w);
+
+            return data;
+        }
+        
+        public static void jacobi_compute_weights ( int order, double alpha, double beta,
+                ref double[] w )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    JACOBI_COMPUTE_WEIGHTS computes Jacobi quadrature weights.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    14 October 2008
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int ORDER, the order.
+            //
+            //    Input, double ALPHA, BETA, the exponents of the (1-X) and (1+X) factors.
+            //
+            //    Output, double W[ORDER], the weights.
+            //
+        {
+            double[] x;
+
+            x = new double[order];
+
+            jacobi_compute ( order, alpha, beta, ref x, ref w );
+        }
+
         public static void jacobi_handle(int order, double alpha, double beta, string output)
 
             //****************************************************************************80

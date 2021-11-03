@@ -1170,6 +1170,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SandiaCubatureTest", "Burkh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SandiaRulesTest", "BurkhardtTest\Sandia\SandiaRulesTest\SandiaRulesTest.csproj", "{C0D20C20-0641-4733-A451-16989F046799}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SandiaRules2Test", "BurkhardtTest\Sandia\SandiaRules2Test\SandiaRules2Test.csproj", "{453CFCDF-B026-46D2-B8AB-FC85CC36607B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -7312,6 +7314,18 @@ Global
 		{C0D20C20-0641-4733-A451-16989F046799}.Release|x64.Build.0 = Release|Any CPU
 		{C0D20C20-0641-4733-A451-16989F046799}.Release|x86.ActiveCfg = Release|Any CPU
 		{C0D20C20-0641-4733-A451-16989F046799}.Release|x86.Build.0 = Release|Any CPU
+		{453CFCDF-B026-46D2-B8AB-FC85CC36607B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{453CFCDF-B026-46D2-B8AB-FC85CC36607B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{453CFCDF-B026-46D2-B8AB-FC85CC36607B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{453CFCDF-B026-46D2-B8AB-FC85CC36607B}.Debug|x64.Build.0 = Debug|Any CPU
+		{453CFCDF-B026-46D2-B8AB-FC85CC36607B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{453CFCDF-B026-46D2-B8AB-FC85CC36607B}.Debug|x86.Build.0 = Debug|Any CPU
+		{453CFCDF-B026-46D2-B8AB-FC85CC36607B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{453CFCDF-B026-46D2-B8AB-FC85CC36607B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{453CFCDF-B026-46D2-B8AB-FC85CC36607B}.Release|x64.ActiveCfg = Release|Any CPU
+		{453CFCDF-B026-46D2-B8AB-FC85CC36607B}.Release|x64.Build.0 = Release|Any CPU
+		{453CFCDF-B026-46D2-B8AB-FC85CC36607B}.Release|x86.ActiveCfg = Release|Any CPU
+		{453CFCDF-B026-46D2-B8AB-FC85CC36607B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -7895,6 +7909,7 @@ Global
 		{798FCF48-5499-494F-A153-BC2F781AA25D} = {B14C0D74-30A0-4540-8100-2FFA1C84CA6D}
 		{20FC9025-B1FB-4480-A7F8-3097AF465157} = {798FCF48-5499-494F-A153-BC2F781AA25D}
 		{C0D20C20-0641-4733-A451-16989F046799} = {798FCF48-5499-494F-A153-BC2F781AA25D}
+		{453CFCDF-B026-46D2-B8AB-FC85CC36607B} = {798FCF48-5499-494F-A153-BC2F781AA25D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B449416C-C504-4FA8-9E10-10857263A64A}

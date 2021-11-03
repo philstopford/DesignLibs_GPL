@@ -537,6 +537,69 @@ namespace Burkardt.ClenshawCurtisNS
             return w;
         }
 
+        public static void clenshaw_curtis_compute_points ( int n, ref double[] x )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    CLENSHAW_CURTIS_COMPUTE_POINTS computes Clenshaw Curtis quadrature points.
+            //
+            //  Discussion:
+            //
+            //    Our convention is that the abscissas are numbered from left to right.
+            //
+            //    This rule is defined on [-1,1].
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    13 June 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order.
+            //
+            //    Output, double X[N], the abscissas.
+            //
+        {
+            int index;
+            double pi = 3.141592653589793;
+
+            if ( n < 1 )
+            {
+                Console.WriteLine("");
+                Console.WriteLine("CLENSHAW_CURTIS_COMPUTE_POINTS - Fatal error!");
+                Console.WriteLine("  N < 1.");
+                return;
+            }
+            else if ( n == 1 )
+            {
+                x[0] = 0.0;
+            }
+            else
+            {
+                for ( index = 1; index <= n; index++ )
+                {
+                    x[index-1] =  Math.Cos ( ( double ) ( n - index ) * pi
+                                             / ( double ) ( n - 1     ) );
+                }
+                x[0] = -1.0;
+                if ( ( n % 2 ) == 1 )
+                {
+                    x[(n-1)/2] = 0.0;
+                }
+                x[n-1] = +1.0;
+            }
+        }
+        
         public static int index_to_level_closed(int dim_num, int[] t, int order, int level_max, int tIndex = 0)
 
             //****************************************************************************80
@@ -724,6 +787,53 @@ namespace Burkardt.ClenshawCurtisNS
             }
         }
 
+        public static void clenshaw_curtis_compute_np ( int n, int np, double[] p, ref double[] x,
+        ref double[] w )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    CLENSHAW_CURTIS_COMPUTE_NP computes a Clenshaw Curtis quadrature rule.
+        //
+        //  Discussion:
+        //
+        //    The integral:
+        //
+        //      Integral ( -1 <= X <= 1 ) F(X) dX
+        //
+        //    The quadrature rule:
+        //
+        //      Sum ( 1 <= I <= N ) W(I) * F ( X(I) )
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    22 June 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order.
+        //    1 <= N.
+        //
+        //    Input, int NP, the number of parameters.
+        //
+        //    Input, double P[NP], parameters which are not needed by this function.
+        //
+        //    Output, double X[N], the abscissas.
+        //
+        //    Output, double W[N], the weights.
+        //
+        {
+            clenshaw_curtis_compute ( n, ref x, ref w );
+        }
         public static void clenshaw_curtis_compute(int order, ref double[] x, ref double[] w)
 
             //****************************************************************************80

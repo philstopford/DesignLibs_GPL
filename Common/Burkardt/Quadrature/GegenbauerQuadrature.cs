@@ -1,10 +1,285 @@
 ﻿using System;
+using Burkardt.PolynomialNS;
 using Burkardt.Types;
 
 namespace Burkardt.Quadrature
 {
     public static class GegenbauerQuadrature
     {
+        public static void gegenbauer_compute_np ( int order, int np, double[] p, ref double[] x,
+        ref double[] w )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    GEGENBAUER_COMPUTE_NP computes a Gegenbauer quadrature rule.
+        //
+        //  Discussion:
+        //
+        //    The integral:
+        //
+        //      Integral ( -1 <= X <= 1 ) (1-X^2)^ALPHA * F(X) dX
+        //
+        //    The quadrature rule:
+        //
+        //      Sum ( 1 <= I <= ORDER ) W(I) * F ( X(I) )
+        //
+        //    Thanks to Janiki Raman for pointing out a problem in an earlier
+        //    version of the code that occurred when ALPHA was -0.5.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    22 June 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Arthur Stroud, Don Secrest,
+        //    Gaussian Quadrature Formulas,
+        //    Prentice Hall, 1966,
+        //    LC: QA299.4G3S7.
+        //
+        //  Parameters:
+        //
+        //    Input, int ORDER, the order.
+        //    1 <= ORDER.
+        //
+        //    Input, int NP, the number of parameters.
+        //
+        //    Input, double P[NP], contains parameters.
+        //    P[0] = ALPHA = the exponent of (1-X^2).  -1.0 < ALPHA is required.
+        //
+        //    Output, double X[ORDER], the abscissas.
+        //
+        //    Output, double W[ORDER], the weights.
+        //
+        {
+            double alpha;
+
+            alpha = p[0];
+
+            gegenbauer_compute ( order, alpha, ref x, ref w );
+        }
+        
+        public static void gegenbauer_compute(int order, double alpha, ref double[] x, ref double[] w)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    GEGENBAUER_COMPUTE computes a Gegenbauer quadrature rule.
+            //
+            //  Discussion:
+            //
+            //    The integral:
+            //
+            //      Integral ( -1 <= X <= 1 ) (1-X^2)^ALPHA * F(X) dX
+            //
+            //    The quadrature rule:
+            //
+            //      Sum ( 1 <= I <= ORDER ) W(I) * F ( X(I) )
+            //
+            //    Thanks to Janiki Raman for pointing out a problem in an earlier
+            //    version of the code that occurred when ALPHA was -0.5.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    13 June 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Arthur Stroud, Don Secrest,
+            //    Gaussian Quadrature Formulas,
+            //    Prentice Hall, 1966,
+            //    LC: QA299.4G3S7.
+            //
+            //  Parameters:
+            //
+            //    Input, int ORDER, the order.
+            //    1 <= ORDER.
+            //
+            //    Input, double ALPHA, the exponent of (1-X^2).  -1.0 < ALPHA is required.
+            //
+            //    Output, double X[ORDER], the abscissas.
+            //
+            //    Output, double W[ORDER], the weights.
+            //
+        {
+            double an = 0;
+            double[] c;
+            double cc = 0;
+            double delta = 0;
+            double dp2 = 0;
+            int i = 0;
+            double p1 = 0;
+            double prod = 0;
+            double r1 = 0;
+            double r2 = 0;
+            double r3 = 0;
+            double temp = 0;
+            double x0 = 0;
+            //
+            //  Check ORDER.
+            //
+            if (order < 1)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("GEGENBAUER_COMPUTE - Fatal error!");
+                Console.WriteLine("  1 <= ORDER is required.");
+                return;
+            }
+
+            c = new double[order];
+            //
+            //  Check ALPHA.
+            //
+            if (alpha <= -1.0)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("GEGENBAUER_COMPUTE - Fatal error!");
+                Console.WriteLine("  -1.0 < ALPHA is required.");
+                return;
+            }
+
+            //
+            //  Set the recursion coefficients.
+            //
+            c[0] = 0.0;
+            if (2 <= order)
+            {
+                c[1] = 1.0 / (2.0 * alpha + 3.0);
+            }
+
+            for (i = 3; i <= order; i++)
+            {
+                c[i - 1] = (double) (i - 1)
+                           * (alpha + alpha + (double) (i - 1)) /
+                           ((alpha + alpha + (double) (2 * i - 1))
+                            * (alpha + alpha + (double) (2 * i - 3)));
+            }
+
+            delta = typeMethods.r8_gamma(alpha + 1.0)
+                    * typeMethods.r8_gamma(alpha + 1.0)
+                    / typeMethods.r8_gamma(alpha + alpha + 2.0);
+
+            prod = 1.0;
+            for (i = 2; i <= order; i++)
+            {
+                prod = prod * c[i - 1];
+            }
+
+            cc = delta * Math.Pow(2.0, alpha + alpha + 1.0) * prod;
+
+            for (i = 1; i <= order; i++)
+            {
+                if (i == 1)
+                {
+                    an = alpha / (double) (order);
+
+                    r1 = (1.0 + alpha)
+                         * (2.78 / (4.0 + (double) (order * order))
+                            + 0.768 * an / (double) (order));
+
+                    r2 = 1.0 + 2.44 * an + 1.282 * an * an;
+
+                    x0 = (r2 - r1) / r2;
+                }
+                else if (i == 2)
+                {
+                    r1 = (4.1 + alpha) /
+                         ((1.0 + alpha) * (1.0 + 0.156 * alpha));
+
+                    r2 = 1.0 + 0.06 * ((double) (order) - 8.0) *
+                        (1.0 + 0.12 * alpha) / (double) (order);
+
+                    r3 = 1.0 + 0.012 * alpha *
+                        (1.0 + 0.25 * Math.Abs(alpha)) / (double) (order);
+
+                    x0 = x0 - r1 * r2 * r3 * (1.0 - x0);
+                }
+                else if (i == 3)
+                {
+                    r1 = (1.67 + 0.28 * alpha) / (1.0 + 0.37 * alpha);
+
+                    r2 = 1.0 + 0.22 * ((double) (order) - 8.0)
+                        / (double) (order);
+
+                    r3 = 1.0 + 8.0 * alpha /
+                        ((6.28 + alpha) * (double) (order * order));
+
+                    x0 = x0 - r1 * r2 * r3 * (x[0] - x0);
+                }
+                else if (i < order - 1)
+                {
+                    x0 = 3.0 * x[i - 2] - 3.0 * x[i - 3] + x[i - 4];
+                }
+                else if (i == order - 1)
+                {
+                    r1 = (1.0 + 0.235 * alpha) / (0.766 + 0.119 * alpha);
+
+                    r2 = 1.0 / (1.0 + 0.639
+                        * ((double) (order) - 4.0)
+                        / (1.0 + 0.71 * ((double) (order) - 4.0)));
+
+                    r3 = 1.0 / (1.0 + 20.0 * alpha / ((7.5 + alpha) *
+                                                      (double) (order * order)));
+
+                    x0 = x0 + r1 * r2 * r3 * (x0 - x[i - 3]);
+                }
+                else if (i == order)
+                {
+                    r1 = (1.0 + 0.37 * alpha) / (1.67 + 0.28 * alpha);
+
+                    r2 = 1.0 /
+                         (1.0 + 0.22 * ((double) (order) - 8.0)
+                             / (double) (order));
+
+                    r3 = 1.0 / (1.0 + 8.0 * alpha /
+                        ((6.28 + alpha) * (double) (order * order)));
+
+                    x0 = x0 + r1 * r2 * r3 * (x0 - x[i - 3]);
+                }
+
+                GegenbauerPolynomial.gegenbauer_root(ref x0, order, alpha, ref dp2, ref p1, c);
+
+                x[i - 1] = x0;
+                w[i - 1] = cc / (dp2 * p1);
+            }
+
+            //
+            //  Reverse the order of the values.
+            //
+            for (i = 1; i <= order / 2; i++)
+            {
+                temp = x[i - 1];
+                x[i - 1] = x[order - i];
+                x[order - i] = temp;
+            }
+
+            for (i = 1; i <= order / 2; i++)
+            {
+                temp = w[i - 1];
+                w[i - 1] = w[order - i];
+                w[order - i] = temp;
+            }
+        }
+
         public static void gegenbauer_ss_compute(int order, double alpha, ref double[] xtab,
         ref double[] weight )
 

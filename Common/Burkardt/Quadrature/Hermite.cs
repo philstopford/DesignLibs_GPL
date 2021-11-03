@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.ClenshawCurtisNS;
 using Burkardt.IntegralNS;
 using Burkardt.MatrixNS;
 using Burkardt.Types;
@@ -8,6 +9,326 @@ namespace Burkardt.Quadrature
     using Monomial = Burkardt.MonomialNS.Monomial;
     public static class HermiteQuadrature
     {
+        public static void gen_hermite_compute_np ( int order, int np, double[] p, ref double[] x,
+        ref double[] w )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    GEN_HERMITE_COMPUTE_NP computes a Generalized Hermite quadrature rule.
+        //
+        //  Discussion:
+        //
+        //    The integral:
+        //
+        //      Integral ( -oo < x < +oo ) |x|^ALPHA exp(-x^2) f(x) dx
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    22 June 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Philip Davis, Philip Rabinowitz,
+        //    Methods of Numerical Integration,
+        //    Second Edition,
+        //    Dover, 2007,
+        //    ISBN: 0486453391,
+        //    LC: QA299.3.D28.
+        //
+        //  Parameters:
+        //
+        //    Input, int ORDER, the order.
+        //    1 <= ORDER.
+        //
+        //    Input, int NP, the number of parameters.
+        //
+        //    Input, double P[NP], contains parameters.
+        //    P[0] = ALPHA, the exponent of the X factor. -1.0 < ALPHA.
+        //
+        //    Output, double X[ORDER], the abscissas.
+        //
+        //    Output, double W[ORDER], the weights.
+        //
+        {
+            double alpha;
+
+            alpha = p[0];
+
+            gen_hermite_compute ( order, alpha, ref x, ref w );
+        }
+        
+        public static void hermite_compute_np ( int order, int np, double[] p, ref double[] x,
+        ref double[] w )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    HERMITE_COMPUTE_NP computes a Hermite quadrature rule.
+        //
+        //  Discussion:
+        //
+        //    The abscissas are the zeros of the N-th order Hermite polynomial.
+        //
+        //    The integral:
+        //
+        //      Integral ( -oo < X < +oo ) exp ( - X * X ) * F(X) dX
+        //
+        //    The quadrature rule:
+        //
+        //      Sum ( 1 <= I <= ORDER ) W(I) * F ( X(I) )
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    22 June 2009
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Arthur Stroud, Don Secrest.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Arthur Stroud, Don Secrest,
+        //    Gaussian Quadrature Formulas,
+        //    Prentice Hall, 1966,
+        //    LC: QA299.4G3S7.
+        //
+        //  Parameters:
+        //
+        //    Input, int ORDER, the order.
+        //    1 <= ORDER.
+        //
+        //    Input, int NP, the number of parameters.
+        //
+        //    Input, double P[NP], parameters which are not needed by this function.
+        //
+        //    Output, double X[ORDER], the abscissas.
+        //
+        //    Output, double W[ORDER], the weights.
+        //
+        {
+            hermite_compute ( order, ref x, ref w );
+        }
+        
+        public static void hermite_compute ( int n, ref double[] x, ref double[] w )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    HERMITE_COMPUTE computes a Gauss-Hermite quadrature rule.
+        //
+        //  Discussion:
+        //
+        //    The code uses an algorithm by Elhay and Kautsky.
+        //
+        //    The abscissas are the zeros of the N-th order Hermite polynomial.
+        //
+        //    The integral:
+        //
+        //      integral ( -oo < x < +oo ) exp ( - x * x ) * f(x) dx
+        //
+        //    The quadrature rule:
+        //
+        //      sum ( 1 <= i <= n ) w(i) * f ( x(i) )
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    09 May 2012
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Sylvan Elhay, Jaroslav Kautsky.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Sylvan Elhay, Jaroslav Kautsky,
+        //    Algorithm 655: IQPACK, FORTRAN Subroutines for the Weights of
+        //    Interpolatory Quadrature,
+        //    ACM Transactions on Mathematical Software,
+        //    Volume 13, Number 4, December 1987, pages 399-415.
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number of abscissas.
+        //
+        //    Output, double X[N], the abscissas.
+        //
+        //    Output, double W[N], the weights.
+        //
+        {
+            double arg;
+            double[] bj;
+            int i;
+            double zemu;
+            //
+            //  Define the zero-th moment.
+            //
+            arg = 0.5;
+            zemu = typeMethods.r8_gamma ( arg );
+            //
+            //  Define the Jacobi matrix.
+            //
+            bj = new double[n];
+
+            for ( i = 0; i < n; i++ )
+            {
+                bj[i] = Math.Sqrt ( ( double ) ( i + 1 ) / 2.0 );
+            }
+
+            for ( i = 0; i < n; i++ )
+            {
+                x[i] = 0.0;
+            }
+
+            w[0] = Math.Sqrt ( zemu );
+            for ( i = 1; i < n; i++ )
+            {
+                w[i] = 0.0;
+            }
+            //
+            //  Diagonalize the Jacobi matrix.
+            //
+            IMTQLX.imtqlx ( n, ref x, ref bj, ref w );
+            //
+            //  If N is odd, force the middle X to be exactly zero.
+            //
+            if ( ( n % 2 ) == 1 )
+            {
+                x[(n-1)/2] = 0.0;
+            }
+
+            for ( i = 0; i < n; i++ )
+            {
+                w[i] = w[i] * w[i];
+            }
+        }
+        
+        public static void gen_hermite_compute ( int n, double alpha, ref double[] x, ref double[] w )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    GEN_HERMITE_COMPUTE computes a generalized Gauss-Hermite quadrature rule.
+        //
+        //  Discussion:
+        //
+        //    The code uses an algorithm by Elhay and Kautsky.
+        //
+        //    The integral:
+        //
+        //      integral ( -oo < x < +oo ) |x|^alpha exp(-x^2) f(x) dx
+        //
+        //    The quadrature rule:
+        //
+        //      sum ( 1 <= i <= n ) w(i) * f ( x(i) )
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    30 April 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Sylvan Elhay, Jaroslav Kautsky.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Sylvan Elhay, Jaroslav Kautsky,
+        //    Algorithm 655: IQPACK, FORTRAN Subroutines for the Weights of
+        //    Interpolatory Quadrature,
+        //    ACM Transactions on Mathematical Software,
+        //    Volume 13, Number 4, December 1987, pages 399-415.
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the number of abscissas.
+        //
+        //    Input, double ALPHA, the parameter.
+        //    -1.0 < ALPHA.
+        //
+        //    Output, double X[N], the abscissas.
+        //
+        //    Output, double W[N], the weights.
+        //
+        {
+            double[] bj;
+            int i;
+            double i_r8;
+            double zemu;
+            //
+            //  Define the zero-th moment.
+            //
+            zemu = typeMethods.r8_gamma ( ( alpha + 1.0 ) / 2.0 );
+            //
+            //  Define the Jacobi matrix.
+            //
+            bj = new double[n];
+
+            for ( i = 0; i < n; i++ )
+            {
+                i_r8 = ( double ) ( i + 1 );
+                if ( ( i % 2 ) == 0 )
+                {
+                    bj[i] = ( i_r8 + alpha ) / 2.0;
+                }
+                else
+                {
+                    bj[i] = i_r8 / 2.0;
+                }
+            }
+
+            for ( i = 0; i < n; i++ )
+            {
+                bj[i] = Math.Sqrt ( bj[i] );
+            }
+
+            for ( i = 0; i < n; i++ )
+            {
+                x[i] = 0.0;
+            }
+
+            w[0] = Math.Sqrt ( zemu );
+            for ( i = 1; i < n; i++ )
+            {
+                w[i] = 0.0;
+            }
+            //
+            //  Diagonalize the Jacobi matrix.
+            //
+            MatrixNS.IMTQLX.imtqlx ( n, ref x, ref bj, ref w );
+
+            for ( i = 0; i < n; i++ )
+            {
+                w[i] = w[i] * w[i];
+            }
+        }
+        
         public static double monomial_quadrature_gen_hermite ( int expon, double alpha, int order, 
             int option, double[] w, double[] x )
 
@@ -1141,6 +1462,228 @@ namespace Burkardt.Quadrature
             {
                 wts[i] = wts[i] * wts[i];
             }
+        }
+        
+        public static void hc_compute_weights_from_points ( int nhalf, double[] xhalf, ref double[] w )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    HC_COMPUTE_WEIGHTS_FROM_POINTS: Hermite-Cubic weights, user-supplied points.
+        //
+        //  Discussion:
+        //
+        //    An interval [A,B] has been divided by NHALF points X; at each
+        //    point both function and derivative information is available.
+        //
+        //    The piecewise cubic Hermite interpolant is constructed for this data.
+        //
+        //    A quadrature rule is determined for the interpolant.
+        //
+        //    There will be N=2*NHALF weights.  If the quadrature rule is to be written 
+        //    out, one would normally list each point twice, so that the number of points 
+        //    and weights are equal.  The listing of the same point value twice is an
+        //    implicit indication that both function and derivative values should be
+        //    used.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    28 March 2011
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int NHALF, the number of points, not counting repetitions.
+        //
+        //    Input, double XHALF[NHALF], the points, without repetition.
+        //
+        //    Output, double W[2*NHALF], the weights.  The first two weights are 
+        //    associated with the first point, and so on.
+        //
+        {
+            int j;
+
+            w[0+0*2] =    0.5 * ( xhalf[1] - xhalf[0] );
+            w[1+0*2] = Math.Pow ( xhalf[1] - xhalf[0], 2 ) / 12.0;
+
+            for ( j = 1; j < nhalf - 1; j++ )
+            {
+                w[0+j*2] = 0.5 * ( xhalf[j+1] - xhalf[j-1] );
+                w[1+j*2] =       ( xhalf[j+1] - xhalf[j-1] ) 
+                    * ( xhalf[j+1] - 2.0 * xhalf[j] + xhalf[j-1] ) / 12.0;
+            }
+
+            w[0+(nhalf-1)*2] =      0.5 * ( xhalf[nhalf-1] - xhalf[nhalf-2]   );
+            w[1+(nhalf-1)*2] = - Math.Pow ( xhalf[nhalf-2] - xhalf[nhalf-1], 2 ) / 12.0;
+        }
+        
+        public static void hcc_compute ( int n, ref double[] x, ref double[] w )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    HCC_COMPUTE computes a Hermite-Cubic-Chebyshev-Spacing quadrature rule.
+        //
+        //  Discussion:
+        //
+        //    For the HCE rule, we assume that an interval has been divided by
+        //    M nodes X into Chebyshev-spaced subintervals, and that at each
+        //    abscissa both function and derivative information is available.
+        //    The piecewise cubic Hermite interpolant is constructed for this data.
+        //    The quadrature rule uses N = 2 * M abscissas, where each node is
+        //    listed twice, and the weights occur in pairs, with the first multiplying
+        //    the function value and the second the derivative.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    24 March 2011
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order.
+        //    1 <= N.
+        //
+        //    Output, double X[N], the abscissas.
+        //
+        //    Output, double W[N], the weights.
+        //
+        {
+            int nhalf;
+            double[] xhalf;
+
+            nhalf = n / 2;
+            xhalf = new double[nhalf];
+
+            ClenshawCurtis.clenshaw_curtis_compute_points ( nhalf, ref xhalf );
+            typeMethods.r8vec_stutter ( nhalf, xhalf, 2, ref x );
+            hc_compute_weights_from_points ( nhalf, xhalf, ref w );
+        }
+        
+        public static void hcc_compute_weights ( int n, ref double[] w )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    HCC_COMPUTE_WEIGHTS: Hermite-Cubic-Chebyshev-Spacing quadrature weights.
+            //
+            //  Discussion:
+            //
+            //    For the HCE rule, we assume that an interval has been divided by
+            //    M nodes X into Chebyshev-spaced subintervals, and that at each
+            //    abscissa both function and derivative information is available.
+            //    The piecewise cubic Hermite interpolant is constructed for this data.
+            //    The quadrature rule uses N = 2 * M abscissas, where each node is
+            //    listed twice, and the weights occur in pairs, with the first multiplying
+            //    the function value and the second the derivative.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    24 March 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order.
+            //
+            //    Output, double W[N], the weights.
+            //
+        {
+            int nhalf;
+            double[] xhalf;
+
+            if ( ( n % 2 ) != 0 )
+            {
+                Console.WriteLine("");
+                Console.WriteLine("HCC_COMPUTE_WEIGHTS - Fatal error!");
+                Console.WriteLine("  Order of rule N is not even.");
+                return;
+            }
+
+            nhalf = n / 2;
+            xhalf = new double[nhalf];
+
+            hc_compute_weights_from_points ( nhalf, xhalf, ref w );
+
+        }
+        
+        public static void hce_compute ( int n, ref double[] x, ref double[] w )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    HCE_COMPUTE computes a Hermite-Cubic-Equal-Spacing quadrature rule.
+        //
+        //  Discussion:
+        //
+        //    For the HCE rule, we assume that an interval has been divided by
+        //    M nodes X into equally spaced subintervals, and that at each
+        //    abscissa both function and derivative information is available.
+        //    The piecewise cubic Hermite interpolant is constructed for this data.
+        //    The quadrature rule uses N = 2 * M abscissas, where each node is
+        //    listed twice, and the weights occur in pairs, with the first multiplying
+        //    the function value and the second the derivative.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    28 March 2011
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order.
+        //    1 <= N.
+        //
+        //    Output, double X[N], the abscissas.
+        //
+        //    Output, double W[N], the weights.
+        //
+        {
+            double a_high = 1.0;
+            double a_low = 0.0;
+            int nhalf;
+            double[] xhalf;
+
+            a_low = 0.0;
+            a_high = 1.0;
+
+            nhalf = n / 2;
+
+            xhalf = typeMethods.r8vec_linspace_new ( nhalf, a_low, a_high );
+            typeMethods.r8vec_stutter ( nhalf, xhalf, 2, ref x );
+            hc_compute_weights_from_points ( nhalf, xhalf, ref w );
         }
 
         public static void he_quadrature_rule(int nt, ref double[] t, ref double[] wts)

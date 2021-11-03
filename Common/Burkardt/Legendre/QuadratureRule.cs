@@ -6,6 +6,63 @@ namespace Burkardt.Legendre
 {
     public static class QuadratureRule
     {
+        public static void legendre_compute_np ( int n, int np, double[] p, ref double[] x, ref double[] w )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    LEGENDRE_COMPUTE_NP computes a Legendre quadrature rule.
+        //
+        //  Discussion:
+        //
+        //    The integral:
+        //
+        //      Integral ( -1 <= X <= 1 ) F(X) dX
+        //
+        //    The quadrature rule:
+        //
+        //      Sum ( 1 <= I <= N ) W(I) * F ( X(I) )
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    22 June 2009
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Philip Davis, Philip Rabinowitz.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Philip Davis, Philip Rabinowitz,
+        //    Methods of Numerical Integration,
+        //    Second Edition,
+        //    Dover, 2007,
+        //    ISBN: 0486453391,
+        //    LC: QA299.3.D28.
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order.
+        //    1 <= N.
+        //
+        //    Input, int NP, the number of parameters.
+        //
+        //    Input, double P[NP], parameters which are not needed by this function.
+        //
+        //    Output, double X[N], the abscissas.
+        //
+        //    Output, double W[N], the weights.
+        //
+        {
+            legendre_compute ( n, ref x, ref w );
+        }
+        
         public static void legendre_compute(int order, ref double[] xtab, ref double[] weight )
 
         //****************************************************************************80

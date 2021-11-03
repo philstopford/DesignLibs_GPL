@@ -152,7 +152,7 @@ namespace PattersonRuleTest
             r[0] = a;
             r[1] = b;
 
-            PattersonQuadrature.patterson_set(order, x, w);
+            PattersonQuadrature.patterson_set(order, ref x, ref w);
             //
             //  Rescale the rule.
             //

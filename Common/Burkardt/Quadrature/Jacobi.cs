@@ -395,6 +395,75 @@ namespace Burkardt.Quadrature
 
             return quad_error;
         }
+        
+        public static void jacobi_compute_np ( int order, int np, double[] p, ref double[] x, ref double[] w )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    JACOBI_COMPUTE_NP computes a Jacobi quadrature rule.
+        //
+        //  Discussion:
+        //
+        //    The integral:
+        //
+        //      Integral ( -1 <= X <= 1 ) (1-X)^ALPHA * (1+X)^BETA * F(X) dX
+        //
+        //    The quadrature rule:
+        //
+        //      Sum ( 1 <= I <= ORDER ) W(I) * F ( X(I) )
+        //
+        //    Thanks to Xu Xiang of Fudan University for pointing out that
+        //    an earlier implementation of this routine was incorrect!
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    22 June 2009
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Arthur Stroud, Don Secrest.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Arthur Stroud, Don Secrest,
+        //    Gaussian Quadrature Formulas,
+        //    Prentice Hall, 1966,
+        //    LC: QA299.4G3S7.
+        //
+        //  Parameters:
+        //
+        //    Input, int ORDER, the order.
+        //    1 <= ORDER.
+        //
+        //    Input, int NP, the number of parameters.
+        //
+        //    Input, double P[NP], parameter values.
+        //    P[0] = ALPHA, the exponent of (1-X)
+        //    P[1] = BETA,  the exponent of (1+X).
+        //    -1.0 < ALPHA and -1.0 < BETA are required.
+        //
+        //    Output, double X[ORDER], the abscissas.
+        //
+        //    Output, double W[ORDER], the weights.
+        //
+        {
+            double alpha;
+            double beta;
+
+            alpha = p[0];
+            beta = p[1];
+
+            jacobi_compute ( order, alpha, beta, ref x, ref w );
+
+            return;
+        }
 
         public static void jacobi_compute(int order, double alpha, double beta, ref double[] x,
                 ref double[] w)

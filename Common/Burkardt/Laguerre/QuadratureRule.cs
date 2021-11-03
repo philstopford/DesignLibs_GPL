@@ -7,6 +7,337 @@ namespace Burkardt.Laguerre
 {
     public static partial class QuadratureRule
     {
+        public static void laguerre_compute_np ( int order, int np, double[] p, ref double[] x,
+        ref double[] w )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    LAGUERRE_COMPUTE_NP computes a Laguerre quadrature rule.
+        //
+        //  Discussion:
+        //
+        //    The integral:
+        //
+        //      Integral ( 0 <= X < +oo ) exp ( - X ) * F(X) dX
+        //
+        //    The quadrature rule:
+        //
+        //      Sum ( 1 <= I <= ORDER ) W(I) * F ( X(I) )
+        //
+        //    The integral:
+        //
+        //      Integral ( A <= X < +oo ) F(X) dX
+        //
+        //    The quadrature rule:
+        //
+        //      Sum ( 1 <= I <= ORDER ) W(I) * exp ( X(I) ) * F ( X(I) )
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    22 June 2009
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Arthur Stroud, Don Secrest.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Arthur Stroud, Don Secrest,
+        //    Gaussian Quadrature Formulas,
+        //    Prentice Hall, 1966,
+        //    LC: QA299.4G3S7.
+        //
+        //  Parameters:
+        //
+        //    Input, int ORDER, the order.
+        //    1 <= ORDER.
+        //
+        //    Input, int NP, the number of parameters.
+        //
+        //    Input, double P[NP], parameters which are not needed by this function.
+        //
+        //    Output, double X[ORDER], the abscissas.
+        //
+        //    Output, double W[ORDER], the weights.
+        //
+        {
+            laguerre_compute ( order, ref x, ref w );
+        }
+        
+        public static void laguerre_compute ( int n, ref double[] x, ref double[] w )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    LAGUERRE_COMPUTE: Laguerre quadrature rule by the Elhay-Kautsky method.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    23 April 2011
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Sylvan Elhay, Jaroslav Kautsky.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Sylvan Elhay, Jaroslav Kautsky,
+        //    Algorithm 655: IQPACK, FORTRAN Subroutines for the Weights of
+        //    Interpolatory Quadrature,
+        //    ACM Transactions on Mathematical Software,
+        //    Volume 13, Number 4, December 1987, pages 399-415.
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order.
+        //
+        //    Output, double X[N], the abscissas.
+        //
+        //    Output, double W[N], the weights.
+        //
+        {
+            double[] bj;
+            int i;
+            double zemu;
+            //
+            //  Define the zero-th moment.
+            //
+            zemu = 1.0;
+            //
+            //  Define the Jacobi matrix.
+            //
+            bj = new double[n];
+
+            for ( i = 0; i < n; i++ )
+            {
+                bj[i] = ( double ) ( i + 1 );
+            }
+
+            for ( i = 0; i < n; i++ )
+            {
+                x[i] = ( double ) ( 2 * i + 1 );
+            }
+
+            w[0] = Math.Sqrt ( zemu );
+
+            for ( i = 1; i < n; i++ )
+            {
+                w[i] = 0.0;
+            }
+            //
+            //  Diagonalize the Jacobi matrix.
+            //
+            IMTQLX.imtqlx ( n, ref x, ref bj, ref w );
+
+            for ( i = 0; i < n; i++ )
+            {
+                w[i] = w[i] * w[i];
+            }
+        }
+        
+        public static void gen_laguerre_compute_np ( int order, int np, double[] p, ref double[] x,
+        ref double[] w )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    GEN_LAGUERRE_COMPUTE_NP computes a Generalized Laguerre quadrature rule.
+        //
+        //  Discussion:
+        //
+        //    In the simplest case, ALPHA is 0, and we are approximating the
+        //    integral from 0 to +oo of exp(-X) * F(X).  When this is so,
+        //    it is easy to modify the rule to approximate the integral from
+        //    A to +oo as well.
+        //
+        //    If ALPHA is nonzero, then there is no simple way to extend the
+        //    rule to approximate the integral from A to +oo.  The simplest
+        //    procedures would be to approximate the integral from 0 to A.
+        //
+        //    If the integral to approximate is:
+        //
+        //        Integral ( A <= X < +oo ) exp ( - X ) * F(X) dX
+        //      or
+        //        Integral ( 0 <= X < +oo ) exp ( - X ) * X^ALPHA * F(X) dX
+        //
+        //    then the quadrature rule is:
+        //
+        //      exp ( - A ) * Sum ( 1 <= I <= ORDER ) W(I) * F ( A+X(I) )
+        //    or
+        //      Sum ( 1 <= I <= ORDER ) W(I) * F ( X(I) )
+        //
+        //
+        //    If the integral to approximate is:
+        //
+        //        Integral ( A <= X < +oo ) F(X) dX
+        //      or
+        //        Integral ( 0 <= X < +oo ) X^ALPHA * F(X) dX
+        //
+        //    then the quadrature rule is:
+        //
+        //      exp ( - A ) * Sum ( 1 <= I <= ORDER )
+        //        W(I) * exp(A+X(I)) * F ( A+X(I) )
+        //    or
+        //      Sum ( 1 <= I <= ORDER ) W(I) * exp(X(I)) * F ( X(I) )
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    22 June 2009
+        //
+        //  Author:
+        //
+        //    Original FORTRAN77 version by Arthur Stroud, Don Secrest.
+        //    C++ version by John Burkardt.
+        //
+        //  Reference:
+        //
+        //    Arthur Stroud, Don Secrest,
+        //    Gaussian Quadrature Formulas,
+        //    Prentice Hall, 1966,
+        //    LC: QA299.4G3S7.
+        //
+        //  Parameters:
+        //
+        //    Input, int ORDER, the order.
+        //    1 <= ORDER.
+        //
+        //    Input, double P[1], contains parameters.
+        //    P[0] = ALPHA, the exponent of the X factor.
+        //    Set ALPHA = 0.0 for the simplest rule.
+        //    ALPHA must be nonnegative.
+        //
+        //    Output, double X[ORDER], the abscissas.
+        //
+        //    Output, double W[ORDER], the weights.
+        //
+        {
+            double alpha;
+
+            alpha = p[0];
+
+            gen_laguerre_compute(order, alpha, ref x, ref w);
+        }
+
+        public static void gen_laguerre_compute(int n, double alpha, ref double[] x, ref double[] w)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    GEN_LAGUERRE_COMPUTE: generalized Gauss-Laguerre quadrature rule.
+            //
+            //  Discussion:
+            //
+            //    The integral:
+            //
+            //      integral ( 0 <= x < +oo ) exp ( - x ) * x^alpha * f(x) dx
+            //
+            //    The quadrature rule:
+            //
+            //      sum ( 1 <= i <= n ) w(i) * f ( x(i) )
+            //
+            //    The integral:
+            //
+            //      integral ( 0 <= x < +oo ) x^alpha * f(x) dx
+            //
+            //    The quadrature rule:
+            //
+            //      sum ( 1 <= i <= n ) w(i) * exp ( x(i) ) * f ( x(i) )
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    23 April 2011
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Sylvan Elhay, Jaroslav Kautsky.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Sylvan Elhay, Jaroslav Kautsky,
+            //    Algorithm 655: IQPACK, FORTRAN Subroutines for the Weights of
+            //    Interpolatory Quadrature,
+            //    ACM Transactions on Mathematical Software,
+            //    Volume 13, Number 4, December 1987, pages 399-415.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order.
+            //
+            //    Input, double ALPHA, the exponent of the X factor.
+            //    ALPHA must be nonnegative.
+            //
+            //    Output, double X[N], the abscissas.
+            //
+            //    Output, double W[N], the weights.
+            //
+        {
+            double[] bj;
+            int i;
+            double i_r8;
+            double zemu;
+            //
+            //  Define the zero-th moment.
+            //
+            zemu = typeMethods.r8_gamma(alpha + 1.0);
+            //
+            //  Define the Jacobi matrix.
+            //
+            bj = new double[n];
+
+            for (i = 0; i < n; i++)
+            {
+                i_r8 = (double) (i + 1);
+                bj[i] = Math.Sqrt(i_r8 * (i_r8 + alpha));
+            }
+
+            for (i = 0; i < n; i++)
+            {
+                i_r8 = (double) (i + 1);
+                x[i] = 2.0 * i_r8 - 1.0 + alpha;
+            }
+
+            w[0] = Math.Sqrt(zemu);
+
+            for (i = 1; i < n; i++)
+            {
+                w[i] = 0.0;
+            }
+
+            //
+            //  Diagonalize the Jacobi matrix.
+            //
+            IMTQLX.imtqlx(n, ref x, ref bj, ref w);
+
+            for (i = 0; i < n; i++)
+            {
+                w[i] = w[i] * w[i];
+            }
+        }
+
         public static double monomial_quadrature_gen_laguerre ( int expon, double alpha, int order, 
             int option, double[] w, double[] x )
 

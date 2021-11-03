@@ -1160,6 +1160,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntExactnessGenLaguerre", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntExactnessGenHermite", "BurkhardtTest\Quadrature\IntExactnessGenHermite\IntExactnessGenHermite.csproj", "{74EB6F26-35B0-4A28-AA26-B86208F3B294}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XYTest", "BurkhardtTest\IO\XYTest\XYTest.csproj", "{F1F192F5-1C03-42FC-9B1A-895EC2B4B2F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -7254,6 +7256,18 @@ Global
 		{74EB6F26-35B0-4A28-AA26-B86208F3B294}.Release|x64.Build.0 = Release|Any CPU
 		{74EB6F26-35B0-4A28-AA26-B86208F3B294}.Release|x86.ActiveCfg = Release|Any CPU
 		{74EB6F26-35B0-4A28-AA26-B86208F3B294}.Release|x86.Build.0 = Release|Any CPU
+		{F1F192F5-1C03-42FC-9B1A-895EC2B4B2F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1F192F5-1C03-42FC-9B1A-895EC2B4B2F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1F192F5-1C03-42FC-9B1A-895EC2B4B2F1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F1F192F5-1C03-42FC-9B1A-895EC2B4B2F1}.Debug|x64.Build.0 = Debug|Any CPU
+		{F1F192F5-1C03-42FC-9B1A-895EC2B4B2F1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F1F192F5-1C03-42FC-9B1A-895EC2B4B2F1}.Debug|x86.Build.0 = Debug|Any CPU
+		{F1F192F5-1C03-42FC-9B1A-895EC2B4B2F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1F192F5-1C03-42FC-9B1A-895EC2B4B2F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1F192F5-1C03-42FC-9B1A-895EC2B4B2F1}.Release|x64.ActiveCfg = Release|Any CPU
+		{F1F192F5-1C03-42FC-9B1A-895EC2B4B2F1}.Release|x64.Build.0 = Release|Any CPU
+		{F1F192F5-1C03-42FC-9B1A-895EC2B4B2F1}.Release|x86.ActiveCfg = Release|Any CPU
+		{F1F192F5-1C03-42FC-9B1A-895EC2B4B2F1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -7832,6 +7846,7 @@ Global
 		{39FFF9B7-3576-497F-A146-946EE2BA6891} = {2D88E252-9454-479B-9C8B-6416F79A3811}
 		{A853BB66-1B22-41E1-9E7D-D4B51C543732} = {2D88E252-9454-479B-9C8B-6416F79A3811}
 		{74EB6F26-35B0-4A28-AA26-B86208F3B294} = {2D88E252-9454-479B-9C8B-6416F79A3811}
+		{F1F192F5-1C03-42FC-9B1A-895EC2B4B2F1} = {6D60C790-FFA9-4760-A754-ABDF0CA736EC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B449416C-C504-4FA8-9E10-10857263A64A}

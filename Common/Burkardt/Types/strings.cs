@@ -421,6 +421,60 @@ namespace Burkardt.Types
             s = String.Join("",s).TrimEnd().ToCharArray();
         }
         
+        public static int s_word_count ( string s )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    S_WORD_COUNT counts the number of "words" in a string.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    05 July 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, string S, the string to be examined.
+            //
+            //    Output, int S_WORD_COUNT, the number of "words" in the string.
+            //    Words are presumed to be separated by one or more blanks.
+            //
+        {
+            bool blank;
+            int char_count;
+            int i;
+            int word_count;
+
+            word_count = 0;
+            blank = true;
+
+            char_count = s.Length;
+
+            for ( i = 0; i < char_count; i++ )
+            {
+                if ( ( s[i] == ' ' ) )
+                {
+                    blank = true;
+                }
+                else if ( blank )
+                {
+                    word_count = word_count + 1;
+                    blank = false;
+                }
+            }
+
+            return word_count;
+        }
+        
         public static void s_word_extract_first ( string s, ref string s1, ref string s2 )
 
         //****************************************************************************80

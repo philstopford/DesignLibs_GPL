@@ -487,6 +487,7 @@
     <projectFile>BurkhardtTest/Quadrature/IntExactnessGenLaguerre/IntExactnessGenLaguerre.csproj</projectFile>
     <projectFile>BurkhardtTest/IO/XYTest/XYTest.csproj</projectFile>
     <projectFile>BurkhardtTest/IO/XYZTest/XYZTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Sandia/SandiaCubatureTest/SandiaCubatureTest.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -6376,6 +6377,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="SandiaCubatureTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Sandia/SandiaCubatureTest/SandiaCubatureTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="Shepard1DTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/Shepard1DTest/Debug/net5.0/Shepard1DTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -9852,6 +9871,7 @@
       <item itemvalue=".NET Project.IntExactnessGenLaguerre" />
       <item itemvalue=".NET Project.XYTest" />
       <item itemvalue=".NET Project.XYZTest" />
+      <item itemvalue=".NET Project.SandiaCubatureTest" />
     </list>
     <recent_temporary>
       <list>

@@ -491,6 +491,9 @@
     <projectFile>BurkhardtTest/Sandia/SandiaRulesTest/SandiaRulesTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Sandia/SandiaRules2Test/SandiaRules2Test.csproj</projectFile>
     <projectFile>BurkhardtTest/Sandia/SandiaSparseTest/SandiaSparseTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Interpolation/RadialBasisFunction/RBFInterp1DTest/RBFInterp1DTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Interpolation/RadialBasisFunction/RBFInterp2DTest/RBFInterp2DTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Interpolation/RadialBasisFunction/RBFInterpnDTest/RBFInterpnDTest.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -6272,6 +6275,60 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="RBFInterp1DTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Interpolation/RadialBasisFunction/RBFInterp1DTest/RBFInterp1DTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="RBFInterp2DTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Interpolation/RadialBasisFunction/RBFInterp2DTest/RBFInterp2DTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="RBFInterpnDTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Interpolation/RadialBasisFunction/RBFInterpnDTest/RBFInterpnDTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="RandomDataTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -9932,6 +9989,9 @@
       <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMAIOTest" />
       <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMBIOTest" />
       <item itemvalue=".NET Project.SandiaSparseTest" />
+      <item itemvalue=".NET Project.RBFInterp1DTest" />
+      <item itemvalue=".NET Project.RBFInterp2DTest" />
+      <item itemvalue=".NET Project.RBFInterpnDTest" />
     </list>
     <recent_temporary>
       <list>

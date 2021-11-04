@@ -1,9 +1,159 @@
 ﻿using System;
+using Burkardt.MatrixNS;
 
 namespace Burkardt.Types
 {
     public static partial class typeMethods
     {
+        public static double[] r8mat_solve_svd ( int m, int n, double[] a, double[] b )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    R8MAT_SOLVE_SVD solves a linear system A*x=b using the SVD.
+        //
+        //  Discussion:
+        //
+        //    When the system is determined, the solution is the solution in the
+        //    ordinary sense, and A*x = b.
+        //
+        //    When the system is overdetermined, the solution minimizes the
+        //    L2 norm of the residual ||A*x-b||.
+        //
+        //    When the system is underdetermined, ||A*x-b|| should be zero, and
+        //    the solution is the solution of minimum L2 norm, ||x||.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    30 June 2012
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int M, N, the number of rows and columns
+        //    in the matrix A.
+        //
+        //    Input, double A[M,*N], the matrix.
+        //
+        //    Input, double B[M], the right hand side.
+        //
+        //    Output, double R8MAT_SOLVE_SVD[N], the solution.
+        //
+        {
+            double[] a_copy;
+            double[] a_pseudo;
+            double[] e;
+            int i;
+            int info;
+            int j;
+            int k;
+            int l;
+            int lda;
+            int ldu;
+            int ldv;
+            int job;
+            double[] s;
+            double[] sp;
+            double[] sdiag;
+            double[] u;
+            double[] v;
+            double[] work;
+            double[] x;
+            //
+            //  Compute the SVD decomposition.
+            //
+            a_copy = r8mat_copy_new(m, n, a);
+            lda = m;
+            sdiag = new double[Math.Max(m + 1, n)];
+            e = new double[Math.Max(m + 1, n)];
+            u = new double[m * m];
+            ldu = m;
+            v = new double[n * n];
+            ldv = n;
+            work = new double[m];
+            job = 11;
+
+            info = DSVDC.dsvdc(ref a_copy, lda, m, n, ref sdiag, ref e, ref u, ldu, ref v, ldv, work, job);
+
+            if (info != 0)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("R8MAT_SOLVE_SVD - Fatal error!");
+                Console.WriteLine("  The SVD could not be calculated.");
+                Console.WriteLine("  LINPACK routine DSVDC returned a nonzero");
+                Console.WriteLine("  value of the error flag, INFO = " + info + "");
+                return null;
+            }
+
+            s = new double [m * n];
+
+            for (j = 0; j < n; j++)
+            {
+                for (i = 0; i < m; i++)
+                {
+                    s[i + j * m] = 0.0;
+                }
+            }
+
+            for (i = 0; i < Math.Min(m, n); i++)
+            {
+                s[i + i * m] = sdiag[i];
+            }
+
+            //
+            //  Compute the pseudo inverse.
+            //
+            sp = new double [n * m];
+
+            for (j = 0; j < m; j++)
+            {
+                for (i = 0; i < n; i++)
+                {
+                    sp[i + j * m] = 0.0;
+                }
+            }
+
+            for (i = 0; i < Math.Min(m, n); i++)
+            {
+                if (s[i + i * m] != 0.0)
+                {
+                    sp[i + i * n] = 1.0 / s[i + i * m];
+                }
+            }
+
+            a_pseudo = new double[n * m];
+
+            for (j = 0; j < m; j++)
+            {
+                for (i = 0; i < n; i++)
+                {
+                    a_pseudo[i + j * n] = 0.0;
+                    for (k = 0; k < n; k++)
+                    {
+                        for (l = 0; l < m; l++)
+                        {
+                            a_pseudo[i + j * n] = a_pseudo[i + j * n] + v[i + k * n] * sp[k + l * n] * u[j + l * m];
+                        }
+                    }
+                }
+            }
+
+            //
+            //  Compute x = A_pseudo * b.
+            //
+            x = r8mat_mv_new(n, m, a_pseudo, b);
+
+            return x;
+        }
+
         public static int r8mat_solve(int n, int rhs_num, ref double[] a)
 
             //****************************************************************************80

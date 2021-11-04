@@ -192,10 +192,10 @@ namespace Burkardt.Stroud
             //    Output, double CONE_VOLUME_3D, the volume of the cone.
             //
         {
-            double pi = 3.141592653589793;
+            
             double value;
 
-            value = (pi / 3.0) * h * r * r;
+            value = (Math.PI / 3.0) * h * r * r;
 
             return value;
         }

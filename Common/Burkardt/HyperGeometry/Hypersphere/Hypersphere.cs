@@ -201,12 +201,12 @@ namespace Burkardt.HyperGeometry.HypersphereNS
             double area;
             int i;
             int m2;
-            double pi = 3.141592653589793;
+            
 
             if ((m % 2) == 0)
             {
                 m2 = m / 2;
-                area = 2.0 * Math.Pow(pi, m2);
+                area = 2.0 * Math.Pow(Math.PI, m2);
                 for (i = 1; i <= m2 - 1; i++)
                 {
                     area = area / ((double) i);
@@ -215,7 +215,7 @@ namespace Burkardt.HyperGeometry.HypersphereNS
             else
             {
                 m2 = (m - 1) / 2;
-                area = Math.Pow(2.0, m) * Math.Pow(pi, m2);
+                area = Math.Pow(2.0, m) * Math.Pow(Math.PI, m2);
                 for (i = m2 + 1; i <= 2 * m2; i++)
                 {
                     area = area / ((double) i);
@@ -597,7 +597,7 @@ namespace Burkardt.HyperGeometry.HypersphereNS
         {
             int i;
             int m2;
-            double pi = 3.141592653589793;
+            
             double volume;
 
             if (m % 2 == 0)
@@ -606,13 +606,13 @@ namespace Burkardt.HyperGeometry.HypersphereNS
                 volume = 1.0;
                 for (i = 1; i <= m2; i++)
                 {
-                    volume = volume * pi / ((double) i);
+                    volume = volume * Math.PI / ((double) i);
                 }
             }
             else
             {
                 m2 = (m - 1) / 2;
-                volume = Math.Pow(pi, m2) * Math.Pow(2.0, m);
+                volume = Math.Pow(Math.PI, m2) * Math.Pow(2.0, m);
                 for (i = m2 + 1; i <= 2 * m2 + 1; i++)
                 {
                     volume = volume / ((double) i);
@@ -1215,7 +1215,7 @@ namespace Burkardt.HyperGeometry.HypersphereNS
         {
             int i;
             int m2;
-            const double r8_pi = 3.141592653589793;
+            
             double volume;
 
             if (m % 2 == 0)
@@ -1224,13 +1224,13 @@ namespace Burkardt.HyperGeometry.HypersphereNS
                 volume = 1.0;
                 for (i = 1; i <= m2; i++)
                 {
-                    volume = volume * r8_pi / ((double) i);
+                    volume = volume * Math.PI / ((double) i);
                 }
             }
             else
             {
                 m2 = (m - 1) / 2;
-                volume = Math.Pow(r8_pi, m2) * Math.Pow(2.0, m);
+                volume = Math.Pow(Math.PI, m2) * Math.Pow(2.0, m);
                 for (i = m2 + 1; i <= 2 * m2 + 1; i++)
                 {
                     volume = volume / ((double) i);

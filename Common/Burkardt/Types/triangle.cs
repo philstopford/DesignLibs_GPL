@@ -216,7 +216,7 @@ namespace Burkardt.Types
             double a;
             double b;
             double c;
-            double pi = 3.141592653589793;
+            
 
             a = Math.Sqrt(Math.Pow(t[0 + 1 * 2] - t[0 + 0 * 2], 2)
                           + Math.Pow(t[1 + 1 * 2] - t[1 + 0 * 2], 2));
@@ -231,15 +231,15 @@ namespace Burkardt.Types
             //
             if (a == 0.0 && b == 0.0 && c == 0.0)
             {
-                angle[0] = 2.0 * pi / 3.0;
-                angle[1] = 2.0 * pi / 3.0;
-                angle[2] = 2.0 * pi / 3.0;
+                angle[0] = 2.0 * Math.PI / 3.0;
+                angle[1] = 2.0 * Math.PI / 3.0;
+                angle[2] = 2.0 * Math.PI / 3.0;
                 return;
             }
 
             if (c == 0.0 || a == 0.0)
             {
-                angle[0] = pi;
+                angle[0] = Math.PI;
             }
             else
             {
@@ -248,7 +248,7 @@ namespace Burkardt.Types
 
             if (a == 0.0 || b == 0.0)
             {
-                angle[1] = pi;
+                angle[1] = Math.PI;
             }
             else
             {
@@ -257,7 +257,7 @@ namespace Burkardt.Types
 
             if (b == 0.0 || c == 0.0)
             {
-                angle[2] = pi;
+                angle[2] = Math.PI;
             }
             else
             {
@@ -456,7 +456,7 @@ namespace Burkardt.Types
             double a;
             double b;
             double c;
-            double pi = 3.141592653589793;
+            
 
             angle = new double[3];
 
@@ -473,15 +473,15 @@ namespace Burkardt.Types
             //
             if (a == 0.0 && b == 0.0 && c == 0.0)
             {
-                angle[0] = 2.0 * pi / 3.0;
-                angle[1] = 2.0 * pi / 3.0;
-                angle[2] = 2.0 * pi / 3.0;
+                angle[0] = 2.0 * Math.PI / 3.0;
+                angle[1] = 2.0 * Math.PI / 3.0;
+                angle[2] = 2.0 * Math.PI / 3.0;
                 return angle;
             }
 
             if (c == 0.0 || a == 0.0)
             {
-                angle[0] = pi;
+                angle[0] = Math.PI;
             }
             else
             {
@@ -490,7 +490,7 @@ namespace Burkardt.Types
 
             if (a == 0.0 || b == 0.0)
             {
-                angle[1] = pi;
+                angle[1] = Math.PI;
             }
             else
             {
@@ -499,7 +499,7 @@ namespace Burkardt.Types
 
             if (b == 0.0 || c == 0.0)
             {
-                angle[2] = pi;
+                angle[2] = Math.PI;
             }
             else
             {
@@ -2867,7 +2867,7 @@ namespace Burkardt.Types
             double a;
             double b;
             double c;
-            const double r8_pi = 3.141592653589793;
+            
 
             a = Math.Sqrt(Math.Pow(t[0 + 1 * 3] - t[0 + 0 * 3], 2)
                      + Math.Pow(t[1 + 1 * 3] - t[1 + 0 * 3], 2)
@@ -2885,15 +2885,15 @@ namespace Burkardt.Types
             //
             if (a == 0.0 && b == 0.0 && c == 0.0)
             {
-                angle[angleIndex + 0] = 2.0 * r8_pi / 3.0;
-                angle[angleIndex + 1] = 2.0 * r8_pi / 3.0;
-                angle[angleIndex + 2] = 2.0 * r8_pi / 3.0;
+                angle[angleIndex + 0] = 2.0 * Math.PI / 3.0;
+                angle[angleIndex + 1] = 2.0 * Math.PI / 3.0;
+                angle[angleIndex + 2] = 2.0 * Math.PI / 3.0;
                 return;
             }
 
             if (c == 0.0 || a == 0.0)
             {
-                angle[angleIndex + 0] = r8_pi;
+                angle[angleIndex + 0] = Math.PI;
             }
             else
             {
@@ -2902,7 +2902,7 @@ namespace Burkardt.Types
 
             if (a == 0.0 || b == 0.0)
             {
-                angle[angleIndex + 1] = r8_pi;
+                angle[angleIndex + 1] = Math.PI;
             }
             else
             {
@@ -2911,7 +2911,7 @@ namespace Burkardt.Types
 
             if (b == 0.0 || c == 0.0)
             {
-                angle[angleIndex + 2] = r8_pi;
+                angle[angleIndex + 2] = Math.PI;
             }
             else
             {

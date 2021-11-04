@@ -59,7 +59,7 @@ namespace Burkardt.Stroud
             double ct1;
             int i;
             int j;
-            double pi = 3.141592653589793;
+            
             double quad;
             double result;
             double st1;
@@ -75,13 +75,13 @@ namespace Burkardt.Stroud
 
             for (i = 0; i < n + 1; i++)
             {
-                angle = 2.0 * pi * (double)(i + 1) / (double)(n + 1);
+                angle = 2.0 * Math.PI * (double)(i + 1) / (double)(n + 1);
                 ct1 = Math.Cos(angle);
                 st1 = Math.Sin(angle);
 
                 for (j = 0; j < n + 2; j++)
                 {
-                    angle = 2.0 * pi * (double)(j + 1) / (double)(n + 2);
+                    angle = 2.0 * Math.PI * (double)(j + 1) / (double)(n + 2);
                     u = r1 + r2 * Math.Cos(angle);
                     x = u * ct1;
                     y = u * st1;
@@ -151,7 +151,7 @@ namespace Burkardt.Stroud
             int j;
             int n;
             int order = 4;
-            double pi = 3.141592653589793;
+            
             double quad;
             double[] r =
             {
@@ -174,13 +174,13 @@ namespace Burkardt.Stroud
 
             for (n = 1; n <= 15; n++)
             {
-                angle = 2.0 * pi * (double)(n) / 15.0;
+                angle = 2.0 * Math.PI * (double)(n) / 15.0;
                 cth = Math.Cos(angle);
                 sth = Math.Sin(angle);
 
                 for (i = 1; i <= 16; i++)
                 {
-                    angle = 2.0 * pi * (double)(i) / 16.0;
+                    angle = 2.0 * Math.PI * (double)(i) / 16.0;
                     ct = Math.Cos(angle);
                     st = Math.Sin(angle);
 
@@ -251,7 +251,7 @@ namespace Burkardt.Stroud
             double angle;
             double cs;
             int i;
-            double pi = 3.141592653589793;
+            
             double quad;
             double result;
             double sn;
@@ -274,7 +274,7 @@ namespace Burkardt.Stroud
 
             for (i = 1; i <= 6; i++)
             {
-                angle = 2.0 * pi * (double)(i) / 6.0;
+                angle = 2.0 * Math.PI * (double)(i) / 6.0;
                 cs = Math.Cos(angle);
                 sn = Math.Sin(angle);
 
@@ -358,7 +358,7 @@ namespace Burkardt.Stroud
             int k;
             int n;
             int order = 2;
-            double pi = 3.141592653589793;
+            
             double quad;
             double result;
             double[] s = { 0.322914992, 0.644171310 };
@@ -372,15 +372,15 @@ namespace Burkardt.Stroud
             double y;
             double z;
 
-            w = 1.0 / (7.0 * r1 * pi);
+            w = 1.0 / (7.0 * r1 * Math.PI);
 
             quad = 0.0;
 
             for (n = 1; n <= 7; n++)
             {
                 u = 0.5 * Math.Sqrt(3.0) * r2;
-                cth = Math.Cos(2.0 * pi * (double)(n) / 7.0);
-                sth = Math.Sin(2.0 * pi * (double)(n) / 7.0);
+                cth = Math.Cos(2.0 * Math.PI * (double)(n) / 7.0);
+                sth = Math.Sin(2.0 * Math.PI * (double)(n) / 7.0);
 
                 for (i = 1; i <= 2; i++)
                 {
@@ -458,9 +458,9 @@ namespace Burkardt.Stroud
             //
         {
             double area;
-            double pi = 3.141592653589793;
+            
 
-            area = 4.0 * pi * pi * r1 * r2;
+            area = 4.0 * Math.PI * Math.PI * r1 * r2;
 
             return area;
         }
@@ -520,7 +520,7 @@ namespace Burkardt.Stroud
             int j;
             int n;
             int order = 8;
-            double pi = 3.141592653589793;
+            
             double quad;
             double result;
             double[] rtab;
@@ -543,7 +543,7 @@ namespace Burkardt.Stroud
 
             for (n = 1; n <= 15; n++)
             {
-                angle = 2.0 * pi * (double)(n) / 15.0;
+                angle = 2.0 * Math.PI * (double)(n) / 15.0;
                 cth = Math.Cos(angle);
                 sth = Math.Sin(angle);
 
@@ -623,7 +623,7 @@ namespace Burkardt.Stroud
             double b2 = 4.0 / 108.0;
             double cs;
             int i;
-            double pi = 3.141592653589793;
+            
             double quad;
             double result;
             double sn;
@@ -648,8 +648,8 @@ namespace Burkardt.Stroud
 
             for (i = 1; i <= 6; i++)
             {
-                cs = Math.Cos((double)(i) * pi / 3.0);
-                sn = Math.Sin((double)(i) * pi / 3.0);
+                cs = Math.Cos((double)(i) * Math.PI / 3.0);
+                sn = Math.Sin((double)(i) * Math.PI / 3.0);
 
                 x = u1 * cs;
                 y = u1 * sn;
@@ -710,9 +710,9 @@ namespace Burkardt.Stroud
             //
         {
             double area;
-            double pi = 3.141592653589793;
+            
 
-            area = 16.0 * pi * r1 * r2;
+            area = 16.0 * Math.PI * r1 * r2;
 
             return area;
         }
@@ -750,10 +750,10 @@ namespace Burkardt.Stroud
             //    Output, double TORUS_SQUARE_VOLUME_3D, the volume of the torus.
             //
         {
-            double pi = 3.141592653589793;
+            
             double volume;
 
-            volume = 8.0 * pi * r1 * r2 * r2;
+            volume = 8.0 * Math.PI * r1 * r2 * r2;
 
             return volume;
         }
@@ -789,10 +789,10 @@ namespace Burkardt.Stroud
             //    Output, double TORUS_VOLUME_3D, the volume of the torus.
             //
         {
-            double pi = 3.141592653589793;
+            
             double volume;
 
-            volume = 2.0 * pi * pi * r1 * r2 * r2;
+            volume = 2.0 * Math.PI * Math.PI * r1 * r2 * r2;
 
             return volume;
         }

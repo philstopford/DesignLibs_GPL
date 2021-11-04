@@ -40,7 +40,7 @@ namespace Burkardt.Types
             double[] a;
             double c;
             int i;
-            double pi = 3.141592653589793;
+            
             double theta;
 
             a = new double[n];
@@ -53,7 +53,7 @@ namespace Burkardt.Types
             {
                 for ( i = 0; i < n; i++ )
                 {
-                    theta = ( double ) ( n - i - 1 ) * pi / ( double ) ( n - 1 );
+                    theta = ( double ) ( n - i - 1 ) * Math.PI / ( double ) ( n - 1 );
 
                     c = Math.Cos ( theta );
 

@@ -41,7 +41,7 @@ namespace Burkardt.ClenshawCurtisNS
             //    abscissa in the Clenshaw Curtis rule of order ORDER.
             //
         {
-            double pi = 3.141592653589793;
+            
             double value;
 
             if (order < 1)
@@ -62,7 +62,7 @@ namespace Burkardt.ClenshawCurtisNS
             }
             else if (i <= order)
             {
-                value = Math.Cos((double) (order - i) * pi
+                value = Math.Cos((double) (order - i) * Math.PI
                                  / (double) (order - 1));
             }
             else

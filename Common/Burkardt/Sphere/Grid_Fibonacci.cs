@@ -136,7 +136,7 @@ namespace Burkardt.SphereNS
             int j;
             double ng_r8;
             double r8_phi;
-            const double r8_pi = 3.141592653589793;
+            
             double sphi;
             double theta;
             double[] xyz;
@@ -149,7 +149,7 @@ namespace Burkardt.SphereNS
             for (j = 0; j < ng; j++)
             {
                 i_r8 = (double)(-ng + 1 + 2 * j);
-                theta = 2.0 * r8_pi * i_r8 / r8_phi;
+                theta = 2.0 * Math.PI * i_r8 / r8_phi;
                 sphi = i_r8 / ng_r8;
                 cphi = Math.Sqrt((ng_r8 + i_r8) * (ng_r8 - i_r8)) / ng_r8;
                 xyz[0 + j * 3] = cphi * Math.Sin(theta);

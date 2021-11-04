@@ -32,7 +32,7 @@ namespace Burkardt.PointsNS
             //
         {
             int i;
-            const double r8_pi = 3.141592653589793;
+            
             double theta;
             double[] x;
 
@@ -40,7 +40,7 @@ namespace Burkardt.PointsNS
 
             for ( i = 0; i < n; i++ )
             {
-                theta = r8_pi * ( double ) ( 2 * n - 1 - 2 * i ) 
+                theta = Math.PI * ( double ) ( 2 * n - 1 - 2 * i ) 
                         / ( double ) ( 2 * n );
                 x[i] = Math.Cos ( theta );
             }
@@ -75,7 +75,7 @@ namespace Burkardt.PointsNS
             //
         {
             int i;
-            const double r8_pi = 3.141592653589793;
+            
             double theta;
             double[] x;
 
@@ -83,7 +83,7 @@ namespace Burkardt.PointsNS
 
             for ( i = 0; i < n; i++ )
             {
-                theta = r8_pi * ( double ) ( n - i ) 
+                theta = Math.PI * ( double ) ( n - i ) 
                         / ( double ) ( n + 1 );
                 x[i] = Math.Cos ( theta );
             }

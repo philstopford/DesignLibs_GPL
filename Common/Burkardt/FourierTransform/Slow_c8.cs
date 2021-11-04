@@ -26,7 +26,7 @@ namespace Burkardt.FourierTransform
             //        0 <= I2 <= N2 - 1,
             //
             //      X(I1,I2) = Sum ( 0 <= K2 <= N2 - 1 ) Sum ( 0 <= K1 <= N1 - 1 ) 
-            //        Y(K1,K2) * exp ( 2 pi i I1 K1 / N1 ) * exp ( 2 pi i I2 K2 / N2 )
+            //        Y(K1,K2) * exp ( 2 Math.PI i I1 K1 / N1 ) * exp ( 2 Math.PI i I2 K2 / N2 )
             //
             //  Licensing:
             //
@@ -119,7 +119,7 @@ namespace Burkardt.FourierTransform
             //        0 <= I2 <= N2 - 1,
             //
             //      Y(I1,I2) = Sum ( 0 <= K2 <= N2 - 1 ) Sum ( 0 <= K1 <= N1 - 1 ) 
-            //        X(K1,K2) * exp ( - 2 pi i I1 K1 / N1 ) * exp ( - 2 pi i I2 K2 / N2 )
+            //        X(K1,K2) * exp ( - 2 Math.PI i I1 K1 / N1 ) * exp ( - 2 Math.PI i I2 K2 / N2 )
             //
             //  Licensing:
             //
@@ -202,7 +202,7 @@ namespace Burkardt.FourierTransform
             //
             //    For 0 <= I <= N - 1
             //
-            //      X(I) = 1/N * Sum ( 0 <= J <= N - 1 ) Y(J) * exp ( 2 pi i I J / N )
+            //      X(I) = 1/N * Sum ( 0 <= J <= N - 1 ) Y(J) * exp ( 2 Math.PI i I J / N )
             //
             //  Licensing:
             //
@@ -266,7 +266,7 @@ namespace Burkardt.FourierTransform
             //
             //    For 0 <= I <= N - 1
             //
-            //      Y(I) = Sum ( 0 <= J <= N - 1 ) X(J) * exp ( - 2 pi i I J / N )
+            //      Y(I) = Sum ( 0 <= J <= N - 1 ) X(J) * exp ( - 2 Math.PI i I J / N )
             //
             //  Licensing:
             //

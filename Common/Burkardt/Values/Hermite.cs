@@ -206,7 +206,7 @@
             //  Norm:
             //
             //    Integral ( -oo < X < +oo ) exp ( - 0.5 * X^2 ) * He(M,X) He(N,X) dX 
-            //    = sqrt ( 2 * pi ) * N! * delta ( M, N )
+            //    = sqrt ( 2 * Math.PI ) * N! * delta ( M, N )
             //
             //  Licensing:
             //
@@ -900,7 +900,7 @@
             //  Norm:
             //
             //    Integral ( -oo < X < +oo ) exp ( - 0.5 * X^2 ) * He(M,X) He(N,X) dX 
-            //    = sqrt ( 2 * pi ) * N! * delta ( M, N )
+            //    = sqrt ( 2 * Math.PI ) * N! * delta ( M, N )
             //
             //  Licensing:
             //

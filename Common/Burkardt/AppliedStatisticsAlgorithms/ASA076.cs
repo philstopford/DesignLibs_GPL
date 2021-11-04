@@ -19,7 +19,7 @@ namespace Burkardt.AppliedStatistics
         //    Although it was originally formulated in terms of the bivariate
         //    normal function, the function can be defined more directly as
         //
-        //      T(H,A) = 1 / ( 2 * pi ) *
+        //      T(H,A) = 1 / ( 2 * Math.PI ) *
         //        Integral ( 0 <= X <= A ) e^(H^2*(1+X^2)/2) / (1+X^2) dX
         //
         //    In Mathematica, the function can be evaluated by:

@@ -51,9 +51,9 @@ namespace Burkardt.SphereNS
             //
         {
             double area;
-            double pi = 3.141592653589793;
+            
 
-            area = a + b + c - pi;
+            area = a + b + c - Math.PI;
 
             return area;
         }

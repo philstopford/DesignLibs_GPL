@@ -62,7 +62,7 @@ namespace Burkardt.Stroud
             int i;
             int j;
             int nt;
-            double pi = 3.141592653589793;
+            
             double quad;
             double[] ra;
             double result;
@@ -107,7 +107,7 @@ namespace Burkardt.Stroud
             quad = 0.0;
             for (i = 0; i < nt; i++)
             {
-                t = 2.0 * pi * (double)(i - 1) / (double)(nt);
+                t = 2.0 * Math.PI * (double)(i - 1) / (double)(nt);
                 for (j = 0; j < nr; j++)
                 {
                     x = center[0] + ra[j] * Math.Cos(t);
@@ -153,10 +153,10 @@ namespace Burkardt.Stroud
             //    Output, double CIRCLE_ANNULUS_AREA_2D, the area of the annulus.
             //
         {
-            double pi = 3.141592653589793;
+            
             double value;
 
-            value = pi * (radius1 + radius2) * (radius2 - radius1);
+            value = Math.PI * (radius1 + radius2) * (radius2 - radius1);
 
             return value;
         }
@@ -368,9 +368,9 @@ namespace Burkardt.Stroud
             //
         {
             double area;
-            double pi = 3.141592653589793;
+            
 
-            area = pi * r * r;
+            area = Math.PI * r * r;
 
             return area;
         }
@@ -414,7 +414,7 @@ namespace Burkardt.Stroud
             //
         {
             double area = 0;
-            double pi = 3.141592653589793;
+            
             double theta;
 
             if (h <= 0.0)
@@ -429,11 +429,11 @@ namespace Burkardt.Stroud
             else if (h <= 2.0 * r)
             {
                 theta = 2.0 * Math.Asin(Math.Sqrt(h * (2.0 * r - h)) / r);
-                area = r * r * (pi - (theta - Math.Sin(theta)) / 2.0);
+                area = r * r * (Math.PI - (theta - Math.Sin(theta)) / 2.0);
             }
             else if (2.0 * r <= h)
             {
-                area = pi * r * r;
+                area = Math.PI * r * r;
             }
 
             return area;
@@ -494,7 +494,7 @@ namespace Burkardt.Stroud
         {
             double angle;
             int i;
-            double pi = 3.141592653589793;
+            
             double quad;
             double result;
             double volume;
@@ -505,7 +505,7 @@ namespace Burkardt.Stroud
 
             for (i = 0; i < order; i++)
             {
-                angle = (double)(2 * i) * pi / (double)(order);
+                angle = (double)(2 * i) * Math.PI / (double)(order);
                 x = center[0] + radius * Math.Cos(angle);
                 y = center[1] + radius * Math.Sin(angle);
                 quad = quad + func(setting, x, y);
@@ -513,7 +513,7 @@ namespace Burkardt.Stroud
 
             quad = quad / (double)(order);
 
-            volume = pi * radius * radius;
+            volume = Math.PI * radius * radius;
             result = quad * volume;
 
             return result;
@@ -609,7 +609,7 @@ namespace Burkardt.Stroud
             double c;
             double d;
             int i;
-            double pi = 3.141592653589793;
+            
             double u;
             double v;
             double w;
@@ -625,7 +625,7 @@ namespace Burkardt.Stroud
 
                 for (i = 0; i < nt; i++)
                 {
-                    ta[i] = (double)(2 * i) * pi / (double)(nt);
+                    ta[i] = (double)(2 * i) * Math.PI / (double)(nt);
                 }
 
                 for (i = 0; i < nt; i++)
@@ -642,7 +642,7 @@ namespace Burkardt.Stroud
 
                 for (i = 0; i < nt; i++)
                 {
-                    ta[i] = (double)(2 * i) * pi / (double)(nt);
+                    ta[i] = (double)(2 * i) * Math.PI / (double)(nt);
                 }
 
                 for (i = 0; i < nt; i++)
@@ -659,7 +659,7 @@ namespace Burkardt.Stroud
 
                 for (i = 0; i < nt; i++)
                 {
-                    ta[i] = (double)(2 * i) * pi / (double)(nt);
+                    ta[i] = (double)(2 * i) * Math.PI / (double)(nt);
                 }
 
                 for (i = 0; i < nt; i++)
@@ -683,7 +683,7 @@ namespace Burkardt.Stroud
 
                 for (i = 0; i < nt; i++)
                 {
-                    ta[i] = (double)(2 * i) * pi / (double)(nt);
+                    ta[i] = (double)(2 * i) * Math.PI / (double)(nt);
                 }
 
                 for (i = 0; i < nt; i++)
@@ -712,7 +712,7 @@ namespace Burkardt.Stroud
 
                 for (i = 0; i < nt; i++)
                 {
-                    ta[i] = (double)(2 * i) * pi / (double)(nt);
+                    ta[i] = (double)(2 * i) * Math.PI / (double)(nt);
                 }
 
                 for (i = 0; i < nt; i++)
@@ -736,7 +736,7 @@ namespace Burkardt.Stroud
 
                 for (i = 0; i < nt; i++)
                 {
-                    ta[i] = (double)(2 * i) * pi / (double)(nt);
+                    ta[i] = (double)(2 * i) * Math.PI / (double)(nt);
                 }
 
                 for (i = 0; i < nt; i++)
@@ -762,7 +762,7 @@ namespace Burkardt.Stroud
 
                 for (i = 0; i < nt; i++)
                 {
-                    ta[i] = (double)(2 * i) * pi / (double)(nt);
+                    ta[i] = (double)(2 * i) * Math.PI / (double)(nt);
                 }
 
                 for (i = 0; i < nt; i++)
@@ -788,7 +788,7 @@ namespace Burkardt.Stroud
 
                 for (i = 0; i < nt; i++)
                 {
-                    ta[i] = (double)(2 * i) * pi / (double)(nt);
+                    ta[i] = (double)(2 * i) * Math.PI / (double)(nt);
                 }
 
                 for (i = 0; i < nt; i++)
@@ -1330,7 +1330,7 @@ namespace Burkardt.Stroud
             int j;
             int k;
             int nr;
-            double pi = 3.141592653589793;
+            
             double r;
             double[] ra;
             double[] rw;
@@ -1696,7 +1696,7 @@ namespace Burkardt.Stroud
 
                 for (i = 0; i < 10; i++)
                 {
-                    a = 2.0 * pi * (double)(i) / 10.0;
+                    a = 2.0 * Math.PI * (double)(i) / 10.0;
                     xtab[i + 1] = r * Math.Cos(a);
                     ytab[i + 1] = r * Math.Sin(a);
                 }
@@ -1705,7 +1705,7 @@ namespace Burkardt.Stroud
 
                 for (i = 0; i < 10; i++)
                 {
-                    a = 2.0 * pi * (double)(i) / 10.0;
+                    a = 2.0 * Math.PI * (double)(i) / 10.0;
                     xtab[i + 11] = r * Math.Cos(a);
                     ytab[i + 11] = r * Math.Sin(a);
                 }
@@ -1836,8 +1836,8 @@ namespace Burkardt.Stroud
                 i = 0;
                 for (j = 0; j < 16; j++)
                 {
-                    c = Math.Cos(pi * (double)(j) / 8.0);
-                    s = Math.Sin(pi * (double)(j) / 8.0);
+                    c = Math.Cos(Math.PI * (double)(j) / 8.0);
+                    s = Math.Sin(Math.PI * (double)(j) / 8.0);
 
                     for (k = 0; k < nr; k++)
                     {

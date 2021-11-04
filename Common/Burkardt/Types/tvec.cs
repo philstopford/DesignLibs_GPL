@@ -1,4 +1,6 @@
-﻿namespace Burkardt.Types
+﻿using System;
+
+namespace Burkardt.Types
 {
     public static partial class typeMethods
     {
@@ -40,7 +42,7 @@
             //
         {
             int i;
-            double pi = 3.141592653589793;
+            
             double[] t;
 
             if (nt < 1)
@@ -52,7 +54,7 @@
 
             for (i = 1; i <= nt; i++)
             {
-                t[i - 1] = (double)(2 * (i - 1)) * pi / (double)(nt);
+                t[i - 1] = (double)(2 * (i - 1)) * Math.PI / (double)(nt);
             }
 
             return t;
@@ -97,7 +99,7 @@
             //
         {
             int i;
-            double pi = 3.141592653589793;
+            
             double[] t;
 
             if (nt < 1)
@@ -109,7 +111,7 @@
 
             for (i = 1; i <= nt; i++)
             {
-                t[i - 1] = (double)(2 * i - 1) * pi / (double)(nt);
+                t[i - 1] = (double)(2 * i - 1) * Math.PI / (double)(nt);
             }
 
             return t;
@@ -153,7 +155,7 @@
             //
         {
             int i;
-            double pi = 3.141592653589793;
+            
             double[] t;
 
             if (nt < 1)
@@ -165,13 +167,13 @@
 
             if (nt == 1)
             {
-                t[0] = pi;
+                t[0] = Math.PI;
             }
             else
             {
                 for (i = 1; i <= nt; i++)
                 {
-                    t[i - 1] = (double)(2 * (i - 1)) * pi / (double)(nt - 1);
+                    t[i - 1] = (double)(2 * (i - 1)) * Math.PI / (double)(nt - 1);
                 }
             }
 

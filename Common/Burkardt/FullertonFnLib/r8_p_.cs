@@ -168,7 +168,7 @@ namespace Burkardt.FullertonFnLib
             int i;
             int ia;
             int n;
-            const double pi = 3.141592653589793238462643383279503;
+            
             double sgnga = 0;
             double sgngax = 0;
             double sinpia;
@@ -285,16 +285,16 @@ namespace Burkardt.FullertonFnLib
                 return value;
             }
 
-            cospix = Math.Cos(pi * x);
-            sinpix = Math.Sin(pi * x);
-            cospia = Math.Cos(pi * a);
-            sinpia = Math.Sin(pi * a);
+            cospix = Math.Cos(Math.PI * x);
+            sinpix = Math.Sin(Math.PI * x);
+            cospia = Math.Cos(Math.PI * a);
+            sinpia = Math.Sin(Math.PI * a);
 
             errpch = Math.Abs(x) * (1.0 + Math.Log(b));
             den = cospix + cospia * sinpix / sinpia;
             err = (Math.Abs(x) * (Math.Abs(sinpix)
                                   + Math.Abs(cospia * cospix / sinpia))
-                   + Math.Abs(a * sinpix) / sinpia / sinpia) * pi;
+                   + Math.Abs(a * sinpix) / sinpia / sinpia) * Math.PI;
             err = errpch + err / Math.Abs(den);
 
             value = value / den;
@@ -408,7 +408,7 @@ namespace Burkardt.FullertonFnLib
             int k;
             int ndx;
             int nterms;
-            const double pi = 3.141592653589793238462643383279503;
+            
             double poly1;
             double q;
             double rho;
@@ -525,9 +525,9 @@ namespace Burkardt.FullertonFnLib
             //  we have r8_poch1(bp,x), but a is lt -0.5.  we therefore use a reflection
             //  formula to obtain r8_poch1(a,x).
             //
-            sinpxx = Math.Sin(pi * x) / x;
-            sinpx2 = Math.Sin(0.5 * pi * x);
-            trig = sinpxx * r8_cot(ref data.cotdata, pi * b) - 2.0 * sinpx2 * (sinpx2 / x);
+            sinpxx = Math.Sin(Math.PI * x) / x;
+            sinpx2 = Math.Sin(0.5 * Math.PI * x);
+            trig = sinpxx * r8_cot(ref data.cotdata, Math.PI * b) - 2.0 * sinpx2 * (sinpx2 / x);
 
             value = trig + (1.0 + x * trig) * value;
 
@@ -641,7 +641,7 @@ namespace Burkardt.FullertonFnLib
             double aux;
             int i;
             int n;
-            const double pi = 3.14159265358979323846264338327950;
+            
             double[] psics = {
                 -0.38057080835217921520437677667039E-01,
                 +0.49141539302938712748204699654277,
@@ -772,7 +772,7 @@ namespace Burkardt.FullertonFnLib
                 if (x < 0.0)
                 {
                     value = Math.Log(Math.Abs(x)) - 0.5 / x + aux
-                            - pi * r8_cot(ref data.cotdata, pi * x);
+                            - Math.PI * r8_cot(ref data.cotdata, Math.PI * x);
                 }
                 else if (0.0 < x)
                 {

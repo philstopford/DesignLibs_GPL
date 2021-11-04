@@ -235,7 +235,7 @@ namespace Burkardt.SphereNS
             int n;
             double[] p;
             double phi;
-            const double pi = 3.141592653589793;
+            
             double theta;
 
             p = new double[3 * point_num];
@@ -255,13 +255,13 @@ namespace Burkardt.SphereNS
             //
             for (lat = 1; lat <= lat_num; lat++)
             {
-                phi = (double)(lat) * pi / (double)(lat_num + 1);
+                phi = (double)(lat) * Math.PI / (double)(lat_num + 1);
                 //
                 //  Along that ring of latitude, compute points at various longitudes.
                 //
                 for (lon = 0; lon < lon_num; lon++)
                 {
-                    theta = (double)(lon) * 2.0 * pi / (double)(lon_num);
+                    theta = (double)(lon) * 2.0 * Math.PI / (double)(lon_num);
 
                     p[0 + n * 3] = pc[0] + r * Math.Sin(phi) * Math.Cos(theta);
                     p[1 + n * 3] = pc[1] + r * Math.Sin(phi) * Math.Sin(theta);
@@ -274,7 +274,7 @@ namespace Burkardt.SphereNS
             //  The south pole.
             //
             theta = 0.0;
-            phi = pi;
+            phi = Math.PI;
             p[0 + n * 3] = pc[0] + r * Math.Sin(phi) * Math.Cos(theta);
             p[1 + n * 3] = pc[1] + r * Math.Sin(phi) * Math.Sin(theta);
             p[2 + n * 3] = pc[2] + r * Math.Cos(phi);
@@ -824,7 +824,7 @@ namespace Burkardt.SphereNS
             int n;
             double[] p;
             double phi;
-            double r8_pi = 3.141592653589793;
+            
             double theta;
 
             p = new double[3 * point_num];
@@ -844,13 +844,13 @@ namespace Burkardt.SphereNS
             //
             for (lat = 1; lat <= lat_num; lat++)
             {
-                phi = (double)(lat) * r8_pi / (double)(lat_num + 1);
+                phi = (double)(lat) * Math.PI / (double)(lat_num + 1);
                 //
                 //  Along that ring of latitude, compute points at various longitudes.
                 //
                 for (lon = 0; lon < lon_num; lon++)
                 {
-                    theta = (double)(lon) * 2.0 * r8_pi / (double)(lon_num);
+                    theta = (double)(lon) * 2.0 * Math.PI / (double)(lon_num);
 
                     p[0 + n * 3] = pc[0] + r * Math.Sin(phi) * Math.Cos(theta);
                     p[1 + n * 3] = pc[1] + r * Math.Sin(phi) * Math.Sin(theta);
@@ -863,7 +863,7 @@ namespace Burkardt.SphereNS
             //  The south pole.
             //
             theta = 0.0;
-            phi = r8_pi;
+            phi = Math.PI;
             p[0 + n * 3] = pc[0] + r * Math.Sin(phi) * Math.Cos(theta);
             p[1 + n * 3] = pc[1] + r * Math.Sin(phi) * Math.Sin(theta);
             p[2 + n * 3] = pc[2] + r * Math.Cos(phi);
@@ -1256,7 +1256,7 @@ namespace Burkardt.SphereNS
             int n;
             double[] p;
             double phi;
-            double r8_pi = 3.141592653589793;
+            
             double theta;
 
             p = new double[3 * point_num];
@@ -1276,13 +1276,13 @@ namespace Burkardt.SphereNS
             //
             for (lat = 1; lat <= lat_num; lat++)
             {
-                phi = (double)(lat) * r8_pi / (double)(lat_num + 1);
+                phi = (double)(lat) * Math.PI / (double)(lat_num + 1);
                 //
                 //  Along that ring of latitude, compute points at various longitudes.
                 //
                 for (lon = 0; lon < lon_num; lon++)
                 {
-                    theta = (double)(lon) * 2.0 * r8_pi / (double)(lon_num);
+                    theta = (double)(lon) * 2.0 * Math.PI / (double)(lon_num);
 
                     p[0 + n * 3] = pc[0] + r * Math.Sin(phi) * Math.Cos(theta);
                     p[1 + n * 3] = pc[1] + r * Math.Sin(phi) * Math.Sin(theta);
@@ -1295,7 +1295,7 @@ namespace Burkardt.SphereNS
             //  The south pole.
             //
             theta = 0.0;
-            phi = r8_pi;
+            phi = Math.PI;
             p[0 + n * 3] = pc[0] + r * Math.Sin(phi) * Math.Cos(theta);
             p[1 + n * 3] = pc[1] + r * Math.Sin(phi) * Math.Sin(theta);
             p[2 + n * 3] = pc[2] + r * Math.Cos(phi);

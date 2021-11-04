@@ -50,7 +50,7 @@ namespace Burkardt.Quadrature
         // Anonymous namespace for non-public functions
         //
         //  
-        //  Self-contained definition of pi and numerical constants
+        //  Self-contained definition of Math.PI and numerical constants
         //
         static double[] J1 =
         {

@@ -763,14 +763,14 @@ namespace Burkardt.Diffusion
 //
 //    A and CL are taken to be positive.  Over each open interval 
 //
-//      ( n - 1/2 pi, n + 1/2 pi ) / A, for N = 0, 1, ...
+//      ( n - 1/2 pi, n + 1/2 Math.PI ) / A, for N = 0, 1, ...
 //
 //    the function TAN ( A * THETA ) monotonically rises from -oo to +00; 
 //    therefore, it can be shown that there is one root of each equation 
 //    in every interval of this form.  Moreover, because of the positivity
 //    of A and CL, we can restrict our search to the interval 
 //
-//      [ n pi, n + 1/2 pi ) / A, for N = 0, 1, ...
+//      [ n pi, n + 1/2 Math.PI ) / A, for N = 0, 1, ...
 //
 //    This function computes K such roots, starting in the first interval,
 //    finding those two roots, moving to the next interval, and so on, until
@@ -820,7 +820,7 @@ namespace Burkardt.Diffusion
             }
 
 //
-//  [ XA_INIT, XB_INIT] = [ n * pi, n+1/2 pi ] / a, n = 0, 1, 2, ...
+//  [ XA_INIT, XB_INIT] = [ n * pi, n+1/2 Math.PI ] / a, n = 0, 1, 2, ...
 //
             double xa_init = 0.0;
             double xb_init = (Math.PI / 2.0) / a;

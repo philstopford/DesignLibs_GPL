@@ -2487,7 +2487,7 @@ namespace Burkardt.FullertonFnLib
         {
             double abscs;
             double abssn;
-            const double pi = 3.14159265358979323846264338327950;
+            
             double value;
 
             if (data.sml == 0.0)
@@ -2508,7 +2508,7 @@ namespace Burkardt.FullertonFnLib
                 {
                     if (sn < 0.0)
                     {
-                        value = -0.5 * pi;
+                        value = -0.5 * Math.PI;
                     }
                     else if (sn == 0.0)
                     {
@@ -2519,7 +2519,7 @@ namespace Burkardt.FullertonFnLib
                     }
                     else
                     {
-                        value = 0.5 * pi;
+                        value = 0.5 * Math.PI;
                     }
 
                     return value;
@@ -2535,7 +2535,7 @@ namespace Burkardt.FullertonFnLib
                     }
                     else
                     {
-                        value = pi;
+                        value = Math.PI;
                     }
 
                     return value;
@@ -2546,12 +2546,12 @@ namespace Burkardt.FullertonFnLib
 
             if (cs < 0.0)
             {
-                value = value + pi;
+                value = value + Math.PI;
             }
 
-            if (pi < value)
+            if (Math.PI < value)
             {
-                value = value - 2.0 * pi;
+                value = value - 2.0 * Math.PI;
             }
 
             return value;

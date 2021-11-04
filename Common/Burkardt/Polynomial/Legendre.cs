@@ -212,7 +212,7 @@ namespace Burkardt.PolynomialNS
             //    However, we plan to use these functions to build spherical
             //    harmonics, so we use a slightly different normalization factor of
             //
-            //      sqrt ( ( ( 2 * N + 1 ) * ( N - M )! ) / ( 4 * pi * ( N + M )! ) )
+            //      sqrt ( ( ( 2 * N + 1 ) * ( N - M )! ) / ( 4 * Math.PI * ( N + M )! ) )
             //
             //  Licensing:
             //
@@ -251,7 +251,7 @@ namespace Burkardt.PolynomialNS
             double factor;
             int i;
             int mm;
-            const double r8_pi = 3.141592653589793;
+            
             double somx2;
 
             if (m < 0)
@@ -325,7 +325,7 @@ namespace Burkardt.PolynomialNS
             for (mm = m; mm <= n; mm++)
             {
                 factor = Math.Sqrt(((double)(2 * mm + 1) * typeMethods.r8_factorial(mm - m))
-                              / (4.0 * r8_pi * typeMethods.r8_factorial(mm + m)));
+                              / (4.0 * Math.PI * typeMethods.r8_factorial(mm + m)));
                 cx[mm] = cx[mm] * factor;
             }
         }
@@ -388,7 +388,7 @@ namespace Burkardt.PolynomialNS
             double pk;
             double pkm1;
             double pkp1;
-            const double r8_pi = 3.141592653589793;
+            
             double t;
             double u;
             double v;
@@ -406,7 +406,7 @@ namespace Burkardt.PolynomialNS
             {
                 mp1mi = m + 1 - i;
 
-                t = (double) (4 * i - 1) * r8_pi / (double) (4 * order + 2);
+                t = (double) (4 * i - 1) * Math.PI / (double) (4 * order + 2);
 
                 x0 = Math.Cos(t) * (1.0 - (1.0 - 1.0 / (double) (order))
                     / (double) (8 * order * order));
@@ -2253,7 +2253,7 @@ namespace Burkardt.PolynomialNS
             double factor;
             int i;
             int j;
-            const double pi = 3.141592653589793;
+            
             double[] v;
 
             v = pm_polynomial_value(mm, n, m, x);
@@ -2263,7 +2263,7 @@ namespace Burkardt.PolynomialNS
             for (j = m; j <= n; j++)
             {
                 factor = Math.Sqrt(((double) (2 * j + 1) * typeMethods.r8_factorial(j - m))
-                              / (4.0 * pi * typeMethods.r8_factorial(j + m)));
+                              / (4.0 * Math.PI * typeMethods.r8_factorial(j + m)));
                 for (i = 0; i < mm; i++)
                 {
                     v[i + j * mm] = v[i + j * mm] * factor;

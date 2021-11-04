@@ -184,7 +184,7 @@ namespace Burkardt.IntegralNS
             //
         { 
             int dim;
-            double pi = 3.141592653589793;
+            
             double value;
 
             for ( dim = 0; dim < dim_num; dim++ )
@@ -208,7 +208,7 @@ namespace Burkardt.IntegralNS
             value = 1.0;
             for ( dim = 0; dim < dim_num; dim++ )
             {
-                value = value * typeMethods.r8_factorial2 ( expon[dim] - 1 ) * Math.Sqrt ( pi ) 
+                value = value * typeMethods.r8_factorial2 ( expon[dim] - 1 ) * Math.Sqrt ( Math.PI ) 
                         / ( double ) Math.Pow ( 2, expon[dim] / 2 );
             }
 
@@ -297,7 +297,7 @@ namespace Burkardt.IntegralNS
             //    Output, double H_INTEGRAL, the value of the integral.
             //
         {
-            const double r8_pi = 3.141592653589793;
+            
             double value;
 
             if ( ( n % 2 ) == 1 )
@@ -306,7 +306,7 @@ namespace Burkardt.IntegralNS
             }
             else
             {
-                value = typeMethods.r8_factorial2 ( n - 1 ) * Math.Sqrt ( r8_pi ) / Math.Pow ( 2.0, n / 2 );
+                value = typeMethods.r8_factorial2 ( n - 1 ) * Math.Sqrt ( Math.PI ) / Math.Pow ( 2.0, n / 2 );
             }
 
             return value;
@@ -398,7 +398,7 @@ namespace Burkardt.IntegralNS
             //    Output, double HE_INTEGRAL, the value of the integral.
             //
         {
-            const double r8_pi = 3.141592653589793;
+            
             double value;
 
             if ( ( n % 2 ) == 1 )
@@ -407,7 +407,7 @@ namespace Burkardt.IntegralNS
             }
             else
             {
-                value = typeMethods.r8_factorial2 ( n - 1 ) * Math.Sqrt ( 2.0 * r8_pi );
+                value = typeMethods.r8_factorial2 ( n - 1 ) * Math.Sqrt ( 2.0 * Math.PI );
             }
 
             return value;

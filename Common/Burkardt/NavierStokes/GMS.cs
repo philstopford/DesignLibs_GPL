@@ -61,33 +61,33 @@ namespace Burkardt.NavierStokesNS
         {
             int i;
             double pi = Math.PI;
-            double pi2 = pi * pi;
-            double pi3 = pi * pi * pi;
+            double pi2 = Math.PI * pi;
+            double pi3 = Math.PI * Math.PI * pi;
             double s;
 
             for (i = 0; i < n; i++)
             {
                 s = Math.Pow(-1.0, Math.Ceiling(x[i]) + Math.Ceiling(y[i]));
 
-                u[i] = pi * s * Math.Sin(t) * Math.Pow(Math.Sin(pi * x[i]), 2) * Math.Sin(2.0 * pi * y[i]);
-                dudt[i] = pi * s * Math.Cos(t) * Math.Pow(Math.Sin(pi * x[i]), 2) * Math.Sin(2.0 * pi * y[i]);
-                dudx[i] = pi2 * s * Math.Sin(t) * Math.Sin(2.0 * pi * x[i]) * Math.Sin(2.0 * pi * y[i]);
-                dudxx[i] = 2.0 * pi3 * s * Math.Sin(t) * Math.Cos(2.0 * pi * x[i]) * Math.Sin(2.0 * pi * y[i]);
-                dudy[i] = 2.0 * pi2 * s * Math.Sin(t) * Math.Pow(Math.Sin(pi * x[i]), 2) * Math.Cos(2.0 * pi * y[i]);
-                dudyy[i] = -4.0 * pi3 * s * Math.Sin(t) * Math.Pow(Math.Sin(pi * x[i]), 2) * Math.Sin(2.0 * pi * y[i]);
+                u[i] = Math.PI * s * Math.Sin(t) * Math.Pow(Math.Sin(pi * x[i]), 2) * Math.Sin(2.0 * Math.PI * y[i]);
+                dudt[i] = Math.PI * s * Math.Cos(t) * Math.Pow(Math.Sin(pi * x[i]), 2) * Math.Sin(2.0 * Math.PI * y[i]);
+                dudx[i] = pi2 * s * Math.Sin(t) * Math.Sin(2.0 * Math.PI * x[i]) * Math.Sin(2.0 * Math.PI * y[i]);
+                dudxx[i] = 2.0 * pi3 * s * Math.Sin(t) * Math.Cos(2.0 * Math.PI * x[i]) * Math.Sin(2.0 * Math.PI * y[i]);
+                dudy[i] = 2.0 * pi2 * s * Math.Sin(t) * Math.Pow(Math.Sin(pi * x[i]), 2) * Math.Cos(2.0 * Math.PI * y[i]);
+                dudyy[i] = -4.0 * pi3 * s * Math.Sin(t) * Math.Pow(Math.Sin(pi * x[i]), 2) * Math.Sin(2.0 * Math.PI * y[i]);
 
-                v[i] = -pi * s * Math.Sin(t) * Math.Sin(2.0 * pi * x[i]) * Math.Pow(Math.Sin(pi * y[i]), 2);
-                dvdt[i] = -pi * s * Math.Cos(t) * Math.Sin(2.0 * pi * x[i]) * Math.Pow(Math.Sin(pi * y[i]), 2);
-                dvdx[i] = -2.0 * pi2 * s * Math.Sin(t) * Math.Cos(2.0 * pi * x[i]) * Math.Pow(Math.Sin(pi * y[i]), 2);
-                dvdxx[i] = 4.0 * pi3 * s * Math.Sin(t) * Math.Sin(2.0 * pi * x[i]) * Math.Pow(Math.Sin(pi * y[i]), 2);
-                dvdy[i] = -pi2 * s * Math.Sin(t) * Math.Sin(2.0 * pi * x[i]) * Math.Sin(2.0 * pi * y[i]);
-                dvdyy[i] = -2.0 * pi3 * s * Math.Sin(t) * Math.Sin(2.0 * pi * x[i]) * Math.Cos(2.0 * pi * y[i]);
+                v[i] = -pi * s * Math.Sin(t) * Math.Sin(2.0 * Math.PI * x[i]) * Math.Pow(Math.Sin(pi * y[i]), 2);
+                dvdt[i] = -pi * s * Math.Cos(t) * Math.Sin(2.0 * Math.PI * x[i]) * Math.Pow(Math.Sin(pi * y[i]), 2);
+                dvdx[i] = -2.0 * pi2 * s * Math.Sin(t) * Math.Cos(2.0 * Math.PI * x[i]) * Math.Pow(Math.Sin(pi * y[i]), 2);
+                dvdxx[i] = 4.0 * pi3 * s * Math.Sin(t) * Math.Sin(2.0 * Math.PI * x[i]) * Math.Pow(Math.Sin(pi * y[i]), 2);
+                dvdy[i] = -pi2 * s * Math.Sin(t) * Math.Sin(2.0 * Math.PI * x[i]) * Math.Sin(2.0 * Math.PI * y[i]);
+                dvdyy[i] = -2.0 * pi3 * s * Math.Sin(t) * Math.Sin(2.0 * Math.PI * x[i]) * Math.Cos(2.0 * Math.PI * y[i]);
 
                 p[i] = rho * s * Math.Sin(t) * Math.Cos(pi * x[i]) * Math.Sin(pi * y[i]);
                 dpdt[i] = rho * s * Math.Cos(t) * Math.Cos(pi * x[i]) * Math.Sin(pi * y[i]);
                 dpdx[i] = -pi * rho * s * Math.Sin(t) * Math.Sin(pi * x[i]) * Math.Sin(pi * y[i]);
                 dpdxx[i] = -pi2 * rho * s * Math.Sin(t) * Math.Cos(pi * x[i]) * Math.Sin(pi * y[i]);
-                dpdy[i] = pi * rho * s * Math.Sin(t) * Math.Cos(pi * x[i]) * Math.Cos(pi * y[i]);
+                dpdy[i] = Math.PI * rho * s * Math.Sin(t) * Math.Cos(pi * x[i]) * Math.Cos(pi * y[i]);
                 dpdyy[i] = -pi2 * rho * s * Math.Sin(t) * Math.Cos(pi * x[i]) * Math.Sin(pi * y[i]);
 
                 us[i] = dudt[i] + u[i] * dudx[i] + v[i] * dudy[i] + dpdx[i] / rho - nu * (dudxx[i] + dudyy[i]);

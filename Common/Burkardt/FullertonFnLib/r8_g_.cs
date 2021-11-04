@@ -677,7 +677,7 @@ namespace Burkardt.FullertonFnLib
             ;
             int i;
             int n;
-            const double pi = 3.14159265358979323846264338327950;
+            
             double sinpiy;
             const double sq2pil = 0.91893853320467274178032973640562;
             double value;
@@ -797,7 +797,7 @@ namespace Burkardt.FullertonFnLib
                     Console.WriteLine("  answer is half precision.");
                 }
 
-                sinpiy = Math.Sin(pi * y);
+                sinpiy = Math.Sin(Math.PI * y);
 
                 if (sinpiy == 0.0)
                 {
@@ -807,7 +807,7 @@ namespace Burkardt.FullertonFnLib
                     return (1);
                 }
 
-                value = -pi / (y * sinpiy * value);
+                value = -Math.PI / (y * sinpiy * value);
             }
 
             return value;

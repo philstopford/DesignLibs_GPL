@@ -205,14 +205,14 @@ namespace Burkardt.IO
             double a;
             int i;
             double r;
-            double r8_pi = 3.141592653589793;
+            
             double theta;
             double theta1;
             double theta2;
 
             r = 1.0;
             theta1 = 0.0;
-            theta2 = 3.0 * 2.0 * r8_pi;
+            theta2 = 3.0 * 2.0 * Math.PI;
             a = 2.0 / (theta2 - theta1);
 
             for (i = 0; i < point_num; i++)

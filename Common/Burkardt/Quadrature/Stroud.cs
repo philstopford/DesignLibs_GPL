@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using Burkardt.IntegralNS;
 using Burkardt.Types;
 
@@ -65,7 +65,7 @@ namespace Burkardt.Quadrature
                int expon;
                int i;
                int j;
-               double pi = 3.141592653589793;
+               
                int r;
                double volume;
 
@@ -78,7 +78,7 @@ namespace Burkardt.Quadrature
                     i = 0;
                     for (r = 1; r <= (n / 2); r++)
                     {
-                         arg = (double)((2 * r - 1) * (j + 1)) * pi / (double)(n);
+                         arg = (double)((2 * r - 1) * (j + 1)) * Math.PI / (double)(n);
 
                          x[i + j * n] = Math.Sqrt(2.0) * Math.Cos(arg) / Math.Sqrt(3.0);
                          i = i + 1;
@@ -982,11 +982,11 @@ namespace Burkardt.Quadrature
                //
           {
                int k;
-               double pi = 3.141592653589793E+00;
+               
                double volume;
                double volume_1d;
 
-               volume_1d = Math.Sqrt(pi);
+               volume_1d = Math.Sqrt(Math.PI);
                volume = Math.Pow(volume_1d, n);
 
                typeMethods.r8vec_zero(n * o, ref x);
@@ -1096,12 +1096,12 @@ namespace Burkardt.Quadrature
                double a;
                int i;
                int k;
-               double pi = 3.141592653589793;
+               
                double r;
                double volume;
                double volume_1d;
 
-               volume_1d = Math.Sqrt(pi);
+               volume_1d = Math.Sqrt(Math.PI);
                volume = Math.Pow(volume_1d, n);
 
                a = volume / (double) (o);
@@ -1244,7 +1244,7 @@ namespace Burkardt.Quadrature
                int k = 0;
                double lambda = 0;
                double mu = 0;
-               double pi = 3.141592653589793E+00;
+               
                double volume = 0;
                double volume_1d = 0;
                double xsi = 0;
@@ -1276,7 +1276,7 @@ namespace Burkardt.Quadrature
                     }
                }
 
-               volume_1d = Math.Sqrt(pi);
+               volume_1d = Math.Sqrt(Math.PI);
                volume = Math.Pow(volume_1d, n);
 
                if (n == 2)
@@ -1555,13 +1555,13 @@ namespace Burkardt.Quadrature
                int i;
                int j;
                int k;
-               double pi = 3.141592653589793;
+               
                double r;
                double s;
                double volume;
                double volume_1d;
 
-               volume_1d = Math.Sqrt(pi);
+               volume_1d = Math.Sqrt(Math.PI);
                volume = Math.Pow(volume_1d, n);
 
                a = 2.0E+00 * volume / (double) (n + 2);
@@ -1717,10 +1717,10 @@ namespace Burkardt.Quadrature
                //
           {
                int k;
-               double pi = 3.141592653589793E+00;
+               
                double volume;
 
-               volume = Math.Sqrt(Math.Pow(pi, n));
+               volume = Math.Sqrt(Math.Pow(Math.PI, n));
 
                typeMethods.r8vec_zero(n * o, ref x);
 
@@ -1832,11 +1832,11 @@ namespace Burkardt.Quadrature
                double a;
                int i;
                int k;
-               double pi = 3.141592653589793;
+               
                double r;
                double volume;
 
-               volume = Math.Sqrt(Math.Pow(pi, n));
+               volume = Math.Sqrt(Math.Pow(Math.PI, n));
 
                a = volume / (double)(o);
                r = Math.Sqrt((double)(n) / 2.0);
@@ -1960,11 +1960,11 @@ namespace Burkardt.Quadrature
                int i1;
                int k;
                bool more;
-               double pi = 3.141592653589793E+00;
+               
                double r;
                double volume;
 
-               volume = Math.Sqrt(Math.Pow(pi, n));
+               volume = Math.Sqrt(Math.Pow(Math.PI, n));
 
                a = volume / (double)(o);
                r = Math.Sqrt(0.5);
@@ -2134,7 +2134,7 @@ namespace Burkardt.Quadrature
                int k = 0;
                double lambda = 0;
                double mu = 0;
-               double pi = 3.141592653589793E+00;
+               
                double volume = 0;
                double xsi = 0;
 
@@ -2165,7 +2165,7 @@ namespace Burkardt.Quadrature
                     }
                }
 
-               volume = Math.Sqrt(Math.Pow(pi, n));
+               volume = Math.Sqrt(Math.Pow(Math.PI, n));
 
                if (n == 2)
                {
@@ -2445,12 +2445,12 @@ namespace Burkardt.Quadrature
                int i;
                int j;
                int k;
-               double pi = 3.141592653589793E+00;
+               
                double r;
                double s;
                double volume;
 
-               volume = Math.Sqrt(Math.Pow(pi, n));
+               volume = Math.Sqrt(Math.Pow(Math.PI, n));
 
                a = 2.0E+00 * volume / (double)(n + 2);
                b = (double)(4 - n) * volume / 2.0E+00
@@ -2614,7 +2614,7 @@ namespace Burkardt.Quadrature
                int i1;
                int k;
                bool more;
-               double pi = 3.141592653589793E+00;
+               
                double r;
                double s;
                double volume;
@@ -2627,7 +2627,7 @@ namespace Burkardt.Quadrature
                     return;
                }
 
-               volume = Math.Sqrt(Math.Pow(pi, n));
+               volume = Math.Sqrt(Math.Pow(Math.PI, n));
 
                a = 4.0E+00 * volume / (double)((n + 2) * (n + 2));
                b = (double)((n - 2) * (n - 2)) * volume / (double)((int)Math.Pow(2, n))
@@ -2792,12 +2792,12 @@ namespace Burkardt.Quadrature
                int j;
                int k;
                bool more;
-               double pi = 3.141592653589793E+00;
+               
                double r;
                double s;
                double volume;
 
-               volume = Math.Sqrt(Math.Pow(pi, n));
+               volume = Math.Sqrt(Math.Pow(Math.PI, n));
 
                s = Math.Sqrt(0.5E+00);
 
@@ -2966,12 +2966,12 @@ namespace Burkardt.Quadrature
                bool more = false;
                double n_r8 = 0;
                int option = 0;
-               double pi = 3.141592653589793E+00;
+               
                double r = 0;
                double s = 0;
                double volume = 0;
 
-               volume = Math.Sqrt(Math.Pow(pi, n));
+               volume = Math.Sqrt(Math.Pow(Math.PI, n));
 
                n_r8 = (double)(n);
 
@@ -3159,7 +3159,7 @@ namespace Burkardt.Quadrature
                int k;
                bool more;
                double n_r8;
-               double pi = 3.141592653589793E+00;
+               
                double r;
                double s;
                double t;
@@ -3173,7 +3173,7 @@ namespace Burkardt.Quadrature
                     return;
                }
 
-               volume = Math.Sqrt(Math.Pow(pi, n));
+               volume = Math.Sqrt(Math.Pow(Math.PI, n));
 
                n_r8 = (double)(n);
 
@@ -3387,7 +3387,7 @@ namespace Burkardt.Quadrature
                int k = 0;
                bool more = false;
                double n_r8 = 0;
-               double pi = 3.141592653589793E+00;
+               
                double r = 0;
                double s = 0;
                double t = 0;
@@ -3423,7 +3423,7 @@ namespace Burkardt.Quadrature
                     }
                }
 
-               volume = Math.Sqrt(Math.Pow(pi, n));
+               volume = Math.Sqrt(Math.Pow(Math.PI, n));
 
                n_r8 = (double)(n);
 
@@ -3657,7 +3657,7 @@ namespace Burkardt.Quadrature
                int k;
                bool more;
                double n_r8;
-               double pi = 3.141592653589793E+00;
+               
                double r;
                double rho1;
                double rho2;
@@ -3673,7 +3673,7 @@ namespace Burkardt.Quadrature
                     return;
                }
 
-               volume = Math.Sqrt(Math.Pow(pi, n));
+               volume = Math.Sqrt(Math.Pow(Math.PI, n));
 
                n_r8 = (double)(n);
 

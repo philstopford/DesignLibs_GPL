@@ -278,7 +278,7 @@ namespace Burkardt.Sequence
             ;
             int i;
             int itmax = 1000;
-            const double r8_pi = 3.141592653589793;
+            
             double sum1;
             double term;
             double value;
@@ -330,7 +330,7 @@ namespace Burkardt.Sequence
             }
 
             value = Math.Pow(2.0, n + 2) * sum1 * typeMethods.r8_factorial(n)
-                    / Math.Pow(r8_pi, n + 1);
+                    / Math.Pow(Math.PI, n + 1);
 
             if ((n % 4) != 0)
             {

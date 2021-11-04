@@ -117,10 +117,10 @@ namespace Burkardt.ChebyshevPolynomialNS
             //      x = cos ( theta ), 
             //      dx = - sin ( theta ) d theta = - sqrt ( 1 - x^2 ) d theta
             //    to transform the integral to
-            //      integral ( 0 <= theta <= pi ) - ( cos ( theta ) )^e d theta
+            //      integral ( 0 <= theta <= Math.PI ) - ( cos ( theta ) )^e d theta
             //    which becomes
             //      0 if E is odd,
-            //      (1/2^e) * choose ( e, e/2 ) * pi if E is even.
+            //      (1/2^e) * choose ( e, e/2 ) * Math.PI if E is even.
             //
             //  Licensing:
             //

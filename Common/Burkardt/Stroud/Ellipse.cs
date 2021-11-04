@@ -36,10 +36,10 @@ namespace Burkardt.Stroud
             //    Output, double ELLIPSE_AREA_2D, the area of the ellipse.
             //
         {
-            double pi = 3.141592653589793;
+            
             double value;
 
-            value = pi * r1 * r2;
+            value = Math.PI * r1 * r2;
 
             return value;
         }
@@ -102,13 +102,13 @@ namespace Burkardt.Stroud
         {
             double e;
             int i;
-            double pi = 3.141592653589793;
+            
             double term;
             double value;
 
             if (r1 == r2)
             {
-                value = 2.0 * pi * r1;
+                value = 2.0 * Math.PI * r1;
                 return value;
             }
 
@@ -135,7 +135,7 @@ namespace Burkardt.Stroud
                 value = value + term;
             }
 
-            value = 2.0 * pi * Math.Max(r1, r2) * value;
+            value = 2.0 * Math.PI * Math.Max(r1, r2) * value;
 
             return value;
         }
@@ -228,10 +228,10 @@ namespace Burkardt.Stroud
             //    Output, double ELLIPSOID_VOLUME_3D, the volume of the ellipsoid.
             //
         {
-            double pi = 3.141592653589793;
+            
             double value;
 
-            value = (4.0 / 3.0) * pi * r1 * r2 * r3;
+            value = (4.0 / 3.0) * Math.PI * r1 * r2 * r3;
 
             return value;
         }

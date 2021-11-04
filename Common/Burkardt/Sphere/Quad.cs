@@ -747,7 +747,7 @@ namespace Burkardt.SphereNS
             int phi_num;
             double phi1;
             double phi2;
-            double pi = 3.141592653589793;
+            
             double result;
             double sector_area;
             double sphere_area;
@@ -766,16 +766,16 @@ namespace Burkardt.SphereNS
             //
             //  Choose PHI and THETA counts that make short sides.
             //
-            phi_num = (int)(pi / h);
+            phi_num = (int)(Math.PI / h);
 
-            if (h * (double)(phi_num) < pi)
+            if (h * (double)(phi_num) < Math.PI)
             {
                 phi_num = phi_num + 1;
             }
 
-            theta_num = (int)(2.0 * pi / h);
+            theta_num = (int)(2.0 * Math.PI / h);
 
-            if (h * (double)(theta_num) < pi)
+            if (h * (double)(theta_num) < Math.PI)
             {
                 theta_num = theta_num + 1;
             }
@@ -787,10 +787,10 @@ namespace Burkardt.SphereNS
             //
             if (theta_num == 1)
             {
-                sphere_area = 4.0 * pi;
+                sphere_area = 4.0 * Math.PI;
 
                 theta = 0.0;
-                phi = pi / 2.0;
+                phi = Math.PI / 2.0;
                 x = typeMethods.tp_to_xyz(theta, phi);
 
                 v = f(1, x, v);
@@ -802,15 +802,15 @@ namespace Burkardt.SphereNS
             //
             else if (phi_num == 1)
             {
-                sphere_area = 4.0 * pi;
+                sphere_area = 4.0 * Math.PI;
                 sector_area = sphere_area / (double)(theta_num);
 
                 result = 0.0;
 
                 for (j = 1; j <= theta_num; j++)
                 {
-                    theta = (double)((j - 1) * 2) * pi / (double)(theta_num);
-                    phi = pi / 2.0;
+                    theta = (double)((j - 1) * 2) * Math.PI / (double)(theta_num);
+                    phi = Math.PI / 2.0;
                     x = typeMethods.tp_to_xyz(theta, phi);
                     v = f(1, x, v);
                     n = n + 1;
@@ -832,12 +832,12 @@ namespace Burkardt.SphereNS
                 //    V12----V22
                 //
                 phi1 = 0.0;
-                phi2 = pi / (double)(phi_num);
+                phi2 = Math.PI / (double)(phi_num);
 
                 for (j = 1; j <= theta_num; j++)
                 {
-                    theta1 = (double)(j - 1) * 2.0 * pi / (double)(theta_num);
-                    theta2 = (double)(j) * 2.0 * pi / (double)(theta_num);
+                    theta1 = (double)(j - 1) * 2.0 * Math.PI / (double)(theta_num);
+                    theta2 = (double)(j) * 2.0 * Math.PI / (double)(theta_num);
 
                     x1 = typeMethods.tp_to_xyz(theta1, phi1);
                     x12 = typeMethods.tp_to_xyz(theta1, phi2);
@@ -860,13 +860,13 @@ namespace Burkardt.SphereNS
                 //
                 for (i = 2; i <= phi_num - 1; i++)
                 {
-                    phi1 = (double)(i - 1) * pi / (double)(phi_num);
-                    phi2 = (double)(i) * pi / (double)(phi_num);
+                    phi1 = (double)(i - 1) * Math.PI / (double)(phi_num);
+                    phi2 = (double)(i) * Math.PI / (double)(phi_num);
 
                     for (j = 1; j <= theta_num; j++)
                     {
-                        theta1 = (double)(j - 1) * 2.0 * pi / (double)(theta_num);
-                        theta2 = (double)(j) * 2.0 * pi / (double)(theta_num);
+                        theta1 = (double)(j - 1) * 2.0 * Math.PI / (double)(theta_num);
+                        theta2 = (double)(j) * 2.0 * Math.PI / (double)(theta_num);
 
                         x11 = typeMethods.tp_to_xyz(theta1, phi1);
                         x21 = typeMethods.tp_to_xyz(theta2, phi1);
@@ -895,13 +895,13 @@ namespace Burkardt.SphereNS
                 //       .  .
                 //        V2
                 //
-                phi1 = (double)(phi_num - 1) * pi / (double)(phi_num);
-                phi2 = pi;
+                phi1 = (double)(phi_num - 1) * Math.PI / (double)(phi_num);
+                phi2 = Math.PI;
 
                 for (j = 1; j <= theta_num; j++)
                 {
-                    theta1 = (double)(j - 1) * 2.0 * pi / (double)(theta_num);
-                    theta2 = (double)(j) * 2.0 * pi / (double)(theta_num);
+                    theta1 = (double)(j - 1) * 2.0 * Math.PI / (double)(theta_num);
+                    theta2 = (double)(j) * 2.0 * Math.PI / (double)(theta_num);
 
                     x11 = typeMethods.tp_to_xyz(theta1, phi1);
                     x21 = typeMethods.tp_to_xyz(theta2, phi1);
@@ -968,7 +968,7 @@ namespace Burkardt.SphereNS
             int phi_num;
             double phi1;
             double phi2;
-            double pi = 3.141592653589793;
+            
             double result;
             double sector_area;
             double sphere_area;
@@ -987,16 +987,16 @@ namespace Burkardt.SphereNS
             //
             //  Choose PHI and THETA counts that make short sides.
             //
-            phi_num = (int)(pi / h);
+            phi_num = (int)(Math.PI / h);
 
-            if (h * (double)(phi_num) < pi)
+            if (h * (double)(phi_num) < Math.PI)
             {
                 phi_num = phi_num + 1;
             }
 
-            theta_num = (int)(2.0 * pi / h);
+            theta_num = (int)(2.0 * Math.PI / h);
 
-            if (h * (double)(theta_num) < pi)
+            if (h * (double)(theta_num) < Math.PI)
             {
                 theta_num = theta_num + 1;
             }
@@ -1008,10 +1008,10 @@ namespace Burkardt.SphereNS
             //
             if (theta_num == 1)
             {
-                sphere_area = 4.0 * pi;
+                sphere_area = 4.0 * Math.PI;
 
                 theta = 0.0;
-                phi = pi / 2.0;
+                phi = Math.PI / 2.0;
                 x = typeMethods.tp_to_xyz(theta, phi);
                 v = f(1, x, v);
                 n = n + 1;
@@ -1022,15 +1022,15 @@ namespace Burkardt.SphereNS
             //
             else if (phi_num == 1)
             {
-                sphere_area = 4.0 * pi;
+                sphere_area = 4.0 * Math.PI;
                 sector_area = sphere_area / (double)(theta_num);
 
                 result = 0.0;
 
                 for (j = 1; j <= theta_num; j++)
                 {
-                    theta = (double)((j - 1) * 2) * pi / (double)(theta_num);
-                    phi = pi / 2.0;
+                    theta = (double)((j - 1) * 2) * Math.PI / (double)(theta_num);
+                    phi = Math.PI / 2.0;
                     x = typeMethods.tp_to_xyz(theta, phi);
                     v = f(1, x, v);
                     n = n + 1;
@@ -1052,12 +1052,12 @@ namespace Burkardt.SphereNS
                 //    V12----V22
                 //
                 phi1 = 0.0;
-                phi2 = pi / (double)(phi_num);
+                phi2 = Math.PI / (double)(phi_num);
 
                 for (j = 1; j <= theta_num; j++)
                 {
-                    theta1 = (double)(j - 1) * 2.0 * pi / (double)(theta_num);
-                    theta2 = (double)(j) * 2.0 * pi / (double)(theta_num);
+                    theta1 = (double)(j - 1) * 2.0 * Math.PI / (double)(theta_num);
+                    theta2 = (double)(j) * 2.0 * Math.PI / (double)(theta_num);
 
                     x1 = typeMethods.tp_to_xyz(theta1, phi1);
                     x12 = typeMethods.tp_to_xyz(theta1, phi2);
@@ -1088,13 +1088,13 @@ namespace Burkardt.SphereNS
                 //
                 for (i = 2; i <= phi_num - 1; i++)
                 {
-                    phi1 = (double)(i - 1) * pi / (double)(phi_num);
-                    phi2 = (double)(i) * pi / (double)(phi_num);
+                    phi1 = (double)(i - 1) * Math.PI / (double)(phi_num);
+                    phi2 = (double)(i) * Math.PI / (double)(phi_num);
 
                     for (j = 1; j <= theta_num; j++)
                     {
-                        theta1 = (double)(j - 1) * 2.0 * pi / (double)(theta_num);
-                        theta2 = (double)(j) * 2.0 * pi / (double)(theta_num);
+                        theta1 = (double)(j - 1) * 2.0 * Math.PI / (double)(theta_num);
+                        theta2 = (double)(j) * 2.0 * Math.PI / (double)(theta_num);
 
                         x11 = typeMethods.tp_to_xyz(theta1, phi1);
                         x21 = typeMethods.tp_to_xyz(theta2, phi1);
@@ -1139,13 +1139,13 @@ namespace Burkardt.SphereNS
                 //       .  .
                 //        V2
                 //
-                phi1 = (double)(phi_num - 1) * pi / (double)(phi_num);
-                phi2 = pi;
+                phi1 = (double)(phi_num - 1) * Math.PI / (double)(phi_num);
+                phi2 = Math.PI;
 
                 for (j = 1; j <= theta_num; j++)
                 {
-                    theta1 = (double)(j - 1) * 2.0 * pi / (double)(theta_num);
-                    theta2 = (double)(j) * 2.0 * pi / (double)(theta_num);
+                    theta1 = (double)(j - 1) * 2.0 * Math.PI / (double)(theta_num);
+                    theta2 = (double)(j) * 2.0 * Math.PI / (double)(theta_num);
 
                     x11 = typeMethods.tp_to_xyz(theta1, phi1);
                     x21 = typeMethods.tp_to_xyz(theta2, phi1);
@@ -1217,7 +1217,7 @@ namespace Burkardt.SphereNS
             int phi_num;
             double phi1;
             double phi2;
-            double pi = 3.141592653589793;
+            
             double result;
             double sector_area;
             double sphere_area;
@@ -1236,16 +1236,16 @@ namespace Burkardt.SphereNS
             //
             //  Choose PHI and THETA counts that make short sides.
             //
-            phi_num = (int)(pi / h);
+            phi_num = (int)(Math.PI / h);
 
-            if (h * (double)(phi_num) < pi)
+            if (h * (double)(phi_num) < Math.PI)
             {
                 phi_num = phi_num + 1;
             }
 
-            theta_num = (int)(2.0 * pi / h);
+            theta_num = (int)(2.0 * Math.PI / h);
 
-            if (h * (double)(theta_num) < pi)
+            if (h * (double)(theta_num) < Math.PI)
             {
                 theta_num = theta_num + 1;
             }
@@ -1257,10 +1257,10 @@ namespace Burkardt.SphereNS
             //
             if (theta_num == 1)
             {
-                sphere_area = 4.0 * pi;
+                sphere_area = 4.0 * Math.PI;
 
                 theta = 0.0;
-                phi = pi / 2.0;
+                phi = Math.PI / 2.0;
                 x = typeMethods.tp_to_xyz(theta, phi);
                 v = f(1, x, v);
                 result = sphere_area * v[0];
@@ -1270,15 +1270,15 @@ namespace Burkardt.SphereNS
             //
             else if (phi_num == 1)
             {
-                sphere_area = 4.0 * pi;
+                sphere_area = 4.0 * Math.PI;
                 sector_area = sphere_area / (double)(theta_num);
 
                 result = 0.0;
 
                 for (j = 1; j <= theta_num; j++)
                 {
-                    theta = (double)((j - 1) * 2) * pi / (double)(theta_num);
-                    phi = pi / 2.0;
+                    theta = (double)((j - 1) * 2) * Math.PI / (double)(theta_num);
+                    phi = Math.PI / 2.0;
                     x = typeMethods.tp_to_xyz(theta, phi);
                     v = f(1, x, v);
                     n = n + 1;
@@ -1300,12 +1300,12 @@ namespace Burkardt.SphereNS
                 //    V12----V22
                 //
                 phi1 = 0.0;
-                phi2 = pi / (double)(phi_num);
+                phi2 = Math.PI / (double)(phi_num);
 
                 for (j = 1; j <= theta_num; j++)
                 {
-                    theta1 = (double)(j - 1) * 2.0 * pi / (double)(theta_num);
-                    theta2 = (double)(j) * 2.0 * pi / (double)(theta_num);
+                    theta1 = (double)(j - 1) * 2.0 * Math.PI / (double)(theta_num);
+                    theta2 = (double)(j) * 2.0 * Math.PI / (double)(theta_num);
 
                     x1 = typeMethods.tp_to_xyz(theta1, phi1);
                     x12 = typeMethods.tp_to_xyz(theta1, phi2);
@@ -1334,13 +1334,13 @@ namespace Burkardt.SphereNS
                 //
                 for (i = 2; i <= phi_num - 1; i++)
                 {
-                    phi1 = (double)(i - 1) * pi / (double)(phi_num);
-                    phi2 = (double)(i) * pi / (double)(phi_num);
+                    phi1 = (double)(i - 1) * Math.PI / (double)(phi_num);
+                    phi2 = (double)(i) * Math.PI / (double)(phi_num);
 
                     for (j = 1; j <= theta_num; j++)
                     {
-                        theta1 = (double)(j - 1) * 2.0 * pi / (double)(theta_num);
-                        theta2 = (double)(j) * 2.0 * pi / (double)(theta_num);
+                        theta1 = (double)(j - 1) * 2.0 * Math.PI / (double)(theta_num);
+                        theta2 = (double)(j) * 2.0 * Math.PI / (double)(theta_num);
 
                         x11 = typeMethods.tp_to_xyz(theta1, phi1);
                         x21 = typeMethods.tp_to_xyz(theta2, phi1);
@@ -1382,13 +1382,13 @@ namespace Burkardt.SphereNS
                 //       \  /
                 //        V2
                 //
-                phi1 = (double)(phi_num - 1) * pi / (double)(phi_num);
-                phi2 = pi;
+                phi1 = (double)(phi_num - 1) * Math.PI / (double)(phi_num);
+                phi2 = Math.PI;
 
                 for (j = 1; j <= theta_num; j++)
                 {
-                    theta1 = (double)(j - 1) * 2.0 * pi / (double)(theta_num);
-                    theta2 = (double)(j) * 2.0 * pi / (double)(theta_num);
+                    theta1 = (double)(j - 1) * 2.0 * Math.PI / (double)(theta_num);
+                    theta2 = (double)(j) * 2.0 * Math.PI / (double)(theta_num);
 
                     x11 = typeMethods.tp_to_xyz(theta1, phi1);
                     x21 = typeMethods.tp_to_xyz(theta2, phi1);
@@ -1454,13 +1454,13 @@ namespace Burkardt.SphereNS
             //    Output, double SPHERE01_QUAD_MC, the approximate integral.
             //
         {
-            double pi = 3.141592653589793;
+            
             double result;
             double sphere_area;
             double[] v;
             double[] x;
 
-            sphere_area = 4.0 * pi;
+            sphere_area = 4.0 * Math.PI;
 
             x = MonteCarlo.sphere01_sample(n, ref seed);
 
@@ -1508,13 +1508,13 @@ namespace Burkardt.SphereNS
             //
         {
             int n;
-            double pi = 3.141592653589793;
+            
             double sphere_area;
             //
             //  The sphere's area is 4 * PI.
             //  Choose N so that we divide this area into N subareas of PI * H * H.
             //
-            sphere_area = 4.0 * pi;
+            sphere_area = 4.0 * Math.PI;
 
             n = (int)(sphere_area / h / h);
             n = Math.Max(n, 1);

@@ -49,7 +49,7 @@ namespace Burkardt.CorrelationNS
         {
             double[] c;
             int i;
-            double pi = 3.141592653589793;
+            
             double rhohat;
 
             c = new double[n];
@@ -58,7 +58,7 @@ namespace Burkardt.CorrelationNS
             {
                 rhohat = Math.Min ( Math.Abs ( rho[i] ) / rho0, 1.0 );
 
-                c[i] = ( 1.0 - ( 2.0 / pi ) 
+                c[i] = ( 1.0 - ( 2.0 / Math.PI ) 
                     * ( rhohat * Math.Sqrt ( 1.0 - rhohat * rhohat ) + Math.Asin ( rhohat ) ) );
             }
 

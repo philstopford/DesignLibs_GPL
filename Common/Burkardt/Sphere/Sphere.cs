@@ -57,7 +57,7 @@ namespace Burkardt.SphereNS
             double cosphi = 0.0;
             int i;
             double[] p;
-            const double pi = 3.141592653589793;
+            
             double sinphi = 0.0;
             double theta = 0.0;
 
@@ -78,7 +78,7 @@ namespace Burkardt.SphereNS
                 else
                 {
                     theta = theta + 3.6 / ( sinphi * Math.Sqrt ( ( double ) n ) );
-                    theta = typeMethods.r8_modp ( theta, 2.0 * pi );
+                    theta = typeMethods.r8_modp ( theta, 2.0 * Math.PI );
                 }
                 p[0+i*3] = pc[0] + r * sinphi * Math.Cos ( theta );
                 p[1+i*3] = pc[1] + r * sinphi * Math.Sin ( theta );
@@ -125,7 +125,7 @@ namespace Burkardt.SphereNS
         {
             int j;
             double phi;
-            const double pi = 3.141592653589793;
+            
             double theta;
             double vdot;
             double[] x;
@@ -149,7 +149,7 @@ namespace Burkardt.SphereNS
                 //  Pick a uniformly random rotation between 0 and 2 Pi around the
                 //  axis of the Z vector.
                 //
-                theta = 2.0 * pi * UniformRNG.r8_uniform_01 ( ref seed );
+                theta = 2.0 * Math.PI * UniformRNG.r8_uniform_01 ( ref seed );
 
                 x[0+j*3] = Math.Cos ( theta ) * Math.Sin ( phi );
                 x[1+j*3] = Math.Sin ( theta ) * Math.Sin ( phi );

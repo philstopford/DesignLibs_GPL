@@ -139,7 +139,7 @@ namespace Burkardt.TriangulationNS
             int n3;
             int n4;
             int neighbor;
-            double pi = 3.141592653589793;
+            
             double[] t = new double[2 * 3];
             int triangle1;
             int triangle2;
@@ -147,7 +147,7 @@ namespace Burkardt.TriangulationNS
 
             angle_max = 0.0;
             angle_max_triangle = -1;
-            angle_min = pi;
+            angle_min = Math.PI;
             angle_min_triangle = -1;
             value = 0.0;
             //
@@ -327,9 +327,9 @@ namespace Burkardt.TriangulationNS
             //
             //  Scale the results to degrees.
             //
-            value = value * 180.0 / pi;
-            angle_max = angle_max * 180.0 / pi;
-            angle_min = angle_min * 180.0 / pi;
+            value = value * 180.0 / Math.PI;
+            angle_max = angle_max * 180.0 / Math.PI;
+            angle_min = angle_min * 180.0 / Math.PI;
 
             return value;
         }

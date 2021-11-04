@@ -65,7 +65,7 @@ namespace Burkardt.Weight
             int ja;
             int jb;
             int k;
-            double pi = 3.14159265358979323846264338327950;
+            
             double rk;
             double sum;
             double tmpa;
@@ -92,7 +92,7 @@ namespace Burkardt.Weight
             }
             else if (kind == 2)
             {
-                w[0] = pi;
+                w[0] = Math.PI;
                 for (k = 3; k <= m; k = k + 2)
                 {
                     rk = (double) (k);
@@ -101,7 +101,7 @@ namespace Burkardt.Weight
             }
             else if (kind == 3)
             {
-                w[0] = Math.Sqrt(pi) * typeMethods.r8_gamma(alpha + 1.0)
+                w[0] = Math.Sqrt(Math.PI) * typeMethods.r8_gamma(alpha + 1.0)
                        / typeMethods.r8_gamma(alpha + 3.0 / 2.0);
 
                 for (k = 3; k <= m; k = k + 2)
@@ -202,7 +202,7 @@ namespace Burkardt.Weight
             }
             else if (kind == 9)
             {
-                w[0] = pi / 2.0;
+                w[0] = Math.PI / 2.0;
                 for (k = 3; k <= m; k = k + 2)
                 {
                     rk = (double) (k);

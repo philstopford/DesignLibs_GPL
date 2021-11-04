@@ -42,7 +42,7 @@ namespace Burkardt.Elliptic
             double errtol;
             int ierr = 0;
             double p;
-            const double r8_pi = 3.141592653589793;
+            
             double sp;
             double value;
             double value1;

@@ -198,7 +198,7 @@ namespace Burkardt.IO
             //
         {
             int j;
-            double pi = 3.141592653589793;
+            
             double r;
             double theta;
             int turns = 5;
@@ -206,7 +206,7 @@ namespace Burkardt.IO
             for (j = 0; j < point_num; j++)
             {
                 r = (double) (j) / (double) (point_num - 1);
-                theta = (double) (turns) * r * (2.0 * pi);
+                theta = (double) (turns) * r * (2.0 * Math.PI);
                 xy[0 + j * 2] = r * Math.Cos(theta);
                 xy[1 + j * 2] = r * Math.Sin(theta);
             }

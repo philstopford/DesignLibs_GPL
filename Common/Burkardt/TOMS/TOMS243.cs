@@ -45,7 +45,7 @@ namespace Burkardt.TOMSNS
             double d;
             double e;
             double f;
-            double r8_pi = 3.141592653589793;
+            
             Complex value;
 
             a = ( z.Real );
@@ -83,16 +83,16 @@ namespace Burkardt.TOMSNS
                     }
                     else if ( Math.CopySign ( 1.0, b ) != -1.0 )
                     {
-                        d = Math.Atan ( b / a ) + r8_pi;
+                        d = Math.Atan ( b / a ) + Math.PI;
                     }
                     else
                     {
-                        d = Math.Atan ( b / a ) - r8_pi;
+                        d = Math.Atan ( b / a ) - Math.PI;
                     }
                 }
                 else
                 {
-                    d = - Math.Atan ( a / b ) + r8_pi / 2.0 * Math.CopySign ( 1.0, b );
+                    d = - Math.Atan ( a / b ) + Math.PI / 2.0 * Math.CopySign ( 1.0, b );
                 }
 
             }

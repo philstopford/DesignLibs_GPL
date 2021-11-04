@@ -208,7 +208,7 @@ namespace Burkardt.IntegralNS
             //
         { 
             int dim;
-            double pi = 3.141592653589793;
+            
             double value;
 
             for ( dim = 0; dim < dim_num; dim++ )
@@ -232,7 +232,7 @@ namespace Burkardt.IntegralNS
             value = 1.0;
             for ( dim = 0; dim < dim_num; dim++ )
             {
-                value = value * typeMethods.r8_factorial2 ( expon[dim] - 1 ) * Math.Sqrt ( pi ) 
+                value = value * typeMethods.r8_factorial2 ( expon[dim] - 1 ) * Math.Sqrt ( Math.PI ) 
                         / ( double ) (int)Math.Pow ( 2, expon[dim] / 2 );
             }
 
@@ -276,7 +276,7 @@ namespace Burkardt.IntegralNS
             //    the value of the integral.
             //
         {
-            double pi = 3.141592653589793;
+            
             double value;
 
             if (expon < 0)
@@ -289,7 +289,7 @@ namespace Burkardt.IntegralNS
             }
             else
             {
-                value = typeMethods.r8_factorial2(expon - 1) * Math.Sqrt(pi) / Math.Pow(2.0, expon / 2);
+                value = typeMethods.r8_factorial2(expon - 1) * Math.Sqrt(Math.PI) / Math.Pow(2.0, expon / 2);
             }
 
             return value;

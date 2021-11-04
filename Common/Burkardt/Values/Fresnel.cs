@@ -134,7 +134,7 @@
             //
             //    The Fresnel sine integral is defined by
             //
-            //      S(X) = integral ( 0 <= T <= X ) sin ( pi * T^2 / 2 ) dT
+            //      S(X) = integral ( 0 <= T <= X ) sin ( Math.PI * T^2 / 2 ) dT
             //
             //    In Mathematica, the function can be evaluated by:
             //

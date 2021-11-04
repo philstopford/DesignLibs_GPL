@@ -62,9 +62,9 @@ namespace Burkardt.Laguerre
             //
         {
             double exact;
-            const double r8_pi = 3.1415926535897932385;
+            
 
-            exact = r8_pi;
+            exact = Math.PI;
 
             return exact;
         }
@@ -79,7 +79,7 @@ namespace Burkardt.Laguerre
             //
             //  Discussion:
             //
-            //    S&S gives exact value as pi =  3.1415926535897932385...
+            //    S&S gives exact value as Math.PI =  3.1415926535897932385...
             //    S&S gives Laguerre(16) as      2.6652685196...
             //    S&S gives EXP_TRANSFORM(16) as 2.3629036166... 
             //

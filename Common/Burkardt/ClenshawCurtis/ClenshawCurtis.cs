@@ -244,7 +244,7 @@ namespace Burkardt.ClenshawCurtisNS
             double b;
             int i;
             int j;
-            double pi = 3.141592653589793;
+            
             double theta;
             ccResult result = new ccResult();
             result.w = w_;
@@ -267,7 +267,7 @@ namespace Burkardt.ClenshawCurtisNS
             {
                 for (i = 0; i < n; i++)
                 {
-                    result.x[i] = Math.Cos((double)(n - 1 - i) * pi
+                    result.x[i] = Math.Cos((double)(n - 1 - i) * Math.PI
                                            / (double)(n - 1));
                 }
 
@@ -281,7 +281,7 @@ namespace Burkardt.ClenshawCurtisNS
 
                 for (i = 0; i < n; i++)
                 {
-                    theta = (double)(i) * pi
+                    theta = (double)(i) * Math.PI
                             / (double)(n - 1);
 
                     result.w[i] = 1.0;
@@ -354,7 +354,7 @@ namespace Burkardt.ClenshawCurtisNS
             //    abscissa in the rule of order ORDER.
             //
         {
-            double pi = 3.141592653589793;
+            
             double value;
 
             if (order < 1)
@@ -382,7 +382,7 @@ namespace Burkardt.ClenshawCurtisNS
                 return value;
             }
 
-            value = Math.Cos((double)(order - i) * pi
+            value = Math.Cos((double)(order - i) * Math.PI
                              / (double)(order - 1));
 
             if (2 * i - 1 == order)
@@ -492,7 +492,7 @@ namespace Burkardt.ClenshawCurtisNS
             double b;
             int i;
             int j;
-            double pi = 3.141592653589793;
+            
             double theta;
             double[] w;
 
@@ -506,7 +506,7 @@ namespace Burkardt.ClenshawCurtisNS
 
             for (i = 1; i <= n; i++)
             {
-                theta = (double)(i - 1) * pi / (double)(n - 1);
+                theta = (double)(i - 1) * Math.PI / (double)(n - 1);
 
                 w[i - 1] = 1.0;
 
@@ -571,7 +571,7 @@ namespace Burkardt.ClenshawCurtisNS
             //
         {
             int index;
-            double pi = 3.141592653589793;
+            
 
             if ( n < 1 )
             {
@@ -588,7 +588,7 @@ namespace Burkardt.ClenshawCurtisNS
             {
                 for ( index = 1; index <= n; index++ )
                 {
-                    x[index-1] =  Math.Cos ( ( double ) ( n - index ) * pi
+                    x[index-1] =  Math.Cos ( ( double ) ( n - index ) * Math.PI
                                              / ( double ) ( n - 1     ) );
                 }
                 x[0] = -1.0;

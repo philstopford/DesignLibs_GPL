@@ -528,7 +528,7 @@ namespace Burkardt.PolynomialNS
         {
             double[] bj;
             int i;
-            const double r8_pi = 3.141592653589793;
+            
             double[] wts;
             double[] z;
 
@@ -552,7 +552,7 @@ namespace Burkardt.PolynomialNS
                 wts[i] = 0.0;
             }
 
-            wts[0] = Math.Sqrt(Math.Sqrt(r8_pi));
+            wts[0] = Math.Sqrt(Math.Sqrt(Math.PI));
 
             IMTQLX.imtqlx(nt, ref z, ref bj, ref wts);
 
@@ -1244,7 +1244,7 @@ namespace Burkardt.PolynomialNS
             //  Orthogonality:
             //
             //    Integral ( -oo < X < +oo ) exp ( - 0.5 * X^2 ) * He(M,X) He(N,X) dX 
-            //    = sqrt ( 2 * pi ) * N// * delta ( N, M )
+            //    = sqrt ( 2 * Math.PI ) * N// * delta ( N, M )
             //
             //  Licensing:
             //
@@ -1356,7 +1356,7 @@ namespace Burkardt.PolynomialNS
         {
             double[] bj;
             int i;
-            const double r8_pi = 3.141592653589793;
+            
             double[] wts;
             double[] z;
 
@@ -1381,7 +1381,7 @@ namespace Burkardt.PolynomialNS
                 wts[i] = 0.0;
             }
 
-            wts[0] = Math.Sqrt(Math.Sqrt(r8_pi));
+            wts[0] = Math.Sqrt(Math.Sqrt(Math.PI));
 
             IMTQLX.imtqlx(nt, ref z, ref bj, ref wts);
 
@@ -1550,7 +1550,7 @@ namespace Burkardt.PolynomialNS
             int i;
             int j;
             double[] p;
-            const double r8_pi = 3.141592653589793;
+            
 
             if (n < 0)
             {
@@ -1590,7 +1590,7 @@ namespace Burkardt.PolynomialNS
             {
                 for (i = 0; i < m; i++)
                 {
-                    p[i + j * m] = p[i + j * m] / Math.Sqrt(fact * Math.Sqrt(2.0 * r8_pi));
+                    p[i + j * m] = p[i + j * m] / Math.Sqrt(fact * Math.Sqrt(2.0 * Math.PI));
                 }
 
                 fact = fact * (double) (j + 1);
@@ -1817,7 +1817,7 @@ namespace Burkardt.PolynomialNS
             //    The Hermite function of degree n is related to the physicist's
             //    Hermite polynomial H(n,x):
             //
-            //      Hf(n,x) = H(n,x) * exp ( - 0.5 * x^2 ) / sqrt ( 2^n n// sqrt ( pi ) )
+            //      Hf(n,x) = H(n,x) * exp ( - 0.5 * x^2 ) / sqrt ( 2^n n// sqrt ( Math.PI ) )
             //
             //    The Hermite functions are orthonormal:
             //
@@ -1866,13 +1866,13 @@ namespace Burkardt.PolynomialNS
             double[] f;
             int i;
             int j;
-            const double r8_pi = 3.141592653589793;
+            
 
             f = new double[m * (n + 1)];
 
             for (i = 0; i < m; i++)
             {
-                f[i + 0 * m] = Math.Exp(-0.5 * x[i] * x[xIndex + i]) / Math.Sqrt(Math.Sqrt(r8_pi));
+                f[i + 0 * m] = Math.Exp(-0.5 * x[i] * x[xIndex + i]) / Math.Sqrt(Math.Sqrt(Math.PI));
             }
 
             if (n == 0)
@@ -1883,7 +1883,7 @@ namespace Burkardt.PolynomialNS
             for (i = 0; i < m; i++)
             {
                 f[i + 1 * m] = 2.0 * Math.Exp(-0.5 * x[i] * x[i]) * x[xIndex + i]
-                               / Math.Sqrt(2.0 * Math.Sqrt(r8_pi));
+                               / Math.Sqrt(2.0 * Math.Sqrt(Math.PI));
             }
 
             for (j = 2; j <= n; j++)
@@ -2156,7 +2156,7 @@ namespace Burkardt.PolynomialNS
             int i;
             int j;
             double[] p;
-            const double r8_pi = 3.141592653589793;
+            
             double two_power;
 
             if (n < 0)
@@ -2199,7 +2199,7 @@ namespace Burkardt.PolynomialNS
             {
                 for (i = 0; i < m; i++)
                 {
-                    p[i + j * m] = p[i + j * m] / Math.Sqrt(fact * two_power * Math.Sqrt(r8_pi));
+                    p[i + j * m] = p[i + j * m] / Math.Sqrt(fact * two_power * Math.Sqrt(Math.PI));
                 }
 
                 fact = fact * (double) (j + 1);

@@ -317,10 +317,10 @@ namespace Burkardt.Stroud
             //    Output, double SPHERE_AREA_3D, the area of the sphere.
             //
         {
-            double pi = 3.141592653589793;
+            
             double value;
 
-            value = 4.0 * pi * r * r;
+            value = 4.0 * Math.PI * r * r;
 
             return value;
         }
@@ -416,7 +416,7 @@ namespace Burkardt.Stroud
             //
         {
             double area;
-            double pi = 3.141592653589793;
+            
             double theta;
 
             if (h <= 0.0)
@@ -425,7 +425,7 @@ namespace Burkardt.Stroud
             }
             else if (2.0 * r <= h)
             {
-                area = 2.0 * pi * r;
+                area = 2.0 * Math.PI * r;
             }
             else
             {
@@ -435,7 +435,7 @@ namespace Burkardt.Stroud
 
                 if (r <= h)
                 {
-                    area = 2.0 * pi * r - area;
+                    area = 2.0 * Math.PI * r - area;
                 }
             }
 
@@ -482,7 +482,7 @@ namespace Burkardt.Stroud
             //
         {
             double area;
-            double pi = 3.141592653589793;
+            
 
             if (h <= 0.0)
             {
@@ -490,11 +490,11 @@ namespace Burkardt.Stroud
             }
             else if (2.0 * r <= h)
             {
-                area = 4.0 * pi * r * r;
+                area = 4.0 * Math.PI * r * r;
             }
             else
             {
-                area = 2.0 * pi * r * h;
+                area = 2.0 * Math.PI * r * h;
             }
 
             return area;
@@ -654,7 +654,7 @@ namespace Burkardt.Stroud
             //    Output, double VOLUME, the volume (area) of the spherical cap.
             //
         {
-            double pi = 3.141592653589793;
+            
             double theta;
             double volume;
 
@@ -664,7 +664,7 @@ namespace Burkardt.Stroud
             }
             else if (2.0 * r <= h)
             {
-                volume = pi * r * r;
+                volume = Math.PI * r * r;
             }
             else
             {
@@ -672,7 +672,7 @@ namespace Burkardt.Stroud
                 volume = r * r * (theta - Math.Sin(theta)) / 2.0;
                 if (r < h)
                 {
-                    volume = pi * r * r - volume;
+                    volume = Math.PI * r * r - volume;
                 }
             }
 
@@ -718,7 +718,7 @@ namespace Burkardt.Stroud
             //    Output, double SPHERE_CAP_VOLUME_3D, the volume of the spherical cap.
             //
         {
-            double pi = 3.141592653589793;
+            
             double volume;
 
             if (h <= 0.0)
@@ -727,11 +727,11 @@ namespace Burkardt.Stroud
             }
             else if (2.0 * r <= h)
             {
-                volume = (4.0 / 3.0) * pi * r * r * r;
+                volume = (4.0 / 3.0) * Math.PI * r * r * r;
             }
             else
             {
-                volume = (1.0 / 3.0) * pi * h * h * (3.0 * r - h);
+                volume = (1.0 / 3.0) * Math.PI * h * h * (3.0 * r - h);
             }
 
             return volume;
@@ -880,16 +880,16 @@ namespace Burkardt.Stroud
             //    Output, double SPHERE_K, the factor.
             //
         {
-            double pi = 3.141592653589793;
+            
             double value;
 
             if ((n % 2) == 0)
             {
-                value = Math.Pow(2.0 * pi, n / 2);
+                value = Math.Pow(2.0 * Math.PI, n / 2);
             }
             else
             {
-                value = 2.0 * Math.Pow(2.0 * pi, (n - 1) / 2);
+                value = 2.0 * Math.Pow(2.0 * Math.PI, (n - 1) / 2);
             }
 
             value = value / (double)(typeMethods.i4_factorial2(n - 2));
@@ -956,7 +956,7 @@ namespace Burkardt.Stroud
             int e_sum;
             int i;
             double integral;
-            double pi = 3.141592653589793;
+            
 
             integral = 0.0;
 
@@ -999,7 +999,7 @@ namespace Burkardt.Stroud
 
             if (all_zero)
             {
-                integral = 2.0 * Math.Sqrt(Math.Pow(pi, n))
+                integral = 2.0 * Math.Sqrt(Math.Pow(Math.PI, n))
                            / typeMethods.r8_gamma(0.5 * (double)(n));
             }
             else if (any_odd)
@@ -1515,7 +1515,7 @@ namespace Burkardt.Stroud
             int order1 = 2;
             int order2 = 4;
             int order3 = 4;
-            double pi = 3.141592653589793;
+            
             double quad;
             double result;
             double volume;
@@ -1540,7 +1540,7 @@ namespace Burkardt.Stroud
             //
             for (j = 0; j < order2; j++)
             {
-                angle = pi * (double)(2 * j + 1) / (double)(2 * order2);
+                angle = Math.PI * (double)(2 * j + 1) / (double)(2 * order2);
                 xtab2[j] = Math.Cos(angle);
             }
 
@@ -2585,7 +2585,7 @@ namespace Burkardt.Stroud
             int j;
             int k;
             int order = 8;
-            double pi = 3.141592653589793;
+            
             double quad;
             double result;
             double volume;
@@ -2611,7 +2611,7 @@ namespace Burkardt.Stroud
             {
                 for (k = 0; k < 16; k++)
                 {
-                    angle = (double)(k) * pi / 8.0;
+                    angle = (double)(k) * Math.PI / 8.0;
                     x = Math.Sqrt(1.0 - xtab[j] * xtab[j]) * Math.Cos(angle);
                     y = Math.Sqrt(1.0 - xtab[j] * xtab[j]) * Math.Sin(angle);
                     z = xtab[j];
@@ -2656,9 +2656,9 @@ namespace Burkardt.Stroud
             //
         {
             double area;
-            double pi = 3.141592653589793;
+            
 
-            area = 4.0 * pi;
+            area = 4.0 * Math.PI;
 
             return area;
         }
@@ -2708,12 +2708,12 @@ namespace Burkardt.Stroud
             double area;
             int i;
             int m;
-            double pi = 3.141592653589793;
+            
 
             if ((n % 2) == 0)
             {
                 m = n / 2;
-                area = 2.0 * Math.Pow(pi, m);
+                area = 2.0 * Math.Pow(Math.PI, m);
                 for (i = 1; i <= m - 1; i++)
                 {
                     area = area / (double)(i);
@@ -2722,7 +2722,7 @@ namespace Burkardt.Stroud
             else
             {
                 m = (n - 1) / 2;
-                area = Math.Pow(2.0, n) * Math.Pow(pi, m);
+                area = Math.Pow(2.0, n) * Math.Pow(Math.PI, m);
                 for (i = m + 1; i <= 2 * m; i++)
                 {
                     area = area / (double)(i);
@@ -2994,13 +2994,13 @@ namespace Burkardt.Stroud
         {
             int i;
             int m;
-            double pi = 3.141592653589793;
+            
             double volume;
 
             if ((dim_num % 2) == 0)
             {
                 m = dim_num / 2;
-                volume = Math.Pow(pi, m);
+                volume = Math.Pow(Math.PI, m);
                 for (i = 1; i <= m; i++)
                 {
                     volume = volume / (double)(i);
@@ -3009,7 +3009,7 @@ namespace Burkardt.Stroud
             else
             {
                 m = (dim_num - 1) / 2;
-                volume = Math.Pow(pi, m) * Math.Pow(2.0, dim_num);
+                volume = Math.Pow(Math.PI, m) * Math.Pow(2.0, dim_num);
                 for (i = m + 1; i <= 2 * m + 1; i++)
                 {
                     volume = volume / (double)(i);
@@ -3181,10 +3181,10 @@ namespace Burkardt.Stroud
             //    Output, double SPHERE_VOLUME_2D, the volume of the sphere.
             //
         {
-            double pi = 3.141592653589793;
+            
             double volume;
 
-            volume = pi * r * r;
+            volume = Math.PI * r * r;
 
             return volume;
         }
@@ -3222,10 +3222,10 @@ namespace Burkardt.Stroud
             //    Output, double SPHERE_VOLUME_3D, the volume of the sphere.
             //
         {
-            double pi = 3.141592653589793;
+            
             double volume;
 
-            volume = (4.0 / 3.0) * pi * r * r * r;
+            volume = (4.0 / 3.0) * Math.PI * r * r * r;
 
             return volume;
         }

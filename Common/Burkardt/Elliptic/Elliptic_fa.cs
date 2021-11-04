@@ -40,13 +40,13 @@ namespace Burkardt.Elliptic
             double errtol;
             int ierr = 0;
             double k;
-            const double r8_pi = 3.141592653589793;
+            
             double value;
             double x;
             double y;
             double z;
 
-            k = Math.Sin(a * r8_pi / 180.0);
+            k = Math.Sin(a * Math.PI / 180.0);
             x = 0.0;
             y = (1.0 - k) * (1.0 + k);
             z = 1.0;

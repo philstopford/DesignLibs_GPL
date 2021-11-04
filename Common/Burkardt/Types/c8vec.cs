@@ -807,7 +807,7 @@ namespace Burkardt.Types
             double r1;
             double r2;
             double ri;
-            const double r8_pi = 3.141592653589793;
+            
             double t1;
             double t2;
             double ti;
@@ -824,26 +824,26 @@ namespace Burkardt.Types
             {
                 if (t2 < t1)
                 {
-                    t2 = t2 + 2.0 * r8_pi;
+                    t2 = t2 + 2.0 * Math.PI;
                 }
             }
             else if (0 < m)
             {
                 if (t2 < t1)
                 {
-                    t2 = t2 + 2.0 * r8_pi;
+                    t2 = t2 + 2.0 * Math.PI;
                 }
 
-                t2 = t2 + (double) (m) * 2.0 * r8_pi;
+                t2 = t2 + (double) (m) * 2.0 * Math.PI;
             }
             else if (m < 0)
             {
                 if (t1 < t2)
                 {
-                    t2 = t2 - 2.0 * r8_pi;
+                    t2 = t2 - 2.0 * Math.PI;
                 }
 
-                t2 = t2 - (double) (m) * 2.0 * r8_pi;
+                t2 = t2 - (double) (m) * 2.0 * Math.PI;
             }
 
             for (i = 0; i < n; i++)
@@ -906,7 +906,7 @@ namespace Burkardt.Types
             int i;
             double r;
             int k;
-            const double r8_pi = 3.141592653589793;
+            
             double theta;
 
             c = new Complex [n];
@@ -933,7 +933,7 @@ namespace Burkardt.Types
                     seed = seed + 2147483647;
                 }
 
-                theta = 2.0 * r8_pi * ((double) (seed) * 4.656612875E-10);
+                theta = 2.0 * Math.PI * ((double) (seed) * 4.656612875E-10);
 
                 c[i] = r * new Complex(Math.Cos(theta), Math.Sin(theta));
             }
@@ -978,14 +978,14 @@ namespace Burkardt.Types
         {
             Complex[] a;
             int i;
-            const double r8_pi = 3.141592653589793;
+            
             double theta;
 
             a = new Complex [n];
 
             for (i = 0; i < n; i++)
             {
-                theta = r8_pi * (double) (2 * i) / (double) (n);
+                theta = Math.PI * (double) (2 * i) / (double) (n);
                 a[i] = new Complex(Math.Cos(theta), Math.Sin(theta));
             }
 

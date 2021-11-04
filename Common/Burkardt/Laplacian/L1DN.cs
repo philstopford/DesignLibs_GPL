@@ -188,7 +188,7 @@ namespace Burkardt.Laplacian
             int j;
             double j_r8;
             double n_r8;
-            const double r8_pi = 3.141592653589793;
+            
             double theta;
 
             n_r8 = (double) (n);
@@ -196,12 +196,12 @@ namespace Burkardt.Laplacian
             for (j = 0; j < n; j++)
             {
                 j_r8 = (double) (j + 1);
-                theta = r8_pi * (j_r8 - 0.5) / (2.0 * n_r8 + 1.0);
+                theta = Math.PI * (j_r8 - 0.5) / (2.0 * n_r8 + 1.0);
                 lambda[j] = Math.Pow(2.0 * Math.Sin(theta) / h, 2);
                 for (i = 0; i < n; i++)
                 {
                     i_r8 = (double) (i + 1);
-                    theta = r8_pi * i_r8 * (2.0 * j_r8 - 1.0) /
+                    theta = Math.PI * i_r8 * (2.0 * j_r8 - 1.0) /
                             (2.0 * n_r8 + 1.0);
                     v[i + j * n] = Math.Sqrt(2.0 / (n_r8 + 0.5)) * Math.Sin(theta);
                 }

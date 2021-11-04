@@ -119,7 +119,7 @@ namespace Burkardt.Uniform
             //
             //    The Phong density is used, with exponent M:
             //
-            //    rho ( theta, phi; m ) = ( m + 1 ) * cos ( phi )**M / ( 2 * pi )
+            //    rho ( theta, phi; m ) = ( m + 1 ) * cos ( phi )**M / ( 2 * Math.PI )
             //
             //  Licensing:
             //

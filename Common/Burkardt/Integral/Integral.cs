@@ -77,7 +77,7 @@ namespace Burkardt.IntegralNS
             double[] fx;
             int i;
             int j;
-            double pi = 3.141592653589793;
+            
 
             fx = new double[n];
 
@@ -87,7 +87,7 @@ namespace Burkardt.IntegralNS
                 for ( i = 0; i < d; i++ )
                 {
                     fx[j] = fx[j] * Math.Exp ( - Math.Pow ( x[i+j*d] / 2.0, 2 ) / 2.0 ) 
-                            / 2.0 / Math.Sqrt ( 2.0 * pi );
+                            / 2.0 / Math.Sqrt ( 2.0 * Math.PI );
                 }
             }
 

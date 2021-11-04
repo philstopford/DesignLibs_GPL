@@ -279,13 +279,13 @@ namespace Burkardt.HyperGeometry.Hyperball
         {
             int i;
             int m_half;
-            const double r8_pi = 3.141592653589793;
+            
             double volume;
 
             if ((m % 2) == 0)
             {
                 m_half = m / 2;
-                volume = Math.Pow(r8_pi, m_half);
+                volume = Math.Pow(Math.PI, m_half);
                 for (i = 1; i <= m_half; i++)
                 {
                     volume = volume / (double) (i);
@@ -294,7 +294,7 @@ namespace Burkardt.HyperGeometry.Hyperball
             else
             {
                 m_half = (m - 1) / 2;
-                volume = Math.Pow(r8_pi, m_half) * Math.Pow(2.0, m);
+                volume = Math.Pow(Math.PI, m_half) * Math.Pow(2.0, m);
                 for (i = m_half + 1; i <= 2 * m_half + 1; i++)
                 {
                     volume = volume / (double) (i);

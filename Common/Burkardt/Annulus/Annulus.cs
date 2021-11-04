@@ -39,9 +39,9 @@ namespace Burkardt.AnnulusNS
             //
         {
             double area;
-            double r8_pi = 3.141592653589793;
+            
 
-            area = r8_pi * (r2 + r1) * (r2 - r1);
+            area = Math.PI * (r2 + r1) * (r2 - r1);
 
             return area;
         }

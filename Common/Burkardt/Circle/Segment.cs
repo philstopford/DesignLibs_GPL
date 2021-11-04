@@ -50,7 +50,7 @@ namespace Burkardt.CircleNS
         //    the angle of the circle segment.  0 <= THETA < 2 * PI.
         //
         {
-            const double pi = 3.141592653589793;
+            
             double theta;
             double[] v1 = new double[2];
             double[] v2 = new double[2];
@@ -70,12 +70,12 @@ namespace Burkardt.CircleNS
             //
             while (theta < 0.0)
             {
-                theta = theta + 2.0 * pi;
+                theta = theta + 2.0 * Math.PI;
             }
 
-            while (2.0 * pi <= theta)
+            while (2.0 * Math.PI <= theta)
             {
-                theta = theta - 2.0 * pi;
+                theta = theta - 2.0 * Math.PI;
             }
 
             return theta;
@@ -340,7 +340,7 @@ namespace Burkardt.CircleNS
             //
         {
             double area;
-            const double pi = 3.141592653589793;
+            
             double theta;
 
             if (h <= 0.0)
@@ -355,12 +355,12 @@ namespace Burkardt.CircleNS
             else if (h <= 2.0 * r)
             {
                 theta = 2.0 * Math.Asin(Math.Sqrt(r * r - (r - h) * (r - h)) / r);
-                theta = 2.0 * pi - theta;
+                theta = 2.0 * Math.PI - theta;
                 area = r * r * (theta - Math.Sin(theta)) / 2.0;
             }
             else
             {
-                area = pi * r * r;
+                area = Math.PI * r * r;
             }
 
             return area;
@@ -1006,7 +1006,7 @@ namespace Burkardt.CircleNS
             {
                 Console.WriteLine("");
                 Console.WriteLine("CIRCLE_SEGMENT_HEIGHT_FROM_ANGLE - Fatal error!");
-                Console.WriteLine("  2.0 * pi < ANGLE.");
+                Console.WriteLine("  2.0 * Math.PI < ANGLE.");
                 return(1);
             }
 
@@ -1109,7 +1109,7 @@ namespace Burkardt.CircleNS
             {
                 Console.WriteLine("");
                 Console.WriteLine("CIRCLE_SEGMENT_HEIGHT_FROM_AREA - Fatal error!");
-                Console.WriteLine("  2.0 * pi * r^2 < AREA.");
+                Console.WriteLine("  2.0 * Math.PI * r^2 < AREA.");
                 return(1);
             }
 

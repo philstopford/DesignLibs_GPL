@@ -102,7 +102,7 @@ namespace Burkardt.FourierTransform
         {
             int i;
             int j;
-            double pi = 3.141592653589793;
+            
             double theta;
 
             azero = 0.0;
@@ -120,7 +120,7 @@ namespace Burkardt.FourierTransform
 
                 for (j = 0; j < n; j++)
                 {
-                    theta = (double) (2 * (i + 1) * j) * pi / (double) (n);
+                    theta = (double) (2 * (i + 1) * j) * Math.PI / (double) (n);
                     a[i] = a[i] + r[j] * Math.Cos(theta);
                     b[i] = b[i] + r[j] * Math.Sin(theta);
                 }
@@ -457,7 +457,7 @@ namespace Burkardt.FourierTransform
             //    For 0 <= I <= N-1,
             //
             //      Y(I) = -2 Sum ( 1 <= J <= N-1 ) X(J) * sin ( PI * J * (I+1/2) / N )
-            //             - X(N) * cos ( pi * I )
+            //             - X(N) * cos ( Math.PI * I )
             //
             //  Licensing:
             //

@@ -128,7 +128,7 @@ namespace Burkardt.PDFLib
             //
         {
             double pdf;
-            const double r8_pi = 3.14159265358979323;
+            
             double y;
 
             if (x <= 0.0)
@@ -138,7 +138,7 @@ namespace Burkardt.PDFLib
             else
             {
                 y = (Math.Log(x) - mu) / sigma;
-                pdf = Math.Exp(-0.5 * y * y) / (sigma * x * Math.Sqrt(2.0 * r8_pi));
+                pdf = Math.Exp(-0.5 * y * y) / (sigma * x * Math.Sqrt(2.0 * Math.PI));
             }
 
             return pdf;

@@ -26,7 +26,7 @@ namespace Burkardt.Probability
         //      X is any point on the unit sphere,
         //      and C(KAPPA) is a normalization factor:
         //
-        //      C(KAPPA) = sqrt ( KAPPA ) / ( ( 2 * pi )^(3/2) * I(0.5,KAPPA) )
+        //      C(KAPPA) = sqrt ( KAPPA ) / ( ( 2 * Math.PI )^(3/2) * I(0.5,KAPPA) )
         //
         //    where
         //

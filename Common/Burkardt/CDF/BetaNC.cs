@@ -75,7 +75,7 @@ namespace Burkardt
                 - Math.Log ( a ) );
 
             double p_sum = pi;
-            double pb_sum = pi * bi;
+            double pb_sum = Math.PI * bi;
 
             while ( p_sum < 1.0 - error_max )
             {
@@ -89,7 +89,7 @@ namespace Burkardt
                 si = x * ( a + b + i - 1 ) * sj / ( a + i );
 
                 p_sum = p_sum + pi;
-                pb_sum = pb_sum + pi * bi;
+                pb_sum = pb_sum + Math.PI * bi;
             }
 
             double value = pb_sum;

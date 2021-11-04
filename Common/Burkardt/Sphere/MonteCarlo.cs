@@ -32,9 +32,9 @@ namespace Burkardt.SphereNS
         {
             double area;
             const double r = 1.0;
-            const double r8_pi = 3.141592653589793;
+            
 
-            area = 4.0 * r8_pi * r * r;
+            area = 4.0 * Math.PI * r * r;
 
             return area;
         }
@@ -85,7 +85,7 @@ namespace Burkardt.SphereNS
             double arg;
             int i;
             double integral;
-            double r8_pi = 3.141592653589793;
+            
 
             if (e[0] < 0 || e[1] < 0 || e[2] < 0)
             {
@@ -100,7 +100,7 @@ namespace Burkardt.SphereNS
 
             if (e[0] == 0 && e[1] == 0 && e[2] == 0)
             {
-                integral = 2.0 * Math.Sqrt(r8_pi * r8_pi * r8_pi) / typeMethods.r8_gamma(1.5);
+                integral = 2.0 * Math.Sqrt(Math.PI * Math.PI * Math.PI) / typeMethods.r8_gamma(1.5);
             }
             else if ((e[0] % 2) == 1 ||
                      (e[1] % 2) == 1 ||

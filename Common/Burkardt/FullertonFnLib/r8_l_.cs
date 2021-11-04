@@ -372,7 +372,7 @@ namespace Burkardt.FullertonFnLib
             //
             //    For 10 <= X, compute the log gamma correction factor so that
             //
-            //      log ( gamma ( x ) ) = log ( sqrt ( 2 * pi ) ) 
+            //      log ( gamma ( x ) ) = log ( sqrt ( 2 * Math.PI ) ) 
             //                          + ( x - 0.5 ) * log ( x ) - x 
             //                          + r8_lgmc ( x )
             //
@@ -592,7 +592,7 @@ namespace Burkardt.FullertonFnLib
             //    the gamma function of X.
             //
         {
-            const double pi = 3.14159265358979323846264338327950;
+            
             double sinpiy;
             const double sq2pil = 0.91893853320467274178032973640562;
             const double sqpi2l = +0.225791352644727432363097614947441;
@@ -627,7 +627,7 @@ namespace Burkardt.FullertonFnLib
                 return value;
             }
 
-            sinpiy = Math.Abs(Math.Sin(pi * y));
+            sinpiy = Math.Abs(Math.Sin(Math.PI * y));
 
             if (sinpiy == 0.0)
             {

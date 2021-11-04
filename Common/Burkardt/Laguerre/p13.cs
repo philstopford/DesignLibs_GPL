@@ -62,9 +62,9 @@ namespace Burkardt.Laguerre
             //
         {
             double exact;
-            const double r8_pi = 3.1415926535897932385;
+            
 
-            exact = r8_pi / 2.0;
+            exact = Math.PI / 2.0;
 
             return exact;
         }

@@ -24,7 +24,7 @@ namespace Burkardt.Disk
         //
         //      S(f) = sum ( 1 <= i <= NT * NR ) W(i) * F ( X(i), Y(i) ).
         //
-        //      Area = pi * RC ^ 2
+        //      Area = Math.PI * RC ^ 2
         //
         //      Q(f) = Area * S(f)
         //
@@ -182,7 +182,7 @@ namespace Burkardt.Disk
         //
         //    The integral I(f) is then approximated by
         //
-        //      Q(f) = pi * sum ( 1 <= j <= NT ) sum ( 1 <= i <= NR ) 
+        //      Q(f) = Math.PI * sum ( 1 <= j <= NT ) sum ( 1 <= i <= NR ) 
         //        W(i) * F ( R(i) * cos(T(j)), R(i) * sin(T(j)) ).
         //
         //  Licensing:
@@ -210,7 +210,7 @@ namespace Burkardt.Disk
         {
             int ir;
             int it;
-            const double r8_pi = 3.141592653589793;
+            
             double[] wr;
             double[] xr;
             //
@@ -234,7 +234,7 @@ namespace Burkardt.Disk
             //
             for (it = 0; it < nt; it++)
             {
-                t[it] = 2.0 * r8_pi * (double) (it) / (double) (nt);
+                t[it] = 2.0 * Math.PI * (double) (it) / (double) (nt);
             }
 
             for (ir = 0; ir < nr; ir++)

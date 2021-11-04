@@ -39,7 +39,7 @@ namespace Burkardt.Ball
             //    Output, double BALL01_SAMPLE_2D[2], a random point in the unit ball.
             //
         {
-            const double r8_pi = 3.141592653589793;
+            
             double r;
             double theta;
             double[] x;
@@ -48,7 +48,7 @@ namespace Burkardt.Ball
             r = Math.Sqrt(r);
 
             theta = UniformRNG.r8_uniform_01(ref seed);
-            theta = 2.0 * r8_pi * theta;
+            theta = 2.0 * Math.PI * theta;
 
             x = new double[2];
 
@@ -88,7 +88,7 @@ namespace Burkardt.Ball
             int DIM_NUM = 3;
 
             double phi;
-            const double r8_pi = 3.141592653589793;
+            
             double r;
             double theta;
             double vdot;
@@ -110,7 +110,7 @@ namespace Burkardt.Ball
             //  axis of the Z vector.
             //
             theta = UniformRNG.r8_uniform_01(ref seed);
-            theta = 2.0 * r8_pi * theta;
+            theta = 2.0 * Math.PI * theta;
             //
             //  Pick a random radius R.
             //
@@ -236,11 +236,11 @@ namespace Burkardt.Ball
             //
         {
             double r;
-            const double r8_pi = 3.141592653589793;
+            
             double volume;
 
             r = 1.0;
-            volume = 4.0 * r8_pi * r * r * r / 3.0;
+            volume = 4.0 * Math.PI * r * r * r / 3.0;
 
             return volume;
         }

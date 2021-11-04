@@ -88,7 +88,7 @@ namespace Burkardt.Transform
             double[] d;
             int i;
             int j;
-            double r8_pi = 3.141592653589793;
+            
 
             d = new double[n];
 
@@ -97,7 +97,7 @@ namespace Burkardt.Transform
                 d[i] = c[0] / 2.0;
                 for (j = 1; j < n; j++)
                 {
-                    angle = r8_pi * (double) ((2 * i + 1) * j) / (double) (2 * n);
+                    angle = Math.PI * (double) ((2 * i + 1) * j) / (double) (2 * n);
                     d[i] = d[i] + Math.Cos(angle) * c[j];
                 }
 

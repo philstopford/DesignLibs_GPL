@@ -110,7 +110,7 @@ namespace Burkardt.Chebyshev
         //
         {
             int i;
-            double pi = 3.141592653589793;
+            
 
             if ( n < 1 )
             {
@@ -122,11 +122,11 @@ namespace Burkardt.Chebyshev
 
             for ( i = 0; i < n; i++ )
             {
-                w[i] = pi / ( double ) ( n );
+                w[i] = Math.PI / ( double ) ( n );
             }
             for ( i = 0; i < n; i++ )
             {
-                x[i] = Math.Cos ( pi * ( double ) ( 2 * n - 1 - 2 * i )
+                x[i] = Math.Cos ( Math.PI * ( double ) ( 2 * n - 1 - 2 * i )
                                   / ( double ) ( 2 * n ) );
             }
             if ( ( n % 2 ) == 1 )

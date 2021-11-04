@@ -63,7 +63,7 @@ namespace Burkardt.Quadrature
             double gamma0;
             int i;
             int j;
-            double pi = 3.141592653589793;
+            
             int r;
             double volume;
             double volume_1d;
@@ -73,7 +73,7 @@ namespace Burkardt.Quadrature
                 i = 0;
                 for (r = 1; r <= (n / 2); r++)
                 {
-                    arg = (double) (2 * r * j) * pi / (double) (n + 1);
+                    arg = (double) (2 * r * j) * Math.PI / (double) (n + 1);
 
                     x[i + j * n] = Math.Sqrt(2.0) * Math.Cos(arg);
                     i = i + 1;
@@ -221,7 +221,7 @@ namespace Burkardt.Quadrature
             int expon;
             int i;
             int j;
-            double pi = 3.141592653589793;
+            
             int r;
             double volume;
 
@@ -234,7 +234,7 @@ namespace Burkardt.Quadrature
                 i = 0;
                 for (r = 1; r <= (n / 2); r++)
                 {
-                    arg = (double) ((2 * r - 1) * (j + 1)) * pi / (double) (n);
+                    arg = (double) ((2 * r - 1) * (j + 1)) * Math.PI / (double) (n);
 
                     x[i + j * n] = Math.Sqrt(2.0) * Math.Cos(arg) / Math.Sqrt(3.0);
                     i = i + 1;
@@ -382,7 +382,7 @@ namespace Burkardt.Quadrature
             double gamma0;
             int i;
             int j;
-            double pi = 3.141592653589793;
+            
             int r;
             double volume;
             double volume_1d;
@@ -400,7 +400,7 @@ namespace Burkardt.Quadrature
                 i = 0;
                 for (r = 1; r <= (n / 2); r++)
                 {
-                    arg = (double) (2 * r * j) * pi / (double) (n + 1);
+                    arg = (double) (2 * r * j) * Math.PI / (double) (n + 1);
 
                     x[i + j * n] = Math.Sqrt(2.0) * Math.Cos(arg);
                     i = i + 1;
@@ -562,7 +562,7 @@ namespace Burkardt.Quadrature
             int expon;
             int i;
             int j;
-            double pi = 3.141592653589793;
+            
             int r;
             double volume;
 
@@ -583,7 +583,7 @@ namespace Burkardt.Quadrature
                 i = 0;
                 for (r = 1; r <= (n / 2); r++)
                 {
-                    arg = (double) ((2 * r - 1) * j) * pi / (double) (n);
+                    arg = (double) ((2 * r - 1) * j) * Math.PI / (double) (n);
 
                     x[i + j * n] = Math.Sqrt(2.0) * Math.Cos(arg) / Math.Sqrt(2.0 * alpha + 3.0);
                     i = i + 1;
@@ -731,7 +731,7 @@ namespace Burkardt.Quadrature
             double gamma0;
             int i;
             int j;
-            double pi = 3.141592653589793;
+            
             int r;
             double volume;
             double volume_1d;
@@ -741,7 +741,7 @@ namespace Burkardt.Quadrature
                 i = 0;
                 for (r = 1; r <= (n / 2); r++)
                 {
-                    arg = (double) (2 * r * j) * pi / (double) (n + 1);
+                    arg = (double) (2 * r * j) * Math.PI / (double) (n + 1);
 
                     x[i + j * n] = Math.Sqrt(2.0) * Math.Cos(arg);
                     i = i + 1;
@@ -768,7 +768,7 @@ namespace Burkardt.Quadrature
                 }
             }
 
-            volume_1d = Math.Sqrt(pi);
+            volume_1d = Math.Sqrt(Math.PI);
             volume = Math.Pow(volume_1d, n);
 
             for (j = 0; j < o; j++)
@@ -875,7 +875,7 @@ namespace Burkardt.Quadrature
             double arg;
             int i;
             int j;
-            double pi = 3.141592653589793;
+            
             int r;
             double volume;
             double volume_1d;
@@ -885,7 +885,7 @@ namespace Burkardt.Quadrature
                 i = 0;
                 for (r = 1; r <= (n / 2); r++)
                 {
-                    arg = (double) ((2 * r - 1) * (j + 1)) * pi / (double) (n);
+                    arg = (double) ((2 * r - 1) * (j + 1)) * Math.PI / (double) (n);
                     x[i + j * n] = Math.Cos(arg);
                     i = i + 1;
                     x[i + j * n] = Math.Sin(arg);
@@ -904,7 +904,7 @@ namespace Burkardt.Quadrature
                 }
             }
 
-            volume_1d = Math.Sqrt(pi);
+            volume_1d = Math.Sqrt(Math.PI);
             volume = Math.Pow(volume_1d, n);
 
             for (j = 0; j < o; j++)
@@ -1023,7 +1023,7 @@ namespace Burkardt.Quadrature
             double gamma0;
             int i;
             int j;
-            double pi = 3.141592653589793;
+            
             int r;
             double volume;
             double volume_1d;
@@ -1033,7 +1033,7 @@ namespace Burkardt.Quadrature
                 i = 0;
                 for (r = 1; r <= (n / 2); r++)
                 {
-                    arg = (double) (2 * r * j) * pi / (double) (n + 1);
+                    arg = (double) (2 * r * j) * Math.PI / (double) (n + 1);
 
                     x[i + j * n] = Math.Sqrt(2.0) * Math.Cos(arg);
                     i = i + 1;
@@ -1060,7 +1060,7 @@ namespace Burkardt.Quadrature
                 }
             }
 
-            volume_1d = Math.Sqrt(pi);
+            volume_1d = Math.Sqrt(Math.PI);
             volume = Math.Pow(volume_1d, n);
 
             for (j = 0; j < o; j++)
@@ -1169,18 +1169,18 @@ namespace Burkardt.Quadrature
             double arg;
             int i;
             int j;
-            double pi = 3.141592653589793;
+            
             int r;
             double volume;
 
-            volume = Math.Sqrt(Math.Pow(pi, n));
+            volume = Math.Sqrt(Math.Pow(Math.PI, n));
 
             for (j = 0; j < o; j++)
             {
                 i = 0;
                 for (r = 1; r <= (n / 2); r++)
                 {
-                    arg = (double) ((2 * r - 1) * j) * pi / (double) (n);
+                    arg = (double) ((2 * r - 1) * j) * Math.PI / (double) (n);
                     x[i + j * n] = Math.Cos(arg);
                     i = i + 1;
                     x[i + j * n] = Math.Sin(arg);

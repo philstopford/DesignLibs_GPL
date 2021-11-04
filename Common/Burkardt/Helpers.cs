@@ -40,15 +40,15 @@ namespace Burkardt
         //
         {
         double angle;
-        const double pi = 3.141592653589793;
+        
 
         if ( s <= -1.0 )
         {
-        angle = - pi / 2.0;
+        angle = - Math.PI / 2.0;
         } 
         else if ( 1.0 <= s )
         {
-        angle = pi / 2.0;
+        angle = Math.PI / 2.0;
         }
         else
         {
@@ -102,7 +102,7 @@ namespace Burkardt
             //    of its cosine and sine match those of X and Y.
             //
         {
-            const double pi = 3.141592653589793;
+            
             //
             //  Special cases:
             //
@@ -110,11 +110,11 @@ namespace Burkardt
             {
                 if (0.0 < y)
                 {
-                    return (pi / 2.0);
+                    return (Math.PI / 2.0);
                 }
                 else if (y < 0.0)
                 {
-                    return (3.0 * pi / 2.0);
+                    return (3.0 * Math.PI / 2.0);
                 }
                 else if (y == 0.0)
                 {
@@ -129,7 +129,7 @@ namespace Burkardt
                 }
                 else if (x < 0.0)
                 {
-                    return pi;
+                    return Math.PI;
                 }
             }
 
@@ -142,15 +142,15 @@ namespace Burkardt
             }
             else if (x < 0.0 && 0.0 < y)
             {
-                return (pi - Math.Atan2(y, -x));
+                return (Math.PI - Math.Atan2(y, -x));
             }
             else if (x < 0.0 && y < 0.0)
             {
-                return (pi + Math.Atan2(-y, -x));
+                return (Math.PI + Math.Atan2(-y, -x));
             }
             else if (0.0 < x && y < 0.0)
             {
-                return (2.0 * pi - Math.Atan2(-y, x));
+                return (2.0 * Math.PI - Math.Atan2(-y, x));
             }
 
             return 0.0;

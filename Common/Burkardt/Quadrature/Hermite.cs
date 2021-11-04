@@ -1435,7 +1435,7 @@ namespace Burkardt.Quadrature
         {
             double[] bj;
             int i;
-            const double r8_pi = 3.141592653589793;
+            
 
             for (i = 0; i < nt; i++)
             {
@@ -1454,7 +1454,7 @@ namespace Burkardt.Quadrature
                 wts[i] = 0.0;
             }
 
-            wts[0] = Math.Sqrt(Math.Sqrt(r8_pi));
+            wts[0] = Math.Sqrt(Math.Sqrt(Math.PI));
 
             IMTQLX.imtqlx(nt, ref t, ref bj, ref wts);
 
@@ -1720,7 +1720,7 @@ namespace Burkardt.Quadrature
         {
             double[] bj;
             int i;
-            const double r8_pi = 3.141592653589793;
+            
 
             for (i = 0; i < nt; i++)
             {
@@ -1739,7 +1739,7 @@ namespace Burkardt.Quadrature
                 wts[i] = 0.0;
             }
 
-            wts[0] = Math.Sqrt(Math.Sqrt(r8_pi));
+            wts[0] = Math.Sqrt(Math.Sqrt(Math.PI));
 
             IMTQLX.imtqlx(nt, ref t, ref bj, ref wts);
 
@@ -1788,7 +1788,7 @@ namespace Burkardt.Quadrature
         {
             double[] bj;
             int i;
-            const double r8_pi = 3.141592653589793;
+            
 
             for (i = 0; i < nt; i++)
             {
@@ -1807,7 +1807,7 @@ namespace Burkardt.Quadrature
                 wts[i] = 0.0;
             }
 
-            wts[0] = Math.Sqrt(Math.Sqrt(r8_pi));
+            wts[0] = Math.Sqrt(Math.Sqrt(Math.PI));
 
             IMTQLX.imtqlx(nt, ref t, ref bj, ref wts);
 

@@ -74,14 +74,14 @@ namespace Burkardt.Interpolation
             int i;
             int j;
             int k;
-            const double pi = 3.1415926535897931;
+            
             double pt;
             //
             //  Build the matrix P_2 and store it in RAUX2.
             //
             for (i = 0; i <= deg + 1; i++)
             {
-                angle = (double) (i) * pi / (double) (deg + 1);
+                angle = (double) (i) * Math.PI / (double) (deg + 1);
                 pt = -Math.Cos(angle);
                 PolynomialNS.Chebyshev.cheb(deg, pt, ref raux2, +i * (degmax + 1));
             }
@@ -124,7 +124,7 @@ namespace Burkardt.Interpolation
             //
             for (i = 0; i <= deg; i++)
             {
-                angle = (double) (i) * pi / (double) (deg);
+                angle = (double) (i) * Math.PI / (double) (deg);
                 pt = -Math.Cos(angle);
                 PolynomialNS.Chebyshev.cheb(deg, pt, ref raux2, +i * (degmax + 1));
             }
@@ -287,7 +287,7 @@ namespace Burkardt.Interpolation
             int itemp0;
             int j;
             int k;
-            const double pi = 3.1415926535897931;
+            
             double rtemp0;
             //
             //  Compute the Padua points of the first family at degree DEG.
@@ -303,7 +303,7 @@ namespace Burkardt.Interpolation
 
             npd = 0;
             itemp0 = deg * (deg + 1);
-            rtemp0 = pi / (double) (itemp0);
+            rtemp0 = Math.PI / (double) (itemp0);
 
             for (j = 0; j <= deg + 1; j++)
             {

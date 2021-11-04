@@ -298,7 +298,7 @@ namespace Burkardt.TetrahedronNS
             double[] bd = new double[3];
             double[] cd = new double[3];
             int i;
-            const double r8_pi = 3.141592653589793;
+            
 
             tetrahedron_edges(tetra, ref ab, ref ac, ref ad, ref bc, ref bd, ref cd);
 
@@ -318,7 +318,7 @@ namespace Burkardt.TetrahedronNS
 
             for (i = 0; i < 6; i++)
             {
-                angle[i] = r8_pi - angle[i];
+                angle[i] = Math.PI - angle[i];
             }
 
             return angle;
@@ -1690,7 +1690,7 @@ namespace Burkardt.TetrahedronNS
         {
             double[] angle;
             double[] dihedral_angles;
-            const double r8_pi = 3.141592653589793;
+            
 
             dihedral_angles = tetrahedron_dihedral_angles(tetra);
 
@@ -1698,19 +1698,19 @@ namespace Burkardt.TetrahedronNS
 
             angle[0] = dihedral_angles[0]
                 + dihedral_angles[1]
-                + dihedral_angles[2] - r8_pi;
+                + dihedral_angles[2] - Math.PI;
 
             angle[1] = dihedral_angles[0]
                 + dihedral_angles[3]
-                + dihedral_angles[4] - r8_pi;
+                + dihedral_angles[4] - Math.PI;
 
             angle[2] = dihedral_angles[1]
                 + dihedral_angles[3]
-                + dihedral_angles[5] - r8_pi;
+                + dihedral_angles[5] - Math.PI;
 
             angle[3] = dihedral_angles[2]
                 + dihedral_angles[4]
-                + dihedral_angles[5] - r8_pi;
+                + dihedral_angles[5] - Math.PI;
 
             return angle;
         }

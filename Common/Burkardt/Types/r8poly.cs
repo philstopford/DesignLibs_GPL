@@ -2959,7 +2959,7 @@ namespace Burkardt.Types
             Complex one;
             double q;
             double r;
-            const double r8_pi = 3.141592653589793;
+            
             double s1;
             double s2;
             double temp;
@@ -2985,8 +2985,8 @@ namespace Burkardt.Types
             {
                 theta = Math.Acos(r / Math.Sqrt(q * q * q));
                 r1 = -2.0 * Complex.Sqrt(q) * Complex.Cos(theta / 3.0);
-                r2 = -2.0 * Complex.Sqrt(q) * Complex.Cos((theta + 2.0 * r8_pi) / 3.0);
-                r3 = -2.0 * Complex.Sqrt(q) * Complex.Cos((theta + 4.0 * r8_pi) / 3.0);
+                r2 = -2.0 * Complex.Sqrt(q) * Complex.Cos((theta + 2.0 * Math.PI) / 3.0);
+                r3 = -2.0 * Complex.Sqrt(q) * Complex.Cos((theta + 4.0 * Math.PI) / 3.0);
             }
             else if (q * q * q <= r * r)
             {

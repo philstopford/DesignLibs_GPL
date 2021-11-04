@@ -230,7 +230,7 @@ namespace Burkardt.Disk
             double gt;
             int i;
             double phi;
-            const double r8_pi = 3.141592653589793;
+            
             double r0;
 
             r0 = r / Math.Sqrt((double) (n) - 0.5);
@@ -241,7 +241,7 @@ namespace Burkardt.Disk
             for (i = 0; i < n; i++)
             {
                 gr = r0 * Math.Sqrt((double) (i + 1) - 0.5);
-                gt = 2.0 * r8_pi * (double) (i + 1) / phi;
+                gt = 2.0 * Math.PI * (double) (i + 1) / phi;
                 g[0 + i * 2] = c[0] + gr * Math.Cos(gt);
                 g[1 + i * 2] = c[1] + gr * Math.Sin(gt);
             }

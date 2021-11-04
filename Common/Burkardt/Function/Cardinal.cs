@@ -15,7 +15,7 @@ namespace Burkardt.Function
             //
             //  Discussion:
             //
-            //    The base points are T(I) = pi * I / ( M + 1 ), 0 <= I <= M + 1.
+            //    The base points are T(I) = Math.PI * I / ( M + 1 ), 0 <= I <= M + 1.
             //    Basis function J is 1 at T(J), and 0 at T(I) for I /= J
             //
             //  Licensing:
@@ -57,7 +57,7 @@ namespace Burkardt.Function
             double cj;
             int i;
             const double r8_eps = 2.220446049250313E-016;
-            const double r8_pi = 3.141592653589793;
+            
             double tj;
 
             c = new double[n];
@@ -71,7 +71,7 @@ namespace Burkardt.Function
                 cj = 1.0;
             }
 
-            tj = r8_pi * (double)(j) / (double)(m + 1);
+            tj = Math.PI * (double)(j) / (double)(m + 1);
 
             for (i = 0; i < n; i++)
             {
@@ -103,7 +103,7 @@ namespace Burkardt.Function
             //
             //  Discussion:
             //
-            //    The base points are T(I) = pi * I / ( M + 1 ), 0 <= I <= M + 1.
+            //    The base points are T(I) = Math.PI * I / ( M + 1 ), 0 <= I <= M + 1.
             //    Basis function J is 1 at T(J), and 0 at T(I) for I /= J
             //
             //  Licensing:
@@ -143,13 +143,13 @@ namespace Burkardt.Function
         {
             int i;
             const double r8_eps = 2.220446049250313E-016;
-            const double r8_pi = 3.141592653589793;
+            
             double[] s;
             double tj;
 
             s = new double[n];
 
-            tj = r8_pi * (double)(j) / (double)(m + 1);
+            tj = Math.PI * (double)(j) / (double)(m + 1);
 
             for (i = 0; i < n; i++)
             {

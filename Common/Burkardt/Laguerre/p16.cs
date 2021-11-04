@@ -79,7 +79,7 @@ namespace Burkardt.Laguerre
             //
             //  Integral:
             //
-            //    Integral ( 0 <= x < +oo ) cos ( pi * x / 2 ) / sqrt ( x ) dx
+            //    Integral ( 0 <= x < +oo ) cos ( Math.PI * x / 2 ) / sqrt ( x ) dx
             //
             //  Licensing:
             //
@@ -113,7 +113,7 @@ namespace Burkardt.Laguerre
         {
             double[] f;
             int i;
-            const double r8_pi = 3.1415926535897932385;
+            
 
             f = new double[n];
 
@@ -125,7 +125,7 @@ namespace Burkardt.Laguerre
                 }
                 else
                 {
-                    f[i] = Math.Cos(r8_pi * x[i] / 2.0) / Math.Sqrt(x[i]);
+                    f[i] = Math.Cos(Math.PI * x[i] / 2.0) / Math.Sqrt(x[i]);
                 }
             }
 
@@ -159,7 +159,7 @@ namespace Burkardt.Laguerre
         {
             string title;
 
-            title = "cos ( pi x / 2 ) / sqrt ( x )";
+            title = "cos ( Math.PI x / 2 ) / sqrt ( x )";
 
             return title;
         }

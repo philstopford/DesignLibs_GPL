@@ -63,9 +63,9 @@ namespace Burkardt.Laguerre
         {
             const double beta = 2.0;
             double exact;
-            const double r8_pi = 3.1415926535897932385;
+            
 
-            exact = Math.Sqrt(r8_pi) * Math.Cos(0.5 * Math.Atan(Math.Pow(2.0, beta)))
+            exact = Math.Sqrt(Math.PI) * Math.Cos(0.5 * Math.Atan(Math.Pow(2.0, beta)))
                     / Math.Sqrt(Math.Sqrt(1.0 + Math.Pow(0.25, beta)));
 
             return exact;

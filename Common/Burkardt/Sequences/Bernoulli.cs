@@ -241,7 +241,7 @@ namespace Burkardt.Sequence
             int i;
             int k;
             int kmax = 400;
-            const double r8_pi = 3.141592653589793;
+            
             double sgn;
             double sum2;
             double t;
@@ -267,7 +267,7 @@ namespace Burkardt.Sequence
                 return;
             }
 
-            altpi = Math.Log(2.0 * r8_pi);
+            altpi = Math.Log(2.0 * Math.PI);
             //
             //  Initial estimates for B(I), I = 2 to N
             //
@@ -413,7 +413,7 @@ namespace Burkardt.Sequence
         {
             int i;
             int itmax = 1000;
-            const double r8_pi = 3.141592653589793;
+            
             double sum2;
             double term;
             double tol = 5.0E-07;
@@ -456,7 +456,7 @@ namespace Burkardt.Sequence
                 }
 
                 value = 2.0 * sum2 * typeMethods.r8_factorial(n)
-                        / Math.Pow((2.0 * r8_pi), n);
+                        / Math.Pow((2.0 * Math.PI), n);
 
                 if ((n % 4) == 0)
                 {

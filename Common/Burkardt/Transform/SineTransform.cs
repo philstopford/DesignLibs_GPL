@@ -36,7 +36,7 @@ namespace Burkardt.Transform
             double angle;
             int i;
             int j;
-            double pi = 3.141592653589793;
+            
             double[] s;
 
             s = new double[n];
@@ -46,7 +46,7 @@ namespace Burkardt.Transform
                 s[i] = 0.0;
                 for (j = 0; j < n; j++)
                 {
-                    angle = pi * (double)((i + 1) * (j + 1)) / (double)(n + 1);
+                    angle = Math.PI * (double)((i + 1) * (j + 1)) / (double)(n + 1);
                     s[i] = s[i] + Math.Sin(angle) * d[j];
                 }
 
@@ -113,7 +113,7 @@ namespace Burkardt.Transform
             ;
             int i;
             int j;
-            double pi = 3.141592653589793;
+            
             double[] s;
             double x;
 
@@ -142,7 +142,7 @@ namespace Burkardt.Transform
 
                 for (j = 0; j < n; j++)
                 {
-                    angle = pi * (double)((i + 1) * (j + 1)) / (double)(n + 1);
+                    angle = Math.PI * (double)((i + 1) * (j + 1)) / (double)(n + 1);
                     s[i] = s[i] + Math.Sin(angle) * f2[j];
                 }
 
@@ -210,7 +210,7 @@ namespace Burkardt.Transform
             double f2;
             int i;
             int j;
-            double pi = 3.141592653589793;
+            
             double[] value;
 
             value = new double[nx];
@@ -223,7 +223,7 @@ namespace Burkardt.Transform
                 f2 = 0.0;
                 for (j = 0; j < n; j++)
                 {
-                    angle = (double)(j + 1) * (x[i] - a) * pi / (b - a);
+                    angle = (double)(j + 1) * (x[i] - a) * Math.PI / (b - a);
                     f2 = f2 + s[j] * Math.Sin(angle);
                 }
 

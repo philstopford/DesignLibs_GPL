@@ -421,7 +421,7 @@ namespace Burkardt.Stroud
             int i;
             int j;
             int k;
-            double pi = 3.141592653589793;
+            
             double quad;
             double result;
             double volume;
@@ -452,7 +452,7 @@ namespace Burkardt.Stroud
             //
             for (j = 0; j < order; j++)
             {
-                angle = pi * (double)(2 * j - 1) / (double)(2 * order);
+                angle = Math.PI * (double)(2 * j - 1) / (double)(2 * order);
                 xtab2[j] = Math.Cos(angle);
             }
 
@@ -692,7 +692,7 @@ namespace Burkardt.Stroud
             int k;
             int order1 = 4;
             int order2 = 8;
-            double pi = 3.141592653589793;
+            
             double quad;
             double result;
             double sj;
@@ -731,8 +731,8 @@ namespace Burkardt.Stroud
 
                     for (k = 1; k <= 16; k++)
                     {
-                        sk = Math.Sin((double)(k) * pi / 8.0);
-                        ck = Math.Cos((double)(k) * pi / 8.0);
+                        sk = Math.Sin((double)(k) * Math.PI / 8.0);
+                        ck = Math.Cos((double)(k) * Math.PI / 8.0);
                         x = xtab1[i] * cj * ck;
                         y = xtab1[i] * cj * sk;
                         z = xtab1[i] * sj;
@@ -1056,10 +1056,10 @@ namespace Burkardt.Stroud
             //    Output, double BALL_UNIT_VOLUME_3D, the volume of the ball.
             //
         {
-            double pi = 3.141592653589793;
+            
             double value;
 
-            value = (4.0 / 3.0) * pi;
+            value = (4.0 / 3.0) * Math.PI;
 
             return value;
         }
@@ -1108,13 +1108,13 @@ namespace Burkardt.Stroud
         {
             int i;
             int m;
-            double pi = 3.141592653589793;
+            
             double volume;
 
             if ((n % 2) == 0)
             {
                 m = n / 2;
-                volume = Math.Pow(pi, m);
+                volume = Math.Pow(Math.PI, m);
                 for (i = 1; i <= m; i++)
                 {
                     volume = volume / (double)(i);
@@ -1123,7 +1123,7 @@ namespace Burkardt.Stroud
             else
             {
                 m = (n - 1) / 2;
-                volume = Math.Pow(pi, m) * (int)Math.Pow(2, n);
+                volume = Math.Pow(Math.PI, m) * (int)Math.Pow(2, n);
                 for (i = m + 1; i <= 2 * m + 1; i++)
                 {
                     volume = volume / (double)(i);
@@ -1164,10 +1164,10 @@ namespace Burkardt.Stroud
             //    Output, double BALL_VOLUME_3D, the volume of the ball.
             //
         {
-            double pi = 3.141592653589793;
+            
             double volume;
 
-            volume = (4.0 / 3.0) * pi * r * r * r;
+            volume = (4.0 / 3.0) * Math.PI * r * r * r;
 
             return volume;
         }

@@ -43,10 +43,10 @@ namespace Burkardt.Function
             //    Output, double AGUD, the argument of the Gudermannian.
             //
         {
-            const double r8_pi = 3.141592653589793;
+            
             double value;
 
-            value = Math.Log ( Math.Tan ( 0.25 * r8_pi + 0.5 * g ) );
+            value = Math.Log ( Math.Tan ( 0.25 * Math.PI + 0.5 * g ) );
 
             return value;
         }

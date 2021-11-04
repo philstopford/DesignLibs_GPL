@@ -106,7 +106,6 @@ namespace Burkardt
             //
         {
             double near;
-            double pi = Math.PI;
             Complex pz;
             double s = 1.0;
             Complex t;
@@ -123,8 +122,8 @@ namespace Burkardt
             // 
             //  Compute if we are near the branch cuts.
             //
-            ympi = y - pi;
-            yppi = y + pi;
+            ympi = y - Math.PI;
+            yppi = y + Math.PI;
             near = 0.01;
             // 
             //  Test for floating point exceptions:
@@ -143,10 +142,10 @@ namespace Burkardt
             //
             //  Signed zeros between branches.
             //
-            else if (((x == Double.NegativeInfinity) || (x == Double.PositiveInfinity)) && (x < 0.0) && (-pi < y) &&
-                     (y <= pi))
+            else if (((x == Double.NegativeInfinity) || (x == Double.PositiveInfinity)) && (x < 0.0) && (-Math.PI < y) &&
+                     (y <= Math.PI))
             {
-                if (Math.Abs(y) <= pi / 2.0)
+                if (Math.Abs(y) <= Math.PI / 2.0)
                 {
                     w = +0.0;
                 }
@@ -183,7 +182,7 @@ namespace Burkardt
             //
             //  Test if exactly on the singular points.
             //
-            if ((x == -1.0) && (Complex.Abs(y) == pi))
+            if ((x == -1.0) && (Complex.Abs(y) == Math.PI))
             {
                 w = new Complex(-1.0, 0.0);
                 e = new Complex(0.0, 0.0);
@@ -198,9 +197,9 @@ namespace Burkardt
             //  Region 1: upper branch point.
             //  Series about z=-1+Pi*I.
             //
-            if ((-2.0 < x && x <= 1.0 && 1.0 < y && y < 2.0 * pi))
+            if ((-2.0 < x && x <= 1.0 && 1.0 < y && y < 2.0 * Math.PI))
             {
-                pz = Complex.Conjugate(Complex.Sqrt(Complex.Conjugate(2.0 * (z + new Complex(1.0, -pi)))));
+                pz = Complex.Conjugate(Complex.Sqrt(Complex.Conjugate(2.0 * (z + new Complex(1.0, -Math.PI)))));
 
                 w = -1.0
                     + (new Complex(0.0, 1.0)
@@ -213,9 +212,9 @@ namespace Burkardt
             //  Region 2: lower branch point.
             //  Series about z=-1-Pi*I.
             //
-            else if ((-2.0 < x && x <= 1.0 && -2.0 * pi < y && y < -1.0))
+            else if ((-2.0 < x && x <= 1.0 && -2.0 * Math.PI < y && y < -1.0))
             {
-                pz = Complex.Conjugate(Complex.Sqrt(Complex.Conjugate(2.0 * (z + 1.0 + new Complex(0.0, pi)))));
+                pz = Complex.Conjugate(Complex.Sqrt(Complex.Conjugate(2.0 * (z + 1.0 + new Complex(0.0, Math.PI)))));
 
                 w = -1.0
                     + (-new Complex(0.0, 1.0) + (1.0 / 3.0
@@ -227,7 +226,7 @@ namespace Burkardt
             //  Region 3: between branch cuts.
             //  Series: About -infinity.
             //
-            else if (x <= -2.0 && -pi < y && y <= pi)
+            else if (x <= -2.0 && -Math.PI < y && y <= Math.PI)
             {
                 pz = Complex.Exp(z);
                 w = (1.0
@@ -241,7 +240,7 @@ namespace Burkardt
             //  Series about z=1.
             //
             else if (((-2.0 < x) && (x <= 1.0) && (-1.0 <= y) && (y <= 1.0))
-                     || ((-2.0 < x) && (x - 1.0) * (x - 1.0) + y * y <= pi * pi))
+                     || ((-2.0 < x) && (x - 1.0) * (x - 1.0) + y * y <= Math.PI * Math.PI))
             {
                 pz = z - 1.0;
                 w = 1.0 / 2.0 + 1.0 / 2.0 * z
@@ -253,9 +252,9 @@ namespace Burkardt
             //  Region 5: Top wing.
             //  Negative log series.
             //
-            else if (x <= -1.05 && pi < y && y - pi <= -0.75 * (x + 1.0))
+            else if (x <= -1.05 && Math.PI < y && y - Math.PI <= -0.75 * (x + 1.0))
             {
-                t = z - new Complex(0.0, pi);
+                t = z - new Complex(0.0, Math.PI);
                 pz = Complex.Log(-t);
                 w = ((1.0 + (-3.0 / 2.0 + 1.0 / 3.0 * pz) * pz) * pz
                      + ((-1.0 + 1.0 / 2.0 * pz) * pz + (pz + (-pz + t) * t) * t) * t)
@@ -265,9 +264,9 @@ namespace Burkardt
             //  Region 6: Bottom wing.
             //  Negative log series.
             //
-            else if (x <= -1.05 && 0.75 * (x + 1.0) < y + pi && y + pi <= 0.0)
+            else if (x <= -1.05 && 0.75 * (x + 1.0) < y + Math.PI && y + Math.PI <= 0.0)
             {
-                t = z + new Complex(0.0, pi);
+                t = z + new Complex(0.0, Math.PI);
                 pz = Complex.Log(-t);
                 w = ((1.0 + (-3.0 / 2.0 + 1.0 / 3.0 * pz) * pz) * pz
                      + ((-1.0 + 1.0 / 2.0 * pz) * pz + (pz + (-pz + t) * t) * t) * t)
@@ -297,12 +296,12 @@ namespace Burkardt
                     //  Recompute ympi with directed rounding.
                     //
                     // fesetround ( FE_UPWARD );
-                    ympi = y - pi;
+                    ympi = y - Math.PI;
 
                     if (ympi <= 0.0)
                     {
                         // fesetround ( FE_DOWNWARD );
-                        ympi = y - pi;
+                        ympi = y - Math.PI;
                     }
 
                     z = new Complex(x, ympi);
@@ -317,12 +316,12 @@ namespace Burkardt
                     //  Recompute yppi with directed rounding.
                     //
                     // fesetround ( FE_UPWARD );
-                    yppi = y + pi;
+                    yppi = y + Math.PI;
 
                     if (yppi <= 0.0)
                     {
                         // fesetround ( FE_DOWNWARD );
-                        yppi = y + pi;
+                        yppi = y + Math.PI;
                     }
 
                     z = new Complex(x, yppi);

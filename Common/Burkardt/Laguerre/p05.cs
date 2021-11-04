@@ -84,7 +84,7 @@ namespace Burkardt.Laguerre
             //
             //  Integral:
             //
-            //    exp ( -2 ) Integral ( 2 <= x < +oo ) cos ( pi * x^2 / 2 ) dx
+            //    exp ( -2 ) Integral ( 2 <= x < +oo ) cos ( Math.PI * x^2 / 2 ) dx
             //
             //  Licensing:
             //
@@ -118,13 +118,13 @@ namespace Burkardt.Laguerre
         {
             double[] f;
             int i;
-            const double r8_pi = 3.1415926535897932385;
+            
 
             f = new double[n];
 
             for (i = 0; i < n; i++)
             {
-                f[i] = Math.Exp(-2.0) * Math.Cos(0.5 * r8_pi * x[i] * x[i]);
+                f[i] = Math.Exp(-2.0) * Math.Cos(0.5 * Math.PI * x[i] * x[i]);
             }
 
             return f;

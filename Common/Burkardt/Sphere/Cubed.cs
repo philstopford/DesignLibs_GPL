@@ -35,7 +35,7 @@ namespace Burkardt.SphereNS
             //    Output, double SPHERE_CUBED_IJK_TO_XYZ_OLD[3], coordinates of the point.
             //
         {
-            const double pi = 3.141592653589793;
+            
             double xc;
             double[] xyz;
             double xyzn;
@@ -54,7 +54,7 @@ namespace Burkardt.SphereNS
             }
             else
             {
-                xc = Math.Tan((double)(2 * i - n) * 0.25 * pi / (double)(n));
+                xc = Math.Tan((double)(2 * i - n) * 0.25 * Math.PI / (double)(n));
             }
 
             if (j == 0)
@@ -67,7 +67,7 @@ namespace Burkardt.SphereNS
             }
             else
             {
-                yc = Math.Tan((double)(2 * j - n) * 0.25 * pi / (double)(n));
+                yc = Math.Tan((double)(2 * j - n) * 0.25 * Math.PI / (double)(n));
             }
 
             if (k == 0)
@@ -80,7 +80,7 @@ namespace Burkardt.SphereNS
             }
             else
             {
-                zc = Math.Tan((double)(2 * k - n) * 0.25 * pi / (double)(n));
+                zc = Math.Tan((double)(2 * k - n) * 0.25 * Math.PI / (double)(n));
             }
 
             xyzn = Math.Sqrt(xc * xc + yc * yc + zc * zc);
@@ -123,7 +123,7 @@ namespace Burkardt.SphereNS
             //    Output, double XYZ[3], coordinates of the point.
             //
         {
-            const double pi = 3.141592653589793;
+            
             double xc;
             double xyzn;
             double yc;
@@ -139,7 +139,7 @@ namespace Burkardt.SphereNS
             }
             else
             {
-                xc = Math.Tan((double)(2 * i - n) * 0.25 * pi / (double)(n));
+                xc = Math.Tan((double)(2 * i - n) * 0.25 * Math.PI / (double)(n));
             }
 
             if (j == 0)
@@ -152,7 +152,7 @@ namespace Burkardt.SphereNS
             }
             else
             {
-                yc = Math.Tan((double)(2 * j - n) * 0.25 * pi / (double)(n));
+                yc = Math.Tan((double)(2 * j - n) * 0.25 * Math.PI / (double)(n));
             }
 
             if (k == 0)
@@ -165,7 +165,7 @@ namespace Burkardt.SphereNS
             }
             else
             {
-                zc = Math.Tan((double)(2 * k - n) * 0.25 * pi / (double)(n));
+                zc = Math.Tan((double)(2 * k - n) * 0.25 * Math.PI / (double)(n));
             }
 
             xyzn = Math.Sqrt(xc * xc + yc * yc + zc * zc);
@@ -780,7 +780,7 @@ namespace Burkardt.SphereNS
             int i;
             int j;
             int k;
-            const double pi = 3.141592653589793;
+            
             double xyzn;
             double xc;
             double yc;
@@ -790,7 +790,7 @@ namespace Burkardt.SphereNS
             {
                 if (i1 < i2)
                 {
-                    xc = Math.Tan((double)(2 * i - n) * 0.25 * pi / (double)(n));
+                    xc = Math.Tan((double)(2 * i - n) * 0.25 * Math.PI / (double)(n));
                 }
                 else if (i1 == 0)
                 {
@@ -809,7 +809,7 @@ namespace Burkardt.SphereNS
                 {
                     if (j1 < j2)
                     {
-                        yc = Math.Tan((double)(2 * j - n) * 0.25 * pi / (double)(n));
+                        yc = Math.Tan((double)(2 * j - n) * 0.25 * Math.PI / (double)(n));
                     }
                     else if (j1 == 0)
                     {
@@ -828,7 +828,7 @@ namespace Burkardt.SphereNS
                     {
                         if (k1 < k2)
                         {
-                            zc = Math.Tan((double)(2 * k - n) * 0.25 * pi / (double)(n));
+                            zc = Math.Tan((double)(2 * k - n) * 0.25 * Math.PI / (double)(n));
                         }
                         else if (k1 == 0)
                         {

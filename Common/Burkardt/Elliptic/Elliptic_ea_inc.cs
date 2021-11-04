@@ -16,7 +16,7 @@ namespace Burkardt.Elliptic
             //
             //    The value is computed using Carlson elliptic integrals:
             //
-            //      k = sin ( a * pi / 180 )
+            //      k = sin ( a * Math.PI / 180 )
             //      E(phi,a) = 
             //                  sin ( phi )   RF ( cos^2 ( phi ), 1-k^2 sin^2 ( phi ), 1 ) 
             //        - 1/3 k^2 sin^3 ( phi ) RD ( cos^2 ( phi ), 1-k^2 sin^2 ( phi ), 1 ).
@@ -37,7 +37,7 @@ namespace Burkardt.Elliptic
             //
             //    Input, double PHI, A, the arguments.
             //    0 <= PHI <= PI/2.
-            //    0 <= sin^2 ( A * pi / 180 ) * sin^2(PHI) <= 1.
+            //    0 <= sin^2 ( A * Math.PI / 180 ) * sin^2(PHI) <= 1.
             //
             //    Output, double ELLIPTIC_INC_EA, the function value.
             //
@@ -46,7 +46,7 @@ namespace Burkardt.Elliptic
             double errtol;
             int ierr = 0;
             double k;
-            const double r8_pi = 3.141592653589793;
+            
             double sp;
             double value;
             double value1;
@@ -55,7 +55,7 @@ namespace Burkardt.Elliptic
             double y;
             double z;
 
-            k = Math.Sin(a * r8_pi / 180.0);
+            k = Math.Sin(a * Math.PI / 180.0);
 
             cp = Math.Cos(phi);
             sp = Math.Sin(phi);

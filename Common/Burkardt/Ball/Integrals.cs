@@ -52,7 +52,7 @@ namespace Burkardt.Ball
             int i;
             double integral;
             const double r = 1.0;
-            const double r8_pi = 3.141592653589793;
+            
             double s;
 
             if (e[0] < 0 || e[1] < 0 || e[2] < 0)
@@ -68,7 +68,7 @@ namespace Burkardt.Ball
 
             if (e[0] == 0 && e[1] == 0 && e[2] == 0)
             {
-                integral = 2.0 * Math.Sqrt(r8_pi * r8_pi * r8_pi) / typeMethods.r8_gamma(1.5);
+                integral = 2.0 * Math.Sqrt(Math.PI * Math.PI * Math.PI) / typeMethods.r8_gamma(1.5);
             }
             else if ((e[0] % 2) == 1 ||
                      (e[1] % 2) == 1 ||
@@ -210,10 +210,10 @@ namespace Burkardt.Ball
             //
         {
             const double r = 1.0;
-            const double r8_pi = 3.141592653589793;
+            
             double volume;
 
-            volume = 4.0 * r8_pi * Math.Pow(r, 3) / 3.0;
+            volume = 4.0 * Math.PI * Math.Pow(r, 3) / 3.0;
 
             return volume;
         }

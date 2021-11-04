@@ -33,14 +33,14 @@ namespace Burkardt.PointsNS
         {
             double angle;
             int i;
-            const double r8_pi = 3.141592653589793;
+            
             double[] x;
 
             x = new double[n];
 
             for (i = 0; i < n; i++)
             {
-                angle = r8_pi * (double) (2 * i + 1) / (double) (2 * n);
+                angle = Math.PI * (double) (2 * i + 1) / (double) (2 * n);
                 x[i] = Math.Cos(angle);
             }
 
@@ -76,7 +76,7 @@ namespace Burkardt.PointsNS
         {
             double angle;
             int i;
-            const double r8_pi = 3.141592653589793;
+            
             double[] x;
 
             x = new double[n];
@@ -89,7 +89,7 @@ namespace Burkardt.PointsNS
             {
                 for (i = 0; i < n; i++)
                 {
-                    angle = r8_pi * (double) (n - i - 1) / (double) (n - 1);
+                    angle = Math.PI * (double) (n - i - 1) / (double) (n - 1);
                     x[i] = Math.Cos(angle);
                 }
             }
@@ -131,14 +131,14 @@ namespace Burkardt.PointsNS
         {
             double angle;
             int i;
-            const double r8_pi = 3.141592653589793;
+            
             double[] x;
 
             x = new double[n];
 
             for (i = 0; i < n; i++)
             {
-                angle = r8_pi * (double) (2 * n - 2 * i - 1)
+                angle = Math.PI * (double) (2 * n - 2 * i - 1)
                         / (double) (2 * n + 1);
                 x[i] = Math.Cos(angle);
             }
@@ -180,14 +180,14 @@ namespace Burkardt.PointsNS
         {
             double angle;
             int i;
-            const double r8_pi = 3.141592653589793;
+            
             double[] x;
 
             x = new double[n];
 
             for (i = 0; i < n; i++)
             {
-                angle = r8_pi * (double) (2 * n - 2 * i)
+                angle = Math.PI * (double) (2 * n - 2 * i)
                         / (double) (2 * n + 1);
                 x[i] = Math.Cos(angle);
             }

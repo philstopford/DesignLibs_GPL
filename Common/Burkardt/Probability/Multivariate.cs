@@ -13,7 +13,7 @@
         //  Discussion:
         //
         //    PDF ( Mean(1:N), S(1:N,1:N); X(1:N) ) = 
-        //      1 / ( 2 * pi ) ^ ( N / 2 ) * 1 / det ( S )
+        //      1 / ( 2 * Math.PI ) ^ ( N / 2 ) * 1 / det ( S )
         //      * exp ( - ( X - Mean )' * inverse ( S ) * ( X - Mean ) / 2 )
         //
         //    Here,

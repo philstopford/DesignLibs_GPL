@@ -38,9 +38,9 @@ namespace Burkardt.Disk
         //
         {
             double area;
-            const double r8_pi = 3.141592653589793;
+            
 
-            area = r8_pi * r * r;
+            area = Math.PI * r * r;
 
             return area;
         }

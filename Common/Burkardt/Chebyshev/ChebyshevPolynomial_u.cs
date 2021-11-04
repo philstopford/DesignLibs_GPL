@@ -115,13 +115,13 @@ namespace Burkardt.ChebyshevPolynomialNS
             //
             //     E    U_MOMENT
             //    --    -------------- 
-            //     0         pi /    2 
-            //     2         pi /    8
-            //     4         pi /   16
-            //     6     5 * pi /  128
-            //     8     7 * pi /  256
-            //    10    21 * pi / 1024
-            //    12    33 * pi / 2048
+            //     0         Math.PI /    2 
+            //     2         Math.PI /    8
+            //     4         Math.PI /   16
+            //     6     5 * Math.PI /  128
+            //     8     7 * Math.PI /  256
+            //    10    21 * Math.PI / 1024
+            //    12    33 * Math.PI / 2048
             //
             //  Licensing:
             //

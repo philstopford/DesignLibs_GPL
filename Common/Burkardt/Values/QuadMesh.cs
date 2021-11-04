@@ -243,7 +243,7 @@ namespace Burkardt.Values
             int col;
             int element;
             int k;
-            double pi = 3.141592653589793;
+            
             double r;
             int row;
             //
@@ -258,7 +258,7 @@ namespace Burkardt.Values
                 r = (double)(row);
                 for (col = 0; col <= 8; col++)
                 {
-                    a = (double)(8 - col) * pi / 8.0;
+                    a = (double)(8 - col) * Math.PI / 8.0;
                     k = k + 1;
                     node_xy[0 + k * 2] = r * Math.Cos(a);
                     node_xy[1 + k * 2] = r * Math.Sin(a);

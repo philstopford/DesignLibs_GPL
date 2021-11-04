@@ -128,7 +128,7 @@ namespace Burkardt.Polygon
             //
         {
             double[] p = new double[2];
-            const double r8_pi = 3.141592653589793;
+            
             double value;
 
             p[0] = (p3[p3Index + 0] - p2[p2Index + 0]) * (p1[p1Index + 0] - p2[p2Index + 0])
@@ -148,7 +148,7 @@ namespace Burkardt.Polygon
 
             if (value < 0.0)
             {
-                value = value + 2.0 * r8_pi;
+                value = value + 2.0 * Math.PI;
             }
 
             return value;
@@ -1439,7 +1439,7 @@ namespace Burkardt.Polygon
             //
         {
             double angle;
-            const double r8_pi = 3.141592653589793;
+            
 
             if (n < 3)
             {
@@ -1450,7 +1450,7 @@ namespace Burkardt.Polygon
                 return;
             }
 
-            angle = r8_pi / ((double)n);
+            angle = Math.PI / ((double)n);
             area = ((double)n) * radin * radin * Math.Tan(angle);
             side = 2.0 * radin * Math.Tan(angle);
             radout = 0.5 * (side) / Math.Sin(angle);
@@ -2210,7 +2210,7 @@ namespace Burkardt.Polygon
             //
         {
             double angle;
-            const double r8_pi = 3.141592653589793;
+            
 
             if (n < 3)
             {
@@ -2221,7 +2221,7 @@ namespace Burkardt.Polygon
                 return;
             }
 
-            angle = r8_pi / ((double)n);
+            angle = Math.PI / ((double)n);
             area = 0.5 * ((double)n) * radout * radout * Math.Sin(2.0 * angle);
             side = 2.0 * radout * Math.Sin(angle);
             radin = 0.5 * side / Math.Tan(angle);
@@ -2653,7 +2653,7 @@ namespace Burkardt.Polygon
             //
         {
             double angle;
-            const double r8_pi = 3.141592653589793;
+            
 
             if (n < 3)
             {
@@ -2664,7 +2664,7 @@ namespace Burkardt.Polygon
                 return;
             }
 
-            angle = r8_pi / ((double)n);
+            angle = Math.PI / ((double)n);
             area = 0.25 * n * side * side / Math.Tan(angle);
             radin = 0.5 * side / Math.Tan(angle);
             radout = 0.5 * side / Math.Sin(angle);

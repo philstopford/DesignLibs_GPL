@@ -1367,7 +1367,7 @@ namespace Burkardt.Types
             int j;
             double r;
             int k;
-            const double r8_pi = 3.141592653589793;
+            
             double theta;
 
             if (seed == 0)
@@ -1402,7 +1402,7 @@ namespace Burkardt.Types
                         seed = seed + i4_huge;
                     }
 
-                    theta = 2.0 * r8_pi * ((double) (seed) * 4.656612875E-10);
+                    theta = 2.0 * Math.PI * ((double) (seed) * 4.656612875E-10);
 
                     c[i + j * m] = r * new Complex(Math.Cos(theta), Math.Sin(theta));
                 }
@@ -1456,7 +1456,7 @@ namespace Burkardt.Types
             int j;
             double r;
             int k;
-            const double r8_pi = 3.141592653589793;
+            
             double theta;
 
             c = new Complex [m * n];
@@ -1485,7 +1485,7 @@ namespace Burkardt.Types
                         seed = seed + 2147483647;
                     }
 
-                    theta = 2.0 * r8_pi * ((double) (seed) * 4.656612875E-10);
+                    theta = 2.0 * Math.PI * ((double) (seed) * 4.656612875E-10);
 
                     c[i + j * m] = r * new Complex(Math.Cos(theta), Math.Sin(theta));
                 }

@@ -102,7 +102,7 @@ namespace Burkardt.Types
         {
             double argument = 0;
             double magnitude = 1;
-            const double r8_pi = 3.141592653589793;
+            
             Complex value;
 
             if (0.0 < x)
@@ -118,7 +118,7 @@ namespace Burkardt.Types
             else if (x < 0.0)
             {
                 magnitude = -x;
-                argument = r8_pi;
+                argument = Math.PI;
             }
 
             magnitude = Math.Sqrt(magnitude);

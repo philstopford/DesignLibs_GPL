@@ -17,7 +17,7 @@ namespace Burkardt.CorrelationNS
             //
             //    For 10 <= X, compute the log gamma correction factor so that
             //
-            //      log ( gamma ( x ) ) = log ( sqrt ( 2 * pi ) ) 
+            //      log ( gamma ( x ) ) = log ( sqrt ( 2 * Math.PI ) ) 
             //                          + ( x - 0.5 ) * log ( x ) - x 
             //                          + r8_lgmc ( x )
             //
@@ -292,7 +292,7 @@ namespace Burkardt.CorrelationNS
             int i;
             int n;
             int ngcs = 0;
-            double pi = 3.14159265358979323846264338327950;
+            
             double sinpiy;
             double sq2pil = 0.91893853320467274178032973640562;
             double value;
@@ -415,7 +415,7 @@ namespace Burkardt.CorrelationNS
                     Console.WriteLine("  answer is half precision.");
                 }
 
-                sinpiy = Math.Sin(pi * y);
+                sinpiy = Math.Sin(Math.PI * y);
 
                 if (sinpiy == 0.0)
                 {
@@ -425,7 +425,7 @@ namespace Burkardt.CorrelationNS
                     return (1);
                 }
 
-                value = -pi / (y * sinpiy * value);
+                value = -Math.PI / (y * sinpiy * value);
             }
 
             return value;

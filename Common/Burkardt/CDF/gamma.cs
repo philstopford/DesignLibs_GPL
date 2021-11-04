@@ -1378,7 +1378,6 @@ namespace Burkardt.CDFLib
             //
         {
             double d = .41893853320467274178e0;
-            double pi = 3.1415926535898e0;
             double r1 = .820756370353826e-03;
             double r2 = -.595156336428591e-03;
             double r3 = .793650663183693e-03;
@@ -1483,7 +1482,7 @@ namespace Burkardt.CDFLib
             n = (int) x;
             t = x - (double) n;
             if (t > 0.9e0) t = 1.0e0 - t;
-            s = Math.Sin(pi * t) / pi;
+            s = Math.Sin(Math.PI * t) / Math.PI;
             if ((n % 2) == 0) s = -s;
             if (s == 0.0e0) return Xgamm;
             S120:

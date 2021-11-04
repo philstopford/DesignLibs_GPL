@@ -204,7 +204,7 @@ namespace Burkardt.Laplacian
             int j;
             double j_r8;
             double n_r8;
-            const double pi = 3.141592653589793;
+            
             double s;
             double theta;
 
@@ -215,11 +215,11 @@ namespace Burkardt.Laplacian
                 j_r8 = (double) (j + 1);
                 if ((j % 2) == 0)
                 {
-                    theta = pi * (j_r8 - 1.0) / (2.0 * n_r8);
+                    theta = Math.PI * (j_r8 - 1.0) / (2.0 * n_r8);
                 }
                 else
                 {
-                    theta = pi * j_r8 / (2.0 * n_r8);
+                    theta = Math.PI * j_r8 / (2.0 * n_r8);
                 }
 
                 lambda[j] = Math.Pow(2.0 * Math.Sin(theta) / h, 2);
@@ -238,7 +238,7 @@ namespace Burkardt.Laplacian
                         for (i = 0; i < n; i++)
                         {
                             i_r8 = (double) (i + 1);
-                            theta = pi * (i_r8 - 0.5) * (j_r8 - 1.0) / n_r8;
+                            theta = Math.PI * (i_r8 - 0.5) * (j_r8 - 1.0) / n_r8;
                             v[i + j * n] = Math.Sqrt(2.0 / n_r8) * Math.Cos(theta);
                         }
                     }
@@ -259,7 +259,7 @@ namespace Burkardt.Laplacian
                         for (i = 0; i < n; i++)
                         {
                             i_r8 = (double) (i + 1);
-                            theta = pi * (i_r8 - 0.5) * j_r8 / n_r8;
+                            theta = Math.PI * (i_r8 - 0.5) * j_r8 / n_r8;
                             v[i + j * n] = Math.Sqrt(2.0 / n_r8) * Math.Sin(theta);
                         }
                     }

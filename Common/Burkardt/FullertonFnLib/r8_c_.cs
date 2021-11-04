@@ -233,7 +233,7 @@ namespace Burkardt.FullertonFnLib
             int n;
             double pch1ai;
             double pch1i;
-            const double pi = 3.141592653589793238462643383279503;
+            
             double pochai;
             double sum;
             double t;
@@ -357,7 +357,7 @@ namespace Burkardt.FullertonFnLib
 
             if (beps != 0.0)
             {
-                factor = factor * beps * pi / Math.Sin(beps * pi);
+                factor = factor * beps * Math.PI / Math.Sin(beps * Math.PI);
             }
 
             pochai = r8_poch(ref data.pochData, ref gdata, a, xi);

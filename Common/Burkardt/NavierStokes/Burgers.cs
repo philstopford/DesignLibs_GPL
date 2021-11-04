@@ -346,7 +346,7 @@ namespace Burkardt.NavierStokesNS
             double px;
             double py;
             double pz;
-            const double r8_pi = 3.141592653589793;
+            
             double u;
             double ut;
             double ux;
@@ -398,8 +398,8 @@ namespace Burkardt.NavierStokesNS
                 w = Helpers.Erf(y[i] / Math.Sqrt(nu));
                 wx = 0.0;
                 wxx = 0.0;
-                wy = 2.0 * Math.Sqrt(1.0 / nu / r8_pi) * Math.Exp(-y[i] * y[i] / nu);
-                wyy = -4.0 * Math.Sqrt(1.0 / nu / r8_pi) * y[i] * Math.Exp(-y[i] * y[i] / nu) / nu;
+                wy = 2.0 * Math.Sqrt(1.0 / nu / Math.PI) * Math.Exp(-y[i] * y[i] / nu);
+                wyy = -4.0 * Math.Sqrt(1.0 / nu / Math.PI) * y[i] * Math.Exp(-y[i] * y[i] / nu) / nu;
                 wz = 0.0;
                 wzz = 0.0;
                 wt = 0.0;

@@ -81,7 +81,7 @@ namespace Burkardt.MeasureNS
             double c_x;
             double c_y;
             double ca_len;
-            double pi = 3.141592653589793;
+            
             int triangle;
 
             alpha_min = typeMethods.r8_huge();
@@ -114,15 +114,15 @@ namespace Burkardt.MeasureNS
                 //
                 if (ab_len == 0.0 && bc_len == 0.0 && ca_len == 0.0)
                 {
-                    a_angle = 2.0 * pi / 3.0;
-                    b_angle = 2.0 * pi / 3.0;
-                    c_angle = 2.0 * pi / 3.0;
+                    a_angle = 2.0 * Math.PI / 3.0;
+                    b_angle = 2.0 * Math.PI / 3.0;
+                    c_angle = 2.0 * Math.PI / 3.0;
                 }
                 else
                 {
                     if (ca_len == 0.0 || ab_len == 0.0)
                     {
-                        a_angle = pi;
+                        a_angle = Math.PI;
                     }
                     else
                     {
@@ -133,7 +133,7 @@ namespace Burkardt.MeasureNS
 
                     if (ab_len == 0.0 || bc_len == 0.0)
                     {
-                        b_angle = pi;
+                        b_angle = Math.PI;
                     }
                     else
                     {
@@ -144,7 +144,7 @@ namespace Burkardt.MeasureNS
 
                     if (bc_len == 0.0 || ca_len == 0.0)
                     {
-                        c_angle = pi;
+                        c_angle = Math.PI;
                     }
                     else
                     {
@@ -170,9 +170,9 @@ namespace Burkardt.MeasureNS
             //
             //  Normalize angles from [0,pi/3] radians into qualities in [0,1].
             //
-            alpha_min = alpha_min * 3.0 / pi;
-            alpha_ave = alpha_ave * 3.0 / pi;
-            alpha_area = alpha_area * 3.0 / pi;
+            alpha_min = alpha_min * 3.0 / Math.PI;
+            alpha_ave = alpha_ave * 3.0 / Math.PI;
+            alpha_area = alpha_area * 3.0 / Math.PI;
         }
 
         public static void area_measure(int n, double[] z, int triangle_order, int triangle_num,

@@ -269,7 +269,7 @@ namespace Burkardt.Stroud
             double angle;
             double area;
             double half_width;
-            double pi = 3.141592653589793;
+            
             double sector;
             double triangle;
 
@@ -279,7 +279,7 @@ namespace Burkardt.Stroud
             }
             else if (2.0 * r <= h)
             {
-                area = pi * r * r;
+                area = Math.PI * r * r;
             }
             else
             {
@@ -335,7 +335,7 @@ namespace Burkardt.Stroud
             double area;
             double h;
             double half_width;
-            double pi = 3.141592653589793;
+            
             double sector;
             double triangle;
 
@@ -345,7 +345,7 @@ namespace Burkardt.Stroud
             }
             else if (2.0 * r <= w)
             {
-                area = 0.5 * pi * r * r;
+                area = 0.5 * Math.PI * r * r;
             }
             else
             {

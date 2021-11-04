@@ -78,7 +78,7 @@ namespace Burkardt.Laguerre
             //
             //  Discussion:
             //
-            //    S&S gives exact value as pi =  0.5
+            //    S&S gives exact value as Math.PI =  0.5
             //    S&S gives Laguerre(16) as      0.5000000000...
             //    S&S gives EXP_TRANSFORM(16) as 0.5019065783... 
             //

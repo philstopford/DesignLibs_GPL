@@ -166,7 +166,7 @@ namespace Burkardt.ChebyshevNS
             int r;
             int rh;
             double r8_n;
-            const double r8_pi = 3.141592653589793E+00;
+            
             int s;
             double total;
 
@@ -181,8 +181,8 @@ namespace Burkardt.ChebyshevNS
                 total = 0.5 * f(1.0);
                 for (j = 1; j < n; j++)
                 {
-                    total = total + f(Math.Cos(j * r8_pi / r8_n))
-                        * Math.Cos(r * j * r8_pi / r8_n);
+                    total = total + f(Math.Cos(j * Math.PI / r8_n))
+                        * Math.Cos(r * j * Math.PI / r8_n);
                 }
 
                 total = total + 0.5 * typeMethods.r8_mop(r) * f(-1.0);
@@ -239,7 +239,7 @@ namespace Burkardt.ChebyshevNS
             double[] b2;
             int j;
             int r;
-            const double r8_pi = 3.141592653589793E+00;
+            
             int rh;
             int s;
             double total;
@@ -255,8 +255,8 @@ namespace Burkardt.ChebyshevNS
                 total = 0.0;
                 for (j = 0; j <= n; j++)
                 {
-                    x1 = (double) (2 * j + 1) * r8_pi / 2.0 / (double) (n + 1);
-                    x2 = (double) (r * (2 * j + 1)) * r8_pi
+                    x1 = (double) (2 * j + 1) * Math.PI / 2.0 / (double) (n + 1);
+                    x2 = (double) (r * (2 * j + 1)) * Math.PI
                          / 2.0 / (double) (n + 1);
                     total = total + f(Math.Cos(x1)) * Math.Cos(x2);
                 }

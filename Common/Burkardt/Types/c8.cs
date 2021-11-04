@@ -80,11 +80,10 @@ namespace Burkardt.Types
             Complex c2;
             double c2_imag;
             double c2_real;
-            double r8_pi_half = 1.57079632679489661923;
 
             c2 = c8_asin(c1);
 
-            c2_real = r8_pi_half - (c2.Real);
+            c2_real = (Math.PI * 0.5) - (c2.Real);
             c2_imag = -(c2.Imaginary);
 
             c2 = new Complex(c2_real, c2_imag);
@@ -1408,7 +1407,7 @@ namespace Burkardt.Types
             //    Output, Complex C8_NORMAL_01, a unit pseudornormal value.
             //
         {
-            const double r8_pi = 3.141592653589793;
+            
             double v1;
             double v2;
             double x_c;
@@ -1418,8 +1417,8 @@ namespace Burkardt.Types
             v1 = UniformRNG.r8_uniform_01(ref seed);
             v2 = UniformRNG.r8_uniform_01(ref seed);
 
-            x_r = Math.Sqrt(-2.0 * Math.Log(v1)) * Math.Cos(2.0 * r8_pi * v2);
-            x_c = Math.Sqrt(-2.0 * Math.Log(v1)) * Math.Sin(2.0 * r8_pi * v2);
+            x_r = Math.Sqrt(-2.0 * Math.Log(v1)) * Math.Cos(2.0 * Math.PI * v2);
+            x_c = Math.Sqrt(-2.0 * Math.Log(v1)) * Math.Sin(2.0 * Math.PI * v2);
 
             value = new Complex(x_r, x_c);
 
@@ -1979,7 +1978,7 @@ namespace Burkardt.Types
         {
             double r;
             int k;
-            const double r8_pi = 3.141592653589793;
+            
             double theta;
             Complex value;
 
@@ -2003,7 +2002,7 @@ namespace Burkardt.Types
                 seed = seed + 2147483647;
             }
 
-            theta = 2.0 * r8_pi * ((double) (seed) * 4.656612875E-10);
+            theta = 2.0 * Math.PI * ((double) (seed) * 4.656612875E-10);
 
             value = r * new Complex(Math.Cos(theta), Math.Sin(theta));
 

@@ -1360,7 +1360,7 @@ namespace Burkardt.PDFLib
             //    Output, double R8_NORMAL_PDF, the value of the PDF at RVAL.
             //
         {
-            double pi = 3.141592653589793;
+            
             double rtemp;
             double value;
 
@@ -1374,7 +1374,7 @@ namespace Burkardt.PDFLib
 
             rtemp = (rval - av) * (rval - av) * 0.5 / (sd * sd);
 
-            value = Math.Exp(-rtemp) / sd / Math.Sqrt(2.0 * pi);
+            value = Math.Exp(-rtemp) / sd / Math.Sqrt(2.0 * Math.PI);
 
             return value;
         }
@@ -1456,10 +1456,10 @@ namespace Burkardt.PDFLib
             //    Output, double R8_NORMAL_01_PDF, the value of the PDF at RVAL.
             //
         {
-            double pi = 3.141592653589793;
+            
             double value;
 
-            value = Math.Exp(-0.5 * rval * rval) / Math.Sqrt(2.0 * pi);
+            value = Math.Exp(-0.5 * rval * rval) / Math.Sqrt(2.0 * Math.PI);
 
             return value;
         }
@@ -1505,7 +1505,7 @@ namespace Burkardt.PDFLib
             //    Output, double R8_NORMAL_01_SAMPLE, a normally distributed random value.
             //
         {
-            const double pi = 3.14159265358979323;
+            
             double r1;
             double r2;
             double x;
@@ -1513,7 +1513,7 @@ namespace Burkardt.PDFLib
             r1 = r8_uniform_01_sample();
             r2 = r8_uniform_01_sample();
 
-            x = Math.Sqrt(-2.0 * Math.Log(r1)) * Math.Cos(2.0 * pi * r2);
+            x = Math.Sqrt(-2.0 * Math.Log(r1)) * Math.Cos(2.0 * Math.PI * r2);
 
             return x;
         }
@@ -1848,7 +1848,7 @@ namespace Burkardt.PDFLib
             //  Discussion:
             //
             //    PDF ( MU(1:N), C(1:N,1:N); X(1:N) ) = 
-            //      1 / ( 2 * pi ) ^ ( N / 2 ) * 1 / sqrt ( det ( C ) )
+            //      1 / ( 2 * Math.PI ) ^ ( N / 2 ) * 1 / sqrt ( det ( C ) )
             //      * exp ( - ( X - MU )' * inverse ( C ) * ( X - MU ) / 2 )
             //
             //    Here,
@@ -1894,7 +1894,7 @@ namespace Burkardt.PDFLib
             double[] b;
             int i;
             double pdf;
-            double pi = 3.141592653589793;
+            
             double xcx;
             double[] y;
             //
@@ -1920,7 +1920,7 @@ namespace Burkardt.PDFLib
             //
             xcx = typeMethods.r8vec_dot_product(n, y, y);
 
-            pdf = 1.0 / Math.Sqrt(Math.Pow(2.0 * pi, n))
+            pdf = 1.0 / Math.Sqrt(Math.Pow(2.0 * Math.PI, n))
                   * 1.0 / Math.Sqrt(c_det)
                   * Math.Exp(-0.5 * xcx);
 
@@ -1938,7 +1938,7 @@ namespace Burkardt.PDFLib
             //  Discussion:
             //
             //    PDF ( MU(1:N), C(1:N,1:N); X(1:N) ) = 
-            //      1 / ( 2 * pi ) ^ ( N / 2 ) * 1 / det ( C )
+            //      1 / ( 2 * Math.PI ) ^ ( N / 2 ) * 1 / det ( C )
             //      * exp ( - ( X - MU )' * inverse ( C ) * ( X - MU ) / 2 )
             //
             //    Here,

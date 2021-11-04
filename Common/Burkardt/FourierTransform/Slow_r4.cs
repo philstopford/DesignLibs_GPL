@@ -454,7 +454,7 @@ namespace Burkardt.FourierTransform
             //    For 0 <= I <= N-1,
             //
             //      Y(I) = -2 Sum ( 1 <= J <= N-1 ) X(J) * sin ( PI * J * (I+1/2) / N )
-            //             - X(N) * cos ( pi * I )
+            //             - X(N) * cos ( Math.PI * I )
             //
             //  Licensing:
             //

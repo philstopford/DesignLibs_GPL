@@ -176,13 +176,13 @@ namespace Burkardt.MatrixNS
             Complex arg;
             int i;
             Complex[] lambda;
-            double r8_pi = 3.141592653589793;
+            
 
             lambda = new Complex[n];
 
             for (i = 0; i < n; i++)
             {
-                angle = (double)(i + 1) * r8_pi / (double)(n + 1);
+                angle = (double)(i + 1) * Math.PI / (double)(n + 1);
                 arg = new Complex(x * z, 0.0);
                 lambda[i] = y + 2.0 * Complex.Sqrt(arg) * Math.Cos(angle);
             }

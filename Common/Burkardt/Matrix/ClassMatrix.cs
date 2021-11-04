@@ -81,7 +81,7 @@ namespace Burkardt.MatrixNS
             double abti;
             double apone;
             int i;
-            double pi = 3.14159265358979323846264338327950;
+            
             double temp;
             double temp2;
             double zemu = 0;
@@ -92,7 +92,7 @@ namespace Burkardt.MatrixNS
 
             temp2 = 0.5;
 
-            if (500.0 * temp < Math.Abs(Math.Pow(Helpers.Gamma(temp2), 2) - pi))
+            if (500.0 * temp < Math.Abs(Math.Pow(Helpers.Gamma(temp2), 2) - Math.PI))
             {
                 Console.WriteLine("");
                 Console.WriteLine("CLASS_MATRIX - Fatal error!");
@@ -120,7 +120,7 @@ namespace Burkardt.MatrixNS
             }
             else if (kind == 2)
             {
-                zemu = pi;
+                zemu = Math.PI;
 
                 for (i = 0; i < m; i++)
                 {
@@ -242,7 +242,7 @@ namespace Burkardt.MatrixNS
             }
             else if ( kind == 9 )
             {
-                zemu = pi / 2.0;
+                zemu = Math.PI / 2.0;
 
                 for ( i = 0; i < m; i++ )
                 {

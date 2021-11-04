@@ -63,7 +63,7 @@ namespace Burkardt.Laguerre
         {
             const double beta = 0.5;
             double exact;
-            const double r8_pi = 3.1415926535897932385;
+            
 
             if (beta == 1.0)
             {
@@ -71,8 +71,8 @@ namespace Burkardt.Laguerre
             }
             else
             {
-                exact = (1.0 - beta) * r8_pi
-                        / (Math.Pow(10.0, beta) * Math.Sin(r8_pi * beta));
+                exact = (1.0 - beta) * Math.PI
+                        / (Math.Pow(10.0, beta) * Math.Sin(Math.PI * beta));
             }
 
             return exact;

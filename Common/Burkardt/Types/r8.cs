@@ -99,12 +99,12 @@ namespace Burkardt.Types
             //    Output, double R8_ACOS, an angle whose cosine is C.
             //
         {
-            const double r8_pi = 3.141592653589793;
+            
             double value;
 
             if (c <= -1.0)
             {
-                value = r8_pi;
+                value = Math.PI;
             }
             else if (1.0 <= c)
             {
@@ -486,15 +486,15 @@ namespace Burkardt.Types
             //
         {
             double angle;
-            const double r8_pi = 3.141592653589793;
+            
 
             if (s <= -1.0)
             {
-                angle = -r8_pi / 2.0;
+                angle = -Math.PI / 2.0;
             }
             else if (1.0 <= s)
             {
-                angle = r8_pi / 2.0;
+                angle = Math.PI / 2.0;
             }
             else
             {
@@ -576,10 +576,10 @@ namespace Burkardt.Types
             //    Output, double R8_RADIANS, the angle measurement in radians.
             //
         {
-            const double r8_pi = 3.1415926535897932384626434;
+            
             double value;
 
-            value = degrees * r8_pi / 180.0;
+            value = degrees * Math.PI / 180.0;
 
             return value;
         }
@@ -690,11 +690,11 @@ namespace Burkardt.Types
             //    Output, double R8_SECD, the secant of the angle.
             //
         {
-            const double r8_pi = 3.141592653589793;
+            
             double radians;
             double value;
 
-            radians = r8_pi * (degrees / 180.0);
+            radians = Math.PI * (degrees / 180.0);
 
             value = 1.0 / Math.Cos(radians);
 
@@ -832,14 +832,14 @@ namespace Burkardt.Types
             //    sine or for cosine.
             //
         {
-            const double r8_pi = 3.141592653589793E+00;
+            
 
             d = Math.Sqrt(a * a + b * b);
             e = Math.Atan2(b, a);
-            f = Math.Atan2(b, a) - r8_pi / 2.0E+00;
-            if (f < -r8_pi)
+            f = Math.Atan2(b, a) - Math.PI / 2.0E+00;
+            if (f < -Math.PI)
             {
-                f = f + 2.0E+00 * r8_pi;
+                f = f + 2.0E+00 * Math.PI;
             }
         }
 
@@ -870,11 +870,11 @@ namespace Burkardt.Types
             //    Output, double R8_SIND, the sine of the angle.
             //
         {
-            const double r8_pi = 3.141592653589793;
+            
             double radians;
             double value;
 
-            radians = r8_pi * (degrees / 180.0);
+            radians = Math.PI * (degrees / 180.0);
 
             value = Math.Sin(radians);
 
@@ -1910,11 +1910,11 @@ namespace Burkardt.Types
             //    Output, double R8_COSD, the cosine of the angle.
             //
         {
-            const double r8_pi = 3.141592653589793;
+            
             double radians;
             double value;
 
-            radians = r8_pi * (degrees / 180.0);
+            radians = Math.PI * (degrees / 180.0);
 
             value = Math.Cos(radians);
 
@@ -1986,11 +1986,11 @@ namespace Burkardt.Types
             //    Output, double R8_COTD, the cotangent of the angle.
             //
         {
-            const double r8_pi = 3.141592653589793;
+            
             double radians;
             double value;
 
-            radians = r8_pi * (degrees / 180.0);
+            radians = Math.PI * (degrees / 180.0);
 
             value = Math.Cos(radians) / Math.Sin(radians);
 
@@ -2143,11 +2143,11 @@ namespace Burkardt.Types
             //    Output, double R8_CSCD, the cosecant of the angle.
             //
         {
-            const double r8_pi = 3.141592653589793;
+            
             double radians;
             double value;
 
-            radians = r8_pi * (degrees / 180.0);
+            radians = Math.PI * (degrees / 180.0);
 
             value = 1.0 / Math.Sin(radians);
 
@@ -2231,10 +2231,10 @@ namespace Burkardt.Types
             //    Output, double R8_DEGREES, the angle measurement in degrees.
             //
         {
-            const double r8_pi = 3.1415926535897932384626434;
+            
             double value;
 
-            value = radians * 180.0 / r8_pi;
+            value = radians * 180.0 / Math.PI;
 
             return value;
         }
@@ -3815,11 +3815,11 @@ namespace Burkardt.Types
             //    Output, double R8_TAND, the tangent of the angle.
             //
         {
-            const double r8_pi = 3.141592653589793;
+            
             double radians;
             double value;
 
-            radians = r8_pi * (degrees / 180.0);
+            radians = Math.PI * (degrees / 180.0);
 
             value = Math.Sin(radians) / Math.Cos(radians);
 

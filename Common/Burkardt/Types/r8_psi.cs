@@ -136,7 +136,7 @@ namespace Burkardt.Types
             }
 
             //
-            //  X < 0.5, use reflection formula: psi(1-x) = psi(x) + pi * cot(pi*x)
+            //  X < 0.5, use reflection formula: psi(1-x) = psi(x) + Math.PI * cot(pi*x)
             //  Use 1/X for PI*COTAN(PI*X)  when  XMIN1 < |X| <= XSMALL.
             //
             if (x < 0.5)

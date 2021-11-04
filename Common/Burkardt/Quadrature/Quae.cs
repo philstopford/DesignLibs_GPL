@@ -918,12 +918,12 @@ namespace Burkardt.Quadrature
             double a12;
             double a21;
             double a22;
-            const double r8_pi = 3.141592653589793;
+            
             double theta;
             //
             //  Initialize the matrix of rotation.
             //
-            theta = 2.0 * r8_pi / 3.0;
+            theta = 2.0 * Math.PI / 3.0;
             a11 = Math.Cos(theta);
             a22 = Math.Cos(theta);
             a12 = -Math.Sin(theta);

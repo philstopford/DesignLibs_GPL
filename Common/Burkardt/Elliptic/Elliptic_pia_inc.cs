@@ -43,7 +43,7 @@ namespace Burkardt.Elliptic
             int ierr = 0;
             double k;
             double p;
-            const double r8_pi = 3.141592653589793;
+            
             double sp;
             double value;
             double value1;
@@ -52,7 +52,7 @@ namespace Burkardt.Elliptic
             double y;
             double z;
 
-            k = Math.Sin(a * r8_pi / 180.0);
+            k = Math.Sin(a * Math.PI / 180.0);
 
             cp = Math.Cos(phi);
             sp = Math.Sin(phi);

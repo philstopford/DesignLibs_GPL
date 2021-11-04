@@ -59,7 +59,7 @@ namespace Burkardt.NavierStokesNS
             double[] g;
             double[] h;
             int i;
-            const double r8_pi = 3.141592653589793;
+            
             double u;
             double v;
             //
@@ -75,18 +75,18 @@ namespace Burkardt.NavierStokesNS
             //
             for (i = 0; i < n; i++)
             {
-                u = -Math.Cos(r8_pi * x[i]) / r8_pi;
+                u = -Math.Cos(Math.PI * x[i]) / Math.PI;
                 dudt = 0.0;
-                dudx = Math.Sin(r8_pi * x[i]);
-                dudxx = r8_pi * Math.Cos(r8_pi * x[i]);
+                dudx = Math.Sin(Math.PI * x[i]);
+                dudxx = Math.PI * Math.Cos(Math.PI * x[i]);
                 dudy = 0.0;
                 dudyy = 0.0;
 
-                v = -y[i] * Math.Sin(r8_pi * x[i]);
+                v = -y[i] * Math.Sin(Math.PI * x[i]);
                 dvdt = 0.0;
-                dvdx = -r8_pi * y[i] * Math.Cos(r8_pi * x[i]);
-                dvdxx = +r8_pi * r8_pi * y[i] * Math.Sin(r8_pi * x[i]);
-                dvdy = -Math.Sin(r8_pi * x[i]);
+                dvdx = -Math.PI * y[i] * Math.Cos(Math.PI * x[i]);
+                dvdxx = +Math.PI * Math.PI * y[i] * Math.Sin(Math.PI * x[i]);
+                dvdy = -Math.Sin(Math.PI * x[i]);
                 dvdyy = 0.0;
 
                 dpdx = 0.0;
@@ -156,7 +156,7 @@ namespace Burkardt.NavierStokesNS
             double[] dvdyy;
             int i;
             double[] p;
-            const double r8_pi = 3.141592653589793;
+            
             double[] u;
             double[] v;
 
@@ -178,18 +178,18 @@ namespace Burkardt.NavierStokesNS
 
             for (i = 0; i < n; i++)
             {
-                u[i] = -Math.Cos(r8_pi * x[i]) / r8_pi;
+                u[i] = -Math.Cos(Math.PI * x[i]) / Math.PI;
                 dudt[i] = 0.0;
-                dudx[i] = Math.Sin(r8_pi * x[i]);
-                dudxx[i] = r8_pi * Math.Cos(r8_pi * x[i]);
+                dudx[i] = Math.Sin(Math.PI * x[i]);
+                dudxx[i] = Math.PI * Math.Cos(Math.PI * x[i]);
                 dudy[i] = 0.0;
                 dudyy[i] = 0.0;
 
-                v[i] = -y[i] * Math.Sin(r8_pi * x[i]);
+                v[i] = -y[i] * Math.Sin(Math.PI * x[i]);
                 dvdt[i] = 0.0;
-                dvdx[i] = -r8_pi * y[i] * Math.Cos(r8_pi * x[i]);
-                dvdxx[i] = +r8_pi * r8_pi * y[i] * Math.Sin(r8_pi * x[i]);
-                dvdy[i] = -Math.Sin(r8_pi * x[i]);
+                dvdx[i] = -Math.PI * y[i] * Math.Cos(Math.PI * x[i]);
+                dvdxx[i] = +Math.PI * Math.PI * y[i] * Math.Sin(Math.PI * x[i]);
+                dvdy[i] = -Math.Sin(Math.PI * x[i]);
                 dvdyy[i] = 0.0;
 
                 p[i] = 0.0;
@@ -254,12 +254,12 @@ namespace Burkardt.NavierStokesNS
         //
         {
             int i;
-            const double r8_pi = 3.141592653589793;
+            
 
             for ( i = 0; i < n; i++ )
             {
-                u[i] = - Math.Cos ( r8_pi * x[i] ) / r8_pi;
-                v[i] = - y[i] *  Math.Sin ( r8_pi * x[i] );
+                u[i] = - Math.Cos ( Math.PI * x[i] ) / Math.PI;
+                v[i] = - y[i] *  Math.Sin ( Math.PI * x[i] );
                 p[i] = - 0.0;
             }
         }

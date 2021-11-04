@@ -39,7 +39,7 @@ namespace Burkardt.Quadrature
             //    abscissa in the Fejer type 2 rule of order ORDER.
             //
         {
-            double pi = 3.141592653589793;
+            
             double value;
 
             if (order < 1)
@@ -68,7 +68,7 @@ namespace Burkardt.Quadrature
             }
             else
             {
-                value = Math.Cos((double) (order + 1 - i) * pi
+                value = Math.Cos((double) (order + 1 - i) * Math.PI
                             / (double) (order + 1));
             }
 
@@ -261,7 +261,7 @@ namespace Burkardt.Quadrature
             int i;
             int j;
             double p;
-            double pi = 3.141592653589793;
+            
             double theta;
 
             if ( n < 1 )
@@ -280,7 +280,7 @@ namespace Burkardt.Quadrature
 
             for ( i = 0; i < n; i++ )
             {
-                x[i] =  Math.Cos ( ( double ) ( n - i ) * pi
+                x[i] =  Math.Cos ( ( double ) ( n - i ) * Math.PI
                                    / ( double ) ( n + 1 ) );
             }
             if ( ( n % 2 ) == 1 )
@@ -297,7 +297,7 @@ namespace Burkardt.Quadrature
             {
                 for ( i = 0; i < n; i++ )
                 {
-                    theta = ( double ) ( n - i ) * pi
+                    theta = ( double ) ( n - i ) * Math.PI
                             / ( double ) ( n + 1 );
 
                     w[i] = 1.0;

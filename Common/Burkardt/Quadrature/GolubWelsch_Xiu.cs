@@ -176,7 +176,7 @@ namespace Burkardt.Quadrature
             double arg;
             int i;
             int j;
-            double pi = 3.141592653589793;
+            
             int r;
 
             for (j = 0; j < o; j++)
@@ -184,7 +184,7 @@ namespace Burkardt.Quadrature
                 i = 0;
                 for (r = 1; r <= (n / 2); r++)
                 {
-                    arg = (double)(2 * r * j) * pi / (double)(n + 1);
+                    arg = (double)(2 * r * j) * Math.PI / (double)(n + 1);
                     x[i + j * n] = Math.Sqrt(2.0) * Math.Cos(arg);
                     i = i + 1;
                     x[i + j * n] = Math.Sqrt(2.0) * Math.Sin(arg);

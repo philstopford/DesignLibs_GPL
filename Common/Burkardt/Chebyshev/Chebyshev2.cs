@@ -112,7 +112,7 @@ namespace Burkardt.Chebyshev
         {
             double angle;
             int i;
-            double pi = 3.141592653589793;
+            
 
             if ( n < 1 )
             {
@@ -124,8 +124,8 @@ namespace Burkardt.Chebyshev
 
             for ( i = 0; i < n; i++ )
             {
-                angle = pi * ( double ) ( n - i ) / ( double ) ( n + 1 );
-                w[i] = pi / ( double ) ( n + 1 ) * Math.Pow ( Math.Sin ( angle ), 2 );
+                angle = Math.PI * ( double ) ( n - i ) / ( double ) ( n + 1 );
+                w[i] = Math.PI / ( double ) ( n + 1 ) * Math.Pow ( Math.Sin ( angle ), 2 );
                 x[i] = Math.Cos ( angle );
             }
 

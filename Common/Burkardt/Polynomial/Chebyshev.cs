@@ -426,14 +426,14 @@ namespace Burkardt.PolynomialNS
         {
             double angle;
             int i;
-            const double r8_pi = 3.141592653589793;
+            
             double[] z;
 
             z = new double[n];
 
             for ( i = 0; i < n; i++ )
             {
-                angle = ( double) ( 2 * i + 1 ) * r8_pi / ( double ) ( 2 * n );
+                angle = ( double) ( 2 * i + 1 ) * Math.PI / ( double ) ( 2 * n );
                 z[i] = Math.Cos ( angle );
             }
 
@@ -660,14 +660,14 @@ namespace Burkardt.PolynomialNS
         {
             double angle;
             int i;
-            const double r8_pi = 3.141592653589793;
+            
             double[] z;
 
             z = new double[n];
 
             for ( i = 0; i < n; i++ )
             {
-                angle = ( double) ( i + 1 ) * r8_pi / ( double ) ( n + 1 );
+                angle = ( double) ( i + 1 ) * Math.PI / ( double ) ( n + 1 );
                 z[i] = Math.Cos ( angle );
             }
 

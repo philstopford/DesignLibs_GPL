@@ -635,7 +635,7 @@ namespace Burkardt.Types
         {
             int i;
             int m;
-            const double pi = 3.141592653589793;
+            
             double[] r;
             double[] x;
             int x_hi;
@@ -688,8 +688,8 @@ namespace Burkardt.Types
             {
                 r = UniformRNG.r8vec_uniform_01_new(2, ref seed);
 
-                x[x_hi - 1] = Math.Sqrt(-2.0 * Math.Log(r[0])) * Math.Cos(2.0 * pi * r[1]);
-                data.y = Math.Sqrt(-2.0 * Math.Log(r[0])) * Math.Sin(2.0 * pi * r[1]);
+                x[x_hi - 1] = Math.Sqrt(-2.0 * Math.Log(r[0])) * Math.Cos(2.0 * Math.PI * r[1]);
+                data.y = Math.Sqrt(-2.0 * Math.Log(r[0])) * Math.Sin(2.0 * Math.PI * r[1]);
 
                 data.saved = 1;
 
@@ -706,8 +706,8 @@ namespace Burkardt.Types
 
                 for (i = 0; i <= 2 * m - 2; i = i + 2)
                 {
-                    x[x_lo + i - 1] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Cos(2.0 * pi * r[i + 1]);
-                    x[x_lo + i] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Sin(2.0 * pi * r[i + 1]);
+                    x[x_lo + i - 1] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Cos(2.0 * Math.PI * r[i + 1]);
+                    x[x_lo + i] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Sin(2.0 * Math.PI * r[i + 1]);
                 }
 
                 data.made = data.made + x_hi - x_lo + 1;
@@ -727,14 +727,14 @@ namespace Burkardt.Types
 
                 for (i = 0; i <= 2 * m - 4; i = i + 2)
                 {
-                    x[x_lo + i - 1] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Cos(2.0 * pi * r[i + 1]);
-                    x[x_lo + i] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Sin(2.0 * pi * r[i + 1]);
+                    x[x_lo + i - 1] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Cos(2.0 * Math.PI * r[i + 1]);
+                    x[x_lo + i] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Sin(2.0 * Math.PI * r[i + 1]);
                 }
 
                 i = 2 * m - 2;
 
-                x[x_lo + i - 1] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Cos(2.0 * pi * r[i + 1]);
-                data.y = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Sin(2.0 * pi * r[i + 1]);
+                x[x_lo + i - 1] = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Cos(2.0 * Math.PI * r[i + 1]);
+                data.y = Math.Sqrt(-2.0 * Math.Log(r[i])) * Math.Sin(2.0 * Math.PI * r[i + 1]);
 
                 data.saved = 1;
 

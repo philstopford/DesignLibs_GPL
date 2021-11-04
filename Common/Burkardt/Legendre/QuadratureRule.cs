@@ -819,7 +819,7 @@ namespace Burkardt.Legendre
             double pk;
             double pkm1;
             double pkp1;
-            const double r8_pi = 3.1415926535897932385;
+            
             double t;
             double u;
             double v;
@@ -842,7 +842,7 @@ namespace Burkardt.Legendre
             {
                 mp1mi = m + 1 - i;
 
-                t = (double) (4 * i - 1) * r8_pi / (double) (4 * order + 2);
+                t = (double) (4 * i - 1) * Math.PI / (double) (4 * order + 2);
 
                 x0 = Math.Cos(t) * (1.0 - (1.0 - 1.0 / (double) (order))
                     / (double) (8 * order * order));

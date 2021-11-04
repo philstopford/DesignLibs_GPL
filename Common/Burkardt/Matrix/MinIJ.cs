@@ -43,7 +43,7 @@ namespace Burkardt.MatrixNS
             //
             //    The eigenvalues of A are
             //
-            //      LAMBDA[i] = 0.5 / ( 1 - cos ( ( 2 * I - 1 ) * pi / ( 2 * N + 1 ) ) ),
+            //      LAMBDA[i] = 0.5 / ( 1 - cos ( ( 2 * I - 1 ) * Math.PI / ( 2 * N + 1 ) ) ),
             //
             //    (N+1)*ONES[N] - A also has a tridiagonal inverse.
             //

@@ -177,7 +177,7 @@ namespace Burkardt.Quadrature
             //
             //  Discussion:
             //
-            //    pdf(x) = exp ( -((x-mu)/sigma)^2/2 ) / sigma / sqrt ( pi * 2 )
+            //    pdf(x) = exp ( -((x-mu)/sigma)^2/2 ) / sigma / sqrt ( Math.PI * 2 )
             //    mu(k) = integral ( -oo < x < +oo ) x^k pdf(x) dx
             //
             //  Licensing:

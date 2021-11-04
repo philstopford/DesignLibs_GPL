@@ -253,14 +253,14 @@ namespace Burkardt.Edge
         {
             double[] f;
             int i;
-            const double r8_pi = 3.141592653589793;
+            
 
             f = new double[n];
 
             for (i = 0; i < n; i++)
             {
-                f[i] = x[i] * y[i] + Math.Cos(2.0 * r8_pi * x[i] * x[i])
-                       - Math.Sin(2.0 * r8_pi * x[i] * x[i]);
+                f[i] = x[i] * y[i] + Math.Cos(2.0 * Math.PI * x[i] * x[i])
+                       - Math.Sin(2.0 * Math.PI * x[i] * x[i]);
 
                 if (0.25 < x[i] * x[i] + y[i] * y[i])
                 {
@@ -349,7 +349,7 @@ namespace Burkardt.Edge
             double eta2;
             double[] f;
             int i;
-            const double r8_pi = 3.141592653589793;
+            
             double xi1;
             double xi2;
 
@@ -374,15 +374,15 @@ namespace Burkardt.Edge
             {
                 f[i] = 0.0;
 
-                xi1 = (x[i] - 0.22) * Math.Cos(0.4 * r8_pi)
-                      + y[i] * Math.Sin(0.4 * r8_pi);
-                eta1 = -(x[i] - 0.22) * Math.Sin(0.4 * r8_pi)
-                       + y[i] * Math.Cos(0.4 * r8_pi);
+                xi1 = (x[i] - 0.22) * Math.Cos(0.4 * Math.PI)
+                      + y[i] * Math.Sin(0.4 * Math.PI);
+                eta1 = -(x[i] - 0.22) * Math.Sin(0.4 * Math.PI)
+                       + y[i] * Math.Cos(0.4 * Math.PI);
 
-                xi2 = (x[i] + 0.22) * Math.Cos(0.6 * r8_pi)
-                      + y[i] * Math.Sin(0.6 * r8_pi);
-                eta2 = -(x[i] + 0.22) * Math.Sin(0.6 * r8_pi)
-                       + y[i] * Math.Cos(0.6 * r8_pi);
+                xi2 = (x[i] + 0.22) * Math.Cos(0.6 * Math.PI)
+                      + y[i] * Math.Sin(0.6 * Math.PI);
+                eta2 = -(x[i] + 0.22) * Math.Sin(0.6 * Math.PI)
+                       + y[i] * Math.Cos(0.6 * Math.PI);
 
                 if (Math.Pow(x[i] / 0.69, 2) + Math.Pow(y[i] / 0.92, 2) <= 1.0)
                 {
@@ -478,7 +478,7 @@ namespace Burkardt.Edge
             double[] f;
             int i;
             double r;
-            const double r8_pi = 3.141592653589793;
+            
 
             f = new double[n];
 
@@ -488,15 +488,15 @@ namespace Burkardt.Edge
 
                 if (3.0 * r <= -1.0)
                 {
-                    f[i] = -r * Math.Sin(0.5 * r8_pi * r * r);
+                    f[i] = -r * Math.Sin(0.5 * Math.PI * r * r);
                 }
                 else if (3.0 * r < 1.0)
                 {
-                    f[i] = Math.Abs(Math.Sin(2.0 * r8_pi * r));
+                    f[i] = Math.Abs(Math.Sin(2.0 * Math.PI * r));
                 }
                 else
                 {
-                    f[i] = 2.0 * r - 1.0 - Math.Sin(3.0 * r8_pi * r) / 6.0;
+                    f[i] = 2.0 * r - 1.0 - Math.Sin(3.0 * Math.PI * r) / 6.0;
                 }
             }
 
@@ -525,10 +525,10 @@ namespace Burkardt.Edge
             //
             //    Note that in the reference, the formula reads:
             //     f(i) = 2.0D+00 * rhor * cr / ( rhol * cl + rhor * cr ) 
-            //          *  Math.Sin( r8_pi * omega * ( y(i) - ( x(i) + 0.5D+00 ) / cr ) )
+            //          *  Math.Sin( Math.PI * omega * ( y(i) - ( x(i) + 0.5D+00 ) / cr ) )
             //    but I believe this should be:
             //     f(i) = 2.0D+00 * rhor * cr / ( rhol * cl + rhor * cr ) 
-            //          *  Math.Sin( r8_pi * omega * ( y(i) - ( x(i) + 0.5D+00 ) / cl ) )
+            //          *  Math.Sin( Math.PI * omega * ( y(i) - ( x(i) + 0.5D+00 ) / cl ) )
             //
             //  Licensing:
             //
@@ -564,7 +564,7 @@ namespace Burkardt.Edge
             double[] f;
             int i;
             const double omega = 12.0;
-            const double r8_pi = 3.141592653589793;
+            
             const double rhol = 0.55556;
             const double rhor = 1.0;
 
@@ -574,14 +574,14 @@ namespace Burkardt.Edge
             {
                 if (x[i] <= -0.5)
                 {
-                    f[i] = Math.Sin(r8_pi * omega * (y[i] - (x[i] + 0.5) / cl))
+                    f[i] = Math.Sin(Math.PI * omega * (y[i] - (x[i] + 0.5) / cl))
                            - (rhol * cl - rhor * cr) / (rhol * cl + rhor * cr)
-                           * Math.Sin(r8_pi * omega * (y[i] + (x[i] + 0.5) / cl));
+                           * Math.Sin(Math.PI * omega * (y[i] + (x[i] + 0.5) / cl));
                 }
                 else
                 {
                     f[i] = 2.0 * rhor * cr / (rhol * cl + rhor * cr)
-                           * Math.Sin(r8_pi * omega * (y[i] - (x[i] + 0.5) / cl));
+                           * Math.Sin(Math.PI * omega * (y[i] - (x[i] + 0.5) / cl));
                 }
             }
 
@@ -642,7 +642,7 @@ namespace Burkardt.Edge
             double[] f;
             int i;
             const double omega = 12.0;
-            const double r8_pi = 3.141592653589793;
+            
             const double rhol = 0.55556;
             const double rhor = 1.0;
 
@@ -652,15 +652,15 @@ namespace Burkardt.Edge
             {
                 if (x[i] <= -0.5)
                 {
-                    f[i] = Math.Sin(r8_pi * omega * (y[i] - (x[i] + 0.5) / cl))
+                    f[i] = Math.Sin(Math.PI * omega * (y[i] - (x[i] + 0.5) / cl))
                            + (rhol * cl - rhor * cr) / (rhol * cl + rhor * cr)
                                                      / (rhol * cl)
-                           * Math.Sin(r8_pi * omega * (y[i] + (x[i] + 0.5) / cl));
+                           * Math.Sin(Math.PI * omega * (y[i] + (x[i] + 0.5) / cl));
                 }
                 else
                 {
                     f[i] = 2.0 / (rhol * cl + rhor * cr)
-                           * Math.Sin(r8_pi * omega * (y[i] - (x[i] + 0.5) / cl));
+                           * Math.Sin(Math.PI * omega * (y[i] - (x[i] + 0.5) / cl));
                 }
             }
 

@@ -593,7 +593,7 @@
         //
         //    The function is normalized for the sphere by dividing by
         //
-        //      sqrt ( 4 * pi * ( n + m )! / ( 2 * n + 1 ) / ( n - m )! )
+        //      sqrt ( 4 * Math.PI * ( n + m )! / ( 2 * n + 1 ) / ( n - m )! )
         //
         //  Licensing:
         //
@@ -1116,7 +1116,7 @@
             //
             //    The function is normalized for the sphere by dividing by
             //
-            //      sqrt ( 4 * pi * ( n + m )! / ( 2 * n + 1 ) / ( n - m )! )
+            //      sqrt ( 4 * Math.PI * ( n + m )! / ( 2 * n + 1 ) / ( n - m )! )
             //
             //  Licensing:
             //

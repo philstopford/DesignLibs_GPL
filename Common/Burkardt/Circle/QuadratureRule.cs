@@ -20,7 +20,7 @@ namespace Burkardt.CircleNS
         //
         //    The integral I(f) is then approximated by
         //
-        //      Q(f) = 2 * pi * sum ( 1 <= i <= NT ) W(i) * F ( cos(T(i)), sin(T(i)) ).
+        //      Q(f) = 2 * Math.PI * sum ( 1 <= i <= NT ) W(i) * F ( cos(T(i)), sin(T(i)) ).
         //
         //  Licensing:
         //

@@ -41,10 +41,10 @@ namespace Burkardt.Ellipse
         //    Output, double ELLIPSE_AREA1, the area of the ellipse.
         //
         {
-            const double r8_pi = 3.141592653589793;
+            
             double value;
 
-            value = r * r * r8_pi / Math.Sqrt(a[0 + 0 * 2] * a[1 + 1 * 2] - a[1 + 0 * 2] * a[0 + 1 * 2]);
+            value = r * r * Math.PI / Math.Sqrt(a[0 + 0 * 2] * a[1 + 1 * 2] - a[1 + 0 * 2] * a[0 + 1 * 2]);
 
             return value;
         }
@@ -83,10 +83,10 @@ namespace Burkardt.Ellipse
             //    Output, double ELLIPSE_AREA2, the area of the ellipse.
             //
         {
-            const double r8_pi = 3.141592653589793;
+            
             double value;
 
-            value = 2.0 * d * d * r8_pi / Math.Sqrt(4.0 * a * c - b * b);
+            value = 2.0 * d * d * Math.PI / Math.Sqrt(4.0 * a * c - b * b);
 
             return value;
         }

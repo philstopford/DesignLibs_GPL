@@ -177,10 +177,10 @@ namespace Burkardt.FourierTransform
             double aw;
             int i;
             int n2;
-            const double pi = 3.141592653589793;
+            
 
             n2 = n / 2;
-            aw = 2.0 * pi / ((double) n);
+            aw = 2.0 * Math.PI / ((double) n);
 
             for (i = 0; i < n2; i++)
             {

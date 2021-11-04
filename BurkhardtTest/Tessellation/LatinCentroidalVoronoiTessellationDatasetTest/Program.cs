@@ -131,7 +131,7 @@ namespace LatinCentroidalVoronoiTessellationDatasetTest
 
             Console.WriteLine("");
             Console.WriteLine("LCVT_DATASET");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("  Create a \"Latinized\" CVT datasets.");
             Console.WriteLine("");
             Console.WriteLine("  This program is meant to be used interactively.");

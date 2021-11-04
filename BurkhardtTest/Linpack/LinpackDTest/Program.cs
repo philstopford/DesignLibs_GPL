@@ -32,7 +32,7 @@ namespace LinpackDTest
         {
             Console.WriteLine("");
             Console.WriteLine("LINPACK_D_TEST");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("  Test the LINPACK_D library.");
 
             test01();

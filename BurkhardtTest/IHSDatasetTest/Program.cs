@@ -66,7 +66,7 @@ namespace IHSDatasetTest
 
             Console.WriteLine("");
             Console.WriteLine("IHS_DATASET");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("  Generate an IHS dataset.");
             Console.WriteLine("");
             Console.WriteLine("  This program is meant to be used interactively.");

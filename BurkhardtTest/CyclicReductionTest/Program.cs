@@ -31,7 +31,7 @@ namespace CyclicReductionTest
         {
             Console.WriteLine("");
             Console.WriteLine("CYCLIC_REDUCTION_TEST");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("  Test the CYCLIC_REDUCTION library.");
 
             test02();

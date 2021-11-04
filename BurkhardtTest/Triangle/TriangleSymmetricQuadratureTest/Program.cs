@@ -32,7 +32,7 @@ namespace TriangleSymmetricQuadratureTest
             //  Author:
             //
             //    Original FORTRAN77 version by Hong Xiao, Zydrunas Gimbutas.
-            //    This C++ version by John Burkardt.
+            //    C++ version by John Burkardt.
             //
             //  Reference:
             //
@@ -305,7 +305,7 @@ namespace TriangleSymmetricQuadratureTest
             //  Author:
             //
             //    Original FORTRAN77 version by Hong Xiao, Zydrunas Gimbutas.
-            //    This C++ version by John Burkardt.
+            //    C++ version by John Burkardt.
             //
             //  Reference:
             //
@@ -386,7 +386,7 @@ namespace TriangleSymmetricQuadratureTest
             //  Author:
             //
             //    Original FORTRAN77 version by Hong Xiao, Zydrunas Gimbutas.
-            //    This C++ version by John Burkardt.
+            //    C++ version by John Burkardt.
             //
             //  Reference:
             //
@@ -448,7 +448,7 @@ namespace TriangleSymmetricQuadratureTest
             //  Author:
             //
             //    Original FORTRAN77 version by Hong Xiao, Zydrunas Gimbutas.
-            //    This C++ version by John Burkardt.
+            //    C++ version by John Burkardt.
             //
             //  Reference:
             //
@@ -528,7 +528,7 @@ namespace TriangleSymmetricQuadratureTest
             //  Author:
             //
             //    Original FORTRAN77 version by Hong Xiao, Zydrunas Gimbutas.
-            //    This C++ version by John Burkardt.
+            //    C++ version by John Burkardt.
             //
             //  Reference:
             //

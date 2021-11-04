@@ -712,7 +712,7 @@ namespace Burkardt.AppliedStatistics
             //  Author:
             //
             //    Original FORTRAN77 version by William Smith, Ronald Hocking.
-            //    This C++ version by John Burkardt.
+            //    C++ version by John Burkardt.
             //
             //  Reference:
             //

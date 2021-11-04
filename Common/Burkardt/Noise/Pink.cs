@@ -44,7 +44,7 @@ namespace Burkardt.Noise
             //  Author:
             //
             //    Original C version by Sophocles Orfanidis.
-            //    This C++ version by John Burkardt.
+            //    C++ version by John Burkardt.
             //
             //  Reference:
             //
@@ -293,7 +293,7 @@ namespace Burkardt.Noise
             //  Author:
             //
             //    Original C version by Sophocles Orfanidis.
-            //    This C++ version by John Burkardt.
+            //    C++ version by John Burkardt.
             //
             //  Reference:
             //
@@ -366,7 +366,7 @@ namespace Burkardt.Noise
             //  Author:
             //
             //    Original C version by Sophocles Orfanidis.
-            //    This C++ version by John Burkardt.
+            //    C++ version by John Burkardt.
             //
             //  Reference:
             //
@@ -463,7 +463,7 @@ namespace Burkardt.Noise
             //  Author:
             //
             //    Original C version by Sophocles Orfanidis.
-            //    This C++ version by John Burkardt.
+            //    C++ version by John Burkardt.
             //
             //  Reference:
             //

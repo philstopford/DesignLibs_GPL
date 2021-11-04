@@ -33,7 +33,7 @@ namespace WaveletTest
         {
             Console.WriteLine("");
             Console.WriteLine("WAVELET_TEST");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("  Test the WAVELET library.");
 
             test01();

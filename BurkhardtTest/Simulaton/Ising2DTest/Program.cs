@@ -50,7 +50,7 @@ namespace Ising2DTest
 
             Console.WriteLine("");
             Console.WriteLine("ISING_2D_SIMULATION");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("  Monte Carlo simulation of a 2D Ising model.");
             //
             //  Get input.

@@ -93,7 +93,6 @@ namespace TriangulationQuadTest
 
             Console.WriteLine("");
             Console.WriteLine("TRIANGULATION_QUAD:");
-            Console.WriteLine("  C++ version:");
             Console.WriteLine("  Estimate an integral over a triangulated region.");
             Console.WriteLine("");
             //

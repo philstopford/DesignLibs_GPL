@@ -28,7 +28,7 @@ namespace SquareGridTest
         {
             Console.WriteLine("");
             Console.WriteLine("SQUARE_GRID_TEST:");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("  Test the SQUARE_GRID library.");
 
             test01();

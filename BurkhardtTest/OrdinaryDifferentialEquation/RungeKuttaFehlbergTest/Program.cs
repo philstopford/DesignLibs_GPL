@@ -32,7 +32,7 @@ namespace RungeKuttaFehlbergTest
         {
             Console.WriteLine("");
             Console.WriteLine("RKF45_TEST");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("  Test the RKF45 library.");
 
             test01();

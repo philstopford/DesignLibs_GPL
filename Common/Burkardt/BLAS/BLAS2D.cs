@@ -337,7 +337,7 @@ namespace Burkardt.BLAS
         //
         //    Original FORTRAN77 version by Jack Dongarra,  Jeremy Du Croz,  
         //    Sven Hammarling,  Richard Hanson.
-        //    This C++ version by John Burkardt.
+        //    C++ version by John Burkardt.
         //
         //  Parameters:
         //
@@ -501,7 +501,7 @@ namespace Burkardt.BLAS
         //
         //  Author:
         //
-        //    This C++ version by John Burkardt.
+        //    C++ version by John Burkardt.
         //
         //  Parameters:
         //

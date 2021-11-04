@@ -45,7 +45,7 @@ namespace Burkardt.Elliptic
             //   Author:
             //
             //     Original FORTRAN77 version by Bille Carlson, Elaine Notis.
-            //     This C++ version by John Burkardt.
+            //     C++ version by John Burkardt.
             //
             //   Reference:
             //
@@ -179,7 +179,7 @@ namespace Burkardt.Elliptic
             //   Author:
             //
             //     Original FORTRAN77 version by Bille Carlson, Elaine Notis.
-            //     This C++ version by John Burkardt.
+            //     C++ version by John Burkardt.
             //
             //   Reference:
             //
@@ -357,7 +357,7 @@ namespace Burkardt.Elliptic
             //   Author:
             //
             //     Original FORTRAN77 version by Bille Carlson, Elaine Notis.
-            //     This C++ version by John Burkardt.
+            //     C++ version by John Burkardt.
             //
             //   Reference:
             //
@@ -523,7 +523,7 @@ namespace Burkardt.Elliptic
             //   Author:
             //
             //     Original FORTRAN77 version by Bille Carlson, Elaine Notis.
-            //     This C++ version by John Burkardt.
+            //     C++ version by John Burkardt.
             //
             //   Reference:
             //

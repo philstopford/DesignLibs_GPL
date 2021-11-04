@@ -33,7 +33,6 @@ namespace ZigguratTest
 
             Console.WriteLine("");
             Console.WriteLine("ZIGGURAT_TEST");
-            Console.WriteLine("  C++ version:");
             Console.WriteLine("  Test the ZIGGURAT library.");
             //
             //  Make sure that SEED controls the sequence, and can restart it.

@@ -34,7 +34,7 @@ namespace WedgeIntegralsTest
         {
             Console.WriteLine("");
             Console.WriteLine("WEDGE_INTEGRALS_TEST");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("  Test the WEDGE_INTEGRALS library.");
 
             test01();

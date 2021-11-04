@@ -33,7 +33,7 @@ namespace LagrangeInterpnDTest
         {
             Console.WriteLine("");
             Console.WriteLine("LAGRANGE_INTERP_ND_TEST:");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("  Test the LAGRANGE_INTERP_ND library.");
             //
             //  Use the interface that passes in the orders directly.

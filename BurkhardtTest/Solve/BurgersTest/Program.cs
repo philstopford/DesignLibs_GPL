@@ -32,7 +32,7 @@ namespace BurgersTest
         {
             Console.WriteLine("");
             Console.WriteLine("BURGERS_SOLUTION_TEST");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("  Test the BURGERS_SOLUTION library.");
 
             burgers_viscous_time_exact1_test01();

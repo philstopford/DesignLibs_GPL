@@ -124,7 +124,7 @@ namespace FeynmanKac1DTest
 
             Console.WriteLine("");
             Console.WriteLine("FEYNMAN_KAC_1D:");
-            Console.WriteLine("  C++ version.");
+            
             Console.WriteLine("");
             Console.WriteLine("  Program parameters:");
             Console.WriteLine("");

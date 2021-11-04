@@ -33,7 +33,7 @@ namespace TriangleGridTest
         {
             Console.WriteLine("");
             Console.WriteLine("TRIANGLE_GRID_TEST:");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("  Test the TRIANGLE_GRID library.");
 
             test01();

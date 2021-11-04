@@ -34,7 +34,7 @@ namespace CubeIntegralsTest
         {
             Console.WriteLine("");
             Console.WriteLine("CUBE_INTEGRALS_TEST");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("  Test the CUBE_INTEGRALS library.");
 
             test01();

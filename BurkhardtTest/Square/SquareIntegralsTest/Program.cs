@@ -34,7 +34,7 @@ namespace SquareIntegralsTest
         {
             Console.WriteLine("");
             Console.WriteLine("SQUARE_INTEGRALS_TEST");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("  Test the SQUARE_INTEGRALS library.");
 
             square01_monomial_integral_test();

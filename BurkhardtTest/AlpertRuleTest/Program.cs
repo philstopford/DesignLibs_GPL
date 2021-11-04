@@ -29,7 +29,7 @@ namespace AlpertRuleTest
         {
             Console.WriteLine("");
             Console.WriteLine("ALPERT_RULE_TEST");
-            Console.WriteLine("  C++ version.");
+            
             Console.WriteLine("  Test the ALPERT_RULE library.");
 
             monte_carlo_regular_test();

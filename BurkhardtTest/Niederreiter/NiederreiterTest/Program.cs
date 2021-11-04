@@ -106,7 +106,7 @@ namespace NiederreiterTest
 
             Console.WriteLine("");
             Console.WriteLine("GFPLYS:");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("");
             Console.WriteLine("  A program to compute a set of irreducible");
             Console.WriteLine("  polynomials over fields of certain orders Q.");

@@ -34,7 +34,7 @@ namespace FD1DWaveTest
         {
             Console.WriteLine("");
             Console.WriteLine("FD1D_WAVE_TEST");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("  Test the FD1D_WAVE library.");
 
             fd1d_wave_test01();

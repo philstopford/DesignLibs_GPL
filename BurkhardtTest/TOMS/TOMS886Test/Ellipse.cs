@@ -45,7 +45,7 @@ namespace TOMS886Test
             //
             //    Original FORTRAN77 version by Marco Caliari, Stefano De Marchi, 
             //    Marco Vianello.
-            //    This C++ version by John Burkardt.
+            //    C++ version by John Burkardt.
             //
             //  Reference:
             //
@@ -316,7 +316,7 @@ namespace TOMS886Test
             //
             //    Original FORTRAN77 version by Marco Caliari, Stefano De Marchi, 
             //    Marco Vianello.
-            //    This C++ version by John Burkardt.
+            //    C++ version by John Burkardt.
             //
             //  Reference:
             //
@@ -370,7 +370,7 @@ namespace TOMS886Test
             //
             //    Original FORTRAN77 version by Marco Caliari, Stefano De Marchi, 
             //    Marco Vianello.
-            //    This C++ version by John Burkardt.
+            //    C++ version by John Burkardt.
             //
             //  Reference:
             //
@@ -433,7 +433,7 @@ namespace TOMS886Test
             //
             //    Original FORTRAN77 version by Marco Caliari, Stefano De Marchi, 
             //    Marco Vianello.
-            //    This C++ version by John Burkardt.
+            //    C++ version by John Burkardt.
             //
             //  Reference:
             //
@@ -487,7 +487,7 @@ namespace TOMS886Test
             //
             //    Original FORTRAN77 version by Marco Caliari, Stefano De Marchi, 
             //    Marco Vianello.
-            //    This C++ version by John Burkardt.
+            //    C++ version by John Burkardt.
             //
             //  Reference:
             //
@@ -545,7 +545,7 @@ namespace TOMS886Test
             //
             //    Original FORTRAN77 version by Marco Caliari, Stefano De Marchi, 
             //    Marco Vianello.
-            //    This C++ version by John Burkardt.
+            //    C++ version by John Burkardt.
             //
             //  Reference:
             //
@@ -590,7 +590,7 @@ namespace TOMS886Test
             //
             //    Original FORTRAN77 version by Marco Caliari, Stefano De Marchi, 
             //    Marco Vianello.
-            //    This C++ version by John Burkardt.
+            //    C++ version by John Burkardt.
             //
             //  Reference:
             //
@@ -641,7 +641,7 @@ namespace TOMS886Test
             //
             //    Original FORTRAN77 version by Marco Caliari, Stefano De Marchi, 
             //    Marco Vianello.
-            //    This C++ version by John Burkardt.
+            //    C++ version by John Burkardt.
             //
             //  Reference:
             //

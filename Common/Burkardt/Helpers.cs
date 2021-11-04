@@ -440,7 +440,7 @@ namespace Burkardt
         //  Author:
         //
         //    Original C version by Warren Smith.
-        //    This C++ version by John Burkardt.
+        //    C++ version by John Burkardt.
         //
         //  Parameters:
         //

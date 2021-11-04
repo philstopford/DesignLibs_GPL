@@ -99,7 +99,7 @@ namespace Burkardt.Legendre
             //  Author:
             //
             //    Original C++ version by Nick Hale.
-            //    This C++ version by John Burkardt.
+            //    C++ version by John Burkardt.
             //
             //  Reference:
             //
@@ -186,7 +186,7 @@ namespace Burkardt.Legendre
             //  Author:
             //
             //    Original C++ version by Nick Hale.
-            //    This C++ version by John Burkardt.
+            //    C++ version by John Burkardt.
             //
             //  Reference:
             //
@@ -252,7 +252,7 @@ namespace Burkardt.Legendre
             //  Author:
             //
             //    Original C++ version by Nick Hale.
-            //    This C++ version by John Burkardt.
+            //    C++ version by John Burkardt.
             //
             //  Reference:
             //
@@ -372,7 +372,7 @@ namespace Burkardt.Legendre
             //  Author:
             //
             //    Original C++ version by Nick Hale.
-            //    This C++ version by John Burkardt.
+            //    C++ version by John Burkardt.
             //
             //  Reference:
             //

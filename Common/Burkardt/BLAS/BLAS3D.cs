@@ -422,7 +422,7 @@ namespace Burkardt.BLAS
         //
         //  Author:
         //
-        //    This C++ version by John Burkardt.
+        //    C++ version by John Burkardt.
         //
         //  Parameters:
         //
@@ -844,7 +844,7 @@ namespace Burkardt.BLAS
         //
         //  Author:
         //
-        //    This C++ version by John Burkardt.
+        //    C++ version by John Burkardt.
         //
         //  Parameters:
         //

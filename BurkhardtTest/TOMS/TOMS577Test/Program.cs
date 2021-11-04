@@ -27,7 +27,7 @@ namespace TOMS577Test
             //  Author:
             //
             //    Original FORTRAN77 version by Bille Carlson, Elaine Notis.
-            //    This C++ version by John Burkardt.
+            //    C++ version by John Burkardt.
             //
         {
             Console.WriteLine("");
@@ -78,7 +78,7 @@ namespace TOMS577Test
             //  Author:
             //
             //    Original FORTRAN77 version by Bille Carlson, Elaine Notis.
-            //    This C++ version by John Burkardt.
+            //    C++ version by John Burkardt.
             //
         {
             double eliptc;
@@ -233,7 +233,7 @@ namespace TOMS577Test
             //  Author:
             //
             //    Original FORTRAN77 version by Bille Carlson, Elaine Notis.
-            //    This C++ version by John Burkardt.
+            //    C++ version by John Burkardt.
             //
         {
             double errtol;
@@ -372,7 +372,7 @@ namespace TOMS577Test
             //  Author:
             //
             //    Original FORTRAN77 version by Bille Carlson, Elaine Notis.
-            //    This C++ version by John Burkardt.
+            //    C++ version by John Burkardt.
             //
         {
             double eliptc;
@@ -535,7 +535,7 @@ namespace TOMS577Test
             //  Author:
             //
             //    Original FORTRAN77 version by Bille Carlson, Elaine Notis.
-            //    This C++ version by John Burkardt.
+            //    C++ version by John Burkardt.
             //
         {
             double eliptc;
@@ -783,7 +783,7 @@ namespace TOMS577Test
             //  Author:
             //
             //    Original FORTRAN77 version by Bille Carlson, Elaine Notis.
-            //    This C++ version by John Burkardt.
+            //    C++ version by John Burkardt.
             //
         {
             double eliptc;

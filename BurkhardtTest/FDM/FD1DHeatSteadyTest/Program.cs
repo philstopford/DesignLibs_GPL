@@ -173,7 +173,7 @@ namespace FD1DHeatSteadyTest
 
             Console.WriteLine("");
             Console.WriteLine("PROBLEM2:");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("  A test problem for FD1D_HEAT_STEADY.");
             Console.WriteLine("  Low K, then high K, then moderate K.");
 
@@ -315,7 +315,7 @@ namespace FD1DHeatSteadyTest
 
             Console.WriteLine("");
             Console.WriteLine("PROBLEM3:");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("  A test problem for FD1D_HEAT_STEADY.");
             Console.WriteLine("  Interior source term.");
 

@@ -53,7 +53,7 @@ namespace LatinRandomDatasetTest
 
             Console.WriteLine("");
             Console.WriteLine("LATIN_RANDOM_DATASET");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("  Generate a Latin Random Square dataset.");
             //
             //  Get the spatial dimension.

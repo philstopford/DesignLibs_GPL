@@ -33,7 +33,7 @@ namespace FD1DHeatExplicitTest
         {
             Console.WriteLine("");
             Console.WriteLine("FD1D_HEAT_EXPLICIT_TEST:");
-            Console.WriteLine("  C++ version.");
+            
             Console.WriteLine("  Test the FD1D_HEAT_EXPLICIT library.");
 
             fd1d_heat_explicit_test01();

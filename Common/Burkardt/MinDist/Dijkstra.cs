@@ -39,7 +39,7 @@ namespace Burkardt.MinDist
             //  Author:
             //
             //    Original C version by Norm Matloff, CS Dept, UC Davis.
-            //    This C++ version by John Burkardt.
+            //    C++ version by John Burkardt.
             //
             //  Parameters:
             //
@@ -128,7 +128,7 @@ namespace Burkardt.MinDist
         //  Author:
         //
         //    Original C version by Norm Matloff, CS Dept, UC Davis.
-        //    This C++ version by John Burkardt.
+        //    C++ version by John Burkardt.
         //
         //  Parameters:
         //
@@ -185,7 +185,7 @@ namespace Burkardt.MinDist
         //  Author:
         //
         //    Original C version by Norm Matloff, CS Dept, UC Davis.
-        //    This C++ version by John Burkardt.
+        //    C++ version by John Burkardt.
         //
         //  Parameters:
         //

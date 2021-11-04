@@ -126,7 +126,7 @@ namespace EllipticIntegralTest
             //  Author:
             //
             //    Original FORTRAN77 version by Bille Carlson, Elaine Notis.
-            //    This C++ version by John Burkardt.
+            //    C++ version by John Burkardt.
             //
         {
             double eliptc;
@@ -282,7 +282,7 @@ namespace EllipticIntegralTest
             //  Author:
             //
             //    Original FORTRAN77 version by Bille Carlson, Elaine Notis.
-            //    This C++ version by John Burkardt.
+            //    C++ version by John Burkardt.
             //
         {
             double errtol;
@@ -420,7 +420,7 @@ namespace EllipticIntegralTest
             //  Author:
             //
             //    Original FORTRAN77 version by Bille Carlson, Elaine Notis.
-            //    This C++ version by John Burkardt.
+            //    C++ version by John Burkardt.
             //
         {
             double eliptc;
@@ -585,7 +585,7 @@ namespace EllipticIntegralTest
             //  Author:
             //
             //    Original FORTRAN77 version by Bille Carlson, Elaine Notis.
-            //    This C++ version by John Burkardt.
+            //    C++ version by John Burkardt.
             //
         {
             double eliptc;
@@ -836,7 +836,7 @@ namespace EllipticIntegralTest
             //  Author:
             //
             //    Original FORTRAN77 version by Bille Carlson, Elaine Notis.
-            //    This C++ version by John Burkardt.
+            //    C++ version by John Burkardt.
             //
         {
             double eliptc;

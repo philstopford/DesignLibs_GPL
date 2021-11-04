@@ -31,7 +31,7 @@ namespace CycleBrentTest
         {
             Console.WriteLine("");
             Console.WriteLine("CYCLE_BRENT_TEST");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("  Test the CYCLE_BRENT library.");
 
             test01();

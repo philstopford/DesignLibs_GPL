@@ -30,7 +30,7 @@ namespace Burkardt.Polygon
             //  Author:
             //
             //    Original C version by Joseph ORourke.
-            //    This C++ version by John Burkardt.
+            //    C++ version by John Burkardt.
             //
             //  Reference:
             //

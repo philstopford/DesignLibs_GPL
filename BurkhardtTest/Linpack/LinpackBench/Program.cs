@@ -55,7 +55,6 @@ namespace LinpackBench
             Console.WriteLine("LINPACK_BENCH");
             Console.WriteLine("");
             Console.WriteLine("  The LINPACK benchmark.");
-            Console.WriteLine("  Language: C++");
             Console.WriteLine("  Datatype: Double precision");
             Console.WriteLine("  Matrix order N               = " + N + "");
             Console.WriteLine("  Leading matrix dimension LDA = " + LDA + "");

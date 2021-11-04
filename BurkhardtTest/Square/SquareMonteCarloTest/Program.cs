@@ -33,7 +33,7 @@ namespace SquareMonteCarloTest
         {
             Console.WriteLine("");
             Console.WriteLine("SQUARE_MONTE_CARLO_TEST");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("  Test the SQUARE_MONTE_CARLO library.");
 
             test01();

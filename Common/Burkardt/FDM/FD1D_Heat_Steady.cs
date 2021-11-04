@@ -70,7 +70,7 @@ namespace Burkardt.FDM
 
             Console.WriteLine("");
             Console.WriteLine("FD1D_HEAT_STEADY");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("");
             Console.WriteLine("  Finite difference solution of");
             Console.WriteLine("  the steady 1D heat equation");

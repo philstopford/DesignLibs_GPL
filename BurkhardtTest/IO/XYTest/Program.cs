@@ -31,7 +31,7 @@ namespace XYTest
         {
             Console.WriteLine("");
             Console.WriteLine("XY_IO_TEST:");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("  Test the XY_IO library.");
 
             test01();

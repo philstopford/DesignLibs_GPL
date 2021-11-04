@@ -31,7 +31,7 @@ namespace ODETest
         {
             Console.WriteLine("");
             Console.WriteLine("ODE_TEST");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("  Test the ODE library.");
 
             test01();

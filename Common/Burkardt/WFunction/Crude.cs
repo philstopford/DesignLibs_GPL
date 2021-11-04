@@ -39,7 +39,7 @@ namespace Burkardt.WFunction
             //
             //    Original FORTRAN77 version by Andrew Barry, S. J. Barry, 
             //    Patricia Culligan-Hensley.
-            //    This C++ version by John Burkardt.
+            //    C++ version by John Burkardt.
             //
             //  Reference:
             //

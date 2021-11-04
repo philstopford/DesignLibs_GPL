@@ -77,7 +77,7 @@ namespace EllipseMonteCarloTest
 
             Console.WriteLine("");
             Console.WriteLine("ELLIPSE_AREA1_TEST");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("  ELLIPSE_AREA1 computes the area of an ellipse.");
 
             r = 10.0;
@@ -125,7 +125,7 @@ namespace EllipseMonteCarloTest
 
             Console.WriteLine("");
             Console.WriteLine("ELLIPSE_AREA2_TEST");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("  ELLIPSE_AREA2 computes the area of an ellipse.");
 
             a = 5.0;

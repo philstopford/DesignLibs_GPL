@@ -141,7 +141,7 @@ namespace FeynmanKac3DTest
 
             Console.WriteLine("");
             Console.WriteLine("FEYNMAN-KAC_3D:");
-            Console.WriteLine("  C++ version.");
+            
             Console.WriteLine("");
             Console.WriteLine("  Program parameters:");
             Console.WriteLine("");

@@ -89,7 +89,7 @@ namespace FEM2DProjectTest
 
             Console.WriteLine("");
             Console.WriteLine("FEM2D_PROJECT");
-            Console.WriteLine("  C++ version.");
+            
             Console.WriteLine("");
             Console.WriteLine("  Read files defining a sampling of a function of 2 arguments.");
             Console.WriteLine("  Read files defining a finite element mesh.");

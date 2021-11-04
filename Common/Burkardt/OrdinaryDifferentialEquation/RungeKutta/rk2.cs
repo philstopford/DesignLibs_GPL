@@ -23,7 +23,7 @@ namespace Burkardt.ODENS
             //  Author:
             //
             //    Original C++ version by Nick Hale.
-            //    This C++ version by John Burkardt.
+            //    C++ version by John Burkardt.
             //
             //  Parameters:
             //

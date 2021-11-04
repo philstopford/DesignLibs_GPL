@@ -121,7 +121,7 @@ namespace FEM2DPoissonRectangleLinearTest
 
             Console.WriteLine("");
             Console.WriteLine("FEM2D_POISSON_RECTANGLE_LINEAR");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("");
             Console.WriteLine("  Solution of the Poisson equation:");
             Console.WriteLine("");

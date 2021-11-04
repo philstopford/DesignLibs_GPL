@@ -38,7 +38,6 @@ namespace SandiaRules2Test
 
             Console.WriteLine("");
             Console.WriteLine("SANDIA_RULES2_TEST");
-            Console.WriteLine("  C++ version");
             Console.WriteLine("  Test the SANDIA_RULES2 library.");
 
             test185();

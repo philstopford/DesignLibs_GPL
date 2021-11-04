@@ -32,7 +32,7 @@ namespace FloydTest
         {
             Console.WriteLine("");
             Console.WriteLine("FLOYD_TEST");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("  Test the FLOYD library.");
 
             test01();

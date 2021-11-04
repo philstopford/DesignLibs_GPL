@@ -60,7 +60,7 @@ namespace FFTSerialTest
 
             Console.WriteLine("");
             Console.WriteLine("FFT_SERIAL");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("");
             Console.WriteLine("  Demonstrate an implementation of the Fast Fourier Transform");
             Console.WriteLine("  of a complex data vector.");

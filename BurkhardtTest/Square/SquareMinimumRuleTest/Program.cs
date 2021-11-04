@@ -33,7 +33,7 @@ namespace SquareMinimumRuleTest
 
             Console.WriteLine("");
             Console.WriteLine("SQUARE_MINIMAL_RULE_TEST");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("  Test the SQUARE_MINIMAL_RULE library.");
 
             degree = 8;

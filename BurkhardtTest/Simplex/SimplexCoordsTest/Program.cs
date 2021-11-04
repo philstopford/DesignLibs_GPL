@@ -34,7 +34,7 @@ namespace SimplexCoordsTest
 
             Console.WriteLine("");
             Console.WriteLine("SIMPLEX_COORDINATES_TEST");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("  Test the SIMPLEX_COORDINATES library.");
 
             n = 3;

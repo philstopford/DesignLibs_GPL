@@ -32,7 +32,7 @@ namespace CentroidalVoronoiTessellationTest
         {
             Console.WriteLine("");
             Console.WriteLine("CVT_TEST");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("  Test the CVT library.");
 
             test01();

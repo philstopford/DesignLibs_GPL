@@ -32,7 +32,7 @@ namespace CubeGridTest
         {
             Console.WriteLine("");
             Console.WriteLine("CUBE_GRID_TEST:");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("  Test the CUBE_GRID library.");
 
             test01();

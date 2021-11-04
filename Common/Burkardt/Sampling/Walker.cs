@@ -28,7 +28,7 @@ namespace Burkardt.Sampling
             //  Author:
             //
             //    Original C version by Warren Smith.
-            //    This C++ version by John Burkardt.
+            //    C++ version by John Burkardt.
             //
             //  Reference:
             //
@@ -192,7 +192,7 @@ namespace Burkardt.Sampling
             //  Author:
             //
             //    Original C version by Warren Smith.
-            //    This C++ version by John Burkardt.
+            //    C++ version by John Burkardt.
             //
             //  Reference:
             //
@@ -250,7 +250,7 @@ namespace Burkardt.Sampling
             //  Author:
             //
             //    Original C version by Warren Smith.
-            //    This C++ version by John Burkardt.
+            //    C++ version by John Burkardt.
             //
         {
             int[] a;
@@ -429,7 +429,7 @@ namespace Burkardt.Sampling
             //  Author:
             //
             //    Original C version by Warren Smith.
-            //    This C++ version by John Burkardt.
+            //    C++ version by John Burkardt.
             //
             //  Parameters:
             //

@@ -29,7 +29,7 @@ namespace HankelSPDCholeskyTest
         {
             Console.WriteLine("");
             Console.WriteLine("hankel_spd_test");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("  Test the hankel_spd library.");
 
             hankel_spd_cholesky_lower_test01();

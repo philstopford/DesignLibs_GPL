@@ -35,7 +35,7 @@ namespace SphereStereographTest
         {
             Console.WriteLine("");
             Console.WriteLine("SPHERE_STEREOGRAPH_TEST");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("  Test the SPHERE_STEREOGRAPH library.");
 
             test01();

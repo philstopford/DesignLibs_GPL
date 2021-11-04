@@ -31,7 +31,7 @@ namespace CycleFloydTest
         {
             Console.WriteLine("");
             Console.WriteLine("CYCLE_FLOYD_TEST");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("  Test the CYCLE_FLOYD library.");
 
             test01();

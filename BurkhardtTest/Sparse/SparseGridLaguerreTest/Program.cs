@@ -50,7 +50,7 @@ namespace SparseGridLaguerreTest
 
             Console.WriteLine("");
             Console.WriteLine("SPARSE_GRID_LAGUERRE_TEST");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("  Test the SPARSE_GRID_LAGUERRE library.");
             //
             //  Count number of points in sparse rule from DIM_MIN to DIM_MAX, LEVEL_MAX_MAX.

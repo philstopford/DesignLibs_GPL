@@ -33,7 +33,7 @@ namespace CompassSearchTest
         {
             Console.WriteLine("");
             Console.WriteLine("COMPASS_SEARCH_TEST");
-            Console.WriteLine("  C++ version.");
+            
             Console.WriteLine("  Test the COMPASS_SEARCH library.");
 
             beale_test();

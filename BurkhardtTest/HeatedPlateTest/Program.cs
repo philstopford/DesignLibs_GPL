@@ -128,7 +128,7 @@ namespace HeatedPlateTest
 
             Console.WriteLine("");
             Console.WriteLine("HEATED_PLATE");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("  A program to solve for the steady state temperature distribution");
             Console.WriteLine("  over a rectangular plate.");
             Console.WriteLine("");

@@ -36,7 +36,7 @@ namespace TriangleIntegralsTest
         {
             Console.WriteLine("");
             Console.WriteLine("TRIANGLE_INTEGRALS_TEST:");
-            Console.WriteLine("  C++ version.");
+            
             Console.WriteLine("  Test the TRIANGLE_INTEGRALS library.");
 
             i4_to_pascal_test();

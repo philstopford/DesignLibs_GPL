@@ -34,7 +34,7 @@ namespace FD2DHeatSteadyTest
         {
             Console.WriteLine("");
             Console.WriteLine("FD2D_HEAT_STEADY_TEST:");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("  Test the FD2D_HEAT_STEADY library.");
 
             test01();

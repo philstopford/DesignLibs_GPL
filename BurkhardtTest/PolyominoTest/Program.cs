@@ -182,7 +182,7 @@ namespace PolyominoTest
 
             Console.WriteLine("");
             Console.WriteLine("POLYOMINO_CONDENSE_TEST:");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("  POLYOMINO_CONDENSE 'cleans up' a matrix that is supposed");
             Console.WriteLine("  to represent a polyomino:");
             Console.WriteLine("  * nonzero entries are set to 1;");
@@ -453,7 +453,6 @@ namespace PolyominoTest
         {
             Console.WriteLine("");
             Console.WriteLine("POLYOMINO_ENUMERATE_TEST:");
-            Console.WriteLine("  C++ version,");
             Console.WriteLine("  POLYOMINO_ENUMERATE enumerates various classes of polyomino.");
 
             polyomino_enumerate_chiral_test();
@@ -655,7 +654,7 @@ namespace PolyominoTest
 
             Console.WriteLine("");
             Console.WriteLine("POLYOMINO_INDEX_TEST");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("  POLYOMINO_INDEX assigns an index to each nonzero entry");
             Console.WriteLine("  of a polyomino.");
 
@@ -712,7 +711,7 @@ namespace PolyominoTest
 
             Console.WriteLine("");
             Console.WriteLine("POLYOMINO_LP_WRITE_TEST:");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("  POLYOMINO_LP_WRITE writes an LP file associated");
             Console.WriteLine("  with a binary programming problem for tiling a region");
             Console.WriteLine("  with copies of a single polyomino.");
@@ -870,7 +869,7 @@ namespace PolyominoTest
 
             Console.WriteLine("");
             Console.WriteLine("POLYOMINO_TRANSFORM_TEST:");
-            Console.WriteLine("  C++ version");
+            
             Console.WriteLine("  POLYOMINO_TRANSFORM can transform a polyomino.");
             Console.WriteLine("  Generate all 8 combinations of rotation and reflection");
             Console.WriteLine("  applied to a polyomino represented by a binary matrix.");

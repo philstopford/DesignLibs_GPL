@@ -1817,6 +1817,15 @@ namespace Burkardt.Quadrature
             }
         }
 
+        public static double[] gl_weights(int order)
+        {
+            double[] weight = null;
+            
+            gl_weights(order, ref weight);
+
+            return weight;
+        }
+
         public static void gl_weights(int order, ref double[] weight)
 
             //****************************************************************************80

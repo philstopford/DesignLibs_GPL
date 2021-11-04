@@ -490,6 +490,7 @@
     <projectFile>BurkhardtTest/Sandia/SandiaCubatureTest/SandiaCubatureTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Sandia/SandiaRulesTest/SandiaRulesTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Sandia/SandiaRules2Test/SandiaRules2Test.csproj</projectFile>
+    <projectFile>BurkhardtTest/Sandia/SandiaSparseTest/SandiaSparseTest.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -6433,6 +6434,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="SandiaSparseTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Sandia/SandiaSparseTest/SandiaSparseTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="Shepard1DTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/Shepard1DTest/Debug/net5.0/Shepard1DTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -9909,9 +9928,10 @@
       <item itemvalue=".NET Project.XYZTest" />
       <item itemvalue=".NET Project.SandiaCubatureTest" />
       <item itemvalue=".NET Project.SandiaRulesTest" />
+      <item itemvalue=".NET Project.SandiaRules2Test" />
       <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMAIOTest" />
       <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMBIOTest" />
-      <item itemvalue=".NET Project.SandiaRules2Test" />
+      <item itemvalue=".NET Project.SandiaSparseTest" />
     </list>
     <recent_temporary>
       <list>

@@ -166,6 +166,78 @@ namespace Burkardt.IntegralNS
 
             return value;
         }
+        
+        public static double monomial_integral_hermite ( int dim_num, int[] expon )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    MONOMIAL_INTEGRAL_HERMITE integrates a Hermite mononomial.
+            //
+            //  Discussion:
+            //
+            //    H(d,n) = Integral ( -Infinity < x < Infinity ) 
+            //      x1^n1 * x2^n2...*xd^nd * exp(-x1^2-x2^2...-xd^2 ) dx
+            //
+            //    H(d,n) is 0 if any n(i) odd.
+            //
+            //    H(d,n) = product ( 1 <= i <= d ) 
+            //      ( (n(i)-1)!! * sqrt(pi) / 2^(n(i)/2) for all n(i) even.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    03 October 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            // Parameters:
+            //
+            //    Input, int DIM_NUM, the dimension of the integral.
+            //
+            //    Input, int EXPON[DIM_NUM], the order of the integral.  
+            //    0 <= EXPON(1:DIM_NUM).
+            //
+            //    Output, double HERMITE_INTEGRAL, the value of the integral.
+            //
+        { 
+            int dim;
+            double pi = 3.141592653589793;
+            double value;
+
+            for ( dim = 0; dim < dim_num; dim++ )
+            {
+                if ( expon[dim] < 0 )
+                {
+                    value = - typeMethods.r8_huge ( );
+                    return value;
+                }
+            }
+
+            for ( dim = 0; dim < dim_num; dim++ )
+            {
+                if ( ( expon[dim] % 2 ) == 1 )
+                {
+                    value = 0.0;
+                    return value;
+                }
+            }
+
+            value = 1.0;
+            for ( dim = 0; dim < dim_num; dim++ )
+            {
+                value = value * typeMethods.r8_factorial2 ( expon[dim] - 1 ) * Math.Sqrt ( pi ) 
+                        / ( double ) (int)Math.Pow ( 2, expon[dim] / 2 );
+            }
+
+            return value;
+        }
 
         public static double monomial_integral_hermite(int expon)
 
@@ -301,6 +373,57 @@ namespace Burkardt.IntegralNS
             return value;
         }
 
+        public static double monomial_integral_laguerre ( int dim_num, int[] expon )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    MONOMIAL_INTEGRAL_LAGUERRE integrates a Laguerre monomial.
+            //
+            //  Discussion:
+            //
+            //    L(1,n) = Integral ( 0 <= x < Infinity ) x^n exp ( -x ) dx
+            //           = n!
+            //
+            //    L(d,n) = Integral ( 0 <= x(i) < Infinity ) 
+            //             x1^n1 * x2^n2...*xd^nd * exp(-x1-x2...-xd ) dx
+            //           = Product ( n(i)! ).
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    10 October 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            // Parameters:
+            //
+            //    Input, int DIM_NUM, the dimension of the integral.
+            //
+            //    Input, int EXPON[DIM_NUM], the order of the integral.  
+            //    0 <= EXPON(1:DIM_NUM).
+            //
+            //    Output, double MONOMIAL_INTEGRAL_LAGUERRE, the value of the integral.
+            //
+        { 
+            int dim;
+            double value;
+
+            value = 1.0;
+            for ( dim = 0; dim < dim_num; dim++ )
+            {
+                value = value * typeMethods.r8_factorial ( expon[dim] );
+            }
+
+            return value;
+        }
+        
         public static double monomial_integral_laguerre(int expon)
 
             //****************************************************************************80
@@ -339,6 +462,71 @@ namespace Burkardt.IntegralNS
             double value;
 
             value = typeMethods.r8_factorial(expon);
+
+            return value;
+        }
+        
+        public static double monomial_integral_legendre ( int dim_num, int[] expon )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    MONOMIAL_INTEGRAL_LEGENDRE integrates a Legendre monomial.
+            //
+            //  Discussion:
+            //
+            //    This routine returns the exact value of a multidimensional Legendre 
+            //    type integral:
+            //
+            //      integral ( -1 <= x(1:n) <= +1 ) f(x) dx
+            //
+            //    where f(x) is a monomial of the form:
+            //
+            //      product ( 1 <= dim <= dim_num ) x(dim)^expon(dim)
+            //
+            //    and the exponents are nonnegative integers.  Note that the combination 
+            //    0^0 is treated as 1.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    26 March 2008
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int DIM_NUM, the spatial dimension.
+            //
+            //    Input, int EXPON[DIM_NUM], the exponents.
+            //
+            //    Output, double MONOMIAL_INTEGRAL_LEGENDRE, the value of the integral 
+            //    of the monomial.
+            //
+        {
+            int dim;
+            double value;
+
+            value = 0.0;
+            for ( dim = 0; dim < dim_num; dim++ )
+            {
+                if ( ( expon[dim] % 2 ) == 1 )
+                {
+                    return value;
+                }
+            }
+
+            value = 1.0;
+            for ( dim = 0; dim < dim_num; dim++ )
+            {
+                value = value * 2.0 / ( double ) ( expon[dim] + 1 );
+            }
 
             return value;
         }

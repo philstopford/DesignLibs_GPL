@@ -195,7 +195,108 @@ namespace Burkardt.Quadrature
 
             return quad_error;
         }
-        
+
+        public static double monomial_quadrature(int dim_num, int[] expon, int point_num,
+                double[] weight, double[] x, int rule)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    MONOMIAL_QUADRATURE applies a quadrature rule to a monomial.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    09 November 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int DIM_NUM, the spatial dimension.
+            //
+            //    Input, int EXPON[DIM_NUM], the exponents.
+            //
+            //    Input, int POINT_NUM, the number of points in the rule.
+            //
+            //    Input, double WEIGHT[POINT_NUM], the quadrature weights.
+            //
+            //    Input, double X[DIM_NUM*POINT_NUM], the quadrature points.
+            //
+            //    Input, int RULE, the index of the rule.
+            //    1, "CC", Clenshaw Curtis Closed Fully Nested rule.
+            //    2, "F1", Fejer 1 Open Fully Nested rule.
+            //    3, "F2", Fejer 2 Open Fully Nested rule.
+            //    4, "GP", Gauss Patterson Open Fully Nested rule.
+            //    5, "GL", Gauss Legendre Open Weakly Nested rule.
+            //    6, "GH", Gauss Hermite Open Weakly Nested rule.
+            //    7, "LG", Gauss Laguerre Open Non Nested rule.
+            //
+            //    Output, double MONOMIAL_QUADRATURE, the quadrature error.
+            //
+        {
+            double exact;
+            int point;
+            double quad;
+            double quad_error;
+            double[] value;
+            //
+            //  Get the exact value of the integral of the unscaled monomial.
+            //
+            if (1 <= rule && rule <= 5)
+            {
+                exact = IntegralNS.Monomial.monomial_integral_legendre(dim_num, expon);
+            }
+            else if (rule == 6)
+            {
+                exact = IntegralNS.Monomial.monomial_integral_hermite(dim_num, expon);
+            }
+            else if (rule == 7)
+            {
+                exact = IntegralNS.Monomial.monomial_integral_laguerre(dim_num, expon);
+            }
+            else
+            {
+                Console.WriteLine("");
+                Console.WriteLine("MONOMIAL_QUADRATURE - Fatal error!");
+                Console.WriteLine("  Unrecognized value of RULE.");
+                return (1);
+            }
+
+            //
+            //  Evaluate the monomial at the quadrature points.
+            //
+            value = Monomial.monomial_value(dim_num, point_num, x, expon);
+            //
+            //  Compute the quadrature sum.
+            //
+            quad = 0.0;
+            for (point = 0; point < point_num; point++)
+            {
+                quad = quad + weight[point] * value[point];
+            }
+
+            //
+            //  Absolute error if EXACT = 0, relative error otherwise:
+            //
+            if (exact == 0.0)
+            {
+                quad_error = Math.Abs(quad - exact);
+            }
+            else
+            {
+                quad_error = Math.Abs(quad - exact) / Math.Abs(exact);
+            }
+
+            return quad_error;
+        }
+
         public static double monomial_quadrature ( int dim_num, int[] expon, int point_num, 
         double[] weight, double[] x )
 

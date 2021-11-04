@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Types;
 
 namespace Burkardt.Quadrature
 {
@@ -2136,6 +2137,501 @@ namespace Burkardt.Quadrature
                 order[dim] = o;
             }
         }
+
+        public static int[] index_level_own(int level, int level_max, int dim_num, int point_num,
+                int[] grid_index, int[] grid_base)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    INDEX_LEVEL_OWN: determine first level at which given index is generated.
+            //
+            //  Discussion:
+            //
+            //    We are constructing a sparse grid of OWN points.  The grid
+            //    is built up of product grids, with a characteristic LEVEL.  
+            //
+            //    We are concerned with identifying points in this product grid which
+            //    have actually been generated previously, on a lower value of LEVEL.
+            //
+            //    This routine determines the lowest value of LEVEL at which each of
+            //    the input points would be generated.
+            //
+            //    In 1D, given LEVEL, the number of points is ORDER = 2**(LEVEL+1) + 1,
+            //    (except that LEVEL = 0 implies ORDER = 1), the BASE is (ORDER-1)/2, 
+            //    and the point INDEX values range from -BASE to +BASE.
+            //
+            //    The values of INDEX and BASE allow us to determine the abstract
+            //    properties of the point.  In particular, if INDEX is 0, the corresponding
+            //    abscissa is 0, the special "nested" value we need to take care of.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    07 October 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Fabio Nobile, Raul Tempone, Clayton Webster,
+            //    A Sparse Grid Stochastic Collocation Method for Partial Differential
+            //    Equations with Random Input Data,
+            //    SIAM Journal on Numerical Analysis,
+            //    Volume 46, Number 5, 2008, pages 2309-2345.
+            //
+            //  Parameters:
+            //
+            //    Input, int LEVEL, the level at which these points were 
+            //    generated.  LEVEL_MIN <= LEVEL <= LEVEL_MAX.
+            //
+            //    Input, int LEVEL_MAX, the maximum level.
+            //
+            //    Input, int DIM_NUM, the spatial dimension.
+            //
+            //    Input, int POINT_NUM, the number of points to be tested.
+            //
+            //    Input, int GRID_INDEX[DIM_NUM*POINT_NUM], the indices of the 
+            //    points to be tested.
+            //
+            //    Input, int GRID_BASE[DIM_NUM], the "base", which is essentially
+            //    the denominator of the index.
+            //
+            //    Output, int INDEX_LEVEL_OWN[POINT_NUM], the value of LEVEL at 
+            //    which the point would first be generated.  This will be the same as
+            //    the input value of LEVEL, unless the point has an INDEX of 0 and
+            //    a corresponding BASE that is NOT zero.
+            //
+        {
+            int dim;
+            int[] grid_level;
+            int level_min;
+            int point;
+
+            grid_level = new int[point_num];
+
+            if (dim_num == 1)
+            {
+                level_min = level_max;
+            }
+            else
+            {
+                level_min = 0;
+            }
+
+            //
+            //  If a point has a DIM-th component whose INDEX is 0, then the 
+            //  value of LEVEL at which this point would first be generated is
+            //  less than LEVEL, unless the DIM-th component of GRID_BASE is 0.
+            //
+            for (point = 0; point < point_num; point++)
+            {
+                grid_level[point] = Math.Max(level, level_min);
+
+                for (dim = 0; dim < dim_num; dim++)
+                {
+                    if (grid_index[dim + point * dim_num] == 0)
+                    {
+                        grid_level[point] = Math.Max(grid_level[point] - grid_base[dim], level_min);
+                    }
+                }
+            }
+
+            return grid_level;
+        }
+
+        public static int index_to_level_closed(int dim_num, int[] t, int order, int level_max)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    INDEX_TO_LEVEL_CLOSED determines the level of a point given its index.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    09 November 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Fabio Nobile, Raul Tempone, Clayton Webster,
+            //    A Sparse Grid Stochastic Collocation Method for Partial Differential
+            //    Equations with Random Input Data,
+            //    SIAM Journal on Numerical Analysis,
+            //    Volume 46, Number 5, 2008, pages 2309-2345.
+            //
+            //  Parameters:
+            //
+            //    Input, int DIM_NUM, the spatial dimension.
+            //
+            //    Input, int T[DIM_NUM], the grid indices of a point in a 1D closed rule.
+            //    0 <= T[I] <= ORDER.
+            //
+            //    Input, int ORDER, the order of the rule.
+            //
+            //    Input, int LEVEL_MAX, the level with respect to which the
+            //    index applies.
+            //
+            //    Output, int INDEX_TO_LEVEL_CLOSED, the first level on which
+            //    the point associated with the given index will appear.
+            //
+        {
+            int dim;
+            int level;
+            int s;
+            int value;
+
+            value = 0;
+
+            for (dim = 0; dim < dim_num; dim++)
+            {
+                s = t[dim];
+
+                s = typeMethods.i4_modp(s, order);
+
+                if (s == 0)
+                {
+                    level = 0;
+                }
+                else
+                {
+                    level = level_max;
+
+                    while ((s % 2) == 0)
+                    {
+                        s = s / 2;
+                        level = level - 1;
+                    }
+                }
+
+                if (level == 0)
+                {
+                    level = 1;
+                }
+                else if (level == 1)
+                {
+                    level = 0;
+                }
+
+                value = value + level;
+            }
+
+            return value;
+        }
+
+        public static int index_to_level_open(int dim_num, int[] t, int order, int level_max, int tIndex = 0)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    INDEX_TO_LEVEL_OPEN determines the level of a point given its index.
+            //
+            //  Modified:
+            //
+            //    19 April 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Fabio Nobile, Raul Tempone, Clayton Webster,
+            //    A Sparse Grid Stochastic Collocation Method for Partial Differential
+            //    Equations with Random Input Data,
+            //    SIAM Journal on Numerical Analysis,
+            //    Volume 46, Number 5, 2008, pages 2309-2345.
+            //
+            //  Parameters:
+            //
+            //    Input, int DIM_NUM, the spatial dimension.
+            //
+            //    Input, int T[DIM_NUM], the grid index of a point.
+            //
+            //    Input, int ORDER, the order of the rule.
+            //
+            //    Input, int LEVEL_MAX, the level with respect to which the
+            //    index applies.
+            //
+            //    Output, int INDEX_TO_LEVEL_OPEN, the first level on which
+            //    the point associated with the given index will appear.
+            //
+        {
+            int dim;
+            int level;
+            int s;
+            int value;
+
+            value = 0;
+
+            for (dim = 0; dim < dim_num; dim++)
+            {
+                s = t[(dim + tIndex) % t.Length];
+
+                s = typeMethods.i4_modp(s, order);
+
+                if (s == 0)
+                {
+                    level = 0;
+                }
+                else
+                {
+                    level = level_max;
+
+                    while ((s % 2) == 0)
+                    {
+                        s = s / 2;
+                        level = level - 1;
+                    }
+                }
+
+                if (level == 0)
+                {
+                    level = 1;
+                }
+                else if (level == 1)
+                {
+                    level = 0;
+                }
+
+                value = value + level;
+            }
+
+            return value;
+        }
+
+        public static void level_to_order_closed(int dim_num, int[] level, ref int[] order)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    LEVEL_TO_ORDER_CLOSED converts a level to an order for closed rules.
+            //
+            //  Discussion:
+            //
+            //    Sparse grids can naturally be nested.  A natural scheme is to use
+            //    a series of one-dimensional rules arranged in a series of "levels"
+            //    whose order roughly doubles with each step.
+            //
+            //    The arrangement described here works naturally for the Clenshaw Curtis
+            //    and Newton Cotes closed rules.  
+            //
+            //    The idea is that we start with LEVEL = 0, ORDER = 1 indicating the single 
+            //    point at the center, and for all values afterwards, we use the 
+            //    relationship
+            //
+            //      ORDER = 2^LEVEL + 1
+            //
+            //    The following table shows how the growth will occur:
+            //
+            //    Level    Order
+            //
+            //    0          1
+            //    1          3 =  2 + 1
+            //    2          5 =  4 + 1
+            //    3          9 =  8 + 1
+            //    4         17 = 16 + 1
+            //    5         33 = 32 + 1
+            //
+            //    For the Clenshaw Curtis and Newton Cotes Closed rules, the point growth
+            //    is nested.  If we have ORDER points on a particular LEVEL, the next
+            //    level includes all these old points, plus ORDER-1 new points, formed
+            //    in the gaps between successive pairs of old points.
+            //
+            //    Level    Order = New + Old
+            //
+            //    0          1   =  1  +  0
+            //    1          3   =  2  +  1
+            //    2          5   =  2  +  3
+            //    3          9   =  4  +  5
+            //    4         17   =  8  +  9
+            //    5         33   = 16  + 17
+            //
+            //    In this routine, we assume that a vector of levels is given,
+            //    and the corresponding orders are desired.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    09 November 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Fabio Nobile, Raul Tempone, Clayton Webster,
+            //    A Sparse Grid Stochastic Collocation Method for Partial Differential
+            //    Equations with Random Input Data,
+            //    SIAM Journal on Numerical Analysis,
+            //    Volume 46, Number 5, 2008, pages 2309-2345.
+            //
+            //  Parameters:
+            //
+            //    Input, int DIM_NUM, the spatial dimension.
+            //
+            //    Input, int LEVEL[DIM_NUM], the nesting level.
+            //
+            //    Output, int ORDER[DIM_NUM], the order (number of points) 
+            //    of the rule.
+            //
+        {
+            int dim;
+
+            for (dim = 0; dim < dim_num; dim++)
+            {
+                if (level[dim] < 0)
+                {
+                    order[dim] = -1;
+                }
+                else if (level[dim] == 0)
+                {
+                    order[dim] = 1;
+                }
+                else
+                {
+                    order[dim] = (int) Math.Pow(2, level[dim]) + 1;
+                }
+            }
+        }
+
+        public static void level_to_order_open(int dim_num, int[] level, ref int[] order)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    LEVEL_TO_ORDER_OPEN converts a level to an order for open rules.
+            //
+            //  Discussion:
+            //
+            //    Sparse grids can naturally be nested.  A natural scheme is to use
+            //    a series of one-dimensional rules arranged in a series of "levels"
+            //    whose order roughly doubles with each step.
+            //
+            //    The arrangement described here works naturally for the Fejer Type 1,
+            //    Fejer Type 2, Newton Cotes Open, Newton Cotes Half Open,
+            //    and Gauss-Patterson rules.  It also can be used, partially, to describe
+            //    the growth of Gauss-Legendre rules.
+            //
+            //    The idea is that we start with LEVEL = 0, ORDER = 1 indicating the single 
+            //    point at the center, and for all values afterwards, we use the relationship
+            //
+            //      ORDER = 2**(LEVEL+1) - 1.
+            //
+            //    The following table shows how the growth will occur:
+            //
+            //    Level    Order
+            //
+            //    0          1
+            //    1          3 =  4 - 1
+            //    2          7 =  8 - 1
+            //    3         15 = 16 - 1
+            //    4         31 = 32 - 1
+            //    5         63 = 64 - 1
+            //
+            //    For the Fejer Type 1, Fejer Type 2, Newton Cotes Open, 
+            //    Newton Cotes Open Half, and Gauss-Patterson rules, the point growth is
+            //    nested.  If we have ORDER points on a particular LEVEL, the next level 
+            //    includes all these old points, plus ORDER+1 new points, formed in the 
+            //    gaps between successive pairs of old points plus an extra point at each 
+            //    end.
+            //
+            //    Level    Order = New + Old
+            //
+            //    0          1   =  1  +  0
+            //    1          3   =  2  +  1
+            //    2          7   =  4  +  3
+            //    3         15   =  8  +  7
+            //    4         31   = 16  + 15
+            //    5         63   = 32  + 31
+            //
+            //    If we use a series of Gauss-Legendre rules, then there is almost no 
+            //    nesting, except that the central point is shared.  If we insist on 
+            //    producing a comparable series of such points, then the "nesting" behavior
+            //    is as follows:
+            //
+            //    Level    Order = New + Old
+            //
+            //    0          1   =  1  +  0
+            //    1          3   =  2  +  1
+            //    2          7   =  6  +  1
+            //    3         15   = 14  +  1
+            //    4         31   = 30  +  1
+            //    5         63   = 62  +  1
+            //
+            //    Moreover, if we consider ALL the points used in such a set of "nested" 
+            //    Gauss-Legendre rules, then we must sum the "NEW" column, and we see that
+            //    we get roughly twice as many points as for the truly nested rules.
+            //
+            //    In this routine, we assume that a vector of levels is given,
+            //    and the corresponding orders are desired.
+            //
+            //  Modified:
+            //
+            //    19 April 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Fabio Nobile, Raul Tempone, Clayton Webster,
+            //    A Sparse Grid Stochastic Collocation Method for Partial Differential
+            //    Equations with Random Input Data,
+            //    SIAM Journal on Numerical Analysis,
+            //    Volume 46, Number 5, 2008, pages 2309-2345.
+            //
+            //  Parameters:
+            //
+            //    Input, int DIM_NUM, the spatial dimension.
+            //
+            //    Input, int LEVEL[DIM_NUM], the nesting level.
+            //
+            //    Output, int ORDER[DIM_NUM], the order (number of points) 
+            //    of the rule.
+            //
+        {
+            int dim;
+
+            for (dim = 0; dim < dim_num; dim++)
+            {
+                if (level[dim] < 0)
+                {
+                    order[dim] = -1;
+                }
+                else if (level[dim] == 0)
+                {
+                    order[dim] = 1;
+                }
+                else
+                {
+                    order[dim] = (int) Math.Pow(2, level[dim] + 1) - 1;
+                }
+            }
+        }
+
 
     }
 }

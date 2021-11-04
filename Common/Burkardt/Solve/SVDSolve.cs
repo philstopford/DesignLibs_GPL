@@ -1,5 +1,5 @@
 ﻿using System;
-using Burkardt.Linpack;
+using Burkardt.MatrixNS;
 using Burkardt.Types;
 
 namespace Burkardt.SolveNS

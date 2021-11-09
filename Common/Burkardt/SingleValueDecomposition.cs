@@ -6,6 +6,162 @@ namespace Burkardt
 {
     public static class SingleValueDecomposition
     {
+        public static void svd_truncated_u(int m, int n, double[] a, ref double[] un, ref double[] sn,
+                ref double[] v)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    SVD_TRUNCATED_U gets the truncated SVD when N <= M
+            //
+            //  Discussion:
+            //
+            //    A(mxn) = U(mxm)  * S(mxn)  * V(nxn)'
+            //           = Un(mxn) * Sn(nxn) * V(nxn)'
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    14 September 2006
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns in the matrix A.
+            //
+            //    Input, double A[M*N], the matrix whose singular value
+            //    decomposition we are investigating.
+            //
+            //    Output, double UN[M*N], SN[N*N], V[N*N], the factors
+            //    that form the singular value decomposition of A.
+            //
+        {
+            double[] a_copy;
+            double[] e;
+            int i;
+            int info;
+            int j;
+            int lda;
+            int ldu;
+            int ldv;
+            int job;
+            double[] sdiag;
+            double[] work;
+            //
+            //  The correct size of E and SDIAG is min ( m+1, n).
+            //
+            a_copy = new double[m * n];
+            e = new double[m + n];
+            sdiag = new double[m + n];
+            work = new double[m];
+            //
+            //  Compute the eigenvalues and eigenvectors.
+            //
+            job = 21;
+            lda = m;
+            ldu = m;
+            ldv = n;
+            //
+            //  The input matrix is destroyed by the routine.  Since we need to keep
+            //  it around, we only pass a copy to the routine.
+            //
+            for (j = 0; j < n; j++)
+            {
+                for (i = 0; i < m; i++)
+                {
+                    a_copy[i + j * m] = a[i + j * m];
+                }
+            }
+
+            info = DSVDC.dsvdc(ref a_copy, lda, m, n, ref sdiag, ref e, ref un, ldu, ref v, ldv, work, job);
+
+            if (info != 0)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("SVD_TRUNCATED_U - Failure!");
+                Console.WriteLine("  The SVD could not be calculated.");
+                Console.WriteLine("  LINPACK routine DSVDC returned a nonzero");
+                Console.WriteLine("  value of the error flag, INFO = " + info + "");
+                return;
+            }
+
+            //
+            //  Make the NxN matrix S from the diagonal values in SDIAG.
+            //
+            for (j = 0; j < n; j++)
+            {
+                for (i = 0; i < n; i++)
+                {
+                    if (i == j)
+                    {
+                        sn[i + j * n] = sdiag[i];
+                    }
+                    else
+                    {
+                        sn[i + j * n] = 0.0;
+                    }
+                }
+            }
+        }
+
+        public static void svd_truncated_v ( int m, int n, double[] a, ref double[] u, ref double[] sm, 
+                ref double[] vm )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    SVD_TRUNCATED_V gets the truncated SVD when M <= N.
+            //
+            //  Discussion:
+            //
+            //    A(mxn) = U(mxm) * S(mxn)  * V(nxn)'
+            //           = U(mxm) * Sm(mxm) * Vm(mxn)'
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    20 March 2012
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, N, the number of rows and columns in the matrix A.
+            //
+            //    Input, double A[M*N], the matrix whose singular value
+            //    decomposition we are investigating.
+            //
+            //    Output, double U[M*M], SM[M*M], VM[M*N], the factors
+            //    that form the singular value decomposition of A.
+            //
+        {
+            double[] a2;
+            int m2;
+            int n2;
+            //
+            //  Transpose the matrix!
+            //
+            a2 = typeMethods.r8mat_transpose_new ( m, n, a );
+            m2 = n;
+            n2 = m;
+
+            svd_truncated_u ( m2, n2, a2, ref vm, ref sm, ref u );
+
+        }
+
         public static void singular_vectors(int m, int n, int basis_num, ref double[] a, ref double[] sval)
 
             //****************************************************************************80

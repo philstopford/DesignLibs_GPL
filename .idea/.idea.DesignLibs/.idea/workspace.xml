@@ -515,6 +515,8 @@
     <projectFile>SparseGridOpenDataset/SparseGridOpenDataset.csproj</projectFile>
     <projectFile>BurkhardtTest/Sparse/SparseGridOpenTest/SparseGridOpenTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Dataset/VanderCorputDataset/VanderCorputDataset.csproj</projectFile>
+    <projectFile>BurkhardtTest/Dataset/UniformDataset/UniformDataset.csproj</projectFile>
+    <projectFile>BurkhardtTest/SingleValueDecomposition/SVDTruncatedTest/SVDTruncatedTest.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -6477,6 +6479,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="SVDTruncatedTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/SingleValueDecomposition/SVDTruncatedTest/SVDTruncatedTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="SandiaCubatureTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -9303,6 +9323,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="UniformDataset" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Dataset/UniformDataset/UniformDataset.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="VanderCorputAdvancedTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -10413,6 +10451,8 @@
       <item itemvalue=".NET Project.SparseGridOpenDataset" />
       <item itemvalue=".NET Project.SparseGridOpenTest" />
       <item itemvalue=".NET Project.VanderCorputDataset" />
+      <item itemvalue=".NET Project.UniformDataset" />
+      <item itemvalue=".NET Project.SVDTruncatedTest" />
     </list>
     <recent_temporary>
       <list>

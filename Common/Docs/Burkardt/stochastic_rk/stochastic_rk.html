@@ -1,0 +1,192 @@
+<html>
+
+  
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/stochastic_rk/stochastic_rk.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 16:00:19 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      STOCHASTIC_RK - Runge-Kutta Integrator for Stochastic Differential Equations
+    </title>
+  </head>
+
+  <body bgcolor="#EEEEEE" link="#CC0000" alink="#FF3300" vlink="#000055">
+
+    <h1 align = "center">
+      STOCHASTIC_RK <br> Runge-Kutta Integrator for Stochastic Differential Equations
+    </h1>
+
+    <hr>
+
+    <p>
+      <b>STOCHASTIC_RK</b>
+      is which
+      implements Runge-Kutta integration methods for stochastic differential equations.
+    </p>
+
+    <h3 align = "center">
+      Licensing:
+    </h3>
+
+    <p>
+      The computer code and data files described and made available on this web page 
+      are distributed under
+      <a href = "https://people.math.sc.edu/Burkardt/txt/gnu_lgpl.txt">the GNU LGPL license.</a>
+    </p>
+
+
+    <h3 align = "center">
+      Related Data and Programs:
+    </h3>
+
+    <p>
+      <a href = "../black_scholes/black_scholes.html">
+      BLACK_SCHOLES</a>, 
+      which
+      implements some simple approaches to 
+      the Black-Scholes option valuation theory;
+    </p>
+
+    <p>
+      <a href = "../colored_noise/colored_noise.html">
+      COLORED_NOISE</a>, 
+      which
+      generates samples of noise obeying a 1/f^alpha power law.
+    </p>
+
+    <p>
+      <a href = "../feynman_kac_2d/feynman_kac_2d.html">
+      FEYNMAN_KAC_2D</a>, 
+      a C++ program which
+      demonstrates the use of the Feynman-Kac algorithm for solving
+      certain partial differential equations.
+    </p>
+
+    <p>
+      <a href = "../ornstein_uhlenbeck/ornstein_uhlenbeck.html">
+      ORNSTEIN_UHLENBECK</a>,
+      which 
+      approximates solutions of the Ornstein-Uhlenbeck 
+      stochastic differential equation (SDE) using the Euler method
+      and the Euler-Maruyama method.
+    </p>
+
+    <p>
+      <a href = "../pce_ode_hermite/pce_ode_hermite.html">
+      PCE_ODE_HERMITE</a>,
+      a C++ program which
+      sets up a simple scalar ODE for exponential decay with an uncertain
+      decay rate, using a polynomial chaos expansion in terms of Hermite polynomials.
+    </p>
+
+    <p>
+      <a href = "../pink_noise/pink_noise.html">
+      PINK_NOISE</a>, 
+      which
+      computes a "pink noise" signal obeying a 1/f power law.
+    </p>
+
+    <p>
+      <a href = "../sde/sde.html">
+      SDE</a>,
+      which
+      illustrates the properties of stochastic differential equations (SDE's), and
+      common algorithms for their analysis,
+      by Desmond Higham;
+    </p>
+
+    <p>
+      <a href = "../stochastic_diffusion/stochastic_diffusion.html">
+      STOCHASTIC_DIFFUSION</a>,
+      which
+      implements several versions of a stochastic diffusivity coefficient.
+    </p>
+
+    <h3 align = "center">
+      Reference:
+    </h3>
+
+    <p>
+      <ol>
+        <li>
+          Jeremy Kasdin,<br>
+          Runge-Kutta algorithm for the numerical integration of
+          stochastic differential equations,<br>
+          Journal of Guidance, Control, and Dynamics,<br>
+          Volume 18, Number 1, January-February 1995, pages 114-120.
+        </li>
+        <li>
+          Jeremy Kasdin,<br>
+          Discrete Simulation of Colored Noise and Stochastic Processes
+          and 1/f^a Power Law Noise Generation,<br>
+          Proceedings of the IEEE,<br>
+          Volume 83, Number 5, 1995, pages 802-827.
+        </li>
+      </ol>
+    </p>
+
+
+    <h3 align = "center">
+      Examples and Tests:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <a href = "stochastic_rk_test.txt">stochastic_rk_test.txt</a>,
+          the output file.
+        </li>
+      </ul>
+    </p>
+
+    <h3 align = "center">
+      List of Routines:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <b>RK1_TI_STEP</b> takes one step of a stochastic Runge Kutta scheme.
+        </li>
+        <li>
+          <b>RK2_TI_STEP</b> takes one step of a stochastic Runge Kutta scheme.
+        </li>
+        <li>
+          <b>RK3_TI_STEP</b> takes one step of a stochastic Runge Kutta scheme.
+        </li>
+        <li>
+          <b>RK4_TI_STEP</b> takes one step of a stochastic Runge Kutta scheme.
+        </li>
+        <li>
+          <b>RK1_TV_STEP</b> takes one step of a stochastic Runge Kutta scheme.
+        </li>
+        <li>
+          <b>RK2_TV_STEP</b> takes one step of a stochastic Runge Kutta scheme.
+        </li>
+        <li>
+          <b>RK4_TV_STEP</b> takes one step of a stochastic Runge Kutta scheme.
+        </li>
+        <li>
+          <b>R8_NORMAL_01</b> returns a unit pseudonormal R8.
+        </li>
+        <li>
+          <b>R8_UNIFORM_01</b> returns a unit pseudorandom R8.
+        </li>
+      </ul>
+    </p>
+
+
+    <hr>
+
+    <i>
+      Last revised on 06 July 2010.
+    </i>
+
+    <!-- John Burkardt -->
+
+  </body>
+
+  <!-- Initial HTML skeleton created by HTMLINDEX. -->
+
+
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/stochastic_rk/stochastic_rk.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 16:00:20 GMT -->
+</html>

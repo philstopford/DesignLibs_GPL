@@ -7,6 +7,71 @@ namespace Burkardt.IO
 {
     public static class Files
     {
+        public static string file_name_ext_swap ( string filename, string ext )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    FILE_NAME_EXT_SWAP replaces the current "extension" of a file name.
+            //
+            //  Discussion:
+            //
+            //    The "extension" of a file name is the string of characters
+            //    that appears after the LAST period in the name.  A file
+            //    with no period, or with a period as the last character
+            //    in the name, has a "null" extension.
+            //
+            //  Example:
+            //
+            //          Input           Output
+            //    ================     ==================
+            //    FILENAME     EXT     FILE_NAME_EXT_SWAP
+            //
+            //    bob.for      obj     bob.obj
+            //    bob.bob.bob  txt     bob.bob.txt
+            //    bob          yak     bob.yak
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    06 July 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, string FILENAME, a file name.
+            //
+            //    Input, string EXT, the extension to be added to the file name.
+            //
+            //    Output, string FILE_NAME_EXT_SWAP, the file name with the new extension.
+            //
+        {
+            string filename2;
+            //
+            //  Look for the LAST occurrence of a period.
+            //
+            int i = filename.LastIndexOf( "." );
+
+            if ( i == -1 ) 
+            {
+                filename2 = filename + "." + ext;
+
+            }
+            else
+            {
+                filename2 = filename.Substring ( 0, i + 1 ) + ext;
+            }
+
+            return filename2;
+        }
+        
         public static void data_read(string file_in_name, int dim_num, int n, ref double[] r)
 
             //****************************************************************************80

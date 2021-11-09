@@ -502,6 +502,8 @@
     <projectFile>BurkhardtTest/Wedge/WedgeExactnessTest/WedgeExactnessTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Sequence/VanderCorputSeqTest/VanderCorputSeqTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Sequence/VanderCorputAdvancedTest/VanderCorputAdvancedTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Triangle/TriangleFelippaRuleTest/TriangleFelippaRuleTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Solve/Stokes2DExactTest/Stokes2DExactTest.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -7328,6 +7330,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="Stokes2DExactTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Solve/Stokes2DExactTest/Stokes2DExactTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="StroudTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/StroudTest/Debug/net5.0/StroudTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -8399,6 +8419,24 @@
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
       <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Triangle/TriangleFeketeRuleTest/TriangleFeketeRuleTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="TriangleFelippaRuleTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Triangle/TriangleFelippaRuleTest/TriangleFelippaRuleTest.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
@@ -10148,11 +10186,13 @@
       <item itemvalue=".NET Project.nIntLibTest" />
       <item itemvalue=".NET Project.SphereTriangleQuadTest" />
       <item itemvalue=".NET Project.SphereTriangleMonteCarloTest" />
-      <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMAIOTest" />
-      <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMBIOTest" />
       <item itemvalue=".NET Project.WedgeExactnessTest" />
       <item itemvalue=".NET Project.VanderCorputSeqTest" />
       <item itemvalue=".NET Project.VanderCorputAdvancedTest" />
+      <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMAIOTest" />
+      <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMBIOTest" />
+      <item itemvalue=".NET Project.TriangleFelippaRuleTest" />
+      <item itemvalue=".NET Project.Stokes2DExactTest" />
     </list>
     <recent_temporary>
       <list>

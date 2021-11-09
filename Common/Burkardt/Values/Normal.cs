@@ -1,7 +1,101 @@
-﻿namespace Burkardt.Values
+﻿using System;
+using Burkardt.Types;
+
+namespace Burkardt.Values
 {
     public static class Normal
     {
+        public static double[] multinormal_sample ( int m, int n, double[] a, double[] mu, ref int seed )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    MULTINORMAL_SAMPLE samples a multivariate normal distribution.
+        //
+        //  Discussion:
+        //
+        //    The multivariate normal distribution for the M dimensional vector X
+        //    has the form:
+        //
+        //      pdf(X) = (2*pi*det(A))**(-M/2) * exp(-0.5*(X-MU)'*inverse(A)*(X-MU))
+        //
+        //    where MU is the mean vector, and A is a positive definite symmetric
+        //    matrix called the variance-covariance matrix.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license. 
+        //
+        //  Modified:
+        //
+        //    09 December 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int M, the dimension of the space.
+        //
+        //    Input, int N, the number of points.
+        //
+        //    Input, double A[M*M], the variance-covariance 
+        //    matrix.  A must be positive definite symmetric.
+        //
+        //    Input, double MU[M], the mean vector.
+        //
+        //    Input/output, int *SEED, the random number seed.
+        //
+        //    Output, double MULTINORMAL_SAMPLE[M], the points.
+        //
+        {
+            int i;
+            int j;
+            int k;
+            double[] r;
+            double[] x;
+            double[] y;
+            typeMethods.r8vecNormalData data = new typeMethods.r8vecNormalData();
+            //
+            //  Compute the upper triangular Cholesky factor R of the variance-covariance
+            //  matrix.
+            //
+            r = typeMethods.r8po_fa ( m, a );
+
+            if ( r == null )
+            {
+                Console.WriteLine("");
+                Console.WriteLine("MULTINORMAL_SAMPLE - Fatal error!");
+                Console.WriteLine("  The variance-covariance matrix is not positive definite symmetric.");
+                return null;
+            }
+            //
+            //  Y = MxN matrix of samples of the 1D normal distribution with mean 0
+            //  and variance 1.  
+            //
+            y = typeMethods.r8vec_normal_01_new ( m*n, ref data, ref seed );
+            //
+            //  Compute X = MU + R' * Y.
+            //
+            x = new double[m*n];
+
+            for ( j = 0; j < n; j++ )
+            {
+                for ( i = 0; i < m; i++ )
+                {
+                    x[i+j*m] = mu[i];
+                    for ( k = 0; k < m; k++ )
+                    {
+                        x[i+j*m] = x[i+j*m] + r[k+i*m] * y[k+j*m];
+                    }
+                }
+            }        
+
+            return x;
+        }
+        
         public static void normal_cdf_values(ref int n_data, ref double x, ref double fx)
 
             //****************************************************************************80

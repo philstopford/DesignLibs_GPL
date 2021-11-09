@@ -2560,5 +2560,344 @@ namespace Burkardt.Sparse
             }
         }
 
+        public static int[] spgrid_open_index(int dim_num, int level_max, int point_num)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    LEVELS_OPEN_INDEX computes open grids with 0 <= LEVEL <= LEVEL_MAX.
+            //
+            //  Discussion:
+            //
+            //    The necessary dimensions of GRID_INDEX can be
+            //    determined by calling SPGRID_OPEN_SIZE first.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    03 July 2008
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Fabio Nobile, Raul Tempone, Clayton Webster,
+            //    A Sparse Grid Stochastic Collocation Method for Partial Differential
+            //    Equations with Random Input Data,
+            //    SIAM Journal on Numerical Analysis,
+            //    Volume 46, Number 5, 2008, pages 2309-2345.
+            //
+            //  Parameters:
+            //
+            //    Input, int DIM_NUM, the spatial dimension.
+            //
+            //    Input, int LEVEL_MAX, the maximum value of LEVEL.
+            //
+            //    Input, int POINT_NUM, the total number of points in the grids.
+            //
+            //    Output, int LEVELS_MAX_INDEX[DIM_NUM*POINT_NUM], a list of point indices,
+            //    representing a subset of the product grid of level LEVEL_MAX,
+            //    representing (exactly once) each point that will show up in a
+            //    sparse grid of level LEVEL_MAX.
+            //
+        {
+            int dim;
+            int[] grid_index;
+            int[] grid_index2;
+            int h;
+            int level;
+            int[] level_1d;
+            bool more;
+            int[] order_1d;
+            int order_nd;
+            int point;
+            int point_num2;
+            int t;
+            bool test;
+            //
+            //  The outer loop generates LEVELs from 0 to LEVEL_MAX.
+            //
+            grid_index = new int[dim_num * point_num];
+            level_1d = new int[dim_num];
+            order_1d = new int[dim_num];
+
+            point_num2 = 0;
+
+            for (level = 0; level <= level_max; level++)
+            {
+                //
+                //  The middle loop generates the next partition that adds up to LEVEL.
+                //
+                more = false;
+                h = 0;
+                t = 0;
+
+                for (;;)
+                {
+                    Comp.comp_next(level, dim_num, ref level_1d, ref more, ref h, ref t);
+                    //
+                    //  Transform each 1D level to a corresponding 1D order.
+                    //
+                    LevelToOrder.level_to_order_open(dim_num, level_1d, ref order_1d);
+                    //
+                    //  The product of the 1D orders gives us the number of points in this grid.
+                    //
+                    order_nd = typeMethods.i4vec_product(dim_num, order_1d);
+                    //
+                    //  The inner (hidden) loop generates all points corresponding to given grid.
+                    //
+                    grid_index2 = Multigrid.multigrid_index1(dim_num, order_1d, order_nd);
+                    //
+                    //  Only keep those points which first appear on this level.
+                    //  If you keep a point, it is necessary to rescale each of its components
+                    //  so that we save the coordinates as they apply on the final grid.
+                    //
+                    for (point = 0; point < order_nd; point++)
+                    {
+                        test = true;
+                        for (dim = 0; dim < dim_num; dim++)
+                        {
+                            if (grid_index2[dim + point * dim_num] % 2 == 0)
+                            {
+                                test = false;
+                            }
+                        }
+
+                        if (test)
+                        {
+                            for (dim = 0; dim < dim_num; dim++)
+                            {
+                                grid_index[dim + point_num2 * dim_num] =
+                                    (int) Math.Pow(2, level_max - level_1d[dim])
+                                    * grid_index2[dim + point * dim_num];
+                            }
+
+                            point_num2 = point_num2 + 1;
+                        }
+                    }
+
+                    if (!more)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return grid_index;
+        }
+
+        public static double[] spgrid_open_weights(int dim_num, int level_max, int point_num,
+                int[] grid_index, int rule)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    SPGRID_OPEN_WEIGHTS gathers the weights.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    04 July 2008
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Fabio Nobile, Raul Tempone, Clayton Webster,
+            //    A Sparse Grid Stochastic Collocation Method for Partial Differential
+            //    Equations with Random Input Data,
+            //    SIAM Journal on Numerical Analysis,
+            //    Volume 46, Number 5, 2008, pages 2309-2345.
+            //
+            //  Parameters:
+            //
+            //    Input, int DIM_NUM, the spatial dimension.
+            //
+            //    Input, int LEVEL_MAX, the maximum value of LEVEL.
+            //
+            //    Input, int POINT_NUM, the total number of points in the grids.
+            //
+            //    Input, int GRID_INDEX[DIM_NUM*POINT_NUM], a list of point indices,
+            //    representing a subset of the product grid of level LEVEL_MAX,
+            //    representing (exactly once) each point that will show up in a
+            //    sparse grid of level LEVEL_MAX.
+            //
+            //    Input, int RULE, the 1D quadrature rule being used.
+            //    2, Fejer Type 2 Rule;
+            //    3, Gauss-Patterson Rule,
+            //    4, Newton-Cotes Open Rule,
+            //    5, Newton-Cotes Open Half Rule.
+            //
+            //    Output, double SPGRID_OPEN_WEIGHTS[POINT_NUM], the weights
+            //    associated with the sparse grid points.
+            //
+        {
+            bool all_equal;
+            int coeff;
+            int dim;
+            int[] grid_index2;
+            double[] grid_weight;
+            double[] grid_weight2;
+            int h;
+            int level;
+            int[] level_1d;
+            int level_min;
+            int match;
+            bool more;
+            int order_nd;
+            int[] order_1d;
+            int point;
+            int point2;
+            int t;
+
+            grid_weight = new double[point_num];
+
+            if (level_max == 0)
+            {
+                for (point = 0; point < point_num; point++)
+                {
+                    grid_weight[point] = (int) Math.Pow(2, dim_num);
+                }
+
+                return grid_weight;
+            }
+
+            for (point = 0; point < point_num; point++)
+            {
+                grid_weight[point] = 0.0;
+            }
+
+            level_1d = new int[dim_num];
+            order_1d = new int[dim_num];
+
+            level_min = Math.Max(0, level_max + 1 - dim_num);
+
+            for (level = level_min; level <= level_max; level++)
+            {
+                //
+                //  The middle loop generates the next partition LEVEL_1D(1:DIM_NUM)
+                //  that adds up to LEVEL.
+                //
+                more = false;
+                h = 0;
+                t = 0;
+
+                for (;;)
+                {
+                    Comp.comp_next(level, dim_num, ref level_1d, ref more, ref h, ref t);
+                    //
+                    //  Transform each 1D level to a corresponding 1D order.
+                    //
+                    LevelToOrder.level_to_order_open(dim_num, level_1d, ref order_1d);
+                    //
+                    //  The product of the 1D orders gives us the number of points in this grid.
+                    //
+                    order_nd = typeMethods.i4vec_product(dim_num, order_1d);
+                    //
+                    //  Generate the indices of the points corresponding to the grid.
+                    //
+                    grid_index2 = Multigrid.multigrid_index1(dim_num, order_1d, order_nd);
+                    //
+                    //  Compute the weights for this grid.
+                    //
+                    grid_weight2 = Product.product_weights_open(dim_num, order_1d, order_nd, rule);
+                    //
+                    //  Adjust the grid indices to reflect LEVEL_MAX.
+                    //
+                    Multigrid.multigrid_scale_open(dim_num, order_nd, level_max, ref level_1d,
+                        ref grid_index2);
+                    //
+                    //  Now determine the coefficient.
+                    //
+                    coeff = (int) Math.Pow(-1, level_max - level)
+                            * typeMethods.i4_choose(dim_num - 1, level_max - level);
+
+                    for (point2 = 0; point2 < order_nd; point2++)
+                    {
+                        match = -1;
+
+                        for (point = 0; point < point_num; point++)
+                        {
+                            all_equal = true;
+                            for (dim = 0; dim < dim_num; dim++)
+                            {
+                                if (grid_index2[dim + point2 * dim_num]
+                                    != grid_index[dim + point * dim_num])
+                                {
+                                    all_equal = false;
+                                    break;
+                                }
+                            }
+
+                            if (all_equal)
+                            {
+                                grid_weight[point] = grid_weight[point]
+                                                     + (double) (coeff) * grid_weight2[point2];
+                                match = point;
+                                break;
+                            }
+                        }
+
+                        if (match == -1)
+                        {
+                            Console.WriteLine("");
+                            Console.WriteLine("SPGRID_OPEN_WEIGHTS - Fatal error!");
+                            Console.WriteLine("  Could not match grid index.");
+                            Console.WriteLine("  Point index = " + point2 + "");
+                            Console.WriteLine("");
+                            Console.WriteLine("  LEVEL = " + level + "");
+                            Console.WriteLine("");
+                            Console.WriteLine("  LEVEL_1D:");
+                            string cout = "";
+                            for (dim = 0; dim < dim_num; dim++)
+                            {
+                                cout += level_1d[dim].ToString().PadLeft(6);
+                            }
+
+                            Console.WriteLine(cout);
+                            Console.WriteLine("");
+                            Console.WriteLine("  ORDER_1D:");
+                            cout = "";
+                            for (dim = 0; dim < dim_num; dim++)
+                            {
+                                cout += order_1d[dim].ToString().PadLeft(6);
+                            }
+
+                            Console.WriteLine(cout);
+                            Console.WriteLine("");
+                            Console.WriteLine("  GRID_INDEX2");
+                            cout = "";
+                            for (dim = 0; dim < dim_num; dim++)
+                            {
+                                cout += grid_index2[dim + point2 * dim_num].ToString().PadLeft(6);
+                            }
+
+                            Console.WriteLine(cout);
+                            return grid_weight;
+                        }
+                    }
+
+                    if (!more)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return grid_weight;
+        }
+
     }
 }

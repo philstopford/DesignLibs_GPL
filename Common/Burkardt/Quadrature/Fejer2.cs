@@ -316,5 +316,266 @@ namespace Burkardt.Quadrature
                 }
             }
         }
+
+        public static void fejer2_compute_points(int n, ref double[] x)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    FEJER2_COMPUTE_POINTS computes Fejer type 2 quadrature points.
+            //
+            //  Discussion:
+            //
+            //    Our convention is that the abscissas are numbered from left to right.
+            //
+            //    The rule is defined on [-1,1].
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    13 June 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order.
+            //    1 <= N.
+            //
+            //    Output, double X[N], the abscissas.
+            //
+        {
+            int i;
+            double pi = 3.141592653589793;
+
+            if (n < 1)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("FEJER2_COMPUTE_POINTS - Fatal error!");
+                Console.WriteLine("  N < 1.");
+                return;
+            }
+            else if (n == 1)
+            {
+                x[0] = 0.0;
+            }
+            else
+            {
+                for (i = 1; i <= n; i++)
+                {
+                    x[i - 1] = Math.Cos((double) (n + 1 - i) * pi
+                                        / (double) (n + 1));
+                }
+
+                if ((n % 2) == 1)
+                {
+                    x[(n - 1) / 2] = 0.0;
+                }
+            }
+        }
+
+        public static void fejer2_compute_points_np ( int n, int np, double[] p, ref double[] x )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    FEJER2_COMPUTE_POINTS_NP computes Fejer type 2 quadrature points.
+        //
+        //  Discussion:
+        //
+        //    Our convention is that the abscissas are numbered from left to right.
+        //
+        //    The rule is defined on [-1,1].
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    22 June 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order.
+        //    1 <= N.
+        //
+        //    Input, int NP, the number of parameters.
+        //
+        //    Input, double P[NP], parameters which are not needed by this function.
+        //
+        //    Output, double X[N], the abscissas.
+        //
+        {
+            fejer2_compute_points ( n, ref x );
+        }
+
+        public static void fejer2_compute_weights(int n, ref double[] w)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    FEJER2_COMPUTE_WEIGHTS computes Fejer type 2 quadrature weights.
+            //
+            //  Discussion:
+            //
+            //    The user must preallocate space for the output array W.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    13 June 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Philip Davis, Philip Rabinowitz,
+            //    Methods of Numerical Integration,
+            //    Second Edition,
+            //    Dover, 2007,
+            //    ISBN: 0486453391,
+            //    LC: QA299.3.D28.
+            //
+            //    Walter Gautschi,
+            //    Numerical Quadrature in the Presence of a Singularity,
+            //    SIAM Journal on Numerical Analysis,
+            //    Volume 4, Number 3, 1967, pages 357-362.
+            //
+            //    Joerg Waldvogel,
+            //    Fast Construction of the Fejer and Clenshaw-Curtis Quadrature Rules,
+            //    BIT Numerical Mathematics,
+            //    Volume 43, Number 1, 2003, pages 1-18.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order.
+            //
+            //    Output, double W[N], the weights.
+            //
+        {
+            int i;
+            int j;
+            double p;
+            double pi = 3.141592653589793;
+            double theta;
+
+            if (n < 1)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("FEJER2_COMPUTE_WEIGHTS - Fatal error!");
+                Console.WriteLine("  N < 1.");
+                return;
+            }
+            else if (n == 1)
+            {
+                w[0] = 2.0;
+            }
+            else if (n == 2)
+            {
+                w[0] = 1.0;
+                w[1] = 1.0;
+            }
+            else
+            {
+                for (i = 1; i <= n; i++)
+                {
+                    theta = (double) (n + 1 - i) * pi
+                            / (double) (n + 1);
+
+                    w[i - 1] = 1.0;
+
+                    for (j = 1; j <= ((n - 1) / 2); j++)
+                    {
+                        w[i - 1] = w[i - 1] - 2.0 * Math.Cos(2.0 * (double) (j) * theta)
+                            / (double) (4 * j * j - 1);
+                    }
+
+                    p = 2.0 * (double) (((n + 1) / 2)) - 1.0;
+                    w[i - 1] = w[i - 1] - Math.Cos((p + 1.0) * theta) / p;
+                }
+
+                for (i = 0; i < n; i++)
+                {
+                    w[i] = 2.0 * w[i] / (double) (n + 1);
+                }
+            }
+        }
+
+        public static void fejer2_compute_weights_np ( int n, int np, double[] p, ref double[] w )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    FEJER2_COMPUTE_WEIGHTS_NP computes Fejer type 2 quadrature weights.
+        //
+        //  Discussion:
+        //
+        //    The user must preallocate space for the output array W.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    22 June 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Philip Davis, Philip Rabinowitz,
+        //    Methods of Numerical Integration,
+        //    Second Edition,
+        //    Dover, 2007,
+        //    ISBN: 0486453391,
+        //    LC: QA299.3.D28.
+        //
+        //    Walter Gautschi,
+        //    Numerical Quadrature in the Presence of a Singularity,
+        //    SIAM Journal on Numerical Analysis,
+        //    Volume 4, Number 3, 1967, pages 357-362.
+        //
+        //    Joerg Waldvogel,
+        //    Fast Construction of the Fejer and Clenshaw-Curtis Quadrature Rules,
+        //    BIT Numerical Mathematics,
+        //    Volume 43, Number 1, 2003, pages 1-18.
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order.
+        //
+        //    Input, int NP, the number of parameters.
+        //
+        //    Input, double P[NP], parameters which are not needed by this function.
+        //
+        //    Output, double W[N], the weights.
+        //
+        {
+            fejer2_compute_weights ( n, ref w );
+        }
+        
+        
     }
 }

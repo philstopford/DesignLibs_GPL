@@ -5,6 +5,356 @@ namespace Burkardt.TriangulationNS
 {
     public static class Delauney
     {
+        public static int dtris2(int point_num, int base_, ref double[] point_xy, ref int tri_num,
+                ref int[] tri_vert, ref int[] tri_nabe)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    DTRIS2 constructs a Delaunay triangulation of 2D vertices.
+            //
+            //  Discussion:
+            //
+            //    The routine constructs the Delaunay triangulation of a set of 2D vertices
+            //    using an incremental approach and diagonal edge swaps.  Vertices are
+            //    first sorted in lexicographically increasing (X,Y) order, and
+            //    then are inserted one at a time from outside the convex hull.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    03 June 2009
+            //
+            //  Author:
+            //
+            //    Original FORTRAN77 version by Barry Joe.
+            //    C++ version by John Burkardt.
+            //
+            //  Reference:
+            //
+            //    Barry Joe,
+            //    GEOMPACK - a software package for the generation of meshes
+            //    using geometric algorithms,
+            //    Advances in Engineering Software,
+            //    Volume 13, pages 325-331, 1991.
+            //
+            //  Parameters:
+            //
+            //    Input, int POINT_NUM, the number of vertices.
+            //
+            //    Input, int BASE, the base for the indexing of TRI_VERT.
+            //    0, use 0-based indexing.
+            //    1, use 1-based indexing.
+            //
+            //    Input/output, double POINT_XY[POINT_NUM*2], the coordinates of the vertices.
+            //    On output, the vertices have been sorted into dictionary order.
+            //
+            //    Output, int tri_num, the number of triangles in the triangulation;
+            //    TRI_NUM is equal to 2*POINT_NUM - NB - 2, where NB is the number
+            //    of boundary vertices.
+            //
+            //    Output, int TRI_VERT[TRI_NUM*3], the nodes that make up each triangle.
+            //    The elements are indices of POINT_XY.  The vertices of the triangles are
+            //    in counter clockwise order.
+            //
+            //    Output, int TRI_NABE[TRI_NUM*3], the triangle neighbor list.
+            //    Positive elements are indices of TIL; negative elements are used for links
+            //    of a counter clockwise linked list of boundary edges; LINK = -(3*I + J-1)
+            //    where I, J = triangle, edge index; TRI_NABE[I,J] refers to
+            //    the neighbor along edge from vertex J to J+1 (mod 3).
+            //
+            //    Output, int DTRIS2, is 0 for no error.
+        {
+            double cmax;
+            int e;
+            int error;
+            int i;
+            int[] indx;
+            int j;
+            int k;
+            int l;
+            int ledg;
+            int lr;
+            int ltri;
+            int m;
+            int m1;
+            int m2;
+            int n;
+            int redg;
+            int rtri;
+            int[] stack;
+            int t;
+            double tol;
+            int top;
+
+            stack = new int[point_num];
+
+            tol = 100.0 * typeMethods.r8_epsilon();
+            //
+            //  Sort the vertices by increasing (x,y).
+            //
+            indx = typeMethods.r82vec_sort_heap_index_a(point_num, base_, point_xy);
+
+            typeMethods.r82vec_permute(point_num, indx, base_, ref point_xy);
+            //
+            //  Make sure that the data points are "reasonably" distinct.
+            //
+            m1 = 1;
+
+            for (i = 2; i <= point_num; i++)
+            {
+                m = m1;
+                m1 = i;
+
+                k = -1;
+
+                for (j = 0; j <= 1; j++)
+                {
+                    cmax = Math.Max(Math.Abs(point_xy[2 * (m - 1) + j]),
+                        Math.Abs(point_xy[2 * (m1 - 1) + j]));
+
+                    if (tol * (cmax + 1.0)
+                        < Math.Abs(point_xy[2 * (m - 1) + j] - point_xy[2 * (m1 - 1) + j]))
+                    {
+                        k = j;
+                        break;
+                    }
+
+                }
+
+                if (k == -1)
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("DTRIS2 - Fatal error!");
+                    Console.WriteLine("  Fails for point number I = " + i + "");
+                    Console.WriteLine("  M =  " + m + "");
+                    Console.WriteLine("  M1 = " + m1 + "");
+                    Console.WriteLine("  X,Y(M)  = " + point_xy[2 * (m - 1) + 0] + "  "
+                                      + point_xy[2 * (m - 1) + 1] + "");
+                    Console.WriteLine("  X,Y(M1) = " + point_xy[2 * (m1 - 1) + 0] + "  "
+                                      + point_xy[2 * (m1 - 1) + 1] + "");
+                    return 224;
+                }
+
+            }
+
+            //
+            //  Starting from points M1 and M2, search for a third point M that
+            //  makes a "healthy" triangle (M1,M2,M)
+            //
+            m1 = 1;
+            m2 = 2;
+            j = 3;
+
+            for (;;)
+            {
+                if (point_num < j)
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("DTRIS2 - Fatal error!");
+                    return 225;
+                }
+
+                m = j;
+
+                lr = Helpers.lrline(point_xy[2 * (m - 1) + 0], point_xy[2 * (m - 1) + 1],
+                    point_xy[2 * (m1 - 1) + 0], point_xy[2 * (m1 - 1) + 1],
+                    point_xy[2 * (m2 - 1) + 0], point_xy[2 * (m2 - 1) + 1], 0.0);
+
+                if (lr != 0)
+                {
+                    break;
+                }
+
+                j = j + 1;
+
+            }
+
+            //
+            //  Set up the triangle information for (M1,M2,M), and for any other
+            //  triangles you created because points were collinear with M1, M2.
+            //
+            tri_num = j - 2;
+
+            if (lr == -1)
+            {
+                tri_vert[3 * 0 + 0] = m1;
+                tri_vert[3 * 0 + 1] = m2;
+                tri_vert[3 * 0 + 2] = m;
+                tri_nabe[3 * 0 + 2] = -3;
+
+                for (i = 2; i <= tri_num; i++)
+                {
+                    m1 = m2;
+                    m2 = i + 1;
+                    tri_vert[3 * (i - 1) + 0] = m1;
+                    tri_vert[3 * (i - 1) + 1] = m2;
+                    tri_vert[3 * (i - 1) + 2] = m;
+                    tri_nabe[3 * (i - 1) + 0] = -3 * i;
+                    tri_nabe[3 * (i - 1) + 1] = i;
+                    tri_nabe[3 * (i - 1) + 2] = i - 1;
+
+                }
+
+                tri_nabe[3 * (tri_num - 1) + 0] = -3 * (tri_num) - 1;
+                tri_nabe[3 * (tri_num - 1) + 1] = -5;
+                ledg = 2;
+                ltri = tri_num;
+            }
+            else
+            {
+                tri_vert[3 * 0 + 0] = m2;
+                tri_vert[3 * 0 + 1] = m1;
+                tri_vert[3 * 0 + 2] = m;
+                tri_nabe[3 * 0 + 0] = -4;
+
+                for (i = 2; i <= tri_num; i++)
+                {
+                    m1 = m2;
+                    m2 = i + 1;
+                    tri_vert[3 * (i - 1) + 0] = m2;
+                    tri_vert[3 * (i - 1) + 1] = m1;
+                    tri_vert[3 * (i - 1) + 2] = m;
+                    tri_nabe[3 * (i - 2) + 2] = i;
+                    tri_nabe[3 * (i - 1) + 0] = -3 * i - 3;
+                    tri_nabe[3 * (i - 1) + 1] = i - 1;
+                }
+
+                tri_nabe[3 * (tri_num - 1) + 2] = -3 * (tri_num);
+                tri_nabe[3 * 0 + 1] = -3 * (tri_num) - 2;
+                ledg = 2;
+                ltri = 1;
+            }
+
+            //
+            //  Insert the vertices one at a time from outside the convex hull,
+            //  determine visible boundary edges, and apply diagonal edge swaps until
+            //  Delaunay triangulation of vertices (so far) is obtained.
+            //
+            top = 0;
+
+            for (i = j + 1; i <= point_num; i++)
+            {
+                m = i;
+                m1 = tri_vert[3 * (ltri - 1) + ledg - 1];
+
+                if (ledg <= 2)
+                {
+                    m2 = tri_vert[3 * (ltri - 1) + ledg];
+                }
+                else
+                {
+                    m2 = tri_vert[3 * (ltri - 1) + 0];
+                }
+
+                lr = Helpers.lrline(point_xy[2 * (m - 1) + 0], point_xy[2 * (m - 1) + 1],
+                    point_xy[2 * (m1 - 1) + 0], point_xy[2 * (m1 - 1) + 1],
+                    point_xy[2 * (m2 - 1) + 0], point_xy[2 * (m2 - 1) + 1], 0.0);
+
+                if (0 < lr)
+                {
+                    rtri = ltri;
+                    redg = ledg;
+                    ltri = 0;
+                }
+                else
+                {
+                    l = -tri_nabe[3 * (ltri - 1) + ledg - 1];
+                    rtri = l / 3;
+                    redg = (l % 3) + 1;
+                }
+
+                VBEDG.vbedg(point_xy[2 * (m - 1) + 0], point_xy[2 * (m - 1) + 1], point_num,
+                    point_xy, tri_num, tri_vert, tri_nabe, ref ltri, ref ledg, ref rtri, ref redg);
+
+                n = tri_num + 1;
+                l = -tri_nabe[3 * (ltri - 1) + ledg - 1];
+
+                for (;;)
+                {
+                    t = l / 3;
+                    e = (l % 3) + 1;
+                    l = -tri_nabe[3 * (t - 1) + e - 1];
+                    m2 = tri_vert[3 * (t - 1) + e - 1];
+
+                    if (e <= 2)
+                    {
+                        m1 = tri_vert[3 * (t - 1) + e];
+                    }
+                    else
+                    {
+                        m1 = tri_vert[3 * (t - 1) + 0];
+                    }
+
+                    tri_num = tri_num + 1;
+                    tri_nabe[3 * (t - 1) + e - 1] = tri_num;
+                    tri_vert[3 * (tri_num - 1) + 0] = m1;
+                    tri_vert[3 * (tri_num - 1) + 1] = m2;
+                    tri_vert[3 * (tri_num - 1) + 2] = m;
+                    tri_nabe[3 * (tri_num - 1) + 0] = t;
+                    tri_nabe[3 * (tri_num - 1) + 1] = tri_num - 1;
+                    tri_nabe[3 * (tri_num - 1) + 2] = tri_num + 1;
+                    top = top + 1;
+
+                    if (point_num < top)
+                    {
+                        Console.WriteLine("");
+                        Console.WriteLine("DTRIS2 - Fatal error!");
+                        Console.WriteLine("  Stack overflow.");
+                        return 8;
+                    }
+
+                    stack[top - 1] = tri_num;
+
+                    if (t == rtri && e == redg)
+                    {
+                        break;
+                    }
+
+                }
+
+                tri_nabe[3 * (ltri - 1) + ledg - 1] = -3 * n - 1;
+                tri_nabe[3 * (n - 1) + 1] = -3 * (tri_num) - 2;
+                tri_nabe[3 * (tri_num - 1) + 2] = -l;
+                ltri = n;
+                ledg = 2;
+
+                error = typeMethods.swapec(m, ref top, ref ltri, ref ledg, point_num, point_xy, tri_num,
+                    ref tri_vert, ref tri_nabe, stack);
+
+                if (error != 0)
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("DTRIS2 - Fatal error!");
+                    Console.WriteLine("  Error return from SWAPEC.");
+                    return error;
+                }
+
+            }
+
+            //
+            //  Now account for the sorting that we did.
+            //
+            for (i = 0; i < 3; i++)
+            {
+                for (j = 0; j < tri_num; j++)
+                {
+                    tri_vert[i + j * 3] = indx[tri_vert[i + j * 3] - 1];
+                }
+            }
+
+            typeMethods.perm_inverse(point_num, ref indx);
+
+            typeMethods.r82vec_permute(point_num, indx, base_, ref point_xy);
+
+            return 0;
+        }
+
+
         public static double triangulation_delaunay_discrepancy_compute(int node_num,
             double[] node_xy, int triangle_order, int triangle_num, int[] triangle_node,
         int[] triangle_neighbor, ref double angle_min, ref int angle_min_triangle,

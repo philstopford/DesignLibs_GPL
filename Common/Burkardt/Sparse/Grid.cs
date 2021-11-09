@@ -9,6 +9,138 @@ namespace Burkardt.Sparse
 {
     public static class Grid
     {
+        public static int[] levels_open_index(int dim_num, int level_max, int point_num)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    LEVELS_OPEN_INDEX computes grids with 0 <= LEVEL <= LEVEL_MAX.
+            //
+            //  Discussion:
+            //
+            //    The necessary dimensions of GRID_INDEX can be
+            //    determined by calling LEVELS_OPEN_INDEX_SIZE first.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    05 July 2008
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Fabio Nobile, Raul Tempone, Clayton Webster,
+            //    A Sparse Grid Stochastic Collocation Method for Partial Differential
+            //    Equations with Random Input Data,
+            //    SIAM Journal on Numerical Analysis,
+            //    Volume 46, Number 5, 2008, pages 2309-2345.
+            //
+            //  Parameters:
+            //
+            //    Input, int DIM_NUM, the spatial dimension.
+            //
+            //    Input, int LEVEL_MAX, the maximum value of LEVEL.
+            //
+            //    Input, int POINT_NUM, the total number of points in the grids.
+            //
+            //    Output, int LEVELS_MAX_INDEX[DIM_NUM*POINT_NUM], a list of point indices,
+            //    representing a subset of the product grid of level LEVEL_MAX,
+            //    representing (exactly once) each point that will show up in a
+            //    sparse grid of level LEVEL_MAX.
+            //
+        {
+            int dim;
+            int[] grid_index;
+            int[] grid_index2;
+            int h;
+            int level;
+            int[] level_1d;
+            bool more;
+            int[] order_1d;
+            int order_nd;
+            int point;
+            int point_num2;
+            int t;
+            bool test;
+            //
+            //  The outer loop generates LEVELs from 0 to LEVEL_MAX.
+            //
+            grid_index = new int[dim_num * point_num];
+            level_1d = new int[dim_num];
+            order_1d = new int[dim_num];
+
+            point_num2 = 0;
+
+            for (level = 0; level <= level_max; level++)
+            {
+                //
+                //  The middle loop generates the next partition that adds up to LEVEL.
+                //
+                more = false;
+                h = 0;
+                t = 0;
+
+                for (;;)
+                {
+                    Comp.comp_next(level, dim_num, ref level_1d, ref more, ref h, ref t);
+                    //
+                    //  Transform each 1D level to a corresponding 1D order.
+                    //
+                    LevelToOrder.level_to_order_open(dim_num, level_1d, ref order_1d);
+                    //
+                    //  The product of the 1D orders gives us the number of points in this grid.
+                    //
+                    order_nd = typeMethods.i4vec_product(dim_num, order_1d);
+                    //
+                    //  The inner (hidden) loop generates all points corresponding to given grid.
+                    //
+                    grid_index2 = Multigrid.multigrid_index1(dim_num, order_1d, order_nd);
+                    //
+                    //  Only keep those points which first appear on this level.
+                    //  If you keep a point, it is necessary to rescale each of its components
+                    //  so that we save the coordinates as they apply on the final grid.
+                    //
+                    for (point = 0; point < order_nd; point++)
+                    {
+                        test = true;
+                        for (dim = 0; dim < dim_num; dim++)
+                        {
+                            if (grid_index2[dim + point * dim_num] % 2 == 0)
+                            {
+                                test = false;
+                            }
+                        }
+
+                        if (test)
+                        {
+                            for (dim = 0; dim < dim_num; dim++)
+                            {
+                                grid_index[dim + point_num2 * dim_num] =
+                                    (int)Math.Pow(2, level_max - level_1d[dim])
+                                    * grid_index2[dim + point * dim_num];
+                            }
+
+                            point_num2 = point_num2 + 1;
+                        }
+                    }
+                    
+                    if (!more)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return grid_index;
+        }
+
         public static void levels_index(int dim_num, int level_max, int rule, int point_num,
                 ref int[] grid_index, ref int[] grid_base)
 
@@ -1526,6 +1658,295 @@ namespace Burkardt.Sparse
                 ref grid_weight);
         }
 
+        public static int sparse_grid_f2s_size(int dim_num, int level_max)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    SPARSE_GRID_F2S_SIZE sizes a sparse grid using Fejer Type 2 Slow rules.
+            //
+            //  Discussion:
+            //
+            //    The grid is defined as the sum of the product rules whose LEVEL
+            //    satisfies:
+            //
+            //      0 <= LEVEL <= LEVEL_MAX.
+            //
+            //    This calculation is much faster than a previous method.  It simply
+            //    computes the number of new points that are added at each level in the
+            //    1D rule, and then counts the new points at a given DIM_NUM dimensional
+            //    level vector as the product of the new points added in each dimension.
+            //
+            //    This approach will work for nested families, and may be extensible
+            //    to other families, and to mixed rules.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    26 December 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Fabio Nobile, Raul Tempone, Clayton Webster,
+            //    A Sparse Grid Stochastic Collocation Method for Partial Differential
+            //    Equations with Random Input Data,
+            //    SIAM Journal on Numerical Analysis,
+            //    Volume 46, Number 5, 2008, pages 2309-2345.
+            //
+            //  Parameters:
+            //
+            //    Input, int DIM_NUM, the spatial dimension.
+            //
+            //    Input, int LEVEL_MAX, the maximum value of LEVEL.
+            //
+            //    Output, int SPARSE_GRID_F2S_SIZE, the number of points in the grid.
+            //
+        {
+            int dim;
+            int h;
+            int l;
+            int level;
+            int[] level_1d;
+            bool more;
+            int[] new_1d;
+            int o;
+            int p;
+            int point_num;
+            int t;
+            int v;
+            //
+            //  Special case.
+            //
+            if (level_max < 0)
+            {
+                point_num = 0;
+                return point_num;
+            }
+
+            if (level_max == 0)
+            {
+                point_num = 1;
+                return point_num;
+            }
+
+            //
+            //  Construct the vector that counts the new points in the 1D rule.
+            //
+            new_1d = new int[level_max + 1];
+
+            new_1d[0] = 1;
+
+            p = 1;
+            o = 1;
+
+            for (l = 1; l <= level_max; l++)
+            {
+                p = 2 * l + 1;
+                if (o < p)
+                {
+                    new_1d[l] = o + 1;
+                    o = 2 * o + 1;
+                }
+                else
+                {
+                    new_1d[l] = 0;
+                }
+            }
+
+            //
+            //  Count the number of points by counting the number of new points 
+            //  associated with each level vector.
+            //
+            level_1d = new int[dim_num];
+
+            point_num = 0;
+
+            for (level = 0; level <= level_max; level++)
+            {
+                more = false;
+                h = 0;
+                t = 0;
+
+                for (;;)
+                {
+                    Comp.comp_next(level, dim_num, ref level_1d, ref more, ref h, ref t);
+
+                    v = 1;
+                    for (dim = 0; dim < dim_num; dim++)
+                    {
+                        v = v * new_1d[level_1d[dim]];
+                    }
+
+                    point_num = point_num + v;
+
+                    if (!more)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return point_num;
+        }
+
+        public static int sparse_grid_gps_size(int dim_num, int level_max)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    SPARSE_GRID_GPS_SIZE sizes a sparse grid using Gauss-Patterson-Slow rules.
+            //
+            //  Discussion:
+            //
+            //    The Gauss-Patterson-Slow family assumes that, for the underlying 1D
+            //    rules, a precision of 2*L+1 is needed at level L.  Therefore, the
+            //    lowest possible order Gauss-Patterson rule is chosen that will achieve
+            //    that precision.  This retains a combination of the advantages of
+            //    nestedness and high accuracy.
+            //
+            //    The grid is defined as the sum of the product rules whose LEVEL
+            //    satisfies:
+            //
+            //      0 <= LEVEL <= LEVEL_MAX.
+            //
+            //    This calculation is much faster than a previous method.  It simply
+            //    computes the number of new points that are added at each level in the
+            //    1D rule, and then counts the new points at a given DIM_NUM dimensional
+            //    level vector as the product of the new points added in each dimension.
+            //
+            //    This approach will work for nested families, and may be extensible
+            //    to other families, and to mixed rules.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    25 December 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Fabio Nobile, Raul Tempone, Clayton Webster,
+            //    A Sparse Grid Stochastic Collocation Method for Partial Differential
+            //    Equations with Random Input Data,
+            //    SIAM Journal on Numerical Analysis,
+            //    Volume 46, Number 5, 2008, pages 2309-2345.
+            //
+            //  Parameters:
+            //
+            //    Input, int DIM_NUM, the spatial dimension.
+            //
+            //    Input, int LEVEL_MAX, the maximum value of LEVEL.
+            //
+            //    Output, int SPARSE_GRID_CC_SIZE, the number of points in the grid.
+            //
+        {
+            int dim;
+            int h;
+            int level;
+            int[] level_1d;
+            bool more;
+            int[] new_1d;
+            int o;
+            int[] order_1d;
+            int p;
+            int point_num;
+            int t;
+            int v;
+            //
+            //  Special case.
+            //
+            if (level_max < 0)
+            {
+                point_num = 0;
+                return point_num;
+            }
+
+            if (level_max == 0)
+            {
+                point_num = 1;
+                return point_num;
+            }
+
+            //
+            //  Count the points in the 1D rule.
+            //
+            order_1d = new int[level_max + 1];
+            order_1d[0] = 1;
+            for (level = 1; level <= level_max; level++)
+            {
+                p = 5;
+                o = 3;
+                while (p < 2 * level + 1)
+                {
+                    p = 2 * p + 1;
+                    o = 2 * o + 1;
+                }
+
+                order_1d[level] = o;
+            }
+
+            //
+            //  Count the new points in the 1D rule.
+            //
+            new_1d = new int[level_max + 1];
+
+            new_1d[0] = 1;
+            for (level = 1; level <= level_max; level++)
+            {
+                new_1d[level] = order_1d[level] - order_1d[level - 1];
+            }
+
+            //
+            //  Count the number of points by counting the number of new points 
+            //  associated with each level vector.
+            //
+            level_1d = new int[dim_num];
+
+            point_num = 0;
+
+            for (level = 0; level <= level_max; level++)
+            {
+                more = false;
+                h = 0;
+                t = 0;
+
+                for (;;)
+                {
+                    Comp.comp_next(level, dim_num, ref level_1d, ref more, ref h, ref t);
+
+                    v = 1;
+                    for (dim = 0; dim < dim_num; dim++)
+                    {
+                        v = v * new_1d[level_1d[dim]];
+                    }
+
+                    point_num = point_num + v;
+
+                    if (!more)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return point_num;
+        }
+
         public static void sparse_grid_ofn(int dim_num, int level_max, int rule, int point_num,
                 ref double[] grid_weight, ref double[] grid_point)
 
@@ -2231,6 +2652,300 @@ namespace Burkardt.Sparse
                 Console.WriteLine("  Set fewer points than POINT_NUM = " + point_num + "");
             }
 
+        }
+
+        public static int sparse_grid_onn_size(int dim_num, int level_max)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    SPARSE_GRID_ONN_SIZE sizes a sparse grid using Open Non-Nested rules.
+            //
+            //  Discussion:
+            //
+            //    The grid is defined as the sum of the product rules whose LEVEL
+            //    satisfies:
+            //
+            //      0 <= LEVEL <= LEVEL_MAX.
+            //
+            //    This calculation is much faster than a previous method.  It simply
+            //    computes the number of new points that are added at each level in the
+            //    1D rule, and then counts the new points at a given DIM_NUM dimensional
+            //    level vector as the product of the new points added in each dimension.
+            //
+            //    This approach will work for nested families, and may be extensible
+            //    to other families, and to mixed rules.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    15 January 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Fabio Nobile, Raul Tempone, Clayton Webster,
+            //    A Sparse Grid Stochastic Collocation Method for Partial Differential
+            //    Equations with Random Input Data,
+            //    SIAM Journal on Numerical Analysis,
+            //    Volume 46, Number 5, 2008, pages 2309-2345.
+            //
+            //  Parameters:
+            //
+            //    Input, int DIM_NUM, the spatial dimension.
+            //
+            //    Input, int LEVEL_MAX, the maximum value of LEVEL.
+            //
+            //    Output, int SPARSE_GRID_ONN_SIZE, the number of points in the grid.
+            //
+        {
+            int dim;
+            int h;
+            int l;
+            int level;
+            int[] level_1d;
+            int level_min;
+            bool more;
+            int[] order_1d;
+            int point_num;
+            int t;
+            int v;
+            //
+            //  Special case.
+            //
+            if (level_max < 0)
+            {
+                point_num = 0;
+                return point_num;
+            }
+
+            if (level_max == 0)
+            {
+                point_num = 1;
+                return point_num;
+            }
+
+            //
+            //  Construct the 1D order vector.
+            //
+            order_1d = new int[level_max + 1];
+
+            for (l = 0; l <= level_max; l++)
+            {
+                order_1d[l] = 2 * l + 1;
+            }
+
+            level_1d = new int[dim_num];
+
+            level_min = Math.Max(0, level_max + 1 - dim_num);
+
+            point_num = 0;
+
+            for (level = level_min; level <= level_max; level++)
+            {
+                more = false;
+                h = 0;
+                t = 0;
+
+                for (;;)
+                {
+                    Comp.comp_next(level, dim_num, ref level_1d, ref more, ref h, ref t);
+
+                    v = 1;
+                    for (dim = 0; dim < dim_num; dim++)
+                    {
+                        v = v * order_1d[level_1d[dim]];
+                    }
+
+                    point_num = point_num + v;
+
+                    if (!more)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return point_num;
+        }
+
+        public static int sparse_grid_own_size(int dim_num, int level_max)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    SPARSE_GRID_OWN_SIZE sizes a sparse grid using Open Weakly Nested rules.
+            //
+            //  Discussion:
+            //
+            //    This calculation is much faster than a previous method.  
+            //
+            //    This calculation assumes that a linear growth rule is being used,
+            //    that is, that the 1D rules have orders 1, 3, 5, 7, 9, and so on.
+            //
+            //    This calculation assumes that the 1D family of quadrature rules 
+            //    contains only one repeated point, presumably the value 0.0.
+            //    This assumption holds for Gauss-Legendre, Gauss-Hermite and 
+            //    Generalized Gauss-Hermite rules.
+            //
+            //    The routine then counts the number of unique abscissas that will
+            //    be generated for a sparse grid of given dimension and level.
+            //
+            //    The computation is complicated.  It starts by counting just those
+            //    abscissas which have no 0.0 in them.  This is relatively easy, since
+            //    it is like counting the points in a sparse grid that uses open 
+            //    non-nested rules, but for which the order of each rule is reduced by 1.
+            //
+            //    Then we have to count the abscissas with one 0.0, two 0.0's and so
+            //    on to DIM_NUM zeros.  We are assuming this is an isotropic grid,
+            //    so for a particular number K of zeroes we only need to count the case
+            //    where the first K entries are zero, and multiply by C(DIM_NUM,K).
+            //
+            //    To count the number of entries with K zeroes, (and assuming 0 < K),
+            //    then, we essentially count the number of abscissas in an open 
+            //    non-nested rule as before, but modifed so that the minimum level is 0,
+            //    rather than LEVEL_MAX - DIM_NUM + 1.
+            //
+            //    I will mention that this was a rather difficult computation to
+            //    figure out!
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    12 January 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Fabio Nobile, Raul Tempone, Clayton Webster,
+            //    A Sparse Grid Stochastic Collocation Method for Partial Differential
+            //    Equations with Random Input Data,
+            //    SIAM Journal on Numerical Analysis,
+            //    Volume 46, Number 5, 2008, pages 2309-2345.
+            //
+            //  Parameters:
+            //
+            //    Input, int DIM_NUM, the spatial dimension.
+            //
+            //    Input, int LEVEL_MAX, the maximum value of LEVEL.
+            //
+            //    Output, int SPARSE_GRID_OWN_SIZE, the number of points in the grid.
+            //
+        {
+            int dim;
+            int dim_num2;
+            int h;
+            int l;
+            int level;
+            int level_min;
+            int[] level_1d;
+            bool more;
+            int[] new_1d;
+            int point_num;
+            int point_num2;
+            int t;
+            int v;
+            //
+            //  Special case.
+            //
+            if (level_max < 0)
+            {
+                point_num = 0;
+                return point_num;
+            }
+
+            if (level_max == 0)
+            {
+                point_num = 1;
+                return point_num;
+            }
+
+            //
+            //  Construct the vector that counts the new points in the 1D rule.
+            //
+            new_1d = new int[level_max + 1];
+
+            new_1d[0] = 0;
+            for (l = 1; l <= level_max; l++)
+            {
+                new_1d[l] = 2 * l;
+            }
+
+            //
+            //  Count the nonzero points in the full dimensional table with the usual
+            //  LEVEL_MIN restriction.
+            //
+            //  Then count the points with 1, 2, 3, ... DIM_NUM zeroes, by counting
+            //  the nonzero points in a DIM_NUM2 table, with LEVEL_MIN set to 0, and
+            //  multiplying by the appropriate combinatorial coefficient.
+            //
+            point_num = 0;
+
+            for (dim_num2 = dim_num; 0 <= dim_num2; dim_num2--)
+            {
+                if (dim_num2 == dim_num)
+                {
+                    level_min = Math.Max(0, level_max - dim_num + 1);
+                }
+                else
+                {
+                    level_min = 0;
+                }
+
+                if (dim_num2 == 0)
+                {
+                    point_num2 = 1;
+                }
+                else
+                {
+                    level_1d = new int[dim_num2];
+
+                    point_num2 = 0;
+
+                    for (level = level_min; level <= level_max; level++)
+                    {
+                        more = false;
+                        h = 0;
+                        t = 0;
+
+                        for (;;)
+                        {
+                            Comp.comp_next(level, dim_num2, ref level_1d, ref more, ref h, ref t);
+
+                            v = 1;
+                            for (dim = 0; dim < dim_num2; dim++)
+                            {
+                                v = v * new_1d[level_1d[dim]];
+                            }
+
+                            point_num2 = point_num2 + v;
+
+                            if (!more)
+                            {
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                point_num = point_num + typeMethods.i4_choose(dim_num, dim_num2) * point_num2;
+            }
+
+            return point_num;
         }
 
         public static void sparse_grid_weights_cfn(int dim_num, int level_max, int rule,

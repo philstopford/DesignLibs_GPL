@@ -158,5 +158,66 @@ namespace Burkardt.SphereNS
 
             return x;
         }
+        
+        public static double sphere01_monomial_quadrature ( int[] expon, int point_num, double[] xyz, 
+                double[] w )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    SPHERE01_MONOMIAL_QUADRATURE applies quadrature to a monomial in a sphere.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    05 July 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int DIM_NUM, the spatial dimension.
+            //
+            //    Input, int EXPON[DIM_NUM], the exponents.
+            //
+            //    Input, int POINT_NUM, the number of points in the rule.
+            //
+            //    Input, double XYZ[DIM_NUM*POINT_NUM], the quadrature points.
+            //
+            //    Input, double W[POINT_NUM], the quadrature weights.
+            //
+            //    Output, double SPHERE01_MONOMIAL_QUADRATURE, the quadrature error.
+            //
+        {
+            double exact;
+            double quad;
+            double quad_error;
+            double[] value;
+            //
+            //  Get the exact value of the integral.
+            //
+            exact = Integrals.sphere01_monomial_integral ( expon );
+            //
+            //  Evaluate the monomial at the quadrature points.
+            //
+            value = Burkardt.MonomialNS.Monomial.monomial_value ( 3, point_num, expon, xyz );
+            //
+            //  Compute the weighted sum.
+            //
+            quad = typeMethods.r8vec_dot ( point_num, w, value );
+            //
+            //  Error:
+            //
+            quad_error = Math.Abs ( quad - exact );
+
+            return quad_error;
+        }
+
     }
 }

@@ -1,0 +1,77 @@
+
+15 January 2008 03:24:28 PM
+
+LAGUERRE_RULE
+  C++ version
+
+  Compiled on Jan 15 2008 at 15:22:16.
+
+  Compute a Gauss-Laguerre rule for approximating
+
+    Integral ( A <= x < oo ) exp(-x) f(x) dx
+
+  of order ORDER.
+
+  For now, A is fixed at 0.0.
+
+  The user specifies ORDER, OPTION, and OUTPUT.
+
+  OPTION is:
+
+    0 to get the standard rule for handling:
+      Integral ( A <= x < oo ) exp(-x) f(x) dx
+
+    1 to get the modified rule for handling:
+      Integral ( A <= x < oo )         f(x) dx
+
+    For OPTION = 1, the weights of the standard rule
+    are multiplied by exp(+x).
+
+  OUTPUT is:
+
+  "C++" for printed C++ output;
+  "F77" for printed Fortran77 output;
+  "F90" for printed Fortran90 output;
+  "MAT" for printed MATLAB output;
+
+  or:
+
+  "filename" to generate 3 files:
+
+    filename_w.txt - the weight file
+    filename_x.txt - the abscissa file.
+    filename_r.txt - the region file.
+
+  The requested order of the rule is = 4
+
+  The requested value of OPTION = 1
+
+  OUTPUT option is "F90".
+!
+!  Weights W, abscissas X and range R
+!  for a Gauss-Laguerre quadrature rule
+!  ORDER = 4
+!  A = 0
+!
+!  OPTION = 1, modified rule:
+!    Integral ( A <= x < oo ) f(x) dx
+!    is to be approximated by
+!    sum ( 1 <= I <= ORDER ) w(i) * f(x(i)).
+!
+  w(1) = 0.8327391238378907
+  w(2) = 2.048102438454297
+  w(3) = 3.631146305821518
+  w(4) = 6.48714508440766
+
+  x(1) = 0.3225476896193922
+  x(2) = 1.745761101158347
+  x(3) = 4.536620296921128
+  x(4) = 9.395070912301133
+
+  r(1) = 0
+  r(2) = 1e+30
+
+LAGUERRE_RULE:
+  Normal end of execution.
+
+15 January 2008 03:24:28 PM

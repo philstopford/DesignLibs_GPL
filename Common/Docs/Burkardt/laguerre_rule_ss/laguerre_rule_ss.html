@@ -1,0 +1,493 @@
+<html>
+
+  
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/laguerre_rule_ss/laguerre_rule_ss.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 15:52:23 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      LAGUERRE_RULE_SS - Gauss-Laguerre Quadrature Rules
+    </title>
+  </head>
+
+  <body bgcolor="#EEEEEE" link="#CC0000" alink="#FF3300" vlink="#000055">
+
+    <h1 align = "center">
+      LAGUERRE_RULE_SS <br> Gauss-Laguerre Quadrature Rules
+    </h1>
+
+    <hr>
+
+    <p>
+      <b>LAGUERRE_RULE_SS</b> 
+      is a C++ program which 
+      generates a specific Gauss-Laguerre quadrature rule, based on user input,
+      using a Stroud and Secrest rule.
+    </p>
+
+    <p>
+      The rule can be output as text in a standard programming language,
+      or the data can be written to three files for easy use as input
+      to other programs.
+    </p>
+
+    <p>
+      The Gauss-Laguerre quadrature rule is designed 
+      to approximate integrals on semi-infinite intervals.  By default, this interval 
+      is [0,oo).  If this default is not suitable, it is possible to redefine
+      the abscissas and weights for the interval [A,oo) instead.
+    </p>
+
+    <p>
+      The Gauss-Laguerre quadrature assumes that the integrand we are
+      considering has a form like:
+      <pre>
+        Integral ( 0 &lt;= x &lt; +oo ) exp(-x) f(x) dx
+      </pre>
+      where the factor <b>exp(-x)</b> is regarded as a weight factor.
+    </p>
+
+    <p>
+      The <i>standard Gauss-Laguerre quadrature rule </i> is used as follows:
+      <pre>
+        Integral ( 0 &lt;= x &lt; +oo ) exp(-x) f(x) dx
+      </pre>
+      is to be approximated by
+      <pre>
+        Sum ( 1 &lt;= i &lt;= order ) w(i) * f(x(i)) 
+      </pre>
+    </p>
+
+    <p>
+      Although the standard rule is defined in terms of the product of the
+      integral weight function <b>exp(-x)</b> and a function <b>f(x)</b>,
+      there may be cases when it is more convenient to think that we are simply
+      approximating
+      <pre>
+        Integral ( 0 &lt;= x &lt; +oo ) f(x) dx
+      </pre>
+    </p>
+
+    <p>
+      The standard rule can easily be modified, by adjusting the weights, so that
+      the computation can be done in this form.  The program allows the user to
+      specify, through the parameter <b>OPTION</b>, whether the standard rule is
+      to be computed (<b>OPTION</b>=0), or the modified rule (<b>OPTION</b>=1).  
+    </p>
+
+    <p>
+      The <i>modified Gauss-Laguerre quadrature rule</i> is used as follows:
+      <pre>
+        Integral ( 0 &lt;= x &lt; +oo ) f(x) dx
+      </pre>
+      is to be approximated by
+      <pre>
+        Sum ( 1 &lt;= i &lt;= order ) w(i) * f(x(i)) 
+      </pre>
+    </p>
+
+    <h3 align = "center">
+      Usage:
+    </h3>
+
+    <p>
+      <blockquote>
+        <b>laguerre_rule_ss</b> <i>order</i> <i>option</i> <i>output</i>
+      </blockquote>
+      where
+      <ul>
+        <li>
+          <i>order</i> is the number of points in the quadrature rule.  A typical value might
+          be 4, 8, or 16.  
+        </li>
+        <li>
+          <i>option</i> choose the rule:<br>
+          a 0 value requests the "standard" integration rule for 
+          <pre>
+            Integral ( 0 &lt;= x &lt; +oo ) exp(-x) f(x) dx
+          </pre>
+          a 1 value requests the "modified" integration rule for
+          <pre>
+            Integral ( 0 &lt;= x &lt; +oo )         f(x) dx
+          </pre>
+        </li>
+        <li>
+          <i>output</i> specifies how the rule is to be reported:
+          <ul>
+            <li>
+              <b>C++</b>, print as C++ text;
+            </li>
+            <li>
+              <b>F77</b>, print as FORTRAN77 text;
+            </li>
+            <li>
+              <b>F90</b>, print as FORTRAN90 text;
+            </li>
+            <li>
+              <b>MAT</b>, print as MATLAB text;
+            </li>
+            <li>
+              <i>file</i>, written to three files, <i>file</i><b>_w.txt</b>,
+              <i>file</i><b>_x.txt</b>, and <i>file</i><b>_r.txt</b>, 
+              containing the weights, abscissas, and interval limits.
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </p>
+
+    <h3 align = "center">
+      Licensing:
+    </h3>
+ 
+    <p>
+      The computer code and data files described and made available on this web page 
+      are distributed under
+      <a href = "https://people.math.sc.edu/Burkardt/txt/gnu_lgpl.txt">the GNU LGPL license.</a>
+    </p>
+
+
+    <h3 align = "center">
+      Related Data and Programs:
+    </h3>
+
+    <p>
+      <a href = "../chebyshev1_rule/chebyshev1_rule.html">
+      CHEBYSHEV1_RULE</a>,
+      is a C++ program which
+      can compute and print a Gauss-Chebyshev type 1 quadrature rule.
+    </p>
+
+    <p>
+      <a href = "../chebyshev2_rule/chebyshev2_rule.html">
+      CHEBYSHEV2_RULE</a>,
+      is a C++ program which
+      can compute and print a Gauss-Chebyshev type 2 quadrature rule.
+    </p>
+
+    <p>
+      <a href = "../clenshaw_curtis_rule/clenshaw_curtis_rule.html">
+      CLENSHAW_CURTIS_RULE</a> 
+      is a C++ program which
+      defines a Clenshaw Curtis quadrature rule.
+    </p>
+
+    <p>
+      <a href = "../gegenbauer_rule/gegenbauer_rule.html">
+      GEGENBAUER_RULE</a>,
+      is a C++ program which
+      can compute and print a Gauss-Gegenbauer quadrature rule.
+    </p>
+
+    <p>
+      <a href = "../gen_hermite_rule/gen_hermite_rule.html">
+      GEN_HERMITE_RULE</a>,
+      is a C++ program which
+      can compute and print a generalized Gauss-Hermite quadrature rule.
+    </p>
+
+    <p>
+      <a href = "../gen_laguerre_rule/gen_laguerre_rule.html">
+      GEN_LAGUERRE_RULE</a>,
+      is a C++ program which
+      can compute and print a generalized Gauss-Laguerre quadrature rule.
+    </p>
+
+    <p>
+      <a href = "../hermite_rule/hermite_rule.html">
+      HERMITE_RULE</a>,
+      is a C++ program which
+      can compute and print a Gauss-Hermite quadrature rule.
+    </p>
+
+    <p>
+      <a href = "../int_exactness/int_exactness.html">
+      INT_EXACTNESS</a>,
+      is a C++ program which 
+      checks the polynomial exactness
+      of a 1-dimensional quadrature rule for a finite interval.
+    </p>
+ 
+    <p>
+      <a href = "../int_exactness_laguerre/int_exactness_laguerre.html">
+      INT_EXACTNESS_LAGUERRE</a>,
+      is a C++ program which 
+      checks the polynomial exactness
+      of a Gauss-Laguerre quadrature rule.
+    </p>
+ 
+    <p>
+      <a href = "https://people.math.sc.edu/Burkardt/f_src/intlib/intlib.html">
+      INTLIB</a> 
+      is which
+      contains routines for numerical estimation of integrals in 1D.
+    </p>
+
+    <p>
+      <a href = "../jacobi_rule/jacobi_rule.html">
+      JACOBI_RULE</a>,
+      is a C++ program which
+      can compute and print a Gauss-Jacobi quadrature rule.
+    </p>
+
+    <p>
+      <a href = "../legendre_rule/legendre_rule.html">
+      LEGENDRE_RULE</a>,
+      is a C++ program which 
+      computes a Gauss-Legendre quadrature rule.
+    </p>
+
+    <p>
+      <a href = "../patterson_rule/patterson_rule.html">
+      PATTERSON_RULE</a>,
+      is a C++ program which 
+      computes a Gauss-Patterson quadrature rule.
+    </p>
+
+    <p>
+      <a href = "../product_factor/product_factor.html">
+      PRODUCT_FACTOR</a> 
+      is a C++ program which
+      constructs a product rule
+      from <i>distinct</i> 1D factor rules.
+    </p>
+
+    <p>
+      <a href = "../product_rule/product_rule.html">
+      PRODUCT_RULE</a> 
+      is a C++ program which
+      constructs a product rule from <i>identical</i> 1D factor rules.
+    </p>
+
+    <p>
+      <a href = "https://people.math.sc.edu/Burkardt/f_src/quadpack/quadpack.html">
+      QUADPACK</a> 
+      is which
+      contains routines for 
+      numerical estimation of integrals in 1D.
+    </p>
+
+    <p>
+      <a href = "https://people.math.sc.edu/Burkardt/datasets/quadrature_rules/quadrature_rules.html">
+      QUADRATURE_RULES</a> 
+      is a dataset directory which
+      contains sets of files that define quadrature
+      rules over various 1D intervals or multidimensional hypercubes.
+    </p>
+
+    <p>
+      <a href = "https://people.math.sc.edu/Burkardt/datasets/quadrature_rules_laguerre/quadrature_rules_laguerre.html">
+      QUADRATURE_RULES_LAGUERRE</a> 
+      is a dataset directory which
+      contains triples of files defining standard Laguerre
+      quadrature rules.
+    </p>
+
+    <p>
+      <a href = "../quadrule/quadrule.html">
+      QUADRULE</a> 
+      is which
+      contains 1-dimensional quadrature
+      rules.
+    </p>
+
+    <p>
+      <a href = "../tanh_sinh_rule/tanh_sinh_rule.html">
+      TANH_SINH_RULE</a>,
+      a C++ program which 
+      computes and writes out a tanh-sinh quadrature rule of given order. 
+    </p>
+
+    <p>
+      <a href = "https://people.math.sc.edu/Burkardt/f_src/test_int/test_int.html">
+      TEST_INT</a> 
+      is which
+      defines functions that may be used as test integrands for
+      quadrature rules in 1D.
+    </p>
+
+    <p>
+      <a href = "../test_int_laguerre/test_int_laguerre.html">
+      TEST_INT_LAGUERRE</a> 
+      is which 
+      defines test integrands for integration over [A,+oo).
+    </p>
+
+    <h3 align = "center">
+      Reference:
+    </h3>
+
+    <p>
+      <ol>
+        <li>
+          Milton Abramowitz, Irene Stegun,<br>
+          Handbook of Mathematical Functions,<br>
+          National Bureau of Standards, 1964,<br>
+          ISBN: 0-486-61272-4,<br>
+          LC: QA47.A34.
+        </li>
+        <li>
+          Philip Davis, Philip Rabinowitz,<br>
+          Methods of Numerical Integration,<br>
+          Second Edition,<br>
+          Dover, 2007,<br>
+          ISBN: 0486453391,<br>
+          LC: QA299.3.D28.
+        </li>
+        <li>
+          Philip Rabinowitz, George Weiss,<br>
+          Tables of Abscissas and Weights for Numerical Evaluation of Integrals
+          of the form $\int_0^{\infty} exp(-x) x^n f(x) dx$,<br>
+          Mathematical Tables and Other Aids to Computation,<br>
+          Volume 13, Number 68, October 1959, pages 285-294.
+        </li>
+        <li>
+          Arthur Stroud, Don Secrest,<br>
+          Gaussian Quadrature Formulas,<br>
+          Prentice Hall, 1966,<br>
+          LC: QA299.4G3S7.
+        </li>
+      </ol>
+    </p>
+
+
+    <h3 align = "center">
+      Examples and Tests:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <a href = "output_cpp.txt">output_cpp.txt</a>,
+          printed output from the command 
+          <pre><b>
+            laguerre_rule_ss 4 0 C++
+          </b></pre>
+        </li>
+        <li>
+          <a href = "output_f77.txt">output_f77.txt</a>,
+          printed output from the command 
+          <pre><b>
+            laguerre_rule_ss 4 0 F77
+          </b></pre>
+        </li>
+        <li>
+          <a href = "output_f90.txt">output_f90.txt</a>,
+          printed output from the command 
+          <pre><b>
+            laguerre_rule_ss 4 0 F90
+          </b></pre>
+        </li>
+        <li>
+          <a href = "output_f90_modified.txt">output_f90_modified.txt</a>,
+          printed output from the command 
+          <pre><b>
+            laguerre_rule_ss 4 1 F90
+          </b></pre>
+        </li>
+        <li>
+          <a href = "output_mat.txt">output_mat.txt</a>,
+          printed output from the command 
+          <pre><b>
+            laguerre_rule_ss 8 0 MAT
+          </b></pre>
+        </li>
+        <li>
+          <a href = "lag_o4_r.txt">lag_o4_r.txt</a>,
+          the region file created by the command
+          <pre><b>
+            laguerre_rule_ss 4 0 lag_o4
+          </b></pre>
+        </li>
+        <li>
+          <a href = "lag_o4_w.txt">lag_o4_w.txt</a>,
+          the weight file created by the command
+          <pre><b>
+            laguerre_rule_ss 4 0 lag_o4
+          </b></pre>
+        </li>
+        <li>
+          <a href = "lag_o4_x.txt">lag_o4_x.txt</a>,
+          the abscissa file created by the command
+          <pre><b>
+            laguerre_rule_ss 4 0 lag_o4
+          </b></pre>
+        </li>
+        <li>
+          <a href = "lag_o4_modified_r.txt">lag_o4_modified_r.txt</a>,
+          the region file created by the command
+          <pre><b>
+            laguerre_rule_ss 4 1 lag_o4
+          </b></pre>
+        </li>
+        <li>
+          <a href = "lag_o4_modified_w.txt">lag_o4_modified_w.txt</a>,
+          the weight file created by the command
+          <pre><b>
+            laguerre_rule_ss 4 1 lag_o4
+          </b></pre>
+        </li>
+        <li>
+          <a href = "lag_o4_modified_x.txt">lag_o4_modified_x.txt</a>,
+          the abscissa file created by the command
+          <pre><b>
+            laguerre_rule_ss 4 1 lag_o4
+          </b></pre>
+        </li>
+      </ul>
+    </p>
+
+    <h3 align = "center">
+      List of Routines:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <b>MAIN</b> is the main program for LAGUERRE_RULE_SS.
+        </li>
+        <li>
+          <b>LAGUERRE_COMPUTE</b> computes a Gauss-Laguerre quadrature rule.
+        </li>
+        <li>
+          <b>LAGUERRE_HANDLE</b> computes the requested Gauss-Laguerre rule and outputs it.
+        </li>
+        <li>
+          <b>LAGUERRE_RECUR</b> evaluates a Laguerre polynomial.
+        </li>
+        <li>
+          <b>LAGUERRE_ROOT</b> improves a root of a Laguerre polynomial.
+        </li>
+        <li>
+          <b>R8_ABS</b> returns the absolute value of an R8.
+        </li>
+        <li>
+          <b>R8_EPSILON</b> returns the R8 roundoff unit.
+        </li>
+        <li>
+          <b>R8_GAMMA</b> evaluates Gamma(X) for a real argument.
+        </li>
+        <li>
+          <b>R8_HUGE</b> returns a "huge" R8.
+        </li>
+        <li>
+          <b>R8MAT_WRITE</b> writes an R8MAT file with no header.
+        </li>
+      </ul>
+    </p>
+
+
+    <hr>
+
+    <i>
+      Last revised on 03 February 2010.
+    </i>
+
+    <!-- John Burkardt -->
+
+  </body>
+
+  <!-- Initial HTML skeleton created by HTMLINDEX. -->
+
+
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/laguerre_rule_ss/laguerre_rule_ss.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 15:52:26 GMT -->
+</html>

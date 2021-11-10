@@ -1248,6 +1248,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaguerreRuleStroudSecrestTe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaguerreIntegrationSemiInfiniteIntervalsTest", "BurkhardtTest\Laguerre\LaguerreIntegrationSemiInfiniteIntervalsTest\LaguerreIntegrationSemiInfiniteIntervalsTest.csproj", "{060C06E9-9C76-40FB-A7FD-24DC5478E19B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STLASCIITest", "BurkhardtTest\IO\STLASCIITest\STLASCIITest.csproj", "{74DFBEB3-3996-4721-A1FD-CD42540CA0E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -7810,6 +7812,18 @@ Global
 		{060C06E9-9C76-40FB-A7FD-24DC5478E19B}.Release|x64.Build.0 = Release|Any CPU
 		{060C06E9-9C76-40FB-A7FD-24DC5478E19B}.Release|x86.ActiveCfg = Release|Any CPU
 		{060C06E9-9C76-40FB-A7FD-24DC5478E19B}.Release|x86.Build.0 = Release|Any CPU
+		{74DFBEB3-3996-4721-A1FD-CD42540CA0E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74DFBEB3-3996-4721-A1FD-CD42540CA0E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74DFBEB3-3996-4721-A1FD-CD42540CA0E8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{74DFBEB3-3996-4721-A1FD-CD42540CA0E8}.Debug|x64.Build.0 = Debug|Any CPU
+		{74DFBEB3-3996-4721-A1FD-CD42540CA0E8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{74DFBEB3-3996-4721-A1FD-CD42540CA0E8}.Debug|x86.Build.0 = Debug|Any CPU
+		{74DFBEB3-3996-4721-A1FD-CD42540CA0E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74DFBEB3-3996-4721-A1FD-CD42540CA0E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74DFBEB3-3996-4721-A1FD-CD42540CA0E8}.Release|x64.ActiveCfg = Release|Any CPU
+		{74DFBEB3-3996-4721-A1FD-CD42540CA0E8}.Release|x64.Build.0 = Release|Any CPU
+		{74DFBEB3-3996-4721-A1FD-CD42540CA0E8}.Release|x86.ActiveCfg = Release|Any CPU
+		{74DFBEB3-3996-4721-A1FD-CD42540CA0E8}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -8432,6 +8446,7 @@ Global
 		{A4E350D5-8577-472C-B3B7-26EFA93BCE72} = {B14C0D74-30A0-4540-8100-2FFA1C84CA6D}
 		{695A262C-B8BC-414E-A954-AC5F5844B8F3} = {03BF32AC-0A98-474F-A550-72B20C9B3A33}
 		{060C06E9-9C76-40FB-A7FD-24DC5478E19B} = {03BF32AC-0A98-474F-A550-72B20C9B3A33}
+		{74DFBEB3-3996-4721-A1FD-CD42540CA0E8} = {6D60C790-FFA9-4760-A754-ABDF0CA736EC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B449416C-C504-4FA8-9E10-10857263A64A}

@@ -1,9 +1,253 @@
 ﻿using System;
+using System.Linq;
 
 namespace Burkardt.Types
 {
     public static partial class typeMethods
     {
+        public class WordData
+        {
+            public int lenc =
+                0;
+            public int next =
+                0;
+
+        }
+        public static string word_next_read(ref WordData data, string s, ref bool done)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    WORD_NEXT_READ "reads" words from a string, one at a time.
+            //
+            //  Discussion:
+            //
+            //    This routine was written to process tokens in a file.
+            //    A token is considered to be an alphanumeric string delimited
+            //    by whitespace, or any of various "brackets".
+            //
+            //    The following characters are considered to be a single word,
+            //    whether surrounded by spaces or not:
+            //
+            //      " ( ) { } [ ]
+            //
+            //    Also, if there is a trailing comma on the word, it is stripped off.
+            //    This is to facilitate the reading of lists.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    20 October 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, string S, a string, presumably containing words
+            //    separated by spaces.
+            //
+            //    Input/output, bool *DONE.
+            //    On input with a fresh string, set DONE to TRUE.
+            //    On output, the routine sets DONE:
+            //      FALSE if another word was read,
+            //      TRUE if no more words could be read.
+            //
+            //    Output, string WORD_NEXT_READ.
+            //    If DONE is FALSE, then WORD contains the "next" word read.
+            //    If DONE is TRUE, then WORD is NULL, because there was no more to read.
+            //
+        {
+            int i;
+            int ilo;
+            int j;
+            char TAB = '9';
+            string word;
+            char[] word_chstar;
+            //
+            //  We "remember" LENC and NEXT from the previous call.
+            //
+            //  An input value of DONE = TRUE signals a new line of text to examine.
+            //
+            if (done)
+            {
+                data.next = 0;
+                done = false;
+                data.lenc = s.Length;
+                if (data.lenc <= 0)
+                {
+                    done = true;
+                    word = "\n";
+                    ;
+                    return word;
+                }
+            }
+
+            //
+            //  Beginning at index NEXT, search the string for the next nonblank,
+            //  which signals the beginning of a word.
+            //
+            ilo = data.next;
+            //
+            //  ...S(NEXT:) is blank.  Return with WORD = ' ' and DONE = TRUE.
+            //
+            for (;;)
+            {
+                if (data.lenc < ilo)
+                {
+                    word = "\n";
+                    done = true;
+                    data.next = data.lenc + 1;
+                    return word;
+                }
+
+                //
+                //  If the current character is blank, skip to the next one.
+                //
+                if (s[ilo] != ' ' && s[ilo] != TAB)
+                {
+                    break;
+                }
+
+                ilo = ilo + 1;
+            }
+
+            //
+            //  ILO is the index of the next nonblank character in the string.
+            //
+            //  If this initial nonblank is a special character,
+            //  then that's the whole word as far as we're concerned,
+            //  so return immediately.
+            //
+            if (s[ilo] == '"')
+            {
+                word = "\"\"";
+                data.next = ilo + 1;
+                return word;
+            }
+            else if (s[ilo] == '(')
+            {
+                word = "(";
+                data.next = ilo + 1;
+                return word;
+            }
+            else if (s[ilo] == ')')
+            {
+                word = ")";
+                data.next = ilo + 1;
+                return word;
+            }
+            else if (s[ilo] == '{')
+            {
+                word = "{";
+                data.next = ilo + 1;
+                return word;
+            }
+            else if (s[ilo] == '}')
+            {
+                word = "}";
+                data.next = ilo + 1;
+                return word;
+            }
+            else if (s[ilo] == '[')
+            {
+                word = "[";
+                data.next = ilo + 1;
+                return word;
+            }
+            else if (s[ilo] == ']')
+            {
+                word = "]";
+                data.next = ilo + 1;
+                return word;
+            }
+
+            //
+            //  Now search for the last contiguous character that is not a
+            //  blank, TAB, or special character.
+            //
+            data.next = ilo + 1;
+
+            while (data.next <= data.lenc)
+            {
+                if (s[data.next] == ' ')
+                {
+                    break;
+                }
+                else if (s[data.next] == TAB)
+                {
+                    break;
+                }
+                else if (s[data.next] == '"')
+                {
+                    break;
+                }
+                else if (s[data.next] == '(')
+                {
+                    break;
+                }
+                else if (s[data.next] == ')')
+                {
+                    break;
+                }
+                else if (s[data.next] == '{')
+                {
+                    break;
+                }
+                else if (s[data.next] == '}')
+                {
+                    break;
+                }
+                else if (s[data.next] == '[')
+                {
+                    break;
+                }
+                else if (s[data.next] == ']')
+                {
+                    break;
+                }
+
+                data.next = data.next + 1;
+            }
+
+            //
+            //  Allocate WORD, copy characters, and return.
+            //
+            if (s[data.next - 1] == ',')
+            {
+                word_chstar = new char[data.next - ilo];
+                i = 0;
+                for (j = ilo; j <= data.next - 2; j++)
+                {
+                    word_chstar[i] = s[j];
+                    i = i + 1;
+                }
+
+                word_chstar[i] = '\0';
+                word = new string( word_chstar );
+            }
+            else
+            {
+                word_chstar = new char[data.next + 1 - ilo];
+                i = 0;
+                for (j = ilo; j <= data.next - 1; j++)
+                {
+                    word_chstar[i] = s[j];
+                    i = i + 1;
+                }
+
+                word_chstar[i] = '\0';
+                word = new string(word_chstar);
+            }
+
+            return word;
+        }
+
         public static char[] s_substring ( char[] s, int a, int b )
 
             //****************************************************************************80

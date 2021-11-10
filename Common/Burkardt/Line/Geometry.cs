@@ -50,7 +50,7 @@ namespace Burkardt.LineNS
             return value;
         }
 
-        public static double[] line_exp_normal_2d(double[] p1, double[] p2)
+        public static double[] line_exp_normal_2d(double[] p1, double[] p2, int p1Index = 0, int p2Index = 0)
 
             //****************************************************************************80
             //
@@ -93,8 +93,8 @@ namespace Burkardt.LineNS
 
             normal = new double[DIM_NUM];
 
-            norm = Math.Sqrt((p2[0] - p1[0]) * (p2[0] - p1[0])
-                             + (p2[1] - p1[1]) * (p2[1] - p1[1]));
+            norm = Math.Sqrt((p2[(0 + p2Index) % p2.Length] - p1[(0 + p1Index) % p1.Length]) * (p2[(0 + p2Index) % p2.Length] - p1[(0 + p1Index) % p1.Length])
+                             + (p2[(1 + p2Index) % p2.Length] - p1[(1 + p1Index) % p1.Length]) * (p2[(1 + p2Index) % p2.Length] - p1[(1 + p1Index) % p1.Length]));
 
             if (norm == 0.0)
             {
@@ -103,8 +103,8 @@ namespace Burkardt.LineNS
             }
             else
             {
-                normal[0] = -(p2[1] - p1[1]) / norm;
-                normal[1] = (p2[0] - p1[0]) / norm;
+                normal[0] = -(p2[(1 + p2Index) % p2.Length] - p1[(1 + p1Index) % p1.Length]) / norm;
+                normal[1] = (p2[(0 + p2Index) % p2.Length] - p1[(0 + p1Index) % p1.Length]) / norm;
             }
 
             return normal;

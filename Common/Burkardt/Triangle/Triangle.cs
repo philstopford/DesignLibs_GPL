@@ -1,10 +1,125 @@
 ﻿using System;
+using Burkardt.Types;
 
 namespace Burkardt.TriangleNS
 {
     public class Triangle
     {
-        
+
+        public static int tri_augment(int v_num, ref int[] nodtri)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    TRI_AUGMENT augments the triangle data using vertices at infinity.
+            //
+            //  Discussion:
+            //
+            //    The algorithm simply looks at the list of triangle edges stored
+            //    in NODTRI, and determines which edges, of the form (P1,P2), do
+            //    not have a matching (P2,P1) occurrence.  These correspond to
+            //    boundary edges of the convex hull.  To simplify our computations,
+            //    we adjust the NODTRI array to accommodate an extra triangle with 
+            //    one vertex at infinity for each such unmatched edge.
+            //
+            //    The algorithm used here is ruinously inefficient for large V_NUM.
+            //    Assuming that this data structure modification is the way to go,
+            //    the routine should be rewritten to determine the boundary edges
+            //    more efficiently.
+            //
+            //    The fictitious vertices at infinity show up in the augmenting
+            //    rows of the NODTRI array with negative indices.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    08 February 2005
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int V_NUM, the number of Voronoi vertices.
+            //
+            //    Input/output, int NODTRI[3*(V_NUM+V_INF)], the list of nodes that
+            //    comprise each Delaunay triangle.  On input, there are V_NUM
+            //    sets of this data.  On output, for every pair of nodes (P1,P2) 
+            //    for which the pair (P2,P1) does not occur, an augmenting triangle 
+            //    has been created with exactly this edge (plus a vertex at infinity).
+            //    On output, there are V_NUM + V_INF sets of data.
+            //
+            //    Output, int TRI_AUGMENT, the value of V_INF, the number of 
+            //    augmenting triangles and vertices at infinity that were created.
+            //
+        {
+            bool found;
+            int i;
+            int i2;
+            int ip1;
+            int s;
+            int s2;
+            int t;
+            int t2;
+            int v;
+            int v_inf;
+            int v2;
+
+            v_inf = 0;
+
+            for (v = 0; v < v_num; v++)
+            {
+                for (i = 0; i < 3; i++)
+                {
+                    s = nodtri[i + v * 3];
+                    ip1 = typeMethods.i4_wrap(i + 1, 0, 2);
+                    t = nodtri[ip1 + v * 3];
+
+                    found = false;
+
+                    for (v2 = 0; v2 < v_num; v2++)
+                    {
+                        for (i2 = 0; i2 < 3; i2++)
+                        {
+                            s2 = nodtri[i2 + v2 * 3];
+                            ip1 = typeMethods.i4_wrap(i2 + 1, 0, 2);
+                            t2 = nodtri[ip1 + v2 * 3];
+                            if (s == t2 && t == s2)
+                            {
+                                found = true;
+                                break;
+                            }
+                        }
+
+                        if (found)
+                        {
+                            break;
+                        }
+
+                    }
+
+                    if (!found)
+                    {
+                        nodtri[0 + (v_num + v_inf) * 3] = -(v_inf + 1);
+                        nodtri[1 + (v_num + v_inf) * 3] = t;
+                        nodtri[2 + (v_num + v_inf) * 3] = s;
+                        v_inf = v_inf + 1;
+                    }
+                }
+            }
+
+            Console.WriteLine("");
+            Console.WriteLine("TRI_AUGMENT:");
+            Console.WriteLine("  Number of boundary triangles = " + v_inf + "");
+
+            return v_inf;
+        }
+
         public static int triangle_num ( int n )
 
             //****************************************************************************80

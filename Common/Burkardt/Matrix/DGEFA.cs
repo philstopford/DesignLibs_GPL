@@ -5,6 +5,122 @@ namespace Burkardt.MatrixNS
 {
     public static partial class Matrix
     {
+        public static double dge_det(int n, ref double[] a)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    DGE_DET computes the determinant of a square matrix in DGE storage.
+            //
+            //  Discussion:
+            //
+            //    The DGE storage format is used for a general M by N matrix.  A storage
+            //    space is made for each logical entry.  The two dimensional logical
+            //    array is mapped to a vector, in which storage is by columns.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    05 October 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Dongarra, Bunch, Moler, Stewart,
+            //    LINPACK User's Guide,
+            //    SIAM, 1979
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order of the matrix.
+            //    N must be positive.
+            //
+            //    Input/output, double A[N*N], the matrix to be analyzed.
+            //    On output, the matrix has been overwritten by factorization information.
+            //
+            //    Output, double DGE_DET, the determinant of the matrix.
+            //
+        {
+            double det;
+            int i;
+            int j;
+            int k;
+            int l;
+            double t;
+
+            det = 1.0;
+
+            for (k = 1; k <= n - 1; k++)
+            {
+                //
+                //  Find L, the index of the pivot row.
+                //
+                l = k;
+                for (i = k + 1; i <= n; i++)
+                {
+                    if (Math.Abs(a[(l - 1) + (k - 1) * n]) < Math.Abs(a[(i - 1) + (k - 1) * n]))
+                    {
+                        l = i;
+                    }
+                }
+
+                det = det * a[(l - 1) + (k - 1) * n];
+
+                if (a[(l - 1) + (k - 1) * n] == 0.0)
+                {
+                    return det;
+                }
+
+                //
+                //  Interchange rows L and K if necessary.
+                //
+                if (l != k)
+                {
+                    t = a[(l - 1) + (k - 1) * n];
+                    a[(l - 1) + (k - 1) * n] = a[(k - 1) + (k - 1) * n];
+                    a[(k - 1) + (k - 1) * n] = t;
+                }
+
+                //
+                //  Normalize the values that lie below the pivot entry A(K,K).
+                //
+                for (i = k + 1; i <= n; i++)
+                {
+                    a[(i - 1) + (k - 1) * n] = -a[(i - 1) + (k - 1) * n] / a[(k - 1) + (k - 1) * n];
+                }
+
+                //
+                //  Row elimination with column indexing.
+                //
+                for (j = k + 1; j <= n; j++)
+                {
+                    if (l != k)
+                    {
+                        t = a[(l - 1) + (j - 1) * n];
+                        a[(l - 1) + (j - 1) * n] = a[(k - 1) + (j - 1) * n];
+                        a[(k - 1) + (j - 1) * n] = t;
+                    }
+
+                    for (i = k + 1; i <= n; i++)
+                    {
+                        a[(i - 1) + (j - 1) * n] = a[(i - 1) + (j - 1) * n]
+                                                   + a[(i - 1) + (k - 1) * n] * a[(k - 1) + (j - 1) * n];
+                    }
+                }
+            }
+
+            det = det * a[(n - 1) + (n - 1) * n];
+
+            return det;
+        }
+
         public static double dge_det(int n, double[] a, int[] pivot)
 
             //****************************************************************************80

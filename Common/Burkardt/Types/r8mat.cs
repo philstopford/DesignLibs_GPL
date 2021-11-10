@@ -522,6 +522,55 @@ namespace Burkardt.Types
 
             return x;
         }
+        
+        public static bool r8mat_in_01 ( int m, int n, double[] a )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    R8MAT_IN_01 is TRUE if the entries of an R8MAT are in the range [0,1].
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    06 October 2004
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, the number of rows in A.
+            //
+            //    Input, int N, the number of columns in A.
+            //
+            //    Input, double A[M*N], the matrix.
+            //
+            //    Output, bool R8MAT_IN_01, is TRUE if every entry of A is
+            //    between 0 and 1.
+            //
+        {
+            int i;
+            int j;
+
+            for ( j = 0; j < n; j++ )
+            {
+                for ( i = 0; i < m; i++ )
+                {
+                    if ( a[i+j*m] < 0.0 || 1.0 < a[i+j*m] )
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
 
         public static double[] r8mat_indicator_new(int m, int n)
 

@@ -523,6 +523,7 @@
     <projectFile>BurkhardtTest/QualityTest/QualityTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Table/TableVoronoiTest/TableVoronoiTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Sphere/SphereExactnessTest/SphereExactnessTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/SubpakTest/SubpakTest.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -552,6 +553,7 @@
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/Solve/rootRCTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/TestValuesTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Common/Burkardt/Blend.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/BurkhardtTest/SubpakTest/Program.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/FEM/FEM2DBVPLinearTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/Polygon/PolygonPropertiesTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Common/Burkardt/Sobol/SobolData.cs" root0="SKIP_HIGHLIGHTING" />
@@ -7620,6 +7622,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="SubpakTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/SubpakTest/SubpakTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="SubsetTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/SubsetTest/Debug/net5.0/SubsetTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -10574,6 +10594,7 @@
       <item itemvalue=".NET Project.QualityTest" />
       <item itemvalue=".NET Project.TableVoronoiTest" />
       <item itemvalue=".NET Project.SphereExactnessTest" />
+      <item itemvalue=".NET Project.SubpakTest" />
     </list>
     <recent_temporary>
       <list>

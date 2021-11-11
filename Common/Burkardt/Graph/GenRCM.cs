@@ -425,6 +425,104 @@ namespace Burkardt.Graph
             }
         }
 
+        public static void level_set_print(int node_num, int level_num, int[] level_row,
+                int[] level)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    LEVEL_SET_PRINT prints level set information.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    05 January 2007
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int NODE_NUM, the number of nodes.
+            //
+            //    Input, int LEVEL_NUM, the number of levels.
+            //
+            //    Input, int LEVEL_ROW[LEVEL_NUM+1], organizes the entries of LEVEL.
+            //    The entries for level I are in entries LEVEL_ROW(I)
+            //    through LEVEL_ROW(I+1)-1.
+            //
+            //    Input, integer LEVEL[NODE_NUM], is simply a list of the nodes in an
+            //    order induced by the levels.
+            //
+        {
+            int i;
+            int j;
+            int jhi;
+            int jlo;
+            int jmax;
+            int jmin;
+            string cout = "";
+
+            Console.WriteLine("");
+            Console.WriteLine("LEVEL_SET_PRINT");
+            Console.WriteLine("  Show the level set structure of a rooted graph.");
+            Console.WriteLine("  The number of nodes is  " + node_num + "");
+            Console.WriteLine("  The number of levels is " + level_num + "");
+            Console.WriteLine("");
+            Console.WriteLine("  Level Min Max      Nonzeros");
+            Console.WriteLine("");
+
+            for (i = 0; i < level_num; i++)
+            {
+                jmin = level_row[i];
+                jmax = level_row[i + 1] - 1;
+
+                if (jmax < jmin)
+                {
+                    Console.WriteLine("  " + (i + 1).ToString().PadLeft(4)
+                        + "  " + jmin.ToString().PadLeft(4)
+                        + "  " + jmax.ToString().PadLeft(4) + "");
+                }
+                else
+                {
+                    for (jlo = jmin; jlo <= jmax; jlo = jlo + 5)
+                    {
+                        jhi = Math.Min(jlo + 4, jmax);
+
+                        if (jlo == jmin)
+                        {
+                            cout = "  " + (i + 1).ToString().PadLeft(4)
+                                + "  " + jmin.ToString().PadLeft(4)
+                                + "  " + jmax.ToString().PadLeft(4)
+                                + "   ";
+                            for (j = jlo; j <= jhi; j++)
+                            {
+                                cout += level[j - 1].ToString().PadLeft(8);
+                            }
+
+                            Console.WriteLine(cout);
+                        }
+                        else
+                        {
+                            cout = "                     ";
+                            for (j = jlo; j <= jhi; j++)
+                            {
+                                cout += level[j - 1].ToString().PadLeft(8);
+                            }
+
+                            Console.WriteLine(cout);
+                        }
+
+                    }
+                }
+            }
+        }
+
         public static void rcm(int root, int adj_num, int[] adj_row, int[] adj, ref int[] mask,
         ref int[] perm, ref int iccsze, int node_num, int permIndex = 0 )
 

@@ -543,6 +543,7 @@
     <projectFile>BurkhardtTest/SGMGAniso/SGMGAnisoPointTest/SGMGAnisoPointTest.csproj</projectFile>
     <projectFile>BurkhardtTest/SGMGAniso/SGMGAnisoProductWeightTest/SGMGAnisoProductWeightTest.csproj</projectFile>
     <projectFile>BurkhardtTest/SGMGAniso/SGMGAnisoSizeTest/SGMGAnisoSizeTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/SGMGAniso/SGMGAnisoSizeTableTest/SGMGAnisoSizeTableTest.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -6650,6 +6651,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="SGMGAnisoSizeTableTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/SGMGAniso/SGMGAnisoSizeTableTest/SGMGAnisoSizeTableTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="SGMGAnisoSizeTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -10974,6 +10993,7 @@
       <item itemvalue=".NET Project.SGMGAnisoPointTest" />
       <item itemvalue=".NET Project.SGMGAnisoProductWeightTest" />
       <item itemvalue=".NET Project.SGMGAnisoSizeTest" />
+      <item itemvalue=".NET Project.SGMGAnisoSizeTableTest" />
     </list>
     <recent_temporary>
       <list>

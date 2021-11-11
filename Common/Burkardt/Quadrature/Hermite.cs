@@ -9,6 +9,163 @@ namespace Burkardt.Quadrature
     using Monomial = Burkardt.MonomialNS.Monomial;
     public static class HermiteQuadrature
     {
+        public static void gen_hermite_compute_points ( int order, double alpha, ref double[] x )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    GEN_HERMITE_COMPUTE_POINTS computes Generalized Hermite quadrature points.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    13 June 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int ORDER, the order.
+            //
+            //    Input, double ALPHA, the exponent of the X factor.
+            //    -1.0 < ALPHA.
+            //
+            //    Output, double X[ORDER], the abscissas.
+            //
+        {
+            double[] w;
+
+            w = new double[order];
+
+            gen_hermite_compute ( order, alpha, ref x, ref w );
+        }
+
+        public static double[] gen_hermite_compute_points_np ( int order, int np, double[] p, double[] x )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    GEN_HERMITE_COMPUTE_POINTS_NP: Generalized Hermite quadrature points.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    22 June 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int ORDER, the order.
+        //
+        //    Input, int NP, the number of parameters.
+        //
+        //    Input, double P[NP], contains parameters.
+        //    P[0] = ALPHA, the exponent of the X factor. -1.0 < ALPHA.
+        //
+        //    Output, double X[ORDER], the abscissas.
+        //
+        {
+            double alpha;
+
+            alpha = p[0];
+
+            gen_hermite_compute_points ( order, alpha, ref x );
+
+            return x;
+        }
+        public static void gen_hermite_compute_weights ( int order, double alpha, ref double[] w )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    GEN_HERMITE_COMPUTE_WEIGHTS computes Generalized Hermite quadrature weights.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    13 June 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int ORDER, the order.
+            //
+            //    Input, double ALPHA, the exponent of the X factor.
+            //    -1.0 < ALPHA.
+            //
+            //    Output, double W[ORDER], the weights.
+            //
+        {
+            double[] x;
+
+            x = new double[order];
+
+            gen_hermite_compute ( order, alpha, ref x, ref w );
+            
+        }
+
+        public static double[] gen_hermite_compute_weights_np ( int order, int np, double[] p,
+        double[] w )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    GEN_HERMITE_COMPUTE_WEIGHTS_NP: Generalized Hermite quadrature weights.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    22 June 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int ORDER, the order.
+        //
+        //    Input, int NP, the number of parameters.
+        //
+        //    Input, double P[NP], contains parameters.
+        //    P[0] = ALPHA, the exponent of the X factor. -1.0 < ALPHA.
+        //
+        //    Output, double W[ORDER], the weights.
+        //
+        {
+            double alpha;
+
+            alpha = p[0];
+
+            gen_hermite_compute_weights ( order, alpha, ref w );
+
+            return w;
+        }
+        
         public static void gen_hermite_compute_np ( int order, int np, double[] p, ref double[] x,
         ref double[] w )
 
@@ -123,6 +280,76 @@ namespace Burkardt.Quadrature
         //
         {
             hermite_compute ( order, ref x, ref w );
+        }
+        
+        public static void hermite_compute_weights ( int order, ref double[] w )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    HERMITE_COMPUTE_WEIGHTS computes Hermite quadrature weights.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    13 June 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int ORDER, the order.
+            //
+            //    Output, double W[ORDER], the weights.
+            //
+        {
+            double[] x;
+
+            x = new double[order];
+
+            hermite_compute ( order, ref x, ref w );
+        }
+
+        public static double[] hermite_compute_weights_np ( int order, int np, double[] p, double[] w )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    HERMITE_COMPUTE_WEIGHTS_NP computes Hermite quadrature weights.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    22 June 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int ORDER, the order.
+        //
+        //    Input, int NP, the number of parameters.
+        //
+        //    Input, double P[NP], parameters which are not needed by this function.
+        //
+        //    Output, double W[ORDER], the weights.
+        //
+        {
+            hermite_compute_weights ( order, ref w );
+
+            return w;
         }
         
         public static void hermite_compute ( int n, ref double[] x, ref double[] w )
@@ -841,6 +1068,755 @@ namespace Burkardt.Quadrature
             }
 
         }
+
+        public static void hermite_genz_keister_lookup_points(int n, ref double[] x)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    HERMITE_GENZ_KEISTER_LOOKUP_POINTS looks up Genz-Keister Hermite abscissas.
+            //
+            //  Discussion:
+            //
+            //    The integral:
+            //
+            //      integral ( -oo <= x <= +oo ) f(x) exp ( - x * x ) dx
+            //
+            //    The quadrature rule:
+            //
+            //      sum ( 1 <= i <= n ) w(i) * f ( x(i) )
+            //
+            //    A nested family of rules for the Hermite integration problem
+            //    was produced by Genz and Keister.  The structure of the nested
+            //    family was denoted by 1+2+6+10+?, that is, it comprised rules
+            //    of successive orders O = 1, 3, 9, 19, and a final rule of order
+            //    35, 37, 41 or 43.
+            //
+            //    The precisions of these rules are P = 1, 5, 15, 29, 
+            //    with the final rule of precision 51, 55, 63 or 67.
+            //
+            //    Three related families begin the same way, but end with a different final
+            //    rule.  As a convenience, this function includes these final rules as well:
+            //
+            //    Designation  Orders       Precisions
+            //
+            //    1+2+6+10+16, 1,3,9,19,35  1,5,15,29,51
+            //    1+2+6+10+18  1,3,9,19,37  1,5,15,29,55
+            //    1+2+6+10+22  1,3,9,19,41  1,5,15,29,63
+            //    1+2+6+10+24  1,3,9,19,43  1,5,15,29,67
+            //
+            //    Some of the data in this function was kindly supplied directly by
+            //    Alan Genz on 24 April 2011.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    04 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Alan Genz, Bradley Keister,
+            //    Fully symmetric interpolatory rules for multiple integrals
+            //    over infinite regions with Gaussian weight,
+            //    Journal of Computational and Applied Mathematics,
+            //    Volume 71, 1996, pages 299-309
+            //
+            //    Florian Heiss, Viktor Winschel,
+            //    Likelihood approximation by numerical integration on sparse grids,
+            //    Journal of Econometrics,
+            //    Volume 144, 2008, pages 62-80.
+            //
+            //    Thomas Patterson,
+            //    The Optimal Addition of Points to Quadrature Formulae,
+            //    Mathematics of Computation,
+            //    Volume 22, Number 104, October 1968, pages 847-856.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order.
+            //    N must be 1, 3, 9, 19, 35, 37, 41, or 43.
+            //
+            //    Output, double X[N], the abscissas.
+            //
+        {
+            if (n == 1)
+            {
+                x[0] = 0.0000000000000000E+00;
+            }
+            else if (n == 3)
+            {
+                x[0] = -1.2247448713915889E+00;
+                x[1] = 0.0000000000000000E+00;
+                x[2] = 1.2247448713915889E+00;
+            }
+            else if (n == 9)
+            {
+                x[0] = -2.9592107790638380E+00;
+                x[1] = -2.0232301911005157E+00;
+                x[2] = -1.2247448713915889E+00;
+                x[3] = -5.2403354748695763E-01;
+                x[4] = 0.0000000000000000E+00;
+                x[5] = 5.2403354748695763E-01;
+                x[6] = 1.2247448713915889E+00;
+                x[7] = 2.0232301911005157E+00;
+                x[8] = 2.9592107790638380E+00;
+            }
+            else if (n == 19)
+            {
+                x[0] = -4.4995993983103881E+00;
+                x[1] = -3.6677742159463378E+00;
+                x[2] = -2.9592107790638380E+00;
+                x[3] = -2.2665132620567876E+00;
+                x[4] = -2.0232301911005157E+00;
+                x[5] = -1.8357079751751868E+00;
+                x[6] = -1.2247448713915889E+00;
+                x[7] = -8.7004089535290285E-01;
+                x[8] = -5.2403354748695763E-01;
+                x[9] = 0.0000000000000000E+00;
+                x[10] = 5.2403354748695763E-01;
+                x[11] = 8.7004089535290285E-01;
+                x[12] = 1.2247448713915889E+00;
+                x[13] = 1.8357079751751868E+00;
+                x[14] = 2.0232301911005157E+00;
+                x[15] = 2.2665132620567876E+00;
+                x[16] = 2.9592107790638380E+00;
+                x[17] = 3.6677742159463378E+00;
+                x[18] = 4.4995993983103881E+00;
+            }
+            else if (n == 35)
+            {
+                x[0] = -6.3759392709822356E+00;
+                x[1] = -5.6432578578857449E+00;
+                x[2] = -5.0360899444730940E+00;
+                x[3] = -4.4995993983103881E+00;
+                x[4] = -4.0292201405043713E+00;
+                x[5] = -3.6677742159463378E+00;
+                x[6] = -3.3491639537131945E+00;
+                x[7] = -2.9592107790638380E+00;
+                x[8] = -2.5705583765842968E+00;
+                x[9] = -2.2665132620567876E+00;
+                x[10] = -2.0232301911005157E+00;
+                x[11] = -1.8357079751751868E+00;
+                x[12] = -1.5794121348467671E+00;
+                x[13] = -1.2247448713915889E+00;
+                x[14] = -8.7004089535290285E-01;
+                x[15] = -5.2403354748695763E-01;
+                x[16] = -1.7606414208200893E-01;
+                x[17] = 0.0000000000000000E+00;
+                x[18] = 1.7606414208200893E-01;
+                x[19] = 5.2403354748695763E-01;
+                x[20] = 8.7004089535290285E-01;
+                x[21] = 1.2247448713915889E+00;
+                x[22] = 1.5794121348467671E+00;
+                x[23] = 1.8357079751751868E+00;
+                x[24] = 2.0232301911005157E+00;
+                x[25] = 2.2665132620567876E+00;
+                x[26] = 2.5705583765842968E+00;
+                x[27] = 2.9592107790638380E+00;
+                x[28] = 3.3491639537131945E+00;
+                x[29] = 3.6677742159463378E+00;
+                x[30] = 4.0292201405043713E+00;
+                x[31] = 4.4995993983103881E+00;
+                x[32] = 5.0360899444730940E+00;
+                x[33] = 5.6432578578857449E+00;
+                x[34] = 6.3759392709822356E+00;
+            }
+            else if (n == 37)
+            {
+                x[0] = -6.853200069757519;
+                x[1] = -6.124527854622158;
+                x[2] = -5.521865209868350;
+                x[3] = -4.986551454150765;
+                x[4] = -4.499599398310388;
+                x[5] = -4.057956316089741;
+                x[6] = -3.667774215946338;
+                x[7] = -3.315584617593290;
+                x[8] = -2.959210779063838;
+                x[9] = -2.597288631188366;
+                x[10] = -2.266513262056788;
+                x[11] = -2.023230191100516;
+                x[12] = -1.835707975175187;
+                x[13] = -1.561553427651873;
+                x[14] = -1.224744871391589;
+                x[15] = -0.870040895352903;
+                x[16] = -0.524033547486958;
+                x[17] = -0.214618180588171;
+                x[18] = 0.000000000000000;
+                x[19] = 0.214618180588171;
+                x[20] = 0.524033547486958;
+                x[21] = 0.870040895352903;
+                x[22] = 1.224744871391589;
+                x[23] = 1.561553427651873;
+                x[24] = 1.835707975175187;
+                x[25] = 2.023230191100516;
+                x[26] = 2.266513262056788;
+                x[27] = 2.597288631188366;
+                x[28] = 2.959210779063838;
+                x[29] = 3.315584617593290;
+                x[30] = 3.667774215946338;
+                x[31] = 4.057956316089741;
+                x[32] = 4.499599398310388;
+                x[33] = 4.986551454150765;
+                x[34] = 5.521865209868350;
+                x[35] = 6.124527854622158;
+                x[36] = 6.853200069757519;
+            }
+            else if (n == 41)
+            {
+                x[0] = -7.251792998192644;
+                x[1] = -6.547083258397540;
+                x[2] = -5.961461043404500;
+                x[3] = -5.437443360177798;
+                x[4] = -4.953574342912980;
+                x[5] = -4.4995993983103881;
+                x[6] = -4.070919267883068;
+                x[7] = -3.6677742159463378;
+                x[8] = -3.296114596212218;
+                x[9] = -2.9592107790638380;
+                x[10] = -2.630415236459871;
+                x[11] = -2.2665132620567876;
+                x[12] = -2.043834754429505;
+                x[13] = -2.0232301911005157;
+                x[14] = -1.8357079751751868;
+                x[15] = -1.585873011819188;
+                x[16] = -1.2247448713915889;
+                x[17] = -0.87004089535290285;
+                x[18] = -0.52403354748695763;
+                x[19] = -0.195324784415805;
+                x[20] = 0.0000000000000000;
+                x[21] = 0.195324784415805;
+                x[22] = 0.52403354748695763;
+                x[23] = 0.87004089535290285;
+                x[24] = 1.2247448713915889;
+                x[25] = 1.585873011819188;
+                x[26] = 1.8357079751751868;
+                x[27] = 2.0232301911005157;
+                x[28] = 2.043834754429505;
+                x[29] = 2.2665132620567876;
+                x[30] = 2.630415236459871;
+                x[31] = 2.9592107790638380;
+                x[32] = 3.296114596212218;
+                x[33] = 3.6677742159463378;
+                x[34] = 4.070919267883068;
+                x[35] = 4.4995993983103881;
+                x[36] = 4.953574342912980;
+                x[37] = 5.437443360177798;
+                x[38] = 5.961461043404500;
+                x[39] = 6.547083258397540;
+                x[40] = 7.251792998192644;
+            }
+            else if (n == 43)
+            {
+                x[0] = -10.167574994881873;
+                x[1] = -7.231746029072501;
+                x[2] = -6.535398426382995;
+                x[3] = -5.954781975039809;
+                x[4] = -5.434053000365068;
+                x[5] = -4.952329763008589;
+                x[6] = -4.4995993983103881;
+                x[7] = -4.071335874253583;
+                x[8] = -3.6677742159463378;
+                x[9] = -3.295265921534226;
+                x[10] = -2.9592107790638380;
+                x[11] = -2.633356763661946;
+                x[12] = -2.2665132620567876;
+                x[13] = -2.089340389294661;
+                x[14] = -2.0232301911005157;
+                x[15] = -1.8357079751751868;
+                x[16] = -1.583643465293944;
+                x[17] = -1.2247448713915889;
+                x[18] = -0.87004089535290285;
+                x[19] = -0.52403354748695763;
+                x[20] = -0.196029453662011;
+                x[21] = 0.0000000000000000;
+                x[22] = 0.196029453662011;
+                x[23] = 0.52403354748695763;
+                x[24] = 0.87004089535290285;
+                x[25] = 1.2247448713915889;
+                x[26] = 1.583643465293944;
+                x[27] = 1.8357079751751868;
+                x[28] = 2.0232301911005157;
+                x[29] = 2.089340389294661;
+                x[30] = 2.2665132620567876;
+                x[31] = 2.633356763661946;
+                x[32] = 2.9592107790638380;
+                x[33] = 3.295265921534226;
+                x[34] = 3.6677742159463378;
+                x[35] = 4.071335874253583;
+                x[36] = 4.4995993983103881;
+                x[37] = 4.952329763008589;
+                x[38] = 5.434053000365068;
+                x[39] = 5.954781975039809;
+                x[40] = 6.535398426382995;
+                x[41] = 7.231746029072501;
+                x[42] = 10.167574994881873;
+            }
+            else
+            {
+                Console.WriteLine("");
+                Console.WriteLine("HERMITE_GENZ_KEISTER_LOOKUP_POINTS - Fatal error!");
+                Console.WriteLine("  Illegal input value of N.");
+                Console.WriteLine("  N must be 1, 3, 9, 19, 35, 37, 41 or 43.");
+            }
+        }
+
+        public static double[] hermite_genz_keister_lookup_points_np(int n, int np, double[] p,
+                double[] x)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    HERMITE_GENZ_KEISTER_LOOKUP_POINTS_NP looks up Genz-Keister Hermite abscissas.
+            //
+            //  Discussion:
+            //
+            //    The integral:
+            //
+            //      integral ( -oo <= x <= +oo ) f(x) exp ( - x * x ) dx
+            //
+            //    The quadrature rule:
+            //
+            //      sum ( 1 <= i <= n ) w(i) * f ( x(i) )
+            //
+            //    A nested family of rules for the Hermite integration problem
+            //    was produced by Genz and Keister.  The structure of the nested
+            //    family was denoted by 1+2+6+10+?, that is, it comprised rules
+            //    of successive orders O = 1, 3, 9, 19, and a final rule of order
+            //    35, 37, 41 or 43.
+            //
+            //    The precisions of these rules are P = 1, 5, 15, 29, 
+            //    with the final rule of precision 51, 55, 63 or 67.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    04 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Alan Genz, Bradley Keister,
+            //    Fully symmetric interpolatory rules for multiple integrals
+            //    over infinite regions with Gaussian weight,
+            //    Journal of Computational and Applied Mathematics,
+            //    Volume 71, 1996, pages 299-309
+            //
+            //    Florian Heiss, Viktor Winschel,
+            //    Likelihood approximation by numerical integration on sparse grids,
+            //    Journal of Econometrics,
+            //    Volume 144, 2008, pages 62-80.
+            //
+            //    Thomas Patterson,
+            //    The Optimal Addition of Points to Quadrature Formulae,
+            //    Mathematics of Computation,
+            //    Volume 22, Number 104, October 1968, pages 847-856.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order.
+            //    N must be 1, 3, 9, 19, 35, 37, 41 or 43.
+            //
+            //    Input, int NP, the number of parameters.
+            //
+            //    Input, double P[NP], parameters which are not needed by this function.
+            //
+            //    Output, double X[N], the abscissas.
+            //
+        {
+            hermite_genz_keister_lookup_points(n, ref x);
+
+            return x;
+        }
+
+        public static void hermite_genz_keister_lookup_weights(int n, ref double[] w)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    HERMITE_GENZ_KEISTER_LOOKUP_WEIGHTS looks up Genz-Keister Hermite weights.
+            //
+            //  Discussion:
+            //
+            //    The integral:
+            //
+            //      integral ( -oo <= x <= +oo ) f(x) exp ( - x * x ) dx
+            //
+            //    The quadrature rule:
+            //
+            //      sum ( 1 <= i <= n ) w(i) * f ( x(i) )
+            //
+            //    A nested family of rules for the Hermite integration problem
+            //    was produced by Genz and Keister.  The structure of the nested
+            //    family was denoted by 1+2+6+10+?, that is, it comprised rules
+            //    of successive orders O = 1, 3, 9, 19, and a final rule of order
+            //    35, 37, 41 or 43.
+            //
+            //    The precisions of these rules are P = 1, 5, 15, 29, 
+            //    with the final rule of precision 51, 55, 63 or 67.
+            //
+            //    Three related families begin the same way, but end with a different final
+            //    rule.  As a convenience, this function includes these final rules as well:
+            //
+            //    Designation  Orders       Precisions
+            //
+            //    1+2+6+10+16, 1,3,9,19,35  1,5,15,29,51
+            //    1+2+6+10+18  1,3,9,19,37  1,5,15,29,55
+            //    1+2+6+10+22  1,3,9,19,41  1,5,15,29,63
+            //    1+2+6+10+24  1,3,9,19,43  1,5,15,29,67
+            //
+            //    Some of the data in this function was kindly supplied directly by
+            //    Alan Genz on 24 April 2011.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    04 October 2011
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Alan Genz, Bradley Keister,
+            //    Fully symmetric interpolatory rules for multiple integrals
+            //    over infinite regions with Gaussian weight,
+            //    Journal of Computational and Applied Mathematics,
+            //    Volume 71, 1996, pages 299-309
+            //
+            //    Florian Heiss, Viktor Winschel,
+            //    Likelihood approximation by numerical integration on sparse grids,
+            //    Journal of Econometrics,
+            //    Volume 144, 2008, pages 62-80.
+            //
+            //    Thomas Patterson,
+            //    The Optimal Addition of Points to Quadrature Formulae,
+            //    Mathematics of Computation,
+            //    Volume 22, Number 104, October 1968, pages 847-856.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order.
+            //    N must be 1, 3, 9, 19, 35, 37, 41, or 43.
+            //
+            //    Output, double W[N], the weights.
+            //
+        {
+            if (n == 1)
+            {
+                w[0] = 1.7724538509055159E+00;
+            }
+            else if (n == 3)
+            {
+                w[0] = 2.9540897515091930E-01;
+                w[1] = 1.1816359006036772E+00;
+                w[2] = 2.9540897515091930E-01;
+            }
+            else if (n == 9)
+            {
+                w[0] = 1.6708826306882348E-04;
+                w[1] = 1.4173117873979098E-02;
+                w[2] = 1.6811892894767771E-01;
+                w[3] = 4.7869428549114124E-01;
+                w[4] = 4.5014700975378197E-01;
+                w[5] = 4.7869428549114124E-01;
+                w[6] = 1.6811892894767771E-01;
+                w[7] = 1.4173117873979098E-02;
+                w[8] = 1.6708826306882348E-04;
+            }
+            else if (n == 19)
+            {
+                w[0] = 1.5295717705322357E-09;
+                w[1] = 1.0802767206624762E-06;
+                w[2] = 1.0656589772852267E-04;
+                w[3] = 5.1133174390883855E-03;
+                w[4] = -1.1232438489069229E-02;
+                w[5] = 3.2055243099445879E-02;
+                w[6] = 1.1360729895748269E-01;
+                w[7] = 1.0838861955003017E-01;
+                w[8] = 3.6924643368920851E-01;
+                w[9] = 5.3788160700510168E-01;
+                w[10] = 3.6924643368920851E-01;
+                w[11] = 1.0838861955003017E-01;
+                w[12] = 1.1360729895748269E-01;
+                w[13] = 3.2055243099445879E-02;
+                w[14] = -1.1232438489069229E-02;
+                w[15] = 5.1133174390883855E-03;
+                w[16] = 1.0656589772852267E-04;
+                w[17] = 1.0802767206624762E-06;
+                w[18] = 1.5295717705322357E-09;
+            }
+            else if (n == 35)
+            {
+                w[0] = 1.8684014894510604E-18;
+                w[1] = 9.6599466278563243E-15;
+                w[2] = 5.4896836948499462E-12;
+                w[3] = 8.1553721816916897E-10;
+                w[4] = 3.7920222392319532E-08;
+                w[5] = 4.3737818040926989E-07;
+                w[6] = 4.8462799737020461E-06;
+                w[7] = 6.3328620805617891E-05;
+                w[8] = 4.8785399304443770E-04;
+                w[9] = 1.4515580425155904E-03;
+                w[10] = 4.0967527720344047E-03;
+                w[11] = 5.5928828911469180E-03;
+                w[12] = 2.7780508908535097E-02;
+                w[13] = 8.0245518147390893E-02;
+                w[14] = 1.6371221555735804E-01;
+                w[15] = 2.6244871488784277E-01;
+                w[16] = 3.3988595585585218E-01;
+                w[17] = 9.1262675363737921E-04;
+                w[18] = 3.3988595585585218E-01;
+                w[19] = 2.6244871488784277E-01;
+                w[20] = 1.6371221555735804E-01;
+                w[21] = 8.0245518147390893E-02;
+                w[22] = 2.7780508908535097E-02;
+                w[23] = 5.5928828911469180E-03;
+                w[24] = 4.0967527720344047E-03;
+                w[25] = 1.4515580425155904E-03;
+                w[26] = 4.8785399304443770E-04;
+                w[27] = 6.3328620805617891E-05;
+                w[28] = 4.8462799737020461E-06;
+                w[29] = 4.3737818040926989E-07;
+                w[30] = 3.7920222392319532E-08;
+                w[31] = 8.1553721816916897E-10;
+                w[32] = 5.4896836948499462E-12;
+                w[33] = 9.6599466278563243E-15;
+                w[34] = 1.8684014894510604E-18;
+            }
+            else if (n == 37)
+            {
+                w[0] = 0.337304188079177058E-20;
+                w[1] = 0.332834739632930463E-16;
+                w[2] = 0.323016866782871498E-13;
+                w[3] = 0.809333688669950037E-11;
+                w[4] = 0.748907559239519284E-09;
+                w[5] = 0.294146671497083432E-07;
+                w[6] = 0.524482423744884136E-06;
+                w[7] = 0.586639457073896277E-05;
+                w[8] = 0.571885531470621903E-04;
+                w[9] = 0.41642095727577091E-03;
+                w[10] = 0.174733389581099482E-02;
+                w[11] = 0.313373786000304381E-02;
+                w[12] = 0.768092665770660459E-02;
+                w[13] = 0.274962713372148476E-01;
+                w[14] = 0.783630990508037449E-01;
+                w[15] = 0.16611584261479281E+00;
+                w[16] = 0.253636910481387185E+00;
+                w[17] = 0.261712932511430884E+00;
+                w[18] = 0.171719680968980257E+00;
+                w[19] = 0.261712932511430884E+00;
+                w[20] = 0.253636910481387185E+00;
+                w[21] = 0.16611584261479281E+00;
+                w[22] = 0.783630990508037449E-01;
+                w[23] = 0.274962713372148476E-01;
+                w[24] = 0.768092665770660459E-02;
+                w[25] = 0.313373786000304381E-02;
+                w[26] = 0.174733389581099482E-02;
+                w[27] = 0.41642095727577091E-03;
+                w[28] = 0.571885531470621903E-04;
+                w[29] = 0.586639457073896277E-05;
+                w[30] = 0.524482423744884136E-06;
+                w[31] = 0.294146671497083432E-07;
+                w[32] = 0.748907559239519284E-09;
+                w[33] = 0.809333688669950037E-11;
+                w[34] = 0.323016866782871498E-13;
+                w[35] = 0.332834739632930463E-16;
+                w[36] = 0.337304188079177058E-20;
+            }
+            else if (n == 41)
+            {
+                w[0] = 0.117725656974405367E-22;
+                w[1] = 0.152506745534300636E-18;
+                w[2] = 0.202183949965101288E-15;
+                w[3] = 0.724614869051195508E-13;
+                w[4] = 0.103121966469463034E-10;
+                w[5] = 0.710371395169350952E-09;
+                w[6] = 0.264376044449260516E-07;
+                w[7] = 0.558982787078644997E-06;
+                w[8] = 0.675628907134744976E-05;
+                w[9] = 0.512198007019776873E-04;
+                w[10] = 0.335013114947200879E-03;
+                w[11] = 0.249379691096933139E-02;
+                w[12] = -0.25616995850607458E-01;
+                w[13] = 0.317007878644325588E-01;
+                w[14] = 0.125041498584003435E-02;
+                w[15] = 0.293244560924894295E-01;
+                w[16] = 0.799536390803302298E-01;
+                w[17] = 0.164543666806555251E+00;
+                w[18] = 0.258718519718241095E+00;
+                w[19] = 0.293588795735908566E+00;
+                w[20] = 0.997525375254611951E-01;
+                w[21] = 0.293588795735908566E+00;
+                w[22] = 0.258718519718241095E+00;
+                w[23] = 0.164543666806555251E+00;
+                w[24] = 0.799536390803302298E-01;
+                w[25] = 0.293244560924894295E-01;
+                w[26] = 0.125041498584003435E-02;
+                w[27] = 0.317007878644325588E-01;
+                w[28] = -0.25616995850607458E-01;
+                w[29] = 0.249379691096933139E-02;
+                w[30] = 0.335013114947200879E-03;
+                w[31] = 0.512198007019776873E-04;
+                w[32] = 0.675628907134744976E-05;
+                w[33] = 0.558982787078644997E-06;
+                w[34] = 0.264376044449260516E-07;
+                w[35] = 0.710371395169350952E-09;
+                w[36] = 0.103121966469463034E-10;
+                w[37] = 0.724614869051195508E-13;
+                w[38] = 0.202183949965101288E-15;
+                w[39] = 0.152506745534300636E-18;
+                w[40] = 0.117725656974405367E-22;
+            }
+            else if (n == 43)
+            {
+                w[0] = 0.968100020641528185E-37;
+                w[1] = 0.15516931262860431E-22;
+                w[2] = 0.175937309107750992E-18;
+                w[3] = 0.217337608710893738E-15;
+                w[4] = 0.747837010380540069E-13;
+                w[5] = 0.104028132097205732E-10;
+                w[6] = 0.70903573389336778E-09;
+                w[7] = 0.263481722999966618E-07;
+                w[8] = 0.560127964848432175E-06;
+                w[9] = 0.680410934802210232E-05;
+                w[10] = 0.508343873102544037E-04;
+                w[11] = 0.32753080006610181E-03;
+                w[12] = 0.267479828788552937E-02;
+                w[13] = -0.687704270963253854E-02;
+                w[14] = 0.119383201790913588E-01;
+                w[15] = 0.248083722871002796E-02;
+                w[16] = 0.29000335749726387E-01;
+                w[17] = 0.798689557875757008E-01;
+                w[18] = 0.164609842422580606E+00;
+                w[19] = 0.258535954731607738E+00;
+                w[20] = 0.292243810406117141E+00;
+                w[21] = 0.102730713753441829E+00;
+                w[22] = 0.292243810406117141E+00;
+                w[23] = 0.258535954731607738E+00;
+                w[24] = 0.164609842422580606E+00;
+                w[25] = 0.798689557875757008E-01;
+                w[26] = 0.29000335749726387E-01;
+                w[27] = 0.248083722871002796E-02;
+                w[28] = 0.119383201790913588E-01;
+                w[29] = -0.687704270963253854E-02;
+                w[30] = 0.267479828788552937E-02;
+                w[31] = 0.32753080006610181E-03;
+                w[32] = 0.508343873102544037E-04;
+                w[33] = 0.680410934802210232E-05;
+                w[34] = 0.560127964848432175E-06;
+                w[35] = 0.263481722999966618E-07;
+                w[36] = 0.70903573389336778E-09;
+                w[37] = 0.104028132097205732E-10;
+                w[38] = 0.747837010380540069E-13;
+                w[39] = 0.217337608710893738E-15;
+                w[40] = 0.175937309107750992E-18;
+                w[41] = 0.15516931262860431E-22;
+                w[42] = 0.968100020641528185E-37;
+            }
+            else
+            {
+                Console.WriteLine("");
+                Console.WriteLine("HERMITE_GENZ_KEISTER_LOOKUP_WEIGHTS - Fatal error!");
+                Console.WriteLine("  Illegal input value of N.");
+                Console.WriteLine("  N must be 1, 3, 9, 19, 35, 37, 41 or 43.");
+            }
+        }
+
+        public static double[] hermite_genz_keister_lookup_weights_np ( int n, int np, double[] p,
+        double[] w )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    HERMITE_GENZ_KEISTER_LOOKUP_WEIGHTS_NP looks up Genz-Keister Hermite weights.
+        //
+        //  Discussion:
+        //
+        //    The integral:
+        //
+        //      integral ( -oo <= x <= +oo ) f(x) exp ( - x * x ) dx
+        //
+        //    The quadrature rule:
+        //
+        //      sum ( 1 <= i <= n ) w(i) * f ( x(i) )
+        //
+        //    A nested family of rules for the Hermite integration problem
+        //    was produced by Genz and Keister.  The structure of the nested
+        //    family was denoted by 1+2+6+10+?, that is, it comprised rules
+        //    of successive orders O = 1, 3, 9, 19, and a final rule of order
+        //    35, 37, 41 or 43.
+        //
+        //    The precisions of these rules are P = 1, 5, 15, 29, 
+        //    with the final rule of precision 51, 55, 63 or 67.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    04 October 2011
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Reference:
+        //
+        //    Alan Genz, Bradley Keister,
+        //    Fully symmetric interpolatory rules for multiple integrals
+        //    over infinite regions with Gaussian weight,
+        //    Journal of Computational and Applied Mathematics,
+        //    Volume 71, 1996, pages 299-309
+        //
+        //    Florian Heiss, Viktor Winschel,
+        //    Likelihood approximation by numerical integration on sparse grids,
+        //    Journal of Econometrics,
+        //    Volume 144, 2008, pages 62-80.
+        //
+        //    Thomas Patterson,
+        //    The Optimal Addition of Points to Quadrature Formulae,
+        //    Mathematics of Computation,
+        //    Volume 22, Number 104, October 1968, pages 847-856.
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order.
+        //    N must be 1, 3, 9, 19, 35, 37, 41 or 43.
+        //
+        //    Input, int NP, the number of parameters.
+        //
+        //    Input, double P[NP], parameters which are not needed by this function.
+        //
+        //    Output, double W[N], the weights.
+        //
+        {
+            hermite_genz_keister_lookup_weights ( n, ref w );
+
+            return w;
+        }
+        
 
         public static void hermite_weights(int order, ref double[] weight)
 
@@ -1574,6 +2550,76 @@ namespace Burkardt.Quadrature
             ClenshawCurtis.clenshaw_curtis_compute_points ( nhalf, ref xhalf );
             typeMethods.r8vec_stutter ( nhalf, xhalf, 2, ref x );
             hc_compute_weights_from_points ( nhalf, xhalf, ref w );
+        }
+        
+        public static void hermite_compute_points ( int order, ref double[] x )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    HERMITE_COMPUTE_POINTS computes Hermite quadrature points.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    13 June 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int ORDER, the order.
+            //
+            //    Output, double X[ORDER], the abscissas.
+            //
+        {
+            double[] w;
+
+            w = new double[order];
+
+            hermite_compute ( order, ref x, ref w );
+        }
+
+        public static double[] hermite_compute_points_np ( int order, int np, double[] p, double[] x )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    HERMITE_COMPUTE_POINTS_NP computes Hermite quadrature points.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    22 June 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int ORDER, the order.
+        //
+        //    Input, int NP, the number of parameters.
+        //
+        //    Input, double P[NP], parameters which are not needed by this function.
+        //
+        //    Output, double X[ORDER], the abscissas.
+        //
+        {
+            hermite_compute_points ( order, ref x );
+
+            return x;
         }
         
         public static void hcc_compute_weights ( int n, ref double[] w )

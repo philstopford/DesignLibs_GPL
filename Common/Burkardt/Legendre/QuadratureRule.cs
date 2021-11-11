@@ -919,8 +919,146 @@ namespace Burkardt.Legendre
                 xtab[i - 1] = -xtab[order - i];
                 weight[i - 1] = weight[order - i];
             }
+        }
+        
+        public static void legendre_compute_points ( int n, ref double[] x )
 
-            return;
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    LEGENDRE_COMPUTE_POINTS computes Legendre quadrature points.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    13 June 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order.
+            //
+            //    Output, double X[N], the abscissas.
+            //
+        {
+            double[] w;
+
+            w= new double[n];
+
+            legendre_compute ( n, ref x, ref w );
+        }
+
+        public static double[] legendre_compute_points_np ( int n, int np, double[] p, double[] x )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    LEGENDRE_COMPUTE_POINTS_NP computes Legendre quadrature points.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    22 June 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order.
+        //
+        //    Input, int NP, the number of parameters.
+        //
+        //    Input, double P[NP], parameters which are not needed by this function.
+        //
+        //    Output, double X[N], the abscissas.
+        //
+        {
+            legendre_compute_points ( n, ref x );
+
+            return x;
+        }
+        
+        public static void legendre_compute_weights ( int n, ref double[] w )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    LEGENDRE_COMPUTE_WEIGHTS computes Legendre quadrature weights.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    13 June 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order.
+            //
+            //    Output, double W[N], the weights.
+            //
+        {
+            double[] x;
+
+            x = new double[n];
+
+            legendre_compute ( n, ref x, ref w );
+        }
+
+        public static double[] legendre_compute_weights_np ( int n, int np, double[] p, double[] w )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    LEGENDRE_COMPUTE_WEIGHTS_NP computes Legendre quadrature weights.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    22 June 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order.
+        //
+        //    Input, int NP, the number of parameters.
+        //
+        //    Input, double P[NP], parameters which are not needed by this function.
+        //
+        //    Output, double W[N], the weights.
+        //
+        {
+            legendre_compute_weights ( n, ref w );
+
+            return w;
         }
 
         public static void legendre_ek_compute(int n, ref double[] x, ref double[] w)

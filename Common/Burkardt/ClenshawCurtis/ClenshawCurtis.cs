@@ -599,7 +599,143 @@ namespace Burkardt.ClenshawCurtisNS
                 x[n-1] = +1.0;
             }
         }
-        
+
+        public static void clenshaw_curtis_compute_weights(int n, ref double[] w)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    CLENSHAW_CURTIS_COMPUTE_WEIGHTS computes Clenshaw Curtis quadrature weights.
+            //
+            //  Discussion:
+            //
+            //    The user must preallocate space for the output array W.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    13 June 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Charles Clenshaw, Alan Curtis,
+            //    A Method for Numerical Integration on an Automatic Computer,
+            //    Numerische Mathematik,
+            //    Volume 2, Number 1, December 1960, pages 197-205.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order.
+            //
+            //    Output, double W[N], the weights.
+            //
+        {
+            double b;
+            int i;
+            int j;
+            double theta;
+
+            if (n < 1)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("CLENSHAW_CURTIS_COMPUTE_WEIGHTS - Fatal error!");
+                Console.WriteLine("  N < 1.");
+                return;
+            }
+            else if (n == 1)
+            {
+                w[0] = 2.0;
+                return;
+            }
+
+            for (i = 1; i <= n; i++)
+            {
+                theta = (double) (i - 1) * Math.PI / (double) (n - 1);
+
+                w[i - 1] = 1.0;
+
+                for (j = 1; j <= (n - 1) / 2; j++)
+                {
+                    if (2 * j == (n - 1))
+                    {
+                        b = 1.0;
+                    }
+                    else
+                    {
+                        b = 2.0;
+                    }
+
+                    w[i - 1] = w[i - 1] - b * Math.Cos(2.0 * (double) (j) * theta)
+                        / (double) (4 * j * j - 1);
+                }
+            }
+
+            w[0] = w[0] / (double) (n - 1);
+            for (i = 1; i < n - 1; i++)
+            {
+                w[i] = 2.0 * w[i] / (double) (n - 1);
+            }
+
+            w[n - 1] = w[n - 1] / (double) (n - 1);
+
+            return;
+        }
+
+        public static double[] clenshaw_curtis_compute_weights_np(int n, int np, double[] p,
+                double[] w)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    CLENSHAW_CURTIS_COMPUTE_WEIGHTS_NP: Clenshaw Curtis quadrature weights.
+            //
+            //  Discussion:
+            //
+            //    The user must preallocate space for the output array W.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    22 June 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Reference:
+            //
+            //    Charles Clenshaw, Alan Curtis,
+            //    A Method for Numerical Integration on an Automatic Computer,
+            //    Numerische Mathematik,
+            //    Volume 2, Number 1, December 1960, pages 197-205.
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the order.
+            //
+            //    Input, int NP, the number of parameters.
+            //
+            //    Input, double P[NP], parameters which are not needed by this function.
+            //
+            //    Output, double W[N], the weights.
+            //
+        {
+            clenshaw_curtis_compute_weights(n, ref w);
+            return w;
+        }
+
         public static int index_to_level_closed(int dim_num, int[] t, int order, int level_max, int tIndex = 0)
 
             //****************************************************************************80
@@ -1011,6 +1147,48 @@ namespace Burkardt.ClenshawCurtisNS
 
                 x[n - 1] = +1.0;
             }
+
+            return x;
+        }
+        
+        public static double[] clenshaw_curtis_compute_points_np ( int n, int np, double[] p, double[] x )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    CLENSHAW_CURTIS_COMPUTE_POINTS_NP: Clenshaw Curtis quadrature points.
+        //
+        //  Discussion:
+        //
+        //    Our convention is that the abscissas are numbered from left to right.
+        //
+        //    This rule is defined on [-1,1].
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    22 June 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int N, the order.
+        //
+        //    Input, int NP, the number of parameters.
+        //
+        //    Input, double P[NP], parameters which are not needed by this function.
+        //
+        //    Output, double X[N], the abscissas.
+        //
+        {
+            clenshaw_curtis_compute_points ( n, ref x );
 
             return x;
         }

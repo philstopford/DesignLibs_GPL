@@ -380,7 +380,7 @@ namespace Burkardt.Quadrature
             }
         }
 
-        public static void fejer2_compute_points_np ( int n, int np, double[] p, ref double[] x )
+        public static double[] fejer2_compute_points_np ( int n, int np, double[] p, double[] x )
 
         //****************************************************************************80
         //
@@ -419,6 +419,8 @@ namespace Burkardt.Quadrature
         //
         {
             fejer2_compute_points ( n, ref x );
+
+            return x;
         }
 
         public static void fejer2_compute_weights(int n, ref double[] w)
@@ -519,7 +521,7 @@ namespace Burkardt.Quadrature
             }
         }
 
-        public static void fejer2_compute_weights_np ( int n, int np, double[] p, ref double[] w )
+        public static double[] fejer2_compute_weights_np ( int n, int np, double[] p, double[] w )
 
         //****************************************************************************80
         //
@@ -574,6 +576,8 @@ namespace Burkardt.Quadrature
         //
         {
             fejer2_compute_weights ( n, ref w );
+
+            return w;
         }
         
         

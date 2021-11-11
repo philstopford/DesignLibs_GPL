@@ -105,6 +105,51 @@ namespace Burkardt.Quadrature
             jacobi_compute ( order, alpha, beta, ref x, ref w );
         }
         
+        public static double[] jacobi_compute_points_np ( int order, int np, double[] p, double[] x )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    JACOBI_COMPUTE_POINTS_NP computes Jacobi quadrature points.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    22 June 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int ORDER, the order.
+        //
+        //    Input, int NP, the number of parameters.
+        //
+        //    Input, double P[NP], parameter values.
+        //    P[0] = ALPHA, the exponent of (1-X)
+        //    P[1] = BETA,  the exponent of (1+X).
+        //    -1.0 < ALPHA and -1.0 < BETA are required.
+        //
+        //    Output, double X[ORDER], the abscissas.
+        //
+        {
+            double alpha;
+            double beta;
+
+            alpha = p[0];
+            beta = p[1];
+
+            jacobi_compute_points ( order, alpha, beta, ref x );
+
+            return x;
+        }
+        
         public static ParameterData jacobi_weights(Func<ParameterData, int, int, ParameterData> parameter, ParameterData data, int n, int dim, ref double[] w)
 
             //****************************************************************************80
@@ -189,6 +234,51 @@ namespace Burkardt.Quadrature
             x = new double[order];
 
             jacobi_compute ( order, alpha, beta, ref x, ref w );
+        }
+        
+        public static double[] jacobi_compute_weights_np ( int order, int np, double[] p, double[] w )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    JACOBI_COMPUTE_WEIGHTS_NP computes Jacobi quadrature weights.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    22 June 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int ORDER, the order.
+        //
+        //    Input, int NP, the number of parameters.
+        //
+        //    Input, double P[NP], parameter values.
+        //    P[0] = ALPHA, the exponent of (1-X)
+        //    P[1] = BETA,  the exponent of (1+X).
+        //    -1.0 < ALPHA and -1.0 < BETA are required.
+        //
+        //    Output, double W[ORDER], the weights.
+        //
+        {
+            double alpha;
+            double beta;
+
+            alpha = p[0];
+            beta = p[1];
+
+            jacobi_compute_weights ( order, alpha, beta, ref w );
+
+            return w;
         }
 
         public static void jacobi_handle(int order, double alpha, double beta, string output)

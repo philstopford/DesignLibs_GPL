@@ -2460,7 +2460,7 @@ namespace Burkardt.Quadrature
             }
         }
 
-        public static void patterson_lookup_points_np(int n, int np, double[] p, ref double[] x)
+        public static double[] patterson_lookup_points_np(int n, int np, double[] p, double[] x)
 
             //****************************************************************************80
             //
@@ -2512,6 +2512,8 @@ namespace Burkardt.Quadrature
             //
         {
             patterson_lookup_points(n, ref x);
+
+            return x;
         }
 
         public static void patterson_lookup_weights(int n, ref double[] w)
@@ -3659,7 +3661,7 @@ namespace Burkardt.Quadrature
             }
         }
 
-        public static void patterson_lookup_weights_np(int n, int np, double[] p, ref double[] w)
+        public static double[] patterson_lookup_weights_np(int n, int np, double[] p, double[] w)
 
             //****************************************************************************80
             //
@@ -3713,7 +3715,7 @@ namespace Burkardt.Quadrature
             //
         {
             patterson_lookup_weights(n, ref w);
-
+            return w;
         }
 
         public static void patterson_set(int n, ref double[] x, ref double[] w)

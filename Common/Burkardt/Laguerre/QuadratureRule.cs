@@ -235,6 +235,88 @@ namespace Burkardt.Laguerre
 
             gen_laguerre_compute(order, alpha, ref x, ref w);
         }
+        
+        public static void gen_laguerre_compute_weights ( int order, double alpha, ref double[] w )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    GEN_LAGUERRE_COMPUTE_WEIGHTS: Generalized Laguerre quadrature weights.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    13 June 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int ORDER, the order.
+            //
+            //    Input, double ALPHA, the exponent of the X factor.
+            //    Set ALPHA = 0.0 for the simplest rule.
+            //    ALPHA must be nonnegative.
+            //
+            //    Output, double W[ORDER], the weights.
+            //
+        {
+            double[] x;
+
+            x = new double[order];
+
+            gen_laguerre_compute ( order, alpha, ref x, ref w );
+        }
+
+        public static double[] gen_laguerre_compute_weights_np ( int order, int np, double[] p,
+        double[] w )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    GEN_LAGUERRE_COMPUTE_WEIGHTS_NP: Generalized Laguerre quadrature weights.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    22 June 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int ORDER, the order.
+        //
+        //    Input, int NP, the number of parameters.
+        //
+        //    Input, double P[NP], contains parameters.
+        //    P[0] = ALPHA, the exponent of the X factor.
+        //    Set ALPHA = 0.0 for the simplest rule.
+        //    ALPHA must be nonnegative.
+        //
+        //    Output, double W[ORDER], the weights.
+        //
+        {
+            double alpha;
+
+            alpha = p[0];
+
+            gen_laguerre_compute_weights ( order, alpha, ref w );
+
+            return w;
+        }
 
         public static void gen_laguerre_compute(int n, double alpha, ref double[] x, ref double[] w)
 
@@ -1059,7 +1141,229 @@ namespace Burkardt.Laguerre
                 w[i] = w[i] * w[i];
             }
         }
+        
+        public static void gen_laguerre_compute_points ( int order, double alpha, ref double[] x )
 
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    GEN_LAGUERRE_COMPUTE_POINTS: Generalized Laguerre quadrature points.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    19 March 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int ORDER, the order.
+            //
+            //    Input, double ALPHA, the exponent of the X factor.
+            //    Set ALPHA = 0.0 for the simplest rule.
+            //    ALPHA must be nonnegative.
+            //
+            //    Output, double X[ORDER], the abscissas.
+            //
+        {
+            double[] w;
+
+            w = new double[order];
+
+            gen_laguerre_compute ( order, alpha, ref x, ref w );
+        }
+
+        public static double[] gen_laguerre_compute_points_np ( int order, int np, double[] p,
+        double[] x )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    GEN_LAGUERRE_COMPUTE_POINTS_NP: Generalized Laguerre quadrature points.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    22 June 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int ORDER, the order.
+        //
+        //    Input, int NP, the number of parameters.
+        //
+        //    Input, double P[NP], contains parameters.
+        //    P[0] = ALPHA, the exponent of the X factor.
+        //    Set ALPHA = 0.0 for the simplest rule.
+        //    ALPHA must be nonnegative.
+        //
+        //    Output, double X[ORDER], the abscissas.
+        //
+        {
+            double alpha;
+
+            alpha = p[0];
+
+            gen_laguerre_compute_points ( order, alpha, ref x );
+
+            return x;
+        }
+        
+        public static void laguerre_compute_points ( int order, ref double[] x )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    LAGUERRE_COMPUTE_POINTS computes Laguerre quadrature points.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    13 June 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int ORDER, the order.
+            //
+            //    Output, double X[ORDER], the abscissas.
+            //
+        {
+            double[] w;
+
+            w = new double[order];
+
+            laguerre_compute ( order, ref x, ref w );
+        }
+
+        public static double[] laguerre_compute_points_np ( int order, int np, double[] p, double[] x )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    LAGUERRE_COMPUTE_POINTS_NP computes Laguerre quadrature points.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    22 June 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int ORDER, the order.
+        //
+        //    Input, int NP, the number of parameters.
+        //
+        //    Input, double P[NP], parameters which are not needed by this function.
+        //
+        //    Output, double X[ORDER], the abscissas.
+        //
+        {
+            laguerre_compute_points ( order, ref x );
+
+            return x;
+        }
+
+        public static void laguerre_compute_weights ( int order, ref double[] w )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    LAGUERRE_COMPUTE_WEIGHTS computes Laguerre quadrature weights.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    13 June 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int ORDER, the order.
+            //
+            //    Output, double W[ORDER], the weights.
+            //
+        {
+            double[] x;
+
+            x = new double[order];
+
+            laguerre_compute ( order, ref x, ref w );
+        }
+
+        public static double[] laguerre_compute_weights_np ( int order, int np, double[] p, double[] w )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    LAGUERRE_COMPUTE_WEIGHTS_NP computes Laguerre quadrature weights.
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    22 June 2009
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int ORDER, the order.
+        //
+        //    Input, int NP, the number of parameters.
+        //
+        //    Input, double P[NP], parameters which are not needed by this function.
+        //
+        //    Output, double W[ORDER], the weights.
+        //
+        {
+            laguerre_compute_weights ( order, ref w );
+
+            return w;
+        }
+        
         public static void laguerre_handle(int order, double a, int option, string output)
 
             //****************************************************************************80

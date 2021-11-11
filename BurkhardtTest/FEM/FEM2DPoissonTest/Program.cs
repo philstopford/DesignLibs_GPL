@@ -296,7 +296,7 @@ namespace FEM2DPoissonTest
                     node_label = false;
                 }
 
-                points.points_plot(node_eps_filename, node_num, node_xy, node_label);
+                typeMethods.points_plot(node_eps_filename, node_num, node_xy, node_label);
             }
 
             //

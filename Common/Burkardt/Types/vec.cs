@@ -5,6 +5,88 @@ namespace Burkardt.Types
 {
     public static partial class typeMethods
     {
+        public static void binary_vector_next(int n, ref int[] bvec)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    BINARY_VECTOR_NEXT generates the next binary vector.
+            //
+            //  Discussion:
+            //
+            //    A binary vector is a vector whose entries are 0 or 1.
+            //
+            //    The user inputs an initial zero vector to start.  The program returns
+            //    the "next" vector.
+            //
+            //    The vectors are produced in the order:
+            //
+            //    ( 0, 0, 0, ..., 0 )
+            //    ( 1, 0, 0, ..., 0 )
+            //    ( 0, 1, 0, ..., 0 )
+            //    ( 1, 1, 0, ..., 0 )
+            //    ( 0, 0, 1, ..., 0 )
+            //    ( 1, 0, 1, ..., 0 )
+            //               ...
+            //    ( 1, 1, 1, ..., 1)
+            //
+            //    and the "next" vector after (1,1,...,1) is (0,0,...,0).  That is,
+            //    we allow wrap around.
+            //
+            //  Example:
+            //
+            //    N = 3
+            //
+            //    Input      Output
+            //    -----      ------
+            //    0 0 0  =>  1 0 0
+            //    1 0 0  =>  0 1 0
+            //    0 1 0  =>  1 1 0
+            //    1 1 0  =>  0 0 1
+            //    0 0 1  =>  1 0 1
+            //    1 0 1  =>  0 1 1
+            //    0 1 1  =>  1 1 1
+            //    1 1 1  =>  0 0 0
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    04 September 2009
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the dimension of the vectors.
+            //
+            //    Input/output, int BVEC[N], on output, the successor
+            //    to the input vector.
+            //
+        {
+            int i;
+
+            for (i = 0; i < n; i++)
+            {
+                if (bvec[i] == 1)
+                {
+                    bvec[i] = 0;
+                }
+                else
+                {
+                    bvec[i] = 1;
+                    break;
+                }
+            }
+
+            return;
+        }
+
         public class VecNextData
         {
             public int kount { get; set; }
@@ -16,8 +98,8 @@ namespace Burkardt.Types
                 last = 0;
             }
         }
-        
-                public static void vec_next(ref VecNextData data, int n, int ibase, ref int[] iarray, ref bool more)
+
+        public static void vec_next(ref VecNextData data, int n, int ibase, ref int[] iarray, ref bool more)
 
             //****************************************************************************80
             //
@@ -1367,7 +1449,7 @@ namespace Burkardt.Types
                 constraint = 0.0;
                 for (j = 0; j < n; j++)
                 {
-                    constraint = constraint + (double)x[j] / (double)x_max[j];
+                    constraint = constraint + (double) x[j] / (double) x_max[j];
                 }
 
                 if (1.0 < constraint)
@@ -1394,7 +1476,7 @@ namespace Burkardt.Types
                         constraint = 0;
                         for (j = 0; j < n; j++)
                         {
-                            constraint = constraint + (double)x[j] / (double)x_max[j];
+                            constraint = constraint + (double) x[j] / (double) x_max[j];
                         }
 
                         if (constraint <= 1.0)
@@ -1511,7 +1593,7 @@ namespace Burkardt.Types
                 total = 0.0;
                 for (j = 0; j < n; j++)
                 {
-                    total = total + alpha[j] * (double)x[j];
+                    total = total + alpha[j] * (double) x[j];
                 }
 
                 if (q < total)
@@ -1538,7 +1620,7 @@ namespace Burkardt.Types
                         total = 0;
                         for (j = 0; j < n; j++)
                         {
-                            total = total + alpha[j] * (double)x[j];
+                            total = total + alpha[j] * (double) x[j];
                         }
 
                         if (total <= q)
@@ -1835,7 +1917,7 @@ namespace Burkardt.Types
                 total = 0.0;
                 for (i = 0; i < n; i++)
                 {
-                    total = total + alpha[i] * (double)(x[i]);
+                    total = total + alpha[i] * (double) (x[i]);
                 }
 
                 if (q_min <= total && total <= q_max)
@@ -1873,7 +1955,7 @@ namespace Burkardt.Types
                 total = 0.0;
                 for (i = 0; i < n; i++)
                 {
-                    total = total + alpha[i] * (double)(x[i]);
+                    total = total + alpha[i] * (double) (x[i]);
                 }
 
                 if (q_min <= total && total <= q_max)
@@ -1978,7 +2060,7 @@ namespace Burkardt.Types
                 total = 0.0;
                 for (i = 0; i < n; i++)
                 {
-                    total = total + level_weight[i] * (double)(x[i]);
+                    total = total + level_weight[i] * (double) (x[i]);
                 }
 
                 if (q_min < total && total <= q_max)
@@ -2016,7 +2098,7 @@ namespace Burkardt.Types
                 total = 0.0;
                 for (i = 0; i < n; i++)
                 {
-                    total = total + level_weight[i] * (double)(x[i]);
+                    total = total + level_weight[i] * (double) (x[i]);
                 }
 
                 if (q_min < total && total <= q_max)
@@ -2026,80 +2108,80 @@ namespace Burkardt.Types
             }
 
         }
-        
-        public static void vector_next ( int n, int[] x_min, int[] x_max, ref int[] x, ref bool more )
 
-        //****************************************************************************80
-        //
-        //  Purpose:
-        //
-        //    VECTOR_NEXT returns the "next" integer vector between two ranges.
-        //
-        //  Discussion:
-        //
-        //    We consider all integer vectors of dimension N satisfying:
-        //
-        //      X_MIN(1:N) <= X(1:N) <= X_MAX(1:N).
-        //
-        //    This routine returns, one at a time, and in right-to-left
-        //    lexicographic order, all these vectors.
-        //
-        //  Example:
-        //
-        //    N = 3
-        //    X_MIN:   2   2   0
-        //    X_MAX:   4   3   1
-        // 
-        //    #  X(1)  X(2)  X(3)
-        //
-        //    1    2     2     0
-        //    2    3     2     0
-        //    3    4     2     0
-        //    4    2     3     0
-        //    5    3     3     0
-        //    6    4     3     0
-        //    7    2     2     1
-        //    8    3     2     1
-        //    9    4     2     1
-        //   10    2     3     1
-        //   11    3     3     1
-        //   12    4     3     1
-        //
-        //  Licensing:
-        //
-        //    This code is distributed under the GNU LGPL license. 
-        //
-        //  Modified:
-        //
-        //    01 July 2010
-        //
-        //  Author:
-        //
-        //    John Burkardt
-        //
-        //  Parameters:
-        //
-        //    Input, int N, the number of components in the vector.
-        //
-        //    Input, int X_MIN[N], X_MAX[N], the minimum and maximum
-        //    values allowed in each component.
-        //
-        //    Input/output, int X[N].  On first call, with 
-        //    MORE = FALSE, the input value of X is not important.  On subsequent calls,
-        //    the input value of X should be the output value from the previous call.
-        //    On output, with MORE = TRUE, the value of X will be the "next"
-        //    vector in the reverse lexicographical list of vectors.  However, on 
-        //    output with MORE = FALSE, the vector X is meaningless, because there 
-        //    are no more vectors in the list.
-        //
-        //    Input/output, bool &MORE.  On input, if the user has set MORE
-        //    FALSE, the user is requesting the initiation of a new sequence
-        //    of values.  If MORE is TRUE, then the user is requesting "more"
-        //    values in the current sequence.  On output, if MORE is TRUE,
-        //    then another value was found and returned in X, but if MORE is
-        //    FALSE, then there are no more values in the sequence, and X is
-        //    NOT the next value.
-        //
+        public static void vector_next(int n, int[] x_min, int[] x_max, ref int[] x, ref bool more)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    VECTOR_NEXT returns the "next" integer vector between two ranges.
+            //
+            //  Discussion:
+            //
+            //    We consider all integer vectors of dimension N satisfying:
+            //
+            //      X_MIN(1:N) <= X(1:N) <= X_MAX(1:N).
+            //
+            //    This routine returns, one at a time, and in right-to-left
+            //    lexicographic order, all these vectors.
+            //
+            //  Example:
+            //
+            //    N = 3
+            //    X_MIN:   2   2   0
+            //    X_MAX:   4   3   1
+            // 
+            //    #  X(1)  X(2)  X(3)
+            //
+            //    1    2     2     0
+            //    2    3     2     0
+            //    3    4     2     0
+            //    4    2     3     0
+            //    5    3     3     0
+            //    6    4     3     0
+            //    7    2     2     1
+            //    8    3     2     1
+            //    9    4     2     1
+            //   10    2     3     1
+            //   11    3     3     1
+            //   12    4     3     1
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license. 
+            //
+            //  Modified:
+            //
+            //    01 July 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int N, the number of components in the vector.
+            //
+            //    Input, int X_MIN[N], X_MAX[N], the minimum and maximum
+            //    values allowed in each component.
+            //
+            //    Input/output, int X[N].  On first call, with 
+            //    MORE = FALSE, the input value of X is not important.  On subsequent calls,
+            //    the input value of X should be the output value from the previous call.
+            //    On output, with MORE = TRUE, the value of X will be the "next"
+            //    vector in the reverse lexicographical list of vectors.  However, on 
+            //    output with MORE = FALSE, the vector X is meaningless, because there 
+            //    are no more vectors in the list.
+            //
+            //    Input/output, bool &MORE.  On input, if the user has set MORE
+            //    FALSE, the user is requesting the initiation of a new sequence
+            //    of values.  If MORE is TRUE, then the user is requesting "more"
+            //    values in the current sequence.  On output, if MORE is TRUE,
+            //    then another value was found and returned in X, but if MORE is
+            //    FALSE, then there are no more values in the sequence, and X is
+            //    NOT the next value.
+            //
         {
             int i;
 
@@ -2135,8 +2217,6 @@ namespace Burkardt.Types
                     }
                 }
             }
-
-            return;
         }
     }
 }

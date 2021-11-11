@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt.Graph;
 using Burkardt.MatrixNS;
 using Burkardt.MeshNS;
 using Burkardt.Table;
@@ -222,7 +221,7 @@ namespace TriangulationRCMTest
             //
             perm = new int[node_num];
 
-            perm = GenRCM.genrcm(node_num, adj_num, adj_row, adj);
+            perm = Burkardt.Graph.GenRCM.genrcm(node_num, adj_num, adj_row, adj);
 
             perm_inv = new int[node_num];
 

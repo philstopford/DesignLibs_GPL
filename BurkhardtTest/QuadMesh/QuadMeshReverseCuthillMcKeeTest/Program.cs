@@ -1,5 +1,4 @@
 ﻿using System;
-using Burkardt.Graph;
 using Burkardt.MatrixNS;
 using Burkardt.MeshNS;
 using Burkardt.QuadMesh;
@@ -207,7 +206,7 @@ namespace QuadMeshReverseCuthillMcKeeTest
                 adj[i] = adj[i] + 1;
             }
 
-            perm = GenRCM.genrcm(node_num, adj_num, adj_row, adj);
+            perm = Burkardt.Graph.GenRCM.genrcm(node_num, adj_num, adj_row, adj);
             //
             //  On return, subtract 1 from ADJ, ADJROW and PERM.
             //

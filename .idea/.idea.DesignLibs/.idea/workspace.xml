@@ -551,6 +551,8 @@
     <projectFile>BurkhardtTest/SGMGAniso/SGMGAnisoWriteTest/SGMGAnisoWriteTest.csproj</projectFile>
     <projectFile>BurkhardtTest/RCMTest/RCMTest.csproj</projectFile>
     <projectFile>BurkhardtTest/SearchTest/SearchTest.csproj</projectFile>
+    <projectFile>BurkhardtTest/Simulaton/StringSimulation/StringSimulation.csproj</projectFile>
+    <projectFile>BurkhardtTest/PraxisTest/PraxisTest.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -582,6 +584,7 @@
     <setting file="file://$PROJECT_DIR$/Common/Burkardt/Blend.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/FEM/FEM2DBVPLinearTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/Polygon/PolygonPropertiesTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/BurkhardtTest/SearchTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Common/Burkardt/Sobol/SobolData.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/Table/TableDelauneyTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Common/Burkardt/IO/PPM_ASCII.cs" root0="FORCE_HIGHLIGHTING" />
@@ -6226,6 +6229,24 @@
         <option name="Build" />
       </method>
     </configuration>
+    <configuration name="PraxisTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/PraxisTest/PraxisTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
     <configuration name="PredatorPreyTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -8107,6 +8128,24 @@
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
       <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Solve/Stokes2DExactTest/Stokes2DExactTest.csproj" />
+      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
+      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
+      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
+      <option name="PROJECT_KIND" value="DotNetCore" />
+      <option name="PROJECT_TFM" value="" />
+      <method v="2">
+        <option name="Build" />
+      </method>
+    </configuration>
+    <configuration name="StringSimulation" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
+      <option name="USE_MONO" value="0" />
+      <option name="RUNTIME_ARGUMENTS" value="" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/Simulaton/StringSimulation/StringSimulation.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
@@ -11117,8 +11156,6 @@
       <item itemvalue=".NET Project.SGMGSizeTableTest" />
       <item itemvalue=".NET Project.SGMGUniqueIndexTest" />
       <item itemvalue=".NET Project.SGMGWeightTest" />
-      <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMAIOTest" />
-      <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMBIOTest" />
       <item itemvalue=".NET Project.SGMGWriteTest" />
       <item itemvalue=".NET Project.SGMG_CC_SL_Test" />
       <item itemvalue=".NET Project.SGMGAnisoNormalizeTest" />
@@ -11134,6 +11171,10 @@
       <item itemvalue=".NET Project.SGMGAnisoWriteTest" />
       <item itemvalue=".NET Project.RCMTest" />
       <item itemvalue=".NET Project.SearchTest" />
+      <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMAIOTest" />
+      <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMBIOTest" />
+      <item itemvalue=".NET Project.StringSimulation" />
+      <item itemvalue=".NET Project.PraxisTest" />
     </list>
     <recent_temporary>
       <list>

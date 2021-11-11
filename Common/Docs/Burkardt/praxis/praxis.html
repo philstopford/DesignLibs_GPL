@@ -1,0 +1,204 @@
+<html>
+
+  
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/praxis/praxis.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 15:55:57 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      PRAXIS - Scalar Function Optimization
+    </title>
+  </head>
+
+  <body bgcolor="#EEEEEE" link="#CC0000" alink="#FF3300" vlink="#000055">
+
+    <h1 align = "center">
+      PRAXIS <br> Scalar Function Optimization
+    </h1>
+
+    <hr>
+
+    <p>
+      <b>PRAXIS</b> 
+      is which 
+      minimizes a scalar function of a vector argument,
+      without needing derivative information,
+      by Richard Brent.
+    </p>
+
+    <p>
+      PRAXIS seeks an M-dimensional point X which minimizes a
+      given scalar function F(X).  The code is a refinement 
+      of Powell's method of conjugate search directions.  The user
+      does not need to supply the partial derivatives of the function
+      F(X).  In fact, the function F(X) need not be
+      smoothly differentiable.  
+    </p>
+
+    <h3 align = "center">
+      Licensing:
+    </h3>
+
+    <p>
+      The computer code and data files described and made available on this
+      web page are distributed under
+      <a href = "https://people.math.sc.edu/Burkardt/txt/gnu_lgpl.txt">the GNU LGPL license.</a>
+    </p>
+
+
+    <h3 align = "center">
+      Related Data and Programs:
+    </h3>
+
+    <p>
+      <a href = "../brent/brent.html">
+      BRENT</a>,
+      which
+      contains Richard Brent's routines for finding the zero, local minimizer,
+      or global minimizer of a scalar function of a scalar argument, without
+      the use of derivative information.
+    </p>
+
+    <p>
+      <a href = "../compass_search/compass_search.html">
+      COMPASS_SEARCH</a>,
+      which 
+      seeks the minimizer of a scalar function of several variables
+      using compass search, a direct search algorithm that does not use derivatives.
+    </p>
+
+    <p>
+      <a href = "../test_opt_con/test_opt_con.html">
+      TEST_OPT_CON</a>,
+      which
+      defines test problems for the minimization of a scalar function
+      of several variables, with the search constrained to lie within a 
+      specified hyper-rectangle.
+    </p>
+
+    <p>
+      <a href = "../test_optimization/test_optimization.html">
+      TEST_OPTIMIZATION</a>,
+      which
+      defines test problems for the minimization of a scalar function
+      of several variables, as described by Molga and Smutnicki.
+    </p>
+
+    <h3 align = "center">
+      Author:
+    </h3>
+
+    <p>
+      Original FORTRAN77 version by Richard Brent.
+      C++ translation by John Burkardt.
+    </p>
+
+    <h3 align = "center">
+      Reference:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          Richard Brent,<br>
+          Algorithms for Minimization without Derivatives,<br>
+          Dover, 2002,<br>
+          ISBN: 0-486-41998-3,<br>
+          LC: QA402.5.B74.
+        </li>
+      </ul>
+    </p>
+
+
+    <h3 align = "center">
+      Examples and Tests:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <a href = "praxis_test.txt">praxis_test.txt</a>, 
+          the output file.
+        </li>
+      </ul>
+    </p>
+
+    <h3 align = "center">
+      List of Routines:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <b>FLIN</b> is the function of one variable to be minimized by MINNY.
+        </li>
+        <li>
+          <b>MINFIT</b> computes the singular value decomposition of an N by N array.
+        </li>
+        <li>
+          <b>MINNY</b> minimizes a scalar function of N variables along a line.
+        </li>
+        <li>
+          <b>PRAXIS</b> seeks an N-dimensional minimizer X of a scalar function F(X).
+        </li>
+        <li>
+          <b>PRINT2</b> prints certain data about the progress of the iteration.
+        </li>
+        <li>
+          <b>QUAD</b> seeks to minimize the scalar function F along a particular curve.
+        </li>
+        <li>
+          <b>R8_EPSILON</b> returns the R8 round off unit.
+        </li>
+        <li>
+          <b>R8_HYPOT</b> returns the value of sqrt ( X^2 + Y^2 ).
+        </li>
+        <li>
+          <b>R8_MAX</b> returns the maximum of two R8's.
+        </li>
+        <li>
+          <b>R8_MIN</b> returns the minimum of two R8's.
+        </li>
+        <li>
+          <b>R8MAT_PRINT</b> prints an R8MAT.
+        </li>
+        <li>
+          <b>R8MAT_PRINT_SOME</b> prints some of an R8MAT.
+        </li>
+        <li>
+          <b>R8MAT_TRANSPOSE_IN_PLACE</b> transposes a square matrix in place.
+        </li>
+        <li>
+          <b>R8VEC_COPY</b> copies an R8VEC.
+        </li>
+        <li>
+          <b>R8VEC_MAX</b> returns the value of the maximum element in a R8VEC.
+        </li>
+        <li>
+          <b>R8VEC_MIN</b> returns the value of the minimum element in a R8VEC.
+        </li>
+        <li>
+          <b>R8VEC_PRINT</b> prints an R8VEC.
+        </li>
+        <li>
+          <b>R8VEC_SWAP</b> swaps the entries of two R8VEC's.
+        </li>
+        <li>
+          <b>SVSORT</b> descending sorts D and adjusts the corresponding columns of V.
+        </li>
+      </ul>
+    </p>
+
+
+    <hr>
+
+    <i>
+      Last revised on 04 August 2016.
+    </i>
+
+    <!-- John Burkardt -->
+ 
+  </body>
+
+
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/praxis/praxis.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 15:55:58 GMT -->
+</html>

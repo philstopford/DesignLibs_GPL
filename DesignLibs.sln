@@ -1314,6 +1314,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Spring2ODE", "BurkhardtTest
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeshIOTest", "BurkhardtTest\IO\MeshIOTest\MeshIOTest.csproj", "{D44EB549-BA20-49F9-A6DD-EB03C3125FC8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MolecularDynamics", "BurkhardtTest\Simulaton\MolecularDynamics\MolecularDynamics.csproj", "{A63FC038-2017-4B02-9DC1-2FC843E02AE7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -8248,6 +8250,18 @@ Global
 		{D44EB549-BA20-49F9-A6DD-EB03C3125FC8}.Release|x64.Build.0 = Release|Any CPU
 		{D44EB549-BA20-49F9-A6DD-EB03C3125FC8}.Release|x86.ActiveCfg = Release|Any CPU
 		{D44EB549-BA20-49F9-A6DD-EB03C3125FC8}.Release|x86.Build.0 = Release|Any CPU
+		{A63FC038-2017-4B02-9DC1-2FC843E02AE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A63FC038-2017-4B02-9DC1-2FC843E02AE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A63FC038-2017-4B02-9DC1-2FC843E02AE7}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A63FC038-2017-4B02-9DC1-2FC843E02AE7}.Debug|x64.Build.0 = Debug|Any CPU
+		{A63FC038-2017-4B02-9DC1-2FC843E02AE7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A63FC038-2017-4B02-9DC1-2FC843E02AE7}.Debug|x86.Build.0 = Debug|Any CPU
+		{A63FC038-2017-4B02-9DC1-2FC843E02AE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A63FC038-2017-4B02-9DC1-2FC843E02AE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A63FC038-2017-4B02-9DC1-2FC843E02AE7}.Release|x64.ActiveCfg = Release|Any CPU
+		{A63FC038-2017-4B02-9DC1-2FC843E02AE7}.Release|x64.Build.0 = Release|Any CPU
+		{A63FC038-2017-4B02-9DC1-2FC843E02AE7}.Release|x86.ActiveCfg = Release|Any CPU
+		{A63FC038-2017-4B02-9DC1-2FC843E02AE7}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -8903,6 +8917,7 @@ Global
 		{F2503DAE-7C76-4E99-B4DB-D9BA85169AA6} = {16FBF310-321F-4600-989A-DCDCD4C75711}
 		{F2C95DD5-3660-4B8C-A6B2-FE9EC96B7630} = {16FBF310-321F-4600-989A-DCDCD4C75711}
 		{D44EB549-BA20-49F9-A6DD-EB03C3125FC8} = {6D60C790-FFA9-4760-A754-ABDF0CA736EC}
+		{A63FC038-2017-4B02-9DC1-2FC843E02AE7} = {4C65DECE-913E-4DC5-9569-E8CCF0F23D9C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B449416C-C504-4FA8-9E10-10857263A64A}

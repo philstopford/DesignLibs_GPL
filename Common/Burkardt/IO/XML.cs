@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using Burkardt.MeshNS;
 
 namespace Burkardt.IO
 {
@@ -59,7 +58,7 @@ namespace Burkardt.IO
             //
             //  Force 0-based indexing.
             //
-            Mesh.mesh_base_zero(node_num, element_order, element_num, ref element_node);
+            MeshNS.Mesh.mesh_base_zero(node_num, element_order, element_num, ref element_node);
 
             List<string> lines = new List<string>();
             //
@@ -147,7 +146,7 @@ namespace Burkardt.IO
             //
             //  Force 0-based indexing.
             //
-            Mesh.mesh_base_zero(node_num, element_order, element_num, ref element_node);
+            MeshNS.Mesh.mesh_base_zero(node_num, element_order, element_num, ref element_node);
 
             List<string> lines = new List<string>();
             
@@ -239,7 +238,7 @@ namespace Burkardt.IO
             //
             //  Force 0-based indexing.
             //
-            Mesh.mesh_base_zero(node_num, element_order, element_num, ref element_node);
+            MeshNS.Mesh.mesh_base_zero(node_num, element_order, element_num, ref element_node);
 
             List<string> lines = new List<string>();
             

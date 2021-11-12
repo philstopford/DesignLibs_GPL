@@ -1,0 +1,222 @@
+<html>
+
+  
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/quaternions/quaternions.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 15:56:41 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <title>
+      QUATERNIONS - Quaternion Arithmetic
+    </title>
+  </head>
+
+  <body bgcolor="#EEEEEE" link="#CC0000" alink="#FF3300" vlink="#000055">
+
+    <h1 align = "center">
+      QUATERNIONS <br> Quaternion Arithmetic
+    </h1>
+
+    <hr>
+
+    <p>
+      <b>QUATERNIONS</b> 
+      is a ++C library which
+      carries out some simple arithmetic operations for quaternions.
+    </p>
+
+    <p>
+      Rotations in 3D can be represented in a number of ways, including
+      quaternions, a rotation matrix, and a combination of a rotation axis
+      and rotation angle.  This library includes functions to convert
+      a rotation from one representation to another, and to apply a rotation
+      to a given vector.
+    </p>
+
+    <h3 align = "center">
+      Licensing:
+    </h3>
+
+    <p>
+      The computer code and data files described and made available on this web page 
+      are distributed under
+      <a href = "https://people.math.sc.edu/Burkardt/txt/gnu_lgpl.txt">the GNU LGPL license.</a>
+    </p>
+
+
+    <h3 align = "center">
+      Related Data and Programs:
+    </h3>
+
+    <p>
+      <a href = "../c4lib/c4lib.html">
+      C4LIB</a>,
+      which
+      implements certain elementary functions for 
+      single precision complex (C4) variables.
+    </p>
+
+    <p>
+      <a href = "../c8lib/c8lib.html">
+      C8LIB</a>,
+      which
+      implements certain elementary functions for 
+      double precision complex (C8) variables;
+    </p>
+
+    <p>
+      <a href = "../complex_numbers/complex_numbers.html">
+      COMPLEX_NUMBERS</a>,
+      a C++ program which
+      demonstrates some simple features involved in the use of
+      complex numbers in MATLAB programming.
+    </p>
+
+    <p>
+      <a href = "../i4lib/i4lib.html">
+      I4LIB</a>,
+      which
+      contains many utility routines, using "I4" or "single precision integer"
+      arithmetic.
+    </p>
+
+    <p>
+      <a href = "../r8lib/r8lib.html">
+      R8LIB</a>,
+      which
+      contains many utility routines, using "R8" or
+      "double precision real" arithmetic.
+    </p>
+
+    <h3 align = "center">
+      Reference:
+    </h3>
+
+    <p>
+      <ol>
+        <li>
+          Jack Kuipers,<br>
+          Quaternions and Rotation Sequences,<br>
+          Princeton, 1998,<br>
+          ISBN: 0691102988,<br>
+          LC: QA196.K85.
+        </li>
+      </ol>
+    </p>
+
+
+    <h3 align = "center">
+      Examples and Tests:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <a href = "quaternions_test.txt">quaternions_test.txt</a>,
+          the output file.
+        </li>
+      </ul>
+    </p>
+
+    <h3 align = "center">
+      List of Routines:
+    </h3>
+
+    <p>
+      <ul>
+        <li>
+          <b>DEGREES_TO_RADIANS</b> converts an angle measure from degrees to radians.
+        </li>
+        <li>
+          <b>Q8_CONJUGATE</b> conjugates a quaternion.
+        </li>
+        <li>
+          <b>Q8_INVERSE</b> inverts a quaternion.
+        </li>
+        <li>
+          <b>Q8_MULTIPLY</b> multiplies two quaternions.
+        </li>
+        <li>
+          <b>Q8_NORM</b> computes the norm of a quaternion.
+        </li>
+        <li>
+          <b>Q8_NORMAL_01</b> returns a normally distributed quaternion.
+        </li>
+        <li>
+          <b>R8_ACOS</b> computes the arc cosine function, with argument truncation.
+        </li>
+        <li>
+          <b>R8MAT_MV_NEW</b> multiplies a matrix times a vector.
+        </li>
+        <li>
+          <b>R8MAT_PRINT</b> prints an R8MAT.
+        </li>
+        <li>
+          <b>R8MAT_PRINT_SOME</b> prints some of an R8MAT.
+        </li>
+        <li>
+          <b>R8VEC_COPY_NEW</b> copies an R8VEC.
+        </li>
+        <li>
+          <b>R8VEC_CROSS_PRODUCT_3D</b> computes the cross product of two R8VEC's in 3D.
+        </li>
+        <li>
+          <b>R8VEC_DOT_PRODUCT</b> computes the dot product of a pair of R8VEC's.
+        </li>
+        <li>
+          <b>R8VEC_NORM</b> returns the L2 norm of an R8VEC.
+        </li>
+        <li>
+          <b>R8VEC_PRINT</b> prints an R8VEC.
+        </li>
+        <li>
+          <b>R8VEC_UNIFORM_01_NEW</b> returns a unit pseudorandom R8VEC.
+        </li>
+        <li>
+          <b>R8VEC_ZEROS_NEW</b> creates and zeroes an R8VEC.
+        </li>
+        <li>
+          <b>RADIANS_TO_DEGREES</b> converts an angle from radians to degrees.
+        </li>
+        <li>
+          <b>ROTATION_AXIS_VECTOR</b> rotates a vector around an axis vector in 3D.
+        </li>
+        <li>
+          <b>ROTATION_AXIS2MAT</b> converts a rotation from axis to matrix format in 3D.
+        </li>
+        <li>
+          <b>ROTATION_AXIS2QUAT</b> converts a rotation from axis to quaternion format in 3D.
+        </li>
+        <li>
+          <b>ROTATION_MAT_VECTOR</b> applies a marix rotation to a vector in 3d.
+        </li>
+        <li>
+          <b>ROTATION_MAT2AXIS</b> converts a rotation from matrix to axis format in 3D.
+        </li>
+        <li>
+          <b>ROTATION_MAT2QUAT</b> converts a rotation from matrix to quaternion format in 3D.
+        </li>
+        <li>
+          <b>ROTATION_QUAT_VECTOR</b> applies a quaternion rotation to a vector in 3d.
+        </li>
+        <li>
+          <b>ROTATION_QUAT2AXIS</b> converts a rotation from quaternion to axis format in 3D.
+        </li>
+        <li>
+          <b>ROTATION_QUAT2MAT</b> converts a rotation from quaternion to matrix format in 3D.
+        </li>
+      </ul>
+    </p>
+
+
+    <hr>
+
+    <i>
+      Last revised on 06 August 2018.
+    </i>
+
+    <!-- John Burkardt -->
+
+  </body>
+
+
+<!-- Mirrored from people.math.sc.edu/Burkardt/cpp_src/quaternions/quaternions.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 19 Oct 2021 15:56:42 GMT -->
+</html>

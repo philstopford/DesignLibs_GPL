@@ -7,6 +7,85 @@ namespace Burkardt.Types
 {
     public static partial class typeMethods
     {
+        public static int point_unique_count ( int m, int n, double[] a )
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    POINT_UNIQUE_COUNT counts the unique points.
+            //
+            //  Discussion:
+            //
+            //    The input data is an M x N array A, representing the M-dimensional
+            //    coordinates of N points.
+            //
+            //    The algorithm relies on the fact that, in a sorted list, points that
+            //    are exactly equal must occur consecutively.
+            //
+            //    The output is the number of unique points in the list.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    24 July 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, the number of rows.
+            //
+            //    Input, int N, the number of columns.
+            //
+            //    Input, double A[M*N], the array of N columns of data.
+            //
+            //    Output, int POINT_UNIQUE_COUNT, the number of unique points.
+            //
+        {
+            int i;
+            int[] indx;
+            int j;
+            int unique_index;
+            int unique_num;
+
+            if ( n <= 0 )
+            {
+                unique_num = 0;
+                return unique_num;
+            }
+            //
+            //  Implicitly sort the array.
+            //
+            indx = r8col_sort_heap_index_a ( m, n, a );
+            //
+            //  Two points are considered equal only if they exactly match.
+            //  In that case, equal points can only occur as consecutive items
+            //  in the sorted list.   This makes counting easy.
+            //
+            unique_num = 1;
+            unique_index = indx[0];
+
+            for ( j = 1; j < n; j++ )
+            {
+                for ( i = 0; i < m; i++ )
+                {
+                    if ( a[i+unique_index*m] != a[i+indx[j]*m] )
+                    {
+                        unique_num = unique_num + 1;
+                        unique_index = indx[j];
+                    }
+                }
+            }
+            
+            return unique_num;
+        }
+        
         public static void points_plot(string file_name, int node_num, double[] node_xy,
                 bool node_label)
 
@@ -814,6 +893,356 @@ namespace Burkardt.Types
             }
         }
 
+        public static int point_radial_unique_count(int m, int n, double[] a, ref int seed)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    POINT_RADIAL_UNIQUE_COUNT counts the unique points.
+            //
+            //  Discussion:
+            //
+            //    The input data is an M x N array A, representing the M-dimensional
+            //    coordinates of N points.
+            //
+            //    The output is the number of unique points in the list.
+            //
+            //    This program performs the same task as POINT_UNIQUE_COUNT, and
+            //    carries out more work.  Hence, it is not a substitute for
+            //    POINT_UNIQUE_COUNT.  Instead, it is intended to be a starting point
+            //    for a similar program which includes a tolerance.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    24 July 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, the number of rows.
+            //
+            //    Input, int N, the number of columns.
+            //
+            //    Input, double A[M*N], the array of N columns of data.
+            //
+            //    Input/output, int *SEED, a seed for the random
+            //    number generator.
+            //
+            //    Output, int POINT_RADIAL_UNIQUE_COUNT, the number of unique points.
+            //
+        {
+            bool equal = false;
+            int hi;
+            int i;
+            int[] indx;
+            int j;
+            int j1;
+            int j2;
+            int lo;
+            double[] r;
+            int unique_num;
+            double[] w;
+            double w_sum;
+            double[] z;
+
+            if (n <= 0)
+            {
+                unique_num = 0;
+                return unique_num;
+            }
+
+            //
+            //  Assign a base point Z randomly in the convex hull.
+            //
+            w = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+            w_sum = r8vec_sum(n, w);
+            for (j = 0; j < n; j++)
+            {
+                w[j] = w[j] / w_sum;
+            }
+
+            z = new double[m];
+            for (i = 0; i < m; i++)
+            {
+                z[i] = 0.0;
+                for (j = 0; j < n; j++)
+                {
+                    z[i] = z[i] + a[i + j * m] * w[j];
+                }
+            }
+
+            //
+            //  Compute the radial distance R of each point to Z.
+            //
+            r = new double[n];
+
+            for (j = 0; j < n; j++)
+            {
+                r[j] = 0.0;
+                for (i = 0; i < m; i++)
+                {
+                    r[j] = r[j] + Math.Pow(a[i + j * m] - z[i], 2);
+                }
+
+                r[j] = Math.Sqrt(r[j]);
+            }
+
+            //
+            //  Implicitly sort the R array.
+            //
+            indx = r8vec_sort_heap_index_a(n, r);
+            //
+            //  To determine if a point is unique, we only have to check
+            //  whether it is distinct from all points with the same
+            //  R value and lower ordering.
+            //
+            unique_num = 0;
+            hi = -1;
+
+            while (hi < n - 1)
+            {
+                //
+                //  Advance LO.
+                //
+                lo = hi + 1;
+                //
+                //  Extend HI.
+                //
+                hi = lo;
+
+                while (hi < n - 1)
+                {
+                    if (r[indx[hi + 1]] == r[indx[lo]])
+                    {
+                        hi = hi + 1;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                //
+                //  Points INDX(LO) through INDX(HI) have same R value.
+                //
+                //  Find the unique ones.
+                //
+                unique_num = unique_num + 1;
+
+                for (j1 = lo + 1; j1 <= hi; j1++)
+                {
+                    for (j2 = lo; j2 < j1; j2++)
+                    {
+                        equal = true;
+                        for (i = 0; i < m; i++)
+                        {
+                            if (a[i + indx[j2] * m] != a[i + indx[j1] * m])
+                            {
+                                equal = false;
+                                break;
+                            }
+                        }
+
+                        if (equal)
+                        {
+                            break;
+                        }
+                    }
+
+                    if (!equal)
+                    {
+                        unique_num = unique_num + 1;
+                    }
+                }
+            }
+
+            return unique_num;
+        }
+
+        public static int point_tol_unique_count(int m, int n, double[] a, double tol)
+
+            //****************************************************************************80
+            //
+            //  Purpose:
+            //
+            //    POINT_TOL_UNIQUE_COUNT counts the tolerably unique points.
+            //
+            //  Discussion:
+            //
+            //    The input data is an M x N array A, representing the M-dimensional
+            //    coordinates of N points.
+            //
+            //    This function uses a simple but expensive approach.  The first point
+            //    is accepted as unique.  Each subsequent point is accepted as unique
+            //    only if it is at least a tolerance away from all accepted unique points.
+            //    This means the expected amount of work is O(N^2).
+            //
+            //    The output is the number of unique points in the list.
+            //
+            //  Licensing:
+            //
+            //    This code is distributed under the GNU LGPL license.
+            //
+            //  Modified:
+            //
+            //    24 July 2010
+            //
+            //  Author:
+            //
+            //    John Burkardt
+            //
+            //  Parameters:
+            //
+            //    Input, int M, the number of rows.
+            //
+            //    Input, int N, the number of columns.
+            //
+            //    Input, double A[M*N], the array of N columns of data.
+            //
+            //    Input, double TOL, a tolerance.
+            //
+            //    Output, int POINT_TOL_UNIQUE_COUNT, the number of unique points.
+            //
+        {
+            double dist;
+            int i;
+            int j;
+            int k;
+            bool[] unique;
+            int unique_num;
+
+            unique = new bool[n];
+
+            for (i = 0; i < n; i++)
+            {
+                unique[i] = true;
+            }
+
+            unique_num = n;
+
+            for (i = 1; i < n; i++)
+            {
+                for (j = 0; j < i; j++)
+                {
+                    if (unique[j])
+                    {
+                        dist = 0.0;
+                        for (k = 0; k < m; k++)
+                        {
+                            dist = dist + Math.Pow(a[k + i * m] - a[k + j * m], 2);
+                        }
+
+                        dist = Math.Sqrt(dist);
+                        if (dist <= tol)
+                        {
+                            unique[i] = false;
+                            unique_num = unique_num - 1;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return unique_num;
+        }
+
+        public static int point_tol_unique_index ( int m, int n, double[] a, double tol, ref int[] xdnu )
+
+        //****************************************************************************80
+        //
+        //  Purpose:
+        //
+        //    POINT_TOL_UNIQUE_INDEX indexes the tolerably unique points.
+        //
+        //  Discussion:
+        //
+        //    This routine uses an algorithm that is O(N^2).
+        //
+        //  Licensing:
+        //
+        //    This code is distributed under the GNU LGPL license.
+        //
+        //  Modified:
+        //
+        //    24 July 2010
+        //
+        //  Author:
+        //
+        //    John Burkardt
+        //
+        //  Parameters:
+        //
+        //    Input, int M, the dimension of the data values.
+        //
+        //    Input, int N, the number of data values.
+        //
+        //    Input, double A[M*N], the data values.
+        //
+        //    Input, double TOL, a tolerance for equality.
+        //
+        //    Output, int XDNU[N], the index, in A, of the tolerably unique
+        //    point that "represents" this point.
+        //
+        //    Output, int POINT_TOL_UNIQUE_INDEX, the number of tolerably
+        //    unique points.
+        //
+        {
+            double dist;
+            int i;
+            int j;
+            int k;
+            bool[] unique;
+            int unique_num;
+
+            unique = new bool[n];
+
+            for ( i = 0; i < n; i++ )
+            {
+                unique[i] = true;
+            }
+            for ( i = 0; i < n; i++ )
+            {
+                xdnu[i] = i;
+            }
+            unique_num = n;
+
+            i = 0;
+            xdnu[0] = 0;
+
+            for ( i = 1; i < n; i++ )
+            {
+                for ( j = 0; j < i; j++ )
+                {
+                    if ( unique[j] )
+                    {
+                        dist = 0.0;
+                        for ( k = 0; k < m; k++ )
+                        {
+                            dist = dist + Math.Pow ( a[k+i*m] - a[k+j*m], 2 );
+                        }
+                        dist = Math.Sqrt ( dist );
+                        if ( dist <= tol )
+                        {
+                            unique[i] = false;
+                            unique_num = unique_num - 1;
+                            xdnu[i] = j;
+                            break;
+                        }
+                    }
+                }
+            }
+            
+            return unique_num;
+        }
+        
         public static int point_radial_tol_unique_index(int m, int n, double[] a, double tol,
                 ref int seed, ref int[] undx, ref int[] xdnu)
 

@@ -1,18 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <Configurations>Debug;Release</Configurations>
     <ReleaseVersion>0.24</ReleaseVersion>
   </PropertyGroup>
 
   <PropertyGroup>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>10</LangVersion>
 
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Eto.Forms" Version="2.6.0-ci-20211006.1311218691" />
+    <PackageReference Include="Eto.Forms" Version="2.6.0-ci-20211113.1455266255" />
   </ItemGroup>
 
 </Project>

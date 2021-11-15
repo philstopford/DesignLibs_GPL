@@ -15,7 +15,7 @@ namespace entropyRNG
 
         public static double[] random_gauss()
         {
-            RNGCryptoServiceProvider random = new RNGCryptoServiceProvider();
+            RandomNumberGenerator random = RandomNumberGenerator.Create();
 
             double U1, U2;
             byte[] tmp = new byte[sizeof(Int32)];
@@ -45,7 +45,7 @@ namespace entropyRNG
 
         public static double nextdouble()
         {
-            RNGCryptoServiceProvider random = new RNGCryptoServiceProvider();
+            RandomNumberGenerator random = RandomNumberGenerator.Create();
 
             byte[] tmp = new byte[sizeof(Int32)];
 
@@ -55,7 +55,7 @@ namespace entropyRNG
 
         public static Int32 nextint()
         {
-            RNGCryptoServiceProvider random = new RNGCryptoServiceProvider();
+            RandomNumberGenerator random = RandomNumberGenerator.Create();
 
             byte[] tmp = new byte[sizeof(Int32)];
 

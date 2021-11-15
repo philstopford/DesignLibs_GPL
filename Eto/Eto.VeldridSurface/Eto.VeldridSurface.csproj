@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <RootNamespace>Eto.Veldrid</RootNamespace>
     <Title>Eto.Veldrid</Title>
@@ -9,7 +9,7 @@
     <ReleaseVersion>0.24</ReleaseVersion>
   </PropertyGroup>
     <PropertyGroup>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>10</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' " />
@@ -23,7 +23,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="Eto.Forms" Version="2.6.0-ci-20211006.1311218691" />
+    <PackageReference Include="Eto.Forms" Version="2.6.0-ci-20211113.1455266255" />
     <PackageReference Include="Eto.Veldrid" Version="0.1.0" />
     <PackageReference Include="Unofficial.LibTessDotNet" Version="2.0.2" />
     <PackageReference Include="Veldrid" Version="4.9.0-gffcf1cdb33" />

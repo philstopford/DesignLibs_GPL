@@ -4,6 +4,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Runtime.Serialization;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace utility
 {
@@ -116,84 +117,29 @@ namespace utility
             return resultStream.ToArray();
         }
 
-        // Below is from : https://alexmg.com/compute-any-hash-for-any-object-in-c/
-
-        /// <summary>
-        ///     Gets a hash of the current instance.
-        /// </summary>
-        /// <typeparam name="T">
-        ///     The type of the Cryptographic Service Provider to use.
-        /// </typeparam>
-        /// <param name="instance">
-        ///     The instance being extended.
-        /// </param>
-        /// <returns>
-        ///     A base 64 encoded string representation of the hash.
-        /// </returns>
-        public static string GetHash<T>(this object instance) where T : HashAlgorithm, new()
+        private static string GetHash(HashAlgorithm hashAlgorithm, object input)
         {
-            T cryptoServiceProvider = new T();
-            return computeHash(instance, cryptoServiceProvider);
-        }
-
-        /// <summary>
-        ///     Gets a key based hash of the current instance.
-        /// </summary>
-        /// <typeparam name="T">
-        ///     The type of the Cryptographic Service Provider to use.
-        /// </typeparam>
-        /// <param name="instance">
-        ///     The instance being extended.
-        /// </param>
-        /// <param name="key">
-        ///     The key passed into the Cryptographic Service Provider algorithm.
-        /// </param>
-        /// <returns>
-        ///     A base 64 encoded string representation of the hash.
-        /// </returns>
-        public static string GetKeyedHash<T>(this object instance, byte[] key) where T : KeyedHashAlgorithm, new()
-        {
-            T cryptoServiceProvider = new T { Key = key };
-            return computeHash(instance, cryptoServiceProvider);
-        }
-
-        /// <summary>
-        ///     Gets a MD5 hash of the current instance.
-        /// </summary>
-        /// <param name="instance">
-        ///     The instance being extended.
-        /// </param>
-        /// <returns>
-        ///     A base 64 encoded string representation of the hash.
-        /// </returns>
-        public static string GetMD5Hash(this object instance)
-        {
-            return instance.GetHash<MD5CryptoServiceProvider>();
-        }
-
-        /// <summary>
-        ///     Gets a SHA1 hash of the current instance.
-        /// </summary>
-        /// <param name="instance">
-        ///     The instance being extended.
-        /// </param>
-        /// <returns>
-        ///     A base 64 encoded string representation of the hash.
-        /// </returns>
-        public static string GetSHA1Hash(this object instance)
-        {
-            return instance.GetHash<SHA1CryptoServiceProvider>();
-        }
-
-        private static string computeHash<T>(object instance, T cryptoServiceProvider) where T : HashAlgorithm, new()
-        {
-            DataContractSerializer serializer = new DataContractSerializer(instance.GetType());
             using (MemoryStream memoryStream = new MemoryStream())
             {
-                serializer.WriteObject(memoryStream, instance);
-                cryptoServiceProvider.ComputeHash(memoryStream.ToArray());
-                return Convert.ToBase64String(cryptoServiceProvider.Hash);
+                DataContractSerializer serializer = new DataContractSerializer(input.GetType());
+                serializer.WriteObject(memoryStream, input);
+                hashAlgorithm.ComputeHash(memoryStream.ToArray());
+                return Convert.ToBase64String(hashAlgorithm.Hash);
             }
+        }
+
+        public static string GetMD5Hash(object input)
+        {
+            MD5 hasher = MD5.Create();
+            string hash = GetHash(hasher, input);
+            return hash;
+        }
+        
+        public static string GetMD5Hash(object input)
+        {
+            MD5 hasher = MD5.Create();
+            string hash = GetHash(hasher, input);
+            return hash;
         }
     }
     

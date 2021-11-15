@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <ApplicationManifest>app1.manifest</ApplicationManifest>
   </PropertyGroup>
 
@@ -21,8 +21,8 @@
 
   <ItemGroup>
     <PackageReference Include="Eto.OpenTK.Wpf" Version="0.1.2" />
-    <PackageReference Include="Eto.Platform.Windows" Version="2.6.0-ci-20211006.1311218691" />
-    <PackageReference Include="Eto.Platform.Wpf" Version="2.6.0-ci-20210616.944520705" />
+    <PackageReference Include="Eto.Platform.Windows" Version="2.6.0-ci-20211113.1455266255" />
+    <PackageReference Include="Eto.Platform.Wpf" Version="2.6.0-ci-20211113.1455266255" />
   </ItemGroup>
 
   <ItemGroup>

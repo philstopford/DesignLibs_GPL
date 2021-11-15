@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <UseWPF>True</UseWPF>
   </PropertyGroup>
 
@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Eto.Platform.Wpf" Version="2.6.0-ci-20211006.1311218691" />
+    <PackageReference Include="Eto.Platform.Wpf" Version="2.6.0-ci-20211113.1455266255" />
     <PackageReference Include="Extended.Wpf.Toolkit" Version="3.6.0" />
   </ItemGroup>
 

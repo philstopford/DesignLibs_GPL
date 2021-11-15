@@ -19,7 +19,7 @@ namespace entropyRNG
 		 * 
 		 * Ref : http://blogs.msdn.com/b/pfxteam/archive/2009/02/19/9434171.aspx
 		 */
-        static RNGCryptoServiceProvider _global = new RNGCryptoServiceProvider();
+        static RandomNumberGenerator _global = RandomNumberGenerator.Create();
 
         [ThreadStatic]
         static Random _local;

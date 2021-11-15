@@ -2,7 +2,7 @@
 	
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
@@ -20,7 +20,7 @@
 
 
   <ItemGroup>
-    <PackageReference Include="Eto.Platform.Gtk" Version="2.6.0-ci-20211006.1311218691" />
+    <PackageReference Include="Eto.Platform.Gtk" Version="2.6.0-ci-20211113.1455266255" />
   </ItemGroup>
 
   <ItemGroup>

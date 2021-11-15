@@ -131,15 +131,19 @@ namespace utility
         public static string GetMD5Hash(object input)
         {
             MD5 hasher = MD5.Create();
-            string hash = GetHash(hasher, input);
-            return hash;
+            return GetHash(hasher, input);
         }
         
-        public static string GetMD5Hash(object input)
+        public static string GetSHA1Hash(object input)
         {
-            MD5 hasher = MD5.Create();
-            string hash = GetHash(hasher, input);
-            return hash;
+            SHA1 hasher = SHA1.Create();
+            return GetHash(hasher, input);
+        }
+        
+        public static string GetSHA256Hash(object input)
+        {
+            SHA256 hasher = SHA256.Create();
+            return GetHash(hasher, input);
         }
     }
     

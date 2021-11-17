@@ -40,7 +40,6 @@ public static partial class typeMethods
         //    Output, double R8MAT_AMAX, the maximum absolute value entry of A.
         //
     {
-        int i;
         int j;
         double value = 0;
 
@@ -48,6 +47,7 @@ public static partial class typeMethods
 
         for ( j = 0; j < n; j++ )
         {
+            int i;
             for ( i = 0; i < m; i++ )
             {
                 value = Math.Max ( value, Math.Abs ( a[i+j*m] ) );
@@ -92,7 +92,6 @@ public static partial class typeMethods
         //    Output, double R8MAT_MAX, the maximum entry of A.
         //
     {
-        int i;
         int j;
         double value = 0;
 
@@ -100,6 +99,7 @@ public static partial class typeMethods
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 if (value < a[i + j * m])
@@ -148,16 +148,14 @@ public static partial class typeMethods
         //    Output, double R8MAT_MAX_COLUMNS[N], the column maximums.
         //
     {
-        int i;
         int j;
-        double[] max_columns;
-        double value = 0;
 
-        max_columns = new double[n];
+        double[] max_columns = new double[n];
 
         for (j = 0; j < n; j++)
         {
-            value = a[0 + j * m];
+            double value = a[0 + j * m];
+            int i;
             for (i = 1; i < m; i++)
             {
                 if (value < a[i + j * m])
@@ -208,16 +206,14 @@ public static partial class typeMethods
         //    Output, int &I_MAX, &J_MAX, the indices of the maximum entry of A.
         //
     {
-        int i;
-        int i2;
         int j;
-        int j2;
 
-        i2 = -1;
-        j2 = -1;
+        int i2 = -1;
+        int j2 = -1;
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 switch (i2)
@@ -277,15 +273,13 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
-        double[] max_rows;
-        double value = 0;
 
-        max_rows = new double[m];
+        double[] max_rows = new double[m];
 
         for (i = 0; i < m; i++)
         {
-            value = a[i + 0 * m];
+            double value = a[i + 0 * m];
+            int j;
             for (j = 1; j < n; j++)
             {
                 if (value < a[i + j * m])
@@ -342,17 +336,14 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
-        double minrow;
-        const double r8_huge = 1.79769313486231571E+308;
-        double value = 0;
 
-        value = -r8_huge;
+        double value = -r8_huge();
 
         for (i = 0; i < m; i++)
         {
-            minrow = r8_huge;
+            double minrow = r8_huge();
 
+            int j;
             for (j = 0; j < n; j++)
             {
                 minrow = Math.Min(minrow, a[i + j * m]);
@@ -405,17 +396,14 @@ public static partial class typeMethods
         //    minimum column entry of A.
         //
     {
-        int i;
         int j;
-        double mincol;
-        const double r8_huge = 1.79769313486231571E+308;
-        double value = 0;
 
-        value = -r8_huge;
+        double value = -r8_huge();
 
         for (j = 0; j < n; j++)
         {
-            mincol = r8_huge;
+            double mincol = r8_huge();
+            int i;
             for (i = 0; i < m; i++)
             {
                 mincol = Math.Min(mincol, a[i + j * m]);
@@ -463,14 +451,13 @@ public static partial class typeMethods
         //    Output, double R8MAT_MEAN, the mean of A.
         //
     {
-        int i;
         int j;
-        double value = 0;
 
-        value = 0.0;
+        double value = 0;
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 value += a[i + j * m];
@@ -518,16 +505,14 @@ public static partial class typeMethods
         //    Output, double R8MAT_MEAN_COLUMNS[N], the column means.
         //
     {
-        int i;
         int j;
-        double[] mean_columns;
-        double value = 0;
 
-        mean_columns = new double[n];
+        double[] mean_columns = new double[n];
 
         for (j = 0; j < n; j++)
         {
-            value = 0.0;
+            double value = 0.0;
+            int i;
             for (i = 0; i < m; i++)
             {
                 value += a[i + j * m];
@@ -571,15 +556,13 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
-        double[] mean_rows;
-        double value = 0;
 
-        mean_rows = new double[m];
+        double[] mean_rows = new double[m];
 
         for (i = 0; i < m; i++)
         {
-            value = 0.0;
+            double value = 0.0;
+            int j;
             for (j = 0; j < n; j++)
             {
                 value += a[i + j * m];
@@ -627,14 +610,13 @@ public static partial class typeMethods
         //    Output, double R8MAT_MIN, the minimum entry of A.
         //
     {
-        int i;
         int j;
-        double value = 0;
 
-        value = a[0 + 0 * m];
+        double value = a[0 + 0 * m];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 if (a[i + j * m] < value)
@@ -683,16 +665,14 @@ public static partial class typeMethods
         //    Output, double R8MAT_MIN_COLUMNS[N], the column minimums.
         //
     {
-        int i;
         int j;
-        double[] min_columns;
-        double value = 0;
 
-        min_columns = new double[n];
+        double[] min_columns = new double[n];
 
         for (j = 0; j < n; j++)
         {
-            value = a[0 + j * m];
+            double value = a[0 + j * m];
+            int i;
             for (i = 1; i < m; i++)
             {
                 if (a[i + j * m] < value)
@@ -743,16 +723,14 @@ public static partial class typeMethods
         //    Output, int &I_MIN, &J_MIN, the indices of the minimum entry of A.
         //
     {
-        int i;
-        int i2;
         int j;
-        int j2;
 
-        i2 = -1;
-        j2 = -1;
+        int i2 = -1;
+        int j2 = -1;
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 switch (i2)
@@ -811,15 +789,13 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
-        double[] min_rows;
-        double value = 0;
 
-        min_rows = new double[m];
+        double[] min_rows = new double[m];
 
         for (i = 0; i < m; i++)
         {
-            value = a[i + 0 * m];
+            double value = a[i + 0 * m];
+            int j;
             for (j = 1; j < n; j++)
             {
                 if (a[i + j * m] < value)
@@ -876,16 +852,13 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
-        double maxrow;
-        const double r8_huge = 1.79769313486231571E+308;
-        double value = 0;
 
-        value = r8_huge;
+        double value = r8_huge();
 
         for (i = 0; i < m; i++)
         {
-            maxrow = -r8_huge;
+            double maxrow = -r8_huge();
+            int j;
             for (j = 0; j < n; j++)
             {
                 maxrow = Math.Max(maxrow, a[i + j * m]);
@@ -938,17 +911,14 @@ public static partial class typeMethods
         //    maximum column entry of A.
         //
     {
-        int i;
         int j;
-        double maxcol;
-        const double r8_huge = 1.79769313486231571E+308;
-        double value = 0;
 
-        value = r8_huge;
+        double value = r8_huge();
 
         for (j = 0; j < n; j++)
         {
-            maxcol = -r8_huge;
+            double maxcol = -r8_huge();
+            int i;
             for (i = 0; i < m; i++)
             {
                 maxcol = Math.Max(maxcol, a[i + j * m]);
@@ -993,12 +963,9 @@ public static partial class typeMethods
         //    Output, double C[N1*N2], the result, C = inverse(A) * B.
         //
     {
-        double[] alu;
-        double[] d;
+        double[] alu = r8mat_copy_new(n1, n1, a);
 
-        alu = r8mat_copy_new(n1, n1, a);
-
-        d = r8mat_fss_new(n1, ref alu, n2, b);
+        double[] d = r8mat_fss_new(n1, ref alu, n2, b);
 
         r8mat_copy(n1, n2, d, ref c);
     }
@@ -1036,11 +1003,8 @@ public static partial class typeMethods
         //    Output, double R8MAT_MINVM_NEW[N1*N2], the result, C = inverse(A) * B.
         //
     {
-        double[] alu;
-        double[] c;
-
-        alu = r8mat_copy_new(n1, n1, a);
-        c = r8mat_fss_new(n1, ref alu, n2, b);
+        double[] alu = r8mat_copy_new(n1, n1, a);
+        double[] c = r8mat_fss_new(n1, ref alu, n2, b);
 
         return c;
     }

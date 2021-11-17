@@ -36,17 +36,14 @@ public static partial class typeMethods
         //    Input/output, double A[N*N], the matrix to be transposed.
         //
     {
-        int i;
         int j;
-        double t;
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < j; i++)
             {
-                t = a[i + j * n];
-                a[i + j * n] = a[j + i * n];
-                a[j + i * n] = t;
+                (a[i + j * n], a[j + i * n]) = (a[j + i * n], a[i + j * n]);
             }
         }
     }
@@ -85,14 +82,13 @@ public static partial class typeMethods
         //    Output, double R8MAT_TRANSPOSE_NEW[N*M], the transposed matrix.
         //
     {
-        double[] b;
-        int i;
         int j;
 
-        b = new double[n * m];
+        double[] b = new double[n * m];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 b[j + i * n] = a[i + j * m];
@@ -177,18 +173,10 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        int INCX = 5;
+        const int INCX = 5;
 
-        int i;
-        int i2;
-        int i2hi;
         int i2lo;
         int i2lo_hi;
-        int i2lo_lo;
-        int inc;
-        int j;
-        int j2hi;
-        int j2lo;
 
         Console.WriteLine();
         Console.WriteLine(title);
@@ -200,7 +188,7 @@ public static partial class typeMethods
             return;
         }
 
-        i2lo_lo = ilo switch
+        int i2lo_lo = ilo switch
         {
             < 1 => 1,
             _ => ilo
@@ -223,7 +211,7 @@ public static partial class typeMethods
                 break;
             }
 
-            i2hi = i2lo + INCX - 1;
+            int i2hi = i2lo + INCX - 1;
 
             if (m < i2hi)
             {
@@ -235,10 +223,11 @@ public static partial class typeMethods
                 i2hi = ihi;
             }
 
-            inc = i2hi + 1 - i2lo;
+            int inc = i2hi + 1 - i2lo;
 
             Console.WriteLine();
             string cout = "  Row: ";
+            int i;
             for (i = i2lo; i <= i2hi; i++)
             {
                 cout += (i - 1).ToString().PadLeft(7) + "       ";
@@ -248,12 +237,13 @@ public static partial class typeMethods
             Console.WriteLine("  Col");
             Console.WriteLine();
 
-            j2lo = jlo switch
+            int j2lo = jlo switch
             {
                 < 1 => 1,
                 _ => jlo
             };
 
+            int j2hi;
             if (n < jhi)
             {
                 j2hi = n;
@@ -263,9 +253,11 @@ public static partial class typeMethods
                 j2hi = jhi;
             }
 
+            int j;
             for (j = j2lo; j <= j2hi; j++)
             {
                 cout = (j - 1).ToString().PadLeft(5) + ":";
+                int i2;
                 for (i2 = 1; i2 <= inc; i2++)
                 {
                     i = i2lo - 1 + i2;

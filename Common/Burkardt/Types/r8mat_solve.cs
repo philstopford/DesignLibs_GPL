@@ -48,40 +48,23 @@ public static partial class typeMethods
         //    Output, double R8MAT_SOLVE_SVD[N], the solution.
         //
     {
-        double[] a_copy;
-        double[] a_pseudo;
-        double[] e;
         int i;
-        int info;
         int j;
-        int k;
-        int l;
-        int lda;
-        int ldu;
-        int ldv;
-        int job;
-        double[] s;
-        double[] sp;
-        double[] sdiag;
-        double[] u;
-        double[] v;
-        double[] work;
-        double[] x;
         //
         //  Compute the SVD decomposition.
         //
-        a_copy = r8mat_copy_new(m, n, a);
-        lda = m;
-        sdiag = new double[Math.Max(m + 1, n)];
-        e = new double[Math.Max(m + 1, n)];
-        u = new double[m * m];
-        ldu = m;
-        v = new double[n * n];
-        ldv = n;
-        work = new double[m];
-        job = 11;
+        double[] a_copy = r8mat_copy_new(m, n, a);
+        int lda = m;
+        double[] sdiag = new double[Math.Max(m + 1, n)];
+        double[] e = new double[Math.Max(m + 1, n)];
+        double[] u = new double[m * m];
+        int ldu = m;
+        double[] v = new double[n * n];
+        int ldv = n;
+        double[] work = new double[m];
+        const int job = 11;
 
-        info = DSVDC.dsvdc(ref a_copy, lda, m, n, ref sdiag, ref e, ref u, ldu, ref v, ldv, work, job);
+        int info = DSVDC.dsvdc(ref a_copy, lda, m, n, ref sdiag, ref e, ref u, ldu, ref v, ldv, work, job);
 
         if (info != 0)
         {
@@ -93,7 +76,7 @@ public static partial class typeMethods
             return null;
         }
 
-        s = new double [m * n];
+        double[] s = new double [m * n];
 
         for (j = 0; j < n; j++)
         {
@@ -111,7 +94,7 @@ public static partial class typeMethods
         //
         //  Compute the pseudo inverse.
         //
-        sp = new double [n * m];
+        double[] sp = new double [n * m];
 
         for (j = 0; j < m; j++)
         {
@@ -129,15 +112,17 @@ public static partial class typeMethods
             }
         }
 
-        a_pseudo = new double[n * m];
+        double[] a_pseudo = new double[n * m];
 
         for (j = 0; j < m; j++)
         {
             for (i = 0; i < n; i++)
             {
                 a_pseudo[i + j * n] = 0.0;
+                int k;
                 for (k = 0; k < n; k++)
                 {
+                    int l;
                     for (l = 0; l < m; l++)
                     {
                         a_pseudo[i + j * n] += v[i + k * n] * sp[k + l * n] * u[j + l * m];
@@ -149,7 +134,7 @@ public static partial class typeMethods
         //
         //  Compute x = A_pseudo * b.
         //
-        x = r8mat_mv_new(n, m, a_pseudo, b);
+        double[] x = r8mat_mv_new(n, m, a_pseudo, b);
 
         return x;
     }
@@ -200,29 +185,26 @@ public static partial class typeMethods
         //    be computed.
         //
     {
-        double apivot;
-        double factor;
-        int i;
-        int ipivot;
         int j;
-        int k;
-        double temp;
 
         for (j = 0; j < n; j++)
         {
             //
             //  Choose a pivot row.
             //
-            ipivot = j;
-            apivot = a[j + j * n];
+            int ipivot = j;
+            double apivot = a[j + j * n];
 
+            int i;
             for (i = j; i < n; i++)
             {
-                if (Math.Abs(apivot) < Math.Abs(a[i + j * n]))
+                if (!(Math.Abs(apivot) < Math.Abs(a[i + j * n])))
                 {
-                    apivot = a[i + j * n];
-                    ipivot = i;
+                    continue;
                 }
+
+                apivot = a[i + j * n];
+                ipivot = i;
             }
 
             switch (apivot)
@@ -236,15 +218,14 @@ public static partial class typeMethods
             //
             for (i = 0; i < n + rhs_num; i++)
             {
-                temp = a[ipivot + i * n];
-                a[ipivot + i * n] = a[j + i * n];
-                a[j + i * n] = temp;
+                (a[ipivot + i * n], a[j + i * n]) = (a[j + i * n], a[ipivot + i * n]);
             }
 
             //
             //  A(J,J) becomes 1.
             //
             a[j + j * n] = 1.0;
+            int k;
             for (k = j; k < n + rhs_num; k++)
             {
                 a[j + k * n] /= apivot;
@@ -255,14 +236,16 @@ public static partial class typeMethods
             //
             for (i = 0; i < n; i++)
             {
-                if (i != j)
+                if (i == j)
                 {
-                    factor = a[i + j * n];
-                    a[i + j * n] = 0.0;
-                    for (k = j; k < n + rhs_num; k++)
-                    {
-                        a[i + k * n] -= factor * a[j + k * n];
-                    }
+                    continue;
+                }
+
+                double factor = a[i + j * n];
+                a[i + j * n] = 0.0;
+                for (k = j; k < n + rhs_num; k++)
+                {
+                    a[i + k * n] -= factor * a[j + k * n];
                 }
             }
         }
@@ -314,7 +297,6 @@ public static partial class typeMethods
         //    if DET is nonzero.  Otherwise, the NULL vector.
         //
     {
-        double[] x;
         //
         //  Compute the determinant.
         //
@@ -331,7 +313,7 @@ public static partial class typeMethods
         //
         //  Compute the solution.
         //
-        x = new double[2];
+        double[] x = new double[2];
 
         x[0] = (a[1 + 1 * 2] * b[0] - a[0 + 1 * 2] * b[1]) / det;
         x[1] = (-a[1 + 0 * 2] * b[0] + a[0 + 0 * 2] * b[1]) / det;
@@ -383,7 +365,6 @@ public static partial class typeMethods
         //    if DET is nonzero.  Otherwise, the NULL vector.
         //
     {
-        double[] x;
         //
         //  Compute the determinant.
         //
@@ -402,7 +383,7 @@ public static partial class typeMethods
         //
         //  Compute the solution.
         //
-        x = new double[3];
+        double[] x = new double[3];
 
         x[0] = ((a[1 + 1 * 3] * a[2 + 2 * 3] - a[1 + 2 * 3] * a[2 + 1 * 3]) * b[0]
                 - (a[0 + 1 * 3] * a[2 + 2 * 3] - a[0 + 2 * 3] * a[2 + 1 * 3]) * b[1]
@@ -456,17 +437,15 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
-        double temp;
-        double[] x;
 
-        x = new double[n];
+        double[] x = new double[n];
         //
         //  Solve L * x = b.
         //
         for (i = 0; i < n; i++)
         {
-            temp = 0.0;
+            double temp = 0.0;
+            int j;
             for (j = 0; j < i; j++)
             {
                 temp += a[i + j * n] * x[j];
@@ -518,15 +497,14 @@ public static partial class typeMethods
         //    Output, double R8MAT_LT_SOLVE[N], the solution of the linear system.
         //
     {
-        int i;
         int j;
-        double[] x;
 
-        x = new double[n];
+        double[] x = new double[n];
 
         for (j = n - 1; 0 <= j; j--)
         {
             x[j] = b[j];
+            int i;
             for (i = j + 1; i < n; i++)
             {
                 x[j] -= x[i] * a[i + j * n];
@@ -589,15 +567,12 @@ public static partial class typeMethods
         //    Output, double R8MAT_SOLVE2[N], the solution of the linear system.
         //
     {
-        double amax;
         int imax;
-        int[] piv;
-        double[] x;
 
         ierror = 0;
 
-        piv = i4vec_zero_new(n);
-        x = r8vec_zero_new(n);
+        int[] piv = i4vec_zero_new(n);
+        double[] x = r8vec_zero_new(n);
         //
         //  Process the matrix.
         //
@@ -609,7 +584,7 @@ public static partial class typeMethods
             //      IMAX has not already been used as a pivot;
             //      A(IMAX,K) is larger in magnitude than any other candidate.
             //
-            amax = 0.0;
+            double amax = 0.0;
             imax = 0;
             for (int i = 1; i <= n; i++)
             {
@@ -632,7 +607,11 @@ public static partial class typeMethods
             //  If you found a pivot row IMAX, then,
             //    eliminate the K-th entry in all rows that have not been used for pivoting.
             //
-            if (imax != 0)
+            if (imax == 0)
+            {
+                continue;
+            }
+
             {
                 piv[imax - 1] = k;
                 for (int j = k + 1; j <= n; j++)
@@ -763,16 +742,15 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
-        double[] x;
         //
         //  Solve U' * x = b.
         //
-        x = new double[n];
+        double[] x = new double[n];
 
         for ( i = 0; i < n; i++ )
         {
             x[i] = b[i];
+            int j;
             for ( j = 0; j < i; j++ )
             {
                 x[i] -= a[j+i*n] * x[j];

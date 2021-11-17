@@ -41,13 +41,10 @@ public static partial class typeMethods
         //    Output, double C[M*M], the covariance matrix for the data.
         //
     {
-        double[] c;
         int i;
         int j;
-        int k;
-        double[] x_mean;
 
-        c = new double[m * m];
+        double[] c = new double[m * m];
         for (j = 0; j < m; j++)
         {
             for (i = 0; i < m; i++)
@@ -75,7 +72,7 @@ public static partial class typeMethods
         //
         //  Determine the sample means.
         //
-        x_mean = new double[m];
+        double[] x_mean = new double[m];
         for (i = 0; i < m; i++)
         {
             x_mean[i] = 0.0;
@@ -94,6 +91,7 @@ public static partial class typeMethods
         {
             for (i = 0; i < m; i++)
             {
+                int k;
                 for (k = 0; k < n; k++)
                 {
                     c[i + j * m] += (x[i + k * m] - x_mean[i]) * (x[j + k * m] - x_mean[j]);
@@ -145,19 +143,16 @@ public static partial class typeMethods
         //    Output, double R8MAT_STANDARDIZE[M*N], the standardized array.
         //
     {
-        int i;
         int j;
-        double[] mu;
-        double[] sigma;
-        double[] xs;
 
-        mu = r8mat_mean_columns(m, n, x);
-        sigma = r8mat_std_columns(m, n, x);
+        double[] mu = r8mat_mean_columns(m, n, x);
+        double[] sigma = r8mat_std_columns(m, n, x);
 
-        xs = new double[m * n];
+        double[] xs = new double[m * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             if (sigma[j] != 0.0)
             {
                 for (i = 0; i < m; i++)
@@ -213,24 +208,21 @@ public static partial class typeMethods
         //    Output, double R8MAT_STD_COLUMNS[N], the column stds.
         //
     {
-        int i;
         int j;
-        double mean;
-        double std;
-        double[] std_columns;
 
-        std_columns = new double[n];
+        double[] std_columns = new double[n];
 
         for (j = 0; j < n; j++)
         {
-            mean = 0.0;
+            double mean = 0.0;
+            int i;
             for (i = 0; i < m; i++)
             {
                 mean += a[i + j * m];
             }
 
             mean /= m;
-            std = 0.0;
+            double std = 0.0;
             for (i = 0; i < m; i++)
             {
                 std += Math.Pow(a[i + j * m] - mean, 2);
@@ -275,23 +267,20 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
-        double mean;
-        double[] std_rows;
-        double std;
 
-        std_rows = new double[m];
+        double[] std_rows = new double[m];
 
         for (i = 0; i < m; i++)
         {
-            mean = 0.0;
+            double mean = 0.0;
+            int j;
             for (j = 0; j < n; j++)
             {
                 mean += a[i + j * m];
             }
 
             mean /= n;
-            std = 0.0;
+            double std = 0.0;
             for (j = 0; j < n; j++)
             {
                 std += Math.Pow(a[i + j * m] - mean, 2);
@@ -340,24 +329,21 @@ public static partial class typeMethods
         //    Output, double R8MAT_VARIANCE_COLUMNS[N], the column variances.
         //
     {
-        int i;
         int j;
-        double mean;
-        double variance;
-        double[] variance_columns;
 
-        variance_columns = new double[n];
+        double[] variance_columns = new double[n];
 
         for (j = 0; j < n; j++)
         {
-            mean = 0.0;
+            double mean = 0.0;
+            int i;
             for (i = 0; i < m; i++)
             {
                 mean += a[i + j * m];
             }
 
             mean /= m;
-            variance = 0.0;
+            double variance = 0.0;
             for (i = 0; i < m; i++)
             {
                 variance += Math.Pow(a[i + j * m] - mean, 2);
@@ -402,23 +388,20 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
-        double mean;
-        double[] variance_rows;
-        double variance;
 
-        variance_rows = new double[m];
+        double[] variance_rows = new double[m];
 
         for (i = 0; i < m; i++)
         {
-            mean = 0.0;
+            double mean = 0.0;
+            int j;
             for (j = 0; j < n; j++)
             {
                 mean += a[i + j * m];
             }
 
             mean /= n;
-            variance = 0.0;
+            double variance = 0.0;
             for (j = 0; j < n; j++)
             {
                 variance += Math.Pow(a[i + j * m] - mean, 2);

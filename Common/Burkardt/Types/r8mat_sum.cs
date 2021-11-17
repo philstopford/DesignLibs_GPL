@@ -36,13 +36,12 @@ public static partial class typeMethods
         //    Output, double R8MAT_SUM, the sum of the entries.
         //
     {
-        int i;
         int j;
-        double value = 0;
 
-        value = 0.0;
+        double value = 0.0;
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 value += a[i + j * m];
@@ -88,16 +87,14 @@ public static partial class typeMethods
         //    Output, double R8MAT_SUM_COLUMNS[N], the column sums.
         //
     {
-        int i;
         int j;
-        double[] sum_columns;
-        double value = 0;
 
-        sum_columns = new double[n];
+        double[] sum_columns = new double[n];
 
         for (j = 0; j < n; j++)
         {
-            value = 0.0;
+            double value = 0.0;
+            int i;
             for (i = 0; i < m; i++)
             {
                 value += a[i + j * m];
@@ -141,15 +138,13 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
-        double[] sum_rows;
-        double value = 0;
 
-        sum_rows = new double[m];
+        double[] sum_rows = new double[m];
 
         for (i = 0; i < m; i++)
         {
-            value = 0.0;
+            double value = 0.0;
+            int j;
             for (j = 0; j < n; j++)
             {
                 value += a[i + j * m];

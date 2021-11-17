@@ -47,17 +47,14 @@ public static partial class typeMethods
         //    Output, double A[NZ_NUM], the matrix.
         //
     {
-        double[] a;
-        int i;
-        int j;
         int k;
 
-        a = r8vec_zeros_new(nz_num);
+        double[] a = r8vec_zeros_new(nz_num);
 
         for (k = 0; k < nz_num; k++)
         {
-            i = rowcol[0 + k * 2];
-            j = rowcol[1 + k * 2];
+            int i = rowcol[0 + k * 2];
+            int j = rowcol[1 + k * 2];
 
             if (j == i - 1)
             {
@@ -172,17 +169,14 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
-        int k;
-        int[] rowcol;
 
-        rowcol = i4vec_zeros_new(2 * nz_num);
+        int[] rowcol = i4vec_zeros_new(2 * nz_num);
 
-        k = 0;
+        int k = 0;
 
         for (i = 0; i < m; i++)
         {
-            j = i - 1;
+            int j = i - 1;
             switch (j)
             {
                 case >= 0 when j < n:
@@ -253,20 +247,16 @@ public static partial class typeMethods
         //    Output, double A[NZ_NUM], the indicator matrix.
         //
     {
-        double[] a;
-        int fac;
-        int i;
-        int j;
         int k;
 
-        a = r8vec_zeros_new(nz_num);
+        double[] a = r8vec_zeros_new(nz_num);
 
-        fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
+        int fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
 
         for (k = 0; k < nz_num; k++)
         {
-            i = rowcol[0 + k * 2];
-            j = rowcol[1 + k * 2];
+            int i = rowcol[0 + k * 2];
+            int j = rowcol[1 + k * 2];
             a[k] = fac * (i + 1) + j + 1;
         }
 
@@ -320,17 +310,14 @@ public static partial class typeMethods
         //    Output, double R8NCF_MTV[N], the product A' * x.
         //
     {
-        double[] b;
-        int i;
-        int j;
         int k;
 
-        b = r8vec_zeros_new(n);
+        double[] b = r8vec_zeros_new(n);
 
         for (k = 0; k < nz_num; k++)
         {
-            i = rowcol[0 + k * 2];
-            j = rowcol[1 + k * 2];
+            int i = rowcol[0 + k * 2];
+            int j = rowcol[1 + k * 2];
             b[j] += a[k] * x[i];
         }
 
@@ -384,17 +371,14 @@ public static partial class typeMethods
         //    Output, double R8NCF_MV[M], the product A * x.
         //
     {
-        double[] b;
-        int i;
-        int j;
         int k;
 
-        b = r8vec_zeros_new(m);
+        double[] b = r8vec_zeros_new(m);
 
         for (k = 0; k < nz_num; k++)
         {
-            i = rowcol[0 + k * 2];
-            j = rowcol[1 + k * 2];
+            int i = rowcol[0 + k * 2];
+            int j = rowcol[1 + k * 2];
             b[i] += a[k] * x[j];
         }
 
@@ -495,17 +479,9 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        int INCX = 5;
+        const int INCX = 5;
 
-        double aij;
-        int i;
-        int i2hi;
-        int i2lo;
-        int j;
-        int j2hi;
         int j2lo;
-        int k;
-        string cout = "";
 
         Console.WriteLine("");
         Console.WriteLine(title + "");
@@ -514,7 +490,7 @@ public static partial class typeMethods
         //
         for (j2lo = jlo; j2lo <= jhi; j2lo += INCX)
         {
-            j2hi = j2lo + INCX - 1;
+            int j2hi = j2lo + INCX - 1;
             j2hi = Math.Min(j2hi, n - 1);
             j2hi = Math.Min(j2hi, jhi);
 
@@ -524,7 +500,8 @@ public static partial class typeMethods
             //
             //  Write the header.
             //
-            cout = "  Col:    ";
+            string cout = "  Col:    ";
+            int j;
             for (j = j2lo; j <= j2hi; j++)
             {
                 cout += j.ToString().PadLeft(7) + "       ";
@@ -536,15 +513,17 @@ public static partial class typeMethods
             //
             //  Determine the range of the rows in this strip.
             //
-            i2lo = Math.Max(ilo, 0);
-            i2hi = Math.Min(ihi, m - 1);
+            int i2lo = Math.Max(ilo, 0);
+            int i2hi = Math.Min(ihi, m - 1);
 
+            int i;
             for (i = i2lo; i <= i2hi; i++)
             {
                 cout = i.ToString().PadLeft(5);
                 for (j = j2lo; j <= j2hi; j++)
                 {
-                    aij = 0.0;
+                    double aij = 0.0;
+                    int k;
                     for (k = 0; k < nz_num; k++)
                     {
                         if (rowcol[0 + k * 2] == i && rowcol[1 + k * 2] == j)
@@ -607,10 +586,9 @@ public static partial class typeMethods
         //    Output, double R8NCF_RANDOM[NZ_NUM], the indicator matrix.
         //
     {
-        double[] a;
         int k;
 
-        a = r8vec_zeros_new(nz_num);
+        double[] a = r8vec_zeros_new(nz_num);
 
         for (k = 0; k < nz_num; k++)
         {
@@ -664,17 +642,14 @@ public static partial class typeMethods
         //    Output, double R8NCF_TO_R8GE[M*N], the R8GE matrix.
         //
     {
-        double[] a_r8ge;
-        int i;
-        int j;
         int k;
 
-        a_r8ge = r8vec_zeros_new(m * n);
+        double[] a_r8ge = r8vec_zeros_new(m * n);
 
         for (k = 0; k < nz_num; k++)
         {
-            i = rowcol[0 + k * 2];
-            j = rowcol[1 + k * 2];
+            int i = rowcol[0 + k * 2];
+            int j = rowcol[1 + k * 2];
             a_r8ge[i + j * m] += a[k];
         }
 
@@ -721,9 +696,7 @@ public static partial class typeMethods
         //    Output, double R8NCF_ZEROS[NZ_NUM], the matrix.
         //
     {
-        double[] a;
-
-        a = r8vec_zeros_new(nz_num);
+        double[] a = r8vec_zeros_new(nz_num);
 
         return a;
     }

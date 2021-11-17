@@ -148,20 +148,6 @@ public static partial class typeMethods
         //    is the greatest entry of X, then MORE is N+1.
         //
     {
-        int compare;
-        int hi;
-        int lo;
-        int mid;
-        double xhi;
-        double xlo;
-        double xmid;
-        double yhi;
-        double ylo;
-        double ymid;
-        double zhi;
-        double zlo;
-        double zmid;
-
         switch (n)
         {
             case <= 0:
@@ -171,18 +157,18 @@ public static partial class typeMethods
                 return;
         }
 
-        lo = 1;
-        hi = n;
+        int lo = 1;
+        int hi = n;
 
-        xlo = x[indx[lo - 1] - 1];
-        ylo = y[indx[lo - 1] - 1];
-        zlo = z[indx[lo - 1] - 1];
+        double xlo = x[indx[lo - 1] - 1];
+        double ylo = y[indx[lo - 1] - 1];
+        double zlo = z[indx[lo - 1] - 1];
 
-        xhi = x[indx[hi - 1] - 1];
-        yhi = y[indx[hi - 1] - 1];
-        zhi = z[indx[hi - 1] - 1];
+        double xhi = x[indx[hi - 1] - 1];
+        double yhi = y[indx[hi - 1] - 1];
+        double zhi = z[indx[hi - 1] - 1];
 
-        compare = r8r8r8_compare(xval, yval, zval, xlo, ylo, zlo);
+        int compare = r8r8r8_compare(xval, yval, zval, xlo, ylo, zlo);
 
         switch (compare)
         {
@@ -224,10 +210,10 @@ public static partial class typeMethods
                 return;
             }
 
-            mid = (lo + hi) / 2;
-            xmid = x[indx[mid - 1] - 1];
-            ymid = y[indx[mid - 1] - 1];
-            zmid = z[indx[mid - 1] - 1];
+            int mid = (lo + hi) / 2;
+            double xmid = x[indx[mid - 1] - 1];
+            double ymid = y[indx[mid - 1] - 1];
+            double zmid = z[indx[mid - 1] - 1];
 
             compare = r8r8r8_compare(xval, yval, zval, xmid, ymid, zmid);
 
@@ -387,17 +373,6 @@ public static partial class typeMethods
         //    is the greatest entry of X, then MORE is N+1.
         //
     {
-        int compare;
-        int hi;
-        int lo;
-        int mid;
-        double xhi;
-        double xlo;
-        double xmid;
-        double yhi;
-        double ylo;
-        double ymid;
-
         switch (n)
         {
             case <= 0:
@@ -407,16 +382,16 @@ public static partial class typeMethods
                 return;
         }
 
-        lo = 1;
-        hi = n;
+        int lo = 1;
+        int hi = n;
 
-        xlo = x[indx[lo - 1] - 1];
-        ylo = y[indx[lo - 1] - 1];
+        double xlo = x[indx[lo - 1] - 1];
+        double ylo = y[indx[lo - 1] - 1];
 
-        xhi = x[indx[hi - 1] - 1];
-        yhi = y[indx[hi - 1] - 1];
+        double xhi = x[indx[hi - 1] - 1];
+        double yhi = y[indx[hi - 1] - 1];
 
-        compare = r8r8_compare(xval, yval, xlo, ylo);
+        int compare = r8r8_compare(xval, yval, xlo, ylo);
 
         switch (compare)
         {
@@ -458,9 +433,9 @@ public static partial class typeMethods
                 return;
             }
 
-            mid = (lo + hi) / 2;
-            xmid = x[indx[mid - 1] - 1];
-            ymid = y[indx[mid - 1] - 1];
+            int mid = (lo + hi) / 2;
+            double xmid = x[indx[mid - 1] - 1];
+            double ymid = y[indx[mid - 1] - 1];
 
             compare = r8r8_compare(xval, yval, xmid, ymid);
 
@@ -479,8 +454,6 @@ public static partial class typeMethods
                     break;
             }
         }
-
-        return;
     }
 
 }

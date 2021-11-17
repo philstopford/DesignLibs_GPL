@@ -47,15 +47,11 @@ public static partial class typeMethods
         //    linear system.  On output, the solution of the linear system.
         //
     {
-        double[] a2;
         int i;
-        int ipiv;
         int j;
         int jcol;
-        double piv;
-        double t;
 
-        a2 = new double[n * n];
+        double[] a2 = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
@@ -70,8 +66,8 @@ public static partial class typeMethods
             //
             //  Find the maximum element in column I.
             //
-            piv = Math.Abs(a2[jcol - 1 + (jcol - 1) * n]);
-            ipiv = jcol;
+            double piv = Math.Abs(a2[jcol - 1 + (jcol - 1) * n]);
+            int ipiv = jcol;
             for (i = jcol + 1; i <= n; i++)
             {
                 if (piv < Math.Abs(a2[i - 1 + (jcol - 1) * n]))
@@ -93,6 +89,7 @@ public static partial class typeMethods
             //
             //  Switch rows JCOL and IPIV, and X.
             //
+            double t;
             if (jcol != ipiv)
             {
                 for (j = 1; j <= n; j++)
@@ -189,15 +186,11 @@ public static partial class typeMethods
         //    linear system.  On output, the solution of the linear system.
         //
     {
-        double[] a2;
         int i;
-        int ipiv;
         int j;
         int jcol;
-        double piv;
-        double t;
 
-        a2 = new double[n * n];
+        double[] a2 = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
@@ -212,8 +205,8 @@ public static partial class typeMethods
             //
             //  Find the maximum element in column I.
             //
-            piv = Math.Abs(a2[jcol - 1 + (jcol - 1) * n]);
-            ipiv = jcol;
+            double piv = Math.Abs(a2[jcol - 1 + (jcol - 1) * n]);
+            int ipiv = jcol;
             for (i = jcol + 1; i <= n; i++)
             {
                 if (piv < Math.Abs(a2[i - 1 + (jcol - 1) * n]))
@@ -235,6 +228,7 @@ public static partial class typeMethods
             //
             //  Switch rows JCOL and IPIV, and X.
             //
+            double t;
             if (jcol != ipiv)
             {
                 for (j = 1; j <= n; j++)
@@ -333,16 +327,11 @@ public static partial class typeMethods
         //    Output, double X[N], the solution of the linear system.
         //
     {
-        double[] a2;
         int i;
-        int ipiv;
         int j;
         int jcol;
-        double piv;
-        double t;
-        double[] x;
 
-        a2 = new double[n * n];
+        double[] a2 = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
@@ -352,7 +341,7 @@ public static partial class typeMethods
             }
         }
 
-        x = new double[n];
+        double[] x = new double[n];
         for (i = 0; i < n; i++)
         {
             x[i] = b[i];
@@ -363,8 +352,8 @@ public static partial class typeMethods
             //
             //  Find the maximum element in column I.
             //
-            piv = Math.Abs(a2[jcol - 1 + (jcol - 1) * n]);
-            ipiv = jcol;
+            double piv = Math.Abs(a2[jcol - 1 + (jcol - 1) * n]);
+            int ipiv = jcol;
             for (i = jcol + 1; i <= n; i++)
             {
                 if (piv < Math.Abs(a2[i - 1 + (jcol - 1) * n]))
@@ -386,6 +375,7 @@ public static partial class typeMethods
             //
             //  Switch rows JCOL and IPIV, and X.
             //
+            double t;
             if (jcol != ipiv)
             {
                 for (j = 1; j <= n; j++)

@@ -261,16 +261,14 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
-        double[] pointer1;
-        double[] pointer2;
 
-        pointer1 = poly_cof;
+        double[] pointer1 = poly_cof;
 
         for (i = 0; i < ntab; i++)
         {
-            pointer2 = pointer1;
+            double[] pointer2 = pointer1;
 
+            int j;
             for (j = 0; j < ntab; j++)
             {
                 if (j == i)
@@ -417,9 +415,7 @@ public static partial class typeMethods
         //    Output, int R8POLY_DEGREE, the degree of the polynomial.
         //
     {
-        int degree;
-
-        degree = na;
+        int degree = na;
 
         while (0 < degree)
         {
@@ -525,9 +521,8 @@ public static partial class typeMethods
         //
     {
         int i;
-        double value = 0;
 
-        value = (n - 1) * poly_cof[n - 1];
+        double value = (n - 1) * poly_cof[n - 1];
 
         for (i = n - 2; 1 <= i; i--)
         {
@@ -576,20 +571,18 @@ public static partial class typeMethods
         //    the derivative.
         //
     {
-        double[] cp;
-        double[] cp_temp;
         int d;
-        int i;
 
         if (n < p)
         {
             return null;
         }
 
-        cp_temp = r8vec_copy_new(n + 1, c);
+        double[] cp_temp = r8vec_copy_new(n + 1, c);
 
         for (d = 1; d <= p; d++)
         {
+            int i;
             for (i = 0; i <= n - d; i++)
             {
                 cp_temp[i] = (i + 1) * cp_temp[i + 1];
@@ -598,7 +591,7 @@ public static partial class typeMethods
             cp_temp[n - d + 1] = 0.0;
         }
 
-        cp = r8vec_copy_new(n - p + 1, cp_temp);
+        double[] cp = r8vec_copy_new(n - p + 1, cp_temp);
 
         return cp;
     }
@@ -652,9 +645,8 @@ public static partial class typeMethods
         //
     {
         int i;
-        double wval;
 
-        wval = 1.0;
+        double wval = 1.0;
         for (i = 0; i < npol; i++)
         {
             wval *= (xval - xpol[i]);
@@ -708,12 +700,10 @@ public static partial class typeMethods
         //    Output, double R8POLY_LAGRANGE_1, the derivative of W with respect to XVAL.
         //
     {
-        double dwdx;
         int i;
-        double w;
 
-        dwdx = 0.0;
-        w = 1.0;
+        double dwdx = 0.0;
+        double w = 1.0;
 
         for (i = 0; i < npol; i++)
         {
@@ -777,21 +767,19 @@ public static partial class typeMethods
         //    Output, double R8POLY_LAGRANGE_2, the second derivative of W with respect to XVAL.
         //
     {
-        double dw2dx2;
-        int i;
-        int j;
         int k;
-        double term;
 
-        dw2dx2 = 0.0;
+        double dw2dx2 = 0.0;
 
         for (k = 0; k < npol; k++)
         {
+            int j;
             for (j = 0; j < npol; j++)
             {
                 if (j != k)
                 {
-                    term = 1.0;
+                    double term = 1.0;
+                    int i;
                     for (i = 0; i < npol; i++)
                     {
                         if (i != j && i != k)
@@ -851,9 +839,6 @@ public static partial class typeMethods
         //
     {
         int i;
-        int index;
-        int j;
-        double[] pcof;
         //
         //  Make sure IPOL is legal.
         //
@@ -878,7 +863,7 @@ public static partial class typeMethods
             return null;
         }
 
-        pcof = new double[npol];
+        double[] pcof = new double[npol];
 
         pcof[0] = 1.0;
         for (i = 1; i < npol; i++)
@@ -886,24 +871,27 @@ public static partial class typeMethods
             pcof[i] = 0.0;
         }
 
-        index = 0;
+        int index = 0;
 
         for (i = 1; i <= npol; i++)
         {
-            if (i != ipol)
+            if (i == ipol)
             {
-                index += 1;
+                continue;
+            }
 
-                for (j = index; 0 <= j; j--)
+            index += 1;
+
+            int j;
+            for (j = index; 0 <= j; j--)
+            {
+                pcof[j] = -xpol[i - 1] * pcof[j] / (xpol[ipol - 1] - xpol[i - 1]);
+
+                switch (j)
                 {
-                    pcof[j] = -xpol[i - 1] * pcof[j] / (xpol[ipol - 1] - xpol[i - 1]);
-
-                    switch (j)
-                    {
-                        case > 0:
-                            pcof[j] += pcof[j - 1] / (xpol[ipol - 1] - xpol[i - 1]);
-                            break;
-                    }
+                    case > 0:
+                        pcof[j] += pcof[j - 1] / (xpol[ipol - 1] - xpol[i - 1]);
+                        break;
                 }
             }
         }
@@ -988,8 +976,6 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
-        double term;
 
         wval = 1.0;
         for (i = 0; i < npol; i++)
@@ -1001,8 +987,9 @@ public static partial class typeMethods
 
         for (i = 0; i < npol; i++)
         {
-            term = 1.0;
+            double term = 1.0;
 
+            int j;
             for (j = 0; j < npol; j++)
             {
                 if (i != j)
@@ -1067,7 +1054,6 @@ public static partial class typeMethods
     {
         int i;
         int j;
-        double p2;
         //
         //  Make sure IPOL is legal.
         //
@@ -1119,24 +1105,26 @@ public static partial class typeMethods
 
         for (i = 0; i < npol; i++)
         {
-            if (i != ipol)
+            if (i == ipol)
             {
-                p2 = 1.0;
-
-                for (j = 0; j < npol; j++)
-                {
-                    if (j == i)
-                    {
-                        p2 /= (xpol[ipol] - xpol[j]);
-                    }
-                    else if (j != ipol)
-                    {
-                        p2 = p2 * (xval - xpol[j]) / (xpol[ipol] - xpol[j]);
-                    }
-                }
-
-                dpdx += p2;
+                continue;
             }
+
+            double p2 = 1.0;
+
+            for (j = 0; j < npol; j++)
+            {
+                if (j == i)
+                {
+                    p2 /= (xpol[ipol] - xpol[j]);
+                }
+                else if (j != ipol)
+                {
+                    p2 = p2 * (xval - xpol[j]) / (xpol[ipol] - xpol[j]);
+                }
+            }
+
+            dpdx += p2;
         }
 
         return 0;
@@ -1180,9 +1168,7 @@ public static partial class typeMethods
         //    Output, int R8POLY_ORDER, the degree of the polynomial.
         //
     {
-        int value;
-
-        value = na;
+        int value = na;
 
         while (1 < value)
         {
@@ -1232,8 +1218,6 @@ public static partial class typeMethods
         n = Math.Min(a.Length - 1, n);
 
         int i;
-        double mag;
-        char plus_minus;
 
         switch (title.Length)
         {
@@ -1252,13 +1236,13 @@ public static partial class typeMethods
                 return;
         }
 
-        plus_minus = a[n] switch
+        char plus_minus = a[n] switch
         {
             < 0.0 => '-',
             _ => ' '
         };
 
-        mag = Math.Abs(a[n]);
+        double mag = Math.Abs(a[n]);
 
         switch (n)
         {
@@ -1648,14 +1632,9 @@ public static partial class typeMethods
         //    polynomial at the point X0.
         //
     {
-        double eps;
-        int i;
         int m;
-        int n1;
-        double w;
-        double z;
 
-        n1 = Math.Min(n, iopt);
+        int n1 = Math.Min(n, iopt);
 
         n1 = iopt switch
         {
@@ -1663,9 +1642,9 @@ public static partial class typeMethods
             _ => Math.Max(1, n1)
         };
 
-        eps = Math.Max(-iopt, 0) % 2;
+        double eps = Math.Max(-iopt, 0) % 2;
 
-        w = -(double) n * eps;
+        double w = -(double) n * eps;
 
         switch (iopt)
         {
@@ -1677,8 +1656,9 @@ public static partial class typeMethods
         for (m = 1; m <= n1; m++)
         {
             val = 0.0;
-            z = w;
+            double z = w;
 
+            int i;
             for (i = m; i <= n; i++)
             {
                 z += eps;
@@ -1752,19 +1732,16 @@ public static partial class typeMethods
         //    coefficients in power sum form.
         //
     {
-        int i;
         int m;
-        double val;
-        double w;
-        double z;
 
-        w = -(double) n;
+        double w = -(double) n;
 
         for (m = 1; m <= n; m++)
         {
-            val = 0.0;
-            z = w;
+            double val = 0.0;
+            double z = w;
 
+            int i;
             for (i = m; i <= n; i++)
             {
                 z += 1.0;
@@ -1978,9 +1955,8 @@ public static partial class typeMethods
         //
     {
         int i;
-        double value = 0;
 
-        value = a[n - 1];
+        double value = a[n - 1];
 
         for (i = n - 2; 0 <= i; i--)
         {
@@ -2118,13 +2094,12 @@ public static partial class typeMethods
         //    coefficients in factorial form.
         //
     {
-        int i;
         int m;
-        double val;
 
         for (m = 1; m <= n; m++)
         {
-            val = 0.0;
+            double val = 0.0;
+            int i;
             for (i = m; i <= n; i++)
             {
                 val = a[n + m - i - 1] + (m - 1) * val;
@@ -2197,10 +2172,8 @@ public static partial class typeMethods
         //
     {
         int i;
-        double[] work;
-        double x;
 
-        work = new double[n];
+        double[] work = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -2209,7 +2182,7 @@ public static partial class typeMethods
 
         for (i = n - 1; 0 <= i; i--)
         {
-            x = xarray[i];
+            double x = xarray[i];
             r8poly_nx(n, ref a, ref work, x);
         }
     }
@@ -2259,13 +2232,12 @@ public static partial class typeMethods
         //    polynomial is to be based.
         //
     {
-        int i;
         int m;
-        double val;
 
         for (m = 1; m <= n; m++)
         {
-            val = 0.0;
+            double val = 0.0;
+            int i;
             for (i = m; i <= n; i++)
             {
                 val = a[n + m - i - 1] + x * val;
@@ -2318,9 +2290,8 @@ public static partial class typeMethods
     {
         int i;
         int j;
-        double[] p;
 
-        p = new double[n];
+        double[] p = new double[n];
 
         for (j = 0; j < n; j++)
         {
@@ -2385,26 +2356,23 @@ public static partial class typeMethods
         //    evaluation points.
         //
     {
-        int ex;
-        int ey;
         int i;
-        int j;
-        double[] p;
         int s;
 
-        p = new double[n];
+        double[] p = new double[n];
 
         for (i = 0; i < n; i++)
         {
             p[i] = 0.0;
         }
 
-        j = 0;
+        int j = 0;
         for (s = 0; s <= m; s++)
         {
+            int ex;
             for (ex = s; 0 <= ex; ex--)
             {
-                ey = s - ex;
+                int ey = s - ex;
                 for (i = 0; i < n; i++)
                 {
                     p[i] += c[j] * Math.Pow(x[i], ex) * Math.Pow(y[i], ey);
@@ -2454,24 +2422,22 @@ public static partial class typeMethods
         //    3, the data lies on a horizontal line; every point is "extremal".
         //
     {
-        double bot;
-
         x = 0.0;
         y = 0.0;
 
-        if (x1 == x2 || x2 == x3 || x3 == x1)
+        if (Math.Abs(x1 - x2) <= double.Epsilon || Math.Abs(x2 - x3) <= double.Epsilon || Math.Abs(x3 - x1) <= double.Epsilon)
         {
             return 1;
         }
 
-        if (y1 == y2 && y2 == y3 && y3 == y1)
+        if (Math.Abs(y1 - y2) <= double.Epsilon && Math.Abs(y2 - y3) <= double.Epsilon && Math.Abs(y3 - y1) <= double.Epsilon)
         {
             x = x1;
             y = y1;
             return 3;
         }
 
-        bot = (x2 - x3) * y1 + (x3 - x1) * y2 + (x1 - x2) * y3;
+        double bot = (x2 - x3) * y1 + (x3 - x1) * y2 + (x1 - x2) * y3;
 
         switch (bot)
         {
@@ -2535,7 +2501,6 @@ public static partial class typeMethods
         //
     {
         double[] v = new double[3 * 3];
-        double[] w;
 
         a = 0.0;
         b = 0.0;
@@ -2572,7 +2537,7 @@ public static partial class typeMethods
         //
         //  Get the inverse.
         //
-        w = r8mat_inverse_3d(v);
+        double[] w = r8mat_inverse_3d(v);
         //
         //  Compute the parabolic coefficients.
         //
@@ -2630,9 +2595,6 @@ public static partial class typeMethods
         //    might be real and distinct, real and equal, or complex conjugates.
         //
     {
-        Complex disc;
-        Complex q;
-
         switch (a)
         {
             case 0.0:
@@ -2642,8 +2604,8 @@ public static partial class typeMethods
                 return;
         }
 
-        disc = b * b - 4.0 * a * c;
-        q = -0.5 * (b + r8_sign(b) * Complex.Sqrt(disc));
+        Complex disc = b * b - 4.0 * a * c;
+        Complex q = -0.5 * (b + r8_sign(b) * Complex.Sqrt(disc));
         r1 = q / a;
         r2 = c / q;
 
@@ -2687,9 +2649,6 @@ public static partial class typeMethods
         //    of the polynomial.
         //
     {
-        double disc;
-        double q;
-
         switch (a)
         {
             case 0.0:
@@ -2699,11 +2658,11 @@ public static partial class typeMethods
                 return;
         }
 
-        disc = b * b - 4.0 * a * c;
+        double disc = b * b - 4.0 * a * c;
         switch (disc)
         {
             case >= 0.0:
-                q = b + r8_sign(b) * Math.Sqrt(disc);
+                double q = b + r8_sign(b) * Math.Sqrt(disc);
                 r1 = -0.5 * q / a;
                 r2 = -2.0 * c / q;
                 break;
@@ -2758,40 +2717,45 @@ public static partial class typeMethods
     {
         int distinct;
         double dif1;
-        double dif2 = 0.0;
-        double temp;
-        //
-        //  If any X's are equal, put them and the Y data first.
-        //
-        if (x1 == x2 && x2 == x3)
+        double dif2;
+        switch (Math.Abs(x1 - x2))
         {
-            distinct = 1;
-        }
-        else if (x1 == x2)
-        {
-            distinct = 2;
-        }
-        else if (x1 == x3)
-        {
-            Console.WriteLine("");
-            Console.WriteLine("R8POLY2_VAL - Fatal error!");
-            Console.WriteLine("  X1 = X3 =/= X2.");
-            return;
-        }
-        else if (x2 == x3)
-        {
-            distinct = 2;
-            temp = x1;
-            x1 = x3;
-            x3 = temp;
-            temp = y1;
-            y1 = y2;
-            y2 = y3;
-            y3 = y1;
-        }
-        else
-        {
-            distinct = 3;
+            //
+            //  If any X's are equal, put them and the Y data first.
+            //
+            case <= double.Epsilon when Math.Abs(x2 - x3) <= double.Epsilon:
+                distinct = 1;
+                break;
+            case <= double.Epsilon:
+                distinct = 2;
+                break;
+            default:
+            {
+                if (Math.Abs(x1 - x3) <= double.Epsilon)
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("R8POLY2_VAL - Fatal error!");
+                    Console.WriteLine("  X1 = X3 =/= X2.");
+                    return;
+                }
+                else if (Math.Abs(x2 - x3) <= double.Epsilon)
+                {
+                    distinct = 2;
+                    double temp = x1;
+                    x1 = x3;
+                    x3 = temp;
+                    temp = y1;
+                    y1 = y2;
+                    y2 = y3;
+                    y3 = y1;
+                }
+                else
+                {
+                    distinct = 3;
+                }
+
+                break;
+            }
         }
 
         switch (distinct)
@@ -2876,14 +2840,6 @@ public static partial class typeMethods
         //    at TVAL.
         //
     {
-        double dif1;
-        double dif2;
-        double t1;
-        double t2;
-        double t3;
-        double y1;
-        double y2;
-        double y3;
         //
         //  Check.
         //
@@ -2898,9 +2854,9 @@ public static partial class typeMethods
         //
         //  Copy out the three abscissas.
         //
-        t1 = tdata[left];
-        t2 = tdata[left + 1];
-        t3 = tdata[left + 2];
+        double t1 = tdata[left];
+        double t2 = tdata[left + 1];
+        double t3 = tdata[left + 2];
 
         if (t2 <= t1 || t3 <= t2)
         {
@@ -2916,14 +2872,13 @@ public static partial class typeMethods
         //
         //  Construct and evaluate a parabolic interpolant for the data.
         //
-        y1 = ydata[left];
-        y2 = ydata[left + 1];
-        y3 = ydata[left + 2];
+        double y1 = ydata[left];
+        double y2 = ydata[left + 1];
+        double y3 = ydata[left + 2];
 
-        dif1 = (y2 - y1) / (t2 - t1);
-        dif2 =
-            ((y3 - y1) / (t3 - t1)
-             - (y2 - y1) / (t2 - t1)) / (t3 - t2);
+        double dif1 = (y2 - y1) / (t2 - t1);
+        double dif2 = ((y3 - y1) / (t3 - t1)
+                       - (y2 - y1) / (t2 - t1)) / (t3 - t2);
 
         yval = y1 + (tval - t1) * (dif1 + (tval - t2) * dif2);
 
@@ -2961,15 +2916,6 @@ public static partial class typeMethods
         will include at least one real root.
         */
     {
-        Complex i;
-        double q;
-        double r;
-            
-        double s1;
-        double s2;
-        double temp;
-        double theta;
-
         switch (a)
         {
             case 0.0:
@@ -2979,27 +2925,27 @@ public static partial class typeMethods
                 return;
         }
 
-        i = Complex.Sqrt(-1.0);
+        Complex i = Complex.Sqrt(-1.0);
 
-        q = (b / a * (b / a) - 3.0 * (c / a)) / 9.0;
+        double q = (b / a * (b / a) - 3.0 * (c / a)) / 9.0;
 
-        r = (2.0 * (b / a) * (b / a) * (b / a) - 9.0 * (b / a) * (c / a)
-             + 27.0 * (d / a)) / 54.0;
+        double r = (2.0 * (b / a) * (b / a) * (b / a) - 9.0 * (b / a) * (c / a)
+                    + 27.0 * (d / a)) / 54.0;
 
         if (r * r < q * q * q)
         {
-            theta = Math.Acos(r / Math.Sqrt(q * q * q));
+            double theta = Math.Acos(r / Math.Sqrt(q * q * q));
             r1 = -2.0 * Complex.Sqrt(q) * Complex.Cos(theta / 3.0);
             r2 = -2.0 * Complex.Sqrt(q) * Complex.Cos((theta + 2.0 * Math.PI) / 3.0);
             r3 = -2.0 * Complex.Sqrt(q) * Complex.Cos((theta + 4.0 * Math.PI) / 3.0);
         }
         else if (q * q * q <= r * r)
         {
-            temp = -r + Math.Sqrt(r * r - q * q * q);
-            s1 = r8_sign(temp) * Math.Pow(Math.Abs(temp), 1.0 / 3.0);
+            double temp = -r + Math.Sqrt(r * r - q * q * q);
+            double s1 = r8_sign(temp) * Math.Pow(Math.Abs(temp), 1.0 / 3.0);
 
             temp = -r - Math.Sqrt(r * r - q * q * q);
-            s2 = r8_sign(temp) * Math.Pow(Math.Abs(temp), 1.0 / 3.0);
+            double s2 = r8_sign(temp) * Math.Pow(Math.Abs(temp), 1.0 / 3.0);
 
             r1 = s1 + s2;
             r2 = -0.5 * (s1 + s2) + i * 0.5 * Complex.Sqrt(3.0) * (s1 - s2);
@@ -3044,20 +2990,10 @@ public static partial class typeMethods
         //    Output, Complex &R1, &R2, &R3, &R4, the roots of the polynomial.
         //
     {
-        double a3;
-        double a4;
-        double b3;
-        double b4;
-        double c3;
-        double c4;
-        double d3;
-        double d4;
         Complex p;
         Complex q;
-        Complex r;
-        Complex zero;
 
-        zero = 0.0;
+        Complex zero = 0.0;
 
         switch (a)
         {
@@ -3068,17 +3004,17 @@ public static partial class typeMethods
                 return;
         }
 
-        a4 = b / a;
-        b4 = c / a;
-        c4 = d / a;
-        d4 = e / a;
+        double a4 = b / a;
+        double b4 = c / a;
+        double c4 = d / a;
+        double d4 = e / a;
         //
         //  Set the coefficients of the resolvent cubic equation.
         //
-        a3 = 1.0;
-        b3 = -b4;
-        c3 = a4 * c4 - 4.0 * d4;
-        d3 = -a4 * a4 * d4 + 4.0 * b4 * d4 - c4 * c4;
+        double a3 = 1.0;
+        double b3 = -b4;
+        double c3 = a4 * c4 - 4.0 * d4;
+        double d3 = -a4 * a4 * d4 + 4.0 * b4 * d4 - c4 * c4;
         //
         //  Find the roots of the resolvent cubic.
         //
@@ -3088,7 +3024,7 @@ public static partial class typeMethods
         //
         //  Set R = sqrt ( 0.25 * A4 ^ 2 - B4 + R1 )
         //
-        r = Complex.Sqrt(0.25 * a4 * a4 - b4 + r1);
+        Complex r = Complex.Sqrt(0.25 * a4 * a4 - b4 + r1);
 
         if (r != zero)
         {

@@ -41,14 +41,13 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
-        double[] y;
 
-        y = new double[m];
+        double[] y = new double[m];
 
         for (i = 0; i < m; i++)
         {
             y[i] = 0.0;
+            int j;
             for (j = 0; j < n; j++)
             {
                 y[i] += a[i + j * m] * x[j];
@@ -100,14 +99,13 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
-        double[] y;
 
-        y = new double[m];
+        double[] y = new double[m];
 
         for (i = 0; i < m; i++)
         {
             y[i] = 0.0;
+            int j;
             for (j = 0; j < n; j++)
             {
                 y[i] += a[i + j * m] * x[j];
@@ -155,15 +153,14 @@ public static partial class typeMethods
         //    Output, double ATX[N], the product A'*X.
         //
     {
-        int i;
         int j;
-        double[] y;
 
-        y = new double[n];
+        double[] y = new double[n];
 
         for ( j = 0; j < n; j++ )
         {
             y[j] = 0.0;
+            int i;
             for ( i = 0; i < m; i++ )
             {
                 y[j] += a[i+j*m] * x[i];

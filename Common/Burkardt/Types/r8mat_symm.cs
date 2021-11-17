@@ -46,20 +46,19 @@ public static partial class typeMethods
         //    eigenvalues X and eigenvectors the columns of Q.
         //
     {
-        double[] a;
         int i;
-        int j;
-        int k;
         //
         //  Set A = Q * Lambda * Q'.
         //
-        a = new double[n * n];
+        double[] a = new double[n * n];
 
         for (i = 0; i < n; i++)
         {
+            int j;
             for (j = 0; j < n; j++)
             {
                 a[i + j * n] = 0.0;
+                int k;
                 for (k = 0; k < n; k++)
                 {
                     a[i + j * n] += q[i + k * n] * x[k] * q[j + k * n];
@@ -107,43 +106,36 @@ public static partial class typeMethods
         //    diagonal matrix, with the eigenvalues on the diagonal.
         //
     {
-        double c;
-        double eps = 0.00001;
-        int i;
-        int it;
-        int it_max = 100;
-        int j;
-        int k;
-        double norm_fro;
-        double s;
-        double sum2;
-        double t;
-        double t1;
-        double t2;
-        double u;
+        const double eps = 0.00001;
+        const int it_max = 100;
 
-        norm_fro = r8mat_norm_fro(n, n, a);
+        double norm_fro = r8mat_norm_fro(n, n, a);
 
-        it = 0;
+        int it = 0;
 
         for (;;)
         {
             it += 1;
 
+            int i;
+            int j;
             for (i = 0; i < n; i++)
             {
                 for (j = 0; j < i; j++)
                 {
                     if (eps * norm_fro < Math.Abs(a[i + j * n]) + Math.Abs(a[j + i * n]))
                     {
-                        u = (a[j + j * n] - a[i + i * n]) / (a[i + j * n] + a[j + i * n]);
+                        double u = (a[j + j * n] - a[i + i * n]) / (a[i + j * n] + a[j + i * n]);
 
-                        t = r8_sign(u) / (Math.Abs(u) + Math.Sqrt(u * u + 1.0));
-                        c = 1.0 / Math.Sqrt(t * t + 1.0);
-                        s = t * c;
+                        double t = r8_sign(u) / (Math.Abs(u) + Math.Sqrt(u * u + 1.0));
+                        double c = 1.0 / Math.Sqrt(t * t + 1.0);
+                        double s = t * c;
                         //
                         //  A -> A * Q.
                         //
+                        int k;
+                        double t1;
+                        double t2;
                         for (k = 0; k < n; k++)
                         {
                             t1 = a[i + k * n];
@@ -169,7 +161,7 @@ public static partial class typeMethods
             //
             //  Test the size of the off-diagonal elements.
             //
-            sum2 = 0.0;
+            double sum2 = 0.0;
             for (i = 0; i < n; i++)
             {
                 for (j = 0; j < i; j++)

@@ -125,7 +125,7 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        int INCX = 5;
+        const int INCX = 5;
 
         Console.WriteLine("");
         Console.WriteLine(title + "");
@@ -217,13 +217,11 @@ public static partial class typeMethods
         //    Output, double R8PP_DET, the determinant of A.
         //
     {
-        double det;
         int i;
-        int k;
 
-        det = 1.0;
+        double det = 1.0;
 
-        k = 0;
+        int k = 0;
         for (i = 0; i < n; i++)
         {
             det *= a_lu[k];
@@ -269,16 +267,14 @@ public static partial class typeMethods
         //    Output, double R8PP_DIF2((N*(N+1))/2), the R8PP matrix.
         //
     {
-        double[] a;
-        int i;
         int j;
-        int k;
 
-        a = new double[n * (n + 1) / 2];
+        double[] a = new double[n * (n + 1) / 2];
 
-        k = 0;
+        int k = 0;
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < j - 1; i++)
             {
                 a[k] = 0.0;
@@ -347,35 +343,29 @@ public static partial class typeMethods
         //    in packed form, so that A = R'*R.
         //
     {
-        double[] b;
         int i;
         int j;
-        int jj;
-        int k;
-        int kj;
-        int kk;
-        double s;
-        double t;
 
-        b = new double[n * (n + 1) / 2];
+        double[] b = new double[n * (n + 1) / 2];
 
         for (i = 0; i < n * (n + 1) / 2; i++)
         {
             b[i] = a[i];
         }
 
-        jj = 0;
+        int jj = 0;
 
         for (j = 1; j <= n; j++)
         {
-            s = 0.0;
-            kj = jj;
-            kk = 0;
+            double s = 0.0;
+            int kj = jj;
+            int kk = 0;
 
+            int k;
             for (k = 1; k <= j - 1; k++)
             {
                 kj += 1;
-                t = b[kj - 1];
+                double t = b[kj - 1];
                 for (i = 1; i <= k - 1; i++)
                 {
                     t -= b[kk + i - 1] * b[jj + i - 1];
@@ -438,19 +428,16 @@ public static partial class typeMethods
         //    Output, double R8PP_INDICATOR((N*(N+1))/2), the R8PP matrix.
         //
     {
-        double[] a;
-        int fac;
-        int i;
         int j;
-        int k;
 
-        a = new double[n * (n + 1) / 2];
+        double[] a = new double[n * (n + 1) / 2];
 
-        fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
+        int fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
 
-        k = 0;
+        int k = 0;
         for (j = 1; j <= n; j++)
         {
+            int i;
             for (i = 1; i <= j; i++)
             {
                 a[k] = fac * i + j;
@@ -499,15 +486,14 @@ public static partial class typeMethods
         //    Output, double R8PP_MV[N], the product A * x.
         //
     {
-        double[] b;
         int i;
-        int j;
-        int k;
 
-        b = r8vec_zeros_new(n);
+        double[] b = r8vec_zeros_new(n);
 
         for (i = 0; i < n; i++)
         {
+            int j;
+            int k;
             for (j = 0; j < i; j++)
             {
                 k = j + i * (i + 1) / 2;
@@ -566,10 +552,9 @@ public static partial class typeMethods
         //    Output, double **R8PP_NEW, a pointer to the pointers to the M by N array.
         //
     {
-        double[][] a;
         int i;
 
-        a = new double [m][];
+        double[][] a = new double [m][];
 
         for (i = 0; i < m; i++)
         {
@@ -622,16 +607,9 @@ public static partial class typeMethods
         //    Output, double R8PP_RANDOM[(N*(N+1))/2], the R8PP matrix.
         //
     {
-        double[] a;
         int i;
-        int ii;
-        int ij;
-        int ik;
-        int j;
-        int k;
-        int kj;
 
-        a = new double[n * (n + 1) / 2];
+        double[] a = new double[n * (n + 1) / 2];
 
         for (i = 0; i < n * (n + 1) / 2; i++)
         {
@@ -643,6 +621,8 @@ public static partial class typeMethods
             //
             //  Set row I of R.
             //
+            int ij;
+            int j;
             for (j = i; j <= n; j++)
             {
                 ij = i + j * (j - 1) / 2;
@@ -659,17 +639,18 @@ public static partial class typeMethods
                 //
                 ij = i + j * (j - 1) / 2;
 
+                int k;
                 for (k = i + 1; k <= j; k++)
                 {
-                    kj = k + j * (j - 1) / 2;
-                    ik = i + k * (k - 1) / 2;
+                    int kj = k + j * (j - 1) / 2;
+                    int ik = i + k * (k - 1) / 2;
                     a[kj - 1] += a[ik - 1] * a[ij - 1];
                 }
 
                 //
                 //  Reset element J.
                 //
-                ii = i + i * (i - 1) / 2;
+                int ii = i + i * (i - 1) / 2;
                 a[ij - 1] = a[ii - 1] * a[ij - 1];
             }
         }
@@ -727,13 +708,11 @@ public static partial class typeMethods
     {
         int i;
         int k;
-        int kk;
         double t;
-        double[] x;
 
-        x = new double[n];
+        double[] x = new double[n];
 
-        kk = 0;
+        int kk = 0;
 
         for (k = 1; k <= n; k++)
         {
@@ -797,11 +776,10 @@ public static partial class typeMethods
         //    Output, double R8PP_TO_R8GE[N*N], the R8GE matrix.
         //
     {
-        double[] b;
         int i;
         int j;
 
-        b = new double[n * n];
+        double[] b = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
@@ -864,10 +842,9 @@ public static partial class typeMethods
         //    Output, double R8PP_ZERO[(N*(N+1))/2], the R8PP matrix.
         //
     {
-        double[] a;
         int k;
 
-        a = new double[n * (n + 1) / 2];
+        double[] a = new double[n * (n + 1) / 2];
 
         for (k = 0; k < n * (n + 1) / 2; k++)
         {

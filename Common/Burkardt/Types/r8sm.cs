@@ -41,11 +41,10 @@ public static partial class typeMethods
         //    Output, double U[M], V[N], the R8SM vectors.
         //
     {
-        int fac;
         int i;
         int j;
 
-        fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
+        int fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
 
         for (i = 0; i < m; i++)
         {
@@ -114,18 +113,15 @@ public static partial class typeMethods
         //    Output, double R8SM_ML[N], the result of the multiplication.
         //
     {
-        double[] b;
         int i;
-        double ux;
-        double vx;
 
-        b = r8ge_ml(n, a_lu, pivot, x, job);
+        double[] b = r8ge_ml(n, a_lu, pivot, x, job);
 
         switch (job)
         {
             case 0:
             {
-                vx = 0.0;
+                double vx = 0.0;
                 for (i = 0; i < n; i++)
                 {
                     vx += v[i] * x[i];
@@ -140,7 +136,7 @@ public static partial class typeMethods
             }
             default:
             {
-                ux = 0.0;
+                double ux = 0.0;
                 for (i = 0; i < n; i++)
                 {
                     ux += u[i] * x[i];
@@ -197,21 +193,19 @@ public static partial class typeMethods
         //    Output, double R8SM_MTV[N], the product (A-u*v')' * X.
         //
     {
-        double[] b;
-        double dot;
         int i;
-        int j;
 
-        b = r8vec_zeros_new(n);
+        double[] b = r8vec_zeros_new(n);
 
         for (i = 0; i < n; i++)
         {
+            int j;
             for (j = 0; j < m; j++)
             {
                 b[i] += x[j] * a[j + i * m];
             }
 
-            dot = 0.0;
+            double dot = 0.0;
             for (j = 0; j < m; j++)
             {
                 dot += u[j] * x[j];
@@ -262,14 +256,12 @@ public static partial class typeMethods
         //    Output, double R8SM_MV[M], the product (A-u*v') * x.
         //
     {
-        double[] b;
         int i;
         int j;
-        double vx;
 
-        b = r8vec_zeros_new(m);
+        double[] b = r8vec_zeros_new(m);
 
-        vx = 0.0;
+        double vx = 0.0;
         for (j = 0; j < n; j++)
         {
             vx += v[j] * x[j];
@@ -370,15 +362,9 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        int INCX = 5;
+        const int INCX = 5;
 
-        int i;
-        int i2hi;
-        int i2lo;
-        int j;
-        int j2hi;
         int j2lo;
-        string cout = "";
 
         Console.WriteLine("");
         Console.WriteLine(title + "");
@@ -387,12 +373,13 @@ public static partial class typeMethods
         //
         for (j2lo = jlo; j2lo <= jhi; j2lo += INCX)
         {
-            j2hi = j2lo + INCX - 1;
+            int j2hi = j2lo + INCX - 1;
             j2hi = Math.Min(j2hi, n);
             j2hi = Math.Min(j2hi, jhi);
 
             Console.WriteLine("");
-            cout = "  Col: ";
+            string cout = "  Col: ";
+            int j;
             for (j = j2lo; j <= j2hi; j++)
             {
                 cout += j.ToString().PadLeft(7) + "       ";
@@ -404,9 +391,10 @@ public static partial class typeMethods
             //
             //  Determine the range of the rows in this strip.
             //
-            i2lo = Math.Max(ilo, 1);
-            i2hi = Math.Min(ihi, m);
+            int i2lo = Math.Max(ilo, 1);
+            int i2hi = Math.Min(ihi, m);
 
+            int i;
             for (i = i2lo; i <= i2hi; i++)
             {
                 cout = i.ToString().PadLeft(4) + "  ";
@@ -547,9 +535,8 @@ public static partial class typeMethods
         int i;
         int job_local;
         double[] w;
-        double[] x;
 
-        x = new double[n];
+        double[] x = new double[n];
 
         switch (job)
         {
@@ -687,14 +674,13 @@ public static partial class typeMethods
         //    Output, double R8SM_TO_R8GE[M*N], the R8GE matrix.
         //
     {
-        double[] b;
         int i;
-        int j;
 
-        b = new double[m * n];
+        double[] b = new double[m * n];
 
         for (i = 0; i < m; i++)
         {
+            int j;
             for (j = 0; j < n; j++)
             {
                 b[i + j * m] = a[i + j * m] - u[i] * v[j];

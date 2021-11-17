@@ -143,10 +143,9 @@ public static partial class typeMethods
         //    Output, double R8PBL_DIF2[(ML+1)*N], the matrix.
         //
     {
-        double[] a;
         int j;
 
-        a = r8vec_zeros_new((ml + 1) * n);
+        double[] a = r8vec_zeros_new((ml + 1) * n);
 
         for (j = 0; j < n; j++)
         {
@@ -204,17 +203,15 @@ public static partial class typeMethods
         //    Output, double R8PBL_INDICATOR[(ML+1)*N], the R8PBL matrix.
         //
     {
-        double[] a;
-        int fac;
         int i;
-        int j;
 
-        a = r8vec_zeros_new((ml + 1) * n);
+        double[] a = r8vec_zeros_new((ml + 1) * n);
 
-        fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
+        int fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
 
         for (i = 0; i <= n; i++)
         {
+            int j;
             for (j = Math.Max(1, i - ml); j <= i; j++)
             {
                 a[i - j + (j - 1) * (ml + 1)] = fac * (i + 1) + j + 1;
@@ -270,13 +267,10 @@ public static partial class typeMethods
         //    Output, double R8PBL_MV[M], the result vector A * x.
         //
     {
-        double aij;
-        double[] b;
-        int i;
         int j;
         int k;
 
-        b = r8vec_zeros_new(n);
+        double[] b = r8vec_zeros_new(n);
         //
         //  Multiply X by the diagonal of the matrix.
         //
@@ -292,8 +286,8 @@ public static partial class typeMethods
         {
             for (j = 0; j < n - k; j++)
             {
-                i = j + k;
-                aij = a[k + 1 + j * (ml + 1)];
+                int i = j + k;
+                double aij = a[k + 1 + j * (ml + 1)];
                 b[i] += aij * x[j];
                 b[j] += aij * x[i];
             }
@@ -399,15 +393,9 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        int INCX = 5;
+        const int INCX = 5;
 
-        int i;
-        int i2hi;
-        int i2lo;
-        int j;
-        int j2hi;
         int j2lo;
-        string cout = "";
 
         Console.WriteLine("");
         Console.WriteLine(title + "");
@@ -416,12 +404,13 @@ public static partial class typeMethods
         //
         for (j2lo = jlo; j2lo <= jhi; j2lo += INCX)
         {
-            j2hi = j2lo + INCX - 1;
+            int j2hi = j2lo + INCX - 1;
             j2hi = Math.Min(j2hi, n - 1);
             j2hi = Math.Min(j2hi, jhi);
 
             Console.WriteLine("");
-            cout = "  Col: ";
+            string cout = "  Col: ";
+            int j;
             for (j = j2lo; j <= j2hi; j++)
             {
                 cout += j.ToString().PadLeft(7) + "       ";
@@ -433,12 +422,13 @@ public static partial class typeMethods
             //
             //  Determine the range of the rows in this strip.
             //
-            i2lo = Math.Max(ilo, 0);
+            int i2lo = Math.Max(ilo, 0);
             i2lo = Math.Max(i2lo, j2lo - ml);
 
-            i2hi = Math.Min(ihi, n);
+            int i2hi = Math.Min(ihi, n);
             i2hi = Math.Min(i2hi, j2hi + ml);
 
+            int i;
             for (i = i2lo; i <= i2hi; i++)
             {
                 cout = i.ToString().PadLeft(4) + "  ";
@@ -516,13 +506,10 @@ public static partial class typeMethods
         //    Output, double R8PBL_RANDOM[(ML+1)*N], the R8PBL matrix.
         //
     {
-        double[] a;
         int i;
         int j;
-        double r;
-        double sum2;
 
-        a = r8vec_zeros_new((ml + 1) * n);
+        double[] a = r8vec_zeros_new((ml + 1) * n);
 
         for (i = 0; i < n; i++)
         {
@@ -537,7 +524,7 @@ public static partial class typeMethods
         //
         for (i = 0; i < n; i++)
         {
-            sum2 = 0.0;
+            double sum2 = 0.0;
 
             for (j = Math.Max(0, i - ml); j <= i - 1; j++)
             {
@@ -549,7 +536,7 @@ public static partial class typeMethods
                 sum2 += Math.Abs(a[j - i + i * (ml + 1)]);
             }
 
-            r = UniformRNG.r8_uniform_01(ref seed);
+            double r = UniformRNG.r8_uniform_01(ref seed);
 
             a[0 + i * (ml + 1)] = (1.0 + r) * (sum2 + 0.01);
         }
@@ -602,14 +589,13 @@ public static partial class typeMethods
         //    Output, double R8PBL_TO_R8GE[N*N], the R8GE matrix.
         //
     {
-        double[] b;
         int i;
-        int j;
 
-        b = r8vec_zeros_new(n * n);
+        double[] b = r8vec_zeros_new(n * n);
 
         for (i = 0; i < n; i++)
         {
+            int j;
             for (j = 0; j < n; j++)
             {
                 if (i <= j && j <= i + ml)
@@ -669,9 +655,7 @@ public static partial class typeMethods
         //    Output, double R8PBL_ZERO[(ML+1)*N], the R8PBL matrix.
         //
     {
-        double[] a;
-
-        a = r8vec_zeros_new((ml + 1) * n);
+        double[] a = r8vec_zeros_new((ml + 1) * n);
 
         return a;
     }

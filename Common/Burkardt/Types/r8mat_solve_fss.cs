@@ -46,19 +46,16 @@ public static partial class typeMethods
         //
     {
         int i;
-        int ipiv;
         int j;
         int jcol;
-        double piv;
-        double t;
 
         for (jcol = 1; jcol <= n; jcol++)
         {
             //
             //  Find the maximum element in column I.
             //
-            piv = Math.Abs(a[jcol - 1 + (jcol - 1) * n]);
-            ipiv = jcol;
+            double piv = Math.Abs(a[jcol - 1 + (jcol - 1) * n]);
+            int ipiv = jcol;
             for (i = jcol + 1; i <= n; i++)
             {
                 if (piv < Math.Abs(a[i - 1 + (jcol - 1) * n]))
@@ -80,6 +77,7 @@ public static partial class typeMethods
             //
             //  Switch rows JCOL and IPIV, and X.
             //
+            double t;
             if (jcol != ipiv)
             {
                 for (j = 1; j <= n; j++)
@@ -192,14 +190,10 @@ public static partial class typeMethods
         //
     {
         int i;
-        int ipiv;
         int j;
         int jcol;
-        double piv;
-        double t;
-        double[] x;
 
-        x = new double[n * nb];
+        double[] x = new double[n * nb];
 
         for (j = 0; j < nb; j++)
         {
@@ -214,8 +208,8 @@ public static partial class typeMethods
             //
             //  Find the maximum element in column I.
             //
-            piv = Math.Abs(a[jcol - 1 + (jcol - 1) * n]);
-            ipiv = jcol;
+            double piv = Math.Abs(a[jcol - 1 + (jcol - 1) * n]);
+            int ipiv = jcol;
             for (i = jcol + 1; i <= n; i++)
             {
                 if (piv < Math.Abs(a[i - 1 + (jcol - 1) * n]))
@@ -237,6 +231,7 @@ public static partial class typeMethods
             //
             //  Switch rows JCOL and IPIV, and X.
             //
+            double t;
             if (jcol != ipiv)
             {
                 for (j = 1; j <= n; j++)

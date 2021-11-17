@@ -59,19 +59,17 @@ public static partial class typeMethods
         //    if X and LAMBDA were exact eigenvectors and eigenvalues of A.
         //
     {
-        double[] c;
-        double error_frobenius;
         int i;
         int j;
-        int l;
 
-        c = new double[n*k];
+        double[] c = new double[n*k];
 
         for ( j = 0; j < k; j++ )
         {
             for ( i = 0; i < n; i++ )
             {
                 c[i+j*n] = 0.0;
+                int l;
                 for ( l = 0; l < n; l++ )
                 {
                     c[i+j*n] += a[i+l*n] * x[l+j*n];
@@ -87,7 +85,7 @@ public static partial class typeMethods
             }
         }
 
-        error_frobenius = r8mat_norm_fro ( n, k, c );
+        double error_frobenius = r8mat_norm_fro ( n, k, c );
             
         return error_frobenius;
     }
@@ -126,17 +124,16 @@ public static partial class typeMethods
         //    Output, bool R8MAT_IS_BINARY is true if are entries are 0 or 1.
         //
     {
-        int i;
         int j;
-        bool value;
 
-        value = true;
+        bool value = true;
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
-                if (x[i + j * m] != 0.0 && x[i + j * m] != 1.0)
+                if (x[i + j * m] != 0.0 && Math.Abs(x[i + j * m] - 1.0) > double.Epsilon)
                 {
                     value = false;
                     break;
@@ -185,11 +182,11 @@ public static partial class typeMethods
         //    between 0 and 1.
         //
     {
-        int i;
         int j;
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 switch (a[i + j * m])
@@ -236,26 +233,25 @@ public static partial class typeMethods
         //    compared to R.
         //
     {
-        int i;
         int j;
-        double t;
-        double tol;
-        bool value;
 
-        value = true;
+        bool value = true;
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
-                t = r[i + j * m] + s[i + j * m];
-                tol = r8_epsilon() * Math.Abs(r[i + j * m]);
+                double t = r[i + j * m] + s[i + j * m];
+                double tol = r8_epsilon() * Math.Abs(r[i + j * m]);
 
-                if (tol < Math.Abs(r[i + j * m] - t))
+                if (!(tol < Math.Abs(r[i + j * m] - t)))
                 {
-                    value = false;
-                    break;
+                    continue;
                 }
+
+                value = false;
+                break;
             }
         }
 
@@ -297,21 +293,22 @@ public static partial class typeMethods
         //    are integers.
         //
     {
-        int i;
         int j;
-        bool value;
 
-        value = true;
+        bool value = true;
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
-                if (!r8_is_integer(x[i + j * m]))
+                if (r8_is_integer(x[i + j * m]))
                 {
-                    value = false;
-                    break;
+                    continue;
                 }
+
+                value = false;
+                break;
             }
         }
 
@@ -350,26 +347,25 @@ public static partial class typeMethods
         //    compared to R.
         //
     {
-        int i;
         int j;
-        double t;
-        double tol;
-        bool value;
 
-        value = false;
+        bool value = false;
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
-                t = r[i + j * m] + s[i + j * m];
-                tol = r8_epsilon() * Math.Abs(r[i + j * m]);
+                double t = r[i + j * m] + s[i + j * m];
+                double tol = r8_epsilon() * Math.Abs(r[i + j * m]);
 
-                if (tol < Math.Abs(r[i + j * m] - t))
+                if (!(tol < Math.Abs(r[i + j * m] - t)))
                 {
-                    value = true;
-                    break;
+                    continue;
                 }
+
+                value = true;
+                break;
             }
         }
 
@@ -411,20 +407,19 @@ public static partial class typeMethods
         //    were exactly symmetric.
         //
     {
-        int i;
         int j;
-        const double r8_huge = 1.79769313486231571E+308;
-        double value = 0;
+        double value;
 
         if (m != n)
         {
-            value = r8_huge;
+            value = r8_huge();
             return value;
         }
 
         value = 0.0;
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 value += Math.Pow(a[i + j * m] - a[j + i * m], 2);

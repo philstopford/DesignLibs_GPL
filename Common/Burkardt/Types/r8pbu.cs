@@ -72,31 +72,23 @@ public static partial class typeMethods
         //    On output, the approximate solution vector.
         //
     {
-        double alpha;
-        double[] ap;
-        double beta;
         int i;
         int it;
-        double[] p;
-        double pap;
-        double pr;
-        double[] r;
-        double rap;
         //
         //  Initialize
         //    AP = A * x,
         //    R  = b - A * x,
         //    P  = b - A * x.
         //
-        ap = r8pbu_mv(n, n, mu, a, x);
+        double[] ap = r8pbu_mv(n, n, mu, a, x);
 
-        r = new double[n];
+        double[] r = new double[n];
         for (i = 0; i < n; i++)
         {
             r[i] = b[i] - ap[i];
         }
 
-        p = new double[n];
+        double[] p = new double[n];
         for (i = 0; i < n; i++)
         {
             p[i] = b[i] - ap[i];
@@ -118,7 +110,7 @@ public static partial class typeMethods
             //  Set
             //    ALPHA = PR / PAP.
             //
-            pap = 0.0;
+            double pap = 0.0;
             for (i = 0; i < n; i++)
             {
                 pap += p[i] * ap[i];
@@ -129,13 +121,13 @@ public static partial class typeMethods
                 break;
             }
 
-            pr = 0.0;
+            double pr = 0.0;
             for (i = 0; i < n; i++)
             {
                 pr += p[i] * r[i];
             }
 
-            alpha = pr / pap;
+            double alpha = pr / pap;
             //
             //  Set
             //    X = X + ALPHA * P
@@ -157,13 +149,13 @@ public static partial class typeMethods
             //  Set
             //    BETA = - RAP / PAP.
             //
-            rap = 0.0;
+            double rap = 0.0;
             for (i = 0; i < n; i++)
             {
                 rap += r[i] * ap[i];
             }
 
-            beta = -rap / pap;
+            double beta = -rap / pap;
             //
             //  Update the perturbation vector
             //    P = R + BETA * P.
@@ -230,10 +222,9 @@ public static partial class typeMethods
         //    Output, double R8PBU_DET, the determinant of the matrix.
         //
     {
-        double det;
         int j;
 
-        det = 1.0;
+        double det = 1.0;
 
         for (j = 0; j < n; j++)
         {
@@ -469,17 +460,10 @@ public static partial class typeMethods
         //    form of the matrix.
         //
     {
-        double[] b;
         int i;
-        int ik;
         int j;
-        int jk;
-        int k;
-        int mm;
-        double s;
-        double t;
 
-        b = new double[(mu + 1) * n];
+        double[] b = new double[(mu + 1) * n];
 
         for (j = 0; j < n; j++)
         {
@@ -492,15 +476,16 @@ public static partial class typeMethods
         for (j = 1; j <= n; j++)
         {
 
-            ik = mu + 1;
-            jk = Math.Max(j - mu, 1);
-            mm = Math.Max(mu + 2 - j, 1);
+            int ik = mu + 1;
+            int jk = Math.Max(j - mu, 1);
+            int mm = Math.Max(mu + 2 - j, 1);
 
-            s = 0.0;
+            double s = 0.0;
 
+            int k;
             for (k = mm; k <= mu; k++)
             {
-                t = 0.0;
+                double t = 0.0;
                 for (i = 0; i <= k - mm - 1; i++)
                 {
                     t += b[ik + i - 1 + (jk - 1) * (mu + 1)] * b[mm + i - 1 + (j - 1) * (mu + 1)];
@@ -572,14 +557,12 @@ public static partial class typeMethods
         //    Output, double R8PBU_INDICATOR[(MU+1)*N], the R8PBU matrix.
         //
     {
-        double[] a;
-        int fac;
         int i;
         int j;
 
-        a = new double[(mu + 1) * n];
+        double[] a = new double[(mu + 1) * n];
 
-        fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
+        int fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
         //
         //  Zero out the "junk" entries.
         //
@@ -652,14 +635,10 @@ public static partial class typeMethods
         //    Output, double R8PBU_ML[N], the product A * x.
         //
     {
-        double[] b;
         int i;
-        int ilo;
-        int j;
-        int jhi;
         int k;
 
-        b = new double[n];
+        double[] b = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -671,7 +650,7 @@ public static partial class typeMethods
         //
         for (k = 1; k <= n; k++)
         {
-            ilo = Math.Max(1, k - mu);
+            int ilo = Math.Max(1, k - mu);
             for (i = ilo; i <= k - 1; i++)
             {
                 b[i - 1] += a_lu[mu + i - k + (k - 1) * (mu + 1)] * b[k - 1];
@@ -685,7 +664,8 @@ public static partial class typeMethods
         //
         for (k = n; 1 <= k; k--)
         {
-            jhi = Math.Min(k + mu, n);
+            int jhi = Math.Min(k + mu, n);
+            int j;
             for (j = k + 1; j <= jhi; j++)
             {
                 b[j - 1] += a_lu[mu + k - j + (j - 1) * (mu + 1)] * b[k - 1];
@@ -865,15 +845,9 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        int INCX = 5;
+        const int INCX = 5;
 
-        int i;
-        int i2hi;
-        int i2lo;
-        int j;
-        int j2hi;
         int j2lo;
-        string cout = "";
 
         Console.WriteLine("");
         Console.WriteLine(title + "");
@@ -882,13 +856,14 @@ public static partial class typeMethods
         //
         for (j2lo = jlo; j2lo <= jhi; j2lo += INCX)
         {
-            j2hi = j2lo + INCX - 1;
+            int j2hi = j2lo + INCX - 1;
             j2hi = Math.Min(j2hi, n);
             j2hi = Math.Min(j2hi, jhi);
 
             Console.WriteLine("");
 
-            cout = "  Col: ";
+            string cout = "  Col: ";
+            int j;
             for (j = j2lo; j <= j2hi; j++)
             {
                 cout += j.ToString().PadLeft(7) + "       ";
@@ -900,11 +875,12 @@ public static partial class typeMethods
             //
             //  Determine the range of the rows in this strip.
             //
-            i2lo = Math.Max(ilo, 1);
+            int i2lo = Math.Max(ilo, 1);
             i2lo = Math.Max(i2lo, j2lo - mu);
-            i2hi = Math.Min(ihi, n);
+            int i2hi = Math.Min(ihi, n);
             i2hi = Math.Min(i2hi, j2hi + mu);
 
+            int i;
             for (i = i2lo; i <= i2hi; i++)
             {
                 cout = i.ToString().PadLeft(4) + "  ";
@@ -982,15 +958,10 @@ public static partial class typeMethods
         //    Output, double R8PBU_RANDOM[(MU+1)*N], the R8PBU matrix.
         //
     {
-        double[] a;
         int i;
         int j;
-        int jhi;
-        int jlo;
-        double r;
-        double sum2;
 
-        a = new double[(mu + 1) * n];
+        double[] a = new double[(mu + 1) * n];
         //
         //  Zero out the "junk" entries.
         //
@@ -1018,21 +989,21 @@ public static partial class typeMethods
         //
         for (i = 1; i <= n; i++)
         {
-            sum2 = 0.0;
+            double sum2 = 0.0;
 
-            jlo = Math.Max(1, i - mu);
+            int jlo = Math.Max(1, i - mu);
             for (j = jlo; j <= i - 1; j++)
             {
                 sum2 += Math.Abs(a[mu + j - i + (i - 1) * (mu + 1)]);
             }
 
-            jhi = Math.Min(i + mu, n);
+            int jhi = Math.Min(i + mu, n);
             for (j = i + 1; j <= jhi; j++)
             {
                 sum2 += Math.Abs(a[mu + i - j + (j - 1) * (mu + 1)]);
             }
 
-            r = UniformRNG.r8_uniform_01(ref seed);
+            double r = UniformRNG.r8_uniform_01(ref seed);
 
             a[mu + (i - 1) * (mu + 1)] = (1.0 + r) * (sum2 + 0.01);
 
@@ -1149,10 +1120,8 @@ public static partial class typeMethods
         int i;
         int ilo;
         int k;
-        double t;
-        double[] x;
 
-        x = new double[n];
+        double[] x = new double[n];
 
         for (k = 0; k < n; k++)
         {
@@ -1165,7 +1134,7 @@ public static partial class typeMethods
         for (k = 1; k <= n; k++)
         {
             ilo = Math.Max(1, k - mu);
-            t = 0.0;
+            double t = 0.0;
             for (i = ilo; i <= k - 1; i++)
             {
                 t += x[i - 1] * a_lu[mu + i - k + (k - 1) * (mu + 1)];
@@ -1265,12 +1234,7 @@ public static partial class typeMethods
         //    Output, double R8PBU_SOR[N], the approximation to the solution.
         //
     {
-        double err;
         int i;
-        int it;
-        int itknt;
-        double[] x;
-        double[] xtemp;
 
         if (itchk <= 0 || itmax < itchk)
         {
@@ -1278,15 +1242,6 @@ public static partial class typeMethods
             Console.WriteLine("R8PBU_SOR - Fatal error!");
             Console.WriteLine("  Illegal ITCHK = " + itchk + "");
             return null;
-        }
-
-        switch (itmax)
-        {
-            case <= 0:
-                Console.WriteLine("");
-                Console.WriteLine("R8PBU_SOR - Fatal error!");
-                Console.WriteLine("  Nonpositive ITMAX = " + itmax + "");
-                return null;
         }
 
         switch (omega)
@@ -1299,9 +1254,9 @@ public static partial class typeMethods
                 return null;
         }
 
-        itknt = 0;
+        int itknt = 0;
 
-        x = new double[n];
+        double[] x = new double[n];
         for (i = 0; i < n; i++)
         {
             x[i] = x_init[i];
@@ -1310,8 +1265,10 @@ public static partial class typeMethods
         //
         //  Take ITCHK steps of the iteration before doing a convergence check.
         //
-        while (itknt <= itmax)
+        while (true)
         {
+            double[] xtemp;
+            int it;
             for (it = 1; it <= itchk; it++)
             {
                 //
@@ -1328,7 +1285,7 @@ public static partial class typeMethods
                 //  Compute the next iterate as a weighted combination of the
                 //  old iterate and the just computed standard Jacobi iterate.
                 //
-                if (omega != 1.0)
+                if (Math.Abs(omega - 1.0) > double.Epsilon)
                 {
                     for (i = 0; i < n; i++)
                     {
@@ -1351,7 +1308,7 @@ public static partial class typeMethods
             //
             xtemp = r8pbu_mv(n, n, mu, a, x);
 
-            err = 0.0;
+            double err = 0.0;
             for (i = 0; i < n; i++)
             {
                 err = Math.Max(err, Math.Abs(b[i] - xtemp[i]));
@@ -1419,11 +1376,10 @@ public static partial class typeMethods
         //    Output, double R8PBU_TO_R8GE[N*N], the R8GE matrix.
         //
     {
-        double[] b;
         int i;
         int j;
 
-        b = new double[n * n];
+        double[] b = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
@@ -1498,14 +1454,13 @@ public static partial class typeMethods
         //    Output, double R8PBU_ZERO[(MU+1)*N], the R8PBU matrix.
         //
     {
-        double[] a;
-        int i;
         int j;
 
-        a = new double[(mu + 1) * n];
+        double[] a = new double[(mu + 1) * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < mu + 1; i++)
             {
                 a[i + j * (mu + 1)] = 0.0;

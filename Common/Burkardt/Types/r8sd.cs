@@ -79,31 +79,23 @@ public static partial class typeMethods
         //    On output, the approximate solution vector.
         //
     {
-        double alpha;
-        double[] ap;
-        double beta;
         int i;
         int it;
-        double[] p;
-        double pap;
-        double pr;
-        double[] r;
-        double rap;
         //
         //  Initialize
         //    AP = A * x,
         //    R  = b - A * x,
         //    P  = b - A * x.
         //
-        ap = r8sd_mv(n, n, ndiag, offset, a, x);
+        double[] ap = r8sd_mv(n, n, ndiag, offset, a, x);
 
-        r = new double[n];
+        double[] r = new double[n];
         for (i = 0; i < n; i++)
         {
             r[i] = b[i] - ap[i];
         }
 
-        p = new double[n];
+        double[] p = new double[n];
         for (i = 0; i < n; i++)
         {
             p[i] = b[i] - ap[i];
@@ -125,16 +117,16 @@ public static partial class typeMethods
             //  Set
             //    ALPHA = PR / PAP.
             //
-            pap = r8vec_dot_product(n, p, ap);
+            double pap = r8vec_dot_product(n, p, ap);
 
             if (pap == 0.0)
             {
                 break;
             }
 
-            pr = r8vec_dot_product(n, p, r);
+            double pr = r8vec_dot_product(n, p, r);
 
-            alpha = pr / pap;
+            double alpha = pr / pap;
             //
             //  Set
             //    X = X + ALPHA * P
@@ -156,9 +148,9 @@ public static partial class typeMethods
             //  Set
             //    BETA = - RAP / PAP.
             //
-            rap = r8vec_dot_product(n, r, ap);
+            double rap = r8vec_dot_product(n, r, ap);
 
-            beta = -rap / pap;
+            double beta = -rap / pap;
             //
             //  Update the perturbation vector
             //    P = R + BETA * P.
@@ -382,21 +374,18 @@ public static partial class typeMethods
         //    Output, double R8SD_INDICATOR[N*NDIAG], the R8SD matrix.
         //
     {
-        double[] a;
-        int diag;
-        int fac;
         int i;
-        int j;
 
-        a = r8vec_zeros_new(n * ndiag);
+        double[] a = r8vec_zeros_new(n * ndiag);
 
-        fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
+        int fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
 
         for (i = 1; i <= n; i++)
         {
+            int diag;
             for (diag = 1; diag <= ndiag; diag++)
             {
-                j = i + offset[diag - 1];
+                int j = i + offset[diag - 1];
                 a[i - 1 + (diag - 1) * n] = j switch
                 {
                     >= 1 when j <= n => fac * i + j,
@@ -643,17 +632,9 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        int INCX = 5;
+        const int INCX = 5;
 
-        double aij;
-        int i;
-        int i2hi;
-        int i2lo;
-        int j;
-        int j2hi;
         int j2lo;
-        int jdiag;
-        string cout = "";
 
         Console.WriteLine("");
         Console.WriteLine(title + "");
@@ -662,11 +643,12 @@ public static partial class typeMethods
         //
         for (j2lo = jlo; j2lo <= jhi; j2lo += INCX)
         {
-            j2hi = j2lo + INCX - 1;
+            int j2hi = j2lo + INCX - 1;
             j2hi = Math.Min(j2hi, n);
             j2hi = Math.Min(j2hi, jhi);
 
-            cout = "  Col: ";
+            string cout = "  Col: ";
+            int j;
             for (j = j2lo; j <= j2hi; j++)
             {
                 cout += j.ToString().PadLeft(7) + "       ";
@@ -678,9 +660,10 @@ public static partial class typeMethods
             //
             //  Determine the range of the rows in this strip.
             //
-            i2lo = Math.Max(ilo, 1);
-            i2hi = Math.Min(ihi, n);
+            int i2lo = Math.Max(ilo, 1);
+            int i2hi = Math.Min(ihi, n);
 
+            int i;
             for (i = i2lo; i <= i2hi; i++)
             {
                 cout = i.ToString().PadLeft(4) + "  ";
@@ -689,8 +672,9 @@ public static partial class typeMethods
                 //
                 for (j = j2lo; j <= j2hi; j++)
                 {
-                    aij = 0.0;
+                    double aij = 0.0;
 
+                    int jdiag;
                     for (jdiag = 0; jdiag < ndiag; jdiag++)
                     {
                         if (j - i == offset[jdiag])
@@ -760,18 +744,16 @@ public static partial class typeMethods
         //    Output, double R8SD_RANDOM[N*NDIAG], the R8SD matrix.
         //
     {
-        double[] a;
         int i;
-        int j;
-        int jj;
 
-        a = r8vec_zeros_new(n * ndiag);
+        double[] a = r8vec_zeros_new(n * ndiag);
 
         for (i = 1; i <= n; i++)
         {
+            int j;
             for (j = 1; j <= ndiag; j++)
             {
-                jj = i + offset[j - 1];
+                int jj = i + offset[j - 1];
                 a[i - 1 + (j - 1) * n] = jj switch
                 {
                     >= 1 when jj <= n => UniformRNG.r8_uniform_01(ref seed),
@@ -900,12 +882,10 @@ public static partial class typeMethods
         //    Output, double R8SD_TO_R8GE[N*N], the R8GE matrix.
         //
     {
-        double[] b;
         int i;
         int j;
-        int jj;
 
-        b = r8vec_zeros_new(n * n);
+        double[] b = r8vec_zeros_new(n * n);
 
         for (j = 0; j < n; j++)
         {
@@ -919,7 +899,7 @@ public static partial class typeMethods
         {
             for (j = 0; j < ndiag; j++)
             {
-                jj = i + offset[j];
+                int jj = i + offset[j];
                 switch (jj)
                 {
                     case >= 0 when jj <= n - 1:
@@ -986,9 +966,7 @@ public static partial class typeMethods
         //    Output, double R8SD_ZERO[N*NDIAG], the R8SD matrix.
         //
     {
-        double[] a;
-
-        a = r8vec_zeros_new(n * ndiag);
+        double[] a = r8vec_zeros_new(n * ndiag);
 
         return a;
     }

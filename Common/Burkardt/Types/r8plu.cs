@@ -44,10 +44,9 @@ public static partial class typeMethods
         //    Output, double R8PLU_DET, the determinant of the matrix.
         //
     {
-        double det;
         int i;
 
-        det = 1.0;
+        double det = 1.0;
 
         for (i = 0; i < n; i++)
         {
@@ -101,9 +100,8 @@ public static partial class typeMethods
         int j;
         int k;
         double temp;
-        double[] work;
         //
-        work = new double[n];
+        double[] work = new double[n];
 
         for (j = 0; j < n; j++)
         {
@@ -207,8 +205,6 @@ public static partial class typeMethods
     {
         int i;
         int j;
-        int k;
-        double temp;
         //
         for (i = 0; i < n; i++)
         {
@@ -238,13 +234,11 @@ public static partial class typeMethods
                 b[i] -= lu[i + (j - 1) * n] * b[j - 1];
             }
 
-            k = pivot[j - 1];
+            int k = pivot[j - 1];
 
             if (k != j)
             {
-                temp = b[k - 1];
-                b[k - 1] = b[j - 1];
-                b[j - 1] = temp;
+                (b[k - 1], b[j - 1]) = (b[j - 1], b[k - 1]);
             }
         }
     }
@@ -287,9 +281,7 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
         int k;
-        double temp;
         //
         //  Solve PL * Y = B.
         //
@@ -300,13 +292,11 @@ public static partial class typeMethods
 
         for (k = 1; k <= n - 1; k++)
         {
-            j = pivot[k - 1];
+            int j = pivot[k - 1];
 
             if (j != k)
             {
-                temp = x[j - 1];
-                x[j - 1] = x[k - 1];
-                x[k - 1] = temp;
+                (x[j - 1], x[k - 1]) = (x[k - 1], x[j - 1]);
             }
 
             for (i = k + 1; i <= n; i++)
@@ -363,8 +353,6 @@ public static partial class typeMethods
     {
         int i;
         int j;
-        int k;
-        double temp;
 
         for (j = 0; j < n; j++)
         {
@@ -383,6 +371,7 @@ public static partial class typeMethods
 
         for (j = 1; j <= n; j++)
         {
+            int k;
             for (i = 1; i <= n; i++)
             {
                 for (k = 1; k <= i - 1; k++)
@@ -407,9 +396,7 @@ public static partial class typeMethods
 
                 if (k != i)
                 {
-                    temp = a[k - 1 + (j - 1) * n];
-                    a[k - 1 + (j - 1) * n] = a[i - 1 + (j - 1) * n];
-                    a[i - 1 + (j - 1) * n] = temp;
+                    (a[k - 1 + (j - 1) * n], a[i - 1 + (j - 1) * n]) = (a[i - 1 + (j - 1) * n], a[k - 1 + (j - 1) * n]);
                 }
             }
         }

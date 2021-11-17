@@ -57,14 +57,13 @@ public static partial class typeMethods
         int j;
         int jhi;
         int jlo;
-        int jmax;
         int nn;
         int size;
 
         Console.WriteLine("");
         Console.WriteLine(title + "");
 
-        jmax = Math.Min(n, m);
+        int jmax = Math.Min(n, m);
 
         if (m <= n)
         {
@@ -257,7 +256,7 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        int INCX = 5;
+        const int INCX = 5;
 
         Console.WriteLine();
         Console.WriteLine(title);
@@ -305,23 +304,15 @@ public static partial class typeMethods
             //  Determine the range of the rows in this strip.
             //
 
-            int i2lo;
             int i2hi;
 
-            i2lo = ilo switch
+            int i2lo = ilo switch
             {
                 > 1 => ilo,
                 _ => 1
             };
 
-            if (ihi < m)
-            {
-                i2hi = ihi;
-            }
-            else
-            {
-                i2hi = m;
-            }
+            i2hi = ihi < m ? ihi : m;
 
             for (int i = i2lo; i <= i2hi; i++)
             {

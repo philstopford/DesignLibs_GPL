@@ -36,11 +36,11 @@ public static partial class typeMethods
         //    Input/output, double A[M*N], the matrix to be scaled.
         //
     {
-        int i;
         int j;
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 a[i + j * m] *= s;
@@ -77,19 +77,16 @@ public static partial class typeMethods
         //    Output, double R8MAT_SCALE_01[M*N], the rescaled array.
         //
     {
-        int i;
         int j;
-        double[] xmax;
-        double[] xmin;
-        double[] xs;
 
-        xmax = r8mat_max_columns(m, n, x);
-        xmin = r8mat_min_columns(m, n, x);
+        double[] xmax = r8mat_max_columns(m, n, x);
+        double[] xmin = r8mat_min_columns(m, n, x);
 
-        xs = new double[m * n];
+        double[] xs = new double[m * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             switch (xmax[j] - xmin[j])
             {
                 case > 0:
@@ -147,19 +144,16 @@ public static partial class typeMethods
         //    Output, double R8MAT_SCALE_AB[M*N], the rescaled array.
         //
     {
-        int i;
         int j;
-        double[] xmax;
-        double[] xmin;
-        double[] xs;
 
-        xmax = r8mat_max_columns(m, n, x);
-        xmin = r8mat_min_columns(m, n, x);
+        double[] xmax = r8mat_max_columns(m, n, x);
+        double[] xmin = r8mat_min_columns(m, n, x);
 
-        xs = new double[m * n];
+        double[] xs = new double[m * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             switch (xmax[j] - xmin[j])
             {
                 case > 0:

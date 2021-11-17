@@ -49,15 +49,13 @@ public static partial class typeMethods
         //    Output, double R8MAT_U_INVERSE[N*N], the inverse matrix.
         //
     {
-        double[] b;
-        int i;
         int j;
-        int k;
 
-        b = new double[n * n];
+        double[] b = new double[n * n];
 
         for (j = n - 1; 0 <= j; j--)
         {
+            int i;
             for (i = n - 1; 0 <= i; i--)
             {
                 if (j < i)
@@ -71,6 +69,7 @@ public static partial class typeMethods
                 else
                 {
                     b[i + j * n] = 0.0;
+                    int k;
                     for (k = i + 1; k <= j; k++)
                     {
                         b[i + j * n] -= a[i + k * n] * b[k + j * n];
@@ -121,16 +120,15 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
-        double[] x;
         //
         //  Solve U * x = b.
         //
-        x = new double[n];
+        double[] x = new double[n];
 
         for (i = n - 1; 0 <= i; i--)
         {
             x[i] = b[i];
+            int j;
             for (j = i + 1; j < n; j++)
             {
                 x[i] -= a[i + j * n] * x[j];
@@ -189,15 +187,13 @@ public static partial class typeMethods
         //    Output, double R8MAT_U1_INVERSE[N*N), the inverse matrix.
         //
     {
-        double[] b;
-        int i;
         int j;
-        int k;
 
-        b = new double[n * n];
+        double[] b = new double[n * n];
 
         for (j = n - 1; 0 <= j; j--)
         {
+            int i;
             for (i = n - 1; 0 <= i; i--)
             {
                 if (j < i)
@@ -211,6 +207,7 @@ public static partial class typeMethods
                 else
                 {
                     b[i + j * n] = 0.0;
+                    int k;
                     for (k = i + 1; k <= j; k++)
                     {
                         b[i + j * n] -= a[i + k * n] * b[k + j * n];

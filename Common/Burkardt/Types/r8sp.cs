@@ -78,31 +78,23 @@ public static partial class typeMethods
         //    On output, the approximate solution vector.
         //
     {
-        double alpha;
-        double[] ap;
-        double beta;
         int i;
         int it;
-        double[] p;
-        double pap;
-        double pr;
-        double[] r;
-        double rap;
         //
         //  Initialize
         //    AP = A * x,
         //    R  = b - A * x,
         //    P  = b - A * x.
         //
-        ap = r8sp_mv(n, n, nz_num, row, col, a, x);
+        double[] ap = r8sp_mv(n, n, nz_num, row, col, a, x);
 
-        r = new double[n];
+        double[] r = new double[n];
         for (i = 0; i < n; i++)
         {
             r[i] = b[i] - ap[i];
         }
 
-        p = new double[n];
+        double[] p = new double[n];
         for (i = 0; i < n; i++)
         {
             p[i] = b[i] - ap[i];
@@ -124,16 +116,16 @@ public static partial class typeMethods
             //  Set
             //    ALPHA = PR / PAP.
             //
-            pap = r8vec_dot_product(n, p, ap);
+            double pap = r8vec_dot_product(n, p, ap);
 
             if (pap == 0.0)
             {
                 break;
             }
 
-            pr = r8vec_dot_product(n, p, r);
+            double pr = r8vec_dot_product(n, p, r);
 
-            alpha = pr / pap;
+            double alpha = pr / pap;
             //
             //  Set
             //    X = X + ALPHA * P
@@ -155,9 +147,9 @@ public static partial class typeMethods
             //  Set
             //    BETA = - RAP / PAP.
             //
-            rap = r8vec_dot_product(n, r, ap);
+            double rap = r8vec_dot_product(n, r, ap);
 
-            beta = -rap / pap;
+            double beta = -rap / pap;
             //
             //  Update the perturbation vector
             //    P = R + BETA * P.
@@ -216,10 +208,9 @@ public static partial class typeMethods
         //    Output, bool R8SP_CHECK, is TRUE if the matrix is properly defined.
         //
     {
-        bool check;
         int k;
 
-        check = true;
+        bool check = true;
         //
         //  Check 1 <= ROW(*) <= M.
         //
@@ -320,13 +311,9 @@ public static partial class typeMethods
         //    of the matrix.
         //
     {
-        int found;
-        int i;
-        int j;
         int k;
-        double t;
 
-        found = 0;
+        int found = 0;
 
         for (k = 0; k < nz_num; k++)
         {
@@ -338,9 +325,9 @@ public static partial class typeMethods
                     break;
                 }
 
-                i = row[k];
+                int i = row[k];
 
-                j = row[i];
+                int j = row[i];
                 row[i] = row[k];
                 row[k] = j;
 
@@ -348,9 +335,7 @@ public static partial class typeMethods
                 col[i] = col[k];
                 col[k] = j;
 
-                t = a[i];
-                a[i] = a[k];
-                a[k] = t;
+                (a[i], a[k]) = (a[k], a[i]);
 
                 found += 1;
 
@@ -366,13 +351,15 @@ public static partial class typeMethods
             }
         }
 
-        if (found < Math.Min(m, n))
+        if (found >= Math.Min(m, n))
         {
-            Console.WriteLine("");
-            Console.WriteLine("R8SP_DIAGONAL - Warning!");
-            Console.WriteLine("  Number of diagonal entries expected: " + Math.Min(m, n) + "");
-            Console.WriteLine("  Number found was " + found + "");
+            return;
         }
+
+        Console.WriteLine("");
+        Console.WriteLine("R8SP_DIAGONAL - Warning!");
+        Console.WriteLine("  Number of diagonal entries expected: " + Math.Min(m, n) + "");
+        Console.WriteLine("  Number found was " + found + "");
     }
 
     public static double[] r8sp_dif2(int m, int n, int nz_num, int[] row, int[] col)
@@ -544,13 +531,15 @@ public static partial class typeMethods
             a[k] = 2.0;
             k += 1;
 
-            if (i < n - 1)
+            if (i >= n - 1)
             {
-                row[k] = i;
-                col[k] = i + 1;
-                a[k] = -1.0;
-                k += 1;
+                continue;
             }
+
+            row[k] = i;
+            col[k] = i + 1;
+            a[k] = -1.0;
+            k += 1;
         }
 
         return a;
@@ -608,13 +597,10 @@ public static partial class typeMethods
         //    Output, int R8SP_IJ_TO_K, the R8SP index of the (I,J) entry.
         //
     {
-        int hi;
         int k;
-        int lo;
-        int md;
 
-        lo = 0;
-        hi = nz_num - 1;
+        int lo = 0;
+        int hi = nz_num - 1;
 
         for (;;)
         {
@@ -624,7 +610,7 @@ public static partial class typeMethods
                 break;
             }
 
-            md = (lo + hi) / 2;
+            int md = (lo + hi) / 2;
 
             if (row[md] < i || row[md] == i && col[md] < j)
             {
@@ -689,20 +675,16 @@ public static partial class typeMethods
         //    Output, double R8SP_INDICATOR[NZ_NUM], the nonzero elements of the matrix.
         //
     {
-        double[] a;
-        int fac;
-        int i;
-        int j;
         int k;
 
-        a = new double[nz_num];
+        double[] a = new double[nz_num];
 
-        fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
+        int fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
 
         for (k = 0; k < nz_num; k++)
         {
-            i = row[k];
-            j = col[k];
+            int i = row[k];
+            int j = col[k];
             a[k] = fac * (i + 1) + j + 1;
         }
 
@@ -763,21 +745,18 @@ public static partial class typeMethods
         //    Input, int IT_MAX, the maximum number of iterations.
         //
     {
-        int i;
         int it_num;
-        int j;
-        int k;
-        double[] x_new;
 
         r8sp_diagonal(n, n, nz_num, row, col, ref a);
 
-        x_new = new double[n];
+        double[] x_new = new double[n];
 
         for (it_num = 1; it_num <= it_max; it_num++)
         {
             //
             //  Initialize to right hand side.
             //
+            int j;
             for (j = 0; j < n; j++)
             {
                 x_new[j] = b[j];
@@ -786,9 +765,10 @@ public static partial class typeMethods
             //
             //  Subtract off-diagonal terms.
             //
+            int k;
             for (k = n; k < nz_num; k++)
             {
-                i = row[k];
+                int i = row[k];
                 j = col[k];
                 x_new[i] -= a[k] * x[j];
             }
@@ -853,17 +833,14 @@ public static partial class typeMethods
         //    Output, double B[N], the product vector A'*X.
         //
     {
-        double[] b;
-        int i;
-        int j;
         int k;
 
-        b = r8vec_zeros_new(n);
+        double[] b = r8vec_zeros_new(n);
 
         for (k = 0; k < nz_num; k++)
         {
-            i = row[k];
-            j = col[k];
+            int i = row[k];
+            int j = col[k];
             b[j] += a[k] * x[i];
         }
 
@@ -1049,20 +1026,10 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        int INCX = 5;
+        const int INCX = 5;
 
         double[] aij = new double[INCX];
-        int i;
-        int i2hi;
-        int i2lo;
-        int inc;
-        int j;
-        int j2;
-        int j2hi;
         int j2lo;
-        int k;
-        bool nonzero;
-        string cout = "";
 
         Console.WriteLine("");
         Console.WriteLine(title + "");
@@ -1071,15 +1038,16 @@ public static partial class typeMethods
         //
         for (j2lo = jlo; j2lo <= jhi; j2lo += INCX)
         {
-            j2hi = j2lo + INCX - 1;
+            int j2hi = j2lo + INCX - 1;
             j2hi = Math.Min(j2hi, n - 1);
             j2hi = Math.Min(j2hi, jhi);
 
-            inc = j2hi + 1 - j2lo;
+            int inc = j2hi + 1 - j2lo;
 
             Console.WriteLine("");
 
-            cout = "  Col:  ";
+            string cout = "  Col:  ";
+            int j;
             for (j = j2lo; j <= j2hi; j++)
             {
                 cout +=  j.ToString().PadLeft(7) + "       ";
@@ -1091,20 +1059,23 @@ public static partial class typeMethods
             //
             //  Determine the range of the rows in this strip.
             //
-            i2lo = Math.Max(ilo, 0);
-            i2hi = Math.Min(ihi, m - 1);
+            int i2lo = Math.Max(ilo, 0);
+            int i2hi = Math.Min(ihi, m - 1);
 
+            int i;
             for (i = i2lo; i <= i2hi; i++)
             {
                 //
                 //  Print out (up to) 5 entries in row I, that lie in the current strip.
                 //
-                nonzero = false;
+                bool nonzero = false;
+                int j2;
                 for (j2 = 0; j2 < INCX; j2++)
                 {
                     aij[j2] = 0.0;
                 }
 
+                int k;
                 for (k = 1; k <= nz_num; k++)
                 {
                     if (i == row[k - 1] && j2lo <= col[k - 1] && col[k - 1] <= j2hi)
@@ -1192,9 +1163,7 @@ public static partial class typeMethods
         //    Output, double R8SP_RANDOM[NZ_NUM], the nonzero elements of the matrix.
         //
     {
-        double[] r;
-
-        r = UniformRNG.r8vec_uniform_01_new(nz_num, ref seed);
+        double[] r = UniformRNG.r8vec_uniform_01_new(nz_num, ref seed);
 
         return r;
     }
@@ -1323,9 +1292,7 @@ public static partial class typeMethods
         //    Output, int &NZ_NUM, the number of nonzero elements in the matrix.
         //
     {
-        int col_k;
         string[] input;
-        int row_k;
 
         m = 0;
         n = 0;
@@ -1346,8 +1313,8 @@ public static partial class typeMethods
         foreach (string line in input)
         {
             string[] tokens = Helpers.splitStringByWhitespace(line);
-            row_k = Convert.ToInt32(tokens[0]);
-            col_k = Convert.ToInt32(tokens[1]);
+            int row_k = Convert.ToInt32(tokens[0]);
+            int col_k = Convert.ToInt32(tokens[1]);
 
 
             m = Math.Max(m, row_k + 1);

@@ -36,13 +36,12 @@ public static partial class typeMethods
         //    Output, double A[N*N], the N by N identity matrix.
         //
     {
-        int i;
         int j;
-        int k;
 
-        k = 0;
+        int k = 0;
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < n; i++)
             {
                 if (i == j)
@@ -91,16 +90,14 @@ public static partial class typeMethods
         //    Output, double R8MAT_IDENTITY_NEW[N*N], the N by N identity matrix.
         //
     {
-        double[] a;
-        int i;
         int j;
-        int k;
 
-        a = new double[n * n];
+        double[] a = new double[n * n];
 
-        k = 0;
+        int k = 0;
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < n; i++)
             {
                 if (i == j)
@@ -156,17 +153,16 @@ public static partial class typeMethods
         //    if A were the identity matrix.
         //
     {
-        double error_frobenius;
         int i;
-        int j;
-        double t;
 
-        error_frobenius = 0.0;
+        double error_frobenius = 0.0;
 
         for (i = 0; i < n; i++)
         {
+            int j;
             for (j = 0; j < n; j++)
             {
+                double t;
                 if (i == j)
                 {
                     t = a[i + j * n] - 1.0;

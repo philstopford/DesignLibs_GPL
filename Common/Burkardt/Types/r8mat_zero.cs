@@ -79,11 +79,11 @@ public static partial class typeMethods
         //    Output, double A[M*N], a matrix of zeroes.
         //
     {
-        int i;
         int j;
 
         for ( j = 0; j < n; j++ )
         {
+            int i;
             for ( i = 0; i < m; i++ )
             {
                 a[i+j*m] = 0.0;
@@ -123,14 +123,13 @@ public static partial class typeMethods
         //    Output, double R8MAT_ZEROS_NEW[M*N], the new zeroed matrix.
         //
     {
-        double[] a;
-        int i;
         int j;
 
-        a = new double[m * n];
+        double[] a = new double[m * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 a[i + j * m] = 0.0;

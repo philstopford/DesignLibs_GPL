@@ -45,13 +45,12 @@ public static partial class typeMethods
         //    Output, double R8MAT_NORM_EIS, the EISPACK norm of A.
         //
     {
-        int i;
         int j;
-        double value = 0;
 
-        value = 0.0;
+        double value = 0.0;
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 value += Math.Abs(a[i + j * m]);
@@ -107,16 +106,14 @@ public static partial class typeMethods
         //    Output, double R8MAT_NORM_L1, the L1 norm of A.
         //
     {
-        double col_sum;
-        int i;
         int j;
-        double value = 0;
 
-        value = 0.0;
+        double value = 0.0;
 
         for (j = 0; j < n; j++)
         {
-            col_sum = 0.0;
+            double col_sum = 0.0;
+            int i;
             for (i = 0; i < m; i++)
             {
                 col_sum += Math.Abs(a[i + j * m]);
@@ -174,16 +171,13 @@ public static partial class typeMethods
         //    Output, double R8MAT_NORM_L2, the L2 norm of A.
         //
     {
-        double[] at;
-        double[] b;
-        double[] diag;
         double value = 0;
 
-        at = r8mat_transpose_new(m, n, a);
+        double[] at = r8mat_transpose_new(m, n, a);
         //
         //  Compute B = A * A'.
         //
-        b = r8mat_mm_new(m, n, m, a, at);
+        double[] b = r8mat_mm_new(m, n, m, a, at);
         //
         //  Diagonalize B.
         //
@@ -191,7 +185,7 @@ public static partial class typeMethods
         //
         //  Find the maximum eigenvalue, and take its square root.
         //
-        diag = r8mat_diag_get_vector_new(m, b);
+        double[] diag = r8mat_diag_get_vector_new(m, b);
 
         value = Math.Sqrt(r8vec_max(m, diag));
 
@@ -244,15 +238,13 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
-        double row_sum;
-        double value = 0;
 
-        value = 0.0;
+        double value = 0.0;
 
         for (i = 0; i < m; i++)
         {
-            row_sum = 0.0;
+            double row_sum = 0.0;
+            int j;
             for (j = 0; j < n; j++)
             {
                 row_sum += Math.Abs(a[i + j * m]);
@@ -312,9 +304,7 @@ public static partial class typeMethods
         //    Output, double R8MAT_NORMAL_01_NEW[M*N], the array of pseudonormal values.
         //
     {
-        double[] r;
-
-        r = r8vec_normal_01_new(m * n, ref data, ref seed);
+        double[] r = r8vec_normal_01_new(m * n, ref data, ref seed);
 
         return r;
     }
@@ -365,13 +355,13 @@ public static partial class typeMethods
         //    Output, double R8MAT_NORM_FRO, the Frobenius norm of A.
         //
     {
-        int i;
         int j;
         double value = 0;
 
         value = 0.0;
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 value += Math.Pow(a[i + j * m], 2);

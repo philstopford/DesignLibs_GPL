@@ -79,7 +79,6 @@ public static partial class typeMethods
         //
     {
         int i;
-        int k;
         //
         //  Diagonal elements of A.
         //
@@ -91,7 +90,7 @@ public static partial class typeMethods
         //
         //  First N entries of IJA store first offdiagonal of each row.
         //
-        k = n + 1;
+        int k = n + 1;
 
         for (i = 0; i < n; i++)
         {
@@ -224,15 +223,11 @@ public static partial class typeMethods
         //    Output, double R8RI_INDICATOR[NZ], the value vector.
         //
     {
-        double[] a;
-        int fac;
         int i;
-        int j;
-        int k;
 
-        a = r8vec_zeros_new(nz);
+        double[] a = r8vec_zeros_new(nz);
 
-        fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
+        int fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
         //
         //  Diagonal elements of A.
         //
@@ -243,9 +238,10 @@ public static partial class typeMethods
 
         for (i = 0; i < n; i++)
         {
+            int k;
             for (k = ija[i]; k < ija[i + 1]; k++)
             {
-                j = ija[k];
+                int j = ija[k];
                 a[k] = fac * (i + 1) + j + 1;
             }
         }
@@ -330,10 +326,7 @@ public static partial class typeMethods
         //    Output, double R8RI_MTV[N], the product A'*X.
         //
     {
-        double[] b;
         int i;
-        int j;
-        int k;
 
         if (ija[0] != n + 1)
         {
@@ -343,7 +336,7 @@ public static partial class typeMethods
             return null;
         }
 
-        b = r8vec_zeros_new(n);
+        double[] b = r8vec_zeros_new(n);
 
         for (i = 0; i < n; i++)
         {
@@ -352,9 +345,10 @@ public static partial class typeMethods
 
         for (i = 0; i < n; i++)
         {
+            int k;
             for (k = ija[i]; k < ija[i + 1]; k++)
             {
-                j = ija[k];
+                int j = ija[k];
                 b[j] += a[k] * x[i];
             }
         }
@@ -439,9 +433,7 @@ public static partial class typeMethods
         //    Output, double R8RI_MTV[N], the product A*X.
         //
     {
-        double[] b;
         int i;
-        int k;
 
         if (ija[0] != n + 1)
         {
@@ -451,11 +443,12 @@ public static partial class typeMethods
             return null;
         }
 
-        b = r8vec_zeros_new(n);
+        double[] b = r8vec_zeros_new(n);
 
         for (i = 0; i < n; i++)
         {
             b[i] = a[i] * x[i];
+            int k;
             for (k = ija[i]; k < ija[i + 1]; k++)
             {
                 b[i] += a[k] * x[ija[k]];
@@ -604,18 +597,10 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        double[] arow;
-        int i;
-        int i2hi;
-        int i2lo;
-        int incx = 5;
-        int j;
-        int j2hi;
+        const int incx = 5;
         int j2lo;
-        int k;
-        string cout = "";
 
-        arow = r8vec_zeros_new(n);
+        double[] arow = r8vec_zeros_new(n);
 
         Console.WriteLine("");
         Console.WriteLine(title + "");
@@ -624,12 +609,13 @@ public static partial class typeMethods
         //
         for (j2lo = jlo; j2lo <= jhi; j2lo += incx)
         {
-            j2hi = j2lo + incx - 1;
+            int j2hi = j2lo + incx - 1;
             j2hi = Math.Min(j2hi, n);
             j2hi = Math.Min(j2hi, jhi);
 
             Console.WriteLine("");
-            cout = "  Col: ";
+            string cout = "  Col: ";
+            int j;
             for (j = j2lo; j <= j2hi; j++)
             {
                 cout += j.ToString().PadLeft(7) + "       ";
@@ -641,9 +627,10 @@ public static partial class typeMethods
             //
             //  Determine the range of the rows in this strip.
             //
-            i2lo = Math.Max(ilo, 0);
-            i2hi = Math.Min(ihi, n - 1);
+            int i2lo = Math.Max(ilo, 0);
+            int i2hi = Math.Min(ihi, n - 1);
 
+            int i;
             for (i = i2lo; i <= i2hi; i++)
             {
                 //
@@ -665,6 +652,7 @@ public static partial class typeMethods
                 //
                 //  3) Now examine all the offdiagonal entries.
                 //
+                int k;
                 for (k = ija[i]; k < ija[i + 1]; k++)
                 {
                     j = ija[k];
@@ -765,11 +753,9 @@ public static partial class typeMethods
         //    Output, double A[NZ], the value vector.
         //
     {
-        double[] a;
         int i;
-        int k;
 
-        a = r8vec_zeros_new(nz);
+        double[] a = r8vec_zeros_new(nz);
         //
         //  Diagonal elements of A.
         //
@@ -780,6 +766,7 @@ public static partial class typeMethods
 
         for (i = 0; i < n; i++)
         {
+            int k;
             for (k = ija[i]; k < ija[i + 1]; k++)
             {
                 a[k] = UniformRNG.r8_uniform_01(ref seed);
@@ -839,12 +826,11 @@ public static partial class typeMethods
         //    or "general" format.
         //
     {
-        double[] a_r8ge;
         int i;
         int j;
         int k;
 
-        a_r8ge = r8vec_zeros_new(n * n);
+        double[] a_r8ge = r8vec_zeros_new(n * n);
 
         for (k = 0; k < n; k++)
         {
@@ -901,9 +887,7 @@ public static partial class typeMethods
         //    Output, double R8RI_ZEROS[NZ], the value vector.
         //
     {
-        double[] a;
-
-        a = r8vec_zeros_new(nz);
+        double[] a = r8vec_zeros_new(nz);
 
         return a;
     }

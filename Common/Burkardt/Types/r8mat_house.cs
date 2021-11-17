@@ -43,13 +43,10 @@ public static partial class typeMethods
         //    Input, double V[N], a vector defining a Householder matrix.
         //
     {
-        double[] ah;
         int i;
         int j;
-        int k;
-        double v_normsq;
 
-        v_normsq = 0.0;
+        double v_normsq = 0.0;
         for (i = 0; i < n; i++)
         {
             v_normsq += v[i] * v[i];
@@ -58,13 +55,14 @@ public static partial class typeMethods
         //
         //  Compute A*H' = A*H
         //
-        ah = new double[n * n];
+        double[] ah = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
             for (i = 0; i < n; i++)
             {
                 ah[i + j * n] = a[i + j * n];
+                int k;
                 for (k = 0; k < n; k++)
                 {
                     ah[i + j * n] -= 2.0 * a[i + k * n] * v[k] * v[j] / v_normsq;
@@ -126,13 +124,10 @@ public static partial class typeMethods
         //    Output, double R8MAT_HOUSE_AXH[N*N], the product A*H.
         //
     {
-        double[] ah;
         int i;
         int j;
-        int k;
-        double v_normsq;
 
-        v_normsq = 0.0;
+        double v_normsq = 0.0;
         for (i = 0; i < n; i++)
         {
             v_normsq += v[i] * v[i];
@@ -141,13 +136,14 @@ public static partial class typeMethods
         //
         //  Compute A*H' = A*H
         //
-        ah = new double[n * n];
+        double[] ah = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
             for (i = 0; i < n; i++)
             {
                 ah[i + j * n] = a[i + j * n];
+                int k;
                 for (k = 0; k < n; k++)
                 {
                     ah[i + j * n] -= 2.0 * a[i + k * n] * v[k] * v[j] / v_normsq;
@@ -194,14 +190,11 @@ public static partial class typeMethods
         //    Output, double R8MAT_HOUSE_FORM[N*N], the Householder matrix.
         //
     {
-        double beta;
-        double[] h;
         int i;
-        int j;
         //
         //  Compute the L2 norm of V.
         //
-        beta = 0.0;
+        double beta = 0.0;
         for (i = 0; i < n; i++)
         {
             beta += v[i] * v[i];
@@ -210,10 +203,11 @@ public static partial class typeMethods
         //
         //  Form the matrix H.
         //
-        h = r8mat_identity_new(n);
+        double[] h = r8mat_identity_new(n);
 
         for (i = 0; i < n; i++)
         {
+            int j;
             for (j = 0; j < n; j++)
             {
                 h[i + j * n] -= 2.0 * v[i] * v[j] / beta;
@@ -265,13 +259,9 @@ public static partial class typeMethods
         //    Output, double R8MAT_HOUSE_HXA[N*N], the product H*A.
         //
     {
-        double[] ha;
         int i;
-        int j;
-        int k;
-        double v_normsq;
 
-        v_normsq = 0.0;
+        double v_normsq = 0.0;
         for (i = 0; i < n; i++)
         {
             v_normsq += v[i] * v[i];
@@ -280,13 +270,15 @@ public static partial class typeMethods
         //
         //  Compute A*H' = A*H
         //
-        ha = new double[n * n];
+        double[] ha = new double[n * n];
 
         for (i = 0; i < n; i++)
         {
+            int j;
             for (j = 0; j < n; j++)
             {
                 ha[i + j * n] = a[i + j * n];
+                int k;
                 for (k = 0; k < n; k++)
                 {
                     ha[i + j * n] -= 2.0 * v[i] * v[k] * a[k + j * n] / v_normsq;
@@ -343,14 +335,11 @@ public static partial class typeMethods
         //    Output, double R8MAT_HOUSE_POST[N*N], the Householder matrix.
         //
     {
-        double[] a_row;
-        double[] h;
         int j;
-        double[] v;
         //
         //  Extract the ROW-th row of A.
         //
-        a_row = new double[n];
+        double[] a_row = new double[n];
 
         for (j = 0; j < col - 1; j++)
         {
@@ -365,11 +354,11 @@ public static partial class typeMethods
         //
         //  Set up the vector V.
         //
-        v = r8vec_house_column(n, a_row, col);
+        double[] v = r8vec_house_column(n, a_row, col);
         //
         //  Form the matrix H(V).
         //
-        h = r8mat_house_form(n, v);
+        double[] h = r8mat_house_form(n, v);
 
         return h;
     }
@@ -420,14 +409,11 @@ public static partial class typeMethods
         //    Output, double R8MAT_HOUSE_PRE[N*N], the Householder matrix.
         //
     {
-        double[] a_col;
-        double[] h;
         int i;
-        double[] v;
         //
         //  Extract the COL-th column of A.
         //
-        a_col = new double[n];
+        double[] a_col = new double[n];
 
         for (i = 0; i < row - 1; i++)
         {
@@ -442,11 +428,11 @@ public static partial class typeMethods
         //
         //  Set up the vector V.
         //
-        v = r8vec_house_column(n, a_col, row);
+        double[] v = r8vec_house_column(n, a_col, row);
         //
         //  Form the matrix H(V).
         //
-        h = r8mat_house_form(n, v);
+        double[] h = r8mat_house_form(n, v);
 
         return h;
     }

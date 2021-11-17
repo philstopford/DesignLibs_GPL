@@ -49,12 +49,10 @@ public static partial class typeMethods
         //    Output, double R8MAT_L1_INVERSE[N*N], the inverse matrix.
         //
     {
-        double[] b;
         int i;
         int j;
-        int k;
 
-        b = new double[n * n];
+        double[] b = new double[n * n];
 
         for (i = 0; i < n; i++)
         {
@@ -71,6 +69,7 @@ public static partial class typeMethods
                 else
                 {
                     b[i + j * n] = 0.0;
+                    int k;
                     for (k = 0; k < i; k++)
                     {
                         b[i + j * n] -= a[i + k * n] * b[k + j * n];
@@ -114,12 +113,10 @@ public static partial class typeMethods
         //    Output, double R8MAT_INVERSE_2D[2*2], the inverse of the matrix A.
         //
     {
-        double[] b;
-        double det;
         //
         //  Compute the determinant of A.
         //
-        det = a[0 + 0 * 2] * a[1 + 1 * 2] - a[0 + 1 * 2] * a[1 + 0 * 2];
+        double det = a[0 + 0 * 2] * a[1 + 1 * 2] - a[0 + 1 * 2] * a[1 + 0 * 2];
         switch (det)
         {
             //
@@ -132,7 +129,7 @@ public static partial class typeMethods
         //
         //  Compute the entries of the inverse matrix using an explicit formula.
         //
-        b = new double[2 * 2];
+        double[] b = new double[2 * 2];
 
         b[0 + 0 * 2] = +a[1 + 1 * 2] / det;
         b[0 + 1 * 2] = -a[0 + 1 * 2] / det;
@@ -243,12 +240,10 @@ public static partial class typeMethods
         //    Output, double R8MAT_INVERSE_4D[4][4], the inverse of the matrix A.
         //
     {
-        double[] b;
-        double det;
         //
         //  Compute the determinant of A.
         //
-        det = r8mat_det_4d(a);
+        double det = r8mat_det_4d(a);
         switch (det)
         {
             //
@@ -261,7 +256,7 @@ public static partial class typeMethods
         //
         //  Compute the entries of the inverse matrix using an explicit formula.
         //
-        b = new double[4 * 4];
+        double[] b = new double[4 * 4];
 
         b[0 + 0 * 4] =
             +(
@@ -424,16 +419,13 @@ public static partial class typeMethods
         //    Output, double R8MAT_L_INVERSE[N*N], the inverse matrix.
         //
     {
-        double[] b;
-        int i;
         int j;
-        int k;
-        double temp;
 
-        b = new double[n * n];
+        double[] b = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < n; i++)
             {
                 if (i < j)
@@ -446,7 +438,8 @@ public static partial class typeMethods
                 }
                 else
                 {
-                    temp = 0.0;
+                    double temp = 0.0;
+                    int k;
                     for (k = 0; k < i; k++)
                     {
                         temp += a[i + k * n] * b[k + j * n];

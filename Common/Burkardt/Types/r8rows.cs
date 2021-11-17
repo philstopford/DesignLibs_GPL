@@ -61,8 +61,6 @@ public static partial class typeMethods
         //    +1, row J < row I.
         //
     {
-        int k;
-        int value;
         //
         //  Check.
         //
@@ -84,14 +82,14 @@ public static partial class typeMethods
             return 1;
         }
 
-        value = 0;
+        int value = 0;
 
         if (i == j)
         {
             return value;
         }
 
-        k = 0;
+        int k = 0;
 
         while (k < n)
         {
@@ -155,17 +153,15 @@ public static partial class typeMethods
         //    Output, double R8ROW_INDICATOR_NEW[M*N], the table.
         //
     {
-        double[] a;
-        int fac;
         int i;
-        int j;
 
-        a = new double[m * n];
+        double[] a = new double[m * n];
 
-        fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
+        int fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
 
         for (i = 1; i <= m; i++)
         {
+            int j;
             for (j = 1; j <= n; j++)
             {
                 a[i - 1 + (j - 1) * m] = fac * i + j;
@@ -214,13 +210,13 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
         double[] amax = new double[m];
 
         for (i = 0; i < m; i++)
         {
             amax[i] = a[i + 0 * m];
 
+            int j;
             for (j = 1; j < n; j++)
             {
                 if (amax[i] < a[i + j * m])
@@ -272,12 +268,12 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
         double[] mean = new double[m];
 
         for (i = 0; i < m; i++)
         {
             mean[i] = 0.0;
+            int j;
             for (j = 0; j < n; j++)
             {
                 mean[i] += a[i + j * m];
@@ -328,12 +324,12 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
         double[] amin = new double[m];
 
         for (i = 0; i < m; i++)
         {
             amin[i] = a[i + 0 * m];
+            int j;
             for (j = 1; j < n; j++)
             {
                 if (a[i + j * m] < amin[i])
@@ -428,15 +424,9 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        int INCX = 5;
+        const int INCX = 5;
 
-        int i;
-        int i2hi;
-        int i2lo;
-        int j;
-        int j2hi;
         int j2lo;
-        string cout = "";
 
         Console.WriteLine("");
         Console.WriteLine(title + "");
@@ -453,7 +443,7 @@ public static partial class typeMethods
         //
         for (j2lo = jlo; j2lo <= jhi; j2lo += INCX)
         {
-            j2hi = j2lo + INCX - 1;
+            int j2hi = j2lo + INCX - 1;
             if (n < j2hi)
             {
                 j2hi = n;
@@ -470,7 +460,8 @@ public static partial class typeMethods
             //
             //  Write the header.
             //
-            cout = "  Col:    ";
+            string cout = "  Col:    ";
+            int j;
             for (j = j2lo; j <= j2hi; j++)
             {
                 cout += (j - 1).ToString().PadLeft(7) + "       ";
@@ -479,7 +470,7 @@ public static partial class typeMethods
             Console.WriteLine(cout);
             Console.WriteLine("  Row");
             Console.WriteLine("");
-            i2lo = ilo switch
+            int i2lo = ilo switch
             {
                 //
                 //  Determine the range of the rows in this strip.
@@ -488,6 +479,7 @@ public static partial class typeMethods
                 _ => 1
             };
 
+            int i2hi;
             if (ihi < m)
             {
                 i2hi = ihi;
@@ -497,6 +489,7 @@ public static partial class typeMethods
                 i2hi = m;
             }
 
+            int i;
             for (i = i2lo; i <= i2hi; i++)
             {
                 //
@@ -561,17 +554,14 @@ public static partial class typeMethods
         //    Input/output, double A[M*N], the matrix whose rows are to be flipped.
         //
     {
-        int i;
         int j;
-        double t;
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m / 2; i++)
             {
-                t = a[i + j * m];
-                a[i + j * m] = a[m - 1 - i + j * m];
-                a[m - 1 - i + j * m] = t;
+                (a[i + j * m], a[m - 1 - i + j * m]) = (a[m - 1 - i + j * m], a[i + j * m]);
             }
         }
     }
@@ -613,11 +603,10 @@ public static partial class typeMethods
         //    A(I,J) is the average value of V(I,1:J-1).
         //
     {
-        double[] a;
         int i;
         int j;
 
-        a = new double[m * (n + 1)];
+        double[] a = new double[m * (n + 1)];
         //
         //  Sum.
         //
@@ -683,9 +672,8 @@ public static partial class typeMethods
     {
         int i;
         int j;
-        double[] s;
 
-        s = new double[m * (n + 1)];
+        double[] s = new double[m * (n + 1)];
         //
         //  Sum.
         //
@@ -745,10 +733,6 @@ public static partial class typeMethods
         //    On output, the rows of A have been sorted in lexicographic order.
         //
     {
-        int i;
-        int indx;
-        int isgn;
-        int j;
         SortHeapExternalData data = new();
 
         switch (m)
@@ -766,10 +750,10 @@ public static partial class typeMethods
         //
         //  Initialize.
         //
-        i = 0;
-        indx = 0;
-        isgn = 0;
-        j = 0;
+        int i = 0;
+        int indx = 0;
+        int isgn = 0;
+        int j = 0;
         //
         //  Call the external heap sorter.
         //
@@ -834,14 +818,13 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
-        double[] rowsum;
 
-        rowsum = new double[m];
+        double[] rowsum = new double[m];
 
         for (i = 0; i < m; i++)
         {
             rowsum[i] = 0.0;
+            int j;
             for (j = 0; j < n; j++)
             {
                 rowsum[i] += a[i + j * m];
@@ -887,7 +870,6 @@ public static partial class typeMethods
         //
     {
         int j;
-        double t;
         //
         //  Check.
         //
@@ -914,9 +896,7 @@ public static partial class typeMethods
 
         for (j = 0; j < n; j++)
         {
-            t = a[irow1 + j * m];
-            a[irow1 + j * m] = a[irow2 + j * m];
-            a[irow2 + j * m] = t;
+            (a[irow1 + j * m], a[irow2 + j * m]) = (a[irow2 + j * m], a[irow1 + j * m]);
         }
 
     }
@@ -966,16 +946,14 @@ public static partial class typeMethods
         //    Output, double R8ROW_TO_R8VEC[M*N], a vector containing the M rows of A.
         //
     {
-        int i;
         int j;
-        int k;
-        double[] x;
 
-        x = new double[m * n];
+        double[] x = new double[m * n];
 
-        k = 0;
+        int k = 0;
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 x[k] = a[i + j * m];
@@ -1063,19 +1041,10 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        int INCX = 5;
+        const int INCX = 5;
 
-        int i;
-        int i2;
-        int i2hi;
         int i2lo;
         int i2lo_hi;
-        int i2lo_lo;
-        int inc;
-        int j;
-        int j2hi;
-        int j2lo;
-        string cout = "";
 
         Console.WriteLine("");
         Console.WriteLine(title + "");
@@ -1087,7 +1056,7 @@ public static partial class typeMethods
             return;
         }
 
-        i2lo_lo = ilo switch
+        int i2lo_lo = ilo switch
         {
             < 1 => 1,
             _ => ilo
@@ -1104,7 +1073,7 @@ public static partial class typeMethods
 
         for (i2lo = i2lo_lo; i2lo <= i2lo_hi; i2lo += INCX)
         {
-            i2hi = i2lo + INCX - 1;
+            int i2hi = i2lo + INCX - 1;
 
             if (m < i2hi)
             {
@@ -1116,10 +1085,11 @@ public static partial class typeMethods
                 i2hi = ihi;
             }
 
-            inc = i2hi + 1 - i2lo;
+            int inc = i2hi + 1 - i2lo;
 
             Console.WriteLine("");
-            cout = "  Row: ";
+            string cout = "  Row: ";
+            int i;
             for (i = i2lo; i <= i2hi; i++)
             {
                 cout += (i - 1).ToString().PadLeft(7) + "       ";
@@ -1129,12 +1099,13 @@ public static partial class typeMethods
             Console.WriteLine("  Col");
             Console.WriteLine("");
 
-            j2lo = jlo switch
+            int j2lo = jlo switch
             {
                 < 1 => 1,
                 _ => jlo
             };
 
+            int j2hi;
             if (n < jhi)
             {
                 j2hi = n;
@@ -1144,9 +1115,11 @@ public static partial class typeMethods
                 j2hi = jhi;
             }
 
+            int j;
             for (j = j2lo; j <= j2hi; j++)
             {
                 cout = (j - 1).ToString().PadLeft(5) + ":";
+                int i2;
                 for (i2 = 1; i2 <= inc; i2++)
                 {
                     i = i2lo - 1 + i2;
@@ -1187,13 +1160,12 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
-        double mean;
         double[] variance = new double[m];
 
         for (i = 0; i < m; i++)
         {
-            mean = 0.0;
+            double mean = 0.0;
+            int j;
             for (j = 0; j < n; j++)
             {
                 mean += a[i + j * m];
@@ -1258,15 +1230,13 @@ public static partial class typeMethods
         //
     {
         int i;
-        double[] r8mat;
-        int j;
-        int k;
 
-        r8mat = new double[m * n];
+        double[] r8mat = new double[m * n];
 
-        k = 0;
+        int k = 0;
         for (i = 0; i < m; i++)
         {
+            int j;
             for (j = 0; j < n; j++)
             {
                 r8mat[i + j * m] = r8rows[k];

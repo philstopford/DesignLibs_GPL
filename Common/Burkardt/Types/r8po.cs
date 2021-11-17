@@ -56,18 +56,16 @@ public static partial class typeMethods
     {
         int info;
         int j;
-        int k;
-        double s;
-        double t;
 
         for (j = 1; j <= n; j++)
         {
-            s = 0.0;
+            double s = 0.0;
 
+            int k;
             for (k = 1; k <= j - 1; k++)
             {
-                t = a[k - 1 + (j - 1) * lda] -
-                    BLAS1D.ddot(k - 1, a, 1, a, 1, +0 + (k - 1) * lda, +0 + (j - 1) * lda);
+                double t = a[k - 1 + (j - 1) * lda] -
+                           BLAS1D.ddot(k - 1, a, 1, a, 1, +0 + (k - 1) * lda, +0 + (j - 1) * lda);
                 t /= a[k - 1 + (k - 1) * lda];
                 a[k - 1 + (j - 1) * lda] = t;
                 s += t * t;
@@ -131,10 +129,9 @@ public static partial class typeMethods
         //    Output, double R8PO_DET, the determinant of A.
         //
     {
-        double det;
         int i;
 
-        det = 1.0;
+        double det = 1.0;
 
         for (i = 0; i < n; i++)
         {
@@ -183,11 +180,10 @@ public static partial class typeMethods
         //    Output, double R8PO_DIF2[N*N], the matrix.
         //
     {
-        double[] a;
         int i;
         int j;
 
-        a = new double[n * n];
+        double[] a = new double[n * n];
 
         for (i = 0; i < n; i++)
         {
@@ -269,8 +265,6 @@ public static partial class typeMethods
         //    storage, or NULL if there was an error.
         //
     {
-        double s;
-
         double[] b = new double[n * n];
 
         for (int j = 0; j < n; j++)
@@ -293,7 +287,7 @@ public static partial class typeMethods
                 b[k + j * n] /= b[k + k * n];
             }
 
-            s = b[j + j * n];
+            double s = b[j + j * n];
             for (int i = 0; i <= j - 1; i++)
             {
                 s -= b[i + j * n] * b[i + j * n];
@@ -376,9 +370,8 @@ public static partial class typeMethods
     {
         int i;
         int k;
-        double[] x;
 
-        x = new double[n];
+        double[] x = new double[n];
 
         for (k = 0; k < n; k++)
         {
@@ -452,14 +445,12 @@ public static partial class typeMethods
         //    Output, double R8PO_INDICATOR[N*N], the R8PO matrix.
         //
     {
-        double[] a;
-        int fac;
         int i;
         int j;
 
-        a = new double[n * n];
+        double[] a = new double[n * n];
 
-        fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
+        int fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
 
         for (i = 1; i <= n; i++)
         {
@@ -526,13 +517,12 @@ public static partial class typeMethods
         //    Output, double R8PO_INVERSE[N*N], the inverse, in R8PO storage.
         //
     {
-        double[] b;
         int i;
         int j;
         int k;
         double t;
 
-        b = new double[n * n];
+        double[] b = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
@@ -630,11 +620,10 @@ public static partial class typeMethods
         //    Output, double R8PO_ML[N], the product A * x.
         //
     {
-        double[] b;
         int i;
         int j;
 
-        b = new double[n];
+        double[] b = new double[n];
         //
         //  Compute R * x = y.
         //
@@ -703,14 +692,10 @@ public static partial class typeMethods
         //    Output, double R8PO_MM[N*N], the R8PO product matrix.
         //
     {
-        double aik;
-        double bkj;
-        double[] c;
         int i;
         int j;
-        int k;
 
-        c = new double[n * n];
+        double[] c = new double[n * n];
 
         for (i = 1; i <= n; i++)
         {
@@ -724,8 +709,10 @@ public static partial class typeMethods
         {
             for (j = i; j <= n; j++)
             {
+                int k;
                 for (k = 1; k <= n; k++)
                 {
+                    double aik;
                     if (i <= k)
                     {
                         aik = a[i - 1 + (k - 1) * n];
@@ -735,6 +722,7 @@ public static partial class typeMethods
                         aik = a[k - 1 + (i - 1) * n];
                     }
 
+                    double bkj;
                     if (k <= j)
                     {
                         bkj = b[k - 1 + (j - 1) * n];
@@ -796,15 +784,14 @@ public static partial class typeMethods
         //    Output, double R8PO_MV(N), the product A * x.
         //
     {
-        double[] b;
         int i;
-        int j;
 
-        b = new double[n];
+        double[] b = new double[n];
 
         for (i = 0; i < n; i++)
         {
             b[i] = 0.0;
+            int j;
             for (j = 0; j < i; j++)
             {
                 b[i] += a[j + i * n] * x[j];
@@ -910,15 +897,9 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        int INCX = 5;
+        const int INCX = 5;
 
-        int i;
-        int i2hi;
-        int i2lo;
-        int j;
-        int j2hi;
         int j2lo;
-        string cout = "";
 
         Console.WriteLine("");
         Console.WriteLine(title + "");
@@ -927,7 +908,7 @@ public static partial class typeMethods
         //
         for (j2lo = jlo; j2lo <= jhi; j2lo += INCX)
         {
-            j2hi = j2lo + INCX - 1;
+            int j2hi = j2lo + INCX - 1;
             j2hi = Math.Min(j2hi, n);
             j2hi = Math.Min(j2hi, jhi);
 
@@ -937,7 +918,8 @@ public static partial class typeMethods
             //
             //  Write the header.
             //
-            cout = "  Col:    ";
+            string cout = "  Col:    ";
+            int j;
             for (j = j2lo; j <= j2hi; j++)
             {
                 cout += j.ToString().PadLeft(7) + "       ";
@@ -949,9 +931,10 @@ public static partial class typeMethods
             //
             //  Determine the range of the rows in this strip.
             //
-            i2lo = Math.Max(ilo, 1);
-            i2hi = Math.Min(ihi, n);
+            int i2lo = Math.Max(ilo, 1);
+            int i2hi = Math.Min(ihi, n);
 
+            int i;
             for (i = i2lo; i <= i2hi; i++)
             {
                 //
@@ -1026,12 +1009,10 @@ public static partial class typeMethods
         //    Output, double R8PO_RANDOM[N*N], the R8PO matrix.
         //
     {
-        double[] a;
         int i;
         int j;
-        int k;
 
-        a = new double[n * n];
+        double[] a = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
@@ -1059,6 +1040,7 @@ public static partial class typeMethods
                 //
                 //  Add multiples of row I to lower elements of column J.
                 //
+                int k;
                 for (k = i + 1; k <= j; k++)
                 {
                     a[k - 1 + (j - 1) * n] += a[i - 1 + (k - 1) * n] * a[i - 1 + (j - 1) * n];
@@ -1186,14 +1168,13 @@ public static partial class typeMethods
         //    Output, double R8PO_TO_R8GE[N*N], the R8GE matrix.
         //
     {
-        double[] b;
         int i;
-        int j;
 
-        b = new double[n*n];
+        double[] b = new double[n*n];
 
         for ( i = 0; i < n; i++ )
         {
+            int j;
             for ( j = 0; j < n; j++ )
             {
                 if ( i <= j )
@@ -1249,14 +1230,13 @@ public static partial class typeMethods
         //    Output, double R8PO_ZERO[N*N], the R8PO matrix.
         //
     {
-        double[] a;
-        int i;
         int j;
 
-        a = new double[n*n];
+        double[] a = new double[n*n];
 
         for ( j = 0; j < n; j++ )
         {
+            int i;
             for ( i = 0; i < n; i++ )
             {
                 a[i+j*n] = 0.0;

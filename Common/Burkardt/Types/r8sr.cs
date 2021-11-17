@@ -52,7 +52,6 @@ public static partial class typeMethods
         //
     {
         int i;
-        int nz2;
 
         for (i = 0; i < n; i++)
         {
@@ -60,7 +59,7 @@ public static partial class typeMethods
         }
 
         row[0] = 0;
-        nz2 = 0;
+        int nz2 = 0;
 
         for (i = 0; i < n; i++)
         {
@@ -148,18 +147,16 @@ public static partial class typeMethods
         //    Output, double OFF[NZ], the off-diagonal elements of A.
         //
     {
-        int fac;
         int i;
-        int j;
-        int k;
 
-        fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
+        int fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
 
         for (i = 0; i < n; i++)
         {
-            j = i;
+            int j = i;
             diag[i] = fac * (i + 1) + j + 1;
 
+            int k;
             for (k = row[i]; k <= row[i + 1] - 1; k++)
             {
                 j = col[k];
@@ -217,12 +214,9 @@ public static partial class typeMethods
         //    Output, double R8SR_MTV[N], the product A' * X.
         //
     {
-        double[] b;
         int i;
-        int j;
-        int k;
 
-        b = new double[n];
+        double[] b = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -231,9 +225,10 @@ public static partial class typeMethods
 
         for (i = 0; i < n; i++)
         {
+            int k;
             for (k = row[i]; k <= row[i + 1] - 1; k++)
             {
-                j = col[k];
+                int j = col[k];
                 b[j] += off[k] * x[i];
             }
         }
@@ -290,12 +285,9 @@ public static partial class typeMethods
         //    Output, double R8SR_MV[N], the product A * X.
         //
     {
-        double[] b;
         int i;
-        int j;
-        int k;
 
-        b = new double[n];
+        double[] b = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -304,9 +296,10 @@ public static partial class typeMethods
 
         for (i = 0; i < n; i++)
         {
+            int k;
             for (k = row[i]; k <= row[i + 1] - 1; k++)
             {
-                j = col[k];
+                int j = col[k];
                 b[i] += off[k] * x[j];
             }
         }
@@ -414,17 +407,9 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        int INCX = 5;
+        const int INCX = 5;
 
-        double aij;
-        int i;
-        int i2hi;
-        int i2lo;
-        int j;
-        int j2hi;
         int j2lo;
-        int k;
-        string cout = "";
 
         Console.WriteLine("");
         Console.WriteLine(title + "");
@@ -433,12 +418,13 @@ public static partial class typeMethods
         //
         for (j2lo = jlo; j2lo <= jhi; j2lo += INCX)
         {
-            j2hi = j2lo + INCX - 1;
+            int j2hi = j2lo + INCX - 1;
             j2hi = Math.Min(j2hi, n - 1);
             j2hi = Math.Min(j2hi, jhi);
 
             Console.WriteLine("");
-            cout = "  Col:  ";
+            string cout = "  Col:  ";
+            int j;
             for (j = j2lo; j <= j2hi; j++)
             {
                 cout += j.ToString().PadLeft(7) + "       ";
@@ -451,9 +437,10 @@ public static partial class typeMethods
             //
             //  Determine the range of the rows in this strip.
             //
-            i2lo = Math.Max(ilo, 0);
-            i2hi = Math.Min(ihi, n - 1);
+            int i2lo = Math.Max(ilo, 0);
+            int i2hi = Math.Min(ihi, n - 1);
 
+            int i;
             for (i = i2lo; i <= i2hi; i++)
             {
                 cout = i.ToString().PadLeft(6) + "  ";
@@ -462,13 +449,14 @@ public static partial class typeMethods
                 //
                 for (j = j2lo; j <= j2hi; j++)
                 {
-                    aij = 0.0;
+                    double aij = 0.0;
                     if (j == i)
                     {
                         aij = diag[i];
                     }
                     else
                     {
+                        int k;
                         for (k = row[i]; k <= row[i + 1] - 1; k++)
                         {
                             if (j == col[k])
@@ -534,11 +522,11 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
 
         for (i = 0; i < n; i++)
         {
             diag[i] = UniformRNG.r8_uniform_01(ref seed);
+            int j;
             for (j = row[i]; j <= row[i + 1] - 1; j++)
             {
                 off[j] = UniformRNG.r8_uniform_01(ref seed);
@@ -593,11 +581,10 @@ public static partial class typeMethods
         //    Output, double R8SR_TO_R8GE[N*N], the R8GE matrix.
         //
     {
-        double[] b;
         int i;
         int j;
 
-        b = new double[n * n];
+        double[] b = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
@@ -669,11 +656,11 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
 
         for (i = 0; i < n; i++)
         {
             diag[i] = 0.0;
+            int j;
             for (j = row[i]; j <= row[i + 1] - 1; j++)
             {
                 off[j] = 0.0;

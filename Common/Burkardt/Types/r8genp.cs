@@ -41,10 +41,9 @@ public static partial class typeMethods
         //    Output, double R8GE_NP_DET, the determinant of the matrix.
         //
     {
-        double det;
         int i;
 
-        det = 1.0;
+        double det = 1.0;
         for (i = 0; i < n; i++)
         {
             det *= a_lu[i + i * n];
@@ -171,15 +170,12 @@ public static partial class typeMethods
         //    Output, double R8GE_NP_INVERSE[N*N], the inverse matrix.
         //
     {
-        double[] b;
         int i;
         int j;
         int k;
-        double temp;
-        double[] work;
 
-        b = new double[n * n];
-        work = new double[n];
+        double[] b = new double[n * n];
+        double[] work = new double[n];
 
         for (j = 0; j < n; j++)
         {
@@ -202,7 +198,7 @@ public static partial class typeMethods
 
             for (j = k + 1; j <= n; j++)
             {
-                temp = b[k - 1 + (j - 1) * n];
+                double temp = b[k - 1 + (j - 1) * n];
                 b[k - 1 + (j - 1) * n] = 0.0;
                 for (i = 1; i <= k; i++)
                 {
@@ -284,12 +280,10 @@ public static partial class typeMethods
         //    Output, double R8GE_NP_ML[N], the result of the multiplication.
         //
     {
-        double[] b;
         int i;
         int j;
-        double t;
 
-        b = new double[n];
+        double[] b = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -305,7 +299,7 @@ public static partial class typeMethods
                 //
                 for (i = 0; i < n; i++)
                 {
-                    t = 0.0;
+                    double t = 0.0;
                     for (j = i; j < n; j++)
                     {
                         t += a_lu[i + j * n] * b[j];
@@ -404,11 +398,10 @@ public static partial class typeMethods
     {
         int i;
         int k;
-        double[] x;
         //
         //  Solve A * x = b.
         //
-        x = new double[n];
+        double[] x = new double[n];
         for (i = 0; i < n; i++)
         {
             x[i] = b[(i + bIndex) % b.Length];
@@ -521,14 +514,11 @@ public static partial class typeMethods
         //         to solve a system of equations.
         //
     {
-        int i;
-        int ii;
-        int info;
         int j;
         //
         //  Test the input parameters.
         //
-        info = 0;
+        int info = 0;
 
         switch (m)
         {
@@ -552,6 +542,7 @@ public static partial class typeMethods
             //
             //  Compute elements J+1:M of the J-th column.
             //
+            int i;
             if (a[j - 1 + (j - 1) * m] != 0.0)
             {
                 for (i = j + 1; i <= m; i++)
@@ -573,6 +564,7 @@ public static partial class typeMethods
             //
             if (j < Math.Min(m, n))
             {
+                int ii;
                 for (ii = j + 1; ii <= m; ii++)
                 {
                     for (i = j + 1; i <= n; i++)
@@ -652,7 +644,6 @@ public static partial class typeMethods
         double[] b;
         int i;
         int j;
-        double temp;
 
         switch (job)
         {
@@ -703,7 +694,7 @@ public static partial class typeMethods
                 //
                 for (i = Math.Min(m, n) - 1; 0 <= i; i--)
                 {
-                    temp = 0.0;
+                    double temp = 0.0;
                     for (j = 0; j <= i; j++)
                     {
                         temp += a[j + i * m] * b[j];
@@ -784,7 +775,6 @@ public static partial class typeMethods
         int i;
         int j;
         int k;
-        double[] x;
 
         if (trans != 'n' && trans != 'N' &&
             trans != 't' && trans != 'T' &&
@@ -810,7 +800,7 @@ public static partial class typeMethods
             return null;
         }
 
-        x = new double[n * nrhs];
+        double[] x = new double[n * nrhs];
 
         for (j = 0; j < nrhs; j++)
         {

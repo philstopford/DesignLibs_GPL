@@ -50,32 +50,15 @@ public static partial class typeMethods
         //
     {
         int i;
-        int ihi;
-        int ii;
-        int iii;
-        int ip1;
-        int j;
-        int jhi;
-        int jj;
-        int jjj;
-        int jp1;
-        int m2;
-        int n2;
-        double s;
-        double t;
-        double x00;
-        double x01;
-        double x10;
-        double x11;
-        double[] xfat;
 
-        m2 = (m - 1) * (mfat + 1) + 1;
-        n2 = (n - 1) * (nfat + 1) + 1;
+        int m2 = (m - 1) * (mfat + 1) + 1;
+        int n2 = (n - 1) * (nfat + 1) + 1;
 
-        xfat = new double[m2 * n2];
+        double[] xfat = new double[m2 * n2];
 
         for (i = 1; i <= m; i++)
         {
+            int ihi;
             if (i < m)
             {
                 ihi = mfat;
@@ -85,8 +68,10 @@ public static partial class typeMethods
                 ihi = 0;
             }
 
+            int j;
             for (j = 1; j <= n; j++)
             {
+                int jhi;
                 if (j < n)
                 {
                     jhi = nfat;
@@ -96,6 +81,7 @@ public static partial class typeMethods
                     jhi = 0;
                 }
 
+                int ip1;
                 if (i < m)
                 {
                     ip1 = i + 1;
@@ -105,6 +91,7 @@ public static partial class typeMethods
                     ip1 = i;
                 }
 
+                int jp1;
                 if (j < n)
                 {
                     jp1 = j + 1;
@@ -114,21 +101,23 @@ public static partial class typeMethods
                     jp1 = j;
                 }
 
-                x00 = x[i - 1 + (j - 1) * m];
-                x10 = x[ip1 - 1 + (j - 1) * m];
-                x01 = x[i - 1 + (jp1 - 1) * m];
-                x11 = x[ip1 - 1 + (jp1 - 1) * m];
+                double x00 = x[i - 1 + (j - 1) * m];
+                double x10 = x[ip1 - 1 + (j - 1) * m];
+                double x01 = x[i - 1 + (jp1 - 1) * m];
+                double x11 = x[ip1 - 1 + (jp1 - 1) * m];
 
+                int ii;
                 for (ii = 0; ii <= ihi; ii++)
                 {
-                    s = ii / (double) (ihi + 1);
+                    double s = ii / (double) (ihi + 1);
 
+                    int jj;
                     for (jj = 0; jj <= jhi; jj++)
                     {
-                        t = jj / (double) (jhi + 1);
+                        double t = jj / (double) (jhi + 1);
 
-                        iii = 1 + (i - 1) * (mfat + 1) + ii;
-                        jjj = 1 + (j - 1) * (nfat + 1) + jj;
+                        int iii = 1 + (i - 1) * (mfat + 1) + ii;
+                        int jjj = 1 + (j - 1) * (nfat + 1) + jj;
 
                         xfat[iii - 1 + (jjj - 1) * m2] =
                             x00
@@ -183,32 +172,20 @@ public static partial class typeMethods
         //    which contains an interpolated version of the data in A.
         //
     {
-        double[] a2;
         int i;
-        int i1;
-        int i2;
-        int j;
-        int j1;
-        int j2;
-        double r;
-        double r1;
-        double r2;
-        double s;
-        double s1;
-        double s2;
 
-        a2 = new double[m2 * n2];
+        double[] a2 = new double[m2 * n2];
 
         for (i = 1; i <= m2; i++)
         {
-            r = m2 switch
+            double r = m2 switch
             {
                 1 => 0.5,
                 _ => (i - 1) / (double) (m2 - 1)
             };
 
-            i1 = 1 + (int) (r * (m - 1));
-            i2 = i1 + 1;
+            int i1 = 1 + (int) (r * (m - 1));
+            int i2 = i1 + 1;
 
             if (m < i2)
             {
@@ -216,19 +193,20 @@ public static partial class typeMethods
                 i2 = m;
             }
 
-            r1 = (i1 - 1) / (double) (m - 1);
-            r2 = (i2 - 1) / (double) (m - 1);
+            double r1 = (i1 - 1) / (double) (m - 1);
+            double r2 = (i2 - 1) / (double) (m - 1);
 
+            int j;
             for (j = 1; j <= n2; j++)
             {
-                s = n2 switch
+                double s = n2 switch
                 {
                     1 => 0.5,
                     _ => (j - 1) / (double) (n2 - 1)
                 };
 
-                j1 = 1 + (int) (s * (n - 1));
-                j2 = j1 + 1;
+                int j1 = 1 + (int) (s * (n - 1));
+                int j2 = j1 + 1;
 
                 if (n < j2)
                 {
@@ -236,8 +214,8 @@ public static partial class typeMethods
                     j2 = n;
                 }
 
-                s1 = (j1 - 1) / (double) (n - 1);
-                s2 = (j2 - 1) / (double) (n - 1);
+                double s1 = (j1 - 1) / (double) (n - 1);
+                double s2 = (j2 - 1) / (double) (n - 1);
 
                 a2[i - 1 + (j - 1) * m2] =
                     ((r2 - r) * (s2 - s) * a[i1 - 1 + (j1 - 1) * m]

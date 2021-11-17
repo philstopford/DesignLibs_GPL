@@ -44,14 +44,13 @@ public static partial class typeMethods
         //    Output, double R8MAT_TO_R8CMAT_NEW[M][N], the data, stored as an R8CMAT.
         //
     {
-        double[][] b;
-        int i;
         int j;
 
-        b = r8cmat_new(m, n);
+        double[][] b = r8cmat_new(m, n);
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 b[j][i] = a[i + j * m];
@@ -115,11 +114,8 @@ public static partial class typeMethods
         //
     {
         int i;
-        int info;
         int j;
         int k;
-        int l;
-        double temp;
 
         for (j = 0; j < n; j++)
         {
@@ -129,14 +125,14 @@ public static partial class typeMethods
             }
         }
 
-        info = 0;
+        int info = 0;
 
         for (k = 1; k <= n - 1; k++)
         {
             //
             //  Find L, the index of the pivot row.
             //
-            l = k;
+            int l = k;
             for (i = k + 1; i <= n; i++)
             {
                 if (Math.Abs(lu[l - 1 + (k - 1) * n]) < Math.Abs(lu[i - 1 + (k - 1) * n]))
@@ -159,6 +155,7 @@ public static partial class typeMethods
             //
             //  Interchange rows L and K if necessary.
             //
+            double temp;
             if (l != k)
             {
                 temp = lu[l - 1 + (k - 1) * n];
@@ -245,14 +242,13 @@ public static partial class typeMethods
         //    Output, double R8RMAT_TO_R8MAT[M][N], the data, stored as an R8RMAT.
         //
     {
-        double[][] b;
-        int i;
         int j;
 
-        b = r8rmat_new(m, n);
+        double[][] b = r8rmat_new(m, n);
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 b[i][j] = a[i + j * m];

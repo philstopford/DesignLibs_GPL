@@ -46,12 +46,9 @@ public static partial class typeMethods
         //    G is the transpose of G.
         //
     {
-        double[] g;
-        double theta;
+        double[] g = r8mat_identity_new(n);
 
-        g = r8mat_identity_new(n);
-
-        theta = Math.Atan2(a[row - 1 + (col - 1) * n], a[row - 1 + (row - 1) * n]);
+        double theta = Math.Atan2(a[row - 1 + (col - 1) * n], a[row - 1 + (row - 1) * n]);
 
         g[row - 1 + (row - 1) * n] = Math.Cos(theta);
         g[row - 1 + (col - 1) * n] = -Math.Sin(theta);
@@ -103,12 +100,9 @@ public static partial class typeMethods
         //    G is the transpose of G.
         //
     {
-        double[] g;
-        double theta;
+        double[] g = r8mat_identity_new(n);
 
-        g = r8mat_identity_new(n);
-
-        theta = Math.Atan2(a[row - 1 + (col - 1) * n], a[col - 1 + (col - 1) * n]);
+        double theta = Math.Atan2(a[row - 1 + (col - 1) * n], a[col - 1 + (col - 1) * n]);
 
         g[row - 1 + (row - 1) * n] = Math.Cos(theta);
         g[row - 1 + (col - 1) * n] = -Math.Sin(theta);

@@ -299,14 +299,13 @@ public static partial class typeMethods
         //    Output, double R8MAT_DIAGONAL_NEW[N*N], the N by N identity matrix.
         //
     {
-        double[] a;
-        int i;
         int j;
 
-        a = new double[n * n];
+        double[] a = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < n; i++)
             {
                 if (i == j)

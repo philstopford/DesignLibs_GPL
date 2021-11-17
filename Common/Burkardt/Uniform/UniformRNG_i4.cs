@@ -69,7 +69,6 @@ public static partial class UniformRNG
         //
     {
         int c;
-        const int i4_huge = 2147483647;
         int k;
         float r;
         int value;
@@ -294,7 +293,6 @@ public static partial class UniformRNG
         //
     {
         int c;
-        const int i4_huge = 2147483647;
         int k;
 
         switch (seed)

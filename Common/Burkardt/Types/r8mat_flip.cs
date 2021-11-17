@@ -36,14 +36,13 @@ public static partial class typeMethods
         //    Output, double R8MAT_FLIP_COLS_NEW[M*N], the reversed-column-order copy.
         //
     {
-        double[] b;
-        int i;
         int j;
 
-        b = new double[m * n];
+        double[] b = new double[m * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 b[i + (n - 1 - j) * m] = a[i + j * m];
@@ -87,14 +86,13 @@ public static partial class typeMethods
         //    Output, double R8MAT_FLIP_ROWS_NEW[M*N], the reversed-rows-order copy.
         //
     {
-        double[] b;
-        int i;
         int j;
 
-        b = new double[m * n];
+        double[] b = new double[m * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 b[m - 1 - i + j * m] = a[i + j * m];

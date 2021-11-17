@@ -51,14 +51,13 @@ public static partial class typeMethods
         //    Output, double TABLE2[(M+2)*(N+2)], the augmented table data.
         //
     {
-        int i;
         int j;
-        double[] table2;
 
-        table2 = new double[(m + 2) * (n + 2)];
+        double[] table2 = new double[(m + 2) * (n + 2)];
 
         for (j = 0; j < n + 2; j++)
         {
+            int i;
             for (i = 0; i < m + 2; i++)
             {
                 if (i == 0 || i == m + 1 || j == 0 || j == n + 1)
@@ -121,19 +120,18 @@ public static partial class typeMethods
         //    Output, double TABLE2[(M-2)*(N-2)], the "interior" table data.
         //
     {
-        int i;
         int j;
-        double[] table2;
 
         if (m <= 2 || n <= 2)
         {
             return null;
         }
 
-        table2 = new double[(m - 2) * (n - 2)];
+        double[] table2 = new double[(m - 2) * (n - 2)];
 
         for (j = 0; j < n - 2; j++)
         {
+            int i;
             for (i = 0; i < m - 2; i++)
             {
                 table2[i + j * (m - 2)] = table[i + 1 + (j + 1) * m];

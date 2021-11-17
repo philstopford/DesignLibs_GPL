@@ -51,20 +51,16 @@ public static partial class typeMethods
         //    Cholesky factor.
         //
     {
-        double[] c;
-        int i;
         int j;
-        int k;
-        double sum2;
-        double tol;
 
         flag = 0;
-        tol = Math.Sqrt(r8_epsilon());
+        double tol = Math.Sqrt(r8_epsilon());
 
-        c = r8mat_copy_new(n, n, a);
+        double[] c = r8mat_copy_new(n, n, a);
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < j; i++)
             {
                 c[i + j * n] = 0.0;
@@ -72,7 +68,8 @@ public static partial class typeMethods
 
             for (i = j; i < n; i++)
             {
-                sum2 = c[j + i * n];
+                double sum2 = c[j + i * n];
+                int k;
                 for (k = 0; k < j; k++)
                 {
                     sum2 -= c[j + k * n] * c[i + k * n];
@@ -176,18 +173,15 @@ public static partial class typeMethods
         //    Cholesky factor.
         //
     {
-        double[] c;
-        int i;
         int j;
-        int k;
-        double sum2;
 
         flag = 0;
 
-        c = r8mat_copy_new(n, n, a);
+        double[] c = r8mat_copy_new(n, n, a);
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < j; i++)
             {
                 c[j + i * n] = 0.0;
@@ -195,7 +189,8 @@ public static partial class typeMethods
 
             for (i = j; i < n; i++)
             {
-                sum2 = c[i + j * n];
+                double sum2 = c[i + j * n];
+                int k;
                 for (k = 0; k < j; k++)
                 {
                     sum2 -= c[k + j * n] * c[k + i * n];
@@ -276,12 +271,11 @@ public static partial class typeMethods
         int i;
         int j;
         int k;
-        double s;
         double t;
 
         for (j = 0; j < n; j++)
         {
-            s = 0.0;
+            double s = 0.0;
 
             for (k = 0; k < j; k++)
             {
@@ -407,16 +401,14 @@ public static partial class typeMethods
         //    Output, double R8MAT_CHOLESKY_SOLVE[N], the solution of the linear system.
         //
     {
-        double[] x;
-        double[] y;
         //
         //  Solve L * y = b.
         //
-        y = r8mat_l_solve(n, l, b);
+        double[] y = r8mat_l_solve(n, l, b);
         //
         //  Solve L' * x = y.
         //
-        x = r8mat_lt_solve(n, l, y);
+        double[] x = r8mat_lt_solve(n, l, y);
 
         return x;
     }
@@ -458,16 +450,14 @@ public static partial class typeMethods
         //    Output, double R8MAT_CHOLESKY_SOLVE_UPPER[N], the solution of the linear system.
         //
     {
-        double[] x;
-        double[] y;
         //
         //  Solve U' * y = b.
         //
-        y = r8mat_ut_solve(n, r, b);
+        double[] y = r8mat_ut_solve(n, r, b);
         //
         //  Solve U * x = y.
         //
-        x = r8mat_u_solve(n, r, y);
+        double[] x = r8mat_u_solve(n, r, y);
 
         return x;
     }

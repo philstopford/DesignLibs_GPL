@@ -66,31 +66,23 @@ public static partial class typeMethods
         //    On output, the approximate solution vector.
         //
     {
-        double alpha;
-        double[] ap;
-        double beta;
         int i;
         int it;
-        double[] p;
-        double pap;
-        double pr;
-        double[] r;
-        double rap;
         //
         //  Initialize
         //    AP = A * x,
         //    R  = b - A * x,
         //    P  = b - A * x.
         //
-        ap = r8ge_mv(n, n, a, x);
+        double[] ap = r8ge_mv(n, n, a, x);
 
-        r = new double[n];
+        double[] r = new double[n];
         for (i = 0; i < n; i++)
         {
             r[i] = b[i] - ap[i];
         }
 
-        p = new double[n];
+        double[] p = new double[n];
         for (i = 0; i < n; i++)
         {
             p[i] = b[i] - ap[i];
@@ -112,15 +104,15 @@ public static partial class typeMethods
             //  Set
             //    ALPHA = PR / PAP.
             //
-            pap = r8vec_dot_product(n, p, ap);
-            pr = r8vec_dot_product(n, p, r);
+            double pap = r8vec_dot_product(n, p, ap);
+            double pr = r8vec_dot_product(n, p, r);
 
             if (pap == 0.0)
             {
                 break;
             }
 
-            alpha = pr / pap;
+            double alpha = pr / pap;
             //
             //  Set
             //    X = X + ALPHA * P
@@ -142,9 +134,9 @@ public static partial class typeMethods
             //  Set
             //    BETA = - RAP / PAP.
             //
-            rap = r8vec_dot_product(n, r, ap);
+            double rap = r8vec_dot_product(n, r, ap);
 
-            beta = -rap / pap;
+            double beta = -rap / pap;
             //
             //  Update the perturbation vector
             //    P = R + BETA * P.
@@ -214,25 +206,17 @@ public static partial class typeMethods
         //    Output, double R8GE_CO, an estimate of the reciprocal condition number of A.
         //
     {
-        double anorm;
-        double ek;
         int i;
-        int info;
         int j;
         int k;
         int l;
         double rcond;
         double s;
-        double sm;
         double t;
-        double wk;
-        double wkm;
-        double ynorm;
-        double[] z;
         //
         //  Compute the L1 norm of A.
         //
-        anorm = 0.0;
+        double anorm = 0.0;
         for (j = 0; j < n; j++)
         {
             s = 0.0;
@@ -247,7 +231,7 @@ public static partial class typeMethods
         //
         //  Compute the LU factorization.
         //
-        info = r8ge_fa(n, ref a, ref pivot);
+        int info = r8ge_fa(n, ref a, ref pivot);
 
         if (info != 0)
         {
@@ -271,8 +255,8 @@ public static partial class typeMethods
         //
         //  Solve U' * W = E.
         //
-        ek = 1.0;
-        z = new double[n];
+        double ek = 1.0;
+        double[] z = new double[n];
         for (i = 0; i < n; i++)
         {
             z[i] = 0.0;
@@ -296,10 +280,10 @@ public static partial class typeMethods
                 ek = s * ek;
             }
 
-            wk = ek - z[k];
-            wkm = -ek - z[k];
+            double wk = ek - z[k];
+            double wkm = -ek - z[k];
             s = Math.Abs(wk);
-            sm = Math.Abs(wkm);
+            double sm = Math.Abs(wkm);
 
             if (a[k + k * n] != 0.0)
             {
@@ -388,7 +372,7 @@ public static partial class typeMethods
             z[i] /= t;
         }
 
-        ynorm = 1.0;
+        double ynorm = 1.0;
         //
         //  Solve L * V = Y.
         //
@@ -529,11 +513,11 @@ public static partial class typeMethods
         //    Output, double A2[M*N], the copy of A1.
         //
     {
-        int i;
         int j;
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 a2[i + j * m] = a1[i + j * m];
@@ -575,14 +559,13 @@ public static partial class typeMethods
         //    Output, double R8GE_COPY_NEW[M*N], the copy of A1.
         //
     {
-        double[] a2;
-        int i;
         int j;
 
-        a2 = new double[m * n];
+        double[] a2 = new double[m * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 a2[i + j * m] = a1[i + j * m];
@@ -639,10 +622,9 @@ public static partial class typeMethods
         //    Output, double R8GE_DET, the determinant of the matrix.
         //
     {
-        double det;
         int i;
 
-        det = 1.0;
+        double det = 1.0;
 
         for (i = 1; i <= n; i++)
         {
@@ -791,14 +773,13 @@ public static partial class typeMethods
         //    Output, double R8GE_DIF2[M*N], the matrix.
         //
     {
-        double[] a;
-        int i;
         int j;
 
-        a = new double[m * n];
+        double[] a = new double[m * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 if (j == i - 1)
@@ -859,18 +840,17 @@ public static partial class typeMethods
         //    Output, double R8GE_MTM_NEW[N1*N3], the product matrix C = A' * B.
         //
     {
-        double[] c;
         int i;
-        int j;
-        int k;
 
-        c = new double[n1 * n3];
+        double[] c = new double[n1 * n3];
 
         for (i = 0; i < n1; i++)
         {
+            int j;
             for (j = 0; j < n3; j++)
             {
                 c[i + j * n1] = 0.0;
+                int k;
                 for (k = 0; k < n2; k++)
                 {
                     c[i + j * n1] += a[k + i * n2] * b[k + j * n2];
@@ -923,14 +903,13 @@ public static partial class typeMethods
         //    Output, double R8GE_MTV[N], the product A' * x.
         //
     {
-        double[] b;
         int i;
-        int j;
 
-        b = r8vec_zeros_new(n);
+        double[] b = r8vec_zeros_new(n);
 
         for (i = 0; i < n; i++)
         {
+            int j;
             for (j = 0; j < m; j++)
             {
                 b[i] += a[j + i * m] * x[j];
@@ -1013,14 +992,11 @@ public static partial class typeMethods
         int i;
         int j;
         int k;
-        int mn_max;
-        int npiv;
         double temp;
-        double[] y;
 
-        npiv = Math.Min(m - 1, n);
-        mn_max = Math.Max(m, n);
-        y = new double[mn_max];
+        int npiv = Math.Min(m - 1, n);
+        int mn_max = Math.Max(m, n);
+        double[] y = new double[mn_max];
 
         switch (trans)
         {
@@ -1220,14 +1196,13 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
-        double[] b;
 
-        b = new double[m];
+        double[] b = new double[m];
 
         for (i = 0; i < m; i++)
         {
             b[i] = 0.0;
+            int j;
             for (j = 0; j < n; j++)
             {
                 b[i] += a[i + j * m] * x[j];
@@ -1278,14 +1253,13 @@ public static partial class typeMethods
         //    with entries between 0 and 1.
         //
     {
-        double[] a;
-        int i;
         int j;
 
-        a = new double[m * n];
+        double[] a = new double[m * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 a[i + j * m] = UniformRNG.r8_uniform_01(ref seed);
@@ -1333,9 +1307,8 @@ public static partial class typeMethods
         //
     {
         int i;
-        double[] r;
 
-        r = r8ge_mv(m, n, a, x);
+        double[] r = r8ge_mv(m, n, a, x);
         for (i = 0; i < m; i++)
         {
             r[i] = b[i] - r[i];
@@ -1397,13 +1370,12 @@ public static partial class typeMethods
         //    Output, double R8GE_ML[N], the result of the multiplication.
         //
     {
-        double[] b;
         int i;
         int j;
         int k;
         double temp;
         //
-        b = new double[n];
+        double[] b = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -1531,18 +1503,17 @@ public static partial class typeMethods
         //    Output, double R8GE_MM_NEW[N1*N3], the product matrix C = A * B.
         //
     {
-        double[] c;
         int i;
-        int j;
-        int k;
 
-        c = new double[n1 * n3];
+        double[] c = new double[n1 * n3];
 
         for (i = 0; i < n1; i++)
         {
+            int j;
             for (j = 0; j < n3; j++)
             {
                 c[i + j * n1] = 0.0;
+                int k;
                 for (k = 0; k < n2; k++)
                 {
                     c[i + j * n1] += a[i + k * n1] * b[k + j * n2];
@@ -1655,12 +1626,7 @@ public static partial class typeMethods
         //    Output, double U[M*N], the M by N upper triangular factor.
         //
     {
-        int i;
         int j;
-        int k;
-        int pivot_row;
-        double pivot_value;
-        double t;
         //
         //  Initialize:
         //
@@ -1677,9 +1643,10 @@ public static partial class typeMethods
         //
         for (j = 0; j < Math.Min(m - 2, n - 1); j++)
         {
-            pivot_value = 0.0;
-            pivot_row = -1;
+            double pivot_value = 0.0;
+            int pivot_row = -1;
 
+            int i;
             for (i = j; i < m; i++)
             {
                 if (pivot_value < Math.Abs(u[i + j * m]))
@@ -1695,50 +1662,56 @@ public static partial class typeMethods
             //  * rows J and PIVOT_ROW of L and cols J and PIVOT_ROW of L;
             //  * cols J and PIVOT_ROW of P.
             //
-            if (pivot_row != -1)
+            if (pivot_row == -1)
             {
-                for (k = 0; k < n; k++)
+                continue;
+            }
+
+            double t;
+            int k;
+            for (k = 0; k < n; k++)
+            {
+                t = u[j + k * m];
+                u[j + k * m] = u[pivot_row + k * m];
+                u[pivot_row + k * m] = t;
+            }
+
+            for (k = 0; k < m; k++)
+            {
+                t = l[j + k * m];
+                l[j + k * m] = l[pivot_row + k * m];
+                l[pivot_row + k * m] = t;
+            }
+
+            for (k = 0; k < m; k++)
+            {
+                t = l[k + j * m];
+                l[k + j * m] = l[k + pivot_row * m];
+                l[k + pivot_row * m] = t;
+            }
+
+            for (k = 0; k < m; k++)
+            {
+                t = p[k + j * m];
+                p[k + j * m] = p[k + pivot_row * m];
+                p[k + pivot_row * m] = t;
+            }
+
+            //
+            //  Zero out the entries in column J, from row J+1 to M.
+            //
+            for (i = j + 1; i < m; i++)
+            {
+                if (u[i + j * m] == 0.0)
                 {
-                    t = u[j + k * m];
-                    u[j + k * m] = u[pivot_row + k * m];
-                    u[pivot_row + k * m] = t;
+                    continue;
                 }
 
-                for (k = 0; k < m; k++)
+                l[i + j * m] = u[i + j * m] / u[j + j * m];
+                u[i + j * m] = 0.0;
+                for (k = j + 1; k < n; k++)
                 {
-                    t = l[j + k * m];
-                    l[j + k * m] = l[pivot_row + k * m];
-                    l[pivot_row + k * m] = t;
-                }
-
-                for (k = 0; k < m; k++)
-                {
-                    t = l[k + j * m];
-                    l[k + j * m] = l[k + pivot_row * m];
-                    l[k + pivot_row * m] = t;
-                }
-
-                for (k = 0; k < m; k++)
-                {
-                    t = p[k + j * m];
-                    p[k + j * m] = p[k + pivot_row * m];
-                    p[k + pivot_row * m] = t;
-                }
-
-                //
-                //  Zero out the entries in column J, from row J+1 to M.
-                //
-                for (i = j + 1; i < m; i++)
-                {
-                    if (u[i + j * m] != 0.0)
-                    {
-                        l[i + j * m] = u[i + j * m] / u[j + j * m];
-                        u[i + j * m] = 0.0;
-                        for (k = j + 1; k < n; k++)
-                        {
-                            u[i + k * m] -= l[i + j * m] * u[j + k * m];
-                        }
-                    }
+                    u[i + k * m] -= l[i + j * m] * u[j + k * m];
                 }
             }
         }
@@ -1783,21 +1756,14 @@ public static partial class typeMethods
         //    polynomial of A.  P(I) contains the coefficient of X**I.
         //
     {
-        int i;
-        int j;
-        int k;
         int order;
-        double[] p;
-        double trace;
-        double[] work1;
-        double[] work2;
 
-        p = new double[n + 1];
-        work2 = new double[n * n];
+        double[] p = new double[n + 1];
+        double[] work2 = new double[n * n];
         //
         //  Initialize WORK1 to the identity matrix.
         //
-        work1 = r8ge_identity_new(n, n);
+        double[] work1 = r8ge_identity_new(n, n);
 
         p[n] = 1.0;
 
@@ -1806,11 +1772,14 @@ public static partial class typeMethods
             //
             //  Work2 = A * WORK1.
             //
+            int i;
+            int j;
             for (j = 0; j < n; j++)
             {
                 for (i = 0; i < n; i++)
                 {
                     work2[i + j * n] = 0.0;
+                    int k;
                     for (k = 0; k < n; k++)
                     {
                         work2[i + j * n] += a[i + k * n] * work1[k + j * n];
@@ -1821,7 +1790,7 @@ public static partial class typeMethods
             //
             //  Take the trace.
             //
-            trace = 0.0;
+            double trace = 0.0;
             for (i = 0; i < n; i++)
             {
                 trace += work2[i + i * n];
@@ -1938,11 +1907,8 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        int INCX = 5;
+        const int INCX = 5;
 
-        int i2hi;
-        int i2lo;
-        int j2hi;
         int j2lo;
 
         Console.WriteLine("");
@@ -1952,7 +1918,7 @@ public static partial class typeMethods
         //
         for (j2lo = jlo; j2lo <= jhi; j2lo += INCX)
         {
-            j2hi = j2lo + INCX - 1;
+            int j2hi = j2lo + INCX - 1;
             j2hi = Math.Min(j2hi, n);
             j2hi = Math.Min(j2hi, jhi);
 
@@ -1974,8 +1940,8 @@ public static partial class typeMethods
             //
             //  Determine the range of the rows in this strip.
             //
-            i2lo = Math.Max(ilo, 1);
-            i2hi = Math.Min(ihi, m);
+            int i2lo = Math.Max(ilo, 1);
+            int i2hi = Math.Min(ihi, m);
 
             for (int i = i2lo; i <= i2hi; i++)
             {
@@ -2031,11 +1997,9 @@ public static partial class typeMethods
         //    Output, double R8GE_DILU[M], the D-ILU factor.
         //
     {
-        double[] d;
         int i;
-        int j;
 
-        d = new double[m];
+        double[] d = new double[m];
 
         for (i = 0; i < m; i++)
         {
@@ -2052,6 +2016,7 @@ public static partial class typeMethods
         for (i = 0; i < m && i < n; i++)
         {
             d[i] = 1.0 / d[i];
+            int j;
             for (j = i + 1; j < m && j < n; j++)
             {
                 d[j] -= a[j + i * m] * d[i] * a[i + j * m];
@@ -2119,19 +2084,16 @@ public static partial class typeMethods
         //    nonzero, the factorization failed on the INFO-th step.
         //
     {
-        int i;
-        int j;
         int k;
-        int l;
-        double t;
         //
         for (k = 1; k <= n - 1; k++)
         {
             //
             //  Find L, the index of the pivot row.
             //
-            l = k;
+            int l = k;
 
+            int i;
             for (i = k + 1; i <= n; i++)
             {
                 if (Math.Abs(a[(l - 1 + (k - 1) * n + aIndex) % a.Length]) < Math.Abs(a[(i - 1 + (k - 1) * n + aIndex) % a.Length]))
@@ -2156,6 +2118,7 @@ public static partial class typeMethods
             //
             //  Interchange rows L and K if necessary.
             //
+            double t;
             if (l != k)
             {
                 t = a[(l - 1 + (k - 1) * n + aIndex) % a.Length];
@@ -2174,6 +2137,7 @@ public static partial class typeMethods
             //
             //  Row elimination with column indexing.
             //
+            int j;
             for (j = k + 1; j <= n; j++)
             {
                 if (l != k)
@@ -2394,14 +2358,10 @@ public static partial class typeMethods
         //
     {
         int i;
-        int ipiv;
         int j;
         int jcol;
-        double piv;
-        double t;
-        double[] x;
 
-        x = new double[n * nb];
+        double[] x = new double[n * nb];
 
         for (j = 0; j < nb; j++)
         {
@@ -2416,8 +2376,8 @@ public static partial class typeMethods
             //
             //  Find the maximum element in column I.
             //
-            piv = Math.Abs(a[jcol - 1 + (jcol - 1) * n]);
-            ipiv = jcol;
+            double piv = Math.Abs(a[jcol - 1 + (jcol - 1) * n]);
+            int ipiv = jcol;
             for (i = jcol + 1; i <= n; i++)
             {
                 if (piv < Math.Abs(a[i - 1 + (jcol - 1) * n]))
@@ -2439,6 +2399,7 @@ public static partial class typeMethods
             //
             //  Switch rows JCOL and IPIV, and X.
             //
+            double t;
             if (jcol != ipiv)
             {
                 for (j = 1; j <= n; j++)
@@ -2623,14 +2584,13 @@ public static partial class typeMethods
         //    Output, double R8GE_HILBERT[M*N], the matrix.
         //
     {
-        double[] a;
-        int i;
         int j;
 
-        a = new double[m * n];
+        double[] a = new double[m * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 a[i + j * m] = 1.0 / (i + j + 1);
@@ -2705,11 +2665,9 @@ public static partial class typeMethods
         //    Output, double R8GE_HILBERT_INVERSE[N*N], the matrix.
         //
     {
-        double[] a;
-        int i;
         int j;
 
-        a = new double[n * n];
+        double[] a = new double[n * n];
         //
         //  Set the (1,1) entry.
         //
@@ -2717,7 +2675,7 @@ public static partial class typeMethods
         //
         //  Define Row 1, Column J by recursion on Row 1 Column J-1
         //
-        i = 0;
+        int i = 0;
         for (j = 1; j < n; j++)
         {
             a[i + j * n] = -a[i + (j - 1) * n]
@@ -2775,11 +2733,11 @@ public static partial class typeMethods
         //    Output, double A[M*N], the identity matrix.
         //
     {
-        int i;
         int j;
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 if (i == j)
@@ -2829,14 +2787,13 @@ public static partial class typeMethods
         //    Output, double R8GE_IDENTITY_NEW[M*N], the identity matrix.
         //
     {
-        double[] a;
-        int i;
         int j;
 
-        a = new double[m * n];
+        double[] a = new double[m * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 if (i == j)
@@ -2910,10 +2867,7 @@ public static partial class typeMethods
         //    Output, double U[M*N], the M by N upper triangular factor.
         //
     {
-        int i;
         int j;
-        int jhi;
-        int k;
         //
         //  Initialize:
         //
@@ -2924,26 +2878,30 @@ public static partial class typeMethods
 
         r8ge_copy(m, n, a, ref u);
 
-        jhi = Math.Min(m - 1, n);
+        int jhi = Math.Min(m - 1, n);
 
         for (j = 0; j < jhi; j++)
         {
             //
             //  Zero out the entries in column J, from row J+1 to M.
             //
+            int i;
             for (i = j + 1; i < m; i++)
             {
-                if (u[i + j * m] != 0.0)
+                if (u[i + j * m] == 0.0)
                 {
-                    l[i + j * m] = u[i + j * m] / u[j + j * m];
-                    u[i + j * m] = 0.0;
+                    continue;
+                }
 
-                    for (k = j + 1; k < n; k++)
+                l[i + j * m] = u[i + j * m] / u[j + j * m];
+                u[i + j * m] = 0.0;
+
+                int k;
+                for (k = j + 1; k < n; k++)
+                {
+                    if (u[i + k * m] != 0.0)
                     {
-                        if (u[i + k * m] != 0.0)
-                        {
-                            u[i + k * m] -= l[i + j * m] * u[j + k * m];
-                        }
+                        u[i + k * m] -= l[i + j * m] * u[j + k * m];
                     }
                 }
             }
@@ -2989,17 +2947,15 @@ public static partial class typeMethods
         //    Output, double R8GE_INDICATOR[M*N], the R8GE matrix.
         //
     {
-        double[] a;
-        int fac;
         int i;
-        int j;
 
-        a = new double[m * n];
+        double[] a = new double[m * n];
 
-        fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
+        int fac = (int) Math.Pow(10, (int) Math.Log10(n) + 1);
 
         for (i = 1; i <= m; i++)
         {
+            int j;
             for (j = 1; j <= n; j++)
             {
                 a[i - 1 + (j - 1) * m] = fac * i + j;
@@ -3051,13 +3007,11 @@ public static partial class typeMethods
         //    Output, double R8GE_INVERSE[N*N], the inverse matrix.
         //
     {
-        double[] b;
         int i;
         int j;
         int k;
-        double temp;
 
-        b = new double[n * n];
+        double[] b = new double[n * n];
         //
         //  Compute Inverse(U).
         //
@@ -3102,9 +3056,7 @@ public static partial class typeMethods
             {
                 for (i = 1; i <= n; i++)
                 {
-                    temp = b[i - 1 + (k - 1) * n];
-                    b[i - 1 + (k - 1) * n] = b[i - 1 + (pivot[k - 1] - 1) * n];
-                    b[i - 1 + (pivot[k - 1] - 1) * n] = temp;
+                    (b[i - 1 + (k - 1) * n], b[i - 1 + (pivot[k - 1] - 1) * n]) = (b[i - 1 + (pivot[k - 1] - 1) * n], b[i - 1 + (k - 1) * n]);
                 }
 
             }
@@ -3163,19 +3115,15 @@ public static partial class typeMethods
         //
     {
         int i;
-        int ipiv;
-        int j;
         int jcol;
-        double piv;
-        double t;
 
         for (jcol = 1; jcol <= n; jcol++)
         {
             //
             //  Find the maximum element in column I.
             //
-            piv = Math.Abs(a[jcol - 1 + (jcol - 1) * n]);
-            ipiv = jcol;
+            double piv = Math.Abs(a[jcol - 1 + (jcol - 1) * n]);
+            int ipiv = jcol;
             for (i = jcol + 1; i <= n; i++)
             {
                 if (piv < Math.Abs(a[i - 1 + (jcol - 1) * n]))
@@ -3197,6 +3145,8 @@ public static partial class typeMethods
             //
             //  Switch rows JCOL and IPIV, and X.
             //
+            double t;
+            int j;
             if (jcol != ipiv)
             {
                 for (j = 1; j <= n; j++)
@@ -3303,14 +3253,9 @@ public static partial class typeMethods
         //
     {
         int i;
-        int ipiv;
-        int j;
         int jcol;
-        double piv;
-        double t;
-        double[] x;
 
-        x = new double[n];
+        double[] x = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -3322,8 +3267,8 @@ public static partial class typeMethods
             //
             //  Find the maximum element in column I.
             //
-            piv = Math.Abs(a[jcol - 1 + (jcol - 1) * n]);
-            ipiv = jcol;
+            double piv = Math.Abs(a[jcol - 1 + (jcol - 1) * n]);
+            int ipiv = jcol;
             for (i = jcol + 1; i <= n; i++)
             {
                 if (piv < Math.Abs(a[i - 1 + (jcol - 1) * n]))
@@ -3345,6 +3290,8 @@ public static partial class typeMethods
             //
             //  Switch rows JCOL and IPIV, and X.
             //
+            int j;
+            double t;
             if (jcol != ipiv)
             {
                 for (j = 1; j <= n; j++)
@@ -3454,19 +3401,16 @@ public static partial class typeMethods
         //
     {
         int i;
-        int ipiv;
         int j;
         int jcol;
-        double piv;
-        double t;
 
         for (jcol = 1; jcol <= n; jcol++)
         {
             //
             //  Find the maximum element in column I.
             //
-            piv = Math.Abs(a[jcol - 1 + (jcol - 1) * n]);
-            ipiv = jcol;
+            double piv = Math.Abs(a[jcol - 1 + (jcol - 1) * n]);
+            int ipiv = jcol;
             for (i = jcol + 1; i <= n; i++)
             {
                 if (piv < Math.Abs(a[i - 1 + (jcol - 1) * n]))
@@ -3488,6 +3432,7 @@ public static partial class typeMethods
             //
             //  Switch rows JCOL and IPIV, and X.
             //
+            double t;
             if (jcol != ipiv)
             {
                 for (j = 1; j <= n; j++)
@@ -3620,22 +3565,19 @@ public static partial class typeMethods
         //    iterative refinement.
         //
     {
-        double[] dx;
         int i;
-        double[] r;
-        double[] x_new;
         //
         //  Compute the residual vector.
         //
-        r = r8ge_res(n, n, a, x, b);
+        double[] r = r8ge_res(n, n, a, x, b);
         //
         //  Solve A * dx = r
         //
-        dx = r8ge_sl_new(n, a_lu, pivot, r, job);
+        double[] dx = r8ge_sl_new(n, a_lu, pivot, r, job);
         //
         //  Add dx to x.
         //
-        x_new = new double[n];
+        double[] x_new = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -3696,9 +3638,8 @@ public static partial class typeMethods
         int k;
         int l;
         double t;
-        double[] x;
         //
-        x = new double[n];
+        double[] x = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -3882,14 +3823,10 @@ public static partial class typeMethods
         //    Input, double R8GE_TO_R8GB[(2*ML+MU+1)*N], the R8GB matrix.
         //
     {
-        double[] b;
         int i;
-        int j;
-        int jhi;
-        int jlo;
         int k;
 
-        b = new double[(2 * ml + mu + 1) * n];
+        double[] b = new double[(2 * ml + mu + 1) * n];
 
         for (k = 0; k < (2 * ml + mu + 1) * n; k++)
         {
@@ -3898,9 +3835,10 @@ public static partial class typeMethods
 
         for (i = 1; i <= m; i++)
         {
-            jlo = Math.Max(i - ml, 1);
-            jhi = Math.Min(i + mu, n);
+            int jlo = Math.Max(i - ml, 1);
+            int jhi = Math.Min(i + mu, n);
 
+            int j;
             for (j = jlo; j <= jhi; j++)
             {
                 b[ml + mu + i - j + (j - 1) * (2 * ml + mu + 1)] = a[i - 1 + (j - 1) * m];
@@ -3951,14 +3889,13 @@ public static partial class typeMethods
         //    Output, double R8GE_TO_R8LT[M,N], the R8LT matrix.
         //
     {
-        double[] a_lt;
-        int i;
         int j;
 
-        a_lt = new double[m * n];
+        double[] a_lt = new double[m * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 if (j <= i)
@@ -4029,14 +3966,13 @@ public static partial class typeMethods
         //    Output, double R8GE_TO_R8PO[N,N], the R8PO matrix.
         //
     {
-        double[] b;
         int i;
-        int j;
 
-        b = new double[n * n];
+        double[] b = new double[n * n];
 
         for (i = 0; i < n; i++)
         {
+            int j;
             for (j = 0; j < n; j++)
             {
                 if (i <= j)
@@ -4107,10 +4043,8 @@ public static partial class typeMethods
         //
     {
         int i;
-        int im;
         int j;
         int k;
-        int l;
 
         for (k = 0; k < n; k++)
         {
@@ -4127,7 +4061,7 @@ public static partial class typeMethods
             ija[i] = 0;
         }
 
-        im = 0;
+        int im = 0;
 
         for (i = 0; i < n; i++)
         {
@@ -4142,6 +4076,7 @@ public static partial class typeMethods
                         {
                             case 0:
                             {
+                                int l;
                                 for (l = im; l <= i; l++)
                                 {
                                     ija[l] = k;
@@ -4208,13 +4143,12 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
-        int nz;
 
-        nz = n + 1;
+        int nz = n + 1;
 
         for (i = 0; i < n; i++)
         {
+            int j;
             for (j = 0; j < n; j++)
             {
                 if (i != j)
@@ -4271,14 +4205,13 @@ public static partial class typeMethods
         //    Output, double R8GE_TO_R8UT[M,N], the R8UT matrix.
         //
     {
-        double[] a_ut;
-        int i;
         int j;
 
-        a_ut = new double[m * n];
+        double[] a_ut = new double[m * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 if (i <= j)
@@ -4335,16 +4268,14 @@ public static partial class typeMethods
         //    Output, double X[M*N], the vector.
         //
     {
-        int i;
         int j;
-        int k;
-        double[] x;
 
-        x = new double[m * n];
+        double[] x = new double[m * n];
 
-        k = 0;
+        int k = 0;
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 x[k] = a[i + j * m];
@@ -4394,13 +4325,11 @@ public static partial class typeMethods
         //    Output, double R8GE_TO_R8VM[N], the R8VM matrix.
         //
     {
-        double[] a_vm;
-        int i;
         int j;
 
-        a_vm = new double[n];
+        double[] a_vm = new double[n];
 
-        i = 1;
+        int i = 1;
         for (j = 0; j < n; j++)
         {
             a_vm[j] = a_ge[i + j * m];
@@ -4443,14 +4372,13 @@ public static partial class typeMethods
         //    Output, double R8GE_TRANSPOSE_NEW[N*M], the transposed matrix.
         //
     {
-        double[] b;
-        int i;
         int j;
 
-        b = new double[n * m];
+        double[] b = new double[n * m];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 b[j + i * n] = a[i + j * m];
@@ -4536,19 +4464,9 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        int INCX = 5;
+        const int INCX = 5;
 
-        int i;
-        int i2;
-        int i2hi;
         int i2lo;
-        int i2lo_hi;
-        int i2lo_lo;
-        int inc;
-        int j;
-        int j2hi;
-        int j2lo;
-        string cout = "";
 
         Console.WriteLine("");
         Console.WriteLine(title + "");
@@ -4560,24 +4478,17 @@ public static partial class typeMethods
             return;
         }
 
-        i2lo_lo = ilo switch
+        int i2lo_lo = ilo switch
         {
             < 1 => 1,
             _ => ilo
         };
 
-        if (ihi < m)
-        {
-            i2lo_hi = m;
-        }
-        else
-        {
-            i2lo_hi = ihi;
-        }
+        int i2lo_hi = ihi < m ? m : ihi;
 
         for (i2lo = i2lo_lo; i2lo <= i2lo_hi; i2lo += INCX)
         {
-            i2hi = i2lo + INCX - 1;
+            int i2hi = i2lo + INCX - 1;
 
             if (m < i2hi)
             {
@@ -4589,10 +4500,11 @@ public static partial class typeMethods
                 i2hi = ihi;
             }
 
-            inc = i2hi + 1 - i2lo;
+            int inc = i2hi + 1 - i2lo;
 
             Console.WriteLine("");
-            cout = "  Row: ";
+            string cout = "  Row: ";
+            int i;
             for (i = i2lo; i <= i2hi; i++)
             {
                 cout += (i - 1).ToString().PadLeft(7) + "       ";
@@ -4602,24 +4514,19 @@ public static partial class typeMethods
             Console.WriteLine("  Col");
             Console.WriteLine("");
 
-            j2lo = jlo switch
+            int j2lo = jlo switch
             {
                 < 1 => 1,
                 _ => jlo
             };
 
-            if (n < jhi)
-            {
-                j2hi = n;
-            }
-            else
-            {
-                j2hi = jhi;
-            }
+            int j2hi = n < jhi ? n : jhi;
 
+            int j;
             for (j = j2lo; j <= j2hi; j++)
             {
                 cout = (j - 1).ToString().PadLeft(5) + ":";
+                int i2;
                 for (i2 = 1; i2 <= inc; i2++)
                 {
                     i = i2lo - 1 + i2;
@@ -4700,17 +4607,11 @@ public static partial class typeMethods
         //         to solve a system of equations.
         //
     {
-        int i;
-        int ii;
-        int info;
         int j;
-        int jj;
-        int jp;
-        double temp;
         //
         //  Test the input parameters.
         //
-        info = 0;
+        int info = 0;
 
         switch (m)
         {
@@ -4734,8 +4635,9 @@ public static partial class typeMethods
             //
             //  Find the pivot.
             //
-            temp = Math.Abs(a[j - 1 + (j - 1) * m]);
-            jp = j;
+            double temp = Math.Abs(a[j - 1 + (j - 1) * m]);
+            int jp = j;
+            int i;
             for (i = j + 1; i <= m; i++)
             {
                 if (temp < Math.Abs(a[i - 1 + (j - 1) * m]))
@@ -4754,6 +4656,7 @@ public static partial class typeMethods
             {
                 if (jp != j)
                 {
+                    int jj;
                     for (jj = 1; jj <= n; jj++)
                     {
                         temp = a[j - 1 + (jj - 1) * m];
@@ -4782,14 +4685,17 @@ public static partial class typeMethods
             //
             //  Update the trailing submatrix.
             //
-            if (j < Math.Min(m, n))
+            if (j >= Math.Min(m, n))
             {
-                for (ii = j + 1; ii <= m; ii++)
+                continue;
+            }
+
+            int ii;
+            for (ii = j + 1; ii <= m; ii++)
+            {
+                for (i = j + 1; i <= n; i++)
                 {
-                    for (i = j + 1; i <= n; i++)
-                    {
-                        a[ii - 1 + (i - 1) * m] -= a[ii - 1 + (j - 1) * m] * a[j - 1 + (i - 1) * m];
-                    }
+                    a[ii - 1 + (i - 1) * m] -= a[ii - 1 + (j - 1) * m] * a[j - 1 + (i - 1) * m];
                 }
             }
         }
@@ -4868,7 +4774,6 @@ public static partial class typeMethods
         int j;
         int k;
         double temp;
-        double[] x;
 
         if (trans != 'n' && trans != 'N' &&
             trans != 't' && trans != 'T' &&
@@ -4901,7 +4806,7 @@ public static partial class typeMethods
                 return null;
         }
 
-        x = new double[n * nrhs];
+        double[] x = new double[n * nrhs];
         for (k = 0; k < nrhs; k++)
         {
             for (i = 0; i < n; i++)
@@ -4920,14 +4825,16 @@ public static partial class typeMethods
                 //
                 for (i = 1; i <= n; i++)
                 {
-                    if (pivot[i - 1] != i)
+                    if (pivot[i - 1] == i)
                     {
-                        for (k = 0; k < nrhs; k++)
-                        {
-                            temp = x[i - 1 + k * n];
-                            x[i - 1 + k * n] = x[pivot[i - 1] - 1 + k * n];
-                            x[pivot[i - 1] - 1 + k * n] = temp;
-                        }
+                        continue;
+                    }
+
+                    for (k = 0; k < nrhs; k++)
+                    {
+                        temp = x[i - 1 + k * n];
+                        x[i - 1 + k * n] = x[pivot[i - 1] - 1 + k * n];
+                        x[pivot[i - 1] - 1 + k * n] = temp;
                     }
                 }
 
@@ -4998,14 +4905,16 @@ public static partial class typeMethods
                 //
                 for (i = n; 1 <= i; i--)
                 {
-                    if (pivot[i - 1] != i)
+                    if (pivot[i - 1] == i)
                     {
-                        for (k = 0; k < nrhs; k++)
-                        {
-                            temp = x[i - 1 + k * n];
-                            x[i - 1 + k * n] = x[pivot[i - 1] - 1 + k * n];
-                            x[pivot[i - 1] - 1 + k * n] = temp;
-                        }
+                        continue;
+                    }
+
+                    for (k = 0; k < nrhs; k++)
+                    {
+                        temp = x[i - 1 + k * n];
+                        x[i - 1 + k * n] = x[pivot[i - 1] - 1 + k * n];
+                        x[pivot[i - 1] - 1 + k * n] = temp;
                     }
                 }
 
@@ -5054,14 +4963,13 @@ public static partial class typeMethods
         //    Output, double R8GE_ZERO[M*N], the M by N matrix.
         //
     {
-        double[] a;
-        int i;
         int j;
 
-        a = new double[m * n];
+        double[] a = new double[m * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 a[i + j * m] = 0.0;
@@ -5103,14 +5011,13 @@ public static partial class typeMethods
         //    Output, double R8GE_ZEROS_NEW[M*N], the new zeroed matrix.
         //
     {
-        double[] a;
-        int i;
         int j;
 
-        a = new double[m*n];
+        double[] a = new double[m*n];
 
         for ( j = 0; j < n; j++ )
         {
+            int i;
             for ( i = 0; i < m; i++ )
             {
                 a[i+j*m] = 0.0;

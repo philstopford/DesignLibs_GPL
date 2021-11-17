@@ -1,4 +1,6 @@
-﻿namespace Burkardt.Types;
+﻿using System;
+
+namespace Burkardt.Types;
 
 public static partial class typeMethods
 {
@@ -43,7 +45,7 @@ public static partial class typeMethods
     {
         double r2;
 
-        if (rmax == rmin)
+        if (Math.Abs(rmax - rmin) <= double.Epsilon)
         {
             r2 = (r2max + r2min) / 2.0;
         }
@@ -96,7 +98,7 @@ public static partial class typeMethods
     {
         int i;
 
-        if (rmax == rmin)
+        if (Math.Abs(rmax - rmin) <= double.Epsilon)
         {
             i = (imax + imin) / 2;
         }

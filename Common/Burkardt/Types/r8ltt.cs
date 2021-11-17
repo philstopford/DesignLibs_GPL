@@ -39,9 +39,7 @@ public static partial class typeMethods
         //    Output, double R8LTT_DET, the determinant of the matrix.
         //
     {
-        double det;
-
-        det = Math.Pow(a[0], n);
+        double det = Math.Pow(a[0], n);
 
         return det;
     }
@@ -78,10 +76,9 @@ public static partial class typeMethods
         //    Output, double A[N], the matrix.
         //
     {
-        double[] a;
         int j;
 
-        a = new double[n];
+        double[] a = new double[n];
 
         for (j = 0; j < n; j++)
         {
@@ -125,18 +122,13 @@ public static partial class typeMethods
         //    Output, double R8LTT_INVERSE[N], the inverse matrix.
         //
     {
-        double[] b;
-        double d;
         int i;
         int j;
-        double[] p;
-        double[] pn;
-        double[] pnn;
         //
         //  Initialize B.
         //
-        d = 1.0 / a[0];
-        b = new double[n];
+        double d = 1.0 / a[0];
+        double[] b = new double[n];
         b[0] = d;
         for (i = 1; i < n; i++)
         {
@@ -146,7 +138,7 @@ public static partial class typeMethods
         //
         //  Set the strict lower triangle.
         //
-        p = new double[n];
+        double[] p = new double[n];
         p[0] = 0.0;
         for (i = 1; i < n; i++)
         {
@@ -156,7 +148,7 @@ public static partial class typeMethods
         //
         //  PN will hold powers of P.
         //
-        pn = new double[n];
+        double[] pn = new double[n];
         pn[0] = 1.0;
         for (i = 1; i < n; i++)
         {
@@ -169,7 +161,7 @@ public static partial class typeMethods
         for (j = 1; j < n; j++)
         {
             d = -d / a[0];
-            pnn = r8ltt_mm(n, p, pn);
+            double[] pnn = r8ltt_mm(n, p, pn);
             for (i = 0; i < n; i++)
             {
                 b[i] += d * pnn[i];
@@ -216,21 +208,18 @@ public static partial class typeMethods
         //    Output, double R8LTT_MM[N], the product.
         //
     {
-        double[] c;
-        double[] d;
-        double[] e;
         int k;
 
-        d = new double[n];
+        double[] d = new double[n];
 
         for (k = 0; k < n; k++)
         {
             d[k] = b[n - 1 - k];
         }
 
-        e = r8ltt_mtv(n, a, d);
+        double[] e = r8ltt_mtv(n, a, d);
 
-        c = new double[n];
+        double[] c = new double[n];
 
         for (k = 0; k < n; k++)
         {
@@ -276,18 +265,17 @@ public static partial class typeMethods
         //    Output, double R8LTT_MTM[N*N], the product.
         //
     {
-        double[] c;
         int i;
-        int j;
-        int k;
 
-        c = new double[n * n];
+        double[] c = new double[n * n];
 
         for (i = 0; i < n; i++)
         {
+            int j;
             for (j = 0; j < n; j++)
             {
                 c[i + j * n] = 0.0;
+                int k;
                 for (k = Math.Max(i, j); k < n; k++)
                 {
                     c[i + j * n] += a[k - i] * b[k - j];
@@ -334,12 +322,10 @@ public static partial class typeMethods
         //    Output, double R8LTT_MTV[N], the product A' * x.
         //
     {
-        double[] b;
         int d;
-        int i;
         int j;
 
-        b = new double[n];
+        double[] b = new double[n];
 
         for (j = 0; j < n; j++)
         {
@@ -348,6 +334,7 @@ public static partial class typeMethods
 
         for (d = 0; d < n; d++)
         {
+            int i;
             for (i = d; i < n; i++)
             {
                 j = i - d;
@@ -394,12 +381,10 @@ public static partial class typeMethods
         //    Output, double R8LTT_MV[N], the product A * x.
         //
     {
-        double[] b;
         int d;
         int i;
-        int j;
 
-        b = new double[n];
+        double[] b = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -410,7 +395,7 @@ public static partial class typeMethods
         {
             for (i = d; i < n; i++)
             {
-                j = i - d;
+                int j = i - d;
                 b[i] += a[i - j] * x[j];
             }
         }
@@ -495,15 +480,9 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        int INCX = 5;
+        const int INCX = 5;
 
-        int i;
-        int i2hi;
-        int i2lo;
-        int j;
-        int j2hi;
         int j2lo;
-        string cout = "";
 
         Console.WriteLine("");
         Console.WriteLine(title + "");
@@ -512,13 +491,14 @@ public static partial class typeMethods
         //
         for (j2lo = jlo; j2lo <= jhi; j2lo += INCX)
         {
-            j2hi = j2lo + INCX - 1;
+            int j2hi = j2lo + INCX - 1;
             j2hi = Math.Min(j2hi, n - 1);
             j2hi = Math.Min(j2hi, jhi);
 
             Console.WriteLine("");
-            cout = "  Col: ";
+            string cout = "  Col: ";
 
+            int j;
             for (j = j2lo; j <= j2hi; j++)
             {
                 cout += j.ToString().PadLeft(7) + "       ";
@@ -530,9 +510,10 @@ public static partial class typeMethods
             //
             //  Determine the range of the rows in this strip.
             //
-            i2lo = Math.Max(ilo, 0);
-            i2hi = Math.Min(ihi, n - 1);
+            int i2lo = Math.Max(ilo, 0);
+            int i2hi = Math.Min(ihi, n - 1);
 
+            int i;
             for (i = i2lo; i <= i2hi; i++)
             {
                 //
@@ -591,9 +572,7 @@ public static partial class typeMethods
         //    Output, double R8LTT_RANDOM[N], the R8LTT matrix.
         //
     {
-        double[] a;
-
-        a = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+        double[] a = UniformRNG.r8vec_uniform_01_new(n, ref seed);
 
         return a;
     }
@@ -636,11 +615,9 @@ public static partial class typeMethods
         //    Output, double R8LTT_SL[N], the solution vector.
         //
     {
-        int i;
         int j;
-        double[] x;
 
-        x = new double[n];
+        double[] x = new double[n];
 
         for (j = 0; j < n; j++)
         {
@@ -650,6 +627,7 @@ public static partial class typeMethods
         for (j = 0; j < n; j++)
         {
             x[j] /= a[0];
+            int i;
             for (i = j + 1; i < n; i++)
             {
                 x[i] -= a[i - j] * x[j];
@@ -699,9 +677,8 @@ public static partial class typeMethods
     {
         int i;
         int j;
-        double[] x;
 
-        x = new double[n];
+        double[] x = new double[n];
         for (j = 0; j < n; j++)
         {
             x[j] = b[j];
@@ -760,12 +737,11 @@ public static partial class typeMethods
         //    Output, double R8LTT_TO_R8GE[N*N], the R8GE matrix.
         //
     {
-        double[] a_ge;
         int d;
         int i;
         int j;
 
-        a_ge = new double[n * n];
+        double[] a_ge = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
@@ -819,10 +795,9 @@ public static partial class typeMethods
         //    Output, double R8LTT_ZEROS[M*N], the R8LTT matrix.
         //
     {
-        double[] a;
         int i;
 
-        a = new double[n];
+        double[] a = new double[n];
 
         for (i = 0; i < n; i++)
         {

@@ -72,8 +72,6 @@ public static partial class UniformRNG
         //    Output, complex <float> C4MAT_UNIFORM_01[M*N], the pseudorandom complex matrix.
         //
     {
-        const int i4_huge = 2147483647;
-
         switch (seed)
         {
             case 0:
@@ -189,8 +187,6 @@ public static partial class UniformRNG
         //    complex vector.
         //
     {
-        const int i4_huge = 2147483647;
-
         switch (seed)
         {
             case 0:

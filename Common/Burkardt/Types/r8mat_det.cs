@@ -46,16 +46,11 @@ public static partial class typeMethods
         //    Output, double R8MAT_DET, the determinant of the matrix.
         //
     {
-        double[] b;
-        double det;
         int i;
         int j;
         int k;
-        int kk;
-        int m;
-        double temp;
 
-        b = new double[n * n];
+        double[] b = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
@@ -65,11 +60,12 @@ public static partial class typeMethods
             }
         }
 
-        det = 1.0;
+        double det = 1.0;
 
         for (k = 1; k <= n; k++)
         {
-            m = k;
+            int m = k;
+            int kk;
             for (kk = k + 1; kk <= n; kk++)
             {
                 if (Math.Abs(b[m - 1 + (k - 1) * n]) < Math.Abs(b[kk - 1 + (k - 1) * n]))
@@ -78,6 +74,7 @@ public static partial class typeMethods
                 }
             }
 
+            double temp;
             if (m != k)
             {
                 det = -det;
@@ -289,25 +286,23 @@ public static partial class typeMethods
         //
     {
         double[] b = new double[4 * 4];
-        double det;
-        int i;
-        int inc;
-        int j;
         int k;
-        double sign;
         //
         //  Expand the determinant into the sum of the determinants of the
         //  five 4 by 4 matrices created by dropping row 1, and column k.
         //
-        det = 0.0;
-        sign = 1.0;
+        double det = 0.0;
+        double sign = 1.0;
 
         for (k = 0; k < 5; k++)
         {
+            int i;
             for (i = 0; i < 4; i++)
             {
+                int j;
                 for (j = 0; j < 4; j++)
                 {
+                    int inc;
                     if (j < k)
                     {
                         inc = 0;

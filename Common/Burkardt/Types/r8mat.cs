@@ -72,14 +72,13 @@ public static partial class typeMethods
         //    Output, double R8MAT_VAND2[N*N], the N by N row Vandermonde matrix.
         //
     {
-        double[] a;
         int i;
-        int j;
 
-        a = new double[n*n];
+        double[] a = new double[n*n];
 
         for ( i = 0; i < n; i++ )
         {
+            int j;
             for ( j = 0; j < n; j++ )
             {
                 a[i + j * n] = j switch
@@ -133,26 +132,25 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
-        int k;
         const double r8_inf = 1.0E+30;
-        double s;
 
         for ( i = 0; i < n; i++ )
         {
+            int j;
             for ( j = 0; j < n; j++ )
             {
                 switch (m[j+i*n])
                 {
                     case < r8_inf:
                     {
+                        int k;
                         for ( k = 0; k < n; k++ )
                         {
                             switch (m[i+k*n])
                             {
                                 case < r8_inf:
                                 {
-                                    s = m[j+i*n] + m[i+k*n];
+                                    double s = m[j+i*n] + m[i+k*n];
                                     if ( s < m[j+k*n] )
                                     {
                                         m[j+k*n] = s;
@@ -205,14 +203,13 @@ public static partial class typeMethods
         //    Output, double R8MAT_SUB_NEW[M*N], the value of A-B.
         //
     {
-        double[] c;
-        int i;
         int j;
 
-        c = new double[m*n];
+        double[] c = new double[m*n];
 
         for ( j = 0; j < n; j++ )
         {
+            int i;
             for ( i = 0; i < n; i++ )
             {
                 c[i+j*m] = a[i+j*m] - b[i+j*m];
@@ -258,14 +255,14 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
-        int k;
 
         for ( i = 0; i < n1; i ++ )
         {
+            int j;
             for ( j = 0; j < n3; j++ )
             {
                 c[i+j*n1] = 0.0;
+                int k;
                 for ( k = 0; k < n2; k++ )
                 {
                     c[i+j*n1] += a[i+k*n1] * b[k+j*n2];
@@ -310,18 +307,17 @@ public static partial class typeMethods
         //    Output, double R8MAT_MM[N1*N3], the product matrix C = A * B.
         //
     {
-        double[] c;
         int i;
-        int j;
-        int k;
 
-        c = new double[n1 * n3];
+        double[] c = new double[n1 * n3];
 
         for (i = 0; i < n1; i++)
         {
+            int j;
             for (j = 0; j < n3; j++)
             {
                 c[i + j * n1] = 0.0;
+                int k;
                 for (k = 0; k < n2; k++)
                 {
                     c[i + j * n1] += a[i + k * n1] * b[k + j * n2];
@@ -379,13 +375,12 @@ public static partial class typeMethods
         //    Output, double R8MAT_DIFF_FROBENIUS, the Frobenius norm of ( A - B ).
         //
     {
-        int i;
         int j;
-        double value = 0;
 
-        value = 0.0;
+        double value = 0.0;
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 value += Math.Pow(a[i + j * m] - b[i + j * m], 2);
@@ -443,24 +438,16 @@ public static partial class typeMethods
         //    Output, double H[N*N], the approximated N by N Hessian matrix.
         //
     {
-        double eps;
-        double f00;
         double fmm;
-        double fmp;
-        double fpm;
         double fpp;
-        double[] h;
         int i;
-        int j;
-        double[] s;
         double xi;
-        double xj;
         //
         //  Choose the stepsizes.
         //
-        s = new double[n];
+        double[] s = new double[n];
 
-        eps = Math.Pow(r8_epsilon(), 0.33);
+        double eps = Math.Pow(r8_epsilon(), 0.33);
 
         for (i = 0; i < n; i++)
         {
@@ -470,13 +457,13 @@ public static partial class typeMethods
         //
         //  Calculate the diagonal elements.
         //
-        h = new double[n * n];
+        double[] h = new double[n * n];
 
         for (i = 0; i < n; i++)
         {
             xi = x[i];
 
-            f00 = fx(n, x);
+            double f00 = fx(n, x);
 
             x[i] = xi + s[i];
             fpp = fx(n, x);
@@ -496,9 +483,10 @@ public static partial class typeMethods
         {
             xi = x[i];
 
+            int j;
             for (j = i + 1; j < n; j++)
             {
-                xj = x[j];
+                double xj = x[j];
 
                 x[i] = xi + s[i];
                 x[j] = xj + s[j];
@@ -506,11 +494,11 @@ public static partial class typeMethods
 
                 x[i] = xi + s[i];
                 x[j] = xj - s[j];
-                fpm = fx(n, x);
+                double fpm = fx(n, x);
 
                 x[i] = xi - s[i];
                 x[j] = xj + s[j];
-                fmp = fx(n, x);
+                double fmp = fx(n, x);
 
                 x[i] = xi - s[i];
                 x[j] = xj - s[j];
@@ -561,11 +549,11 @@ public static partial class typeMethods
         //    between 0 and 1.
         //
     {
-        int i;
         int j;
 
         for ( j = 0; j < n; j++ )
         {
+            int i;
             for ( i = 0; i < m; i++ )
             {
                 switch (a[i+j*m])
@@ -622,17 +610,15 @@ public static partial class typeMethods
         //    Output, double R8MAT_INDICATOR_NEW[M*N], the table.
         //
     {
-        double[] a;
-        int fac;
         int i;
-        int j;
 
-        a = new double[m * n];
+        double[] a = new double[m * n];
 
-        fac = (int) Math.Pow(10, Math.Log10(n) + 1);
+        int fac = (int) Math.Pow(10, Math.Log10(n) + 1);
 
         for (i = 1; i <= m; i++)
         {
+            int j;
             for (j = 1; j <= n; j++)
             {
                 a[i - 1 + (j - 1) * m] = fac * i + j;
@@ -706,30 +692,25 @@ public static partial class typeMethods
         //    Output, double R8MAT_JAC[M*N], the estimated jacobian matrix.
         //
     {
-        double del;
-        double[] fprime;
-        int i;
         int j;
-        double xsave;
-        double[] work1;
-        double[] work2;
 
-        fprime = new double[m * n];
+        double[] fprime = new double[m * n];
         //
         //  Evaluate the function at the base point, X.
         //
-        work2 = fx(m, n, x);
+        double[] work2 = fx(m, n, x);
         //
         //  Now, one by one, vary each component J of the base point X, and
         //  estimate DF(I)/DX(J) = ( F(X+) - F(X) )/ DEL.
         //
         for (j = 0; j < n; j++)
         {
-            xsave = x[j];
-            del = eps * (1.0 + Math.Abs(x[j]));
+            double xsave = x[j];
+            double del = eps * (1.0 + Math.Abs(x[j]));
             x[j] += del;
-            work1 = fx(m, n, x);
+            double[] work1 = fx(m, n, x);
             x[j] = xsave;
+            int i;
             for (i = 0; i < m; i++)
             {
                 fprime[i + j * m] = (work1[i] - work2[i]) / del;
@@ -787,32 +768,25 @@ public static partial class typeMethods
         //    Output, double R8MAT_KRONECKER[(M1*M2)*(N1*N2)], the Kronecker product.
         //
     {
-        double[] c;
-        int i;
-        int i0;
-        int i1;
-        int i2;
-        int j;
-        int j0;
         int j1;
-        int j2;
-        int m;
-        int n;
 
-        m = m1 * m2;
-        n = n1 * n2;
-        c = new double[m * n];
+        int m = m1 * m2;
+        int n = n1 * n2;
+        double[] c = new double[m * n];
 
         for (j1 = 0; j1 < n1; j1++)
         {
+            int i1;
             for (i1 = 0; i1 < m1; i1++)
             {
-                i0 = i1 * m2;
-                j0 = j1 * n2;
-                j = j0;
+                int i0 = i1 * m2;
+                int j0 = j1 * n2;
+                int j = j0;
+                int j2;
                 for (j2 = 0; j2 < n2; j2++)
                 {
-                    i = i0;
+                    int i = i0;
+                    int i2;
                     for (i2 = 0; i2 < m2; i2++)
                     {
                         c[i + j * m] = a[i1 + j1 * m1] * b[i2 + j2 * m2];
@@ -879,11 +853,7 @@ public static partial class typeMethods
         //
     {
         int i;
-        int ipiv;
         int j;
-        int k;
-        double pivot;
-        double t;
         //
         //  Initialize:
         //
@@ -906,8 +876,8 @@ public static partial class typeMethods
         //
         for (j = 0; j < Math.Min(m - 1, n); j++)
         {
-            pivot = 0.0;
-            ipiv = -1;
+            double pivot = 0.0;
+            int ipiv = -1;
 
             for (i = j; i < m; i++)
             {
@@ -923,9 +893,10 @@ public static partial class typeMethods
             //
             if (ipiv != -1)
             {
+                int k;
                 for (k = 0; k < n; k++)
                 {
-                    t = u[j + k * m];
+                    double t = u[j + k * m];
                     u[j + k * m] = u[ipiv + j * m];
                     u[ipiv + k * m] = t;
 
@@ -996,18 +967,17 @@ public static partial class typeMethods
         //    Output, double R8MAT_MMT_NEW[N1*N3], the product matrix C = A * B'.
         //
     {
-        double[] c;
         int i;
-        int j;
-        int k;
 
-        c = new double[n1 * n3];
+        double[] c = new double[n1 * n3];
 
         for (i = 0; i < n1; i++)
         {
+            int j;
             for (j = 0; j < n3; j++)
             {
                 c[i + j * n1] = 0.0;
+                int k;
                 for (k = 0; k < n2; k++)
                 {
                     c[i + j * n1] += a[i + k * n1] * b[j + k * n3];
@@ -1054,18 +1024,17 @@ public static partial class typeMethods
         //    Output, double R8MAT_MTM_NEW[N1*N3], the product matrix C = A' * B.
         //
     {
-        double[] c;
         int i;
-        int j;
-        int k;
 
-        c = new double[n1 * n3];
+        double[] c = new double[n1 * n3];
 
         for (i = 0; i < n1; i++)
         {
+            int j;
             for (j = 0; j < n3; j++)
             {
                 c[i + j * n1] = 0.0;
+                int k;
                 for (k = 0; k < n2; k++)
                 {
                     c[i + j * n1] += a[k + i * n2] * b[k + j * n2];
@@ -1108,15 +1077,14 @@ public static partial class typeMethods
         //    Input/output, double A[M*N], the matrix.
         //
     {
-        int i;
         int j;
-        int s;
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
-                s = a[i + j * m] switch
+                int s = a[i + j * m] switch
                 {
                     < 0.0 => -1,
                     _ => 1
@@ -1161,14 +1129,13 @@ public static partial class typeMethods
         //    Output, int R8MAT_NONZEROS, the number of nonzeros.
         //
     {
-        int i;
         int j;
-        int value;
 
-        value = 0;
+        int value = 0;
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 if (a[i + j * m] != 0.0)
@@ -1239,18 +1206,12 @@ public static partial class typeMethods
         //    span the nullspace.
         //
     {
-        int[] col;
         int i;
-        int i2;
         int j;
-        int j2;
-        double[] nullspace;
-        int[] row;
-        double[] rref;
         //
         //  Make a copy of A.
         //
-        rref = r8mat_copy_new(m, n, a);
+        double[] rref = r8mat_copy_new(m, n, a);
         //
         //  Get the reduced row echelon form of A.
         //
@@ -1259,13 +1220,13 @@ public static partial class typeMethods
         //  Note in ROW the columns of the leading nonzeros.
         //  COL(J) = +J if there is a leading 1 in that column, and -J otherwise.
         //
-        row = new int[m];
+        int[] row = new int[m];
         for (i = 0; i < m; i++)
         {
             row[i] = 0;
         }
 
-        col = new int[n];
+        int[] col = new int[n];
         for (j = 0; j < n; j++)
         {
             col[j] = -(j + 1);
@@ -1275,18 +1236,20 @@ public static partial class typeMethods
         {
             for (j = 0; j < n; j++)
             {
-                if (rref[i + j * m] == 1.0)
+                if (!(Math.Abs(rref[i + j * m] - 1.0) <= double.Epsilon))
                 {
-                    row[i] = j + 1;
-                    col[j] = j + 1;
-                    break;
+                    continue;
                 }
+
+                row[i] = j + 1;
+                col[j] = j + 1;
+                break;
             }
         }
 
-        nullspace = r8mat_zeros_new(n, nullspace_size);
+        double[] nullspace = r8mat_zeros_new(n, nullspace_size);
 
-        j2 = 0;
+        int j2 = 0;
         //
         //  If column J does not contain a leading 1, then it contains
         //  information about a null vector.
@@ -1299,11 +1262,13 @@ public static partial class typeMethods
                 {
                     for (i = 0; i < m; i++)
                     {
-                        if (rref[i + j * m] != 0.0)
+                        if (rref[i + j * m] == 0.0)
                         {
-                            i2 = row[i] - 1;
-                            nullspace[i2 + j2 * n] = -rref[i + j * m];
+                            continue;
                         }
+
+                        int i2 = row[i] - 1;
+                        nullspace[i2 + j2 * n] = -rref[i + j * m];
                     }
 
                     nullspace[j + j2 * n] = 1.0;
@@ -1376,14 +1341,10 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
-        int leading;
-        int nullspace_size;
-        double[] rref;
         //
         //  Make a copy of A.
         //
-        rref = r8mat_copy_new(m, n, a);
+        double[] rref = r8mat_copy_new(m, n, a);
         //
         //  Get the reduced row echelon form of A.
         //
@@ -1391,12 +1352,13 @@ public static partial class typeMethods
         //
         //  Count the leading 1's in A.
         //
-        leading = 0;
+        int leading = 0;
         for (i = 0; i < m; i++)
         {
+            int j;
             for (j = 0; j < n; j++)
             {
-                if (rref[i + j * m] == 1.0)
+                if (Math.Abs(rref[i + j * m] - 1.0) <= double.Epsilon)
                 {
                     leading += 1;
                     break;
@@ -1404,7 +1366,7 @@ public static partial class typeMethods
             }
         }
 
-        nullspace_size = n - leading;
+        int nullspace_size = n - leading;
 
         return nullspace_size;
     }
@@ -1493,16 +1455,11 @@ public static partial class typeMethods
         //    Output, double R8MAT_ORTH_UNIFORM_NEW[N*N], the orthogonal matrix.
         //
     {
-        double[] a_col;
-        double[] q;
-        double[] q2;
-        int i;
         int j;
-        double[] v;
         //
         //  Start with Q = the identity matrix.
         //
-        q = r8mat_identity_new(n);
+        double[] q = r8mat_identity_new(n);
         //
         //  Now behave as though we were computing the QR factorization of
         //  some other random matrix.  Generate the N elements of the first column,
@@ -1518,13 +1475,14 @@ public static partial class typeMethods
         //  and set Q := Q * H(N-1)' = Q * H(N-1) = H1 * H2 * ... * H(N-1).
         //  This is our random orthogonal matrix.
         //
-        a_col = new double[n];
+        double[] a_col = new double[n];
 
         for (j = 1; j < n; j++)
         {
             //
             //  Set the vector that represents the J-th column to be annihilated.
             //
+            int i;
             for (i = 1; i < j; i++)
             {
                 a_col[i - 1] = 0.0;
@@ -1539,11 +1497,11 @@ public static partial class typeMethods
             //  Compute the vector V that defines a Householder transformation matrix
             //  H(V) that annihilates the subdiagonal elements of A.
             //
-            v = r8vec_house_column(n, a_col, j);
+            double[] v = r8vec_house_column(n, a_col, j);
             //
             //  Postmultiply the matrix Q by H'(V) = H(V).
             //
-            q2 = r8mat_house_axh_new(n, q, v);
+            double[] q2 = r8mat_house_axh_new(n, q, v);
                 
             r8mat_copy(n, n, q2, ref q);
 
@@ -1595,17 +1553,9 @@ public static partial class typeMethods
         //
     {
         int i;
-        int i1;
-        int iopt = 1;
+        const int iopt = 1;
         int isgn = 0;
-        double it;
-        int j;
-        int j1;
-        int j2;
-        int k;
-        int lc;
         int ncycle = 0;
-        double temp;
 
         Permutation.perm0_cycle ( n, p, ref isgn, ref ncycle, iopt );
         //
@@ -1618,13 +1568,13 @@ public static partial class typeMethods
 
         for ( i = 1; i <= n; i++ )
         {
-            i1 = - p[i-1];
+            int i1 = - p[i-1];
 
             switch (i1)
             {
                 case > 0:
                 {
-                    lc = 0;
+                    int lc = 0;
 
                     for ( ; ; )
                     {
@@ -1640,28 +1590,27 @@ public static partial class typeMethods
 
                     i1 = i;
 
+                    int j;
                     for ( j = 1; j <= n; j++ )
                     {
                         switch (p[j-1])
                         {
                             case <= 0:
                             {
-                                j2 = j;
-                                k = lc;
+                                int j2 = j;
+                                int k = lc;
 
                                 for ( ; ; )
                                 {
-                                    j1 = j2;
-                                    it = a[i1-1+(j1-1)*n];
+                                    int j1 = j2;
+                                    double it = a[i1-1+(j1-1)*n];
 
                                     for ( ; ; )
                                     {
                                         i1 = Math.Abs ( p[i1-1] );
                                         j1 = Math.Abs ( p[j1-1] );
 
-                                        temp = a[i1-1+(j1-1)*n];
-                                        a[i1-1+(j1-1)*n] = it;
-                                        it = temp;
+                                        (a[i1-1+(j1-1)*n], it) = (it, a[i1-1+(j1-1)*n]);
 
                                         if ( j1 != j2 )
                                         {
@@ -1754,30 +1703,21 @@ public static partial class typeMethods
         //
     {
         int i;
-        int i1;
         int is_ = 0;
         int j;
-        int j1;
-        int j2;
-        int k;
-        int lc;
         int nc = 0;
-        int[] p1;
-        int[] q1;
-        double t;
-        double temp;
         /*
         Wretched maneuvers to deal with necessity of 1-based values,
         and to handle case where P and Q are same vector.
         */
-        p1 = i4vec_copy_new(m, p);
+        int[] p1 = i4vec_copy_new(m, p);
         Permutation.perm0_cycle(m, p1, ref is_, ref nc, 1);
         for (i = 0; i < m; i++)
         {
             p1[i] += 1;
         }
 
-        q1 = i4vec_copy_new(n, q);
+        int[] q1 = i4vec_copy_new(n, q);
         Permutation.perm0_cycle(n, q1, ref is_, ref nc, 1);
         for (j = 0; j < n; j++)
         {
@@ -1786,13 +1726,13 @@ public static partial class typeMethods
 
         for (i = 1; i <= m; i++)
         {
-            i1 = -p[i - 1];
+            int i1 = -p[i - 1];
 
             switch (i1)
             {
                 case > 0:
                 {
-                    lc = 0;
+                    int lc = 0;
 
                     for (;;)
                     {
@@ -1814,22 +1754,20 @@ public static partial class typeMethods
                         {
                             case <= 0:
                             {
-                                j2 = j;
-                                k = lc;
+                                int j2 = j;
+                                int k = lc;
 
                                 for (;;)
                                 {
-                                    j1 = j2;
-                                    t = a[i1 - 1 + (j1 - 1) * n];
+                                    int j1 = j2;
+                                    double t = a[i1 - 1 + (j1 - 1) * n];
 
                                     for (;;)
                                     {
                                         i1 = Math.Abs(p[i1 - 1]);
                                         j1 = Math.Abs(q[j1 - 1]);
 
-                                        temp = a[i1 - 1 + (j1 - 1) * n];
-                                        a[i1 - 1 + (j1 - 1) * n] = t;
-                                        t = temp;
+                                        (a[i1 - 1 + (j1 - 1) * n], t) = (t, a[i1 - 1 + (j1 - 1) * n]);
 
 
                                         if (j1 != j2)
@@ -1947,33 +1885,25 @@ public static partial class typeMethods
     {
         int i;
         int iadd = 0;
-        int[] iwork;
-        int j;
-        bool more;
         int ncard = 0;
-        double p;
-        double perm;
-        double prod;
-        double sgn;
-        double[] work;
-        double z;
 
-        more = false;
+        bool more = false;
 
-        iwork = new int[n];
-        work = new double[n];
+        int[] iwork = new int[n];
+        double[] work = new double[n];
 
         for (i = 1; i <= n; i++)
         {
             work[i - 1] = a[i - 1 + (n - 1) * n];
+            int j;
             for (j = 1; j <= n; j++)
             {
                 work[i - 1] -= 0.5 * a[i - 1 + (j - 1) * n];
             }
         }
 
-        p = 0.0;
-        sgn = -1.0;
+        double p = 0.0;
+        double sgn = -1.0;
 
         for (;;)
         {
@@ -1983,14 +1913,14 @@ public static partial class typeMethods
 
             if (ncard != 0)
             {
-                z = 2 * iwork[iadd - 1] - 1;
+                double z = 2 * iwork[iadd - 1] - 1;
                 for (i = 1; i <= n; i++)
                 {
                     work[i - 1] += z * a[i - 1 + (iadd - 1) * n];
                 }
             }
 
-            prod = 1.0;
+            double prod = 1.0;
             for (i = 0; i < n; i++)
             {
                 prod *= work[i];
@@ -2004,7 +1934,7 @@ public static partial class typeMethods
             }
         }
 
-        perm = p * (4 * (n % 2) - 2);
+        double perm = p * (4 * (n % 2) - 2);
 
         return perm;
     }
@@ -2045,9 +1975,6 @@ public static partial class typeMethods
         //    Input, string TITLE, a title.
         //
     {
-        int i;
-        int j;
-        int jhi;
         int jlo;
 
         Console.WriteLine("");
@@ -2055,9 +1982,10 @@ public static partial class typeMethods
 
         for (jlo = 1; jlo <= n; jlo += 70)
         {
-            jhi = Math.Min(jlo + 70 - 1, n);
+            int jhi = Math.Min(jlo + 70 - 1, n);
             Console.WriteLine("");
             string cout = "          ";
+            int j;
             for (j = jlo; j <= jhi; j++)
             {
                 cout += j % 10;
@@ -2066,6 +1994,7 @@ public static partial class typeMethods
             Console.WriteLine(cout);
             Console.WriteLine("");
 
+            int i;
             for (i = 1; i <= m; i++)
             {
                 cout = i.ToString().PadLeft(6) + "    ";
@@ -2162,18 +2091,13 @@ public static partial class typeMethods
         //    and P(0) contains the constant term.
         //
     {
-        int i;
         int order;
-        double[] p;
-        double trace;
-        double[] work1;
-        double[] work2;
 
-        p = new double[n + 1];
+        double[] p = new double[n + 1];
         //
         //  Initialize WORK1 to the identity matrix.
         //
-        work1 = r8mat_identity_new(n);
+        double[] work1 = r8mat_identity_new(n);
 
         p[n] = 1.0;
 
@@ -2182,11 +2106,11 @@ public static partial class typeMethods
             //
             //  Work2 = A * WORK1.
             //
-            work2 = r8mat_mm_new(n, n, n, a, work1);
+            double[] work2 = r8mat_mm_new(n, n, n, a, work1);
             //
             //  Take the trace.
             //
-            trace = r8mat_trace(n, work2);
+            double trace = r8mat_trace(n, work2);
             //
             //  P(ORDER) = -Trace ( WORK2 ) / ( N - ORDER )
             //
@@ -2197,6 +2121,7 @@ public static partial class typeMethods
 
             r8mat_copy(n, n, work2, ref work1);
 
+            int i;
             for (i = 0; i < n; i++)
             {
                 work1[i + i * n] += p[order];
@@ -2250,8 +2175,6 @@ public static partial class typeMethods
         //    Output, double B[N*N], the value of A^NPOW.
         //
     {
-        double[] b;
-        double[] c;
         int ipow;
 
         switch (npow)
@@ -2264,11 +2187,11 @@ public static partial class typeMethods
                 return null;
         }
 
-        b = r8mat_identity_new(n);
+        double[] b = r8mat_identity_new(n);
 
         for (ipow = 1; ipow <= npow; ipow++)
         {
-            c = r8mat_mm_new(n, n, n, a, b);
+            double[] c = r8mat_mm_new(n, n, n, a, b);
             r8mat_copy(n, n, c, ref b);
         }
 
@@ -2317,18 +2240,13 @@ public static partial class typeMethods
         //    eigenvector.
         //
     {
-        double[] av;
-        double eps;
         int i;
         int it;
-        double it_eps = 0.0001;
-        int it_max = 100;
-        int it_min = 10;
-        int j;
-        double r2;
-        double r_old;
+        const double it_eps = 0.0001;
+        const int it_max = 100;
+        const int it_min = 10;
 
-        eps = Math.Sqrt(r8_epsilon());
+        double eps = Math.Sqrt(r8_epsilon());
 
         r = r8vec_norm(n, v);
 
@@ -2353,9 +2271,9 @@ public static partial class typeMethods
 
         for (it = 1; it <= it_max; it++)
         {
-            av = r8mat_mv_new(n, n, a, v);
+            double[] av = r8mat_mv_new(n, n, a, v);
 
-            r_old = r;
+            double r_old = r;
             r = r8vec_norm(n, av);
 
             if (it_min < it)
@@ -2380,15 +2298,17 @@ public static partial class typeMethods
             //  Perturb V a bit, to avoid cases where the initial guess is exactly
             //  the eigenvector of a smaller eigenvalue.
             //
-            if (it < it_max / 2)
+            if (it >= it_max / 2)
             {
-                j = (it - 1) % n;
-                v[j] += eps * (1.0 + Math.Abs(v[j]));
-                r2 = r8vec_norm(n, v);
-                for (i = 0; i < n; i++)
-                {
-                    v[i] /= r2;
-                }
+                continue;
+            }
+
+            int j = (it - 1) % n;
+            v[j] += eps * (1.0 + Math.Abs(v[j]));
+            double r2 = r8vec_norm(n, v);
+            for (i = 0; i < n; i++)
+            {
+                v[i] /= r2;
             }
         }
     }
@@ -2430,13 +2350,12 @@ public static partial class typeMethods
         //    product of A and B.
         //
     {
-        int i;
         int j;
-        double value = 0;
 
-        value = 0.0;
+        double value = 0.0;
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 value += a[i + j * m] * b[i + j * m];
@@ -2515,17 +2434,12 @@ public static partial class typeMethods
         //    Output, double R8MAT_REF, the pseudo-determinant.
         //
     {
-        double asum;
-        double det;
         int i;
         int j;
-        int lead;
         int r;
-        double temp;
-        double tol;
 
-        det = 1.0;
-        asum = 0.0;
+        double det = 1.0;
+        double asum = 0.0;
         for (j = 0; j < n; j++)
         {
             for (i = 0; i < m; i++)
@@ -2534,8 +2448,8 @@ public static partial class typeMethods
             }
         }
 
-        tol = r8_epsilon() * asum;
-        lead = 0;
+        double tol = r8_epsilon() * asum;
+        int lead = 0;
 
         for (r = 0; r < m; r++)
         {
@@ -2567,6 +2481,7 @@ public static partial class typeMethods
                 break;
             }
 
+            double temp;
             for (j = 0; j < n; j++)
             {
                 temp = a[i + j * m];
@@ -2635,14 +2550,13 @@ public static partial class typeMethods
         //    Output, double R8MAT_RMS, the RMS norm of A.
         //
     {
-        int i;
         int j;
-        double value = 0;
 
-        value = 0.0;
+        double value = 0.0;
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 value += a[i + j * m] * a[i + j * m];
@@ -2728,17 +2642,12 @@ public static partial class typeMethods
         //    Output, double R8MAT_RREF, the pseudo-determinant.
         //
     {
-        double asum;
-        double det;
         int i;
         int j;
-        int lead;
         int r;
-        double temp;
-        double tol;
 
-        det = 1.0;
-        asum = 0.0;
+        double det = 1.0;
+        double asum = 0.0;
         for (j = 0; j < n; j++)
         {
             for (i = 0; i < m; i++)
@@ -2747,8 +2656,8 @@ public static partial class typeMethods
             }
         }
 
-        tol = r8_epsilon() * asum;
-        lead = 0;
+        double tol = r8_epsilon() * asum;
+        int lead = 0;
 
         for (r = 0; r < m; r++)
         {
@@ -2780,6 +2689,7 @@ public static partial class typeMethods
                 break;
             }
 
+            double temp;
             for (j = 0; j < n; j++)
             {
                 temp = a[i + j * m];
@@ -2850,9 +2760,8 @@ public static partial class typeMethods
         //
     {
         int i;
-        double value = 0;
 
-        value = 0.0;
+        double value = 0.0;
         for (i = 0; i < n; i++)
         {
             value += a[i + i * n];
@@ -2899,13 +2808,12 @@ public static partial class typeMethods
         //    Output, double R8MAT_VTMV, the value of X' * A * Y.
         //
     {
-        int i;
         int j;
-        double vtmv;
 
-        vtmv = 0.0;
+        double vtmv = 0.0;
         for ( j = 0; j < n; j++ )
         {
+            int i;
             for ( i = 0; i < m; i++ )
             {
                 vtmv += x[i] * a[i+j*m] * y[j];
@@ -2954,22 +2862,20 @@ public static partial class typeMethods
         //
     {
         int i;
-        int j;
-        double[] r;
-        double r_norm;
 
-        r = new double[m];
+        double[] r = new double[m];
 
         for ( i = 0; i < m; i++ )
         {
             r[i] = - b[i];
+            int j;
             for ( j = 0; j < n; j++ )
             {
                 r[i] += a[i+j*m] * x[j];
             }
         }
 
-        r_norm = 0.0;
+        double r_norm = 0.0;
         for ( i = 0; i < m; i++ )
         {
             r_norm += r[i] * r[i];
@@ -3014,11 +2920,11 @@ public static partial class typeMethods
         //    Input/output, double B[M*N], the matrix to be incremented.
         //
     {
-        int i;
         int j;
 
         for ( j = 0; j < n; j++ )
         {
+            int i;
             for ( i = 0; i < m; i++ )
             {
                 b[i+j*m] += a[i+j*m];
@@ -3066,11 +2972,11 @@ public static partial class typeMethods
         //    Output, double C[M*N], the sum of alpha*A+beta*B.
         //
     {
-        int i;
         int j;
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 c[i + j * m] = alpha * a[i + j * m] + beta * b[i + j * m];
@@ -3118,14 +3024,13 @@ public static partial class typeMethods
         //    Output, double R8MAT_ADD_NEW[M*N], the sum of alpha*A+beta*B.
         //
     {
-        double[] c;
-        int i;
         int j;
 
-        c = new double[m * n];
+        double[] c = new double[m * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 c[i + j * m] = alpha * a[i + j * m] + beta * b[i + j * m];
@@ -3169,11 +3074,11 @@ public static partial class typeMethods
         //    Input/output, double A[M*N], the matrix to be scaled.
         //
     {
-        int i;
         int j;
 
         for ( j = 0; j < n; j++ )
         {
+            int i;
             for ( i = 0; i < m; i++ )
             {
                 a[i+j*m] /= s;
@@ -3228,13 +3133,12 @@ public static partial class typeMethods
         //    Output, double R8MAT_DIF_FRO, the Frobenius norm of ( A - B ).
         //
     {
-        int i;
         int j;
-        double value = 0;
 
-        value = 0.0;
+        double value = 0.0;
         for ( j = 0; j < n; j++ )
         {
+            int i;
             for ( i = 0; i < m; i++ )
             {
                 value += Math.Pow ( a[i+j*m] - b[i+j*m], 2 );
@@ -3282,20 +3186,18 @@ public static partial class typeMethods
         //    be "Latinized".  On output, the Latinized dataset.
         //
     {
-        double[] column;
         int i;
-        int[] indx;
-        int j;
 
-        column = new double[n];
+        double[] column = new double[n];
 
         for ( i = 0; i < m; i++ )
         {
+            int j;
             for ( j = 0; j < n; j++ )
             {
                 column[j] = table[i+j*m];
             }
-            indx = r8vec_sort_heap_index_a ( n, column );
+            int[] indx = r8vec_sort_heap_index_a ( n, column );
 
             for ( j = 0; j < n; j++ )
             {
@@ -3325,15 +3227,14 @@ public static partial class typeMethods
         //    Output, double R8MAT_GEN[LDA*N], the N by N matrix.
         //
     {
-        double[] a;
-        int i;
         int[] init = { 1, 2, 3, 1325 };
         int j;
 
-        a = new double[lda*n];
+        double[] a = new double[lda*n];
 
         for ( j = 1; j <= n; j++ )
         {
+            int i;
             for ( i = 1; i <= n; i++ )
             {
                 a[i-1+(j-1)*lda] = r8_random ( init ) - 0.5;

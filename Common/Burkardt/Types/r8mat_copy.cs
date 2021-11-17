@@ -36,11 +36,11 @@ public static partial class typeMethods
         //    Output, double A2[M*N], the copy of A1.
         //
     {
-        int i;
         int j;
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 a2[i + j * m] = a1[i + j * m];
@@ -82,13 +82,13 @@ public static partial class typeMethods
         //    Output, double R8MAT_COPY_NEW[M*N], the copy of A1.
         //
     {
-        int i;
         int j;
 
         double[] a2 = new double[m * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 a2[i + j * m] = a1[i + j * m];
